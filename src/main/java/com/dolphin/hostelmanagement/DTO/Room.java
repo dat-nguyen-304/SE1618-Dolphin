@@ -4,10 +4,117 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  *
  * @author Admin
  */
 public class Room {
+    private int roomID;
+    private Hostel hostel;
+    private int roomNumber;
+    private int area;
+    private ArrayList<File> images; //not sure
+    private String description;
+    private int status;
+    private int maxNumberOfResident;
+    private int currentNumberOfResident;
+    private int advertisedPrice;
+
+    public Room(int roomID, Hostel hostel, int roomNumber, int area, ArrayList<File> images, String description, int status, int maxNumberOfResident, int currentNumberOfResident, int advertisedPrice) {
+        this.roomID = roomID;
+        this.hostel = hostel;
+        this.roomNumber = roomNumber;
+        this.area = area;
+        this.images = images;
+        this.description = description;
+        this.status = status;
+        this.maxNumberOfResident = maxNumberOfResident;
+        this.currentNumberOfResident = currentNumberOfResident;
+        this.advertisedPrice = advertisedPrice;
+    }
+
+    public int getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(int roomID) {
+        this.roomID = roomID;
+    }
+
+    public Hostel getHostel() {
+        return hostel;
+    }
+
+    public void setHostel(Hostel hostel) {
+        this.hostel = hostel;
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public int getArea() {
+        return area;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
+    }
+
+    public ArrayList<File> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<File> images) {
+        this.images = images;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getMaxNumberOfResident() {
+        return maxNumberOfResident;
+    }
+
+    public void setMaxNumberOfResident(int maxNumberOfResident) {
+        this.maxNumberOfResident = maxNumberOfResident;
+    }
+
+    public int getCurrentNumberOfResident() {
+        return currentNumberOfResident;
+    }
+
+    public void setCurrentNumberOfResident(int currentNumberOfResident) {
+        this.currentNumberOfResident = currentNumberOfResident;
+    }
+
+    public int getAdvertisedPrice() {
+        return advertisedPrice;
+    }
+
+    public void setAdvertisedPrice(int advertisedPrice) {
+        this.advertisedPrice = advertisedPrice;
+    }
+    
     
 }

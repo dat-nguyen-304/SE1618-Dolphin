@@ -9,5 +9,37 @@ package com.dolphin.hostelmanagement.DTO;
  * @author Admin
  */
 public class FavoriteHostel {
-    
+    private int favoriteHostelID;
+    private Hostel hostel;
+    private Tenant tenant;
+
+    public FavoriteHostel(int favoriteHostelID, Hostel hostel, Tenant tenant) {
+        this.favoriteHostelID = favoriteHostelID;
+        this.hostel = hostel;
+        this.tenant = tenant;
+    }
+
+    public int getFavoriteHostelID() {
+        return favoriteHostelID;
+    }
+
+    public void setFavoriteHostelID(int favoriteHostelID) {
+        this.favoriteHostelID = favoriteHostelID;
+    }
+
+    public Hostel getHostel() {
+        return hostel;
+    }
+
+    public void setHostel(Hostel hostel) {
+        this.hostel = hostel;
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
+    }
 }

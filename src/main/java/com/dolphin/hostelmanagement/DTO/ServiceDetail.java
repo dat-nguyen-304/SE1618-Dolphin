@@ -9,5 +9,69 @@ package com.dolphin.hostelmanagement.DTO;
  * @author Admin
  */
 public class ServiceDetail {
+    private int serviceDetailID;
+    private int startValue;
+    private int endValue;
+    private boolean usage;
+    private Invoice invoice;
+    private Service service;
+
+    public ServiceDetail(int serviceDetailID, int startValue, int endValue, boolean usage, Invoice invoice, Service service) {
+        this.serviceDetailID = serviceDetailID;
+        this.startValue = startValue;
+        this.endValue = endValue;
+        this.usage = usage;
+        this.invoice = invoice;
+        this.service = service;
+    }
+
+    public int getServiceDetailID() {
+        return serviceDetailID;
+    }
+
+    public void setServiceDetailID(int serviceDetailID) {
+        this.serviceDetailID = serviceDetailID;
+    }
+
+    public int getStartValue() {
+        return startValue;
+    }
+
+    public void setStartValue(int startValue) {
+        this.startValue = startValue;
+    }
+
+    public int getEndValue() {
+        return endValue;
+    }
+
+    public void setEndValue(int endValue) {
+        this.endValue = endValue;
+    }
+
+    public boolean isUsage() {
+        return usage;
+    }
+
+    public void setUsage(boolean usage) {
+        this.usage = usage;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+    
     
 }
