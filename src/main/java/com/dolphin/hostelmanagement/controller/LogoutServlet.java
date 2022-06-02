@@ -5,16 +5,18 @@
 package com.dolphin.hostelmanagement.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Vu Thien An - SE160296
  */
-public class MainController extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -25,33 +27,13 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private static final String ERROR="error.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url= ERROR;
-        try {
-            String action = request.getParameter("action");
-            switch (action) {
-                case "Register":
-                    url = "/RegisterServlet";
-                    break;
-                case "Login":
-                    url = "/LoginServlet";
-                    break;
-                case "Logout":
-                    url = "/LogoutServlet";
-                    break;
-                case "Save":
-                    url = "/UpdateAccountServlet";
-                    break;
-                case "SendOTP":
-                    url = "/SendOTPServlet";
-            }
-        } catch (Exception e) {
-            log("Error at MainController: "+ e.toString());
-        }finally{
-            request.getRequestDispatcher(url).forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            HttpSession session = request.getSession();
+            session.invalidate();
+            request.getRequestDispatcher("index.html").include(request, response);
         }
     }
 

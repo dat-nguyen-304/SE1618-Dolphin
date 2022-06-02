@@ -4,10 +4,21 @@
  */
 package com.dolphin.hostelmanagement.utils;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 /**
  *
  * @author Admin
  */
 public class DBUtils {
-    
+
+    public static Connection makeConnection() throws Exception {
+        Connection cn = null;
+        String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        String url = "jdbc:sqlserver://localhost\\DESKTOP-33UBDQB:1433;databaseName=HMS2;user=sa;password=12345;";
+        Class.forName(driver);
+        cn = DriverManager.getConnection(url);
+        return cn;
+    }
 }

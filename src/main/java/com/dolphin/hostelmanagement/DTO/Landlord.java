@@ -7,20 +7,17 @@ package com.dolphin.hostelmanagement.DTO;
 public class Landlord {
     private Account account;
     private String fullname;
-    private String email;
     private String phone;
-    private boolean rentStatus;
     
     public Landlord() {
     }
 
-    public Landlord(Account account, String fullname, String email, String phone, boolean rentStatus) {
+    public Landlord(Account account, String fullname, String phone) {
         this.account = account;
         this.fullname = fullname;
-        this.email = email;
         this.phone = phone;
-        this.rentStatus = rentStatus;
     }
+    
     public Account getAccount() {
         return account;
     }
@@ -37,14 +34,6 @@ public class Landlord {
         this.fullname = fullname;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -53,11 +42,8 @@ public class Landlord {
         this.phone = phone;
     }
 
-    public boolean isRentStatus() {
-        return rentStatus;
-    }
-
-    public void setRentStatus(boolean rentStatus) {
-        this.rentStatus = rentStatus;
+    @Override
+    public String toString() {
+        return "Landlord{" + "account=" + account + ", fullname=" + fullname + ", phone=" + phone + '}';
     }
 }

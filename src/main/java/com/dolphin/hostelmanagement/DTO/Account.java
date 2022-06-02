@@ -10,17 +10,19 @@ public class Account {
     private int accountID;
     private String username;
     private String password;
+    private String email;
     private Date registrationDate;
     private int role;
     private boolean activate;
 
     public Account() {
     }
-    
-    public Account(int accountID, String username, String password, Date registrationDate, int role, boolean activate) {
+
+    public Account(int accountID, String username, String password, String email, Date registrationDate, int role, boolean activate) {
         this.accountID = accountID;
         this.username = username;
         this.password = password;
+        this.email = email;
         this.registrationDate = registrationDate;
         this.role = role;
         this.activate = activate;
@@ -72,5 +74,18 @@ public class Account {
 
     public void setActivate(boolean activate) {
         this.activate = activate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" + "accountID=" + accountID + ", username=" + username + ", password=" + password + ", email=" + email + ", registrationDate=" + registrationDate + ", role=" + role + ", activate=" + activate + '}';
     }
 }

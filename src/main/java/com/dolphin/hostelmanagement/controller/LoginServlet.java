@@ -1,56 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.AccountDAO;
+import com.dolphin.hostelmanagement.DAO.LandlordDAO;
+import com.dolphin.hostelmanagement.DAO.TenantDAO;
+import com.dolphin.hostelmanagement.DTO.Account;
+import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Vu Thien An - SE160296
  */
-public class MainController extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    private static final String ERROR="error.jsp";
+    private static final String ERROR = "error.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url= ERROR;
+        String url = ERROR;
         try {
-            String action = request.getParameter("action");
-            switch (action) {
-                case "Register":
-                    url = "/RegisterServlet";
-                    break;
-                case "Login":
-                    url = "/LoginServlet";
-                    break;
-                case "Logout":
-                    url = "/LogoutServlet";
-                    break;
-                case "Save":
-                    url = "/UpdateAccountServlet";
-                    break;
-                case "SendOTP":
-                    url = "/SendOTPServlet";
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            System.out.println(username + " " + password);
+            if (username != null && !username.equals("") && password != null && !password.equals("")) {
+                Account acc = AccountDAO.login(username, password);
+                if (acc != null) {
+                    System.out.println("line 31");
+                    HttpSession session = request.getSession(true);
+                    if (acc.getRole() == 1) {
+                        System.out.println("line 36 tenant");
+                        session.setAttribute("role", 1);
+                        Tenant tenant = TenantDAO.findById(acc.getAccountID());
+                        session.setAttribute("currentUser", tenant);
+                    } else {
+                        System.out.println("line 41 landlord");
+                        session.setAttribute("role", 2);
+                        Landlord landlord = LandlordDAO.findById(acc.getAccountID());
+                        session.setAttribute("currentUser", landlord);
+                    }
+                    url = "/view/userProfile.jsp";
+                } else {
+                    request.setAttribute("error", "Invalid username or password!");
+                    url = "/view/login.jsp";
+                }
             }
         } catch (Exception e) {
-            log("Error at MainController: "+ e.toString());
-        }finally{
+            log("Error at LoginServlet: " + e.toString());
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
