@@ -6,16 +6,15 @@ package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
-/**
- *
- * @author Admin
- */
 public class Announcement {
     private int annoucementID;
     private Tenant tenant;
     private Landlord landlord;
     private String content;
     private Date date;
+
+    public Announcement() {
+    }
 
     public Announcement(int annoucementID, Tenant tenant, Landlord landlord, String content, Date date) {
         this.annoucementID = annoucementID;

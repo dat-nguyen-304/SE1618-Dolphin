@@ -6,22 +6,21 @@ package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
-/**
- *
- * @author Admin
- */
 public class Service {
     private int serviceID;
     private String serviceName;
     private int serviceFee;
-    private Date monthApplied;
+    private Date appliedDate;
     private Hostel hostel;
 
-    public Service(int serviceID, String serviceName, int serviceFee, Date monthApplied, Hostel hostel) {
+    public Service() {
+    }
+
+    public Service(int serviceID, String serviceName, int serviceFee, Date appliedDate, Hostel hostel) {
         this.serviceID = serviceID;
         this.serviceName = serviceName;
         this.serviceFee = serviceFee;
-        this.monthApplied = monthApplied;
+        this.appliedDate = appliedDate;
         this.hostel = hostel;
     }
 
@@ -49,12 +48,12 @@ public class Service {
         this.serviceFee = serviceFee;
     }
 
-    public Date getMonthApplied() {
-        return monthApplied;
+    public Date getAppliedDate() {
+        return appliedDate;
     }
 
-    public void setMonthApplied(Date monthApplied) {
-        this.monthApplied = monthApplied;
+    public void setAppliedDate(Date appliedDate) {
+        this.appliedDate = appliedDate;
     }
 
     public Hostel getHostel() {
@@ -64,6 +63,4 @@ public class Service {
     public void setHostel(Hostel hostel) {
         this.hostel = hostel;
     }
-    
-    
 }

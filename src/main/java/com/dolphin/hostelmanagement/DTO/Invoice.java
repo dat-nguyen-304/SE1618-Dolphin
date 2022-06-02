@@ -7,10 +7,6 @@ package com.dolphin.hostelmanagement.DTO;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- *
- * @author Admin
- */
 public class Invoice {
     private int invoiceID;
     private Room room;
@@ -18,6 +14,9 @@ public class Invoice {
     private Date endDate;
     private int status;
     private int totalPrice;
+
+    public Invoice() {
+    }
 
     public Invoice(int invoiceID, Room room, Date startDate, Date endDate, int status, int totalPrice) {
         this.invoiceID = invoiceID;

@@ -4,27 +4,22 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
-/**
- *
- * @author Admin
- */
 public class Tenant {
-    private int tenantID;
     private Account account;
-    private boolean status; 
+    private String fullname;
+    private String email;
+    private String phone;
+    private boolean rentStatus; 
 
-    public Tenant(int tenantID, Account account, boolean status) {
-        this.tenantID = tenantID;
+    public Tenant() {
+    }
+
+    public Tenant(Account account, String fullname, String email, String phone, boolean rentStatus) {
         this.account = account;
-        this.status = status;
-    }
-
-    public int getTenantID() {
-        return tenantID;
-    }
-
-    public void setTenantID(int tenantID) {
-        this.tenantID = tenantID;
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+        this.rentStatus = rentStatus;
     }
 
     public Account getAccount() {
@@ -35,13 +30,35 @@ public class Tenant {
         this.account = account;
     }
 
-    public boolean isStatus() {
-        return status;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
-    
-    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isRentStatus() {
+        return rentStatus;
+    }
+
+    public void setRentStatus(boolean rentStatus) {
+        this.rentStatus = rentStatus;
+    } 
 }

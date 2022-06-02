@@ -6,10 +6,6 @@ package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
-/**
- *
- * @author Admin
- */
 public class Feedback {
     private int feedbackID;
     private Tenant tenant;
@@ -18,6 +14,9 @@ public class Feedback {
     private int rating;
     private Date date;
 
+    public Feedback() {
+    }
+    
     public Feedback(int feedbackID, Tenant tenant, Hostel hostel, String content, int rating, Date date) {
         this.feedbackID = feedbackID;
         this.tenant = tenant;

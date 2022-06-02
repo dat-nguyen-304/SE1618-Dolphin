@@ -4,22 +4,23 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
-import java.util.Date;
-/**
- *
- * @author Admin
- */
 public class Landlord {
     private Account account;
-    private int landlordID;
-    private boolean activate;
-
-    public Landlord(Account account, int landlordID, Date registrationDate, boolean activate) {
-        this.account = account;
-        this.landlordID = landlordID;
-        this.activate = activate;
+    private String fullname;
+    private String email;
+    private String phone;
+    private boolean rentStatus;
+    
+    public Landlord() {
     }
 
+    public Landlord(Account account, String fullname, String email, String phone, boolean rentStatus) {
+        this.account = account;
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+        this.rentStatus = rentStatus;
+    }
     public Account getAccount() {
         return account;
     }
@@ -28,20 +29,35 @@ public class Landlord {
         this.account = account;
     }
 
-    public int getLandlordID() {
-        return landlordID;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setLandlordID(int landlordID) {
-        this.landlordID = landlordID;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public boolean isActivate() {
-        return activate;
+    public String getEmail() {
+        return email;
     }
 
-    public void setActivate(boolean activate) {
-        this.activate = activate;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isRentStatus() {
+        return rentStatus;
+    }
+
+    public void setRentStatus(boolean rentStatus) {
+        this.rentStatus = rentStatus;
+    }
 }

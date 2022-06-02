@@ -6,10 +6,6 @@ package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
-/**
- *
- * @author Admin
- */
 public class Hostel {
     private int hostelID;
     private String address;
@@ -20,6 +16,9 @@ public class Hostel {
     private float rating;
     private Landlord landlord;
     private boolean activate;
+
+    public Hostel() {
+    }
 
     public Hostel(int hostelID, String address, String hostelName, int totalRoom, Date registrationDate, String detailAddress, float rating, Landlord landlord, boolean activate) {
         this.hostelID = hostelID;

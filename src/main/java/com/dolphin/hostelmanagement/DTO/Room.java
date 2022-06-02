@@ -4,26 +4,24 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
-import java.io.File;
 import java.util.ArrayList;
 
-/**
- *
- * @author Admin
- */
 public class Room {
     private int roomID;
     private Hostel hostel;
     private int roomNumber;
     private int area;
-    private ArrayList<File> images; //not sure
+    private ArrayList<String> images;
     private String description;
     private int status;
     private int maxNumberOfResident;
     private int currentNumberOfResident;
     private int advertisedPrice;
 
-    public Room(int roomID, Hostel hostel, int roomNumber, int area, ArrayList<File> images, String description, int status, int maxNumberOfResident, int currentNumberOfResident, int advertisedPrice) {
+    public Room() {
+    }
+
+    public Room(int roomID, Hostel hostel, int roomNumber, int area, ArrayList<String> images, String description, int status, int maxNumberOfResident, int currentNumberOfResident, int advertisedPrice) {
         this.roomID = roomID;
         this.hostel = hostel;
         this.roomNumber = roomNumber;
@@ -68,11 +66,11 @@ public class Room {
         this.area = area;
     }
 
-    public ArrayList<File> getImages() {
+    public ArrayList<String> getImages() {
         return images;
     }
 
-    public void setImages(ArrayList<File> images) {
+    public void setImages(ArrayList<String> images) {
         this.images = images;
     }
 

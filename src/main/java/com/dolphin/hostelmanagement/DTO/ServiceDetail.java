@@ -4,10 +4,6 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
-/**
- *
- * @author Admin
- */
 public class ServiceDetail {
     private int serviceDetailID;
     private int startValue;
@@ -15,6 +11,9 @@ public class ServiceDetail {
     private boolean usage;
     private Invoice invoice;
     private Service service;
+
+    public ServiceDetail() {
+    }
 
     public ServiceDetail(int serviceDetailID, int startValue, int endValue, boolean usage, Invoice invoice, Service service) {
         this.serviceDetailID = serviceDetailID;

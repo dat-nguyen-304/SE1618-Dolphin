@@ -4,14 +4,13 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
-/**
- *
- * @author Admin
- */
 public class FavoriteHostel {
     private int favoriteHostelID;
     private Hostel hostel;
     private Tenant tenant;
+
+    public FavoriteHostel() {
+    }
 
     public FavoriteHostel(int favoriteHostelID, Hostel hostel, Tenant tenant) {
         this.favoriteHostelID = favoriteHostelID;

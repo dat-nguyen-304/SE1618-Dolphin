@@ -9,5 +9,10 @@ package com.dolphin.hostelmanagement.DAO;
  * @author Admin
  */
 public class HostelDAO {
-    
+    /**
+     * 
+     */
+    public void getAll() {
+        
+    }
 }

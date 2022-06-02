@@ -6,29 +6,32 @@ package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
-/**
- *
- * @author Admin
- */
 public class Account {
+    private int accountID;
     private String username;
     private String password;
-    private String email;
-    private String phone;
-    private String fullname;
-    private Date dob;
     private Date registrationDate;
     private int role;
+    private boolean activate;
 
-    public Account(String username, String password, String email, String phone, String fullname, Date dob, Date registrationDate, int role) {
+    public Account() {
+    }
+    
+    public Account(int accountID, String username, String password, Date registrationDate, int role, boolean activate) {
+        this.accountID = accountID;
         this.username = username;
         this.password = password;
-        this.email = email;
-        this.phone = phone;
-        this.fullname = fullname;
-        this.dob = dob;
         this.registrationDate = registrationDate;
         this.role = role;
+        this.activate = activate;
+    }
+
+    public int getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(int accountID) {
+        this.accountID = accountID;
     }
 
     public String getUsername() {
@@ -47,36 +50,12 @@ public class Account {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public Date getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     public int getRole() {
@@ -85,13 +64,13 @@ public class Account {
 
     public void setRole(int role) {
         this.role = role;
-    } 
-
-    public Date getRegistrationDate() {
-        return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
+    public boolean isActivate() {
+        return activate;
+    }
+
+    public void setActivate(boolean activate) {
+        this.activate = activate;
     }
 }
