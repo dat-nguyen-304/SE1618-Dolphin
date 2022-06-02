@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.dolphin.hostelmanagement.controller;
+package com.dolphin.hostelmanagement.controller;    
 
 import com.dolphin.hostelmanagement.DAO.LandlordDAO;
 import com.dolphin.hostelmanagement.DAO.TenantDAO;

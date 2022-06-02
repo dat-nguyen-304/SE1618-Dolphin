@@ -16,6 +16,14 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckUsernameServlet</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.CheckUsernameServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckEmailServlet</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.CheckEmailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -31,6 +39,14 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckUsernameServlet</servlet-name>
+        <url-pattern>/CheckUsernameServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckEmailServlet</servlet-name>
+        <url-pattern>/CheckEmailServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

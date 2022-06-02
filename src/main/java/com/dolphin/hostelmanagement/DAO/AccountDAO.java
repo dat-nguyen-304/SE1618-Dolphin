@@ -71,8 +71,19 @@ public class AccountDAO {
         for (Account account : findAll()) {
             if (username.equals(account.getUsername())) {
                 check = true;
+                break;
             }
-            break;
+        }
+        return check;
+    }
+
+    public static boolean checkEmail(String email) {
+        boolean check = false;
+        for (Account account : findAll()) {
+            if (email.equals(account.getEmail())) {
+                check = true;
+                break;
+            }
         }
         return check;
     }
@@ -204,5 +215,9 @@ public class AccountDAO {
             }
         }
         return t;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(checkEmail("anvu1911@gmail.com"));
     }
 }

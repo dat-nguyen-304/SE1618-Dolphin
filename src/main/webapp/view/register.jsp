@@ -9,6 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="../assets/javascript/jquery.js"></script>
         <title>Register Account</title>
     </head>
     <body>
@@ -16,8 +17,8 @@
         <form action="../MainController" method="post">
             <table>
                 <tr><td><input type="text" placeholder="Fullname" name="fullname" required></td></tr>
-                <tr><td><input type="text" placeholder="Username" name="username" required></td></tr>
-                <tr><td><input type="text" placeholder="Email" name="email" required></td></tr>
+                <tr><td><input type="text" placeholder="Username" name="username" required id="username" onchange="checkUsername()"><span id="usernameResult"></span></td></tr>
+                <tr><td><input type="text" placeholder="Email" name="email" required id="email" onchange="checkEmail()"><span id="emailResult"></span></td></tr>
                 <tr><td><input type="text" placeholder="Phone number" name="phone" required></td></tr>
                 <tr><td><input type="password" placeholder="Password" name="password" required></td></tr>
                 <tr><td><input type="password" placeholder="Confirm password" required></td></tr>
@@ -32,5 +33,46 @@
             </table>
         </form>
         <p>${requestScope.warning}</p>
+        <script>
+            function checkUsername() {
+                console.log("line 29");
+                jQuery.ajax({
+                    type: 'POST',
+                    data: 'username=' + $("#username").val(),
+                    url: '../CheckUsernameServlet',
+                    success: function (result) {
+                        $("#usernameResult").html(result);
+                        console.log('Success 36');
+                    },
+                    error: function () {
+                        console.log('Error 39');
+                    },
+                    complete: function (result) {
+                        console.log('Complete 41');
+                    }
+                });
+                console.log("line 42");
+            }
+            
+            function checkEmail() {
+                console.log("line 58");
+                jQuery.ajax({
+                    type: 'POST',
+                    data: 'email=' + $("#email").val(),
+                    url: '../CheckEmailServlet',
+                    success: function (result) {
+                        $("#emailResult").html(result);
+                        console.log('Success 65');
+                    },
+                    error: function () {
+                        console.log('Error 68');
+                    },
+                    complete: function (result) {
+                        console.log('Complete 71');
+                    }
+                });
+                console.log("line 74");
+            }
+        </script>
     </body>
 </html>
