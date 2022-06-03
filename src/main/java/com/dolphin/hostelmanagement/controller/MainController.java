@@ -32,6 +32,7 @@ public class MainController extends HttpServlet {
         String url= ERROR;
         try {
             String action = request.getParameter("action");
+            System.out.println("action: " + action);
             switch (action) {
                 case "Register":
                     url = "/RegisterServlet";
@@ -39,18 +40,20 @@ public class MainController extends HttpServlet {
                 case "Login":
                     url = "/LoginServlet";
                     break;
-                case "Logout":
-                    url = "/LogoutServlet";
-                    break;
                 case "Save":
                     url = "/UpdateAccountServlet";
                     break;
                 case "SendOTP":
                     url = "/SendOTPServlet";
+                    break;
+                case "Send verification to mail":
+                    url = "/SendNewPasswordServlet";
+                    break;
             }
         } catch (Exception e) {
             log("Error at MainController: "+ e.toString());
         }finally{
+            System.out.println("URL: " + url);
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

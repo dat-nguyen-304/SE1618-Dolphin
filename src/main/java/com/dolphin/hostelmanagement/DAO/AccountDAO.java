@@ -57,13 +57,17 @@ public class AccountDAO {
     }
 
     public static Account findById(int id) {
-        Account t = null;
-        for (Account account : findAll()) {
-            if (account.getAccountID() == id) {
-                t = account;
-            }
-        }
-        return t;
+        for (Account account : findAll())
+            if (account.getAccountID() == id) 
+                return account;
+        return null;
+    }
+    
+    public static Account findByEmail(String email) {
+        for (Account account : findAll())
+            if (account.getEmail().compareToIgnoreCase(email) == 0)
+                return account;
+        return null;
     }
 
     public static boolean checkUsername(String username) {
