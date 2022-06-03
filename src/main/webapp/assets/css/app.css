@@ -1,0 +1,50 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+input:-webkit-autofill {
+    background-clip: text;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.social-el {
+    width: 48%;
+}
+
+.social-el:hover {
+    transform: translateY(-8%);
+}
+
+.input-field {
+    transition: all 0.4s ease-in-out;
+}
+
+.input-field:focus {
+    border-bottom: 2px solid #70a587;
+}
+
+.social object {
+    margin-right: 10px;
+}
+
+span.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 800ms ease-in-out;
+    background-color: rgba(255, 255, 255, 0.212);
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+

@@ -1,0 +1,49 @@
+.item {
+    margin: 20px 0 35px;
+}
+
+input:-webkit-autofill {
+    -webkit-background-clip: text;
+}
+
+.input-field {
+    font-size: 20px;
+    width: 100%;
+    border-bottom: 2px solid #c5c5c5;
+    color: #252525;
+    outline: none;
+    background-color: transparent;
+    padding: 3px 0;
+}
+
+.input-label {
+    position: absolute;
+    top: -18px;
+    left: 0;
+    font-weight: 400;
+    font-size: 14px;
+    transition: all 0.05s ease-out;
+}
+
+.item p {
+    font-size: 10px;
+}
+
+.password-input input {
+    padding-right: 34px;
+}
+
+/* ------  */
+input[type="radio"] + label span {
+    transition: background 0.2s, transform 0.2s;
+}
+input[type="radio"] + label span:hover, input[type="radio"] + label:hover span {
+    transform: scale(1.2);
+}
+input[type="radio"]:checked + label span {
+    background-color: #2c6961;
+    box-shadow: 0px 0px 0px 2px white inset;
+}
+input[type="radio"]:checked + label {
+    color: #2c6961;
+}
