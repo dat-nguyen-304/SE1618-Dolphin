@@ -15,16 +15,8 @@ public class DBUtils {
 
     public static Connection makeConnection() throws Exception {
         Connection cn = null;
-        String IP = "localhost"; // nếu database nằm trên máy khác thì IP thay đổi 
-        String instanceName = "PEASHOOTER"; // 
-        String port = "1433"; // xác định phần mềm SQL server qua port 1433
-        String uid = "sa";
-        String pwd = "123456";
-
-        String db = "HostelManagement";
         String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String url = "jdbc:sqlserver://" + IP + "\\" + instanceName + ":" + port
-                + ";databasename=" + db + ";user=" + uid + ";password=" + pwd;
+        String url = "jdbc:sqlserver://localhost\\DESKTOP-33UBDQB:1433;databaseName=HostelManagement;user=sa;password=12345;";
         Class.forName(driver);
         cn = DriverManager.getConnection(url);
         return cn;

@@ -1,12 +1,15 @@
 package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.AccountDAO;
+import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.LandlordDAO;
 import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
+import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,13 +42,20 @@ public class LoginServlet extends HttpServlet {
                         session.setAttribute("role", 1);
                         Tenant tenant = TenantDAO.findById(acc.getAccountID());
                         session.setAttribute("currentUser", tenant);
+                        ArrayList<Hostel> activeHostels = new ArrayList();
+                        for (Hostel hostel : HostelDAO.findAll()) {
+                            if (hostel.isActivate()) {
+                                activeHostels.add(hostel);
+                            }
+                        }
+                        request.setAttribute("hostelList", activeHostels);
                     } else {
                         System.out.println("line 41 landlord");
                         session.setAttribute("role", 2);
                         Landlord landlord = LandlordDAO.findById(acc.getAccountID());
                         session.setAttribute("currentUser", landlord);
                     }
-                    url = "/view/userProfile.jsp";
+                    url = "/view/hostelList.jsp";
                 } else {
                     request.setAttribute("error", "Invalid username or password!");
                     url = "/view/login.jsp";

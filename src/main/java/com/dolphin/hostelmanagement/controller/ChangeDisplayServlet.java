@@ -4,7 +4,12 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.HostelDAO;
+import com.dolphin.hostelmanagement.DTO.Hostel;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Vu Thien An - SE160296
  */
-public class MainController extends HttpServlet {
+public class ChangeDisplayServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -25,47 +30,41 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private static final String ERROR = "error.jsp";
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
-        System.out.println("?????????????");
-        try {
-            String action = request.getParameter("action");
-            System.out.println("action: " + action);
-            switch (action) {
-                case "LoginForm":
-                    url = "/view/login.jsp";
-                    break;
-                case "RegisterForm":
-                    url = "/view/register.jsp";
-                    break;
-                case "Register":
-                    url = "/RegisterServlet";
-                    break;
-                case "Login":
-                    url = "/LoginServlet";
-                    break;
-                case "Save":
-                    url = "/UpdateAccountServlet";
-                    break;
-                case "SendOTP":
-                    url = "/SendOTPServlet";
-                    break;
-                case "ResetPwd":
-                    url = "/SendNewPasswordServlet";
-                    break;
-                case "Change Display":
-                    url = "/ChangeDisplayServlet";
-                    break;
+        try (PrintWriter out = response.getWriter()) {
+            String displayOption = request.getParameter("displayOption");
+            System.out.println("servlet 38 " + displayOption);
+            ArrayList<Hostel> allList = (ArrayList<Hostel>) HostelDAO.findAll();
+            if (displayOption.equals("all")) {
+                request.setAttribute("hostelList", allList);
+            } else {
+                int numberOnPage = Integer.parseInt(displayOption);
+                int n = allList.size();
+                ArrayList<Integer> pages = new ArrayList();
+                for (int i = 0; i < n / numberOnPage + (n % numberOnPage); i++) {
+                    pages.add(i);
+                }
+                int pageNumber = 1;
+                String page_number = request.getParameter("pageNumber");
+                System.out.println("line 61 " + page_number);
+                if (page_number != null) {
+                    pageNumber = Integer.parseInt(page_number);
+                }
+                ArrayList<Hostel> smallList = new ArrayList();
+                for (int i = (pageNumber - 1) * numberOnPage; i < pageNumber * numberOnPage; i++) {
+                    if (i >= allList.size()) {
+                        break;
+                    }
+                    smallList.add(allList.get(i));
+                }
+                System.out.println("Line 63 " + smallList.size());
+                
+                request.setAttribute("hostelList", smallList);
+                request.setAttribute("pages", pages);
             }
-        } catch (Exception e) {
-            log("Error at MainController: " + e.toString());
-        } finally {
-            System.out.println("URL: " + url);
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher("/view/hostelList.jsp").forward(request, response);
         }
     }
 

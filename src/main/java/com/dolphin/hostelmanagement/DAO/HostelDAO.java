@@ -143,11 +143,14 @@ public class HostelDAO {
         return check;
     }
     
-    public static void main(String[] args) {
-//        System.out.println(findByName("Sakura").size());
-//        System.out.println(findById(1));
+    public static List<Hostel> findByWard(int wardID) {
+        List<Hostel> list = new ArrayList();
         for (Hostel hostel : findAll()) {
-            System.out.println(hostel);
+            if (hostel.getWard().getWardID() == wardID) list.add(hostel);
         }
+        return list;
+    }
+    
+    public static void main(String[] args) {
     }
 }

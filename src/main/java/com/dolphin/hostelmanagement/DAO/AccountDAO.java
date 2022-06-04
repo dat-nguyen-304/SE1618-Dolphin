@@ -220,8 +220,4 @@ public class AccountDAO {
         }
         return t;
     }
-    
-    public static void main(String[] args) {
-        System.out.println(checkEmail("anvu1911@gmail.com"));
-    }
 }
