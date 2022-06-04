@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,7 +67,6 @@ public class LandlordDAO {
                     while (rs.next()) {
                         int id = rs.getInt("landlordId");
                         String fullname = rs.getString("fullname");
-                        String email = rs.getString("email");
                         String phone = rs.getString("phone");
                         Account acc = AccountDAO.findById(id);
                         list.add(new Landlord(acc, fullname, phone));

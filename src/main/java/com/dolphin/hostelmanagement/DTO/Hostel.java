@@ -7,31 +7,44 @@ package com.dolphin.hostelmanagement.DTO;
 import java.util.Date;
 
 public class Hostel {
+
     private int hostelID;
-    private String address;
+    private String streetAddress;
+    private Ward ward;
     private String hostelName;
     private int totalRoom;
-    private Date registrationDate;
-    private String detailAddress;
+    private Date registeredDate;
     private float rating;
     private Landlord landlord;
     private boolean activate;
+    private String images;
+    private int minPrice;
+    private int maxPrice;
+    private int minArea;
+    private int maxArea;
+    private int availableRoom;
 
     public Hostel() {
     }
 
-    public Hostel(int hostelID, String address, String hostelName, int totalRoom, Date registrationDate, String detailAddress, float rating, Landlord landlord, boolean activate) {
+    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, String images, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom) {
         this.hostelID = hostelID;
-        this.address = address;
+        this.streetAddress = streetAddress;
+        this.ward = ward;
         this.hostelName = hostelName;
         this.totalRoom = totalRoom;
-        this.registrationDate = registrationDate;
-        this.detailAddress = detailAddress;
+        this.registeredDate = registeredDate;
         this.rating = rating;
         this.landlord = landlord;
         this.activate = activate;
+        this.images = images;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.minArea = minArea;
+        this.maxArea = maxArea;
+        this.availableRoom = availableRoom;
     }
-    
+
     public int getHostelID() {
         return hostelID;
     }
@@ -40,12 +53,20 @@ public class Hostel {
         this.hostelID = hostelID;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreetAddress() {
+        return streetAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
+    }
+
+    public Ward getWard() {
+        return ward;
+    }
+
+    public void setWard(Ward ward) {
+        this.ward = ward;
     }
 
     public String getHostelName() {
@@ -64,28 +85,12 @@ public class Hostel {
         this.totalRoom = totalRoom;
     }
 
-    public Date getRegistrationDate() {
-        return registrationDate;
+    public Date getRegisteredDate() {
+        return registeredDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public String getDetailAddress() {
-        return detailAddress;
-    }
-
-    public void setDetailAddress(String detailAddress) {
-        this.detailAddress = detailAddress;
-    }
-
-    public Landlord getLandlord() {
-        return landlord;
-    }
-
-    public void setLandlord(Landlord landlord) {
-        this.landlord = landlord;
+    public void setRegisteredDate(Date registeredDate) {
+        this.registeredDate = registeredDate;
     }
 
     public float getRating() {
@@ -96,6 +101,14 @@ public class Hostel {
         this.rating = rating;
     }
 
+    public Landlord getLandlord() {
+        return landlord;
+    }
+
+    public void setLandlord(Landlord landlord) {
+        this.landlord = landlord;
+    }
+
     public boolean isActivate() {
         return activate;
     }
@@ -103,6 +116,57 @@ public class Hostel {
     public void setActivate(boolean activate) {
         this.activate = activate;
     }
-    
-    
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+    public int getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(int maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
+    public int getMinArea() {
+        return minArea;
+    }
+
+    public void setMinArea(int minArea) {
+        this.minArea = minArea;
+    }
+
+    public int getMaxArea() {
+        return maxArea;
+    }
+
+    public void setMaxArea(int maxArea) {
+        this.maxArea = maxArea;
+    }
+
+    public int getAvailableRoom() {
+        return availableRoom;
+    }
+
+    public void setAvailableRoom(int availableRoom) {
+        this.availableRoom = availableRoom;
+    }
+
+    @Override
+    public String toString() {
+        return "Hostel{" + "hostelID=" + hostelID + ", streetAddress=" + streetAddress + ", ward=" + ward + ", hostelName=" + hostelName + ", totalRoom=" + totalRoom + ", registeredDate=" + registeredDate + ", rating=" + rating + ", landlord=" + landlord + ", activate=" + activate + ", images=" + images + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" + maxArea + ", availableRoom=" + availableRoom + '}';
+    }
 }
