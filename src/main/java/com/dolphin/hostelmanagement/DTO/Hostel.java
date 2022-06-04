@@ -20,14 +20,14 @@ public class Hostel {
     private String images;
     private int minPrice;
     private int maxPrice;
-    private int minArea;
-    private int maxArea;
+    private float minArea;
+    private float maxArea;
     private int availableRoom;
 
     public Hostel() {
     }
 
-    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, String images, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom) {
+    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, String images, int minPrice, int maxPrice, float minArea, float maxArea, int availableRoom) {
         this.hostelID = hostelID;
         this.streetAddress = streetAddress;
         this.ward = ward;
@@ -141,19 +141,19 @@ public class Hostel {
         this.maxPrice = maxPrice;
     }
 
-    public int getMinArea() {
+    public float getMinArea() {
         return minArea;
     }
 
-    public void setMinArea(int minArea) {
+    public void setMinArea(float minArea) {
         this.minArea = minArea;
     }
 
-    public int getMaxArea() {
+    public float getMaxArea() {
         return maxArea;
     }
 
-    public void setMaxArea(int maxArea) {
+    public void setMaxArea(float maxArea) {
         this.maxArea = maxArea;
     }
 
