@@ -71,11 +71,11 @@
                         </li>
 
                         <div id="more" class="mt-3 mb-9 flex justify-between">
-                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="signup" href="register.jsp">Đăng ký</a>
-                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="forgot" href="forgotPassword.jsp">Quên mật khẩu?</a>
+                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="signup" href="#">Đăng ký</a>
+                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="forgot" href="#">Quên mật khẩu?</a>
                         </div>
                         <li>
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" name="action" value="Login">Đăng nhập</button>
+                            <button type="button" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" name="action" value="Login">Đăng nhập</button>
 
                         </li>
                         <li class="mt-8">

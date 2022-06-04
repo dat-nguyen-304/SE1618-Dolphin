@@ -187,13 +187,13 @@ public class AccountDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "update Account set password = ? where accountID = ?";
+                String sql = "update Account set password = ? where accountId = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setString(1, newPassword);
                 pst.setInt(2, changeId);
                 check = pst.executeUpdate() != 0;
                 if (check) {
-                    System.out.println("!!! Changed password of accountID " + changeId);
+                    System.out.println("!!! Changed password of accountId " + changeId);
                 }
             }
         } catch (Exception e) {

@@ -60,12 +60,12 @@ public class LandlordDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select * from Landlord";
+                String sql = "select * from Tenant";
                 PreparedStatement pst = cn.prepareCall(sql);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
-                        int id = rs.getInt("landlordID");
+                        int id = rs.getInt("landlordId");
                         String fullname = rs.getString("fullname");
                         String phone = rs.getString("phone");
                         Account acc = AccountDAO.findById(id);
