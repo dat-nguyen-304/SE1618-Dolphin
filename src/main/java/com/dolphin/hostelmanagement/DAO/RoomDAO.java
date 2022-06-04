@@ -4,10 +4,58 @@
  */
 package com.dolphin.hostelmanagement.DAO;
 
+import com.dolphin.hostelmanagement.DTO.Hostel;
+import com.dolphin.hostelmanagement.DTO.Room;
+import com.dolphin.hostelmanagement.utils.DBUtils;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Admin
  */
 public class RoomDAO {
-    
-}
+
+    public static List<Room> findAll() {
+        List<Room> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "select * from Room";
+                PreparedStatement pst = cn.prepareCall(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int roomID = rs.getInt("roomId");
+                        int hostelID = rs.getInt("hostelId");
+                        Hostel hostel = HostelDAO.findById(hostelID);
+                        int roomNumber = rs.getInt("roomNumber");
+                        int area = rs.getInt("area");
+                        ArrayList<String> images = null; //cho nay em chua biet lam sao :D
+                        String description = rs.getNString("description");
+                        int status = rs.getInt("status");
+                        int maxNumberOfResident = rs.getInt("maxNoResidents");
+                        int currentNumberOfResident = rs.getInt("currentNoResidents");
+                        int advertisedPrice = rs.getInt("advertisedPrice");
+                    }
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+            return list;
+        }
+    }
