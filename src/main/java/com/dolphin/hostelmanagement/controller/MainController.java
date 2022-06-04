@@ -30,6 +30,7 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url= ERROR;
+        System.out.println("?????????????");
         try {
             String action = request.getParameter("action");
             System.out.println("action: " + action);
@@ -46,7 +47,7 @@ public class MainController extends HttpServlet {
                 case "SendOTP":
                     url = "/SendOTPServlet";
                     break;
-                case "Send verification to mail":
+                case "ResetPwd":
                     url = "/SendNewPasswordServlet";
                     break;
             }

@@ -36,7 +36,7 @@ public class SendNewPasswordServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = "/view/login.jsp";
         try {
-            String email = request.getParameter("txtemail");
+            String email = request.getParameter("txt-email");
             String newPwd = StringUtils.randomString(12);
 
             Account acc = AccountDAO.findByEmail(email);

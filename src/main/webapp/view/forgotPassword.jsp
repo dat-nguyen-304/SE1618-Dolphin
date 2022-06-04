@@ -53,7 +53,7 @@
             <!-- form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
 
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="mainController" method="post"  id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="..\MainController" method="post"  id="form" name="login-form">
                     <!--form header-->
                     <div class="form-header w-full h-28 mb-5 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Lấy lại mật khẩu</h2>
@@ -68,7 +68,7 @@
                         </li>
                         <!--Submit-->
                         <li>
-                            <button type="button" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" name="action" value="Login">Gửi link khôi phục</button>  
+                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" name="action" value="ResetPwd">Gửi link khôi phục</button>  
                         </li>
 
                     </ul>
