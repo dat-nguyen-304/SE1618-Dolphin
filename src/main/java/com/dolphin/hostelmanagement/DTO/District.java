@@ -12,6 +12,14 @@ public class District {
     private int districtId;
     private String districtName;
 
+    public District() {
+    }
+
+    public District(int districtId, String districtName) {
+        this.districtId = districtId;
+        this.districtName = districtName;
+    }
+
     public int getDistrictId() {
         return districtId;
     }

@@ -20,14 +20,15 @@ public class Hostel {
     private String images;
     private int minPrice;
     private int maxPrice;
-    private float minArea;
-    private float maxArea;
+    private int minArea;
+    private int maxArea;
     private int availableRoom;
+    private String description;
 
     public Hostel() {
     }
 
-    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, String images, int minPrice, int maxPrice, float minArea, float maxArea, int availableRoom) {
+    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, String images, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom, String description) {
         this.hostelID = hostelID;
         this.streetAddress = streetAddress;
         this.ward = ward;
@@ -43,6 +44,7 @@ public class Hostel {
         this.minArea = minArea;
         this.maxArea = maxArea;
         this.availableRoom = availableRoom;
+        this.description = description;
     }
 
     public int getHostelID() {
@@ -141,19 +143,19 @@ public class Hostel {
         this.maxPrice = maxPrice;
     }
 
-    public float getMinArea() {
+    public int getMinArea() {
         return minArea;
     }
 
-    public void setMinArea(float minArea) {
+    public void setMinArea(int minArea) {
         this.minArea = minArea;
     }
 
-    public float getMaxArea() {
+    public int getMaxArea() {
         return maxArea;
     }
 
-    public void setMaxArea(float maxArea) {
+    public void setMaxArea(int maxArea) {
         this.maxArea = maxArea;
     }
 
@@ -165,8 +167,11 @@ public class Hostel {
         this.availableRoom = availableRoom;
     }
 
-    @Override
-    public String toString() {
-        return "Hostel{" + "hostelID=" + hostelID + ", streetAddress=" + streetAddress + ", ward=" + ward + ", hostelName=" + hostelName + ", totalRoom=" + totalRoom + ", registeredDate=" + registeredDate + ", rating=" + rating + ", landlord=" + landlord + ", activate=" + activate + ", images=" + images + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" + maxArea + ", availableRoom=" + availableRoom + '}';
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
