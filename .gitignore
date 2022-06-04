@@ -11,6 +11,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+src\main\java\com\dolphin\hostelmanagement\utils\DBUtils.java
 
 # End of https://www.toptal.com/developers/gitignore/api/netbeans
 /target/

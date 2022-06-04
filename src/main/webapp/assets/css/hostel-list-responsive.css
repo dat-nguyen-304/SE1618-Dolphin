@@ -1,0 +1,13 @@
+@media (max-width: 739px) {
+
+    .pagination-previous,
+    .pagination-next {
+        font-size: 1.4rem;
+    }
+
+    .pagination-item,
+    .pagination-dot {
+        margin   : 0;
+        font-size: 1.6rem;
+    }
+}

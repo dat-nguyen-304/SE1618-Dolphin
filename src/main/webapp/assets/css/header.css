@@ -1,0 +1,51 @@
+.topbar {
+    height: 90px;
+}
+
+.header-logo {
+    height    : 90px;
+    margin-top: -20px;
+}
+
+.header-search-container {
+    align-items    : center;
+    justify-content: center;
+}
+
+.navbar {
+    padding-bottom: 0;
+}
+
+.header-navbar {
+    background-color: var(--dark-primary-color) !important;
+    color           : #fff;
+}
+
+.header-search-title {
+    position: relative;
+}
+
+.header-search-title::after {
+    display  : block;
+    content  : "Tôi muốn tìm nhà tại ...";
+    position : absolute;
+    top      : -40px;
+    font-size: 12px;
+    width    : 200px;
+}
+
+.filter-address {
+    max-width: 200px;
+    font-size: 14px;
+}
+
+.btn-search {
+    background-color: var(--light-primary-color);
+    color           : #fff;
+    padding-left    : 24px;
+    padding-right   : 24px;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}

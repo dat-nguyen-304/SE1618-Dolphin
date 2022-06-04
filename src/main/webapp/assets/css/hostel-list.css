@@ -1,0 +1,374 @@
+:root {
+    --dark-primary-color  : #17535B;
+    --medium-primary-color: #288D87;
+    --light-primary-color : #0EAF72;
+}
+
+* {
+    padding   : 0;
+    margin    : 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none !important;
+    color          : #000;
+}
+
+a:hover {
+    color: #000;
+}
+
+footer {
+    height          : 100px;
+    background-color: var(--dark-primary-color);
+    position        : fixed;
+    left            : 0;
+    right           : 0;
+    z-index         : 100;
+}
+
+footer {
+    position: static;
+    bottom  : 0;
+}
+
+body {
+    background-color: #eee;
+}
+
+.container {
+    width: 100%;
+}
+
+.custom-select option {
+    min-width: 200px;
+}
+
+.address-box {
+    width  : 100%;
+    margin : 0 auto;
+    padding: 24px 0;
+}
+
+.form-address {
+    position       : relative;
+    display        : flex;
+    justify-content: space-around;
+    align-items    : center;
+}
+
+.submit-filter {
+    display         : inline-block;
+    padding         : 4px 12px;
+    color           : #fff;
+    background-color: var(--light-primary-color);
+    border          : none;
+    border-radius   : 4px;
+    cursor          : pointer;
+}
+
+.filter-province,
+.filter-district,
+.filter-ward {
+    width: 160px;
+}
+
+.result-address {
+    color    : #333;
+    margin   : 12px 0;
+    font-size: 20px;
+}
+
+.search-bar {}
+
+
+.search-bar__input input {
+    width    : 100%;
+    font-size: 16px;
+    padding  : 8px;
+}
+
+.search-bar__input {
+    position: relative;
+}
+
+.search-bar__sort {
+    font-size       : 16px;
+    background-color: var(--medium-primary-color);
+    padding         : 6px 12px;
+    color           : #fff;
+    border-radius   : 8px;
+    cursor          : pointer;
+    position        : relative;
+    z-index         : 10;
+    max-width       : 136px;
+}
+
+.search-bar__sort:hover .search-bar-sort-list {
+    display: block;
+}
+
+.search-bar-sort-list {
+    display         : none;
+    position        : relative;
+    position        : absolute;
+    top             : calc(100% + 8px);
+    left            : 12px;
+    width           : 200px;
+    background-color: #eee;
+    box-shadow      : 0 0 4px #ccc;
+}
+
+.search-bar-sort-list::after {
+    display : block;
+    content : "";
+    position: absolute;
+    width   : 100%;
+    height  : 20px;
+    top     : -20px;
+    left    : -12px;
+}
+
+.search-bar-sort-item {
+    border-radius: 4px;
+}
+
+.search-bar-sort-item:hover {
+    background-color: var(--light-primary-color);
+}
+
+.search-bar-sort-item a {
+    display        : block;
+    text-decoration: none;
+    color          : #333;
+    padding        : 8px 12px;
+}
+
+.search-bar__submit {
+    position        : absolute;
+    right           : 20px;
+    top             : 4px;
+    bottom          : 4px;
+    border-radius   : 8px;
+    color           : #fff;
+    font-size       : 16px;
+    width           : 100px;
+    cursor          : pointer;
+    outline         : none;
+    border          : none;
+    background-color: var(--light-primary-color);
+}
+
+.form-filter {}
+
+.filter-list {
+    align-items: center;
+    margin     : 0 -4px;
+}
+
+.filter-item {
+    position: relative;
+    padding : 4px;
+}
+
+.favorite-filter {
+    display        : flex;
+    justify-content: right;
+}
+
+.favorite-filter a {
+    background-color: #e44f4f;
+}
+
+.favorite-filter a:hover {
+    color: #fff;
+}
+
+.filter-title {
+    position : absolute;
+    top      : 100%;
+    left     : 12px;
+    font-size: 10px;
+    color    : #999;
+}
+
+.result-number {
+    color      : #333;
+    margin     : 12px 0;
+    font-size  : 16px;
+    font-weight: 400;
+}
+
+.hostel-item {
+    display      : block;
+    border-radius: 4px;
+    box-shadow   : 0 0 8px #ccc;
+    overflow     : hidden;
+    margin-top   : 20px;
+}
+
+.hostel-item:hover {
+    outline  : 1px solid orange;
+    transform: translateY(-2px);
+}
+
+.hostel-img {
+    width : 100%;
+    height: 200px;
+}
+
+.hostel-content {
+    padding: 8px 12px;
+    display: block;
+}
+
+.hostel-name {
+    font-size  : 18px;
+    font-weight: 500;
+    color      : var(--text-color);
+}
+
+.hostel-content-header {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    padding-bottom : 12px;
+}
+
+.hostel-action {
+    align-items    : center;
+    display        : flex;
+    justify-content: space-between;
+}
+
+.hostel-rating {
+    font-size: 12px;
+    color    : orange;
+}
+
+.hostel-favorite {
+    font-size: 16px;
+    color    : #ccc;
+}
+
+.hostel-favorite .active {
+    color: red;
+}
+
+
+.hostel-address {
+    font-size         : 12px;
+    line-height       : 16px;
+    height            : 32px;
+    font-weight       : 400;
+    color             : #666;
+    display           : -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow          : hidden;
+}
+
+.hostel-info {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    padding-bottom : 8px;
+    border-bottom  : 1px solid #ccc;
+}
+
+.hostel-room-available {
+    font-size      : 10px;
+    display        : flex;
+    justify-content: end;
+    color          : red;
+    position       : relative;
+    bottom         : -4px;
+}
+
+.hostel-area {
+    font-size: 18px;
+}
+
+.hostel-price {
+    text-align : right;
+    color      : #ff6532;
+    font-size  : 20px;
+    padding-top: 6px;
+}
+
+.carousel-item img {
+    height    : 180px;
+    object-fit: cover;
+}
+
+.carousel-indicators .active {
+    position        : relative;
+    -webkit-box-flex: 0;
+    -ms-flex        : 0 1 auto;
+    flex            : 0 1 auto;
+    width           : 16px;
+    height          : 3px;
+    margin-right    : 3px;
+    margin-left     : 3px;
+    text-indent     : -999px;
+    background-color: rgba(255, 255, 255, .5);
+    border-radius   : 4px;
+}
+
+.carousel-indicators li {
+    position        : relative;
+    -webkit-box-flex: 0;
+    -ms-flex        : 0 1 auto;
+    flex            : 0 1 auto;
+    width           : 5px;
+    height          : 5px;
+    margin-right    : 3px;
+    margin-left     : 3px;
+    text-indent     : -999px;
+    background-color: rgba(255, 255, 255, .5);
+    border-radius   : 100px;
+}
+
+.pagination {
+    margin : 48px 0;
+    display: block;
+}
+
+.pagination__list {
+    list-style-type: none;
+    padding        : 0;
+    margin         : 0;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+}
+
+.pagination-item,
+.pagination-dot {
+    display  : inline-block;
+    font-size: 20px;
+    margin   : 0 12px;
+    color    : #888;
+}
+
+.pagination-item a {
+    display        : block;
+    padding        : 4px 14px;
+    color          : currentColor;
+    text-decoration: none;
+}
+
+.pagination-item--active a {
+    background-color: var(--medium-primary-color);
+    color           : #fff;
+}
+
+.pagination-previous,
+.pagination-next {
+    font-size: 16px;
+}
