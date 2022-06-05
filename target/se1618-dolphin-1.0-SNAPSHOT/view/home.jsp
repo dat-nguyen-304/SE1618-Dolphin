@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <a href="../MainController?action=LoginForm">Login</a>
+        <a href="../MainController?action=RegisterForm">Register</a>
     </body>
 </html>

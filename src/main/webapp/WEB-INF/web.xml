@@ -70,6 +70,72 @@
         <servlet-name>ChangeDisplayServlet</servlet-name>
         <url-pattern>/ChangeDisplayServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AccessController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.AccessController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.AdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.HomeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HostelController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.HostelController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InvoiceController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.InvoiceController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LandlordController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.LandlordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RoomController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.RoomController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TenantController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.TenantController</servlet-class>
+       
+    </servlet>
+
+<servlet-mapping>
+        <servlet-name>AccessController</servlet-name>
+        <url-pattern>/access/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/admin/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/home/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HostelController</servlet-name>
+        <url-pattern>/hostel/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InvoiceController</servlet-name>
+        <url-pattern>/invoice/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LandlordController</servlet-name>
+        <url-pattern>/landlord/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RoomController</servlet-name>
+        <url-pattern>/room/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TenantController</servlet-name>
+        <url-pattern>/tenant/*</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
