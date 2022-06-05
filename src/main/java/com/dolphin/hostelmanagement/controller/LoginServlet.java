@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
                         Landlord landlord = LandlordDAO.findById(acc.getAccountID());
                         session.setAttribute("currentUser", landlord);
                     }
-                    url = "/view/hostelList.jsp";
+                    url = "/view/userProfile.jsp";
                 } else {
                     request.setAttribute("error", "Invalid username or password!");
                     url = "/view/login.jsp";
