@@ -14,10 +14,10 @@
         <title>Document</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="../assets/css/hostel-list.css">
-        <link rel="stylesheet" href="../assets/css/header.css">
-        <link rel="stylesheet" href="../assets/css/hostel-list-responsive.css">
+        <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/hostel-list.css">
+        <link rel="stylesheet" href="assets/css/header.css">
+        <link rel="stylesheet" href="assets/css/hostel-list-responsive.css">
     </head>
     <body>
         <header>
@@ -197,7 +197,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ngẩng mặt hận đời</span>
-                                <img class="img-profile rounded-circle" src="../assets/images/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="assets/images/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -652,9 +652,9 @@
             </div>
         </div>
     </footer>
-    <script src="../assets/javascript//jquery/jquery.min.js"></script>
-    <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/javascript//jquery/jquery.min.js"></script>
+    <script src="assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <script src="../assets/javascript/hostel-list.js"></script>
+    <script src="assets/javascript/hostel-list.js"></script>
     </body>
 </html>

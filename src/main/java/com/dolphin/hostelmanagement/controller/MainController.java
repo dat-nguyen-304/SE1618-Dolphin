@@ -57,7 +57,7 @@ public class MainController extends HttpServlet {
                 case "ResetPwd":
                     url = "/SendNewPasswordServlet";
                     break;
-                case "Change Display":
+                case "Thay Đổi":
                     url = "/ChangeDisplayServlet";
                     break;
             }

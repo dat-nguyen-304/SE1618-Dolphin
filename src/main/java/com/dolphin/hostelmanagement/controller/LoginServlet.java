@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
                     }
                     url = "/view/hostelList.jsp";
                 } else {
-                    request.setAttribute("error", "Invalid username or password!");
+                    request.setAttribute("error", "Sai mật khẩu hoặc username!");
                     url = "/view/login.jsp";
                 }
             }

@@ -21,19 +21,19 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
         <!--Favicon-->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="assets/icons/logo.png" type="image/x-icon">
 
         <!--CSS-->
         <!--<link rel="stylesheet" href="../assets/css/style.css">-->
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="assets/css/app.css">
     </head>
     <body>
         <!-- logo -->
         <div class="logo absolute z-10">
             <div class="container px-6 py-5">
                 <div class="flex justify-center items-center">
-                    <img class="w-9 h-9" src="../assets/icons/logo_white.png" alt="">
+                    <img class="w-9 h-9" src="assets/icons/logo_white.png" alt="">
                 </div>
             </div>
         </div>
@@ -46,15 +46,15 @@
                     <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Welcome Back!</h2>
                     <p class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">To keep connected with us please login with your personal info</p>
                 </div>
-                <img class="w-2/5 h-screen absolute" src="../assets/images/bg3.jpg" alt="">
+                <img class="w-2/5 h-screen absolute" src="assets/images/bg3.jpg" alt="">
             </div>
 
             <!-- login form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="../MainController" method="post" id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="MainController" method="post" id="form" name="login-form">
                     <div class="form-header w-full h-20 text-center m-0 p-0 relative">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Đăng nhập</h2>
-                        <p id="error" class="warning text-base font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2">Sai mật khẩu!</p>
+                        <p id="error" class="warning text-base font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
                     </div>
                     <ul class="item-list list-none p-0 w-3/5">
 
@@ -83,13 +83,13 @@
                             <div class="social flex justify-between my-5">
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-all" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="../assets/icons/google.svg" width="20" height="20"></object>
+                                        <object class="inline" data="assets/icons/google.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Google</span>
                                     </div>
                                 </a>
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-all" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="../assets/icons/facebook.svg" width="20" height="20"></object>
+                                        <object class="inline" data="assets/icons/facebook.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Facebook</span>
                                     </div>
                                 </a>
