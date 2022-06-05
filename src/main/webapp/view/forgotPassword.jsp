@@ -45,7 +45,7 @@
             <div class="w-2/5 relativee">
                 <div class="w-2/5 h-screen absolute z-[5] bg-black black opacity-80 flex flex-col justify-center items-center">
                     <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">It's okay</h2>
-                    <p  class="z-10 pt-9 w-4/5 mx-auto text-center text-white opacity-100 text-[20px] font-extralight" >Enter the email address associated with your account and reset your password</p>
+                    <p  class="z-10 pt-9 w-4/5 mx-auto text-center text-white opacity-100 text-[20px] font-extralight" >Enter the email address or phone number associated with your account and reset your password</p>
                 </div>
                 <img class="w-2/5 h-screen absolute " src="../assets/images/bg5.jpg" alt="">
             </div>
@@ -53,7 +53,7 @@
             <!-- form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
 
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="../MainController" method="post"  id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="..\MainController" method="post"  id="form" name="login-form">
                     <!--form header-->
                     <div class="form-header w-full h-28 mb-5 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Lấy lại mật khẩu</h2>

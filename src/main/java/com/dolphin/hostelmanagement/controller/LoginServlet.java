@@ -10,8 +10,6 @@ import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,14 +21,13 @@ import javax.servlet.http.HttpSession;
  * @author Vu Thien An - SE160296
  */
 public class LoginServlet extends HttpServlet {
-    
+
     private static final String ERROR = "error.jsp";
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
-        boolean success = false;
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
@@ -44,9 +41,7 @@ public class LoginServlet extends HttpServlet {
                         System.out.println("line 36 tenant");
                         session.setAttribute("role", 1);
                         Tenant tenant = TenantDAO.findById(acc.getAccountID());
-                        System.out.println("Tenant name: " + tenant.getFullname());
                         session.setAttribute("currentUser", tenant);
-                        
                         ArrayList<Hostel> activeHostels = new ArrayList();
                         for (Hostel hostel : HostelDAO.findAll()) {
                             if (hostel.isActivate()) {
@@ -60,17 +55,14 @@ public class LoginServlet extends HttpServlet {
                         Landlord landlord = LandlordDAO.findById(acc.getAccountID());
                         session.setAttribute("currentUser", landlord);
                     }
-                    url = "/view/userProfile.jsp";
-                    success = true;
+                    url = "/view/hostelList.jsp";
                 } else {
                     request.setAttribute("error", "Invalid username or password!");
-                    //request.getP("username");
-                    request.removeAttribute("password");
                     url = "/view/login.jsp";
                 }
             }
-        } catch (Exception ex) {
-            Logger.getLogger(SendNewPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            log("Error at LoginServlet: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
