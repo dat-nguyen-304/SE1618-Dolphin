@@ -2,16 +2,12 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
-        <filter-class>com.dolphin.hostelmangement.filter.CharacterEncodingFilter</filter-class>
+        <filter-class>com.dolphin.hostelmanagement.filter.CharacterEncodingFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>CharacterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <servlet>
-        <servlet-name>MainController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.MainController</servlet-class>
-    </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.LoginServlet</servlet-class>
@@ -36,10 +32,18 @@
         <servlet-name>ChangeDisplayServlet</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.ChangeDisplayServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SendNewPasswordServlet</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.SendNewPasswordServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>MainController</servlet-name>
-        <url-pattern>/MainController</url-pattern>
-    </servlet-mapping>
+        <servlet-class>com.dolphin.hostelmanagement.controller.MainController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -69,6 +73,18 @@
     <servlet-mapping>
         <servlet-name>ChangeDisplayServlet</servlet-name>
         <url-pattern>/ChangeDisplayServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/ChangePasswordServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendNewPasswordServlet</servlet-name>
+        <url-pattern>/SendNewPasswordServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainController</servlet-name>
+        <url-pattern>/MainController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

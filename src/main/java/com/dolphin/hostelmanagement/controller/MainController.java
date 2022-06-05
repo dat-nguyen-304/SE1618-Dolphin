@@ -4,11 +4,14 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DTO.Tenant;
+import java.awt.Desktop;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,7 +34,6 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
-        System.out.println("?????????????");
         try {
             String action = request.getParameter("action");
             System.out.println("action: " + action);
@@ -59,6 +61,16 @@ public class MainController extends HttpServlet {
                     break;
                 case "Change Display":
                     url = "/ChangeDisplayServlet";
+                    break;
+                case "ChangePasswordPage":
+                    url = "/view/changePassword.jsp";
+                    break;
+                case "Change password":
+                    //HttpSession session = request.getSession(true);
+                    //Tenant tmp = (Tenant) session.getAttribute("currentUser");
+                    //System.out.println("djasdisa: " + tmp.getFullname() + tmp.getPhone() + "controller");
+                    url = "/ChangePasswordServlet";
+                    //System.out.println(action.compareTo("Change password"));
                     break;
             }
         } catch (Exception e) {
