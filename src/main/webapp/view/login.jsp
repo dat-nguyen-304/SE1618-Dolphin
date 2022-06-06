@@ -51,7 +51,7 @@
 
             <!-- login form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="MainController" method="post" id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="../MainController" method="post" id="form" name="login-form">
                     <div class="form-header w-full h-20 text-center m-0 p-0 relative">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Đăng nhập</h2>
                         <p id="error" class="warning text-base font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>

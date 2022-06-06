@@ -36,6 +36,10 @@
         <servlet-name>ChangeDisplayServlet</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.ChangeDisplayServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.ChangePasswordServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -101,10 +105,8 @@
     <servlet>
         <servlet-name>TenantController</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller2.TenantController</servlet-class>
-       
     </servlet>
-
-<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AccessController</servlet-name>
         <url-pattern>/access/*</url-pattern>
     </servlet-mapping>
@@ -135,6 +137,10 @@
     <servlet-mapping>
         <servlet-name>TenantController</servlet-name>
         <url-pattern>/tenant/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/ChangePasswordServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -60,6 +60,16 @@ public class MainController extends HttpServlet {
                 case "Thay Đổi":
                     url = "/ChangeDisplayServlet";
                     break;
+                case "ChangePasswordPage":
+                    url = "/view/changePassword.jsp";
+                    break;
+                case "Change password":
+                    //HttpSession session = request.getSession(true);
+                    //Tenant tmp = (Tenant) session.getAttribute("currentUser");
+                    //System.out.println("djasdisa: " + tmp.getFullname() + tmp.getPhone() + "controller");
+                    url = "/ChangePasswordServlet";
+                    //System.out.println(action.compareTo("Change password"));
+                    break;
             }
         } catch (Exception e) {
             log("Error at MainController: " + e.toString());
