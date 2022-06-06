@@ -174,4 +174,9 @@ public class Hostel {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Hostel{" + "hostelID=" + hostelID + ", streetAddress=" + streetAddress + ", ward=" + ward + ", hostelName=" + hostelName + ", totalRoom=" + totalRoom + ", registeredDate=" + registeredDate + ", rating=" + rating + ", landlord=" + landlord + ", activate=" + activate + ", images=" + images + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" + maxArea + ", availableRoom=" + availableRoom + ", description=" + description + '}';
+    }
 }

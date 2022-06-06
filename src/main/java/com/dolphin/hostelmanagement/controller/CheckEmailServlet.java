@@ -70,7 +70,7 @@ public class CheckEmailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
+        String email = request.getParameter("email").trim();
         System.out.println("in line 76");
         try {
             String servletResponse = "Email is available";

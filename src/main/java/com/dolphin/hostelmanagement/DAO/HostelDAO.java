@@ -71,7 +71,7 @@ public class HostelDAO {
 
     public static Hostel findById(int id) {
         for (Hostel hostel : findAll()) {
-            if (hostel.getHostelID()== id) {
+            if (hostel.getHostelID() == id) {
                 return hostel;
             }
         }
@@ -81,24 +81,36 @@ public class HostelDAO {
     public static boolean save(Hostel t) throws Exception {
         boolean check = false;
         Connection cn = null;
-        cn = DBUtils.makeConnection();
-        if (cn != null) {
-            java.sql.Date sqlRegDate = new java.sql.Date(t.getRegisteredDate().getTime());
-            String sql = "insert into Hostel(streetAddress, hostelName, "
-                    + "registeredDate, activate, rating, landlordId, "
-                    + "wardId) "
-                    + "values(?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = cn.prepareCall(sql);
-            pst.setString(1, t.getStreetAddress());
-            pst.setString(2, t.getHostelName());
-            pst.setDate(3, sqlRegDate);
-            pst.setBoolean(4, true);
-            pst.setFloat(5, t.getRating());
-            pst.setInt(6, t.getLandlord().getAccount().getAccountID());
-            pst.setInt(7, t.getWard().getWardID());
-            check = pst.executeUpdate() != 0;
-            if (check) {
-                System.out.println("!!! SAVED hostel");
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                java.sql.Date sqlRegDate = new java.sql.Date(t.getRegisteredDate().getTime());
+                String sql = "insert into Hostel(streetAddress, hostelName, "
+                        + "registeredDate, activate, rating, landlordId, "
+                        + "wardId) "
+                        + "values(?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setString(1, t.getStreetAddress());
+                pst.setString(2, t.getHostelName());
+                pst.setDate(3, sqlRegDate);
+                pst.setBoolean(4, true);
+                pst.setFloat(5, t.getRating());
+                pst.setInt(6, t.getLandlord().getAccount().getAccountID());
+                pst.setInt(7, t.getWard().getWardID());
+                check = pst.executeUpdate() != 0;
+                if (check) {
+                    System.out.println("!!! SAVED hostel");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return check;
@@ -142,15 +154,17 @@ public class HostelDAO {
         }
         return check;
     }
-    
+
     public static List<Hostel> findByWard(int wardID) {
         List<Hostel> list = new ArrayList();
         for (Hostel hostel : findAll()) {
-            if (hostel.getWard().getWardID() == wardID) list.add(hostel);
+            if (hostel.getWard().getWardID() == wardID) {
+                list.add(hostel);
+            }
         }
         return list;
     }
-    
+
     public static void main(String[] args) {
     }
 }
