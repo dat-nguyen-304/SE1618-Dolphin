@@ -44,4 +44,5 @@ com\dolphin\hostelmanagement\DAO\WardDAO.class
 com\dolphin\hostelmanagement\DTO\RoomResident.class
 com\dolphin\hostelmanagement\DTO\District.class
 com\dolphin\hostelmanagement\filter\CharacterEncodingFilter.class
+com\dolphin\hostelmanagement\controller\ChangePasswordServlet.class
 com\dolphin\hostelmanagement\DAO\ContractDAO.class

@@ -158,8 +158,6 @@
                         <div class="bgrid feature" data-aos="fade-up">
 
                             <span class="icon"><i class="icon-window"></i></span>
-
-                           
                             <div class="service-content">
 
                                 <h3>Không gian tiêu chuẩn, mức giá hợp lý</h3>
@@ -208,17 +206,15 @@
 
                     </div> <!-- end features-list -->
 
-                </div> <!-- end about-how -->
-
-                <div class="row about-bottom-image">
-                    <img src="../assets/images/homepage-images/bg2.jpg" alt="App Screenshots" data-aos="fade-up">
-                    <img src="../assets/images/homepage-images/bg3.jpg" alt="App Screenshots" data-aos="fade-up">
-                    <img src="../assets/images/homepage-images/bg5.jpg" alt="App Screenshots" data-aos="fade-up">
-                    <img src="../assets/images/homepage-images/bg6.jpg" alt="App Screenshots" data-aos="fade-up">
-                    <img src="../assets/images/homepage-images/bg7.jpg" alt="App Screenshots" data-aos="fade-up">
-                    <img src="../assets/images/homepage-images/bg8.jpg" alt="App Screenshots" data-aos="fade-up">
-                </div> <!-- end about-bottom-image -->
-            </div>
+                    <div class="row about-bottom-image">
+                        <img src="../assets/images/homepage-images/bg2.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="../assets/images/homepage-images/bg3.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="../assets/images/homepage-images/bg5.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="../assets/images/homepage-images/bg6.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="../assets/images/homepage-images/bg7.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="../assets/images/homepage-images/bg8.jpg" alt="App Screenshots" data-aos="fade-up">
+                    </div> <!-- end about-bottom-image -->
+                </div>
 
         </section>
         <!-- end about -->

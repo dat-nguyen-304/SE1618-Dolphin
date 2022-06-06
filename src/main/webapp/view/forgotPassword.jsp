@@ -53,7 +53,7 @@
             <!-- form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
 
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="..\MainController" method="post"  id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="MainController" method="post"  id="form" name="login-form">
                     <!--form header-->
                     <div class="form-header w-full h-28 mb-5 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Lấy lại mật khẩu</h2>

@@ -4,6 +4,7 @@
     Author     : Vu Thien An - SE160296
 --%>
 
+<%@page import="com.dolphin.hostelmanagement.DTO.Tenant"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -13,8 +14,10 @@
         <title>User Profile</title>
     </head>
     <body>
+
         <c:choose>
             <c:when test="${sessionScope.currentUser != null}">
+                <a href ="MainController?action=changePassword.jsp">Change password</a>
                 <section>
                     <h2>${sessionScope.currentUser.fullname}</h2>
                     <form>
@@ -24,7 +27,6 @@
                             </tr>
                             <tr>
                                 <td>Username</br><input type="text" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}" readonly=""></td>
-                                <td>Password</br><input type="password" placeholder="${sessionScope.currentUser.account.password}" value="${sessionScope.currentUser.account.password}" name="password"></td>
                             </tr>
                             <tr>
                                 <td>Email</br><input type="text" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}" readonly=""></td>
