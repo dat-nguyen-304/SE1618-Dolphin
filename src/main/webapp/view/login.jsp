@@ -51,7 +51,7 @@
 
             <!-- login form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="../MainController" method="post" id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="MainController" method="post" id="form" name="login-form">
                     <div class="form-header w-full h-20 text-center m-0 p-0 relative">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Đăng nhập</h2>
                         <p id="error" class="warning text-base font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
@@ -71,8 +71,8 @@
                         </li>
 
                         <div id="more" class="mt-3 mb-9 flex justify-between">
-                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="signup" href="register.jsp">Đăng ký</a>
-                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="forgot" href="forgotPassword.jsp">Quên mật khẩu?</a>
+                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="signup" href="MainController?action=register.jsp">Đăng ký</a>
+                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="forgot" href="MainController?action=forgotPassword.jsp">Quên mật khẩu?</a>
                         </div>
                         <li>
                             <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" name="action" value="Login">Đăng nhập</button>

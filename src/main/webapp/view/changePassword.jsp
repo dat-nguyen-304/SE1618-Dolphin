@@ -18,7 +18,7 @@
             <c:when test="${sessionScope.currentUser != null}">
                 <c:out value = "${requestScope.errorMessage}"/>
                 <section>
-                    <a href="javascript: history.go(-1)">Go Back</a>
+                    <a href="MainController?action=userProfile.jsp">Go back</a>
                     <h2>${sessionScope.currentUser.fullname}</h2>
                     <form action="MainController" method="post">
                         <table>
