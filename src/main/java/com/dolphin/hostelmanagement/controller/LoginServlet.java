@@ -29,8 +29,8 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
+            String username = request.getParameter("username").trim();
+            String password = request.getParameter("password").trim();
             System.out.println(username + " " + password);
             if (username != null && !username.equals("") && password != null && !password.equals("")) {
                 Account acc = AccountDAO.login(username, password);

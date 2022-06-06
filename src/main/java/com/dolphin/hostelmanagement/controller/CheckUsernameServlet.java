@@ -70,7 +70,7 @@ public class CheckUsernameServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String username = request.getParameter("username").trim();
         try {
             String servletResponse = "Username is available";
             if (AccountDAO.checkUsername(username)) {
