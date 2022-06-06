@@ -1,3 +1,4 @@
+com\dolphin\hostelmanagement\DAO\FavoriteHostelDAO.class
 com\dolphin\hostelmanagement\DTO\Tenant.class
 com\dolphin\hostelmanagement\controller2\LandlordController.class
 com\dolphin\hostelmanagement\DAO\LandlordDAO.class

@@ -110,14 +110,14 @@
                                 <div class="flex items-center mx-4">
                                     <input type="radio" id="tenant" name="role" class="hidden" value="1" checked required/>
                                     <label for="tenant" class="flex items-center cursor-pointer">
-                                    <span class="w-4 h-4 inline-block mr-1 border border-gray-500"></span>Khách thuê
+                                    <span class="w-4 h-4 inline-block mr-1 border border-gray-500 rounded-full"></span>Khách thuê
                                     </label>
                                 </div>
                               
                                 <div class="flex items-center">
                                     <input type="radio" id="landlord" name="role" class="hidden" value="2"/>
                                     <label for="landlord" class="flex items-center cursor-pointer">
-                                    <span class="w-4 h-4 inline-block mr-1 border border-gray-500"></span>Chủ nhà</label>
+                                    <span class="w-4 h-4 inline-block mr-1 border border-gray-500 rounded-full"></span>Chủ nhà</label>
                                 </div>
                               
                             </div>

@@ -60,7 +60,8 @@ public class ChangeDisplayServlet extends HttpServlet {
                     smallList.add(allList.get(i));
                 }
                 System.out.println("Line 63 " + smallList.size());
-                
+
+                request.setAttribute("pageNumber", page_number);
                 request.setAttribute("hostelList", smallList);
                 request.setAttribute("pages", pages);
             }
