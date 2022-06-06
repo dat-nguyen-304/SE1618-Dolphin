@@ -25,7 +25,7 @@
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
                     <nav class="header-navbar navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                        <img src="./img/logo.png" alt="" class="header-logo">
+                        <img src="assets/images/logo.png" alt="" class="header-logo">
 
                         <!-- Topbar Search -->
                         <form style="width: 100%;"
@@ -356,7 +356,20 @@
                                             </c:forEach>
                                             <span class="hostel-rating-number">${hostel.rating}/5</span>
                                         </div>
-                                        <div class="hostel-favorite"><i class="fa-solid fa-heart"></i></div>
+                                        <c:set var="contains" value="false"/>
+                                        <c:forEach var="item" items="${sessionScope.favoriteHostels}">
+                                            <c:if test="${item.hostel.hostelID eq hostel.hostelID && item.activate == true}">
+                                                <c:set var="contains" value="true" />
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:choose>
+                                            <c:when test="${contains == true}">
+                                                <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID})"></i></div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: #ccc;" onclick="toggleFavoriteHostel(${hostel.hostelID})"></i></div>
+                                                </c:otherwise>
+                                            </c:choose>
                                     </div>
                                     <div class="hostel-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
                                     <div class="hostel-info">
@@ -407,5 +420,27 @@
         <script src="assets/javascript//jquery/jquery.min.js"></script>
         <script src="assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="assets/javascript/hostel-list.js"></script>
+        <script src="assets/javascript/jquery.js"></script>
+        <script>
+            function toggleFavoriteHostel(hostelID) {
+                console.log("line 413");
+                console.log(hostelID);
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'hostelID' : hostelID},
+                    url: 'ToggleFavHostelServlet',
+                    success: function (result) {
+                        console.log('Success 36');
+                    },
+                    error: function () {
+                        console.log('Error 39');
+                    },
+                    complete: function (result) {
+                        console.log('Complete 41');
+                    }
+                });
+                console.log("line 429");
+            }
+        </script>
     </body>
 </html>

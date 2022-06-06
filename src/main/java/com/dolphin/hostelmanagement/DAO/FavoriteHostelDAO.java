@@ -137,6 +137,6 @@ public class FavoriteHostelDAO {
 //            System.out.println(favoriteHostel);
 //            System.out.println("");
 //        }
-        System.out.println(toggleFavoriteHostel(5, 3));
+        System.out.println(toggleFavoriteHostel(1, 3));
     }
 }
