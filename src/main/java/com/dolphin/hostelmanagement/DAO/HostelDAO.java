@@ -33,21 +33,21 @@ public class HostelDAO {
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
-                        int hostelId = rs.getInt("hostelId");
+                        int hostelId = rs.getInt("hostelID");
                         String streetAddress = rs.getString("streetAddress");
                         String hostelName = rs.getString("hostelName");
                         int totalRoom = rs.getInt("totalRoom");
                         Date regDate = rs.getDate("registeredDate");
                         boolean activate = rs.getBoolean("activate");
                         float rating = rs.getFloat("rating");
-                        int landlordId = rs.getInt("landlordId");
+                        int landlordId = rs.getInt("landlordID");
                         Landlord landlord = LandlordDAO.findById(landlordId);
                         String images = rs.getString("images");
                         int minPrice = rs.getInt("minPrice");
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardId");
+                        int wardId = rs.getInt("wardID");
                         Ward ward = WardDAO.findById(wardId);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
@@ -86,7 +86,7 @@ public class HostelDAO {
             if (cn != null) {
                 java.sql.Date sqlRegDate = new java.sql.Date(t.getRegisteredDate().getTime());
                 String sql = "insert into Hostel(streetAddress, hostelName, "
-                        + "registeredDate, activate, rating, landlordId, "
+                        + "registeredDate, activate, rating, landlordID, "
                         + "wardId) "
                         + "values(?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = cn.prepareCall(sql);
@@ -132,7 +132,7 @@ public class HostelDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "update Hostel set activate = ? where hostelId = ?";
+                String sql = "update Hostel set activate = ? where hostelID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setBoolean(1, false);
                 pst.setInt(2, deleteId);
