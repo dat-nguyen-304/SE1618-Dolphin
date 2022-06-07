@@ -4,14 +4,10 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
-import com.dolphin.hostelmanagement.DAO.AccountDAO;
-import com.dolphin.hostelmanagement.DTO.Account;
-import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +16,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Admin
+ * @author Vu Thien An - SE160296
  */
-public class ChangePasswordServlet extends HttpServlet {
+public class ToggleFavHostelServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,49 +29,25 @@ public class ChangePasswordServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private static final String ERROR = "error.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "/view/changePassword.jsp";
-        try {
-            HttpSession session = request.getSession(true);
-            String currentPassword = (String) request.getParameter("currentPwd");
-            String newPassword = (String) request.getParameter("newPwd");
-            String newPasswordConfirm = (String) request.getParameter("newPwdConfirm");
-
-            //System.out.println("Current pwd: " + currentPassword);
-            //System.out.println("New pwd: " + newPassword);
-            //System.out.println("Newc pwd: " + newPasswordConfirm);
-
-            int role = (int) session.getAttribute("role");
-
-            //System.out.println("Role: " + role);
-
-            Account acc = null;
-
-            if (role == 1) {
-                Tenant t = (Tenant) session.getAttribute("currentUser");
-                acc = t.getAccount();
-            } else {
-                Landlord l = (Landlord) session.getAttribute("currentUser");
-                acc = l.getAccount();
+        String url = ERROR;
+        try (PrintWriter out = response.getWriter()) {
+            int hostelID = Integer.parseInt(request.getParameter("hostelID"));
+            System.out.println(hostelID + " line 40");
+            HttpSession session = request.getSession();
+            Tenant t = (Tenant) session.getAttribute("currentUser");
+            int tenantID = t.getAccount().getAccountID();
+            System.out.println(tenantID + " line 44");
+            if (FavoriteHostelDAO.toggleFavoriteHostel(hostelID, tenantID)) {
+                System.out.println("Toggled!");
+                session.setAttribute("favoriteHostels", FavoriteHostelDAO.findByTenantID(tenantID));
             }
-
-            //System.out.println("username: " + acc.getUsername());
-
-            if(acc.getPassword().compareTo(currentPassword) != 0)
-                request.setAttribute("errorMessage", "Wrong current password!");
-            else if(newPassword.compareTo(newPasswordConfirm) != 0) 
-                request.setAttribute("errorMessage", "New passwords don't match!");
-            else {
-                request.setAttribute("errorMessage", "Successfully changed password!");
-                AccountDAO.changePassword(acc.getAccountID(), newPassword);
-                acc.setPassword(newPassword);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(SendNewPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+        } catch (Exception e) {
+            log("Error at ToggleFavHostelServlet: " + e.toString());
         }
     }
 
