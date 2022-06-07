@@ -36,42 +36,14 @@ public class HostelController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String url = ERROR;
+            
             String path = request.getPathInfo();
             if (path.equals("/list")) {
-                ArrayList<Hostel> allList = (ArrayList<Hostel>) HostelDAO.findAll();
-                if (!request.getParameter("displayOption").equals("")) {
-                    String displayOption = request.getParameter("displayOption");
-                    if (displayOption.equals("all")) {
-                        request.setAttribute("hostelList", allList);
-                    } else {
-
-                        int numberOnPage = Integer.parseInt(displayOption);
-                        int n = allList.size();
-                        ArrayList<Integer> pages = new ArrayList();
-                        for (int i = 0; i < n / numberOnPage + (n % numberOnPage); i++) {
-                            pages.add(i);
-                        }
-                        int pageNumber = 1;
-                        String page_number = request.getParameter("pageNumber");
-                        System.out.println("line 61 " + page_number);
-                        if (page_number != null) {
-                            pageNumber = Integer.parseInt(page_number);
-                        }
-                        ArrayList<Hostel> smallList = new ArrayList();
-                        for (int i = (pageNumber - 1) * numberOnPage; i < pageNumber * numberOnPage; i++) {
-                            if (i >= allList.size()) {
-                                break;
-                            }
-                            smallList.add(allList.get(i));
-                        }
-                        System.out.println("Line 63 " + smallList.size());
-
-                        request.setAttribute("hostelList", smallList);
-                        request.setAttribute("pages", pages);
-                    }
-                    request.getRequestDispatcher("/view/hostelList.jsp").forward(request, response);
-                }
+                
+                request.getRequestDispatcher("/view/hostel-list.jsp").forward(request, response);
+            } else if (path.equals("/detail")) {
+                
+                request.getRequestDispatcher("/view/homepage.jsp").forward(request, response);
             }
         }
     }

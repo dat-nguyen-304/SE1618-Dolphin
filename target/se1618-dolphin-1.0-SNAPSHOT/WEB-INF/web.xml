@@ -44,6 +44,10 @@
         <servlet-name>SendNewPasswordServlet</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.SendNewPasswordServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.LoginController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -149,6 +153,10 @@
     <servlet-mapping>
         <servlet-name>SendNewPasswordServlet</servlet-name>
         <url-pattern>/SendNewPasswordServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

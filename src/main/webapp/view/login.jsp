@@ -21,15 +21,43 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
         <!--Favicon-->
-        <link rel="shortcut icon" href="assets/icons/logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="/assets/icons/logo.png" type="image/x-icon">
 
         <!--CSS-->
-        <!--<link rel="stylesheet" href="../assets/css/style.css">-->
+        <link rel="stylesheet" href="../assets/css/style.css">
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/app.css"
+        
+        <link rel="stylesheet" href="../assets/css/homepage-base.css">
+        <link rel="stylesheet" href="../assets/css/homepage-vendor.css">
+        <link rel="stylesheet" href="../assets/css/homepage-main.css">
     </head>
     <body>
         <!-- logo -->
+        <nav class="container header">
+            <a class="logo" href="#">
+                <img id="logo-header" src="/assets/icons/logo_white.png" alt="">
+                <h3 id="name-header">Sakura</h3>
+            </a>
+            <!-- left header section -->
+            <div class="item-list">
+                <a class="item active" href="#">Trang chủ</a>
+                <a class="item" href="#">Thuê phòng</a>
+            </div>
+            <!-- right header section -->
+            <div class="access-login">
+                <a href="#">
+                    <i class="bi bi-bell-fill"></i>
+                </a>
+                <a href="#">
+                    <i class="bi bi-person-fill"></i>
+                </a>
+                <a href="#">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </nav>
+
         <div class="logo absolute z-10">
             <div class="container px-6 py-5">
                 <div class="flex justify-center items-center">
@@ -51,7 +79,7 @@
 
             <!-- login form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="MainController" method="post" id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/login" method="post" id="form" name="login-form">
                     <div class="form-header w-full h-20 text-center m-0 p-0 relative">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Đăng nhập</h2>
                         <p id="error" class="warning text-base font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
@@ -110,6 +138,27 @@
 
 
         </div>
+        <script type="text/javascript">
+            window.addEventListener("scroll", function () {
+                var header = document.querySelector(".header");
+                header.classList.toggle("sticky", window.scrollY > 0);
+
+                // var img = document.querySelector("#logo-header");
+                // img.src = "./icon/logo.png"; 
+            })
+
+            var initialSrc = "icon/logo_white.png";
+            var scrollSrc = "icon/logo.png";
+
+            $(window).scroll(function () {
+                var value = $(this).scrollTop();
+                if (value > 0) {
+                    $("#logo-header").attr("src", scrollSrc);
+                } else {
+                    $("#logo-header").attr("src", initialSrc);
+                }
+            });
+        </script>
         <script>
             // Toggle password 
             const togglePassword = document.querySelector("#toggle-password");
@@ -121,7 +170,7 @@
                 // toggle the icon
                 this.classList.toggle('bi-eye');
             });
-            
+
             // Ripple effect
             function rippleEffect(event) {
                 const btn = event.currentTarget;

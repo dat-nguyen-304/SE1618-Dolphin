@@ -14,10 +14,10 @@
         <title>Document</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="assets/css/hostel-list.css">
-        <link rel="stylesheet" href="assets/css/header.css">
-        <link rel="stylesheet" href="assets/css/hostel-list-responsive.css">
+        <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../assets/css/hostel-list.css">
+        <link rel="stylesheet" href="../assets/css/header.css">
+        <link rel="stylesheet" href="../assets/css/hostel-list-responsive.css">
     </head>
     <body>
         <header>
@@ -652,9 +652,9 @@
             </div>
         </div>
     </footer>
-    <script src="assets/javascript//jquery/jquery.min.js"></script>
-    <script src="assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/javascript//jquery/jquery.min.js"></script>
+    <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <script src="assets/javascript/hostel-list.js"></script>
+    <script src="../assets/javascript/hostel-list.js"></script>
     </body>
 </html>
