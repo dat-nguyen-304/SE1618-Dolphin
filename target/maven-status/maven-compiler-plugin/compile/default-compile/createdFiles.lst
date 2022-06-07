@@ -42,6 +42,7 @@ com\dolphin\hostelmanagement\controller\SendNewPasswordServlet.class
 com\dolphin\hostelmanagement\DAO\AccountDAO.class
 com\dolphin\hostelmanagement\DTO\Hostel.class
 com\dolphin\hostelmanagement\DTO\Invoice.class
+com\dolphin\hostelmanagement\controller\ToggleFavHostelServlet.class
 com\dolphin\hostelmanagement\controller2\AdminController.class
 com\dolphin\hostelmanagement\DTO\Room.class
 com\dolphin\hostelmanagement\utils\EmailService.class
