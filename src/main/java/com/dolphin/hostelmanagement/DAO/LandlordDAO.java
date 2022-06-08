@@ -93,7 +93,7 @@ public class LandlordDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select * from Landlord where id = ?";
+                String sql = "select * from Landlord where landlordID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, id);
                 ResultSet rs = pst.executeQuery();

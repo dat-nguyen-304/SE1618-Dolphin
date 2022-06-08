@@ -18,7 +18,7 @@
             <c:when test="${sessionScope.currentUser != null}">
                 <c:out value = "${requestScope.errorMessage}"/>
                 <section>
-                    <a href="/sakura/account/hostelListPage">Go back</a>
+                    <a href="/sakura/hostel/list">Go back</a>
                     <h2>${sessionScope.currentUser.fullname}</h2>
                     <form action="/sakura/account/changePassword" method="post">
                         <table>

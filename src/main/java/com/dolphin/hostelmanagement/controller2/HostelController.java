@@ -4,17 +4,21 @@
  */
 package com.dolphin.hostelmanagement.controller2;
 
+import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
+import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -72,17 +76,22 @@ public class HostelController extends HttpServlet {
             Collections.sort(hostelList, new Comparator<Hostel>() {
                 @Override
                 public int compare(Hostel o1, Hostel o2) {
-                    if (o1.getRating() - o2.getRating() >= 0) 
+                    if (o1.getRating() - o2.getRating() >= 0) {
                         return 1;
-                    else return -1;
+                    } else {
+                        return -1;
+                    }
                 }
             });
         } else {
             Collections.sort(hostelList, new Comparator<Hostel>() {
                 @Override
                 public int compare(Hostel o1, Hostel o2) {
-                    if (o2.getRating() - o1.getRating() >= 0) return 1;
-                    else return -1;
+                    if (o2.getRating() - o1.getRating() >= 0) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
                 }
             });
         }

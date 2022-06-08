@@ -5,9 +5,11 @@
 package com.dolphin.hostelmanagement.controller2;
 
 import com.dolphin.hostelmanagement.DAO.AccountDAO;
+import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.LandlordDAO;
 import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
+import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.controller.SendNewPasswordServlet;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -74,7 +77,7 @@ public class AccessController extends HttpServlet {
                     if (username != null && !username.equals("") && password != null && !password.equals("")) {
                         Account acc = AccountDAO.login(username, password);
                         if (acc != null) {
-  
+
                             HttpSession session = request.getSession(true);
                             if (acc.getRole() == 1) {
                                 session.setAttribute("role", 1);
@@ -86,7 +89,10 @@ public class AccessController extends HttpServlet {
                                 Landlord landlord = LandlordDAO.findById(acc.getAccountID());
                                 session.setAttribute("currentUser", landlord);
                             }
-                            url = "/view/hostelList.jsp";
+                            url = "/hostel/list";
+
+                            List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenantID(acc.getAccountID());
+                            session.setAttribute("favoriteHostels", favoriteHostels);
 
                         } else {
                             request.setAttribute("error", "Invalid username or password!");
@@ -160,7 +166,7 @@ public class AccessController extends HttpServlet {
                 System.out.println("This is log out");
                 HttpSession session = request.getSession();
                 session.invalidate();
-                
+
                 response.sendRedirect("/view/homepage.jsp");
             }
         }
