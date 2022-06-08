@@ -104,7 +104,7 @@
                             <a class="hover:text-[#252525] hover:font-medium transition-all" id="forgot" href="/sakura/access/forgotPasswordPage">Quên mật khẩu?</a>
                         </div>
                         <li>
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">Đăng nhập</button>
+                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick="return validate()">Đăng nhập</button>
 
 
                         </li>
@@ -140,6 +140,7 @@
 
 
         </div>
+        <script src="../assets/javascript/jquery.js"></script>
         <script type="text/javascript">
             window.addEventListener("scroll", function () {
                 var header = document.querySelector(".header");

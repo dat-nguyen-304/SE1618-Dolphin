@@ -21,16 +21,16 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
         <!--Favicon-->
-        <link rel="shortcut icon" href="assets/icon/logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="../assets/icon/logo.png" type="image/x-icon">
 
         <!--CSS-->
         <!--<link rel="stylesheet" href="../assets/css/style.css">-->
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="assets/css/app.css">
-        <link rel="stylesheet" href="assets/css/register.css">
+        <link rel="stylesheet" href="../assets/css/app.css">
+        <link rel="stylesheet" href="../assets/css/register.css">
 
         <!--Javascript-->
-        <script src="assets/javascript/jquery.js"></script>
+        <script src="../assets/javascript/jquery.js"></script>
 
     </head>
     <body>
@@ -38,7 +38,7 @@
         <div class="logo absolute z-10">
             <div class="container px-6 py-5">
                 <div class="flex justify-center items-center">
-                    <img class="w-9 h-9" src="assets/icons/logo.png" alt="">
+                    <img class="w-9 h-9" src="../assets/icons/logo.png" alt="">
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
                     <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Hello, Friend!</h2>
                     <p  class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">Enter your personal details and start journey with us</p>
                 </div>
-                <img class="w-2/5 h-screen absolute " src="assets/images/bg2.jpg" alt="">
+                <img class="w-2/5 h-screen absolute " src="../assets/images/bg2.jpg" alt="">
             </div>
 
             <!-- login form -->
@@ -131,7 +131,7 @@
                         </div>
                         <li>
 
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" >Đăng ký</button>  
+                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick="return validate()">Đăng ký</button>  
 
                         </li>
                         <li class="mt-8">
@@ -139,13 +139,13 @@
                             <div class="social flex justify-between my-5">
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-all" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="assets/icons/google.svg" width="20" height="20"></object>
+                                        <object class="inline" data="../assets/icons/google.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Google</span>
                                     </div>
                                 </a>  
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-all" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="assets/icons/facebook.svg" width="20" height="20"></object>
+                                        <object class="inline" data="../assets/icons/facebook.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Facebook</span>
                                     </div>
                                 </a> 
@@ -224,7 +224,7 @@
                 jQuery.ajax({
                     type: 'POST',
                     data: 'username=' + $("#username").val(),
-                    url: 'CheckUsernameServlet',
+                    url: '/sakura/account/checkUsername',
                     success: function (result) {
                         if (result.length === 0) {
                             var re = /^\w+$/;
@@ -253,7 +253,7 @@
                 jQuery.ajax({
                     type: 'POST',
                     data: 'email=' + $("#email").val(),
-                    url: 'CheckEmailServlet',
+                    url: '/sakura/account/checkEmail',
                     success: function (result) {
                         if (result.length === 0) {
                             var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
