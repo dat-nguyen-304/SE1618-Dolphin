@@ -26,7 +26,7 @@
 
         <!--CSS-->
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="css/userProfile.css">
+        <link rel="stylesheet" href="../assets/css/userProfile.css">
 
     </head>
     <body>
@@ -36,7 +36,7 @@
                 <div class="header-section">
                     <nav class="header sticky">
                         <a class="logo" href="#">
-                            <img id="logo-header" src="icon/logo.png" alt="">
+                            <img id="logo-header" src="../assets/icon/logo.png" alt="">
                             <h3 id="name-header">Sakura</h3>
                         </a>
                         <!-- left header section -->
@@ -47,7 +47,7 @@
                         <!-- right header section -->
                         <div class="profile">
                             <div class="profile-avatar" onclick="menuToggle()">
-                                <img src="image/ava3.jpg" alt="">
+                                <img src="../assets/images/ava3.jpg" alt="">
                             </div>
                             <div class="profile-menu">
                                 <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
