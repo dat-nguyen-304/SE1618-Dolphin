@@ -16,7 +16,7 @@ public class DBUtils {
     public static Connection makeConnection() throws Exception {
         Connection cn = null;
         String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String url = "jdbc:sqlserver://localhost\\PEASHOOTER:1433;databaseName=HostelManagement;user=sa;password=123456;";
+        String url = "jdbc:sqlserver://localhost\\PEASHOOTER:1433;databaseName=HostelManagement;user=sa;password=12345;";
         Class.forName(driver);
         cn = DriverManager.getConnection(url);
         return cn;
