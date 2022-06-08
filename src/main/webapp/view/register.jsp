@@ -57,6 +57,7 @@
             <!-- login form -->
             <div class="w-3/5 h-full pt-[4%] pb-[6%] px-[6%]">
                 <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/register" method="post"  id="form" name="login-form">
+
                     <div class="form-header w-full h-14 text-center m-0 p-0 relative">
                         <h2 class="text-3xl text-[#FF6532] font-medium ">Đăng ký</h2>
                     </div>
@@ -111,13 +112,16 @@
                                     <input type="radio" id="tenant" name="role" class="hidden" value="1" checked/>
                                     <label for="tenant" class="flex items-center cursor-pointer">
                                     <span class="w-4 h-4 inline-block mr-1 border border-gray-500 rounded-full"></span>Khách thuê
+
                                     </label>
                                 </div>
 
                                 <div class="flex items-center">
                                     <input type="radio" id="landlord" name="role" class="hidden" value="2"/>
                                     <label for="landlord" class="flex items-center cursor-pointer">
+
                                     <span class="w-4 h-4 inline-block mr-1 border border-gray-500 rounded-full"></span>Chủ nhà</label>
+
                                 </div>
 
                             </div>
@@ -126,7 +130,9 @@
                             <span>Đã có tài khoản? </span> <a id="signin" href="/sakura/access/loginPage" class="ml-1 text-green-700 hover:text-green-600 transition-all"> Đăng nhập</a>
                         </div>
                         <li>
+
                             <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" >Đăng ký</button>  
+
                         </li>
                         <li class="mt-8">
                             <p class="text-center text-base font-light">hoặc bắt đầu với</p>

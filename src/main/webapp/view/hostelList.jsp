@@ -15,17 +15,21 @@
         <title>Document</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+
         <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../assets/css/hostel-list.css">
         <link rel="stylesheet" href="../assets/css/header.css">
         <link rel="stylesheet" href="../assets/css/hostel-list-responsive.css">
+
     </head>
     <body>
         <header>
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
                     <nav class="header-navbar navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
                         <img src="../assets/images/logo.png" alt="" class="header-logo">
+
 
                         <!-- Topbar Search -->
                         <form style="width: 100%;"
@@ -200,10 +204,12 @@
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ngẩng mặt hận đời</span>
                                     <img class="img-profile rounded-circle" src="../assets/images/undraw_profile.svg">
+
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                      aria-labelledby="userDropdown">
+<<<<<<< HEAD
                                     <a class="dropdown-item" href="/sakura/account/changeProfilePage">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Thông tin tài khoản
@@ -214,6 +220,7 @@
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/sakura/account/logout">
+
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Đăng xuất
                                     </a>
@@ -420,10 +427,12 @@
                 </div>
             </div>
         </footer>
+
         <script src="../assets/javascript//jquery/jquery.min.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/javascript/hostel-list.js"></script>
         <script src="../assets/javascript/jquery.js"></script>
+
         <script>
             function toggleFavoriteHostel(hostelID) {
                 console.log("line 413");

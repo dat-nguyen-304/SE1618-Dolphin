@@ -87,6 +87,7 @@ public class AccessController extends HttpServlet {
                                 session.setAttribute("currentUser", landlord);
                             }
                             url = "/view/hostelList.jsp";
+
                         } else {
                             request.setAttribute("error", "Invalid username or password!");
                             url = "/view/login.jsp";
@@ -102,6 +103,7 @@ public class AccessController extends HttpServlet {
             }
             if (path.equals("/register")) {
                 System.out.println("I was in here!");
+
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String fullname = request.getParameter("fullname");
                 String username = request.getParameter("username");

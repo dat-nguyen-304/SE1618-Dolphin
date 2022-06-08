@@ -80,6 +80,7 @@
             <!-- login form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
                 <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/login" method="post" id="form" name="login-form">
+
                     <div class="form-header w-full h-20 text-center m-0 p-0 relative">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Đăng nhập</h2>
                         <p id="error" class="warning text-base font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
@@ -104,6 +105,7 @@
                         </div>
                         <li>
                             <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">Đăng nhập</button>
+
 
                         </li>
                         <li class="mt-8">
