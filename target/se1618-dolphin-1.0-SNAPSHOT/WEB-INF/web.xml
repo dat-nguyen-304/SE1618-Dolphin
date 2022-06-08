@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>com.dolphin.hostelmanagement.filter.CharacterEncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>MainController</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.MainController</servlet-class>
@@ -25,8 +33,24 @@
         <servlet-class>com.dolphin.hostelmanagement.controller.CheckEmailServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ChangeDisplayServlet</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.ChangeDisplayServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SendNewPasswordServlet</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.SendNewPasswordServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ToggleFavHostelServlet</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.ToggleFavHostelServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.AccountController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
@@ -52,13 +76,102 @@
         <servlet-name>CheckEmailServlet</servlet-name>
         <url-pattern>/CheckEmailServlet</url-pattern>
     </servlet-mapping>
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+    <servlet-mapping>
+        <servlet-name>ChangeDisplayServlet</servlet-name>
+        <url-pattern>/ChangeDisplayServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AccessController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.AccessController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.AdminController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.HomeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HostelController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.HostelController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InvoiceController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.InvoiceController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LandlordController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.LandlordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RoomController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.RoomController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TenantController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.TenantController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AccessController</servlet-name>
+        <url-pattern>/access/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/admin/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/home/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HostelController</servlet-name>
+        <url-pattern>/hostel/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InvoiceController</servlet-name>
+        <url-pattern>/invoice/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LandlordController</servlet-name>
+        <url-pattern>/landlord/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RoomController</servlet-name>
+        <url-pattern>/room/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TenantController</servlet-name>
+        <url-pattern>/tenant/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/ChangePasswordServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SendNewPasswordServlet</servlet-name>
         <url-pattern>/SendNewPasswordServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToggleFavHostelServlet</servlet-name>
+        <url-pattern>/ToggleFavHostelServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountController</servlet-name>
+        <url-pattern>/account/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>/view/homepage.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

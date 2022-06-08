@@ -1,6 +1,6 @@
 <%-- 
-    Document   : home
-    Created on : May 27, 2022, 4:47:18 PM
+    Document   : testCommit
+    Created on : Jun 8, 2022, 9:08:04 AM
     Author     : Admin
 --%>
 
@@ -12,7 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <a href="../MainController?action=LoginForm">Login</a>
-        <a href="../MainController?action=RegisterForm">Register</a>
+        <h1>Hello World!</h1>
     </body>
 </html>
