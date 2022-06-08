@@ -17,7 +17,7 @@
 
         <c:choose>
             <c:when test="${sessionScope.currentUser != null}">
-                <a href ="MainController?action=ChangePasswordPage">Change password</a>
+                <a href ="MainController?action=changePassword.jsp">Change password</a>
                 <section>
                     <h2>${sessionScope.currentUser.fullname}</h2>
                     <form>
