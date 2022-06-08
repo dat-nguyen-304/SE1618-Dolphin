@@ -32,20 +32,19 @@
 
         <!-- CSS
        ================================================== -->
-        <link rel="stylesheet" href="../assets/css/homepage-base.css">
-        <link rel="stylesheet" href="../assets/css/homepage-vendor.css">
-        <link rel="stylesheet" href="../assets/css/homepage-main.css">
+        <link rel="stylesheet" href="assets/css/homepage-base.css">
+        <link rel="stylesheet" href="assets/css/homepage-vendor.css">
+        <link rel="stylesheet" href="assets/css/homepage-main.css">
 
         <!-- script
        ================================================== -->
-        <script src="../assets/javascript/homepage-modernizr.js"></script>
-        <script src="../assets/javascript/homepage-pace.min.js"></script>
+        <script src="assets/javascript/homepage-modernizr.js"></script>
+        <script src="assets/javascript/homepage-pace.min.js"></script>
 
         <!-- favicons
             ================================================== -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
-        <link rel="icon" href="../assets/icons/logo.png" type="image/x-icon">
-
+        <link rel="shortcut icon" href="assets/icons/logo.png" type="image/x-icon">
+        <link rel="icon" href="assets/icons/logo.png" type="image/x-icon">
         <!-- Icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
@@ -106,7 +105,7 @@
 
             <nav class="container header">
                 <a class="logo" href="#">
-                    <img id="logo-header" src="../assets/images/homepage-icon/logo_white.png" alt="">
+                    <img id="logo-header" src="assets/images/homepage-icon/logo_white.png" alt="">
                     <h3 id="name-header">Sakura</h3>
                 </a>
                 <!-- left header section -->
@@ -117,8 +116,8 @@
                 </div>
                 <!-- right header section -->
                 <div class="access">
-                    <a>Đăng nhập</a>
-                    <a>Đăng ký</a>
+                    <a href="/sakura/access/loginPage">Đăng nhập</a>
+                    <a href="/sakura/access/registerPage">Đăng kí</a>
                 </div>
             </nav>
         </section> <!-- end home -->
@@ -207,12 +206,12 @@
                     </div> <!-- end features-list -->
 
                     <div class="row about-bottom-image">
-                        <img src="../assets/images/homepage-images/bg2.jpg" alt="App Screenshots" data-aos="fade-up">
-                        <img src="../assets/images/homepage-images/bg3.jpg" alt="App Screenshots" data-aos="fade-up">
-                        <img src="../assets/images/homepage-images/bg5.jpg" alt="App Screenshots" data-aos="fade-up">
-                        <img src="../assets/images/homepage-images/bg6.jpg" alt="App Screenshots" data-aos="fade-up">
-                        <img src="../assets/images/homepage-images/bg7.jpg" alt="App Screenshots" data-aos="fade-up">
-                        <img src="../assets/images/homepage-images/bg8.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="assets/images/homepage-images/bg2.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="assets/images/homepage-images/bg3.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="assets/images/homepage-images/bg5.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="assets/images/homepage-images/bg6.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="assets/images/homepage-images/bg7.jpg" alt="App Screenshots" data-aos="fade-up">
+                        <img src="assets/images/homepage-images/bg8.jpg" alt="App Screenshots" data-aos="fade-up">
                     </div> <!-- end about-bottom-image -->
                 </div>
 
@@ -240,7 +239,8 @@
                                 Chọn SAKURA mình vừa tiết kiệm vừa có chỗ ở chất lượng không như các phòng trọ khác.
                             </p>
                             <div class="testimonial-author">
-                                <img src="../assets/images/homepage-images/avatars/ava1.jpg" alt="Author image">
+                                <img src="assets/images/homepage-images/avatars/ava1.jpg" alt="Author image">
+
                                 <div class="author-info">
                                     Nguyễn Thuỷ Tiên
                                     <span class="position">Cư dân Sakura Phú Nhuận</span>
@@ -253,7 +253,9 @@
                                 Cảm ơn SAKURA đã mang lại nơi ở tiện nghi, an ninh. Mình rất hài lòng về mọi thứ.
                             </p>
                             <div class="testimonial-author">
-                                <img src="../assets/images/homepage-images/avatars/ava2.jpg" alt="Author image">
+
+                                <img src="assets/images/homepage-images/avatars/ava2.jpg" alt="Author image">
+
                                 <div class="author-info">
                                     Trần Ngọc An
                                     <span>Cư đân Sakura Thủ Đức</span>
@@ -267,7 +269,9 @@
                                 nhuận lâu dài.
                             </p>
                             <div class="testimonial-author">
-                                <img src="../assets/images/homepage-images/avatars/ava3.jpg" alt="Author image">
+
+                                <img src="assets/images/homepage-images/avatars/ava3.jpg" alt="Author image">
+
                                 <div class="author-info">
                                     Lê Hải Hoàng
                                     <span>Khách hàng nhượng quyền SAKURA</span>
@@ -388,9 +392,11 @@
 
         <!-- Java Script
         ================================================== -->
-        <script src="../assets/javascript/homepage-jquery-2.1.3.min.js"></script>
-        <script src="../assets/javascript/homepage-plugins.js"></script>
-        <script src="../assets/javascript/homepage-main.js"></script>
+
+        <script src="assets/javascript/homepage-jquery-2.1.3.min.js"></script>
+        <script src="assets/javascript/homepage-plugins.js"></script>
+        <script src="assets/javascript/homepage-main.js"></script>
+
         <script type="text/javascript">
             window.addEventListener("scroll", function () {
                 var header = document.querySelector(".header");
@@ -400,8 +406,10 @@
                 // img.src = "../assets/images/homepage-icon/logo.png"; 
             })
 
-            var initialSrc = "../assets/images/homepage-icon/logo_white.png";
-            var scrollSrc = "../assets/images/homepage-icon/logo.png";
+
+            var initialSrc = "assets/images/homepage-icon/logo_white.png";
+            var scrollSrc = "assets/images/homepage-icon/logo.png";
+
 
             $(window).scroll(function () {
                 var value = $(this).scrollTop();
@@ -432,7 +440,7 @@
                         }
                     }
                 }
-            }
+            };
         </script>
     </body>
 

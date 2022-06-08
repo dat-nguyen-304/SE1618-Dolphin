@@ -10,10 +10,16 @@ import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
+import com.dolphin.hostelmanagement.controller.SendNewPasswordServlet;
+import com.dolphin.hostelmanagement.utils.EmailService;
+import com.dolphin.hostelmanagement.utils.StringUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,18 +50,33 @@ public class AccessController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String url = ERROR;
             String path = request.getPathInfo();
+            System.out.println("Path: " + path);
+            if (path.equals("/loginPage")) {
+                url = "/view/login.jsp";
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            }
+            if (path.equals("/registerPage")) {
+                url = "/view/register.jsp";
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            }
+            if (path.equals("/forgotPasswordPage")) {
+                url = "/view/forgotPassword.jsp";
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            }
             if (path.equals("/login")) {
                 try {
                     String username = request.getParameter("username");
                     String password = request.getParameter("password");
-                    System.out.println(username + " " + password);
+                    System.out.println("Hajjjj: " + username + " " + password);
                     if (username != null && !username.equals("") && password != null && !password.equals("")) {
                         Account acc = AccountDAO.login(username, password);
                         if (acc != null) {
-                            System.out.println("line 31");
+  
                             HttpSession session = request.getSession(true);
                             if (acc.getRole() == 1) {
-                                System.out.println("line 36 tenant");
                                 session.setAttribute("role", 1);
                                 Tenant tenant = TenantDAO.findById(acc.getAccountID());
                                 session.setAttribute("currentUser", tenant);
@@ -65,7 +86,8 @@ public class AccessController extends HttpServlet {
                                 Landlord landlord = LandlordDAO.findById(acc.getAccountID());
                                 session.setAttribute("currentUser", landlord);
                             }
-                            url = "/view/userProfile.jsp";
+                            url = "/view/hostelList.jsp";
+
                         } else {
                             request.setAttribute("error", "Invalid username or password!");
                             url = "/view/login.jsp";
@@ -80,6 +102,8 @@ public class AccessController extends HttpServlet {
                 }
             }
             if (path.equals("/register")) {
+                System.out.println("I was in here!");
+
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String fullname = request.getParameter("fullname");
                 String username = request.getParameter("username");
@@ -107,6 +131,37 @@ public class AccessController extends HttpServlet {
                 } finally {
                     request.getRequestDispatcher(url).forward(request, response);
                 }
+            }
+            if (path.equals("/forgotPassword")) {
+                try {
+                    String email = request.getParameter("txt-email");
+                    String newPwd = StringUtils.randomString(12);
+
+                    Account acc = AccountDAO.findByEmail(email);
+
+                    System.out.println("Email: " + email);
+
+                    if (acc != null) {
+                        AccountDAO.changePassword(acc.getAccountID(), newPwd);
+
+                        EmailService sender = new EmailService();
+                        sender.sendMail(email, newPwd);
+
+                        url = "/view/login.jsp";
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(SendNewPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    url = "/view/login.jsp";
+                    request.getRequestDispatcher(url).forward(request, response);
+                }
+            }
+            if (path.equals("/logout")) {
+                System.out.println("This is log out");
+                HttpSession session = request.getSession();
+                session.invalidate();
+                
+                response.sendRedirect("/view/homepage.jsp");
             }
         }
     }

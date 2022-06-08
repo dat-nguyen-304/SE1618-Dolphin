@@ -18,9 +18,9 @@
             <c:when test="${sessionScope.currentUser != null}">
                 <c:out value = "${requestScope.errorMessage}"/>
                 <section>
-                    <a href="MainController?action=userProfile.jsp">Go back</a>
+                    <a href="/sakura/account/hostelListPage">Go back</a>
                     <h2>${sessionScope.currentUser.fullname}</h2>
-                    <form action="MainController" method="post">
+                    <form action="/sakura/account/changePassword" method="post">
                         <table>
                             <tr>
                                 <td>Current password</br><input type="password" name="currentPwd" required></td>
@@ -31,14 +31,14 @@
                             <tr>
                                 <td>Confirm new password</br><input type="password" name = "newPwdConfirm" required></td>
                             </tr>
-                            <tr><td><input type="submit" name="action" value="Change password"></td></tr>
+                            <tr><td><input type="submit"value="Change password"></td></tr>
                         </table>
                     </form>
                 </section>
             </c:when>
             <c:otherwise>
                 <h2>Login to see this page</h2>
-                <a href="login.jsp">Go to login page</a>
+                <a href="/sakura/access/login">Go to login page</a>
             </c:otherwise>
         </c:choose>
     </body>

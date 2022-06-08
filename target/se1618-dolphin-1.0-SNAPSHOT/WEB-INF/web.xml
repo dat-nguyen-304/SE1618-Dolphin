@@ -52,6 +52,10 @@
         <servlet-name>ToggleFavHostelServlet</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.ToggleFavHostelServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AccountController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller2.AccountController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -166,9 +170,16 @@
         <servlet-name>ToggleFavHostelServlet</servlet-name>
         <url-pattern>/ToggleFavHostelServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountController</servlet-name>
+        <url-pattern>/account/*</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>/view/homepage.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>
