@@ -1,0 +1,270 @@
+/* 
+    Created on : Jun 8, 2022, 7:57:28 AM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
+
+body {
+    background: #feffff;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===================================================================
+  *  09. header styles
+  * ------------------------------------------------------------------- */
+
+.header-section {
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.055) 0px 4px 12px;
+}
+
+nav.header {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    transition: all 0.2s ease-in-out;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav .logo {
+    display: flex;
+    align-items: center;
+}
+
+nav .logo h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #17535B;
+    align-items: center;
+    margin: 0;
+}
+
+nav .logo img {
+    width: 30px;
+    height: auto;
+    margin-right: 10px;
+}
+
+nav .item-list {
+    display: flex;
+    align-items: center;
+}
+
+nav .item-list .item {
+    font-size: 17px;
+    font-weight: 500;
+    color: #bebebe;
+    padding: 0 15px;
+}
+
+nav.sticky .item-list .item {
+    color: #bbbbbb;
+}
+
+nav .item-list .item.select {
+    color: #ffffff;
+}
+
+nav.sticky .item-list .item.select {
+    color: #FF6532;
+}
+
+nav .item-list .item:hover {
+    color: #ffffff;
+}
+
+nav.sticky .item-list .item:hover {
+    color: #FF6532;
+}
+
+.profile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.profile .profile-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.profile .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile .profile-menu {
+    position: absolute;
+    top: 90px;
+    right: 0;
+    background-color: #ffffff;
+    border: 0.2px solid #17535b2a;
+    width: 180px;
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.15s ease-out;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.profile .profile-menu.active {
+    top: 70px;
+    visibility: visible;
+    opacity: 1;
+}
+
+.profile .profile-menu h3 {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #FF6532;
+}
+
+.profile .profile-menu h3 span {
+    font-size: 14px;
+    color: #ff7e53;
+    font-weight: 500;
+}
+
+
+.profile .profile-menu ul {
+    padding: 0;
+    margin: 0;
+}
+
+.profile .profile-menu ul li {
+    list-style: none;
+    padding: 10px 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    color: #17535B;
+    align-items: center;
+    transition: all 0.2s ease-in;
+}
+
+.profile .profile-menu ul li i {
+    margin-right: 10px;
+}
+
+
+.profile .profile-menu li:hover {
+    background-color: #f2f4f5;
+}
+
+.profile .profile-menu li:hover span {
+    transform: scale(1.05);
+}
+
+/* ===================== */
+/* Profile section  */
+
+.profile-left .card .card-image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.profile-left .card .card-image img {
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+}
+
+.profile-left .addition li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    color: #17535B;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.profile-left .addition li .label {
+    background-color: #ff653227;
+    border: 1px solid #FF6532;
+    border-radius: 8px;
+    color: #FF6532;
+    padding: 3px 8px;
+
+}
+
+.profile-left .addition li .label.inactive {
+    background-color: rgba(230, 238, 241, 0.151);
+    border: 1px solid #17535B;
+    color: #17535B;
+}
+
+.info-title {
+    font-size: 18px;
+    color: #FF6532;
+    font-weight: 600;
+}
+
+.info-title i {
+    margin-right: 8px;
+}
+
+.info-detail {
+    margin: 10px 0 15px;
+    height: 50%;
+    width: 100%;
+}
+
+.info-detail .detail-item {
+    display: flex;
+    margin: 5px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #2c2c2c;
+    padding: 10px 0;
+}
+
+.info-detail .detail-item label {
+    width: 25%;
+    padding: 5px 0;
+}
+
+.info-detail .detail-item p {
+    width: 75%;
+    background-color: #80adb32d;
+    padding: 5px;
+    font-weight: 400;
+}
+
+.info-detail .detail-item input {
+    width: 75%;
+    border: 0.2px solid #17535b2d;
+    padding: 5px;
+    font-weight: 400;
+    outline: none;
+}
+
+.info-detail .detail-item input:focus, .info-detail .detail-item input:active  {
+    outline: none;
+    border: 1px solid #17535B;
+}
