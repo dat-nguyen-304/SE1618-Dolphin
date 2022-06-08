@@ -38,6 +38,18 @@ public class MainController extends HttpServlet {
             String action = request.getParameter("action");
             System.out.println("action: " + action);
             switch (action) {
+                case "changePassword.jsp":
+                    url = "/view/changePassword.jsp";
+                    break;
+                case "forgotPassword.jsp":
+                    url = "/view/forgotPassword.jsp";
+                    break;
+                case "userProfile.jsp":
+                    url = "/view/userProfile.jsp";
+                    break;
+                case "register.jsp":
+                    url = "/view/register.jsp";
+                    break;
                 case "LoginForm":
                     url = "/view/login.jsp";
                     break;
@@ -50,6 +62,9 @@ public class MainController extends HttpServlet {
                 case "Login":
                     url = "/LoginServlet";
                     break;
+                case "Logout":
+                    url = "/LogoutServlet";
+                    break;
                 case "Save":
                     url = "/UpdateAccountServlet";
                     break;
@@ -59,7 +74,7 @@ public class MainController extends HttpServlet {
                 case "ResetPwd":
                     url = "/SendNewPasswordServlet";
                     break;
-                case "Change Display":
+                case "Thay Đổi":
                     url = "/ChangeDisplayServlet";
                     break;
                 case "ChangePasswordPage":

@@ -27,7 +27,7 @@ public class LandlordDAO {
             if (cn != null) {
                 boolean accountCheck = AccountDAO.save(l.getAccount());
                 if (accountCheck) {
-                    String sql = "insert into Landlord(landlordId, fullname, phone) values(?, ?, ?)";
+                    String sql = "insert into Landlord(landlordID, fullname, phone) values(?, ?, ?)";
                     PreparedStatement pst = cn.prepareCall(sql);
                     int id = AccountDAO.findIdByUsername(l.getAccount().getUsername());
                     pst.setInt(1, id);

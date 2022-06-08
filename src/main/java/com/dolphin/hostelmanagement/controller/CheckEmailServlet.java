@@ -70,12 +70,11 @@ public class CheckEmailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        System.out.println("in line 76");
+        String email = request.getParameter("email").trim();
         try {
-            String servletResponse = "Email is available";
+            String servletResponse = "";
             if (AccountDAO.checkEmail(email)) {
-                servletResponse = "Email is already used!";
+                servletResponse = "Email đã được dùng!";
             }
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");

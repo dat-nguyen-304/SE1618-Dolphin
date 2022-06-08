@@ -1,3 +1,4 @@
+com\dolphin\hostelmanagement\DAO\FavoriteHostelDAO.class
 com\dolphin\hostelmanagement\DTO\Tenant.class
 com\dolphin\hostelmanagement\controller2\LandlordController.class
 com\dolphin\hostelmanagement\DAO\LandlordDAO.class
@@ -21,15 +22,8 @@ com\dolphin\hostelmanagement\controller\CheckUsernameServlet.class
 com\dolphin\hostelmanagement\controller2\HomeController.class
 com\dolphin\hostelmanagement\controller2\InvoiceController.class
 com\dolphin\hostelmanagement\controller\RegisterServlet.class
-com\dolphin\hostelmanagement\controller\MainController.class
 com\dolphin\hostelmanagement\DTO\Contract.class
-com\dolphin\hostelmanagement\DAO\InvoiceDAO.class
-com\dolphin\hostelmanagement\DTO\ServiceDetail.class
-com\dolphin\hostelmanagement\controller\SendNewPasswordServlet.class
-com\dolphin\hostelmanagement\DAO\AccountDAO.class
-com\dolphin\hostelmanagement\DTO\Hostel.class
 com\dolphin\hostelmanagement\utils\StringUtils.class
-com\dolphin\hostelmanagement\DTO\Invoice.class
 com\dolphin\hostelmanagement\DTO\Landlord.class
 com\dolphin\hostelmanagement\DTO\Announcement.class
 com\dolphin\hostelmanagement\DTO\Feedback.class
@@ -39,8 +33,6 @@ com\dolphin\hostelmanagement\controller2\AdminController.class
 com\dolphin\hostelmanagement\DTO\Room.class
 com\dolphin\hostelmanagement\DTO\Service.class
 com\dolphin\hostelmanagement\DTO\FavoriteHostel.class
-com\dolphin\hostelmanagement\utils\EmailService.class
-com\dolphin\hostelmanagement\DAO\WardDAO.class
 com\dolphin\hostelmanagement\DTO\RoomResident.class
 com\dolphin\hostelmanagement\DTO\District.class
 com\dolphin\hostelmanagement\filter\CharacterEncodingFilter.class

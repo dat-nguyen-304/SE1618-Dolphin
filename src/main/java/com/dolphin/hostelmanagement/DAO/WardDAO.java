@@ -29,9 +29,9 @@ public class WardDAO {
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
-                        int id = rs.getInt("wardId");
+                        int id = rs.getInt("wardID");
                         String name = rs.getString("wardName");
-                        int districtId = rs.getInt("districtId");
+                        int districtId = rs.getInt("districtID");
                         District district = DistrictDAO.findById(districtId);
                         list.add(new Ward(id, name, district));
                     }

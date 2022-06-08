@@ -8,14 +8,16 @@ public class FavoriteHostel {
     private int favoriteHostelID;
     private Hostel hostel;
     private Tenant tenant;
+    private boolean activate;
 
     public FavoriteHostel() {
     }
 
-    public FavoriteHostel(int favoriteHostelID, Hostel hostel, Tenant tenant) {
+    public FavoriteHostel(int favoriteHostelID, Hostel hostel, Tenant tenant, boolean activate) {
         this.favoriteHostelID = favoriteHostelID;
         this.hostel = hostel;
         this.tenant = tenant;
+        this.activate = activate;
     }
 
     public int getFavoriteHostelID() {
@@ -40,5 +42,18 @@ public class FavoriteHostel {
 
     public void setTenant(Tenant tenant) {
         this.tenant = tenant;
+    }
+
+    public boolean isActivate() {
+        return activate;
+    }
+
+    public void setActivate(boolean activate) {
+        this.activate = activate;
+    }
+
+    @Override
+    public String toString() {
+        return "FavoriteHostel{" + "favoriteHostelID=" + favoriteHostelID + ", hostel=" + hostel + ", tenant=" + tenant + ", activate=" + activate + '}';
     }
 }

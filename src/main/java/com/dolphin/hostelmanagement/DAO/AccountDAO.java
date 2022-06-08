@@ -31,7 +31,7 @@ public class AccountDAO {
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
-                        int id = rs.getInt("accountId");
+                        int id = rs.getInt("accountID");
                         String username = rs.getString("username");
                         String password = rs.getString("password");
                         String email = rs.getString("email");
@@ -130,7 +130,7 @@ public class AccountDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "update Account set activate = ? where accountId = ?";
+                String sql = "update Account set activate = ? where accountID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setBoolean(1, false);
                 pst.setInt(2, deleteId);

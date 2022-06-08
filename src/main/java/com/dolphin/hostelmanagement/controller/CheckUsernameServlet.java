@@ -72,9 +72,9 @@ public class CheckUsernameServlet extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         try {
-            String servletResponse = "Username is available";
+            String servletResponse = "";
             if (AccountDAO.checkUsername(username)) {
-                servletResponse = "Username is not available!";
+                servletResponse = "Username đã được dùng!";
             }
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");

@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
         <!--Favicon-->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="assets/icons/logo.png" type="image/x-icon">
 
         <!--CSS-->
         <link rel="stylesheet" href="../assets/css/style.css">
@@ -61,7 +61,7 @@
         <div class="logo absolute z-10">
             <div class="container px-6 py-5">
                 <div class="flex justify-center items-center">
-                    <img class="w-9 h-9" src="../assets/icons/logo_white.png" alt="">
+                    <img class="w-9 h-9" src="assets/icons/logo_white.png" alt="">
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Welcome Back!</h2>
                     <p class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">To keep connected with us please login with your personal info</p>
                 </div>
-                <img class="w-2/5 h-screen absolute" src="../assets/images/bg3.jpg" alt="">
+                <img class="w-2/5 h-screen absolute" src="assets/images/bg3.jpg" alt="">
             </div>
 
             <!-- login form -->
@@ -88,8 +88,8 @@
 
                         <!--Username-->
                         <li class="item relative mt-[20px] mb-[40px]">
-                            <input type="text" class="input-field text-[16px] w-full border-b-2 border-[#c5c5c5] text-[#252525] outline-none bg-transparent peer py-2 pr-[36px] placeholder-transparent" id="email" name="username" placeholder="Username" value="" />
-                            <label class="absolute left-0 -top-[15px] peer-placeholder-shown:text-[#7b8577] peer-placeholder-shown:font-light peer-placeholder-shown:text-base peer-placeholder-shown:top-[8.5px] transition-all font-light text-sm" for="email">Tên đăng nhập/Email</label>
+                            <input type="text" class="input-field text-[16px] w-full border-b-2 border-[#c5c5c5] text-[#252525] outline-none bg-transparent peer py-2 pr-[36px] placeholder-transparent" id="username" name="username" placeholder="Username" value="" />
+                            <label class="absolute left-0 -top-[15px] peer-placeholder-shown:text-[#7b8577] peer-placeholder-shown:font-light peer-placeholder-shown:text-base peer-placeholder-shown:top-[8.5px] transition-all font-light text-sm" for="email">Tên đăng nhập</label>
                         </li>
                         <!--Password-->
                         <li id="password-input" class="item relative mt-[20px]">
@@ -111,13 +111,13 @@
                             <div class="social flex justify-between my-5">
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-all" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="../assets/icons/google.svg" width="20" height="20"></object>
+                                        <object class="inline" data="assets/icons/google.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Google</span>
                                     </div>
                                 </a>
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-all" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="../assets/icons/facebook.svg" width="20" height="20"></object>
+                                        <object class="inline" data="assets/icons/facebook.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Facebook</span>
                                     </div>
                                 </a>
@@ -195,6 +195,16 @@
 
             const btn = document.getElementById("login-btn");
             btn.addEventListener("click", rippleEffect);
+            
+            function validate() {
+                var username = $('#username').val().trim();
+                var password = $('#password').val().trim();
+                if (!username || !password) {
+                    $('#error').html("Vui lòng điền đủ password và email!");
+                    return false;
+                }
+                return true;
+            }
         </script>
 
     </body>

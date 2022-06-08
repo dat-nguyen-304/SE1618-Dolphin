@@ -44,13 +44,13 @@ public class RegisterServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String fullname = request.getParameter("fullname");
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String password = request.getParameter("password");
+        String fullname = request.getParameter("fullname").trim();
+        String username = request.getParameter("username").trim();
+        String email = request.getParameter("email").trim();
+        String phone = request.getParameter("phone").trim();
+        String password = request.getParameter("password").trim();
         Date regDate = new Date();
-        int role = Integer.parseInt(request.getParameter("role"));
+        int role = Integer.parseInt(request.getParameter("role").trim());
         boolean status = true;
         boolean check = false;
         try {
