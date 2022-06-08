@@ -52,16 +52,16 @@
                             <div class="profile-menu">
                                 <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
                                 <ul>
-                                    <a href="#">
+                                    <a href="/sakura/account/userProfilePage">
                                         <li><span><i class="bi bi-person-fill"></i>Trang cá nhân</span></li>
                                     </a>
-                                    <a href="MainController?action=changePassword.jsp">
+                                    <a href="/sakura/account/changePasswordPage">
                                         <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
                                     </a>
                                     <a href="#">
                                         <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
                                     </a>
-                                    <a href="MainController?action=Logout">
+                                    <a href="/sakura/access/logout">
                                         <li><span><i class="bi bi-box-arrow-right"></i>Đăng xuất</span></li>
                                     </a>
                                 </ul>

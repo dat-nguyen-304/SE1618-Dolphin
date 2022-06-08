@@ -206,7 +206,7 @@
                                      aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="/sakura/account/userProfilePage">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Thông tin tài khoản
+                                        Trang cá nhân
                                     </a>
                                     <a class="dropdown-item" href="/sakura/account/changePasswordPage">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
