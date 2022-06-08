@@ -79,9 +79,17 @@ body {
 }
 
 .result-address {
-    color    : #333;
     margin   : 12px 0;
-    font-size: 20px;
+    color    : #999;
+    font-size: 12px;
+}
+
+.result-address button {
+    outline  : none;
+    border   : none;
+    color    : var(--light-primary-color);
+    font-size: 12px;
+
 }
 
 .search-bar {}
@@ -138,15 +146,21 @@ body {
     border-radius: 4px;
 }
 
-.search-bar-sort-item:hover {
+.search-bar-sort-item button:hover {
     background-color: var(--light-primary-color);
 }
 
-.search-bar-sort-item a {
+.search-bar-sort-item button {
     display        : block;
     text-decoration: none;
     color          : #333;
-    padding        : 8px 12px;
+    border         : none;
+    outline        : none;
+    width          : 100%;
+    text-align     : left;
+    padding        : 6px 12px;
+    border-radius  : 4px;
+
 }
 
 .search-bar__submit {

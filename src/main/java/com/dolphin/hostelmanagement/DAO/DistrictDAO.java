@@ -29,7 +29,7 @@ public class DistrictDAO {
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
-                        int id = rs.getInt("districtId");
+                        int id = rs.getInt("districtID");
                         String districtName = rs.getString("districtName");
                         list.add(new District(id, districtName));
                     }

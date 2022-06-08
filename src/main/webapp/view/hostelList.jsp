@@ -15,17 +15,17 @@
         <title>Document</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="assets/css/hostel-list.css">
-        <link rel="stylesheet" href="assets/css/header.css">
-        <link rel="stylesheet" href="assets/css/hostel-list-responsive.css">
+        <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../assets/css/hostel-list.css">
+        <link rel="stylesheet" href="../assets/css/header.css">
+        <link rel="stylesheet" href="../assets/css/hostel-list-responsive.css">
     </head>
     <body>
         <header>
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
                     <nav class="header-navbar navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                        <img src="assets/images/logo.png" alt="" class="header-logo">
+                        <img src="../assets/images/logo.png" alt="" class="header-logo">
 
                         <!-- Topbar Search -->
                         <form style="width: 100%;"
@@ -199,7 +199,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ngẩng mặt hận đời</span>
-                                    <img class="img-profile rounded-circle" src="assets/images/undraw_profile.svg">
+                                    <img class="img-profile rounded-circle" src="../assets/images/undraw_profile.svg">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -226,28 +226,38 @@
             </div>
         </header>
         <div class="container">
-
             <!--    SEARCH BY NAME  -->
-            <h2 class="result-address">Phòng cho thuê ở HCM</h2>
+
             <div class="grid">
                 <div class="row">
-                    <form class="search-bar__input col-12 col-md-6">
-                        <input type="text" placeholder="Nhập tên phòng trọ ...">
+                    <form action="/sakura/hostel/list" class="search-bar__input col-12 col-md-6" method="post">
+                        <input type="text" name="keyword" placeholder="Nhập tên phòng trọ ...">
                         <button class="search-bar__submit" type="submit">Tìm
                             kiếm</button>
                     </form>
-                    <form class="col-12 col-md-6" action="/hostel-list.html">
+                    <div class="col-12 col-md-6">
                         <div class="grid">
+
                             <div class="row filter-list">
                                 <div class="filter-item col-6 col-sm-4">
                                     <div class="search-bar__sort">
                                         Đánh giá
                                         <ul class="search-bar-sort-list">
                                             <li class="search-bar-sort-item">
-                                                <a href="">Tăng dần</a>
+                                                <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.keyword != null}">
+                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                    </c:if>
+                                                    <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
+                                                </form>
                                             </li>
                                             <li class="search-bar-sort-item">
-                                                <a href="">Giảm dần</a>
+                                                <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.keyword != null}">
+                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                    </c:if>
+                                                    <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
+                                                </form>
                                             </li>
                                         </ul>
                                     </div>
@@ -257,10 +267,36 @@
                                         Giá tiền
                                         <ul class="search-bar-sort-list">
                                             <li class="search-bar-sort-item">
-                                                <a href="">Tăng dần</a>
+                                                <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.keyword != null}">
+                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                    </c:if>
+                                                    <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
+                                                </form>
                                             </li>
                                             <li class="search-bar-sort-item">
-                                                <a href="">Giảm dần</a>
+                                                <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.keyword != null}">
+                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                    </c:if>
+                                                    <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
+                                                </form>
+                                            </li>
+                                            <li class="search-bar-sort-item">
+                                                <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.keyword != null}">
+                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                    </c:if>
+                                                    <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
+                                                </form>
+                                            </li>
+                                            <li class="search-bar-sort-item">
+                                                <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.keyword != null}">
+                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                    </c:if>
+                                                    <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
+                                                </form>
                                             </li>
                                         </ul>
                                     </div>
@@ -270,177 +306,189 @@
                                 </div>
 
                             </div>
+
                         </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
-
-            <h4 class="result-number">Có 100 kết quả:</h4>
-            <section>
-                <h4>Số kết quả trên một trang</h4>
-                <form action="MainController" method="post">
-                    <input type="hidden" value="${param.txtsearch}" name="txtsearch">
-                    <input type="hidden" value="${param.searchby}" name="searchby">
-                    <select name="displayOption">
-                        <option value="all" <% if (request.getParameter("displayOption") != null && request.getParameter("displayOption").equals("all")) { %> selected <% } %>>Tất cả</option>
-                        <option value="5" <% if (request.getParameter("displayOption") != null && request.getParameter("displayOption").equals("5")) { %> selected <% }%>>5</option>
-                    </select>
-                    <input type="submit" name="action" value="Thay Đổi">
+                <form action="/sakura/hostel/list" class="result-address">
+                    <button type="submit" name="address" value="HCM">Phòng cho thuê ở HCM</button>
+                    <c:if test="${requestScope.keyword != null}">
+                        <input type="hidden" name="address" value="HCM"></input>
+                        >><button type="submit" name="keyword" value="${requestScope.keyword}"> Từ khóa: ${requestScope.keyword}</button>
+                    </c:if>
                 </form>
-            </section>
+                <h4 class="result-number">Có ${requestScope.hostelList.size()} kết quả:</h4>
+                <section>
+                    <h4>Số kết quả trên một trang</h4>
+                    <form action="MainController" method="post">
+                        <input type="hidden" value="${param.txtsearch}" name="txtsearch">
+                        <input type="hidden" value="${param.searchby}" name="searchby">
+                        <select name="displayOption">
+                            <option value="all" <% if (request.getParameter("displayOption") != null && request.getParameter("displayOption").equals("all")) { %> selected <% } %>>Tất cả</option>
+                            <option value="5" <% if (request.getParameter("displayOption") != null && request.getParameter("displayOption").equals("5")) { %> selected <% }%>>5</option>
+                        </select>
+                        <input type="submit" name="action" value="Thay Đổi">
+                    </form>
+                </section>
 
-            <div class="grid">
-                <ul class="hostel-list row">
-                    <c:forEach var="hostel" items="${requestScope.hostelList}">
-                        <li class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="hostel-item">
+                <div class="grid">
+                    <ul class="hostel-list row">
+                        <c:forEach var="hostel" items="${requestScope.hostelList}">
+                            <li class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="hostel-item">
 
-                                <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                    </ol>
-                                    <a href="hostel-list.html" class="hostel-images">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="First slide">
+                                    <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                        </ol>
+                                        <a href="hostel-list.html" class="hostel-images">
+                                            <div class="carousel-inner">
+                                                <div class="carousel-item active">
+                                                    <img class="d-block w-100"
+                                                         src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
+                                                         alt="First slide">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img class="d-block w-100"
+                                                         src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
+                                                         alt="Second slide">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img class="d-block w-100"
+                                                         src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
+                                                         alt="Third slide">
+                                                </div>
                                             </div>
-                                            <div class="carousel-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Second slide">
-                                            </div>
-                                            <div class="carousel-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Third slide">
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                                       data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                       data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </div>
+                                        </a>
+                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                           data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                           data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
 
-                                <a href="hostel-list.html" class="hostel-content">
+                                    <a href="hostel-list.html" class="hostel-content">
 
-                                    <div class="hostel-name">${hostel.hostelName}</div>
-                                    <div class="hostel-action">
-                                        <div class="hostel-rating">
-                                            <c:forEach begin="1" end="5" var="iterator">
-                                                <c:choose>
-                                                    <c:when test="${iterator <= hostel.rating}">
-                                                        <i class="fa-solid fa-star"></i>
+                                        <div class="hostel-name">${hostel.hostelName}</div>
+                                        <div class="hostel-action">
+                                            <div class="hostel-rating">
+                                                <c:forEach begin="1" end="5" var="iterator">
+                                                    <c:choose>
+                                                        <c:when test="${iterator <= hostel.rating}">
+                                                            <i class="fa-solid fa-star"></i>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:choose>
+                                                                <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                </c:when>
+                                                                <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
+                                                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <i class="fa-solid fa-star" style="color: #ccc"></i>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                                <span class="hostel-rating-number">${hostel.rating}/5</span>
+                                            </div>
+                                            <c:set var="contains" value="false"/>
+                                            <c:forEach var="item" items="${sessionScope.favoriteHostels}">
+                                                <c:if test="${item.hostel.hostelID eq hostel.hostelID && item.activate == true}">
+                                                    <c:set var="contains" value="true" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <c:choose>
+                                                <c:when test="${contains == true}">
+                                                    <div class="hostel-favorite">
+                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID})">
+                                                        </i></div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <c:choose>
-                                                            <c:when test="${iterator > hostel.rating + .5}">
-                                                                <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <i class="fa-solid fa-star-half-stroke"></i>
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                    <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: #ccc;" onclick="toggleFavoriteHostel(${hostel.hostelID})"></i></div>
                                                     </c:otherwise>
                                                 </c:choose>
-                                            </c:forEach>
-                                            <span class="hostel-rating-number">${hostel.rating}/5</span>
                                         </div>
-                                        <c:set var="contains" value="false"/>
-                                        <c:forEach var="item" items="${sessionScope.favoriteHostels}">
-                                            <c:if test="${item.hostel.hostelID eq hostel.hostelID && item.activate == true}">
-                                                <c:set var="contains" value="true" />
-                                            </c:if>
-                                        </c:forEach>
-                                        <c:choose>
-                                            <c:when test="${contains == true}">
-                                                <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID})"></i></div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: #ccc;" onclick="toggleFavoriteHostel(${hostel.hostelID})"></i></div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                    </div>
-                                    <div class="hostel-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
-                                    <div class="hostel-info">
-                                        <span class="hostel-room-available">Còn 1000 phòng trống</span>
-                                        <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
-                                    </div>
+                                        <div class="hostel-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
+                                        <div class="hostel-info">
+                                            <span class="hostel-room-available">Còn ${hostel.availableRoom} phòng trống</span>
+                                            <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
+                                        </div>
 
-                                    <div class="hostel-price">${hostel.minPrice} - ${hostel.maxPrice} VNĐ</div>
-                                </a>
+                                        <div class="hostel-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
+                                    </a>
 
-                            </div>
-                        </li>
-                    </c:forEach>
-                </ul>
-
-                <!--            PAGING-->
-                <c:if test="${requestScope.pages != null}">
-                    <div class="pagination">
-                        <ul class="pagination__list">
-                            <li class="pagination-item pagination-previous"><a href=""><i class="fas fa-chevron-left"></i></a>
+                                </div>
                             </li>
-                            <c:forEach var="page" items="${requestScope.pages}">
-                                <c:choose>
-                                    <c:when test="${requestScope.pageNumber == page + 1}">
-                                        <li class="pagination-item pagination-item--active"><a href="MainController?action=Thay%Đổi&displayOption=${param.displayOption}&pageNumber=${page + 1}&searchby=${param.searchby}&txtsearch=${param.txtsearch}">${page + 1}</a></li>
-                                        </c:when>
-                                        <c:otherwise>
-                                        <li class="pagination-item"><a href="MainController?action=Thay%20Đổi&displayOption=${param.displayOption}&pageNumber=${page + 1}&searchby=${param.searchby}&txtsearch=${param.txtsearch}">${page + 1}</a></li>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            <li class="pagination-item pagination-next"><a href=""><i class="fas fa-chevron-right"></i></a></li>
-                        </ul>
-                    </div>
-                </c:if>
+                        </c:forEach>
+                    </ul>
 
-            </div>
+                    <!--            PAGING-->
+                    <c:if test="${requestScope.pages != null}">
+                        <div class="pagination">
+                            <ul class="pagination__list">
+                                <li class="pagination-item pagination-previous"><a href=""><i class="fas fa-chevron-left"></i></a>
+                                </li>
+                                <c:forEach var="page" items="${requestScope.pages}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.pageNumber == page + 1}">
+                                            <li class="pagination-item pagination-item--active"><a href="MainController?action=Thay%Đổi&displayOption=${param.displayOption}&pageNumber=${page + 1}&searchby=${param.searchby}&txtsearch=${param.txtsearch}">${page + 1}</a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                            <li class="pagination-item"><a href="MainController?action=Thay%20Đổi&displayOption=${param.displayOption}&pageNumber=${page + 1}&searchby=${param.searchby}&txtsearch=${param.txtsearch}">${page + 1}</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                <li class="pagination-item pagination-next"><a href=""><i class="fas fa-chevron-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </c:if>
 
-        </div>
-
-        <footer class="sticky-footer">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; SE1618 Dolphin 2022</span>
                 </div>
+
             </div>
-        </footer>
-        <script src="assets/javascript//jquery/jquery.min.js"></script>
-        <script src="assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/javascript/hostel-list.js"></script>
-        <script src="assets/javascript/jquery.js"></script>
-        <script>
-            function toggleFavoriteHostel(hostelID) {
-                console.log("line 413");
-                console.log(hostelID);
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'hostelID' : hostelID},
-                    url: 'ToggleFavHostelServlet',
-                    success: function (result) {
-                        console.log('Success 36');
-                    },
-                    error: function () {
-                        console.log('Error 39');
-                    },
-                    complete: function (result) {
-                        console.log('Complete 41');
-                    }
-                });
-                console.log("line 429");
-            }
-        </script>
+
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; SE1618 Dolphin 2022</span>
+                    </div>
+                </div>
+            </footer>
+            <script src="../assets/javascript//jquery/jquery.min.js"></script>
+            <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="../assets/javascript/hostel-list.js"></script>
+            <script src="../assets/javascript/jquery.js"></script>
+            <script>
+                                                        function toggleFavoriteHostel(hostelID) {
+                                                            console.log("line 413");
+                                                            console.log(hostelID);
+                                                            jQuery.ajax({
+                                                                type: 'POST',
+                                                                data: {'hostelID': hostelID},
+                                                                url: 'ToggleFavHostelServlet',
+                                                                success: function (result) {
+                                                                    console.log('Success 36');
+                                                                },
+                                                                error: function () {
+                                                                    console.log('Error 39');
+                                                                },
+                                                                complete: function (result) {
+                                                                    console.log('Complete 41');
+                                                                }
+                                                            });
+                                                            console.log("line 429");
+                                                        }
+            </script>
     </body>
 </html>

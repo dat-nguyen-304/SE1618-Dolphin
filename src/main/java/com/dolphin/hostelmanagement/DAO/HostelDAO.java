@@ -33,21 +33,21 @@ public class HostelDAO {
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
-                        int hostelId = rs.getInt("hostelId");
+                        int hostelId = rs.getInt("hostelID");
                         String streetAddress = rs.getString("streetAddress");
                         String hostelName = rs.getString("hostelName");
                         int totalRoom = rs.getInt("totalRoom");
                         Date regDate = rs.getDate("registeredDate");
                         boolean activate = rs.getBoolean("activate");
                         float rating = rs.getFloat("rating");
-                        int landlordId = rs.getInt("landlordId");
+                        int landlordId = rs.getInt("landlordID");
                         Landlord landlord = LandlordDAO.findById(landlordId);
                         String images = rs.getString("images");
                         int minPrice = rs.getInt("minPrice");
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardId");
+                        int wardId = rs.getInt("wardID");
                         Ward ward = WardDAO.findById(wardId);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
@@ -70,12 +70,44 @@ public class HostelDAO {
     }
 
     public static Hostel findById(int id) {
-        for (Hostel hostel : findAll()) {
-            if (hostel.getHostelID() == id) {
-                return hostel;
+        Hostel hostel = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Hostel where id = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int hostelId = rs.getInt("hostelID");
+                        String streetAddress = rs.getString("streetAddress");
+                        String hostelName = rs.getString("hostelName");
+                        int totalRoom = rs.getInt("totalRoom");
+                        Date regDate = rs.getDate("registeredDate");
+                        boolean activate = rs.getBoolean("activate");
+                        float rating = rs.getFloat("rating");
+                        int landlordId = rs.getInt("landlordID");
+                        Landlord landlord = LandlordDAO.findById(landlordId);
+                        String images = rs.getString("images");
+                        int minPrice = rs.getInt("minPrice");
+                        int maxPrice = rs.getInt("maxPrice");
+                        int minArea = rs.getInt("minArea");
+                        int maxArea = rs.getInt("maxArea");
+                        int wardId = rs.getInt("wardID");
+                        Ward ward = WardDAO.findById(wardId);
+                        int availableRoom = rs.getInt("availableRoom");
+                        String desc = rs.getString("description");
+                        hostel = new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, images, minPrice, maxPrice, minArea, maxArea, availableRoom, desc);
+                    }
+                }
+                cn.close();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+        return hostel;
     }
 
     public static boolean save(Hostel t) throws Exception {
@@ -86,7 +118,7 @@ public class HostelDAO {
             if (cn != null) {
                 java.sql.Date sqlRegDate = new java.sql.Date(t.getRegisteredDate().getTime());
                 String sql = "insert into Hostel(streetAddress, hostelName, "
-                        + "registeredDate, activate, rating, landlordId, "
+                        + "registeredDate, activate, rating, landlordID, "
                         + "wardId) "
                         + "values(?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = cn.prepareCall(sql);
@@ -101,28 +133,53 @@ public class HostelDAO {
                 if (check) {
                     System.out.println("!!! SAVED hostel");
                 }
+                cn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return check;
     }
 
     public static List<Hostel> findByName(String name) {
-        ArrayList<Hostel> list = new ArrayList();
-        for (Hostel hostel : findAll()) {
-            if (hostel.getHostelName().contains(name)) {
-                list.add(hostel);
+        List<Hostel> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "select * from Hostel where hostelName like ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, "%" + name + "%");
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int hostelId = rs.getInt("hostelID");
+                        String streetAddress = rs.getString("streetAddress");
+                        String hostelName = rs.getString("hostelName");
+                        int totalRoom = rs.getInt("totalRoom");
+                        Date regDate = rs.getDate("registeredDate");
+                        boolean activate = rs.getBoolean("activate");
+                        float rating = rs.getFloat("rating");
+                        int landlordId = rs.getInt("landlordID");
+                        Landlord landlord = LandlordDAO.findById(landlordId);
+                        String images = rs.getString("images");
+                        int minPrice = rs.getInt("minPrice");
+                        int maxPrice = rs.getInt("maxPrice");
+                        int minArea = rs.getInt("minArea");
+                        int maxArea = rs.getInt("maxArea");
+                        int wardId = rs.getInt("wardID");
+                        Ward ward = WardDAO.findById(wardId);
+                        int availableRoom = rs.getInt("availableRoom");
+                        String desc = rs.getString("description");
+                        list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, images, minPrice, maxPrice, minArea, maxArea, availableRoom, desc));
+                    }
+                }
+                cn.close();
             }
-        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
         return list;
     }
 
@@ -132,7 +189,7 @@ public class HostelDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "update Hostel set activate = ? where hostelId = ?";
+                String sql = "update Hostel set activate = ? where hostelID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setBoolean(1, false);
                 pst.setInt(2, deleteId);

@@ -27,7 +27,7 @@ public class TenantDAO {
             if (cn != null) {
                 boolean accountCheck = AccountDAO.save(t.getAccount());
                 if (accountCheck) {
-                    String sql = "insert into Tenant(tenantId, fullname, phone, rentStatus) values(?, ?, ?, ?)";
+                    String sql = "insert into Tenant(tenantID, fullname, phone, rentStatus) values(?, ?, ?, ?)";
                     PreparedStatement pst = cn.prepareCall(sql);
                     int id = AccountDAO.findIdByUsername(t.getAccount().getUsername());
                     pst.setInt(1, id);
@@ -66,7 +66,7 @@ public class TenantDAO {
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
-                        int id = rs.getInt("tenantId");
+                        int id = rs.getInt("tenantID");
                         String fullname = rs.getString("fullname");
                         String phone = rs.getString("phone");
                         boolean rentStatus = rs.getBoolean("rentStatus");

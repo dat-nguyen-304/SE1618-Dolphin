@@ -29,9 +29,9 @@ public class WardDAO {
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
-                        int id = rs.getInt("wardId");
+                        int id = rs.getInt("wardID");
                         String name = rs.getString("wardName");
-                        int districtId = rs.getInt("districtId");
+                        int districtId = rs.getInt("districtID");
                         District district = DistrictDAO.findById(districtId);
                         list.add(new Ward(id, name, district));
                     }
@@ -52,10 +52,29 @@ public class WardDAO {
     }
     
     public static Ward findById(int id) {
-        for (Ward ward : findAll()) {
-            if (ward.getWardID() == id) return ward;
+        Ward ward = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Ward where wardID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String name = rs.getString("wardName");
+                        int districtId = rs.getInt("districtID");
+                        District district = DistrictDAO.findById(districtId);
+                        ward = new Ward(id, name, district);
+                    }
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+        return ward;
     }
     
     public static void main(String[] args) {

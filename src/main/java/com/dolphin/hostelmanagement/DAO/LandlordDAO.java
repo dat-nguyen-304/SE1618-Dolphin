@@ -27,7 +27,7 @@ public class LandlordDAO {
             if (cn != null) {
                 boolean accountCheck = AccountDAO.save(l.getAccount());
                 if (accountCheck) {
-                    String sql = "insert into Landlord(landlordId, fullname, phone) values(?, ?, ?)";
+                    String sql = "insert into Landlord(landlordID, fullname, phone) values(?, ?, ?)";
                     PreparedStatement pst = cn.prepareCall(sql);
                     int id = AccountDAO.findIdByUsername(l.getAccount().getUsername());
                     pst.setInt(1, id);
@@ -88,13 +88,29 @@ public class LandlordDAO {
     }
 
     public static Landlord findById(int id) {
-        Landlord t = null;
-        for (Landlord landlord : findAll()) {
-            if (landlord.getAccount().getAccountID()== id) {
-                t = landlord;
+        Landlord landlord = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Landlord where id = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String fullname = rs.getString("fullname");
+                        String phone = rs.getString("phone");
+                        Account acc = AccountDAO.findById(id);
+                        landlord = new Landlord(acc, fullname, phone);
+                    }
+                }
+                cn.close();
             }
-        }
-        return t;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        return landlord;
     }
     
     public static boolean deleteById(int id) {
