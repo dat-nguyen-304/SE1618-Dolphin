@@ -9,6 +9,7 @@ import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -96,6 +97,38 @@ public class AccountController extends HttpServlet {
                 "/hostelListPage")) {
             url = "/view/hostelList.jsp";
             request.getRequestDispatcher(url).forward(request, response);
+        } else if (path.equals(
+                "/checkUsername")) {
+            String username = request.getParameter("username");
+            try {
+                String servletResponse = "";
+                if (AccountDAO.checkUsername(username)) {
+                    servletResponse = "Username đã được dùng!";
+                }
+                response.setContentType("text/html");
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter out = response.getWriter();
+                out.print(servletResponse);
+                out.flush();
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        } else if (path.equals(
+                "/checkEmail")) {
+            String email = request.getParameter("email").trim();
+            try {
+                String servletResponse = "";
+                if (AccountDAO.checkEmail(email)) {
+                    servletResponse = "Email đã được dùng!";
+                }
+                response.setContentType("text/html");
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter out = response.getWriter();
+                out.print(servletResponse);
+                out.flush();
+            } catch (Exception e) {
+                e.getMessage();
+            }
         } else if (path.equals(
                 "/logout")) {
             System.out.println("This is log out");

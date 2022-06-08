@@ -92,7 +92,7 @@ public class AccessController extends HttpServlet {
                             session.setAttribute("favoriteHostels", favoriteHostels);
 
                         } else {
-                            request.setAttribute("error", "Invalid username or password!");
+                            request.setAttribute("error", "Sai tên đăng nhập hoặc sai mật khẩu!");
                             url = "/view/login.jsp";
                         }
                     } else {
