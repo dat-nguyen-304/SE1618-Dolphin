@@ -201,7 +201,7 @@
             </c:when>
             <c:otherwise>
                 <h2>Login to see this page</h2>
-                <a href="login.jsp">Go to login page</a>
+                <a href="/sakura/access/loginPage">Go to login page</a>
             </c:otherwise>
         </c:choose>
         <script>

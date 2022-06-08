@@ -1,9 +1,8 @@
-package com.dolphin.hostelmanagement.controller2;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package com.dolphin.hostelmanagement.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class TenantController extends HttpServlet {
+public class AdminController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +34,10 @@ public class TenantController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet TenantController</title>");            
+            out.println("<title>Servlet AdminController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet TenantController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AdminController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

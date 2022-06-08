@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.dolphin.hostelmanagement.controller2;
+package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.AccountDAO;
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
@@ -12,7 +12,6 @@ import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
-import com.dolphin.hostelmanagement.controller.SendNewPasswordServlet;
 import com.dolphin.hostelmanagement.utils.EmailService;
 import com.dolphin.hostelmanagement.utils.StringUtils;
 import java.io.IOException;
@@ -20,8 +19,6 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -156,7 +153,7 @@ public class AccessController extends HttpServlet {
                         url = "/view/login.jsp";
                     }
                 } catch (Exception ex) {
-                    Logger.getLogger(SendNewPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 } finally {
                     url = "/view/login.jsp";
                     request.getRequestDispatcher(url).forward(request, response);

@@ -2,16 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.dolphin.hostelmanagement.controller2;
+package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.AccountDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
-import com.dolphin.hostelmanagement.controller.SendNewPasswordServlet;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +42,10 @@ public class AccountController extends HttpServlet {
             url = ERROR;
         } else if (path.equals("/changePasswordPage")) {
             url = "/view/changePassword.jsp";
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
+        } else if (path.equals("/userProfilePage")) {
+            url = "/view/userProfile.jsp";
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         } else if (path.equals("/changePassword")) {
@@ -83,17 +84,20 @@ public class AccountController extends HttpServlet {
 
                 //url = "/view/changePassword.jsp";
             } catch (Exception ex) {
-                Logger.getLogger(SendNewPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             } finally {
                 request.getRequestDispatcher(url).forward(request, response);
             }
-        } else if (path.equals("/changeProfilePage")) {
+        } else if (path.equals(
+                "/changeProfilePage")) {
             url = "/view/changeProfile.jsp";
             request.getRequestDispatcher(url).forward(request, response);
-        } else if (path.equals("/hostelListPage")) {
+        } else if (path.equals(
+                "/hostelListPage")) {
             url = "/view/hostelList.jsp";
             request.getRequestDispatcher(url).forward(request, response);
-        } else if (path.equals("/logout")) {
+        } else if (path.equals(
+                "/logout")) {
             System.out.println("This is log out");
             HttpSession session = request.getSession();
             session.invalidate();

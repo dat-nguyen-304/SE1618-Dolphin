@@ -9,118 +9,50 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <servlet>
-        <servlet-name>MainController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.MainController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.LoginServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.RegisterServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.LogoutServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CheckUsernameServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.CheckUsernameServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CheckEmailServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.CheckEmailServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangeDisplayServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.ChangeDisplayServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangePasswordServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.ChangePasswordServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SendNewPasswordServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.SendNewPasswordServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LoginController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.LoginController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ToggleFavHostelServlet</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller.ToggleFavHostelServlet</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AccountController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.AccountController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.AccountController</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>MainController</servlet-name>
-        <url-pattern>/MainController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/LoginServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RegisterServlet</servlet-name>
-        <url-pattern>/RegisterServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/LogoutServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CheckUsernameServlet</servlet-name>
-        <url-pattern>/CheckUsernameServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CheckEmailServlet</servlet-name>
-        <url-pattern>/CheckEmailServlet</url-pattern>
-    </servlet-mapping>
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
             <page-encoding>UTF-8</page-encoding>
         </jsp-property-group>
     </jsp-config>
-    <servlet-mapping>
-        <servlet-name>ChangeDisplayServlet</servlet-name>
-        <url-pattern>/ChangeDisplayServlet</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>AccessController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.AccessController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.AccessController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.AdminController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.AdminController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HomeController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.HomeController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.HomeController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HostelController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.HostelController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.HostelController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InvoiceController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.InvoiceController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.InvoiceController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LandlordController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.LandlordController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.LandlordController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RoomController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.RoomController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.RoomController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TenantController</servlet-name>
-        <servlet-class>com.dolphin.hostelmanagement.controller2.TenantController</servlet-class>
+        <servlet-class>com.dolphin.hostelmanagement.controller.TenantController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AccessController</servlet-name>
@@ -155,20 +87,8 @@
         <url-pattern>/tenant/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ChangePasswordServlet</servlet-name>
-        <url-pattern>/ChangePasswordServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SendNewPasswordServlet</servlet-name>
-        <url-pattern>/SendNewPasswordServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping> 
-        <servlet-name>ToggleFavHostelServlet</servlet-name>
-        <url-pattern>/ToggleFavHostelServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AccountController</servlet-name>

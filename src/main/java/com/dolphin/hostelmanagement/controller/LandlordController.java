@@ -4,7 +4,6 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
-import com.dolphin.hostelmanagement.DAO.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Vu Thien An - SE160296
+ * @author Admin
  */
-public class CheckEmailServlet extends HttpServlet {
+public class LandlordController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,15 +29,15 @@ public class CheckEmailServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CheckEmailServlet</title>");            
+            out.println("<title>Servlet LandlordController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CheckEmailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LandlordController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,20 +69,7 @@ public class CheckEmailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email").trim();
-        try {
-            String servletResponse = "";
-            if (AccountDAO.checkEmail(email)) {
-                servletResponse = "Email đã được dùng!";
-            }
-            response.setContentType("text/html");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter out = response.getWriter();
-            out.print(servletResponse);
-            out.flush();
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        processRequest(request, response);
     }
 
     /**

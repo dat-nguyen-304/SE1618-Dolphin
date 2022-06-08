@@ -75,7 +75,7 @@ public class HostelDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select * from Hostel where id = ?";
+                String sql = "select * from Hostel where hostelID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, id);
                 ResultSet rs = pst.executeQuery();
