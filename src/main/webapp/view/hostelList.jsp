@@ -416,11 +416,11 @@
                                             <c:choose>
                                                 <c:when test="${contains == true}">
                                                     <div class="hostel-favorite">
-                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID})">
+                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)">
                                                         </i></div>
                                                     </c:when>
                                                     <c:otherwise>
-                                                    <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: #ccc;" onclick="toggleFavoriteHostel(${hostel.hostelID})"></i></div>
+                                                    <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i></div>
                                                     </c:otherwise>
                                                 </c:choose>
                                         </div>
@@ -475,13 +475,17 @@
             <script src="../assets/javascript/hostel-list.js"></script>
             <script src="../assets/javascript/jquery.js"></script>
             <script>
-                                                        function toggleFavoriteHostel(hostelID) {
+                                                        function toggleFavoriteHostel(hostelID, element) {
+                                                            if (element.style.color === 'red')
+                                                                element.style.color = 'gray';
+                                                            else
+                                                                element.style.color = 'red';
                                                             console.log("line 413");
                                                             console.log(hostelID);
                                                             jQuery.ajax({
                                                                 type: 'POST',
                                                                 data: {'hostelID': hostelID},
-                                                                url: 'ToggleFavHostelServlet',
+                                                                url: '/sakura/hostel/toggleFavHostel',
                                                                 success: function (result) {
                                                                     console.log('Success 36');
                                                                 },

@@ -8,6 +8,7 @@ import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Hostel;
+import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class HostelController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
             String path = request.getPathInfo();
@@ -139,6 +140,26 @@ public class HostelController extends HttpServlet {
             } else if (path.equals("/detail")) {
 
                 request.getRequestDispatcher("/view/homepage.jsp").forward(request, response);
+            } else if (path.equals("/toggleFavHostel")) {
+                try {
+                    int hostelID = Integer.parseInt(request.getParameter("hostelID"));
+                    System.out.println(hostelID + " line 40");
+                    HttpSession session = request.getSession();
+                    Tenant t = (Tenant) session.getAttribute("currentUser");
+                    int tenantID = t.getAccount().getAccountID();
+                    System.out.println(tenantID + " line 44");
+                    if (FavoriteHostelDAO.findByHostelTenant(hostelID, tenantID) == null) {
+                        FavoriteHostelDAO.save(hostelID, tenantID);
+                        System.out.println("Added Fav Hostel!");
+                    } else {
+                        if (FavoriteHostelDAO.toggleFavoriteHostel(hostelID, tenantID)) {
+                            System.out.println("Toggled Fav Hostel!");
+                        }
+                    }
+                    session.setAttribute("favoriteHostels", FavoriteHostelDAO.findByTenantID(tenantID));
+                } catch (Exception e) {
+                    log("Error at ToggleFavHostelServlet: " + e.toString());
+                }
             }
         }
     }

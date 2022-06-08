@@ -56,17 +56,48 @@ public class AccountDAO {
         return list;
     }
 
-    public static Account findById(int id) {
-        for (Account account : findAll())
-            if (account.getAccountID() == id) 
-                return account;
-        return null;
-    }
+    public static Account findById(int findId) {
+        Account t = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Account";
+                PreparedStatement pst = cn.prepareCall(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    int id = rs.getInt("accountID");
+                    String username = rs.getString("username");
+                    String password = rs.getString("password");
+                    String email = rs.getString("email");
+                    Date regDate = rs.getDate("registeredDate");
+                    int role = rs.getInt("role");
+                    boolean activate = rs.getBoolean("activate");
+                    t = new Account(id, username, password, email, regDate, role, activate);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+            return t;
+        }
+
     
+
     public static Account findByEmail(String email) {
-        for (Account account : findAll())
-            if (account.getEmail().compareToIgnoreCase(email) == 0)
+        for (Account account : findAll()) {
+            if (account.getEmail().compareToIgnoreCase(email) == 0) {
                 return account;
+            }
+        }
         return null;
     }
 
@@ -219,5 +250,9 @@ public class AccountDAO {
             }
         }
         return t;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(findById(3));
     }
 }

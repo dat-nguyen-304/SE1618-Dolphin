@@ -89,11 +89,34 @@ public class TenantDAO {
         return list;
     }
 
-    public static Tenant findById(int id) {
+    public static Tenant findById(int findID) {
         Tenant t = null;
-        for (Tenant tenant : findAll()) {
-            if (tenant.getAccount().getAccountID() == id) {
-                t = tenant;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Tenant where tenantID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, findID);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    int id = rs.getInt("tenantID");
+                    String fullname = rs.getString("fullname");
+                    String phone = rs.getString("phone");
+                    boolean rentStatus = rs.getBoolean("rentStatus");
+                    Account acc = AccountDAO.findById(id);
+                    t = new Tenant(acc, fullname, phone, rentStatus);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return t;
