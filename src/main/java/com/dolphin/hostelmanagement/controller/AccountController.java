@@ -5,6 +5,8 @@
 package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.AccountDAO;
+import com.dolphin.hostelmanagement.DAO.LandlordDAO;
+import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
@@ -48,6 +50,10 @@ public class AccountController extends HttpServlet {
             url = "/view/userProfile.jsp";
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
+        } else if (path.equals(
+                "/hostelListPage")) {
+            url = "/view/hostelList.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
         } else if (path.equals("/changePassword")) {
             try {
                 HttpSession session = request.getSession(true);
@@ -88,21 +94,41 @@ public class AccountController extends HttpServlet {
             } finally {
                 request.getRequestDispatcher(url).forward(request, response);
             }
-        } else if (path.equals(
-                "/changeProfilePage")) {
-            url = "/view/changeProfile.jsp";
-            request.getRequestDispatcher(url).forward(request, response);
-        } else if (path.equals(
-                "/hostelListPage")) {
-            url = "/view/hostelList.jsp";
-            request.getRequestDispatcher(url).forward(request, response);
-        } else if (path.equals(
-                "/logout")) {
+        } else if (path.equals( "/logout")) {
             System.out.println("This is log out");
             HttpSession session = request.getSession();
             session.invalidate();
             //request.getRequestDispatcher("/view/homepage.jsp").forward(request, response);
             response.sendRedirect("../");
+        } else if (path.equals("/changeProfile")) {
+            System.out.println("This is changing profile!");
+            String newFullName = request.getParameter("fullname").trim();
+            String newPhone = request.getParameter("phone").trim();
+            
+            HttpSession session = request.getSession(true);
+            
+            int role = (int) session.getAttribute("role");
+            
+            if(role == 1) { //tenant
+                Tenant t = (Tenant) session.getAttribute("currentUser");
+                t.setFullname(newFullName);
+                t.setPhone(newPhone);
+                
+                if(TenantDAO.updateTenant(t)) {
+                    System.out.println("Successfully updated tenant's information!");
+                }
+            }
+            
+            else if(role == 2) { //landlord, "else if" in case we need a new role :D 
+                Landlord l = (Landlord) session.getAttribute("currentUser");
+                l.setFullname(newFullName);
+                l.setPhone(newPhone);
+                
+                if(LandlordDAO.updateLandlord(l)) {
+                    System.out.println("Successfully updated landlord's information!");
+                }
+                
+            }
         }
     }
 

@@ -102,7 +102,33 @@ public class TenantDAO {
     public static boolean deleteById(int id) {
         return AccountDAO.deleteById(id);
     }
-    
+
+    public static boolean updateTenant(Tenant t) {
+        boolean check = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update Tenant set fullname = ? and phone = ? where tenantID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setNString(1, t.getFullname());
+                pst.setString(2, t.getPhone());
+                check = pst.executeUpdate() != 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return check;
+    }
+
     public static void main(String[] args) {
         System.out.println(findById(3));
     }

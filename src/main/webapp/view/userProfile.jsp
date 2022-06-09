@@ -47,21 +47,21 @@
                         <!-- right header section -->
                         <div class="profile">
                             <div class="profile-avatar" onclick="menuToggle()">
-                                <img src="../assets/images/ava3.jpg" alt="">
+                                <img src="../assets/images/user-avatar/ava3.jpg" alt="">
                             </div>
                             <div class="profile-menu">
                                 <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
                                 <ul>
-                                    <a href="#">
+                                    <a href="/sakura/account/userProfilePage">
                                         <li><span><i class="bi bi-person-fill"></i>Trang cá nhân</span></li>
                                     </a>
-                                    <a href="MainController?action=changePassword.jsp">
+                                    <a href="/sakura/account/changePasswordPage">
                                         <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
                                     </a>
                                     <a href="#">
                                         <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
                                     </a>
-                                    <a href="MainController?action=Logout">
+                                    <a href="/sakura/access/logout">
                                         <li><span><i class="bi bi-box-arrow-right"></i>Đăng xuất</span></li>
                                     </a>
                                 </ul>
@@ -104,7 +104,7 @@
                         <!-- Right Side -->
                         <div class="profile-right w-3/5 h-full ml-[60px] relative">
                             <!-- About Section -->
-                            <form action="" method="POST">
+                            <form action="/sakura/account/changeProfile" method="POST">
                                 <div class="profile-info">
 
                                     <div class="info-title">
@@ -118,7 +118,7 @@
                                         </div>
                                         <div class="detail-item">
                                             <label for="username">Tên đăng nhập</label>
-                                            <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}">
+                                            <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}" readonly>
                                         </div>
                                         <div class="detail-item">
                                             <label for="birthday">Ngày sinh</label>
@@ -140,7 +140,7 @@
                                         </div>
                                         <div class="detail-item">
                                             <label for="email">Email</label>
-                                            <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}">
+                                            <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}" readonly>
                                         </div>
                                         <div class="detail-item">
                                             <label for="facebook">Facebook</label>

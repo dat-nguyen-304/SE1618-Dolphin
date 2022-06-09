@@ -68,11 +68,18 @@ public class AccessController extends HttpServlet {
             }
             if (path.equals("/login")) {
                 try {
-                    String username = request.getParameter("username");
-                    String password = request.getParameter("password");
+                    String username = request.getParameter("username").trim();
+                    String password = request.getParameter("password").trim();
                     System.out.println("Hajjjj: " + username + " " + password);
                     if (username != null && !username.equals("") && password != null && !password.equals("")) {
-                        Account acc = AccountDAO.login(username, password);
+                        Account acc = null;
+                        if (username.contains("@")) {
+                            System.out.println("I logged in by email!");
+                            acc = AccountDAO.loginByEmail(username, password);
+                        } else {
+                            System.out.println("I logged in by username!");
+                            acc = AccountDAO.login(username, password);
+                        }
                         if (acc != null) {
 
                             HttpSession session = request.getSession(true);
@@ -164,7 +171,7 @@ public class AccessController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.invalidate();
 
-                response.sendRedirect("/view/homepage.jsp");
+                response.sendRedirect("../");
             }
         }
     }

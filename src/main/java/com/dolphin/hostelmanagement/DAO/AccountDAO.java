@@ -57,16 +57,20 @@ public class AccountDAO {
     }
 
     public static Account findById(int id) {
-        for (Account account : findAll())
-            if (account.getAccountID() == id) 
+        for (Account account : findAll()) {
+            if (account.getAccountID() == id) {
                 return account;
+            }
+        }
         return null;
     }
-    
+
     public static Account findByEmail(String email) {
-        for (Account account : findAll())
-            if (account.getEmail().compareToIgnoreCase(email) == 0)
+        for (Account account : findAll()) {
+            if (account.getEmail().compareToIgnoreCase(email) == 0) {
                 return account;
+            }
+        }
         return null;
     }
 
@@ -153,34 +157,6 @@ public class AccountDAO {
         return check;
     }
 
-    public static boolean updateAccount(Account t) {
-        boolean check = false;
-        Connection cn = null;
-        try {
-            cn = DBUtils.makeConnection();
-            if (cn != null) {
-                String sql = "update Account set password = ?";
-                PreparedStatement pst = cn.prepareCall(sql);
-                pst.setString(1, t.getPassword());
-                check = pst.executeUpdate() != 0;
-                if (check) {
-                    System.out.println("!!! Updated password account id " + t.getAccountID());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return check;
-    }
-
     public static boolean changePassword(int changeId, String newPassword) {
         boolean check = false;
         Connection cn = null;
@@ -210,14 +186,79 @@ public class AccountDAO {
         return check;
     }
 
-    public static Account login(String username, String password) {
-        Account t = null;
-        for (Account account : findAll()) {
-            if (username.equals(account.getUsername()) && password.equals(account.getPassword())) {
-                t = account;
-                break;
+    public static Account login(String inputUsername, String inputPassword) {
+        Account acc = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Account where username = ? and password = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setString(1, inputUsername);
+                pst.setString(2, inputPassword);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int id = rs.getInt("accountID");
+                        String username = rs.getString("username");
+                        String password = rs.getString("password");
+                        String email = rs.getString("email");
+                        Date regDate = rs.getDate("registeredDate");
+                        int role = rs.getInt("role");
+                        boolean activate = rs.getBoolean("activate");
+                        acc = new Account(id, username, password, email, regDate, role, activate);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
-        return t;
+        return acc;
+    }
+
+    public static Account loginByEmail(String inputEmail, String inputPassword) {
+        Account acc = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Account where email = ? and password = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setString(1, inputEmail);
+                pst.setString(2, inputPassword);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int id = rs.getInt("accountID");
+                        String username = rs.getString("username");
+                        String password = rs.getString("password");
+                        String email = rs.getString("email");
+                        Date regDate = rs.getDate("registeredDate");
+                        int role = rs.getInt("role");
+                        boolean activate = rs.getBoolean("activate");
+                        acc = new Account(id, username, password, email, regDate, role, activate);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return acc;
     }
 }
