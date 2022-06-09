@@ -41,7 +41,7 @@
                         <td>
                             <form action = "/sakura/hostel/roomDetail" method = "post">
                                 <input type = "hidden" name = "roomID" value = "${room.roomID}">
-                                <button type ="submit">See detail
+                                <button type ="submit">See detail </button>
                             </form></td>
                     </tr>
                 </c:forEach>

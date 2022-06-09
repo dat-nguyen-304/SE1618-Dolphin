@@ -120,14 +120,6 @@
                                             <label for="username">Tên đăng nhập</label>
                                             <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}" readonly>
                                         </div>
-                                        <div class="detail-item">
-                                            <label for="birthday">Ngày sinh</label>
-                                            <p id="birthday">17 / 02 / 2002</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label for="gender">Giới tính</label>
-                                            <p id="gender">Nam</p>
-                                        </div>
                                     </div>
                                     <div class="info-title">
                                         <i class="bi bi-chat-square-text-fill"></i>
@@ -140,7 +132,7 @@
                                         </div>
                                         <div class="detail-item">
                                             <label for="email">Email</label>
-                                            <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}" readonly>
+                                            <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}">
                                         </div>
                                         <div class="detail-item">
                                             <label for="facebook">Facebook</label>

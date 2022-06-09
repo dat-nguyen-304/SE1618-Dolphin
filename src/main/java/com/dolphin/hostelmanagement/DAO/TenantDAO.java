@@ -117,14 +117,6 @@ public class TenantDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return check;
     }

@@ -5,6 +5,7 @@
 package com.dolphin.hostelmanagement.DAO;
 
 import com.dolphin.hostelmanagement.DTO.Account;
+import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -260,5 +261,29 @@ public class AccountDAO {
             }
         }
         return acc;
+    }
+    
+    public static boolean updateAccount(Account a) {
+        boolean check = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update Account set email = ? where accountID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setString(1, a.getEmail());
+                pst.setInt(2, a.getAccountID());
+                check = pst.executeUpdate() != 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return check;
+    }
+    
+    public static void main(String[] args) {
+        Account a = findById(30);
+        a.setEmail("b@gmail.com");
+        updateAccount(a);
     }
 }

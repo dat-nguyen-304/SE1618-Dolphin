@@ -104,6 +104,7 @@ public class AccountController extends HttpServlet {
             System.out.println("This is changing profile!");
             String newFullName = request.getParameter("fullname").trim();
             String newPhone = request.getParameter("phone").trim();
+            String newEmail = request.getParameter("email").trim();
             
             HttpSession session = request.getSession(true);
             
@@ -113,9 +114,13 @@ public class AccountController extends HttpServlet {
                 Tenant t = (Tenant) session.getAttribute("currentUser");
                 t.setFullname(newFullName);
                 t.setPhone(newPhone);
+                t.getAccount().setEmail(newEmail);
                 
                 if(TenantDAO.updateTenant(t)) {
                     System.out.println("Successfully updated tenant's information!");
+                }
+                if(AccountDAO.updateAccount(t.getAccount())) {
+                    System.out.println("Successfully updated account's information!");
                 }
             }
             
@@ -123,12 +128,19 @@ public class AccountController extends HttpServlet {
                 Landlord l = (Landlord) session.getAttribute("currentUser");
                 l.setFullname(newFullName);
                 l.setPhone(newPhone);
-                
+                l.getAccount().setEmail(newEmail);
+            
                 if(LandlordDAO.updateLandlord(l)) {
                     System.out.println("Successfully updated landlord's information!");
                 }
-                
+                if(AccountDAO.updateAccount(l.getAccount())) {
+                    System.out.println("Successfully updated account's information!");
+                }
             }
+            
+            
+            
+            
         }
     }
 
