@@ -85,15 +85,15 @@
 
                         <!--Phone-->
                         <li class="item relative">
-                            <input type="text" class="input-field peer placeholder-transparent" id="phone" name="phone" placeholder="Phone" value=""/>
-                            <p class="warning font-light absolute right-0">${requestScope.warning}</p>
+                            <input type="text" class="input-field peer placeholder-transparent" id="phone" name="phone" placeholder="Phone" value="" onchange="checkPhone()"/>
+                            <p id="phoneError" class="warning font-light absolute right-0"></p>
                             <label class="input-label peer-placeholder-shown:text-[#7b8577] peer-placeholder-shown:font-light peer-placeholder-shown:text-base peer-placeholder-shown:top-[8.5px]" for="phone">Phone number</label>
                         </li>
 
                         <!--Password-->
                         <li class="item relative password-input">
                             <input type="password" class="input-field peer placeholder-transparent pr-9" id="password" name="password" placeholder="Password" onchange="checkPassword()"/>
-                            <p id="passwordError" class="warning font-light absolute right-0">${requestScope.warning}</p>
+                            <p id="passwordError" class="warning font-light absolute right-0"></p>
                             <label class="input-label peer-placeholder-shown:text-[#7b8577] peer-placeholder-shown:font-light peer-placeholder-shown:text-base peer-placeholder-shown:top-[8.5px]" for="password">Mật khẩu <span class="font-extralight">(tối thiểu 8 kí tự)</span></label>
                             <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-password"></i>
                         </li>
@@ -295,11 +295,21 @@
                     $("#cf-passwordError").css("color", "red");
                 }
             }
+            
+            function checkPhone() {
+                $("#phoneError").html("");
+                $("#phone").css("border", "");
+                console.log("checking phone");
+                var re = /^\d{10}$/;
+                var phone = $("#phone").val().trim();
+                if (phone && !re.test(phone)) {
+                    $("#phoneError").html("SĐT phải gồm 10 chữ số!");
+                    $("#phoneError").css("color", "red");
+                }
+            }
 
             function validate() {
-                var registerForm = document.getElementById("registerForm");
                 var fullname = $("#fullname").val().trim();
-                ;
                 var username = $("#username").val().trim();
                 var email = $("#email").val().trim();
                 var phone = $("#phone").val().trim();
@@ -327,6 +337,10 @@
                 } else if (!confirmPassword || $("#cf-passwordError").html() !== "") {
                     $("#cf-password").css("border", "2px solid red");
                     $("#cf-password").focus();
+                    return false;
+                } else if (!phone || $("#phoneError").html() !== "") {
+                    $("#phone").css("border", "2px solid red");
+                    $("#phone").focus();
                     return false;
                 }
 //                if ($("#usernameError").html.length !== 0 || !$("#emailError").html().length !== 0)
