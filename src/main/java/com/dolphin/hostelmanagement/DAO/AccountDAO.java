@@ -56,14 +56,15 @@ public class AccountDAO {
         return list;
     }
 
-    public static Account findById(int findId) {
+    public static Account findById(int findID) {
         Account t = null;
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select * from Account";
+                String sql = "select * from Account where accountID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, findID);
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()) {
                     int id = rs.getInt("accountID");
@@ -253,6 +254,6 @@ public class AccountDAO {
     }
     
     public static void main(String[] args) {
-        System.out.println(findById(3));
+        System.out.println(findById(9));
     }
 }
