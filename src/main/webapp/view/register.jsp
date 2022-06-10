@@ -87,7 +87,7 @@
 
                         <!--Phone-->
                         <li class="item block relative z-0 w-full mb-7">
-                            <input type="tel" id="phone" name="phone" placeholder=" " required
+                            <input type="tel" id="phone" name="phone" placeholder=" " required onchange="checkPhone()"
                                    class="pt-3 pb-1 block w-full px-0 mt-2 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
                             <p id="phoneError" class="warning font-light absolute right-0"></p>
                             <label for="phone" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Số điện thoại</label>
@@ -132,7 +132,7 @@
                         </li>
 
                         <li class="mb-9">
-                            <button type="submit" id="register-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" >
+                            <button type="submit" id="register-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick="return validate()">
                                 Đăng ký
                             </button>  
                         </li>
@@ -171,6 +171,7 @@
 
 
         </div>
+        <script src="../assets/javascript/jquery.js"></script>
         <script>
             // Toggle Password
             const togglePassword = document.querySelector("#toggle-password");
@@ -233,7 +234,7 @@
                 jQuery.ajax({
                     type: 'POST',
                     data: 'username=' + $("#username").val(),
-                    url: 'CheckUsernameServlet',
+                    url: '/sakura/account/checkUsername',
                     success: function (result) {
                         if (result.length === 0) {
                             var re = /^\w+$/;
@@ -262,7 +263,7 @@
                 jQuery.ajax({
                     type: 'POST',
                     data: 'email=' + $("#email").val(),
-                    url: 'CheckEmailServlet',
+                    url: '/sakura/account/checkEmail',
                     success: function (result) {
                         if (result.length === 0) {
                             var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
@@ -305,6 +306,18 @@
                 }
             }
 
+            function checkPhone() {
+                $("#phoneError").html("");
+                $("#phone").css("border", "");
+                console.log("checking phone");
+                var phone = $("#phone").val().trim();
+                var re = /^\d{10}$/;
+                if (!re.test(phone)) {
+                    $("#phoneError").html("SĐT phải có 10 chữ số!");
+                    $("#phoneError").css("color", "red");
+                }
+            }
+
             function validate() {
                 var registerForm = document.getElementById("registerForm");
                 var fullname = $("#fullname").val().trim();
@@ -336,6 +349,10 @@
                 } else if (!confirmPassword || $("#cf-passwordError").html() !== "") {
                     $("#cf-password").css("border-bottom", "1.5px solid red");
                     $("#cf-password").focus();
+                    return false;
+                } else if (!phone || $("#phoneError").html() !== "") {
+                    $("#phone").css("border-bottom", "1.5px solid red");
+                    $("#phone").focus();
                     return false;
                 }
 //                if ($("#usernameError").html.length !== 0 || !$("#emailError").html().length !== 0)
