@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sakura - Login</title>
+        <title>Sakura - Đăng nhập</title>
 
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,47 +21,19 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
         <!--Favicon-->
-        <link rel="shortcut icon" href="assets/icons/logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
 
         <!--CSS-->
-        <link rel="stylesheet" href="../assets/css/style.css">
         <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="../assets/css/register.css">
         <link rel="stylesheet" href="../assets/css/app.css">
-        
-        <link rel="stylesheet" href="../assets/css/homepage-base.css">
-        <link rel="stylesheet" href="../assets/css/homepage-vendor.css">
-        <link rel="stylesheet" href="../assets/css/homepage-main.css">
     </head>
     <body>
-        <!-- logo -->
-        <nav class="container header">
-            <a class="logo" href="#">
-                <img id="logo-header" src="../assets/icons/logo_white.png" alt="">
-                <h3 id="name-header">Sakura</h3>
-            </a>
-            <!-- left header section -->
-            <div class="item-list">
-                <a class="item active" href="#">Trang chủ</a>
-                <a class="item" href="#">Thuê phòng</a>
-            </div>
-            <!-- right header section -->
-            <div class="access-login">
-                <a href="#">
-                    <i class="bi bi-bell-fill"></i>
-                </a>
-                <a href="#">
-                    <i class="bi bi-person-fill"></i>
-                </a>
-                <a href="#">
-                    <i class="bi bi-box-arrow-right"></i>
-                </a>
-            </div>
-        </nav>
 
         <div class="logo absolute z-10">
             <div class="container px-6 py-5">
                 <div class="flex justify-center items-center">
-                    <img class="w-9 h-9" src="assets/icons/logo_white.png" alt="">
+                    <a href="/sakura"><img class="w-9 h-9" src="../assets/icons/logo_white.png" alt=""></a>
                 </div>
             </div>
         </div>
@@ -74,52 +46,54 @@
                     <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Welcome Back!</h2>
                     <p class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">To keep connected with us please login with your personal info</p>
                 </div>
-                <img class="w-2/5 h-screen absolute" src="assets/images/bg3.jpg" alt="">
+                <img class="w-2/5 h-screen absolute" src="../assets/images/bg3.jpg" alt="">
             </div>
 
             <!-- login form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/login" method="post" id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/login" method="post" id="form" name="login-form" novalidate="true">
 
-                    <div class="form-header w-full h-20 text-center m-0 p-0 relative">
-                        <h2 class="text-3xl text-[#FF6532] font-medium">Đăng nhập</h2>
+                    <div class="form-header w-full h-auto text-center m-0 py-2 relative">
+                        <h2 class="text-3xl text-[#FF6532] font-medium mb-5">Đăng nhập</h2>
                         <p id="error" class="warning text-base font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
                     </div>
-                    <ul class="item-list list-none p-0 w-3/5">
-
-                        <!--Username-->
-                        <li class="item relative mt-[20px] mb-[40px]">
-                            <input type="text" class="input-field text-[16px] w-full border-b-2 border-[#c5c5c5] text-[#252525] outline-none bg-transparent peer py-2 pr-[36px] placeholder-transparent" id="username" name="username" placeholder="Username" value="" />
-                            <label class="absolute left-0 -top-[15px] peer-placeholder-shown:text-[#7b8577] peer-placeholder-shown:font-light peer-placeholder-shown:text-base peer-placeholder-shown:top-[8.5px] transition-all font-light text-sm" for="email">Tên đăng nhập</label>
+                    <ul class="item-list list-none p-0 w-[52%]">
+                        <!--User name-->
+                        <li class="item block relative z-0 w-full mt-5">
+                            <input type="text" id="username" name="username" placeholder=" " required onchange="checkUsername()"
+                                   class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none  focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
+                            <label for="username" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Tên đăng nhập <span class="font-extralight"></span></label>
                         </li>
+
                         <!--Password-->
-                        <li id="password-input" class="item relative mt-[20px]">
-                            <input type="password" class="input-field text-[16px] w-full border-b-2 border-[#c5c5c5] text-[#252525] outline-none focus:outline-none bg-transparent peer py-2 pr-[36px] placeholder-transparent" id="password" name="password" placeholder="Password" />
-                            <label class="absolute left-0 -top-[15px] peer-placeholder-shown:text-[#7b8577] peer-placeholder-shown:font-light peer-placeholder-shown:text-base peer-placeholder-shown:top-[8.5px] transition-all font-light text-sm" for="password">Mật khẩu</label>
-                            <i class="bi bi-eye-slash absolute right-[10px] bottom-[13px] cursor-pointer" id="toggle-password"></i>
+                        <li class="item block relative z-0 w-full mt-7 mb-0">
+                            <input type="password" id="password" name="password" placeholder=" " required onchange="checkPassword()"
+                                   class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
+                            <label for="password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Mật khẩu <span class="font-extralight"></span></label>
+                            <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-password"></i>
                         </li>
 
-                        <div id="more" class="mt-3 mb-9 flex justify-between">
-                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="signup" href="/sakura/access/registerPage">Đăng ký</a>
-                            <a class="hover:text-[#252525] hover:font-medium transition-all" id="forgot" href="/sakura/access/forgotPasswordPage">Quên mật khẩu?</a>
+                        <div id="more" class="mt-2 mb-12 text-sm font-light">
+                            <a class="hover:text-[#FF6532]" id="forgot" href="/sakura/access/forgotPasswordPage">Quên mật khẩu?</a>
                         </div>
-                        <li>
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick="return validate()">Đăng nhập</button>
-
-
+                        <li class="mb-9">
+                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">Đăng nhập</button>
                         </li>
-                        <li class="mt-8">
-                            <p class="text-center text-base font-light">hoặc tiếp tục với</p>
+                        <div id="more" class="mt-3 flex justify-center text-sm font-light">
+                            <span>Chưa có tài khoản? </span> <a id="signup" href="/sakura/access/registerPage" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng ký</a>
+                        </div>
+                        <li class="mt-2">
+                            <p class="text-center text-sm font-light">hoặc tiếp tục với</p>
                             <div class="social flex justify-between my-5">
-                                <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-all" href="#">
+                                <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-transform" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="assets/icons/google.svg" width="20" height="20"></object>
+                                        <object class="inline" data="../assets/icons/google.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Google</span>
                                     </div>
                                 </a>
-                                <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-all" href="#">
+                                <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-transform" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="assets/icons/facebook.svg" width="20" height="20"></object>
+                                        <object class="inline" data="../assets/icons/facebook.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Facebook</span>
                                     </div>
                                 </a>
@@ -140,7 +114,6 @@
 
 
         </div>
-        <script src="../assets/javascript/jquery.js"></script>
         <script type="text/javascript">
             window.addEventListener("scroll", function () {
                 var header = document.querySelector(".header");
@@ -174,31 +147,36 @@
                 this.classList.toggle('bi-eye');
             });
 
-            // Ripple effect
-            function rippleEffect(event) {
-                const btn = event.currentTarget;
+            // Ripple Effect
+            const button = document.querySelector('#login-btn');
 
-                const circle = document.createElement("span");
-                const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-                const radius = diameter / 2;
+            button.addEventListener('click', function (e) {
+                // 1
+                let x = e.clientX;
+                let y = e.clientY;
 
-                circle.style.width = circle.style.height = `${diameter}px`;
-                circle.style.left = `${event.clientX - (btn.offsetLeft + radius)}px`;
-                circle.style.top = `${event.clientY - (btn.offsetTop + radius)}px`;
-                circle.classList.add("ripple");
+                // 2
+                let buttonTop = e.target.offsetTop;
+                let buttonLeft = e.target.offsetLeft;
 
-                const ripple = btn.getElementsByClassName("ripple")[0];
+                // 3
+                let xInside = x - buttonLeft;
+                let yInside = y - buttonTop;
 
-                if (ripple) {
-                    ripple.remove();
-                }
+                let circle = document.createElement('span');
+                circle.classList.add('circle');
+                circle.style.top = yInside + 'px';
+                circle.style.left = xInside + 'px';
 
-                btn.appendChild(circle);
-            }
+                this.appendChild(circle);
 
-            const btn = document.getElementById("login-btn");
-            btn.addEventListener("click", rippleEffect);
-            
+                setTimeout(() => {
+                    circle.remove();
+                }, 500);
+            });
+
+            // ====================================
+            // Validation
             function validate() {
                 var username = $('#username').val().trim();
                 var password = $('#password').val().trim();

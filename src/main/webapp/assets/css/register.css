@@ -2,10 +2,6 @@
     margin: 20px 0 35px;
 }
 
-input:-webkit-autofill {
-    -webkit-background-clip: text;
-}
-
 .input-field {
     font-size: 20px;
     width: 100%;
@@ -26,24 +22,84 @@ input:-webkit-autofill {
 }
 
 .item p {
-    font-size: 10px;
+    font-size: 13px;
+    font-weight: 400;
+    /*color: rgb(226, 82, 82);*/
 }
 
 .password-input input {
     padding-right: 34px;
 }
 
-/* ------  */
-input[type="radio"] + label span {
+.role label, .role label:hover {
+    cursor: pointer;
+}
+
+/* ============================= */
+/* Addition */
+.-z-1 {
+    z-index: -1;
+}
+
+.origin-0 {
+    transform-origin: 0%;
+}
+
+input:focus~label:not(.role-label),
+input:not(:placeholder-shown)~label:not(.role-label),
+textarea:focus~label,
+textarea:not(:placeholder-shown)~label,
+select:focus~label,
+select:not([value='']):valid~label {
+    /* @apply transform; scale-75; -translate-y-6; */
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    --tw-rotate: 0;
+    --tw-skew-x: 0;
+    --tw-skew-y: 0;
+    transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    --tw-scale-x: 0.75;
+    --tw-scale-y: 0.75;
+    --tw-translate-y: -1.5rem;
+}
+
+input:focus~label,
+select:focus~label {
+    /* @apply text-black; left-0; */
+    --tw-text-opacity: 1;
+    /*color: rgba(0, 0, 0, var(--tw-text-opacity));*/
+    color: #17535B;
+    left: 0px;
+}
+
+/* Change autocomplete styles in WebKit */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #17535B;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/*========*/
+input[type="radio"]+label span {
     transition: background 0.2s, transform 0.2s;
 }
-input[type="radio"] + label span:hover, input[type="radio"] + label:hover span {
+
+input[type="radio"]+label span:hover, input[type="radio"]+label:hover span {
     transform: scale(1.2);
 }
-input[type="radio"]:checked + label span {
+
+input[type="radio"]:checked+label span {
     background-color: #2c6961;
     box-shadow: 0px 0px 0px 2px white inset;
 }
-input[type="radio"]:checked + label {
+
+input[type="radio"]:checked+label {
     color: #2c6961;
 }

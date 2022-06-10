@@ -26,58 +26,45 @@
 
         <!--CSS-->
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="../assets/css/userProfile.css">
-
+        <link rel="stylesheet" href="/sakura/assets/css/user-profile.css">   
+        <link rel="stylesheet" href="/sakura/assets/css/header-user.css">
     </head>
     <body>
-
+        <header id="header-section" class="sticky">
+            <%@include file="headerUser.jsp" %>
+        </header>
         <c:choose>
             <c:when test="${sessionScope.currentUser != null}">
-                <div class="header-section">
-                    <nav class="header sticky">
-                        <a class="logo" href="#">
-                            <img id="logo-header" src="../assets/icon/logo.png" alt="">
-                            <h3 id="name-header">Sakura</h3>
+                <!--Profile panel-->
+                <div class="profile-section w-screen h-screen flex justify-center pt-[70px] relative overflow-hidden">
+                    <%-- Notification --%>
+                    <!--code for notification starts--> 
+                    <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
+                         class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden"
+                         id="notification">
+                        <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <div class="px-2 py-2">
+                            <h1 class="text-lg text-[#4d4d4d] font-semibold">Lưu thành công!</h1>
+                            <p class="text-[12px] text-[#8a8a8a] font-normal">Thông tin của bạn đã được cập nhật.</p>
+                        </div>
+                        <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeModal()">
+                            <i class="bi bi-x-lg"></i>
                         </a>
-                        <!-- left header section -->
-                        <div class="item-list">
-                            <a class="item" href="#">Trang chủ</a>
-                            <a class="item" href="#">Thuê phòng</a>
-                        </div>
-                        <!-- right header section -->
-                        <div class="profile">
-                            <div class="profile-avatar" onclick="menuToggle()">
-                                <img src="../assets/images/ava3.jpg" alt="">
-                            </div>
-                            <div class="profile-menu">
-                                <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
-                                <ul>
-                                    <a href="/sakura/account/userProfilePage">
-                                        <li><span><i class="bi bi-person-fill"></i>Trang cá nhân</span></li>
-                                    </a>
-                                    <a href="/sakura/account/changePasswordPage">
-                                        <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
-                                    </a>
-                                    <a href="#">
-                                        <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
-                                    </a>
-                                    <a href="/sakura/access/logout">
-                                        <li><span><i class="bi bi-box-arrow-right"></i>Đăng xuất</span></li>
-                                    </a>
-                                </ul>
-                            </div>
+                    </div>
+                    <!--code for notification ends-->
 
-                        </div>
-                    </nav>
-                </div>
-                <div class="profile-section w-screen h-screen flex justify-center pt-[70px]">
-                    <div
-                        class="profile-container w-3/5 h-[70%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
+                    <div class="profile-container w-3/5 h-[70%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
                         <!-- Left Side -->
                         <div class="profile-left w-[30%] h-full relative">
                             <!-- Profile Card -->
                             <div class="card">
                                 <div class="card-image">
+                                    <form class="change-img" method="post" action="/sakura/account/upload-image" enctype="multipart/form-data">
+                                        <input type="file" name="file" size="60" /><br /><br /> 
+                                        <input type="submit" value="Upload" />
+                                    </form>
                                     <img src="../assets/images/user-avatar/ava3.jpg" alt="">
                                 </div>
                                 <h1 class="text-[25px] font-semibold text-[#FF6532] mt-[20px]">${sessionScope.currentUser.fullname}</h1>
@@ -104,7 +91,7 @@
                         <!-- Right Side -->
                         <div class="profile-right w-3/5 h-full ml-[60px] relative">
                             <!-- About Section -->
-                            <form action="" method="POST">
+                            <form id="profile-form" action="" method="POST">
                                 <div class="profile-info">
 
                                     <div class="info-title">
@@ -115,14 +102,16 @@
                                         <div class="detail-item">
                                             <label for="fullname">Họ tên</label>
                                             <input type="text" id="fullname" name="fullname" placeholder="${sessionScope.currentUser.fullname}" value="${sessionScope.currentUser.fullname}">
+                                            <p class="error" id="fullnameError">Tên không hợp lệ</p>
                                         </div>
                                         <div class="detail-item">
                                             <label for="username">Tên đăng nhập</label>
                                             <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}">
+                                            <p class="error" id="usernameError">Tên đăng nhập không hợp lệ</p>
                                         </div>
                                         <div class="detail-item">
                                             <label for="birthday">Ngày sinh</label>
-                                            <p id="birthday">17 / 02 / 2002</p>
+                                            <p id="birthday">19 / 11 / 2002</p>
                                         </div>
                                         <div class="detail-item">
                                             <label for="gender">Giới tính</label>
@@ -137,10 +126,12 @@
                                         <div class="detail-item">
                                             <label for="phone">Số điện thoại</label>
                                             <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.phone}" value="${sessionScope.currentUser.phone}">
+                                            <p class="error" id="phoneError">Số điện thoại bao gồm 10 chữ số</p>
                                         </div>
                                         <div class="detail-item">
                                             <label for="email">Email</label>
                                             <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}">
+                                            <p class="error" id="emailError">Không đúng định dạng email</p>
                                         </div>
                                         <div class="detail-item">
                                             <label for="facebook">Facebook</label>
@@ -150,8 +141,8 @@
                                 </div>
                                 <button id="confirm" type="submit" name="action" value="Save" class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded-lg absolute right-0 bottom-0">Lưu thay đổi</button>
                                 <!-- End of about section -->
+                            </form>
                         </div>
-                        </form>
                     </div>
                 </div>
 
@@ -169,39 +160,30 @@
                             </svg>
                             <span class="text-sm">(Esc)</span>
                         </div>
-
-                        <!-- Add margin if you want to see some of the overlay behind the modal-->
                         <div class="modal-content py-4 text-left px-6">
                             <!--Title-->
                             <div class="flex justify-between items-center pb-3 mb-5">
                                 <p class="text-2xl font-bold">Xác nhận thay đổi</p>
                                 <div class="modal-close cursor-pointer z-50">
-                                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                         viewBox="0 0 18 18">
-                                    <path
-                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                                    </path>
+                                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                                     </svg>
                                 </div>
                             </div>
-
                             <!--Body-->
                             <p>Bạn chắc chắn muốn lưu thông tin thay đổi?</p>
-
                             <!--Footer-->
                             <div class="flex justify-end pt-2 mt-5">
                                 <button class="modal-close px-4 text-[#7e7e7e] p-3 rounded-lg hover:text-[#FF6532]">Huỷ</button>
-                                <button class="px-4 p-3 rounded-lg bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
-
+                                <button id="cf-btn" class="px-4 p-3 rounded-lg bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </c:when>
             <c:otherwise>
                 <h2>Login to see this page</h2>
-                <a href="/sakura/access/loginPage">Go to login page</a>
+                <a href="login.jsp">Go to login page</a>
             </c:otherwise>
         </c:choose>
         <script>
@@ -242,14 +224,30 @@
                 body.classList.toggle('modal-active');
             }
 
-
+            const cfBtn = document.querySelector("#cf-btn");
+            const form = document.querySelector("#profile-form");
+            //            form.submit();
+            cfBtn.addEventListener("click", () => {
+                form.submit();
+            });
         </script>
-
         <script>
             function menuToggle() {
                 const toggleMenu = document.querySelector(".profile-menu");
                 toggleMenu.classList.toggle("active");
             }
         </script>
+        <script>
+            var Notification = document.getElementById("notification");
+            Notification.style.transform = "translateX(150%)";
+            Notification.classList.remove("hidden");
+            Notification.style.transform = "translateX(0%)";
+            function closeModal() {
+                Notification.style.transform = "translateX(150%)";
+                Notification.classList.remove("hidden");
+                // setTimeout(function () {Notification.style.transform = "translateX(0%)";}, 1000);
+            }
+        </script>
+
     </body>
 </html>
