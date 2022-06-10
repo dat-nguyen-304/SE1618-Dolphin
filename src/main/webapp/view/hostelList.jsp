@@ -307,9 +307,8 @@
                                     </div>
                                 </div>
                                 <div class="filter-item favorite-filter col-12 col-sm-4">
-                                    <a href="#" class="submit-filter">Yêu thích</a>
+                                    <a href="/sakura/hostel/list?favorite=true" class="submit-filter">Yêu thích</a>
                                 </div>
-
                             </div>
 
                         </div>
@@ -407,25 +406,21 @@
                                                 <span class="hostel-rating-number">${hostel.rating}/5</span>
                                             </div>
                                             <c:set var="contains" value="false"/>
-                                            <c:if test="${sessionScope.favoriteHostels != null}">
-                                                <c:forEach var="item" items="${sessionScope.favoriteHostels}">
-                                                    <c:if test="${item.hostel.hostelID eq hostel.hostelID && item.activate == true}">
-                                                        <c:set var="contains" value="true" />
-                                                    </c:if>
-                                                </c:forEach>
-                                            </c:if>
+                                            <c:forEach var="item" items="${sessionScope.favoriteHostels}">
+                                                <c:if test="${item.hostel.hostelID eq hostel.hostelID && item.activate == true}">
+                                                    <c:set var="contains" value="true" />
+                                                </c:if>
+                                            </c:forEach>
                                             <c:choose>
                                                 <c:when test="${contains == true}">
                                                     <div class="hostel-favorite">
-                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div class="hostel-favorite">
-                                                        <i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                    </div>
-                                                </c:otherwise>
-                                            </c:choose>
+                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)">
+                                                        </i></div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                    <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i></div>
+                                                    </c:otherwise>
+                                                </c:choose>
                                         </div>
                                         <div class="hostel-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
                                         <div class="hostel-info">

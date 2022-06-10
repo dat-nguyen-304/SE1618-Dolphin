@@ -109,10 +109,35 @@ public class LandlordDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         return landlord;
     }
-    
+
+    public static Landlord findByAccount(Account acc) {
+        Landlord landlord = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Landlord where landlordID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, acc.getAccountID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String fullname = rs.getString("fullname");
+                        String phone = rs.getString("phone");
+                        landlord = new Landlord(acc, fullname, phone);
+                    }
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return landlord;
+    }
+
     public static boolean deleteById(int id) {
         return AccountDAO.deleteById(id);
     }

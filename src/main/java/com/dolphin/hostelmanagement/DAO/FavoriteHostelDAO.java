@@ -29,7 +29,7 @@ public class FavoriteHostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 String sql = "insert into FavoriteHostel(hostelID, tenantID, activate) values(?, ?, ?)";
-                PreparedStatement pst = cn.prepareStatement(sql);
+                PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, hostelID);
                 pst.setInt(2, tenantID);
                 pst.setBoolean(3, true);
@@ -52,7 +52,7 @@ public class FavoriteHostelDAO {
         return check;
     }
 
-    public static List<FavoriteHostel> findByTenantID(int findTenantID) {
+    public static List<FavoriteHostel> findByTenant(Tenant t) {
         List<FavoriteHostel> list = null;
         Connection cn = null;
         try {
@@ -61,15 +61,14 @@ public class FavoriteHostelDAO {
                 list = new ArrayList();
                 String sql = "select * from FavoriteHostel where tenantID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
-                pst.setInt(1, findTenantID);
+                pst.setInt(1, t.getAccount().getAccountID());
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
                         int id = rs.getInt("favoriteHostelID");
                         int hostelID = rs.getInt("hostelID");
                         Hostel hostel = HostelDAO.findById(hostelID);
-                        int tenantID = rs.getInt("tenantID");
-                        Tenant tenant = TenantDAO.findById(tenantID);
+                        Tenant tenant = t;
                         boolean activate = rs.getBoolean("activate");
                         list.add(new FavoriteHostel(id, hostel, tenant, activate));
                     }
@@ -89,7 +88,7 @@ public class FavoriteHostelDAO {
         return list;
     }
 
-    public static FavoriteHostel findByHostelTenant(int hostelID, int tenantID) {
+    public static FavoriteHostel findByHostelTenant(int hostelID, Tenant tenant) {
         FavoriteHostel t = null;
         Connection cn = null;
         try {
@@ -98,10 +97,10 @@ public class FavoriteHostelDAO {
                 String sql = "select * from FavoriteHostel where hostelID = ? and tenantID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, hostelID);
-                pst.setInt(2, tenantID);
+                pst.setInt(2, tenant.getAccount().getAccountID());
                 ResultSet rs = pst.executeQuery();
                 if (rs != null && rs.next()) {
-                    t = new FavoriteHostel(rs.getInt("favoriteHostelID"), HostelDAO.findById(hostelID), TenantDAO.findById(tenantID), rs.getBoolean("activate"));
+                    t = new FavoriteHostel(rs.getInt("favoriteHostelID"), HostelDAO.findById(hostelID), tenant, rs.getBoolean("activate"));
                 }
             }
         } catch (Exception e) {
@@ -118,8 +117,8 @@ public class FavoriteHostelDAO {
         return t;
     }
 
-    public static boolean toggleFavoriteHostel(int hostelID, int tenantID) {
-        FavoriteHostel favHostel = findByHostelTenant(hostelID, tenantID);
+    public static boolean toggleFavoriteHostel(int hostelID, Tenant tenant) {
+        FavoriteHostel favHostel = findByHostelTenant(hostelID, tenant);
         if (favHostel != null) {
             boolean check = false;
             Connection cn = null;
@@ -136,7 +135,7 @@ public class FavoriteHostelDAO {
                     pst.setInt(2, favHostel.getFavoriteHostelID());
                     check = pst.executeUpdate() != 0;
                     if (check) {
-                        System.out.println("!!! TOGGLED FavoriteHostel hostelID=" + hostelID + " tenantID=" + tenantID);
+                        System.out.println("!!! TOGGLED FavoriteHostel hostelID=" + hostelID + " tenantID=" + tenant.getAccount().getAccountID());
                     }
                 }
             } catch (Exception e) {
@@ -156,9 +155,9 @@ public class FavoriteHostelDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(HostelDAO.findById(1));
-        System.out.println(TenantDAO.findById(3));
-        System.out.println(findByHostelTenant(1, 3));
+        Account acc = AccountDAO.findById(3);
+        Tenant t = TenantDAO.findByAccount(acc);
+        System.out.println(findByHostelTenant(1, t));
 //        System.out.println(toggleFavoriteHostel(1, 3));
     }
 }

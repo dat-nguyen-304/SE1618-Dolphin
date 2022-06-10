@@ -72,22 +72,23 @@ public class AccessController extends HttpServlet {
                             
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
-                                if (acc.getRole() == 1) {
-                                    session.setAttribute("role", 1);
-                                    Tenant tenant = TenantDAO.findById(acc.getAccountID());
-                                    tenant.setAccount(acc);
-                                    session.setAttribute("currentUser", tenant);
-                                } else {
-                                    System.out.println("line 41 landlord");
-                                    session.setAttribute("role", 2);
-                                    Landlord landlord = LandlordDAO.findById(acc.getAccountID());
-                                    landlord.setAccount(acc);
-                                    session.setAttribute("currentUser", landlord);
-                                }
+                            if (acc.getRole() == 1) {
+                                session.setAttribute("role", 1);
+                                Tenant tenant = TenantDAO.findByAccount(acc);
+                                session.setAttribute("currentUser", tenant);
+                                List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenant(tenant);
+                                session.setAttribute("favoriteHostels", favoriteHostels);
+                            } else {
+                                System.out.println("line 41 landlord");
+                                session.setAttribute("role", 2);
+                                Landlord landlord = LandlordDAO.findByAccount(acc);
+                                session.setAttribute("currentUser", landlord);
+                            }
                                 url = "/hostel/list";
 
-                                List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenantID(acc.getAccountID());
-                                session.setAttribute("favoriteHostels", favoriteHostels);
+                                // Chỉ khi tenant log in mới set?? đem lên 83? Landlord chưa có trang?
+//                            List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenantID(acc.getAccountID());
+//                            session.setAttribute("favoriteHostels", favoriteHostels);
                             } else {
                                 request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
                                 url = "/view/login.jsp";

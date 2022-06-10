@@ -293,10 +293,6 @@ public class AccountDAO {
     }
     
     public static void main(String[] args) {
-        Account acc = findById(30);
-        
-        acc.setEmail("a@gmail.com");
-        
-        updateAccount(acc);
+
     }
 }
