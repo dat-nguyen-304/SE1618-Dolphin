@@ -5,6 +5,7 @@
 package com.dolphin.hostelmanagement.DAO;
 
 import com.dolphin.hostelmanagement.DTO.Account;
+import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -90,8 +91,6 @@ public class AccountDAO {
         }
             return t;
         }
-
-    
 
     public static Account findByEmail(String email) {
         for (Account account : findAll()) {
@@ -213,9 +212,10 @@ public class AccountDAO {
         }
         return check;
     }
-    
+
     public static boolean updateAccount(Account a) {
         boolean check = false;
+
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
@@ -225,13 +225,14 @@ public class AccountDAO {
                 pst.setString(1, a.getEmail());
                 pst.setInt(2, a.getAccountID());
                 check = pst.executeUpdate() != 0;
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return check;
     }
-    
+
     public static Account loginByEmail(String inputEmail, String inputPassword) {
         Account acc = null;
         Connection cn = null;

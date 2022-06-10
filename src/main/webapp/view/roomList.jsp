@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+<%-- 
+    Document   : roomList
+    Created on : Jun 9, 2022, 1:18:11 PM
+    Author     : Admin
+--%>
+
+>>>>>>> f58930d3640dc0e20dc8de9837396ec6f4604c4c
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>

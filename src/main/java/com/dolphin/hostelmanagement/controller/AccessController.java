@@ -61,6 +61,7 @@ public class AccessController extends HttpServlet {
                         if (username != null && password != null) {
                             Account acc = null;
 
+
                             if (username.contains("@")) {
                                 System.out.println("I logged in by email!");
                                 acc = AccountDAO.loginByEmail(username, password);
@@ -167,6 +168,7 @@ public class AccessController extends HttpServlet {
                     ex.printStackTrace();
                 }
                 request.getRequestDispatcher(url).forward(request, response);
+
             }
         }
     }

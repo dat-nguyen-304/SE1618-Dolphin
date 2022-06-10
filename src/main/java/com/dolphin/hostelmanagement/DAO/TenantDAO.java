@@ -144,7 +144,7 @@ public class TenantDAO {
     public static boolean deleteById(int id) {
         return AccountDAO.deleteById(id);
     }
-    
+
     public static void main(String[] args) {
         System.out.println(findById(3));
     }

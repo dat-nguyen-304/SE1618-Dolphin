@@ -10,7 +10,9 @@ import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Room;
+
 import com.dolphin.hostelmanagement.DTO.Tenant;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -159,7 +161,8 @@ public class HostelController extends HttpServlet {
                     }
                     session.setAttribute("favoriteHostels", FavoriteHostelDAO.findByTenantID(tenantID));
                 } catch (Exception e) {
-                    log("Error at ToggleFavHostelServlet: " + e.toString());
+//                    log("Error at ToggleFavHostelServlet: " + e.toString());
+                    e.printStackTrace();
                 }
             } else if (path.equals("/roomList")) {
                 int hostelID = 1;//Integer.parseInt(request.getParameter("hostelID"));                

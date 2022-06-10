@@ -215,7 +215,11 @@
 
 
                                     <div class="dropdown-divider"></div>
+<<<<<<< HEAD
                                     <a class="dropdown-item" href="/sakura/access/login" data-toggle="modal" data-target="#logoutModal">
+=======
+                                    <a class="dropdown-item" href="/sakura/access/logout">
+>>>>>>> f58930d3640dc0e20dc8de9837396ec6f4604c4c
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Đăng xuất
                                     </a>
