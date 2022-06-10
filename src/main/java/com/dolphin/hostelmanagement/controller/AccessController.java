@@ -51,120 +51,122 @@ public class AccessController extends HttpServlet {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
-            if (path.equals("/loginPage")) {
-                url = "/view/login.jsp";
-                RequestDispatcher rd = request.getRequestDispatcher(url);
-                rd.forward(request, response);
-            }
-            if (path.equals("/registerPage")) {
-                url = "/view/register.jsp";
-                RequestDispatcher rd = request.getRequestDispatcher(url);
-                rd.forward(request, response);
-            }
-            if (path.equals("/forgotPasswordPage")) {
-                url = "/view/forgotPassword.jsp";
-                RequestDispatcher rd = request.getRequestDispatcher(url);
-                rd.forward(request, response);
-            }
             if (path.equals("/login")) {
                 try {
                     String username = request.getParameter("username");
                     String password = request.getParameter("password");
-                    System.out.println("Hajjjj: " + username + " " + password);
-                    if (username != null && !username.equals("") && password != null && !password.equals("")) {
-                        Account acc = AccountDAO.login(username, password);
-                        if (acc != null) {
-
-                            HttpSession session = request.getSession(true);
-                            if (acc.getRole() == 1) {
-                                session.setAttribute("role", 1);
-                                Tenant tenant = TenantDAO.findById(acc.getAccountID());
-                                session.setAttribute("currentUser", tenant);
+                    String logout = request.getParameter("logout");
+                    //System.out.println("Hajjjj: " + username + " " + password);
+                    if (logout == null) {
+                        if (username != null && password != null) {
+                            Account acc = null;
+                            
+                            if (username.contains("@")) {
+                                System.out.println("I logged in by email!");
+                                acc = AccountDAO.loginByEmail(username, password);
                             } else {
-                                System.out.println("line 41 landlord");
-                                session.setAttribute("role", 2);
-                                Landlord landlord = LandlordDAO.findById(acc.getAccountID());
-                                session.setAttribute("currentUser", landlord);
+                                System.out.println("I logged in by username!");
+                                acc = AccountDAO.login(username, password);
                             }
-                            url = "/hostel/list";
+                            
+                            if (acc != null) {
+                                HttpSession session = request.getSession(true);
+                                if (acc.getRole() == 1) {
+                                    session.setAttribute("role", 1);
+                                    Tenant tenant = TenantDAO.findById(acc.getAccountID());
+                                    tenant.setAccount(acc);
+                                    session.setAttribute("currentUser", tenant);
+                                } else {
+                                    System.out.println("line 41 landlord");
+                                    session.setAttribute("role", 2);
+                                    Landlord landlord = LandlordDAO.findById(acc.getAccountID());
+                                    landlord.setAccount(acc);
+                                    session.setAttribute("currentUser", landlord);
+                                }
+                                url = "/hostel/list";
 
-                            List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenantID(acc.getAccountID());
-                            session.setAttribute("favoriteHostels", favoriteHostels);
-
+                                List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenantID(acc.getAccountID());
+                                session.setAttribute("favoriteHostels", favoriteHostels);
+                            } else {
+                                request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+                                url = "/view/login.jsp";
+                            }
                         } else {
-                            request.setAttribute("error", "Sai tên đăng nhập hoặc sai mật khẩu!");
                             url = "/view/login.jsp";
                         }
+
+                        request.getRequestDispatcher(url).forward(request, response);
                     } else {
-                        url = "/view/login.jsp";
+                        HttpSession session = request.getSession(true);
+                        session.invalidate();
+                        url = "/sakura/";
+                        response.sendRedirect(url);
                     }
                 } catch (Exception e) {
                     log("Error at LoginServlet: " + e.toString());
-                } finally {
-                    request.getRequestDispatcher(url).forward(request, response);
                 }
             }
             if (path.equals("/register")) {
-                System.out.println("I was in here!");
+                //System.out.println("I was in here!");
 
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                String fullname = request.getParameter("fullname");
                 String username = request.getParameter("username");
-                String email = request.getParameter("email");
-                String phone = request.getParameter("phone");
                 String password = request.getParameter("password");
-                Date regDate = new Date();
-                int role = Integer.parseInt(request.getParameter("role"));
-                boolean status = true;
-                boolean check = false;
-                try {
-                    if (role == 1) {
-                        Tenant t = new Tenant(new Account(0, username, password, email, regDate, role, status), fullname, phone, false);
-                        check = TenantDAO.save(t);
-                    } else {
-                        Landlord l = new Landlord(new Account(0, username, password, email, regDate, role, status), fullname, phone);
-                        check = LandlordDAO.save(l);
+                if (username != null && password != null) {
+                    try {
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        String email = request.getParameter("email");
+                        String fullname = request.getParameter("fullname");
+                        String phone = request.getParameter("phone");
+                        Date regDate = new Date();
+                        int role = Integer.parseInt(request.getParameter("role"));
+                        boolean status = true;
+                        boolean check = false;
+                        if (role == 1) {
+                            Tenant t = new Tenant(new Account(0, username, password, email, regDate, role, status), fullname, phone, false);
+                            check = TenantDAO.save(t);
+                        } else {
+                            Landlord l = new Landlord(new Account(0, username, password, email, regDate, role, status), fullname, phone);
+                            check = LandlordDAO.save(l);
+                        }
+                        if (check) {
+                            request.setAttribute("successNotification", "Registered Successfully!");
+                            url = "/view/login.jsp";
+                        }
+                    } catch (Exception e) {
+                        log("Error at SignUpServlet: " + e.toString());
                     }
-                    if (check) {
-                        request.setAttribute("successNotification", "Registered Successfully!");
-                        url = "/view/login.jsp";
-                    }
-                } catch (Exception e) {
-                    log("Error at SignUpServlet: " + e.toString());
-                } finally {
-                    request.getRequestDispatcher(url).forward(request, response);
+                } else {
+                    System.out.println("Redirect here!");
+                    url = "/view/register.jsp";
                 }
+
+                request.getRequestDispatcher(url).forward(request, response);
             }
             if (path.equals("/forgotPassword")) {
                 try {
                     String email = request.getParameter("txt-email");
-                    String newPwd = StringUtils.randomString(12);
+                    if (email != null) {
+                        String newPwd = StringUtils.randomString(12);
 
-                    Account acc = AccountDAO.findByEmail(email);
+                        Account acc = AccountDAO.findByEmail(email);
 
-                    System.out.println("Email: " + email);
+                        System.out.println("Email: " + email);
 
-                    if (acc != null) {
-                        AccountDAO.changePassword(acc.getAccountID(), newPwd);
+                        if (acc != null) {
+                            AccountDAO.changePassword(acc.getAccountID(), newPwd);
 
-                        EmailService sender = new EmailService();
-                        sender.sendMail(email, newPwd);
+                            EmailService sender = new EmailService();
+                            sender.sendMail(email, newPwd);
 
+                        }
                         url = "/view/login.jsp";
+                    } else {
+                        url = "/view/forgotPassword.jsp";
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                } finally {
-                    url = "/view/login.jsp";
-                    request.getRequestDispatcher(url).forward(request, response);
                 }
-            }
-            if (path.equals("/logout")) {
-                System.out.println("This is log out");
-                HttpSession session = request.getSession();
-                session.invalidate();
-
-                response.sendRedirect("/view/homepage.jsp");
+                request.getRequestDispatcher(url).forward(request, response);
             }
         }
     }

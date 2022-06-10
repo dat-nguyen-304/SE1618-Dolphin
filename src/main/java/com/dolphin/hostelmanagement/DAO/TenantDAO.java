@@ -121,6 +121,25 @@ public class TenantDAO {
         }
         return t;
     }
+    
+    public static boolean updateTenant(Tenant t) {
+        boolean check = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update Tenant set fullname = ?, phone = ? where tenantID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setNString(1, t.getFullname());
+                pst.setString(2, t.getPhone());
+                pst.setInt(3, t.getAccount().getAccountID());
+                check = pst.executeUpdate() != 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return check;
+    }
 
     public static boolean deleteById(int id) {
         return AccountDAO.deleteById(id);

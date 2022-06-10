@@ -137,7 +137,7 @@
                             </button>  
                         </li>
                         <div id="more" class="mt-3 flex justify-center text-sm font-light">
-                            <span>Đã có tài khoản? </span> <a id="signin" href="/sakura/access/loginPage" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng nhập</a>
+                            <span>Đã có tài khoản? </span> <a id="signin" href="/sakura/access/login" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng nhập</a>
                         </div>
                         <li class="mt-1">
                             <p class="text-center text-sm font-light">hoặc bắt đầu với</p>

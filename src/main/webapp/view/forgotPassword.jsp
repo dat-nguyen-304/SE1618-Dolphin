@@ -57,7 +57,7 @@
                     <!--form header-->
                     <div class="form-header w-full h-28 mb-5 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Lấy lại mật khẩu</h2>
-                        <p id="error" class="warning text-base font-light mt-4">Link khôi phục mật khẩu sẽ được gửi vào mail liên kết với tài khoản của bạn!</p>
+                        <p id="error" class="warning text-base font-light mt-4">Mật khẩu mới sẽ được gửi vào email liên kết của bạn!</p>
                     </div>
 
                     <ul class="item-list list-none mt-12 w-3/5">

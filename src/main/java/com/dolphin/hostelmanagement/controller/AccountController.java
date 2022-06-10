@@ -5,6 +5,8 @@
 package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.AccountDAO;
+import com.dolphin.hostelmanagement.DAO.LandlordDAO;
+import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
@@ -39,66 +41,95 @@ public class AccountController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         String path = request.getPathInfo();
-        if (path == null) {
-            url = ERROR;
-        } else if (path.equals("/changePasswordPage")) {
-            url = "/view/changePassword.jsp";
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-        } else if (path.equals("/userProfilePage")) {
-            url = "/view/userProfile.jsp";
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-        } else if (path.equals("/changePassword")) {
+        if (path.equals("/changePassword")) {
             try {
                 HttpSession session = request.getSession(true);
                 String currentPassword = (String) request.getParameter("currentPwd");
                 String newPassword = (String) request.getParameter("newPwd");
                 String newPasswordConfirm = (String) request.getParameter("newPwdConfirm");
 
-                System.out.println("Current pwd: " + currentPassword);
-                System.out.println("New pwd: " + newPassword);
-                System.out.println("Newc pwd: " + newPasswordConfirm);
-                int role = (int) session.getAttribute("role");
-                url = "/view/changePassword.jsp";
-                //System.out.println("Role: " + role);
-                Account acc = null;
+                if (currentPassword != null) {
 
-                if (role == 1) {
-                    Tenant t = (Tenant) session.getAttribute("currentUser");
-                    acc = t.getAccount();
+                    System.out.println("Current pwd: " + currentPassword);
+                    System.out.println("New pwd: " + newPassword);
+                    System.out.println("Newc pwd: " + newPasswordConfirm);
+                    int role = (int) session.getAttribute("role");
+                    url = "/view/changePassword.jsp";
+                    //System.out.println("Role: " + role);
+                    Account acc = null;
+
+                    if (role == 1) {
+                        Tenant t = (Tenant) session.getAttribute("currentUser");
+                        acc = t.getAccount();
+                    } else {
+                        Landlord l = (Landlord) session.getAttribute("currentUser");
+                        acc = l.getAccount();
+                    }
+
+                    //System.out.println("username: " + acc.getUsername());
+                    if (acc.getPassword().compareTo(currentPassword) != 0) {
+                        request.setAttribute("errorMessage", "Wrong current password!");
+                    } else if (newPassword.compareTo(newPasswordConfirm) != 0) {
+                        request.setAttribute("errorMessage", "New passwords don't match!");
+                    } else {
+                        request.setAttribute("errorMessage", "Successfully changed password!");
+                        AccountDAO.changePassword(acc.getAccountID(), newPassword);
+                        acc.setPassword(newPassword);
+                    }
                 } else {
-                    Landlord l = (Landlord) session.getAttribute("currentUser");
-                    acc = l.getAccount();
+                    url = "/view/changePassword.jsp";
                 }
-
-                //System.out.println("username: " + acc.getUsername());
-                if (acc.getPassword().compareTo(currentPassword) != 0) {
-                    request.setAttribute("errorMessage", "Wrong current password!");
-                } else if (newPassword.compareTo(newPasswordConfirm) != 0) {
-                    request.setAttribute("errorMessage", "New passwords don't match!");
-                } else {
-                    request.setAttribute("errorMessage", "Successfully changed password!");
-                    AccountDAO.changePassword(acc.getAccountID(), newPassword);
-                    acc.setPassword(newPassword);
-                }
-
-                //url = "/view/changePassword.jsp";
             } catch (Exception ex) {
                 ex.printStackTrace();
-            } finally {
-                request.getRequestDispatcher(url).forward(request, response);
             }
-        } else if (path.equals(
-                "/changeProfilePage")) {
-            url = "/view/changeProfile.jsp";
             request.getRequestDispatcher(url).forward(request, response);
-        } else if (path.equals(
-                "/hostelListPage")) {
-            url = "/view/hostelList.jsp";
+        } else if (path.equals("/userProfile")) {
+            String fullname = request.getParameter("fullname");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+
+            if (fullname != null) {
+                HttpSession session = request.getSession(true);
+
+                int role = (int) session.getAttribute("role");
+
+                if (role == 1) { //tenant
+                    Tenant t = (Tenant) session.getAttribute("currentUser");
+                    t.setFullname(fullname);
+                    t.setPhone(phone);
+                    t.getAccount().setEmail(email);
+                    
+                    System.out.println("AccountID: " + t.getAccount());
+
+                    System.out.println("Email: " + t.getAccount().getEmail());
+                    
+                    if (TenantDAO.updateTenant(t)) {
+                        System.out.println("Successfully updated tenant's information!");
+                    }
+                    if (AccountDAO.updateAccount(t.getAccount())) {
+                        System.out.println("Successfully updated account's information!");
+                    }
+                } else if (role == 2) { //landlord, "else if" in case we need a new role :D 
+                    Landlord l = (Landlord) session.getAttribute("currentUser");
+                    l.setFullname(fullname);
+                    l.setPhone(phone);
+                    l.getAccount().setEmail(email);
+
+                    if (LandlordDAO.updateLandlord(l)) {
+                        System.out.println("Successfully updated landlord's information!");
+                    }
+                    if (AccountDAO.updateAccount(l.getAccount())) {
+                        System.out.println("Successfully updated account's information!");
+                    }
+                }
+                request.setAttribute("success", true);
+                url = "/view/userProfile.jsp";
+            } else {
+                url = "/view/userProfile.jsp";
+            }
+
             request.getRequestDispatcher(url).forward(request, response);
-        } else if (path.equals(
-                "/checkUsername")) {
+        } else if (path.equals("/checkUsername")) {
             String username = request.getParameter("username");
             try {
                 String servletResponse = "";
@@ -129,13 +160,6 @@ public class AccountController extends HttpServlet {
             } catch (Exception e) {
                 e.getMessage();
             }
-        } else if (path.equals(
-                "/logout")) {
-            System.out.println("This is log out");
-            HttpSession session = request.getSession();
-            session.invalidate();
-            //request.getRequestDispatcher("/view/homepage.jsp").forward(request, response);
-            response.sendRedirect("../");
         }
     }
 

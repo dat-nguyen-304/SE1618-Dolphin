@@ -16,7 +16,7 @@
     </div>
     <!-- right header section -->
     <div class="access">
-        <a href="/sakura/access/loginPage">Đăng nhập</a>
-        <a href="/sakura/access/registerPage">Đăng ký</a>
+        <a href="/sakura/access/login">Đăng nhập</a>
+        <a href="/sakura/access/register">Đăng ký</a>
     </div>
 </nav>

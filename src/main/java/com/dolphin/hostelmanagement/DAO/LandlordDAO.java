@@ -116,4 +116,30 @@ public class LandlordDAO {
     public static boolean deleteById(int id) {
         return AccountDAO.deleteById(id);
     }
+    
+    public static boolean updateLandlord(Landlord l) {
+        boolean check = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update Tenant set fullname = ? and phone = ? where tenantID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setNString(1, l.getFullname());
+                pst.setString(2, l.getPhone());
+                check = pst.executeUpdate() != 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return check;
+    }
 }

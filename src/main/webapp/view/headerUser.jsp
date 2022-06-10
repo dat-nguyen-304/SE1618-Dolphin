@@ -21,18 +21,20 @@
         <div class="profile-menu">
             <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
             <ul>
-                <a href="#">
+                <a href="/sakura/account/userProfile">
                     <li><span><i class="bi bi-person-fill"></i>Trang cá nhân</span></li>
                 </a>
-                <a href="MainController?action=changePassword.jsp">
+                <a href="/sakura/account/changePassword">
                     <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
                 </a>
                 <a href="#">
                     <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
                 </a>
-                <a href="MainController?action=Logout">
-                    <li><span><i class="bi bi-box-arrow-right"></i>Đăng xuất</span></li>
-                </a>
+                <form action = "/sakura/access/login" method = "post">
+                    <button type ="submit" name ="logout" value="true">
+                        <li><span><i class="bi bi-house-fill"></i>Đăng xuất</span></li>
+                    </button>
+                </form>
             </ul>
         </div>
     </div>

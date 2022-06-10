@@ -39,6 +39,7 @@
                 <div class="profile-section w-screen h-screen flex justify-center pt-[70px] relative overflow-hidden">
                     <%-- Notification --%>
                     <!--code for notification starts--> 
+                    <c:if test = "${requestScope.success == true}">
                     <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
                          class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden"
                          id="notification">
@@ -53,6 +54,7 @@
                             <i class="bi bi-x-lg"></i>
                         </a>
                     </div>
+                    </c:if>
                     <!--code for notification ends-->
 
                     <div class="profile-container w-3/5 h-[70%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
@@ -91,7 +93,7 @@
                         <!-- Right Side -->
                         <div class="profile-right w-3/5 h-full ml-[60px] relative">
                             <!-- About Section -->
-                            <form id="profile-form" action="" method="POST">
+                            <form id="profile-form" action="/sakura/account/userProfile" method="POST">
                                 <div class="profile-info">
 
                                     <div class="info-title">
@@ -102,20 +104,16 @@
                                         <div class="detail-item">
                                             <label for="fullname">Họ tên</label>
                                             <input type="text" id="fullname" name="fullname" placeholder="${sessionScope.currentUser.fullname}" value="${sessionScope.currentUser.fullname}">
-                                            <p class="error" id="fullnameError">Tên không hợp lệ</p>
+                                            <!--<p class="error" id="fullnameError">Tên không hợp lệ</p>-->
                                         </div>
                                         <div class="detail-item">
                                             <label for="username">Tên đăng nhập</label>
                                             <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}">
-                                            <p class="error" id="usernameError">Tên đăng nhập không hợp lệ</p>
+                                            <!--<p class="error" id="usernameError">Tên đăng nhập không hợp lệ</p>-->
                                         </div>
                                         <div class="detail-item">
                                             <label for="birthday">Ngày sinh</label>
                                             <p id="birthday">19 / 11 / 2002</p>
-                                        </div>
-                                        <div class="detail-item">
-                                            <label for="gender">Giới tính</label>
-                                            <p id="gender">Nam</p>
                                         </div>
                                     </div>
                                     <div class="info-title">
@@ -126,12 +124,12 @@
                                         <div class="detail-item">
                                             <label for="phone">Số điện thoại</label>
                                             <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.phone}" value="${sessionScope.currentUser.phone}">
-                                            <p class="error" id="phoneError">Số điện thoại bao gồm 10 chữ số</p>
+                                            <!--<p class="error" id="phoneError">Số điện thoại bao gồm 10 chữ số</p>-->
                                         </div>
                                         <div class="detail-item">
                                             <label for="email">Email</label>
-                                            <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}">
-                                            <p class="error" id="emailError">Không đúng định dạng email</p>
+                                            <input type="tel" id="phone" name="email" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}">
+                                            <!--<p class="error" id="emailError">Không đúng định dạng email</p>-->
                                         </div>
                                         <div class="detail-item">
                                             <label for="facebook">Facebook</label>

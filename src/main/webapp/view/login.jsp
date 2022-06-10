@@ -74,13 +74,13 @@
                         </li>
 
                         <div id="more" class="mt-2 mb-12 text-sm font-light">
-                            <a class="hover:text-[#FF6532]" id="forgot" href="/sakura/access/forgotPasswordPage">Quên mật khẩu?</a>
+                            <a class="hover:text-[#FF6532]" id="forgot" href="/sakura/access/forgotPassword">Quên mật khẩu?</a>
                         </div>
                         <li class="mb-9">
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">Đăng nhập</button>
+                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onsubmit = "return validate()">Đăng nhập</button>
                         </li>
                         <div id="more" class="mt-3 flex justify-center text-sm font-light">
-                            <span>Chưa có tài khoản? </span> <a id="signup" href="/sakura/access/registerPage" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng ký</a>
+                            <span>Chưa có tài khoản? </span> <a id="signup" href="/sakura/access/register" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng ký</a>
                         </div>
                         <li class="mt-2">
                             <p class="text-center text-sm font-light">hoặc tiếp tục với</p>
@@ -181,7 +181,7 @@
                 var username = $('#username').val().trim();
                 var password = $('#password').val().trim();
                 if (!username || !password) {
-                    $('#error').html("Vui lòng điền đủ password và email!");
+                    $('#error').html("Vui lòng điền username/email và password!");
                     return false;
                 }
                 return true;
