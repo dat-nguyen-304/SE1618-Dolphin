@@ -4,6 +4,7 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Hostel {
@@ -17,18 +18,18 @@ public class Hostel {
     private float rating;
     private Landlord landlord;
     private boolean activate;
-    private String images;
     private int minPrice;
     private int maxPrice;
     private int minArea;
     private int maxArea;
     private int availableRoom;
     private String description;
+    private ArrayList<String> imgList;
 
     public Hostel() {
     }
 
-    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, String images, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom, String description) {
+    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom, String description, ArrayList<String> imgList) {
         this.hostelID = hostelID;
         this.streetAddress = streetAddress;
         this.ward = ward;
@@ -38,13 +39,13 @@ public class Hostel {
         this.rating = rating;
         this.landlord = landlord;
         this.activate = activate;
-        this.images = images;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.minArea = minArea;
         this.maxArea = maxArea;
         this.availableRoom = availableRoom;
         this.description = description;
+        this.imgList = imgList;
     }
 
     public int getHostelID() {
@@ -119,14 +120,6 @@ public class Hostel {
         this.activate = activate;
     }
 
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
-
     public int getMinPrice() {
         return minPrice;
     }
@@ -175,8 +168,13 @@ public class Hostel {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Hostel{" + "hostelID=" + hostelID + ", streetAddress=" + streetAddress + ", ward=" + ward + ", hostelName=" + hostelName + ", totalRoom=" + totalRoom + ", registeredDate=" + registeredDate + ", rating=" + rating + ", landlord=" + landlord + ", activate=" + activate + ", images=" + images + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" + maxArea + ", availableRoom=" + availableRoom + ", description=" + description + '}';
+    public ArrayList<String> getImgList() {
+        return imgList;
     }
+
+    public void setImgList(ArrayList<String> imgList) {
+        this.imgList = imgList;
+    }
+
+    
 }

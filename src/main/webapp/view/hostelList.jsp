@@ -323,61 +323,60 @@
                         >><button type="submit" name="keyword" value="${requestScope.keyword}"> Từ khóa: ${requestScope.keyword}</button>
                     </c:if>
                 </form>
-                <h4 class="result-number">Có ${requestScope.hostelList.size()} kết quả:</h4>
-                <section>
-                    <h4>Số kết quả trên một trang</h4>
-                    <form action="MainController" method="post">
-                        <input type="hidden" value="${param.txtsearch}" name="txtsearch">
-                        <input type="hidden" value="${param.searchby}" name="searchby">
-                        <select name="displayOption">
-                            <option value="all" <% if (request.getParameter("displayOption") != null && request.getParameter("displayOption").equals("all")) { %> selected <% } %>>Tất cả</option>
-                            <option value="5" <% if (request.getParameter("displayOption") != null && request.getParameter("displayOption").equals("5")) { %> selected <% }%>>5</option>
-                        </select>
-                        <input type="submit" name="action" value="Thay Đổi">
-                    </form>
-                </section>
-
+                <h4 class="result-number">Có ${requestScope.itemQuantity} kết quả:</h4>
                 <div class="grid">
                     <ul class="hostel-list row">
+                        <c:set var="i" value="-1" />
                         <c:forEach var="hostel" items="${requestScope.hostelList}">
+                            <c:set var="i" value="${i + 1}" />
                             <li class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="hostel-item">
-
-                                    <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
+                                    <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
                                         <ol class="carousel-indicators">
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                            <!--                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                                                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                                                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
+                                            <c:if test="${hostel.imgList.size() > 0}">
+                                                <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                                                    <c:if test="${iterator == 0}">
+                                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active"></li>
+                                                        </c:if>
+                                                        <c:if test="${iterator > 0}">
+                                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}"></li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
                                         </ol>
                                         <a href="hostel-list.html" class="hostel-images">
                                             <div class="carousel-inner">
-                                                <div class="carousel-item active">
-                                                    <img class="d-block w-100"
-                                                         src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                         alt="First slide">
+
+                                                <c:if test="${hostel.imgList.size() > 0}">
+                                                    <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                                                        <c:if test="${iterator == 0}">
+                                                            <div class="carousel-item active">
+                                                            </c:if>
+                                                            <c:if test="${iterator > 0}">
+                                                                <div class="carousel-item">
+                                                                </c:if>
+                                                                <img class="d-block w-100"
+                                                                     src="${hostel.imgList.get(iterator)}">
+                                                            </div>
+                                                        </c:forEach>
+                                                    </c:if>
                                                 </div>
-                                                <div class="carousel-item">
-                                                    <img class="d-block w-100"
-                                                         src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                         alt="Second slide">
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img class="d-block w-100"
-                                                         src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                         alt="Third slide">
-                                                </div>
-                                            </div>
                                         </a>
-                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                                           data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                           data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
+                                        <div class="btn-prev-next">
+                                            <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button"
+                                               data-slide="prev">
+                                                <span><i class="fa-solid fa-angle-left"></i></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button"
+                                               data-slide="next">
+                                                <span><i class="fa-solid fa-angle-right"></i></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
                                     </div>
 
                                     <a href="hostel-list.html" class="hostel-content">
@@ -408,21 +407,25 @@
                                                 <span class="hostel-rating-number">${hostel.rating}/5</span>
                                             </div>
                                             <c:set var="contains" value="false"/>
-                                            <c:forEach var="item" items="${sessionScope.favoriteHostels}">
-                                                <c:if test="${item.hostel.hostelID eq hostel.hostelID && item.activate == true}">
-                                                    <c:set var="contains" value="true" />
-                                                </c:if>
-                                            </c:forEach>
+                                            <c:if test="${sessionScope.favoriteHostels != null}">
+                                                <c:forEach var="item" items="${sessionScope.favoriteHostels}">
+                                                    <c:if test="${item.hostel.hostelID eq hostel.hostelID && item.activate == true}">
+                                                        <c:set var="contains" value="true" />
+                                                    </c:if>
+                                                </c:forEach>
+                                            </c:if>
                                             <c:choose>
                                                 <c:when test="${contains == true}">
                                                     <div class="hostel-favorite">
-                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)">
-                                                        </i></div>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                    <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i></div>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="hostel-favorite">
+                                                        <i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                         <div class="hostel-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
                                         <div class="hostel-info">
@@ -439,65 +442,152 @@
                     </ul>
 
                     <!--            PAGING-->
-                    <c:if test="${requestScope.pages != null}">
-                        <div class="pagination">
-                            <ul class="pagination__list">
-                                <li class="pagination-item pagination-previous"><a href=""><i class="fas fa-chevron-left"></i></a>
+                    <div class="pagination">
+                        <ul class="pagination__list">
+                            <li class="pagination-item pagination-previous pagination-previous--fast">
+                                <form action="/sakura/hostel/list">
+                                    <c:if test="${requestScope.keyword != null}">
+                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByMinPrice != null}">
+                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByMaxPrice != null}">
+                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByRate != null}">
+                                        <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                    </c:if>
+                                    <button type="submit" name="paging" value="1"><i class="fa-solid fa-angles-left"></i></button>
+                                </form>
+                            </li>
+
+                            <li class="pagination-item pagination-previous">
+                                <form action="/sakura/hostel/list">
+                                    <c:if test="${requestScope.currentPage > 1}">
+                                        <c:if test="${requestScope.keyword != null}">
+                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMinPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMaxPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByRate != null}">
+                                            <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                        </c:if>
+                                        <button type="submit" name="paging" value="${requestScope.currentPage - 1}"><i class="fas fa-chevron-left"></i></button>
+                                        </c:if>
+                                        <c:if test="${requestScope.currentPage == 1}">
+                                        <button><i class="fas fa-chevron-left"></i></button>
+                                        </c:if>
+                                </form>
+                            </li>
+
+                            <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
+                                <c:if test="${requestScope.currentPage == iterator}">
+                                    <li class="pagination-item pagination-item--active">
+                                    </c:if>
+                                    <c:if test="${requestScope.currentPage != iterator}">
+                                    <li class="pagination-item">
+                                    </c:if>
+                                    <form action="/sakura/hostel/list">
+                                        <c:if test="${requestScope.keyword != null}">
+                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMinPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMaxPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByRate != null}">
+                                            <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                        </c:if>
+                                        <button type="submit" name="paging" value="${iterator}">${iterator}</button>
+                                    </form>
                                 </li>
-                                <c:forEach var="page" items="${requestScope.pages}">
-                                    <c:choose>
-                                        <c:when test="${requestScope.pageNumber == page + 1}">
-                                            <li class="pagination-item pagination-item--active"><a href="MainController?action=Thay%Đổi&displayOption=${param.displayOption}&pageNumber=${page + 1}&searchby=${param.searchby}&txtsearch=${param.txtsearch}">${page + 1}</a></li>
-                                            </c:when>
-                                            <c:otherwise>
-                                            <li class="pagination-item"><a href="MainController?action=Thay%20Đổi&displayOption=${param.displayOption}&pageNumber=${page + 1}&searchby=${param.searchby}&txtsearch=${param.txtsearch}">${page + 1}</a></li>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                <li class="pagination-item pagination-next"><a href=""><i class="fas fa-chevron-right"></i></a></li>
-                            </ul>
-                        </div>
-                    </c:if>
+
+                            </c:forEach>
+                            <li class="pagination-item pagination-next">
+                                <form action="/sakura/hostel/list">
+                                    <c:if test="${requestScope.keyword != null}">
+                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByMinPrice != null}">
+                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByMaxPrice != null}">
+                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByRate != null}">
+                                        <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                    </c:if>
+                                    <button type="submit" name="paging" value="${requestScope.currentPage + 1}"><i class="fas fa-chevron-right"></i></button>
+                                </form>
+                            </li>
+                            <li class="pagination-item pagination-next pagination-next--fast">
+                                <form action="/sakura/hostel/list">
+                                    <c:if test="${requestScope.keyword != null}">
+                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByMinPrice != null}">
+                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByMaxPrice != null}">
+                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.sortByRate != null}">
+                                        <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                    </c:if>
+                                    <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="fa-solid fa-angles-right"></i></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
 
                 </div>
 
             </div>
-
-            <footer class="sticky-footer">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; SE1618 Dolphin 2022</span>
-                    </div>
+        </div>
+        <footer class="sticky-footer">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; SE1618 Dolphin 2022</span>
                 </div>
-            </footer>
-            <script src="../assets/javascript//jquery/jquery.min.js"></script>
-            <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="../assets/javascript/hostel-list.js"></script>
-            <script src="../assets/javascript/jquery.js"></script>
-            <script>
-                                                        function toggleFavoriteHostel(hostelID, element) {
-                                                            if (element.style.color === 'red')
-                                                                element.style.color = 'gray';
-                                                            else
-                                                                element.style.color = 'red';
-                                                            console.log("line 413");
-                                                            console.log(hostelID);
-                                                            jQuery.ajax({
-                                                                type: 'POST',
-                                                                data: {'hostelID': hostelID},
-                                                                url: '/sakura/hostel/toggleFavHostel',
-                                                                success: function (result) {
-                                                                    console.log('Success 36');
-                                                                },
-                                                                error: function () {
-                                                                    console.log('Error 39');
-                                                                },
-                                                                complete: function (result) {
-                                                                    console.log('Complete 41');
-                                                                }
-                                                            });
-                                                            console.log("line 429");
-                                                        }
-            </script>
+
+
+            </div>
+        </footer>
+        <script src="../assets/javascript//jquery/jquery.min.js"></script>
+        <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/javascript/hostel-list.js"></script>
+        <script src="../assets/javascript/jquery.js"></script>
+        <script>
+                                                            function toggleFavoriteHostel(hostelID, element) {
+                                                                if (element.style.color === 'red')
+                                                                    element.style.color = 'gray';
+                                                                else
+                                                                    element.style.color = 'red';
+                                                                console.log("line 413");
+                                                                console.log(hostelID);
+                                                                jQuery.ajax({
+                                                                    type: 'POST',
+                                                                    data: {'hostelID': hostelID},
+                                                                    url: '/sakura/hostel/toggleFavHostel',
+                                                                    success: function (result) {
+                                                                        console.log('Success 36');
+                                                                    },
+                                                                    error: function () {
+                                                                        console.log('Error 39');
+                                                                    },
+                                                                    complete: function (result) {
+                                                                        console.log('Complete 41');
+                                                                    }
+                                                                });
+                                                                console.log("line 429");
+                                                            }
+        </script>
     </body>
 </html>

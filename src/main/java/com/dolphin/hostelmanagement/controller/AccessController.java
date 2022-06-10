@@ -74,7 +74,6 @@ public class AccessController extends HttpServlet {
                     if (username != null && !username.equals("") && password != null && !password.equals("")) {
                         Account acc = AccountDAO.login(username, password);
                         if (acc != null) {
-
                             HttpSession session = request.getSession(true);
                             if (acc.getRole() == 1) {
                                 session.setAttribute("role", 1);

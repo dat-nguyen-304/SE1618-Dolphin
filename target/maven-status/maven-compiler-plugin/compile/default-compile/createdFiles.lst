@@ -19,6 +19,7 @@ com\dolphin\hostelmanagement\DAO\InvoiceDAO.class
 com\dolphin\hostelmanagement\DTO\ServiceDetail.class
 com\dolphin\hostelmanagement\controller\AccessController.class
 com\dolphin\hostelmanagement\controller\AdminController.class
+com\dolphin\hostelmanagement\DTO\ImageHostel.class
 com\dolphin\hostelmanagement\DAO\AccountDAO.class
 com\dolphin\hostelmanagement\DTO\Hostel.class
 com\dolphin\hostelmanagement\utils\StringUtils.class

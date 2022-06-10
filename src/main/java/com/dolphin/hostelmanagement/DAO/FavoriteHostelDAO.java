@@ -29,7 +29,7 @@ public class FavoriteHostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 String sql = "insert into FavoriteHostel(hostelID, tenantID, activate) values(?, ?, ?)";
-                PreparedStatement pst = cn.prepareCall(sql);
+                PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelID);
                 pst.setInt(2, tenantID);
                 pst.setBoolean(3, true);
