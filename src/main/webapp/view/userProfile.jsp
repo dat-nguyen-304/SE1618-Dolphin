@@ -53,40 +53,9 @@
                         <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeModal()">
                             <i class="bi bi-x-lg"></i>
                         </a>
-<<<<<<< HEAD
                     </div>
                     </c:if>
                     <!--code for notification ends-->
-=======
-                        <!-- left header section -->
-                        <div class="item-list">
-                            <a class="item" href="#">Trang chủ</a>
-                            <a class="item" href="#">Thuê phòng</a>
-                        </div>
-                        <!-- right header section -->
-                        <div class="profile">
-                            <div class="profile-avatar" onclick="menuToggle()">
-                                <img src="../assets/images/user-avatar/ava3.jpg" alt="">
-                            </div>
-                            <div class="profile-menu">
-                                <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
-                                <ul>
-                                    <a href="/sakura/account/userProfilePage">
-                                        <li><span><i class="bi bi-person-fill"></i>Trang cá nhân</span></li>
-                                    </a>
-                                    <a href="/sakura/account/changePasswordPage">
-                                        <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
-                                    </a>
-                                    <a href="#">
-                                        <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
-                                    </a>
-                                    <a href="/sakura/access/logout">
-                                        <li><span><i class="bi bi-box-arrow-right"></i>Đăng xuất</span></li>
-                                    </a>
-                                </ul>
-                            </div>
->>>>>>> f58930d3640dc0e20dc8de9837396ec6f4604c4c
-
                     <div class="profile-container w-3/5 h-[70%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
                         <!-- Left Side -->
                         <div class="profile-left w-[30%] h-full relative">
@@ -123,11 +92,8 @@
                         <!-- Right Side -->
                         <div class="profile-right w-3/5 h-full ml-[60px] relative">
                             <!-- About Section -->
-<<<<<<< HEAD
                             <form id="profile-form" action="/sakura/account/userProfile" method="POST">
-=======
-                            <form action="/sakura/account/changeProfile" method="POST">
->>>>>>> f58930d3640dc0e20dc8de9837396ec6f4604c4c
+
                                 <div class="profile-info">
 
                                     <div class="info-title">
@@ -142,16 +108,12 @@
                                         </div>
                                         <div class="detail-item">
                                             <label for="username">Tên đăng nhập</label>
-<<<<<<< HEAD
                                             <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}">
                                             <!--<p class="error" id="usernameError">Tên đăng nhập không hợp lệ</p>-->
                                         </div>
                                         <div class="detail-item">
                                             <label for="birthday">Ngày sinh</label>
                                             <p id="birthday">19 / 11 / 2002</p>
-=======
-                                            <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}" readonly>
->>>>>>> f58930d3640dc0e20dc8de9837396ec6f4604c4c
                                         </div>
                                     </div>
                                     <div class="info-title">
