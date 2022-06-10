@@ -36,7 +36,7 @@ public class HostelController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private void sortByMinPrice(ArrayList<Hostel> hostelList, boolean asc) {
+    private void sortByMinPrice(List<Hostel> hostelList, boolean asc) {
         if (asc) {
             Collections.sort(hostelList, new Comparator<Hostel>() {
                 @Override
@@ -54,7 +54,7 @@ public class HostelController extends HttpServlet {
         }
     }
 
-    private void sortByMaxPrice(ArrayList<Hostel> hostelList, boolean asc) {
+    private void sortByMaxPrice(List<Hostel> hostelList, boolean asc) {
         if (asc) {
             Collections.sort(hostelList, new Comparator<Hostel>() {
                 @Override
@@ -72,7 +72,7 @@ public class HostelController extends HttpServlet {
         }
     }
 
-    private void sortByRate(ArrayList<Hostel> hostelList, boolean asc) {
+    private void sortByRate(List<Hostel> hostelList, boolean asc) {
         if (asc) {
             Collections.sort(hostelList, new Comparator<Hostel>() {
                 @Override
@@ -106,7 +106,12 @@ public class HostelController extends HttpServlet {
 
             String path = request.getPathInfo();
             if (path.equals("/list")) {
-                ArrayList<Hostel> hostelList = null;
+                List<Hostel> hostelList = null;
+                int currentPage = 1;
+                int itemsOnOnePage = 8;
+                if (request.getParameter("paging") != null) {
+                    currentPage = Integer.parseInt(request.getParameter("paging"));
+                }
                 if (request.getParameter("keyword") != null) {
                     String hostelName = request.getParameter("keyword");
                     hostelList = (ArrayList<Hostel>) HostelDAO.findByName(hostelName);
@@ -117,24 +122,52 @@ public class HostelController extends HttpServlet {
                 if (request.getParameter("sortByMinPrice") != null) {
                     if (request.getParameter("sortByMinPrice").equals("asc")) {
                         sortByMinPrice(hostelList, true);
+                        request.setAttribute("sortByMinPrice", "asc");
                     } else {
                         sortByMinPrice(hostelList, false);
+                        request.setAttribute("sortByMinPrice", "desc");
                     }
                 }
                 if (request.getParameter("sortByMaxPrice") != null) {
                     if (request.getParameter("sortByMaxPrice").equals("asc")) {
                         sortByMaxPrice(hostelList, true);
+                        request.setAttribute("sortByMaxPrice", "asc");
                     } else {
                         sortByMaxPrice(hostelList, false);
+                        request.setAttribute("sortByMaxPrice", "desc");
                     }
                 }
                 if (request.getParameter("sortByRate") != null) {
                     if (request.getParameter("sortByRate").equals("asc")) {
                         sortByRate(hostelList, true);
+                        request.setAttribute("sortByRate", "asc");
                     } else {
                         sortByRate(hostelList, false);
+                        request.setAttribute("sortByRate", "desc");
                     }
                 }
+                int itemQuantity = hostelList.size();
+                int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);
+                int beginIndex = (currentPage - 1) * itemsOnOnePage;
+                int endIndex = currentPage * itemsOnOnePage;
+                int beginPage = 1;
+                int endPage = pagingQuantity;
+                
+                if (pagingQuantity > 5) {
+                    if (currentPage >= 3 && currentPage <= pagingQuantity - 2) {
+                        beginPage = currentPage - 2;
+                        endPage = currentPage + 2;
+                    } else if (currentPage >= pagingQuantity - 1) {
+                        beginPage = pagingQuantity - 4;
+                        endPage = pagingQuantity;
+                    }
+                }
+                hostelList = (List<Hostel>) hostelList.subList(beginIndex, (endIndex > itemQuantity) ? itemQuantity : endIndex);
+                request.setAttribute("itemQuantity", itemQuantity);
+                request.setAttribute("currentPage", currentPage);
+                request.setAttribute("beginPage", beginPage);
+                request.setAttribute("endPage", endPage);
+                request.setAttribute("pagingQuantity", pagingQuantity);
                 request.setAttribute("hostelList", hostelList);
                 request.getRequestDispatcher("/view/hostelList.jsp").forward(request, response);
             } else if (path.equals("/detail")) {

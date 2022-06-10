@@ -64,6 +64,7 @@ public class AccessController extends HttpServlet {
                             if (username.contains("@")) {
                                 System.out.println("I logged in by email!");
                                 acc = AccountDAO.loginByEmail(username, password);
+
                             } else {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, password);
