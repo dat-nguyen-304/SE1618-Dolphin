@@ -6,8 +6,10 @@ package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
+import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Hostel;
+import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -138,7 +140,6 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("hostelList", hostelList);
                 request.getRequestDispatcher("/view/hostelList.jsp").forward(request, response);
             } else if (path.equals("/detail")) {
-
                 request.getRequestDispatcher("/view/homepage.jsp").forward(request, response);
             } else if (path.equals("/toggleFavHostel")) {
                 try {
@@ -160,6 +161,33 @@ public class HostelController extends HttpServlet {
                 } catch (Exception e) {
                     log("Error at ToggleFavHostelServlet: " + e.toString());
                 }
+            } else if (path.equals("/roomList")) {
+                int hostelID = 1;//Integer.parseInt(request.getParameter("hostelID"));                
+                ArrayList<Room> fullRoomList = RoomDAO.findRoomByHostelID(hostelID);
+
+                ArrayList<ArrayList<Room>> roomList = new ArrayList<>();
+                roomList.add(new ArrayList<Room>());
+
+                for (Room r : fullRoomList) {
+                    ArrayList<Room> lastList = roomList.get(roomList.size() - 1);
+                    if (lastList.isEmpty() || lastList.get(lastList.size() - 1).getArea() == r.getArea()) {
+                        lastList.add(r);
+                        roomList.set(roomList.size() - 1, lastList);
+                    } else {
+                        lastList = new ArrayList<>();
+                        lastList.add(r);
+                        roomList.add(lastList);
+                    }
+                }
+
+                request.setAttribute("roomList", roomList);
+                request.getRequestDispatcher("/view/roomList.jsp").forward(request, response);
+            } else if (path.equals("/roomDetail")) {
+                int roomID = Integer.parseInt(request.getParameter("roomID"));
+                System.out.println("RoomID: " + roomID);
+                Room room = RoomDAO.findByID(roomID);
+                request.setAttribute("room", room);
+                request.getRequestDispatcher("/view/roomDetail.jsp").forward(request, response);
             }
         }
     }

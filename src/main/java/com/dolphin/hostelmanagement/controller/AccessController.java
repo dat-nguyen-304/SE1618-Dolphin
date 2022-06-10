@@ -60,7 +60,7 @@ public class AccessController extends HttpServlet {
                     if (logout == null) {
                         if (username != null && password != null) {
                             Account acc = null;
-                            
+
                             if (username.contains("@")) {
                                 System.out.println("I logged in by email!");
                                 acc = AccountDAO.loginByEmail(username, password);
@@ -68,7 +68,7 @@ public class AccessController extends HttpServlet {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, password);
                             }
-                            
+
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
                                 if (acc.getRole() == 1) {
@@ -88,13 +88,13 @@ public class AccessController extends HttpServlet {
                                 List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenantID(acc.getAccountID());
                                 session.setAttribute("favoriteHostels", favoriteHostels);
                             } else {
-                                request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+                                request.setAttribute("error", "Sai tên đăng nhập/email hoặc mật khẩu");
                                 url = "/view/login.jsp";
                             }
                         } else {
                             url = "/view/login.jsp";
                         }
-
+                        System.out.println("????????");
                         request.getRequestDispatcher(url).forward(request, response);
                     } else {
                         HttpSession session = request.getSession(true);

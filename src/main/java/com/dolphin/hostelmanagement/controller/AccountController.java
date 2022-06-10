@@ -127,7 +127,7 @@ public class AccountController extends HttpServlet {
             } else {
                 url = "/view/userProfile.jsp";
             }
-
+            System.out.println("User profile url: " + url   );
             request.getRequestDispatcher(url).forward(request, response);
         } else if (path.equals("/checkUsername")) {
             String username = request.getParameter("username");
