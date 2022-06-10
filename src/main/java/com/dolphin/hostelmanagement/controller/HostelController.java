@@ -4,11 +4,15 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
+import com.dolphin.hostelmanagement.DAO.WardDAO;
+import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Tenant;
+import com.dolphin.hostelmanagement.DTO.Ward;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,6 +24,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -101,7 +107,7 @@ public class HostelController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
             String path = request.getPathInfo();
@@ -217,6 +223,42 @@ public class HostelController extends HttpServlet {
                     session.setAttribute("favoriteHostels", FavoriteHostelDAO.findByTenant(t));
                 } catch (Exception e) {
                     log("Error at ToggleFavHostelServlet: " + e.toString());
+                }
+            } else if (path.equals("/findWardDistrict")) {
+                try {
+                    String param = request.getParameter("param");
+                    if (param.equals("district")) {
+                        System.out.println(param);
+                        JSONArray list = new JSONArray();
+                        for (District district : DistrictDAO.findAll()) {
+                            JSONObject obj = new JSONObject();
+                            String districtID = Integer.toString(district.getDistrictId());
+                            String districtName = district.getDistrictName();
+                            obj.put("districtID", districtID);
+                            obj.put("districtName", districtName);
+                            list.add(obj);
+                        }
+                        out.write(list.toJSONString());
+                        out.close();
+                    }
+                    if (param.equals("ward")) {
+                        System.out.println(param);
+                        System.out.println(request.getParameter("districtID"));
+                        JSONArray list = new JSONArray();
+                        int districtID = Integer.parseInt(request.getParameter("districtID"));
+                        System.out.println("Line 85 " + districtID);
+                        for (Ward ward : WardDAO.findByDistrictID(districtID)) {
+                            JSONObject obj = new JSONObject();
+                            String wardID = Integer.toString(ward.getWardID());
+                            String wardName = ward.getWardName();
+                            obj.put("wardID", wardID);
+                            obj.put("wardName", wardName);
+                            list.add(obj);
+                        }
+                        out.write(list.toJSONString());
+                        out.close();
+                    }
+                } catch (Exception e) {
                 }
             }
         }

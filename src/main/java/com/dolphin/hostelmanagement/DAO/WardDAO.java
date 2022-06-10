@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -75,6 +76,41 @@ public class WardDAO {
             e.printStackTrace();
         }
         return ward;
+    }
+    
+    public static List<Ward> findByDistrictID(int districtID) {
+        List<Ward> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "select * from Ward where districtID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, districtID);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int id = rs.getInt("wardID");
+                        String name = rs.getString("wardName");
+                        int districtId = rs.getInt("districtID");
+                        District district = DistrictDAO.findById(districtId);
+                        list.add(new Ward(id, name, district));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
     }
     
     public static void main(String[] args) {
