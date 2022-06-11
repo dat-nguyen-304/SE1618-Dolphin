@@ -272,6 +272,25 @@ public class HostelDAO {
         }
         return list;
     }
+    
+    public static boolean updateRating(int hostelId, float newHostelRating) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update hostel set rating = ? where hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setFloat(1, newHostelRating);
+                pst.setInt(2, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) return true;
+                cn.close();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         

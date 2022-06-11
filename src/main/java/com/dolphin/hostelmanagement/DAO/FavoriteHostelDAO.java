@@ -87,7 +87,7 @@ public class FavoriteHostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 String sql = "select * from FavoriteHostel where hostelID = ? and tenantID = ?";
-                PreparedStatement pst = cn.prepareCall(sql);
+                PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelID);
                 pst.setInt(2, tenantID);
                 ResultSet rs = pst.executeQuery();

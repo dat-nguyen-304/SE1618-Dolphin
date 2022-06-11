@@ -230,6 +230,8 @@ body {
     box-shadow   : 0 0 8px #ccc;
     overflow     : hidden;
     margin-top   : 20px;
+    text-align   : left;
+    border       : none;
 }
 
 .hostel-item:hover {
@@ -345,7 +347,7 @@ body {
 }
 
 .carousel-indicators {
-    height: 12px;
+    height: 20px;
 }
 
 .carousel-indicators .active {

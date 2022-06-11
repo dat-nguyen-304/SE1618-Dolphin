@@ -1,0 +1,552 @@
+:root {
+    --dark-primary-color  : #17535B;
+    --medium-primary-color: #288D87;
+    --light-primary-color : #0EAF72;
+    --text-color          : #333;
+}
+
+* {
+    padding   : 0;
+    margin    : 0;
+    box-sizing: border-box;
+}
+
+ul {
+    padding: 0;
+    margin : 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none !important;
+    color          : #000;
+}
+
+a:hover {
+    color: #000;
+}
+
+footer {
+    height          : 100px;
+    background-color: var(--dark-primary-color);
+    position        : fixed;
+    left            : 0;
+    right           : 0;
+    z-index         : 100;
+}
+
+footer {
+    position: static;
+    bottom  : 0;
+}
+
+.information-column {
+    padding-left: 32px;
+
+    display        : flex;
+    flex-direction : column;
+    justify-content: space-around;
+}
+
+.carousel-item img {
+    border-radius: 4px;
+    overflow     : hidden;
+    height: 400px;
+    object-fit: cover;
+}
+
+.hostel-info {}
+
+.hostel-info-title {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    font-size      : 24px;
+}
+
+.hostel-name {
+    font-size  : 24px;
+    color      : var(--text-color);
+    font-weight: 500;
+}
+
+.hostel-favorite.active {
+    color: red;
+}
+
+.hostel-rating {
+    color: orange;
+}
+
+.hostel-rating-number {}
+
+.hostel-cost {
+    padding: 8px 0;
+    color  : var(--dark-primary-color);
+}
+
+.hostel-total-rom {
+    padding: 8px 0;
+    color  : var(--dark-primary-color);
+}
+
+.hostel-available-room {
+    padding: 8px 0;
+    color  : var(--dark-primary-color);
+
+}
+
+.hostel-address {
+    padding: 8px 0;
+    color  : var(--dark-primary-color);
+}
+
+.btn-view-all-room {
+    margin          : 16px 0;
+    border          : none;
+    outline         : none;
+    background-color: var(--medium-primary-color);
+    padding         : 8px 16px;
+    border-radius   : 4px;
+    color           : #fff;
+}
+
+.landlord-info-title {
+    color         : var(--dark-primary-color);
+    font-weight   : 500;
+    font-size     : 18px;
+    padding-bottom: 12px;
+}
+
+
+.landlord-title {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+}
+
+.landlord-content {
+    display    : flex;
+    align-items: center;
+
+}
+
+.landlord-avatar img {
+    width        : 50px;
+    height       : 50px;
+    border-radius: 100%;
+    object-fit   : cover;
+}
+
+.landlord-name,
+.landlord-phone,
+.landlord-email {
+    margin-left: 12px;
+    color      : var(--dark-primary-color);
+    font-weight: 500;
+    font-size  : 16px;
+}
+
+.landlord-name span,
+.landlord-phone span,
+.landlord-email span {
+    font-size  : 16px;
+    color      : var(--text-color);
+    font-weight: 300;
+    margin-left: 8px;
+}
+
+.landlord-messenger {
+    font-size: 24px;
+    color    : #5757bd;
+}
+
+.landlord-phone,
+.landlord-email {
+    margin-left: 62px;
+    padding    : 5px 0;
+}
+
+.hostel-overview,
+.hostel-room,
+.hostel-service {
+    text-align: center;
+    color     : #fff;
+}
+
+.hostel-overview-title,
+.hostel-service-title {
+    background-color: var(--light-primary-color);
+    font-size       : 16px;
+    padding         : 12px 8px;
+}
+
+.hostel-room-title {
+    background-color: var(--dark-primary-color);
+    font-size       : 16px;
+    padding         : 12px 8px;
+}
+
+.hostel-description {
+    color  : var(--text-color);
+    padding: 12px 8px;
+}
+
+.hostel-policy-title {
+    color      : var(--dark-primary-color);
+    font-weight: 500;
+    text-align : left;
+    font-size  : 18px;
+    margin     : 0;
+}
+
+.hostel-policy {
+    font-size: 16px;
+    color    : var(--text-color);
+    padding  : 8px 8px;
+}
+
+.section {
+    background-color: #fff;
+    border          : 2px solid #eee;
+    border-radius   : 10px;
+    padding         : 12px;
+    margin          : 12px -12px 24px;
+    padding         : 24px;
+}
+
+.section-title {
+    text-transform: uppercase;
+    color         : var(--dark-primary-color);
+    margin-bottom : 24px;
+    font-size     : 24px;
+}
+
+.feedback-header {
+    border-radius   : 4px;
+    border          : 1px solid var(--light-primary-color);
+    background-color: #e8f2ee;
+    display         : flex;
+    align-items     : center;
+    justify-content : space-between;
+    padding         : 16px 40px;
+}
+
+.feedback-average {}
+
+.feedback-average-title {
+    color: var(--dark-primary-color);
+}
+
+.feedback-average-star {
+    color: orange;
+}
+
+.feedback-header-list {
+    display     : flex;
+    margin-right: 40px;
+}
+
+.feedback-header-item {
+    color: var(--dark-primary-color);
+}
+
+.feedback-header-item button {
+    border       : 1px solid var(--dark-primary-color);
+    padding      : 8px 24px;
+    margin       : 0 8px;
+    border-radius: 4px;
+}
+
+.feedback-header-item button:hover,
+.feedback-header-item.active button {
+    background-color: var(--light-primary-color);
+    color           : #fff;
+}
+
+.feedback-list {}
+
+.feedback-item {
+    border-bottom : 1px solid #ccc;
+    padding-bottom: 12px;
+}
+
+
+
+.tenant-item-header {
+    display        : flex;
+    justify-content: space-between;
+    padding        : 16px 32px 0;
+}
+
+.tenant-info {
+    display: flex;
+}
+
+.tenant-avt img {
+    width        : 50px;
+    height       : 50px;
+    border-radius: 100%;
+    margin-right : 28px;
+}
+
+.tenant-name {
+    padding-bottom: 6px;
+    font-size: 14px;
+}
+
+.tenant-rating {
+    color: orange;
+}
+
+.tenant-posting-date {
+    color     : var(--dark-primary-color);
+    font-style: italic;
+}
+
+.tenant-item-content {
+    color     : var(--text-color);
+    font-style: italic;
+    padding   : 12px 40px;
+}
+
+.pagination {
+    margin-top: 36px;
+    display   : block;
+}
+
+.pagination__list {
+    list-style-type: none;
+    padding        : 0;
+    margin         : 0;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+}
+
+.pagination-item,
+.pagination-dot {
+    display  : inline-block;
+    font-size: 20px;
+    margin   : 0 12px;
+    color    : #888;
+}
+
+.pagination-item button {
+    display         : block;
+    padding         : 4px 14px;
+    color           : currentColor;
+    background-color: #fff;
+    text-decoration : none;
+    outline         : none;
+    border          : none;
+}
+
+.pagination-item--active button {
+    background-color: var(--medium-primary-color);
+    color           : #fff;
+}
+
+.pagination-previous,
+.pagination-next {
+    font-size: 16px;
+    color    : red;
+}
+
+.hostel-vip {
+    margin : 12px -12px 24px;
+    padding: 24px;
+
+}
+
+.hostel-vip-item {
+    display      : block;
+    border-radius: 4px;
+    box-shadow   : 0 0 8px #ccc;
+    overflow     : hidden;
+    margin-top   : 20px;
+}
+
+.hostel-vip-item:hover {
+    outline  : 1px solid orange;
+    transform: translateY(-2px);
+}
+
+.hostel-vip-img {
+    width : 100%;
+    height: 200px;
+}
+
+.hostel-vip-content {
+    padding: 8px 12px;
+    display: block;
+}
+
+.hostel-vip-name {
+    font-size  : 18px;
+    font-weight: 500;
+    color      : var(--text-color);
+}
+
+.hostel-vip-content-header {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    padding-bottom : 12px;
+}
+
+.hostel-vip-action {
+    align-items    : center;
+    display        : flex;
+    justify-content: space-between;
+}
+
+.hostel-vip-rating {
+    font-size: 12px;
+    color    : orange;
+}
+
+.hostel-vip-favorite {
+    font-size: 16px;
+    color    : #ccc;
+}
+
+.hostel-vip-favorite .active {
+    color: red;
+}
+
+
+.hostel-vip-address {
+    font-size         : 12px;
+    line-height       : 16px;
+    height            : 32px;
+    font-weight       : 400;
+    color             : #666;
+    display           : -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow          : hidden;
+}
+
+.hostel-vip-info {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    padding-bottom : 8px;
+    border-bottom  : 1px solid #ccc;
+}
+
+.hostel-vip-room-available {
+    font-size      : 10px;
+    display        : flex;
+    justify-content: end;
+    color          : red;
+    position       : relative;
+    bottom         : -4px;
+}
+
+.hostel-vip-area {
+    font-size: 18px;
+}
+
+.hostel-vip-price {
+    text-align : right;
+    color      : #ff6532;
+    font-size  : 20px;
+    padding-top: 6px;
+}
+
+.hostel-vip-images:hover~.btn-prev-next {
+    display: block;
+}
+
+.btn-prev-next:hover {
+    display: block;
+}
+
+.btn-prev-next {
+    display: none;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    opacity  : 1;
+    font-size: 20px;
+}
+
+.carousel-vip-item img {
+    height    : 180px;
+    object-fit: cover;
+}
+
+.carousel-vip-indicators {
+    height: 12px;
+}
+
+.carousel-vip-indicators .active {
+    display         : block;
+    position        : relative;
+    -webkit-box-flex: 0;
+    -ms-flex        : 0 1 auto;
+    flex            : 0 1 auto;
+    width           : 16px;
+    height          : 3px;
+    margin-right    : 3px;
+    margin-left     : 3px;
+    background-color: #fff;
+
+    border-radius: 50px;
+    border       : 0px;
+
+}
+
+.carousel-vip-indicators li {
+    position        : relative;
+    -webkit-box-flex: 0;
+    -ms-flex        : 0 1 auto;
+    flex            : 0 1 auto;
+    width           : 5px;
+    height          : 5px;
+    margin-right    : 3px;
+    margin-left     : 3px;
+    text-indent     : -999px;
+    background-color: #fff;
+    border-radius   : 50px;
+    border          : 0px;
+    transition      : width ease-in-out 0.4s;
+
+}
+
+.text-area {
+    padding      : 8px 12px;
+    outline-color: var(--light-primary-color);
+}
+
+.send-feedback {
+    display : inline-block;
+    position: relative;
+    height  : 200px;
+}
+
+.send-feedback-star-list {
+    margin-bottom: 24px;
+}
+
+.send-feedback-star {
+    display: inline-block;
+    cursor : pointer;
+}
+
+.send-feedback-btn {
+    border          : none;
+    display         : block;
+    position        : absolute;
+    right           : 0;
+    padding         : 8px 12px;
+    background-color: var(--medium-primary-color);
+    color           : #fff;
+    border-radius   : 4px;
+}

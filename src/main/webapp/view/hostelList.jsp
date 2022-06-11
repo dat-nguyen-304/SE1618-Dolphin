@@ -361,106 +361,107 @@
                         <c:forEach var="hostel" items="${requestScope.hostelList}">
                             <c:set var="i" value="${i + 1}" />
                             <li class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <div class="hostel-item">
-                                    <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
-                                        <ol class="carousel-indicators">
-                                            <!--                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                                                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                                                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
-                                            <c:if test="${hostel.imgList.size() > 0}">
-                                                <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
-                                                    <c:if test="${iterator == 0}">
-                                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active"></li>
-                                                        </c:if>
-                                                        <c:if test="${iterator > 0}">
-                                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}"></li>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </c:if>
-                                        </ol>
-                                        <a href="hostel-list.html" class="hostel-images">
-                                            <div class="carousel-inner">
-
+                                <form action="/sakura/hostel/detail">
+                                    <input type="hidden" name="filterStar" value="0" />
+                                    <button name="hostelId" value="${hostel.hostelID}" class="hostel-item">
+                                        <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
+                                            <ol class="carousel-indicators">
                                                 <c:if test="${hostel.imgList.size() > 0}">
                                                     <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
                                                         <c:if test="${iterator == 0}">
-                                                            <div class="carousel-item active">
-                                                            </c:if>
-                                                            <c:if test="${iterator > 0}">
-                                                                <div class="carousel-item">
+                                                            <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${iterator > 0}">
+                                                            <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}">
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </ol>
+                                            <div class="hostel-images">
+                                                <div class="carousel-inner">
+
+                                                    <c:if test="${hostel.imgList.size() > 0}">
+                                                        <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                                                            <c:if test="${iterator == 0}">
+                                                                <div class="carousel-item active">
                                                                 </c:if>
-                                                                <img class="d-block w-100"
-                                                                     src="${hostel.imgList.get(iterator)}">
-                                                            </div>
-                                                        </c:forEach>
-                                                    </c:if>
+                                                                <c:if test="${iterator > 0}">
+                                                                    <div class="carousel-item">
+                                                                    </c:if>
+                                                                    <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
+                                                                </div>
+                                                            </c:forEach>
+                                                        </c:if>
+                                                    </div>
                                                 </div>
-                                        </a>
-                                        <div class="btn-prev-next">
-                                            <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button"
-                                               data-slide="prev">
-                                                <span><i class="fa-solid fa-angle-left"></i></span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                            <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button"
-                                               data-slide="next">
-                                                <span><i class="fa-solid fa-angle-right"></i></span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <a href="hostel-list.html" class="hostel-content">
-
-                                        <div class="hostel-name">${hostel.hostelName}</div>
-                                        <div class="hostel-action">
-                                            <div class="hostel-rating">
-                                                <c:forEach begin="1" end="5" var="iterator">
-                                                    <c:choose>
-                                                        <c:when test="${iterator <= hostel.rating}">
-                                                            <i class="fa-solid fa-star"></i>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:choose>
-                                                                <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
-                                                                    <i class="fa-solid fa-star"></i>
-                                                                </c:when>
-                                                                <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
-                                                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <i class="fa-solid fa-star" style="color: #ccc"></i>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                                <span class="hostel-rating-number">${hostel.rating}/5</span>
+                                                <div class="btn-prev-next">
+                                                    <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button"
+                                                       data-slide="prev">
+                                                        <span><i class="fa-solid fa-angle-left"></i></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button"
+                                                       data-slide="next">
+                                                        <span><i class="fa-solid fa-angle-right"></i></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </div>
                                             </div>
 
-                                            <c:choose>
-                                                <c:when test="${requestScope.toggleList.get(i) == true}">
-                                                    <div class="hostel-favorite">
-                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div class="hostel-favorite">
-                                                        <i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                    </div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                        <div class="hostel-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
-                                        <div class="hostel-info">
-                                            <span class="hostel-room-available">Còn ${hostel.availableRoom} phòng trống</span>
-                                            <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
-                                        </div>
+                                            <div class="hostel-content btn-submit">
 
-                                        <div class="hostel-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
-                                    </a>
+                                                <div class="hostel-name">${hostel.hostelName}</div>
+                                                <div class="hostel-action">
+                                                    <div class="hostel-rating">
+                                                        <c:forEach begin="1" end="5" var="iterator">
+                                                            <c:choose>
+                                                                <c:when test="${iterator <= hostel.rating}">
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <c:choose>
+                                                                        <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
+                                                                            <i class="fa-solid fa-star"></i>
+                                                                        </c:when>
+                                                                        <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
+                                                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <i class="fa-solid fa-star" style="color: #ccc"></i>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+                                                        <span class="hostel-rating-number">${hostel.rating}/5</span>
+                                                    </div>
 
-                                </div>
+                                                    <c:choose>
+                                                        <c:when test="${requestScope.toggleList.get(i) == true}">
+                                                            <div class="hostel-favorite">
+                                                                <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                            </div>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <div class="hostel-favorite">
+                                                                <i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                            </div>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                                <div class="hostel-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
+                                                <div class="hostel-info">
+                                                    <span class="hostel-room-available">Còn ${hostel.availableRoom} phòng trống</span>
+                                                    <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
+                                                </div>
+
+                                                <div class="hostel-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
+                                            </div>
+
+                                    </button>
+                                </form>
                             </li>
                         </c:forEach>
                     </ul>
@@ -589,29 +590,29 @@
         <script src="../assets/javascript/hostel-list.js"></script>
         <script src="../assets/javascript/jquery.js"></script>
         <script>
-                                                            function toggleFavoriteHostel(hostelID, element) {
-                                                                if (element.style.color === 'red')
-                                                                    element.style.color = 'gray';
-                                                                else
-                                                                    element.style.color = 'red';
-                                                                console.log("line 413");
-                                                                console.log(hostelID);
-                                                                jQuery.ajax({
-                                                                    type: 'POST',
-                                                                    data: {'hostelID': hostelID},
-                                                                    url: '/sakura/hostel/toggleFavHostel',
-                                                                    success: function (result) {
-                                                                        console.log('Success 36');
-                                                                    },
-                                                                    error: function () {
-                                                                        console.log('Error 39');
-                                                                    },
-                                                                    complete: function (result) {
-                                                                        console.log('Complete 41');
+                                                                    function toggleFavoriteHostel(hostelID, element) {
+                                                                        if (element.style.color === 'red')
+                                                                            element.style.color = 'gray';
+                                                                        else
+                                                                            element.style.color = 'red';
+                                                                        console.log("line 413");
+                                                                        console.log(hostelID);
+                                                                        jQuery.ajax({
+                                                                            type: 'POST',
+                                                                            data: {'hostelID': hostelID},
+                                                                            url: '/sakura/hostel/toggleFavHostel',
+                                                                            success: function (result) {
+                                                                                console.log('Success 36');
+                                                                            },
+                                                                            error: function () {
+                                                                                console.log('Error 39');
+                                                                            },
+                                                                            complete: function (result) {
+                                                                                console.log('Complete 41');
+                                                                            }
+                                                                        });
+                                                                        console.log("line 429");
                                                                     }
-                                                                });
-                                                                console.log("line 429");
-                                                            }
         </script>
     </body>
 </html>

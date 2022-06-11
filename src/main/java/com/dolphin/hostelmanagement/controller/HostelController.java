@@ -6,10 +6,12 @@ package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
+import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.WardDAO;
 import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
+import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.DTO.Ward;
@@ -210,8 +212,74 @@ public class HostelController extends HttpServlet {
 
                 request.getRequestDispatcher("/view/hostelList.jsp").forward(request, response);
             } else if (path.equals("/detail")) {
+                int currentPage = 1;
+                int itemsOnOnePage = 8;
+                if (request.getParameter("paging") != null) {
+                    currentPage = Integer.parseInt(request.getParameter("paging"));
+                }
 
-                request.getRequestDispatcher("/view/homepage.jsp").forward(request, response);
+                HttpSession session = request.getSession();
+                Tenant t = (Tenant) session.getAttribute("currentUser");
+
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                Hostel hostel = HostelDAO.findById(hostelId);
+
+                List<Feedback> feedbackList = FeedbackDAO.findByHostelId(hostelId);
+                boolean isFavorite = FavoriteHostelDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
+
+                if (request.getParameter("filterStar") != null) {
+                    int filterStar = Integer.parseInt(request.getParameter("filterStar"));
+                    if (filterStar > 0) {
+                        List<Feedback> feedbackListTmp = new ArrayList<>();
+                        for (Feedback feedback : feedbackList) {
+                            if (feedback.getRating() == filterStar) {
+                                feedbackListTmp.add(feedback);
+                            }
+                        }
+                        feedbackList = feedbackListTmp;
+                    }
+                    request.setAttribute("filterStar", filterStar);
+                }
+                
+                if (request.getParameter("feedbackContent") != null) {
+                    String feedbackContent = request.getParameter("feedbackContent");
+                    int rating = Integer.parseInt(request.getParameter("rating"));
+                    int feedbackQuantity = feedbackList.size();
+                    float currentHostelRating = hostel.getRating();
+                    float newHostelRating = (float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10;
+                    hostel.setRating((float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10);
+                    HostelDAO.updateRating(hostelId, newHostelRating);
+                    FeedbackDAO.add(t.getAccount().getAccountID(), hostelId, feedbackContent, rating);
+                    feedbackList = FeedbackDAO.findByHostelId(hostelId);
+                }
+
+                int itemQuantity = feedbackList.size();
+                int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);
+                int beginIndex = (currentPage - 1) * itemsOnOnePage;
+                int endIndex = currentPage * itemsOnOnePage;
+                int beginPage = 1;
+                int endPage = pagingQuantity;
+
+                if (pagingQuantity > 5) {
+                    if (currentPage >= 3 && currentPage <= pagingQuantity - 2) {
+                        beginPage = currentPage - 2;
+                        endPage = currentPage + 2;
+                    } else if (currentPage >= pagingQuantity - 1) {
+                        beginPage = pagingQuantity - 4;
+                        endPage = pagingQuantity;
+                    }
+                }
+                feedbackList = (List<Feedback>) feedbackList.subList(beginIndex, (endIndex > itemQuantity) ? itemQuantity : endIndex);
+                request.setAttribute("itemQuantity", itemQuantity);
+                request.setAttribute("currentPage", currentPage);
+                request.setAttribute("beginPage", beginPage);
+                request.setAttribute("endPage", endPage);
+                request.setAttribute("pagingQuantity", pagingQuantity);
+
+                request.setAttribute("isFavorite", isFavorite);
+                request.setAttribute("feedbackList", feedbackList);
+                request.setAttribute("hostel", hostel);
+                request.getRequestDispatcher("/view/hostelDetail.jsp").forward(request, response);
             } else if (path.equals("/toggleFavHostel")) {
                 //Hàm bắt xử lí khi nhấn toggle favorite
                 int hostelID = Integer.parseInt(request.getParameter("hostelID"));
