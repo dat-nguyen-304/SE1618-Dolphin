@@ -107,7 +107,7 @@ public class HostelController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
             String path = request.getPathInfo();
@@ -118,7 +118,24 @@ public class HostelController extends HttpServlet {
                 if (request.getParameter("paging") != null) {
                     currentPage = Integer.parseInt(request.getParameter("paging"));
                 }
-                if (request.getParameter("keyword") != null) {
+                if (request.getParameter("favorite") != null && request.getParameter("favorite").equals("true")) {
+
+                    HttpSession session = request.getSession();
+                    Tenant t = (Tenant) session.getAttribute("currentUser");
+                    hostelList = HostelDAO.findFavoriteList(t.getAccount().getAccountID());
+                    request.setAttribute("favorite", true);
+                    if (request.getParameter("keyword") != null) {
+                        String keyword = request.getParameter("keyword");
+                        List<Hostel> hostelListTmp = new ArrayList<>();
+                        for (Hostel hostel : hostelList) {
+                            if (hostel.getHostelName().toLowerCase().contains(keyword.toLowerCase())) {
+                                hostelListTmp.add(hostel);
+                            }
+                        }
+                        hostelList = hostelListTmp;
+                    }
+
+                } else if (request.getParameter("keyword") != null) {
                     String hostelName = request.getParameter("keyword");
                     hostelList = (ArrayList<Hostel>) HostelDAO.findByName(hostelName);
                     request.setAttribute("keyword", hostelName);
@@ -153,10 +170,18 @@ public class HostelController extends HttpServlet {
                     }
                 }
 
-                if (request.getParameter("favorite") != null) {
-                    HttpSession session = request.getSession();
-                    Tenant t = (Tenant) session.getAttribute("currentUser");
-                    hostelList = HostelDAO.findFavoriteList(t);
+                List<Boolean> toggleList = new ArrayList<>();
+                HttpSession session = request.getSession(true);
+                List<Integer> favHostelIds = (List<Integer>) session.getAttribute("favoriteHostelIds");
+                for (Hostel hostel : hostelList) {
+                    boolean isFavorite = false;
+                    for (int i = 0; i < favHostelIds.size(); i++) {
+                        if (hostel.getHostelID() == favHostelIds.get(i)) {
+                            isFavorite = true;
+                            break;
+                        }
+                    }
+                    toggleList.add(isFavorite);
                 }
                 int itemQuantity = hostelList.size();
                 int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);
@@ -180,50 +205,25 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("beginPage", beginPage);
                 request.setAttribute("endPage", endPage);
                 request.setAttribute("pagingQuantity", pagingQuantity);
+                request.setAttribute("toggleList", toggleList);
                 request.setAttribute("hostelList", hostelList);
 
-                //----------------------------
-//                HttpSession session = request.getSession();
-//                Tenant t = (Tenant) session.getAttribute("currentUser");
-//                List<Hostel> favList = HostelDAO.findFavoriteList(t);
-//                session.setAttribute("favoriteHostels", favList);
-                //----------------------------
                 request.getRequestDispatcher("/view/hostelList.jsp").forward(request, response);
             } else if (path.equals("/detail")) {
 
                 request.getRequestDispatcher("/view/homepage.jsp").forward(request, response);
-            } else if (path.equals("/favoriteList")) {
-                HttpSession session = request.getSession();
-                Tenant t = (Tenant) session.getAttribute("currentUser");
-                List<Hostel> favList = HostelDAO.findFavoriteList(t);
-                request.setAttribute("favoriteHostels", favList);
-                request.getRequestDispatcher("/view/favHostelList.jsp").forward(request, response);
-            } else if (path.equals("/favoriteList")) {
-                HttpSession session = request.getSession();
-                Tenant t = (Tenant) session.getAttribute("currentUser");
-                List<Hostel> favList = HostelDAO.findFavoriteList(t);
-                request.setAttribute("favoriteHostels", favList);
-                request.getRequestDispatcher("/view/favHostelList.jsp").forward(request, response);
             } else if (path.equals("/toggleFavHostel")) {
-                try {
-                    int hostelID = Integer.parseInt(request.getParameter("hostelID"));
-                    System.out.println(hostelID + " line 40");
-                    HttpSession session = request.getSession();
-                    Tenant t = (Tenant) session.getAttribute("currentUser");
-                    int tenantID = t.getAccount().getAccountID();
-                    System.out.println(tenantID + " line 44");
-                    if (FavoriteHostelDAO.findByHostelTenant(hostelID, t) == null) {
-                        FavoriteHostelDAO.save(hostelID, tenantID);
-                        System.out.println("Added Fav Hostel!");
-                    } else {
-                        if (FavoriteHostelDAO.toggleFavoriteHostel(hostelID, t)) {
-                            System.out.println("Toggled Fav Hostel!");
-                        }
-                    }
-                    session.setAttribute("favoriteHostels", FavoriteHostelDAO.findByTenant(t));
-                } catch (Exception e) {
-                    log("Error at ToggleFavHostelServlet: " + e.toString());
+                //Hàm bắt xử lí khi nhấn toggle favorite
+                int hostelID = Integer.parseInt(request.getParameter("hostelID"));
+                HttpSession session = request.getSession();
+                Tenant t = (Tenant) session.getAttribute("currentUser");
+                int tenantID = t.getAccount().getAccountID();
+                if (FavoriteHostelDAO.findByHostelTenant(hostelID, tenantID) == false) {
+                    FavoriteHostelDAO.save(hostelID, tenantID);
+                } else {
+                    FavoriteHostelDAO.remove(hostelID, tenantID);
                 }
+                session.setAttribute("favoriteHostelIds", FavoriteHostelDAO.findFavHostelIds(t.getAccount().getAccountID()));
             } else if (path.equals("/findWardDistrict")) {
                 try {
                     String param = request.getParameter("param");
@@ -259,6 +259,7 @@ public class HostelController extends HttpServlet {
                         out.close();
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }

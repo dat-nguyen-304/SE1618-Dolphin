@@ -237,6 +237,9 @@
                 <div class="row">
                     <form action="/sakura/hostel/list" class="search-bar__input col-12 col-md-6" method="post">
                         <input type="text" name="keyword" placeholder="Nhập tên phòng trọ ...">
+                        <c:if test="${requestScope.favorite == true}">
+                            <input type="hidden" name="favorite" value="true"/>
+                        </c:if>
                         <button class="search-bar__submit" type="submit">Tìm
                             kiếm</button>
                     </form>
@@ -250,6 +253,9 @@
                                         <ul class="search-bar-sort-list">
                                             <li class="search-bar-sort-item">
                                                 <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.favorite == true}">
+                                                        <input type="hidden" name="favorite" value="true"/>
+                                                    </c:if>
                                                     <c:if test="${requestScope.keyword != null}">
                                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                                     </c:if>
@@ -258,6 +264,9 @@
                                             </li>
                                             <li class="search-bar-sort-item">
                                                 <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.favorite == true}">
+                                                        <input type="hidden" name="favorite" value="true"/>
+                                                    </c:if>
                                                     <c:if test="${requestScope.keyword != null}">
                                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                                     </c:if>
@@ -273,6 +282,9 @@
                                         <ul class="search-bar-sort-list">
                                             <li class="search-bar-sort-item">
                                                 <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.favorite == true}">
+                                                        <input type="hidden" name="favorite" value="true"/>
+                                                    </c:if>
                                                     <c:if test="${requestScope.keyword != null}">
                                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                                     </c:if>
@@ -281,6 +293,9 @@
                                             </li>
                                             <li class="search-bar-sort-item">
                                                 <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.favorite == true}">
+                                                        <input type="hidden" name="favorite" value="true"/>
+                                                    </c:if>
                                                     <c:if test="${requestScope.keyword != null}">
                                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                                     </c:if>
@@ -289,6 +304,9 @@
                                             </li>
                                             <li class="search-bar-sort-item">
                                                 <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.favorite == true}">
+                                                        <input type="hidden" name="favorite" value="true"/>
+                                                    </c:if>
                                                     <c:if test="${requestScope.keyword != null}">
                                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                                     </c:if>
@@ -297,6 +315,9 @@
                                             </li>
                                             <li class="search-bar-sort-item">
                                                 <form action="/sakura/hostel/list">
+                                                    <c:if test="${requestScope.favorite == true}">
+                                                        <input type="hidden" name="favorite" value="true"/>
+                                                    </c:if>
                                                     <c:if test="${requestScope.keyword != null}">
                                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                                     </c:if>
@@ -307,7 +328,18 @@
                                     </div>
                                 </div>
                                 <div class="filter-item favorite-filter col-12 col-sm-4">
-                                    <a href="/sakura/hostel/list?favorite=true" class="submit-filter">Yêu thích</a>
+                                    <!--<a href="/sakura/hostel/list?favorite=true" >Yêu thích</a>-->
+                                    <form class="submit-filter" action="/sakura/hostel/list">
+                                        <c:if test="${requestScope.keyword != null}">
+                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.favorite == null}">
+                                            <button type="submit" name="favorite" value="true" >Yêu thích</button>
+                                        </c:if>
+                                        <c:if test="${requestScope.favorite != null}">
+                                            <button type="submit" name="favorite" value="false" >Yêu thích</button>
+                                        </c:if>
+                                    </form>
                                 </div>
                             </div>
 
@@ -405,22 +437,19 @@
                                                 </c:forEach>
                                                 <span class="hostel-rating-number">${hostel.rating}/5</span>
                                             </div>
-                                            <c:set var="contains" value="false"/>
-                                            <c:forEach var="item" items="${sessionScope.favoriteHostels}">
-                                                <c:if test="${item.hostel.hostelID eq hostel.hostelID && item.activate == true}">
-                                                    <c:set var="contains" value="true" />
-                                                </c:if>
-                                            </c:forEach>
+
                                             <c:choose>
-                                                <c:when test="${contains == true}">
+                                                <c:when test="${requestScope.toggleList.get(i) == true}">
                                                     <div class="hostel-favorite">
-                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)">
-                                                        </i></div>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                    <div class="hostel-favorite"><i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i></div>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="hostel-favorite">
+                                                        <i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                         <div class="hostel-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
                                         <div class="hostel-info">

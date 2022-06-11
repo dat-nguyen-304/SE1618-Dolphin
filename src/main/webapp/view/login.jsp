@@ -182,7 +182,7 @@
                 var username = $('#username').val().trim();
                 var password = $('#password').val().trim();
                 if (!username || !password) {
-                    $('#error').html("Vui lòng điền username/email và password!");
+                    $('#error').html("Vui lòng điền đầy đủ thông tin đăng nhập!");
                     return false;
                 }
                 return true;

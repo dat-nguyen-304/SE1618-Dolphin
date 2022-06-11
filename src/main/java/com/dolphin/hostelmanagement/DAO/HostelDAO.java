@@ -249,66 +249,31 @@ public class HostelDAO {
         return list;
     }
 
-    public static List<Hostel> findFavoriteList(Tenant t) {
+    public static List<Hostel> findFavoriteList(int tenantID) {
         List<Hostel> list = new ArrayList<>();
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select h.hostelID, streetAddress, hostelName, \n"
-                        + "registeredDate, h.activate, rating, landlordID,\n"
-                        + "minPrice, maxPrice, minArea, maxArea, wardID,\n"
-                        + "availableRoom, description, totalRoom, fh.activate as favActivate \n"
-                        + "from Hostel h inner join FavoriteHostel fh on h.hostelID = fh.hostelID\n"
-                        + "where tenantID = ?";
+                String sql = "select hostelID from FavoriteHostel where tenantID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setInt(1, t.getAccount().getAccountID());
+                pst.setInt(1, tenantID);
                 ResultSet rs = pst.executeQuery();
-                while (rs.next()) {
-                    int hostelId = rs.getInt("hostelID");
-                    String streetAddress = rs.getString("streetAddress");
-                    String hostelName = rs.getString("hostelName");
-                    int totalRoom = rs.getInt("totalRoom");
-                    Date regDate = rs.getDate("registeredDate");
-                    boolean activate = rs.getBoolean("activate");
-                    float rating = rs.getFloat("rating");
-                    int landlordId = rs.getInt("landlordID");
-                    Landlord landlord = LandlordDAO.findById(landlordId);
-                    int minPrice = rs.getInt("minPrice");
-                    int maxPrice = rs.getInt("maxPrice");
-                    int minArea = rs.getInt("minArea");
-                    int maxArea = rs.getInt("maxArea");
-                    int wardId = rs.getInt("wardID");
-                    Ward ward = WardDAO.findById(wardId);
-                    int availableRoom = rs.getInt("availableRoom");
-                    String desc = rs.getString("description");
-                    boolean favActivate = rs.getBoolean("favActivate");
-                    ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
-                    System.out.println(favActivate);
-                    if (favActivate) {
-                        list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
+                if (rs != null) {
+                    while (rs.next()) {
+                        int hostelID = rs.getInt("hostelID");
+                        list.add(findById(hostelID));
                     }
                 }
+                cn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return list;
     }
 
     public static void main(String[] args) {
-        Tenant a = TenantDAO.findById(3);
-        List<Hostel> ab =  findFavoriteList(a);
-        for (Hostel hostel : ab) {
-            System.out.println(hostel.getHostelName());
-        }
+        
     }
 }

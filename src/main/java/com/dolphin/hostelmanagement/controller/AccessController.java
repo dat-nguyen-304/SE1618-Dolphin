@@ -60,7 +60,7 @@ public class AccessController extends HttpServlet {
                     if (logout == null) {
                         if (username != null && password != null) {
                             Account acc = null;
-                            
+
                             if (username.contains("@")) {
                                 System.out.println("I logged in by email!");
                                 acc = AccountDAO.loginByEmail(username, password);
@@ -69,26 +69,22 @@ public class AccessController extends HttpServlet {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, password);
                             }
-                            
+
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
-                            if (acc.getRole() == 1) {
-                                session.setAttribute("role", 1);
-                                Tenant tenant = TenantDAO.findByAccount(acc);
-                                session.setAttribute("currentUser", tenant);
-                                List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenant(tenant);
-                                session.setAttribute("favoriteHostels", favoriteHostels);
-                            } else {
-                                System.out.println("line 41 landlord");
-                                session.setAttribute("role", 2);
-                                Landlord landlord = LandlordDAO.findByAccount(acc);
-                                session.setAttribute("currentUser", landlord);
-                            }
-                                url = "/hostel/list";
-
-                                // Chỉ khi tenant log in mới set?? đem lên 83? Landlord chưa có trang?
-//                            List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenantID(acc.getAccountID());
-//                            session.setAttribute("favoriteHostels", favoriteHostels);
+                                if (acc.getRole() == 1) {
+                                    session.setAttribute("role", 1);
+                                    Tenant tenant = TenantDAO.findByAccount(acc);
+                                    session.setAttribute("currentUser", tenant);
+                                    List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
+                                    session.setAttribute("favoriteHostelIds", favHostelIds);
+                                } else {
+                                    session.setAttribute("role", 2);
+                                    Landlord landlord = LandlordDAO.findByAccount(acc);
+                                    session.setAttribute("currentUser", landlord);
+                                }
+                                response.sendRedirect("/sakura/hostel/list");
+                                return ;
                             } else {
                                 request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
                                 url = "/view/login.jsp";

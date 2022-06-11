@@ -2,6 +2,7 @@
     --dark-primary-color  : #17535B;
     --medium-primary-color: #288D87;
     --light-primary-color : #0EAF72;
+    --text-color          : #333
 }
 
 * {
@@ -66,10 +67,14 @@ body {
     display         : inline-block;
     padding         : 4px 12px;
     color           : #fff;
-    background-color: var(--light-primary-color);
+    background-color: #e44f4f;
     border          : none;
     border-radius   : 4px;
     cursor          : pointer;
+}
+
+.submit-filter button {
+    border: none;
 }
 
 .filter-province,
@@ -195,8 +200,9 @@ body {
     justify-content: right;
 }
 
-.favorite-filter a {
+.favorite-filter button {
     background-color: #e44f4f;
+    color           : #fff;
 }
 
 .favorite-filter a:hover {
