@@ -231,13 +231,22 @@
                 <div class="col-12 col-sm-7">
                     <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            <c:if test="${requestScope.hostel.imgList.size() > 0}">
+                                <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
+                                    <c:if test="${iterator == 0}">
+                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${iterator > 0}">
+                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}">
+                                        </li>
+                                    </c:if>
+                                </c:forEach>
+                            </c:if>
                         </ol>
                         <div class="carousel-inner">
-                            <c:if test="${hostel.imgList.size() > 0}">
-                                <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                            <c:if test="${requestScope.hostel.imgList.size() > 0}">
+                                <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
                                     <c:if test="${iterator == 0}">
                                         <div class="carousel-item active">
                                         </c:if>
@@ -528,19 +537,38 @@
                     <form action="/sakura/hostel/detail">
                         <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                         <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                        <div class="send-feedback">
-                            <input type="hidden" name="rating" value="" />
-                            <div class="send-feedback-star-list">
-                                <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                        <c:if test="${requestScope.feedback == null}">
+                            <div class="send-feedback">
+                                <input type="hidden" name="rating" value="0" />
+                                <div class="send-feedback-star-list">
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                </div>
+                                <textarea class="text-area" placeholder="Nhập vào đây đánh giá của bạn"
+                                          name="feedbackContent" rows="4" cols="100"></textarea>
+                                <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
                             </div>
-                            <textarea class="text-area" placeholder="Nhập vào đây đánh giá của bạn"
-                                      name="feedbackContent" rows="4" cols="100"></textarea>
-                            <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
-                        </div>
+                        </c:if>
+                        <c:if test="${requestScope.feedback != null}">
+                            <div class="send-feedback">
+                                <input type="hidden" name="oldRating" value="${requestScope.feedback.rating}" />
+                                <input type="hidden" name="rating" value="${requestScope.feedback.rating}" />
+                                <div class="send-feedback-star-list">
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                </div>
+                                <textarea class="text-area" disabled placeholder="Nhập vào đây đánh giá của bạn"
+                                          name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
+                                <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
+                                <button type="submit" class="update-feedback-btn">Chỉnh sửa đánh giá</button>
+                            </div>
+                        </c:if>
                     </form>
                 </div>
 
@@ -549,286 +577,100 @@
                         nhà trọ nổi bật
                     </h3>
                     <ul class="hostel-vip-list row">
-                        <li class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="hostel-vip-item">
+                        <c:set var="i" value="-1" />
+                        <c:forEach var="hostel" items="${requestScope.outstandingHostels}">
+                            <c:set var="i" value="${i + 1}" />
+                            <li class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <form action="/sakura/hostel/detail">
+                                    <input type="hidden" name="filterStar" value="0" />
+                                    <button class="hostel-vip-item" name="hostelId" value="${hostel.hostelID}" class="hostel-item">
+                                        <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
+                                            <ol class="carousel-indicators carousel-vip-indicators">
+                                                <c:if test="${hostel.imgList.size() > 0}">
+                                                    <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                                                        <c:if test="${iterator == 0}">
+                                                            <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${iterator > 0}">
+                                                            <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}">
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </ol>
+                                            <div class="hostel-vip-images">
+                                                <div class="carousel-inner">
 
-                                <div id="carouselExampleIndicators-0" class="carousel slide" data-interval="false">
-                                    <ol class="carousel-indicators carousel-vip-indicators">
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="2"></li>
-                                    </ol>
-                                    <a href="hostel-vip-list.html" class="hostel-vip-images">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item carousel-vip-item active">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="First slide">
+                                                    <c:if test="${hostel.imgList.size() > 0}">
+                                                        <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                                                            <c:if test="${iterator == 0}">
+                                                                <div class="carousel-item carousel-vip-item active">
+                                                                </c:if>
+                                                                <c:if test="${iterator > 0}">
+                                                                    <div class="carousel-item carousel-vip-item">
+                                                                    </c:if>
+                                                                    <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
+                                                                </div>
+                                                            </c:forEach>
+                                                        </c:if>
+                                                    </div>
+                                                </div>
+                                                <div class="btn-prev-next">
+                                                    <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button"
+                                                       data-slide="prev">
+                                                        <span><i class="fa-solid fa-angle-left"></i></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button"
+                                                       data-slide="next">
+                                                        <span><i class="fa-solid fa-angle-right"></i></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="carousel-item carousel-vip-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Second slide">
+
+                                            <div class="hostel-vip-content btn-submit">
+
+                                                <div class="hostel-vip-name">${hostel.hostelName}</div>
+                                                <div class="hostel-vip-action">
+                                                    <div class="hostel-vip-rating">
+                                                        <c:forEach begin="1" end="5" var="iterator">
+                                                            <c:choose>
+                                                                <c:when test="${iterator <= hostel.rating}">
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <c:choose>
+                                                                        <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
+                                                                            <i class="fa-solid fa-star"></i>
+                                                                        </c:when>
+                                                                        <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
+                                                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <i class="fa-solid fa-star" style="color: #ccc"></i>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+                                                        <span class="hostel-vip-rating-number">${hostel.rating}/5</span>
+                                                    </div>
+                                                </div>
+                                                <div class="hostel-vip-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
+                                                <div class="hostel-vip-info">
+                                                    <span class="hostel-vip-room-available">Còn ${hostel.availableRoom} phòng trống</span>
+                                                    <span class="hostel-vip-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
+                                                </div>
+
+                                                <div class="hostel-vip-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
                                             </div>
-                                            <div class="carousel-item carousel-vip-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Third slide">
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="btn-prev-next">
-                                        <a class="carousel-control-prev" href="#carouselExampleIndicators-0" role="button"
-                                           data-slide="prev">
-                                            <span><i class="fa-solid fa-angle-left"></i></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleIndicators-0" role="button"
-                                           data-slide="next">
-                                            <span><i class="fa-solid fa-angle-right"></i></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </div>
 
-                                </div>
-
-                                <a href="hostel-vip-list.html" class="hostel-vip-content">
-
-                                    <div class="hostel-vip-name">APLUS Sao Nam</div>
-                                    <div class="hostel-vip-action">
-                                        <div class="hostel-vip-rating">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star-half"></i>
-                                            <i class="fa-solid fa-star-half-stroke"></i>
-                                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                            <span class="hostel-vip-rating-number">4.9/5</span>
-                                        </div>
-                                        <div class="hostel-vip-favorite"><i class="fa-solid fa-heart"> </i> < /div>
-                                        </div>
-                                        <div class="hostel-vip-address">Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức,
-                                            Thành
-                                            phố Hồ Chí Minh 700000</div>
-                                        <div class="hostel-vip-info">
-                                            <span class="hostel-vip-room-available">Còn 1000 phòng trống</span>
-                                            <span class="hostel-vip-area">20 - 40 m²</span>
-                                        </div>
-
-                                        <div class="hostel-vip-price">5,0 - 7,0 triệu</div>
-                                </a>
-
-                            </div>
-                        </li>
-                        <li class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="hostel-vip-item">
-
-                                <div id="carouselExampleIndicators-0" class="carousel slide" data-interval="false">
-                                    <ol class="carousel-indicators carousel-vip-indicators">
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="2"></li>
-                                    </ol>
-                                    <a href="hostel-vip-list.html" class="hostel-vip-images">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item carousel-vip-item active">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="First slide">
-                                            </div>
-                                            <div class="carousel-item carousel-vip-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Second slide">
-                                            </div>
-                                            <div class="carousel-item carousel-vip-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Third slide">
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="btn-prev-next">
-                                        <a class="carousel-control-prev" href="#carouselExampleIndicators-0" role="button"
-                                           data-slide="prev">
-                                            <span><i class="fa-solid fa-angle-left"></i></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleIndicators-0" role="button"
-                                           data-slide="next">
-                                            <span><i class="fa-solid fa-angle-right"></i></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                                <a href="hostel-vip-list.html" class="hostel-vip-content">
-
-                                    <div class="hostel-vip-name">APLUS Sao Nam</div>
-                                    <div class="hostel-vip-action">
-                                        <div class="hostel-vip-rating">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star-half"></i>
-                                            <i class="fa-solid fa-star-half-stroke"></i>
-                                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                            <span class="hostel-vip-rating-number">4.9/5</span>
-                                        </div>
-                                        <div class="hostel-vip-favorite"><i class="fa-solid fa-heart"></i></div>
-                                    </div>
-                                    <div class="hostel-vip-address">Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức,
-                                        Thành
-                                        phố Hồ Chí Minh 700000</div>
-                                    <div class="hostel-vip-info">
-                                        <span class="hostel-vip-room-available">Còn 1000 phòng trống</span>
-                                        <span class="hostel-vip-area">20 - 40 m²</span>
-                                    </div>
-
-                                    <div class="hostel-vip-price">5,0 - 7,0 triệu</div>
-                                </a>
-
-                            </div>
-                        </li>
-                        <li class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="hostel-vip-item">
-
-                                <div id="carouselExampleIndicators-0" class="carousel slide" data-interval="false">
-                                    <ol class="carousel-indicators carousel-vip-indicators">
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="2"></li>
-                                    </ol>
-                                    <a href="hostel-vip-list.html" class="hostel-vip-images">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item carousel-vip-item active">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="First slide">
-                                            </div>
-                                            <div class="carousel-item carousel-vip-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Second slide">
-                                            </div>
-                                            <div class="carousel-item carousel-vip-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Third slide">
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="btn-prev-next">
-                                        <a class="carousel-control-prev" href="#carouselExampleIndicators-0" role="button"
-                                           data-slide="prev">
-                                            <span><i class="fa-solid fa-angle-left"></i></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleIndicators-0" role="button"
-                                           data-slide="next">
-                                            <span><i class="fa-solid fa-angle-right"></i></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                                <a href="hostel-vip-list.html" class="hostel-vip-content">
-
-                                    <div class="hostel-vip-name">APLUS Sao Nam</div>
-                                    <div class="hostel-vip-action">
-                                        <div class="hostel-vip-rating">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star-half"></i>
-                                            <i class="fa-solid fa-star-half-stroke"></i>
-                                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                            <span class="hostel-vip-rating-number">4.9/5</span>
-                                        </div>
-                                        <div class="hostel-vip-favorite"><i class="fa-solid fa-heart"></i></div>
-                                    </div>
-                                    <div class="hostel-vip-address">Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức,
-                                        Thành
-                                        phố Hồ Chí Minh 700000</div>
-                                    <div class="hostel-vip-info">
-                                        <span class="hostel-vip-room-available">Còn 1000 phòng trống</span>
-                                        <span class="hostel-vip-area">20 - 40 m²</span>
-                                    </div>
-
-                                    <div class="hostel-vip-price">5,0 - 7,0 triệu</div>
-                                </a>
-
-                            </div>
-                        </li>
-                        <li class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="hostel-vip-item">
-
-                                <div id="carouselExampleIndicators-0" class="carousel slide" data-interval="false">
-                                    <ol class="carousel-indicators carousel-vip-indicators">
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators-0" data-slide-to="2"></li>
-                                    </ol>
-                                    <a href="hostel-vip-list.html" class="hostel-vip-images">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item carousel-vip-item active">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="First slide">
-                                            </div>
-                                            <div class="carousel-item carousel-vip-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Second slide">
-                                            </div>
-                                            <div class="carousel-item carousel-vip-item">
-                                                <img class="d-block w-100"
-                                                     src="https://anlandpremium.vn/wp-content/uploads/2021/07/Hostel-la-gi.jpg"
-                                                     alt="Third slide">
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="btn-prev-next">
-                                        <a class="carousel-control-prev" href="#carouselExampleIndicators-0" role="button"
-                                           data-slide="prev">
-                                            <span><i class="fa-solid fa-angle-left"></i></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleIndicators-0" role="button"
-                                           data-slide="next">
-                                            <span><i class="fa-solid fa-angle-right"></i></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                                <a href="hostel-vip-list.html" class="hostel-vip-content">
-
-                                    <div class="hostel-vip-name">APLUS Sao Nam</div>
-                                    <div class="hostel-vip-action">
-                                        <div class="hostel-vip-rating">
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star-half"></i>
-                                            <i class="fa-solid fa-star-half-stroke"></i>
-                                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                                            <span class="hostel-vip-rating-number">4.9/5</span>
-                                        </div>
-                                        <div class="hostel-vip-favorite"><i class="fa-solid fa-heart"></i></div>
-                                    </div>
-                                    <div class="hostel-vip-address">Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức,
-                                        Thành
-                                        phố Hồ Chí Minh 700000</div>
-                                    <div class="hostel-vip-info">
-                                        <span class="hostel-vip-room-available">Còn 1000 phòng trống</span>
-                                        <span class="hostel-vip-area">20 - 40 m²</span>
-                                    </div>
-
-                                    <div class="hostel-vip-price">5,0 - 7,0 triệu</div>
-                                </a>
-
-                            </div>
-                        </li>
+                                    </button>
+                                </form>
+                            </li>
+                        </c:forEach>
                     </ul>
                 </div>
             </div>

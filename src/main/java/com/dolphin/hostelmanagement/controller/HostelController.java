@@ -17,6 +17,8 @@ import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.DTO.Ward;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -220,7 +222,10 @@ public class HostelController extends HttpServlet {
 
                 HttpSession session = request.getSession();
                 Tenant t = (Tenant) session.getAttribute("currentUser");
-
+                
+                List<Hostel> outstandingHostels = HostelDAO.findOutstandingHostels();
+                request.setAttribute("outstandingHostels", outstandingHostels);
+                
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 Hostel hostel = HostelDAO.findById(hostelId);
 
@@ -247,11 +252,30 @@ public class HostelController extends HttpServlet {
                     int feedbackQuantity = feedbackList.size();
                     float currentHostelRating = hostel.getRating();
                     float newHostelRating = (float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10;
-                    hostel.setRating((float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10);
+                    hostel.setRating(newHostelRating);
                     HostelDAO.updateRating(hostelId, newHostelRating);
                     FeedbackDAO.add(t.getAccount().getAccountID(), hostelId, feedbackContent, rating);
                     feedbackList = FeedbackDAO.findByHostelId(hostelId);
                 }
+                
+                if (request.getParameter("updateContent") != null) {
+                    String updateContent = request.getParameter("updateContent");
+                    int rating = Integer.parseInt(request.getParameter("rating"));
+                    int oldRating = Integer.parseInt(request.getParameter("oldRating"));
+                    int feedbackQuantity = feedbackList.size();
+                    float currentHostelRating = hostel.getRating();
+                    float newHostelRating = (float)Math.round((currentHostelRating * feedbackQuantity - oldRating + rating) / feedbackQuantity * 10) / 10;
+                    hostel.setRating(newHostelRating);
+                    HostelDAO.updateRating(hostelId, newHostelRating);
+                    LocalDateTime current = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String formatted = current.format(formatter);
+                    FeedbackDAO.update(t.getAccount().getAccountID(), hostelId, updateContent, rating, formatted);
+                    feedbackList = FeedbackDAO.findByHostelId(hostelId);
+                }
+                
+                Feedback feedback = FeedbackDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
+                request.setAttribute("feedback", feedback);
 
                 int itemQuantity = feedbackList.size();
                 int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);

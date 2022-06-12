@@ -10,8 +10,9 @@ import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,6 +60,7 @@ public class FeedbackDAO {
                 String sql = "select feedbackID, content, rating, date from feedback where hostelID = ? and tenantID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
+                pst.setInt(2, tenantId);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     if (rs.next()) {
@@ -99,11 +101,30 @@ public class FeedbackDAO {
         return false;
     }
     
+    public static boolean update(int tenantId, int hostelId, String content, int rating, String date) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update Feedback set content = ?, rating = ?, date = ? where tenantID = ? AND hostelId = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, content);
+                pst.setInt(2, rating);
+                pst.setDate(3, Date.valueOf(date));
+                pst.setInt(4, tenantId);
+                pst.setInt(5, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) return true;
+                cn.close();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static void main(String[] args) {
-        float currentHostelRating = (float)3.5;
-        int feedbackQuantity = 5;
-        int rating = 4;
-        float a = (float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10)/10;
-        System.out.println(a);
+        Feedback f = findByHostelTenant(9, 9);
+        System.out.println(f.getContent());
     }
 }

@@ -70,6 +70,47 @@ public class HostelDAO {
         }
         return list;
     }
+    
+    public static List<Hostel> findOutstandingHostels() {
+        List<Hostel> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "select TOP(4) * from Hostel order by rating desc";
+                PreparedStatement pst = cn.prepareCall(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int hostelId = rs.getInt("hostelID");
+                        String streetAddress = rs.getString("streetAddress");
+                        String hostelName = rs.getString("hostelName");
+                        int totalRoom = rs.getInt("totalRoom");
+                        Date regDate = rs.getDate("registeredDate");
+                        boolean activate = rs.getBoolean("activate");
+                        float rating = rs.getFloat("rating");
+                        int landlordId = rs.getInt("landlordID");
+                        Landlord landlord = LandlordDAO.findById(landlordId);
+                        int minPrice = rs.getInt("minPrice");
+                        int maxPrice = rs.getInt("maxPrice");
+                        int minArea = rs.getInt("minArea");
+                        int maxArea = rs.getInt("maxArea");
+                        int wardId = rs.getInt("wardID");
+                        Ward ward = WardDAO.findById(wardId);
+                        int availableRoom = rs.getInt("availableRoom");
+                        String desc = rs.getString("description");
+                        ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
+                        list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
+                    }
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        return list;
+    }
 
     public static Hostel findById(int id) {
         Hostel hostel = null;

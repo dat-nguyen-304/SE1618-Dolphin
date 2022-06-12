@@ -293,10 +293,7 @@ footer {
     margin-right : 28px;
 }
 
-.tenant-name {
-    padding-bottom: 6px;
-    font-size: 14px;
-}
+.tenant-name {}
 
 .tenant-rating {
     color: orange;
@@ -368,6 +365,8 @@ footer {
     box-shadow   : 0 0 8px #ccc;
     overflow     : hidden;
     margin-top   : 20px;
+    border: none;
+    text-align: left;
 }
 
 .hostel-vip-item:hover {
@@ -549,4 +548,22 @@ footer {
     background-color: var(--medium-primary-color);
     color           : #fff;
     border-radius   : 4px;
+}
+
+.update-feedback-btn {
+    border          : none;
+    display         : block;
+    position        : absolute;
+    right           : 0;
+    padding         : 8px 12px;
+    background-color: var(--medium-primary-color);
+    color           : #fff;
+    border-radius   : 4px;
+}
+
+.send-feedback-mess {
+    display     : none;
+    /* display  : inline-block; */
+    color       : red;
+    font-size   : 12px;
 }
