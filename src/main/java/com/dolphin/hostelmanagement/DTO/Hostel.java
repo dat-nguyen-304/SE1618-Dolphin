@@ -11,7 +11,7 @@ public class Hostel {
 
     private int hostelID;
     private String streetAddress;
-    private Ward ward;
+    private District district;
     private String hostelName;
     private int totalRoom;
     private Date registeredDate;
@@ -29,10 +29,10 @@ public class Hostel {
     public Hostel() {
     }
 
-    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom, String description, ArrayList<String> imgList) {
+    public Hostel(int hostelID, String streetAddress, District district, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom, String description, ArrayList<String> imgList) {
         this.hostelID = hostelID;
         this.streetAddress = streetAddress;
-        this.ward = ward;
+        this.district = district;
         this.hostelName = hostelName;
         this.totalRoom = totalRoom;
         this.registeredDate = registeredDate;
@@ -64,14 +64,14 @@ public class Hostel {
         this.streetAddress = streetAddress;
     }
 
-    public Ward getWard() {
-        return ward;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setWard(Ward ward) {
-        this.ward = ward;
+    public void setDistrict(District district) {
+        this.district = district;
     }
-
+   
     public String getHostelName() {
         return hostelName;
     }
@@ -174,6 +174,11 @@ public class Hostel {
 
     public void setImgList(ArrayList<String> imgList) {
         this.imgList = imgList;
+    }
+
+    @Override
+    public String toString() {
+        return "Hostel{" + "hostelID=" + hostelID + ", streetAddress=" + streetAddress + ", district=" + district + ", hostelName=" + hostelName + ", totalRoom=" + totalRoom + ", registeredDate=" + registeredDate + ", rating=" + rating + ", landlord=" + landlord + ", activate=" + activate + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" + maxArea + ", availableRoom=" + availableRoom + ", description=" + description + ", imgList=" + imgList + '}';
     }
 
     

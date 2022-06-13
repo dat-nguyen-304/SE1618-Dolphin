@@ -8,7 +8,7 @@ import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.ImageHostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
-import com.dolphin.hostelmanagement.DTO.Ward;
+import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,12 +48,12 @@ public class HostelDAO {
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardID");
-                        Ward ward = WardDAO.findById(wardId);
+                        int districtID = rs.getInt("districtID");
+                        District district = DistrictDAO.findById(districtID);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
                         ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
-                        list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
+                        list.add(new Hostel(hostelId, streetAddress, district, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
                     }
                 }
             }
@@ -96,12 +96,12 @@ public class HostelDAO {
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardID");
-                        Ward ward = WardDAO.findById(wardId);
+                        int districtID = rs.getInt("districtID");
+                        District district = DistrictDAO.findById(districtID);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
                         ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
-                        list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
+                        list.add(new Hostel(hostelId, streetAddress, district, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
                     }
                 }
                 cn.close();
@@ -137,12 +137,12 @@ public class HostelDAO {
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardID");
-                        Ward ward = WardDAO.findById(wardId);
+                        int districtID = rs.getInt("districtID");
+                        District district = DistrictDAO.findById(districtID);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
                         ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
-                        hostel = new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList);
+                        hostel = new Hostel(hostelId, streetAddress, district, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList);
                     }
                 }
                 cn.close();
@@ -171,7 +171,7 @@ public class HostelDAO {
                 pst.setBoolean(4, true);
                 pst.setFloat(5, t.getRating());
                 pst.setInt(6, t.getLandlord().getAccount().getAccountID());
-                pst.setInt(7, t.getWard().getWardID());
+                pst.setInt(7, t.getDistrict().getDistrictID());
                 check = pst.executeUpdate() != 0;
                 if (check) {
                     System.out.println("!!! SAVED hostel");
@@ -210,12 +210,12 @@ public class HostelDAO {
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardID");
-                        Ward ward = WardDAO.findById(wardId);
+                        int districtID = rs.getInt("districtID");
+                        District district = DistrictDAO.findById(districtID);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
                         ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
-                        list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
+                        list.add(new Hostel(hostelId, streetAddress, district, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
                     }
                 }
                 cn.close();
@@ -280,16 +280,6 @@ public class HostelDAO {
         return check;
     }
 
-    public static List<Hostel> findByWard(int wardID) {
-        List<Hostel> list = new ArrayList();
-        for (Hostel hostel : findAll()) {
-            if (hostel.getWard().getWardID() == wardID) {
-                list.add(hostel);
-            }
-        }
-        return list;
-    }
-
     public static List<Hostel> findFavoriteList(int tenantID) {
         List<Hostel> list = new ArrayList<>();
         Connection cn = null;
@@ -334,6 +324,8 @@ public class HostelDAO {
     }
 
     public static void main(String[] args) {
-        
+        for (Hostel hostel : findAll()) {
+            System.out.println(hostel);
+        }
     }
 }

@@ -307,7 +307,7 @@
                             <div class="hostel-cost">${requestScope.hostel.minPrice / 1000-00} triệu - ${requestScope.hostel.maxPrice / 1000000} triệu VNÐ</div>
                             <div class="hostel-total-rom">Có tất cả ${requestScope.hostel.totalRoom} phòng</div>
                             <div class="hostel-available-room">Hiện đang có ${requestScope.hostel.availableRoom} phòng trống</div>
-                            <div class="hostel-address">${requestScope.hostel.streetAddress}</div>
+                            <div class="hostel-address">${requestScope.hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
                             <button class="btn-view-all-room">Xem tất cả phòng</button>
                         </div>
                         <div class="landlord-info">
@@ -354,6 +354,10 @@
                     <h3 class="section-title">
                         đánh giá từ người dùng
                     </h3>
+                    
+                    <c:if test="${requestScope.feedbackList == null}">
+                        <h3 class="no-rating">Chưa có đánh giá nào</h3>
+                    </c:if>
 
                     <div class="feedback-header">
                         <div class="feedback-average">
@@ -539,7 +543,7 @@
                         <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
                         <c:if test="${requestScope.feedback == null}">
                             <div class="send-feedback">
-                                <input type="hidden" name="rating" value="0" />
+                                <input type="hidden" name="rating" value="5" />
                                 <div class="send-feedback-star-list">
                                     <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
                                     <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
@@ -658,7 +662,7 @@
                                                         <span class="hostel-vip-rating-number">${hostel.rating}/5</span>
                                                     </div>
                                                 </div>
-                                                <div class="hostel-vip-address">${hostel.streetAddress} ${hostel.ward.wardName} ${hostel.ward.district.districtName}</div>
+                                                <div class="hostel-vip-address">${hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
                                                 <div class="hostel-vip-info">
                                                     <span class="hostel-vip-room-available">Còn ${hostel.availableRoom} phòng trống</span>
                                                     <span class="hostel-vip-area">${hostel.minArea} - ${hostel.maxArea} m²</span>

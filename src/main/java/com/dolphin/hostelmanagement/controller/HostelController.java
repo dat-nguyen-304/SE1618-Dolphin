@@ -8,13 +8,14 @@ import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
-import com.dolphin.hostelmanagement.DAO.WardDAO;
-import com.dolphin.hostelmanagement.DTO.District;
+import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
+import com.dolphin.hostelmanagement.DAO.DistrictDAO;
+import com.dolphin.hostelmanagement.DTO.Province;
 import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Tenant;
-import com.dolphin.hostelmanagement.DTO.Ward;
+import com.dolphin.hostelmanagement.DTO.District;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -319,32 +320,32 @@ public class HostelController extends HttpServlet {
             } else if (path.equals("/findWardDistrict")) {
                 try {
                     String param = request.getParameter("param");
-                    if (param.equals("district")) {
+                    if (param.equals("province")) {
                         System.out.println(param);
                         JSONArray list = new JSONArray();
-                        for (District district : DistrictDAO.findAll()) {
+                        for (Province province : ProvinceDAO.findAll()) {
                             JSONObject obj = new JSONObject();
-                            String districtID = Integer.toString(district.getDistrictId());
-                            String districtName = district.getDistrictName();
-                            obj.put("districtID", districtID);
-                            obj.put("districtName", districtName);
+                            String provinceID = Integer.toString(province.getProvinceID());
+                            String provinceName = province.getProvinceName();
+                            obj.put("provinceID", provinceName);
+                            obj.put("provinceName", provinceName);
                             list.add(obj);
                         }
                         out.write(list.toJSONString());
                         out.close();
                     }
-                    if (param.equals("ward")) {
+                    if (param.equals("district")) {
                         System.out.println(param);
-                        System.out.println(request.getParameter("districtID"));
+                        System.out.println(request.getParameter("provinceID"));
                         JSONArray list = new JSONArray();
-                        int districtID = Integer.parseInt(request.getParameter("districtID"));
-                        System.out.println("Line 85 " + districtID);
-                        for (Ward ward : WardDAO.findByDistrictID(districtID)) {
+                        int provinceID = Integer.parseInt(request.getParameter("provinceID"));
+                        System.out.println("Line 85 " + provinceID);
+                        for (District district : DistrictDAO.findByProvinceID(provinceID)) {
                             JSONObject obj = new JSONObject();
-                            String wardID = Integer.toString(ward.getWardID());
-                            String wardName = ward.getWardName();
-                            obj.put("wardID", wardID);
-                            obj.put("wardName", wardName);
+                            String districtID = Integer.toString(district.getDistrictID());
+                            String districtName = district.getDistrictName();
+                            obj.put("wardID", districtID);
+                            obj.put("wardName", districtName);
                             list.add(obj);
                         }
                         out.write(list.toJSONString());

@@ -9,23 +9,26 @@ package com.dolphin.hostelmanagement.DTO;
  * @author Vu Thien An - SE160296
  */
 public class District {
-    private int districtId;
+
+    private int districtID;
     private String districtName;
+    private Province province;
 
     public District() {
     }
 
-    public District(int districtId, String districtName) {
-        this.districtId = districtId;
+    public District(int districtID, String districtName, Province province) {
+        this.districtID = districtID;
         this.districtName = districtName;
+        this.province = province;
     }
 
-    public int getDistrictId() {
-        return districtId;
+    public int getDistrictID() {
+        return districtID;
     }
 
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId;
+    public void setDistrictID(int districtID) {
+        this.districtID = districtID;
     }
 
     public String getDistrictName() {
@@ -36,8 +39,13 @@ public class District {
         this.districtName = districtName;
     }
 
-    @Override
-    public String toString() {
-        return "District{" + "districtId=" + districtId + ", districtName=" + districtName + '}';
+    public Province getProvince() {
+        return province;
     }
+
+    public void setProvince(Province province) {
+        this.province = province;
+    }
+
+    
 }
