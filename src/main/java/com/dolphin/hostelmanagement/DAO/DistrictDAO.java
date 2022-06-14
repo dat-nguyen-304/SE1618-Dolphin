@@ -30,8 +30,9 @@ public class DistrictDAO {
                 if (rs != null) {
                     while (rs.next()) {
                         int id = rs.getInt("districtID");
-                        String districtName = rs.getString("districtName");
-                        list.add(new District(id, districtName));
+                        String districtName = rs.getNString("districtName");
+                        int provinceID = rs.getInt("provinceID");
+                        list.add(new District(id, districtName, provinceID));
                     }
                 }
             }
@@ -49,16 +50,35 @@ public class DistrictDAO {
         return list;
     }
     
-    public static District findById(int id) {
-        for (District district : findAll()) {
-            if (district.getDistrictId() == id) return district;
+    public static District findByID(int id) {
+        District d = null;
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select * from District where districtID = ?";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if(rs != null && rs.next()) {
+                String districtName = rs.getNString("districtName");
+                int provinceID = rs.getInt("provinceID");
+                
+                d = new District(id, districtName, provinceID);
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
         }
-        return null;
+        return d;
     }
     
     public static void main(String[] args) {
-        for (District district : findAll()) {
-            System.out.println(district);
+        /*for (District district : findAll()) {
+            System.out.println(district.getDistrictName());
+        }*/
+        for(int i = 1;i <= 10;++i) {
+            System.out.println(findByID(i).getDistrictName());
         }
+        
     }
 }

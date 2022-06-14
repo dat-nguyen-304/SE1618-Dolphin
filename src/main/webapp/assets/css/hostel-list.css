@@ -2,6 +2,7 @@
     --dark-primary-color  : #17535B;
     --medium-primary-color: #288D87;
     --light-primary-color : #0EAF72;
+    --text-color          : #333
 }
 
 * {
@@ -66,10 +67,14 @@ body {
     display         : inline-block;
     padding         : 4px 12px;
     color           : #fff;
-    background-color: var(--light-primary-color);
+    background-color: #e44f4f;
     border          : none;
     border-radius   : 4px;
     cursor          : pointer;
+}
+
+.submit-filter button {
+    border: none;
 }
 
 .filter-province,
@@ -195,8 +200,9 @@ body {
     justify-content: right;
 }
 
-.favorite-filter a {
+.favorite-filter button {
     background-color: #e44f4f;
+    color           : #fff;
 }
 
 .favorite-filter a:hover {
@@ -224,6 +230,8 @@ body {
     box-shadow   : 0 0 8px #ccc;
     overflow     : hidden;
     margin-top   : 20px;
+    text-align   : left;
+    border       : none;
 }
 
 .hostel-item:hover {
@@ -315,12 +323,35 @@ body {
     padding-top: 6px;
 }
 
+.hostel-images:hover~.btn-prev-next {
+    display: block;
+}
+
+.btn-prev-next:hover {
+    display: block;
+}
+
+.btn-prev-next {
+    display: none;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    opacity  : 1;
+    font-size: 20px;
+}
+
 .carousel-item img {
     height    : 180px;
     object-fit: cover;
 }
 
+.carousel-indicators {
+    height: 20px;
+}
+
 .carousel-indicators .active {
+    display         : block;
     position        : relative;
     -webkit-box-flex: 0;
     -ms-flex        : 0 1 auto;
@@ -329,9 +360,11 @@ body {
     height          : 3px;
     margin-right    : 3px;
     margin-left     : 3px;
-    text-indent     : -999px;
-    background-color: rgba(255, 255, 255, .5);
-    border-radius   : 4px;
+    background-color: #fff;
+
+    border-radius: 50px;
+    border       : 0px;
+
 }
 
 .carousel-indicators li {
@@ -344,8 +377,11 @@ body {
     margin-right    : 3px;
     margin-left     : 3px;
     text-indent     : -999px;
-    background-color: rgba(255, 255, 255, .5);
-    border-radius   : 100px;
+    background-color: #fff;
+    border-radius   : 50px;
+    border          : 0px;
+    transition      : width ease-in-out 0.4s;
+
 }
 
 .pagination {
@@ -370,14 +406,16 @@ body {
     color    : #888;
 }
 
-.pagination-item a {
+.pagination-item button {
     display        : block;
     padding        : 4px 14px;
     color          : currentColor;
     text-decoration: none;
+    outline        : none;
+    border         : none;
 }
 
-.pagination-item--active a {
+.pagination-item--active button {
     background-color: var(--medium-primary-color);
     color           : #fff;
 }
@@ -385,4 +423,5 @@ body {
 .pagination-previous,
 .pagination-next {
     font-size: 16px;
+    color    : red;
 }

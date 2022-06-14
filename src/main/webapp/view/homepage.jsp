@@ -84,21 +84,12 @@
             <div class="home-filter">
                 <div data-aos="fade-up" class="row filter-container">
                     <form action="" class="filter">
-                        <select class="filter-address">
-                            <option value="">Chọn tỉnh/thành phố</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select id="district" class="filter-address">
+                            <option value="">Chọn quận</option>
                         </select>
 
-                        <select class="filter-address">
-                            <option value="">Chọn quận/huyện</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select id="ward" class="filter-address">
+                            <option value="">Chọn phường</option>
                         </select>
 
                         <div class="filter-submit">
@@ -342,6 +333,66 @@
                     }
                 }
             };
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                console.log('Line 69');
+                jQuery.ajax({
+                    url: '/sakura/hostel/findWardDistrict',
+                    type: 'GET',
+                    data: {param: "district"},
+                    dataType: 'text',
+                    sucess: function (response) {
+                    },
+                    error: function () {
+                        console.log('Error 78');
+                    },
+                    complete: function (obj) {
+                        var data = JSON.parse(obj.responseText);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#district").append($("<option/>", {
+                                value: data[i].districtID,
+                                text: data[i].districtName,
+                            }
+                            ));
+                        }
+                        console.log('Complete 71');
+                    }
+                });
+            });
+
+            $('#district').change(function () {
+                $('#ward').find('option').remove();
+                $('#ward').append('<option>Chọn phường</option>');
+
+                let districtID = $('#district').val();
+                let data = {
+                    param: "ward",
+                    districtID: districtID
+                };
+
+                jQuery.ajax({
+                    url: "/sakura/hostel/findWardDistrict",
+                    method: "GET",
+                    data: data,
+                    sucess: function (response) {
+                    },
+                    error: function () {
+                        console.log('Error 78');
+                    },
+                    complete: function (obj) {
+                        var data = JSON.parse(obj.responseText);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#ward").append($("<option/>", {
+                                value: data[i].wardID,
+                                text: data[i].wardName,
+                            }
+                            ));
+                        }
+                        console.log('Complete 71');
+                    }
+                });
+            });
         </script>
     </body>
 

@@ -88,8 +88,35 @@ public class TenantDAO {
         }
         return list;
     }
+    
+    public static Tenant findById(int id) {
+        Tenant tenant = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Tenant where tenantID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String fullname = rs.getString("fullname");
+                        String phone = rs.getString("phone");
+                        Account acc = AccountDAO.findById(id);
+                        boolean rentStatus = rs.getBoolean("rentStatus");
+                        tenant = new Tenant(acc, fullname, phone, rentStatus);
+                    }
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        return tenant;
+    }
 
-    public static Tenant findById(int findID) {
+    public static Tenant findByAccount(Account acc) {
         Tenant t = null;
         Connection cn = null;
         try {
@@ -97,14 +124,12 @@ public class TenantDAO {
             if (cn != null) {
                 String sql = "select * from Tenant where tenantID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
-                pst.setInt(1, findID);
+                pst.setInt(1, acc.getAccountID());
                 ResultSet rs = pst.executeQuery();
                 if (rs != null && rs.next()) {
-                    int id = rs.getInt("tenantID");
                     String fullname = rs.getString("fullname");
                     String phone = rs.getString("phone");
                     boolean rentStatus = rs.getBoolean("rentStatus");
-                    Account acc = AccountDAO.findById(id);
                     t = new Tenant(acc, fullname, phone, rentStatus);
                 }
             }
@@ -144,7 +169,7 @@ public class TenantDAO {
     public static boolean deleteById(int id) {
         return AccountDAO.deleteById(id);
     }
-
+    
     public static void main(String[] args) {
         System.out.println(findById(3));
     }

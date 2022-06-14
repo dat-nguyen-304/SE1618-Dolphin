@@ -77,7 +77,7 @@
                             <a class="hover:text-[#FF6532]" id="forgot" href="/sakura/access/forgotPassword">Quên mật khẩu?</a>
                         </div>
                         <li class="mb-9">
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onsubmit = "return validate()">Đăng nhập</button>
+                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick = "return validate()">Đăng nhập</button>
                         </li>
                         <div id="more" class="mt-3 flex justify-center text-sm font-light">
                             <span>Chưa có tài khoản? </span> <a id="signup" href="/sakura/access/register" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng ký</a>
@@ -114,6 +114,7 @@
 
 
         </div>
+        <script src="../assets/javascript/jquery.js"></script>
         <script type="text/javascript">
             window.addEventListener("scroll", function () {
                 var header = document.querySelector(".header");
@@ -181,7 +182,7 @@
                 var username = $('#username').val().trim();
                 var password = $('#password').val().trim();
                 if (!username || !password) {
-                    $('#error').html("Vui lòng điền username/email và password!");
+                    $('#error').html("Vui lòng điền đầy đủ thông tin đăng nhập!");
                     return false;
                 }
                 return true;

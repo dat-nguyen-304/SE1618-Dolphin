@@ -61,10 +61,10 @@ public class AccessController extends HttpServlet {
                         if (username != null && password != null) {
                             Account acc = null;
 
-
                             if (username.contains("@")) {
                                 System.out.println("I logged in by email!");
                                 acc = AccountDAO.loginByEmail(username, password);
+
                             } else {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, password);
@@ -74,28 +74,25 @@ public class AccessController extends HttpServlet {
                                 HttpSession session = request.getSession(true);
                                 if (acc.getRole() == 1) {
                                     session.setAttribute("role", 1);
-                                    Tenant tenant = TenantDAO.findById(acc.getAccountID());
-                                    tenant.setAccount(acc);
+                                    Tenant tenant = TenantDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", tenant);
+                                    List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
+                                    session.setAttribute("favoriteHostelIds", favHostelIds);
                                 } else {
-                                    System.out.println("line 41 landlord");
                                     session.setAttribute("role", 2);
-                                    Landlord landlord = LandlordDAO.findById(acc.getAccountID());
-                                    landlord.setAccount(acc);
+                                    Landlord landlord = LandlordDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", landlord);
                                 }
-                                url = "/hostel/list";
-
-                                List<FavoriteHostel> favoriteHostels = FavoriteHostelDAO.findByTenantID(acc.getAccountID());
-                                session.setAttribute("favoriteHostels", favoriteHostels);
+                                response.sendRedirect("/sakura/hostel/list");
+                                return ;
                             } else {
-                                request.setAttribute("error", "Sai tên đăng nhập/email hoặc mật khẩu");
+                                request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
                                 url = "/view/login.jsp";
                             }
                         } else {
                             url = "/view/login.jsp";
                         }
-                        System.out.println("????????");
+
                         request.getRequestDispatcher(url).forward(request, response);
                     } else {
                         HttpSession session = request.getSession(true);
@@ -168,7 +165,6 @@ public class AccessController extends HttpServlet {
                     ex.printStackTrace();
                 }
                 request.getRequestDispatcher(url).forward(request, response);
-
             }
         }
     }

@@ -4,9 +4,9 @@
  */
 package com.dolphin.hostelmanagement.DAO;
 
+import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
-import com.dolphin.hostelmanagement.DTO.Ward;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,16 +42,16 @@ public class HostelDAO {
                         float rating = rs.getFloat("rating");
                         int landlordId = rs.getInt("landlordID");
                         Landlord landlord = LandlordDAO.findById(landlordId);
-                        String images = rs.getString("images");
                         int minPrice = rs.getInt("minPrice");
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardID");
-                        Ward ward = WardDAO.findById(wardId);
+                        int districtID = rs.getInt("districtID");
+                        District district = DistrictDAO.findByID(districtID);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
-                        list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, images, minPrice, maxPrice, minArea, maxArea, availableRoom, desc));
+                        ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
+                        list.add(new Hostel(hostelId, streetAddress, district, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
                     }
                 }
             }
@@ -90,16 +90,16 @@ public class HostelDAO {
                         float rating = rs.getFloat("rating");
                         int landlordId = rs.getInt("landlordID");
                         Landlord landlord = LandlordDAO.findById(landlordId);
-                        String images = rs.getString("images");
                         int minPrice = rs.getInt("minPrice");
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardID");
-                        Ward ward = WardDAO.findById(wardId);
+                        int districtID = rs.getInt("districtID");
+                        District district = DistrictDAO.findByID(id);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
-                        hostel = new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, images, minPrice, maxPrice, minArea, maxArea, availableRoom, desc);
+                        ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
+                        hostel = new Hostel(hostelId, streetAddress, district, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList);
                     }
                 }
                 cn.close();
@@ -119,7 +119,7 @@ public class HostelDAO {
                 java.sql.Date sqlRegDate = new java.sql.Date(t.getRegisteredDate().getTime());
                 String sql = "insert into Hostel(streetAddress, hostelName, "
                         + "registeredDate, activate, rating, landlordID, "
-                        + "wardId) "
+                        + "districtID) "
                         + "values(?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setString(1, t.getStreetAddress());
@@ -128,7 +128,7 @@ public class HostelDAO {
                 pst.setBoolean(4, true);
                 pst.setFloat(5, t.getRating());
                 pst.setInt(6, t.getLandlord().getAccount().getAccountID());
-                pst.setInt(7, t.getWard().getWardID());
+                pst.setInt(7, t.getDistrict().getDistrictID());
                 check = pst.executeUpdate() != 0;
                 if (check) {
                     System.out.println("!!! SAVED hostel");
@@ -163,16 +163,41 @@ public class HostelDAO {
                         float rating = rs.getFloat("rating");
                         int landlordId = rs.getInt("landlordID");
                         Landlord landlord = LandlordDAO.findById(landlordId);
-                        String images = rs.getString("images");
                         int minPrice = rs.getInt("minPrice");
                         int maxPrice = rs.getInt("maxPrice");
                         int minArea = rs.getInt("minArea");
                         int maxArea = rs.getInt("maxArea");
-                        int wardId = rs.getInt("wardID");
-                        Ward ward = WardDAO.findById(wardId);
+                        int districtID = rs.getInt("districtID");
+                        District district = DistrictDAO.findByID(districtID);
                         int availableRoom = rs.getInt("availableRoom");
                         String desc = rs.getString("description");
-                        list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, images, minPrice, maxPrice, minArea, maxArea, availableRoom, desc));
+                        ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
+                        list.add(new Hostel(hostelId, streetAddress, district, hostelName, totalRoom, regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
+                    }
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static ArrayList<String> getAllImagesById(int id) {
+        ArrayList<String> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            list = new ArrayList<String>();
+            if (cn != null) {
+                String sql = "select imgLink from ImageHostel where hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String imgLink = rs.getString("imgLink");
+                        list.add(imgLink);
                     }
                 }
                 cn.close();
@@ -212,26 +237,18 @@ public class HostelDAO {
         return check;
     }
 
-    public static List<Hostel> findByWard(int wardID) {
-        List<Hostel> list = new ArrayList();
-        for (Hostel hostel : findAll()) {
-            if (hostel.getWard().getWardID() == wardID) {
-                list.add(hostel);
-            }
-        }
-        return list;
-    }
+    public static List<Hostel> findByDistrict(int wardID) {
+        List<Hostel> hostelList = new ArrayList();
 
-    public static List<Hostel> paging(int index) {
-        List<Hostel> list = new ArrayList<>();
         Connection cn = null;
+
         try {
             cn = DBUtils.makeConnection();
-            if (cn != null) {
-                String sql = "select * from Hostel order by hostelID offset ? rows fetch next 4 rows only";
-                PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setInt(1, (index - 1) * 4);
-                ResultSet rs = pst.executeQuery();
+            String sql = "select * from Hostel where districtID = ?";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, wardID);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null) {
                 while (rs.next()) {
                     int hostelId = rs.getInt("hostelID");
                     String streetAddress = rs.getString("streetAddress");
@@ -242,33 +259,73 @@ public class HostelDAO {
                     float rating = rs.getFloat("rating");
                     int landlordId = rs.getInt("landlordID");
                     Landlord landlord = LandlordDAO.findById(landlordId);
-                    String images = rs.getString("images");
                     int minPrice = rs.getInt("minPrice");
                     int maxPrice = rs.getInt("maxPrice");
                     int minArea = rs.getInt("minArea");
                     int maxArea = rs.getInt("maxArea");
-                    int wardId = rs.getInt("wardID");
-                    Ward ward = WardDAO.findById(wardId);
+                    int districtID = rs.getInt("districtID");
+                    District district = DistrictDAO.findByID(districtID);
                     int availableRoom = rs.getInt("availableRoom");
                     String desc = rs.getString("description");
-                    list.add(new Hostel(hostelId, streetAddress, ward, hostelName, totalRoom, regDate, rating, landlord, activate, images, minPrice, maxPrice, minArea, maxArea, availableRoom, desc));
+                    ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
+                    hostelList.add(new Hostel(hostelId, streetAddress, district, hostelName, totalRoom, 
+                            regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
                 }
+            }
+            cn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return hostelList;
+    }
+
+    public static List<Hostel> findFavoriteList(int tenantID) {
+        List<Hostel> list = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select hostelID from FavoriteHostel where tenantID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, tenantID);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int hostelID = rs.getInt("hostelID");
+                        list.add(findById(hostelID));
+                    }
+                }
+                cn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return list;
     }
 
+    public static boolean updateRating(int hostelId, float newHostelRating) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update hostel set rating = ? where hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setFloat(1, newHostelRating);
+                pst.setInt(2, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
-        System.out.println(findById(4));
+
     }
 }
