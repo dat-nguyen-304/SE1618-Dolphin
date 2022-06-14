@@ -1,42 +1,42 @@
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\HostelController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Account.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\District.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\HomeController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\InvoiceController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\utils\DBUtils.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\LoginController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\utils\EmailService.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\ProvinceDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\RoomDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Contract.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\RoomController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\LandlordDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\TenantDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\DistrictDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Feedback.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\AccountController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\TenantController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Invoice.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Province.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\ServiceDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\FavoriteHostel.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\RoomResident.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Tenant.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\ServiceDetail.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\utils\StringUtils.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\filter\CharacterEncodingFilter.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\FeedbackDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\AdminController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\LandlordController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Service.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\ContractDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\FavoriteHostelDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Notification.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Hostel.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Room.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\controller\AccessController.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\AccountDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\HostelDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\ImageHostel.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DAO\InvoiceDAO.java
-C:\Users\Admin\OneDrive\Desktop\TaiLieuHocSE\Semester 5\SWP391\Project8\SE1618-Dolphin-current\src\main\java\com\dolphin\hostelmanagement\DTO\Landlord.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\HostelController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\AccountController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\AccessController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Invoice.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\utils\EmailService.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\InvoiceDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\TenantController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\RoomController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Hostel.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\utils\DBUtils.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\ContractDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\LandlordDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\RoomResident.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Room.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\ProvinceDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\RoomDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Contract.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\FeedbackDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\ImageHostel.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Province.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\utils\StringUtils.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\filter\CharacterEncodingFilter.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Account.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Feedback.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\AdminController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\TenantDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\LoginController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\DistrictDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\ServiceDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Notification.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\ServiceDetail.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Tenant.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\HomeController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\AccountDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\HostelDAO.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\District.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\LandlordController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Landlord.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\Service.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DTO\FavoriteHostel.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\controller\InvoiceController.java
+C:\Users\Admin\OneDrive\Desktop\se1618-dolphin\SE1618-Dolphin\src\main\java\com\dolphin\hostelmanagement\DAO\FavoriteHostelDAO.java
