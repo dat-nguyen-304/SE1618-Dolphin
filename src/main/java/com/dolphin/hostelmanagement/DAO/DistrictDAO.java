@@ -46,7 +46,7 @@ public class DistrictDAO {
     }
     
     public static District findById(int id) {
-        District ward = null;
+        District district = null;
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
@@ -60,7 +60,7 @@ public class DistrictDAO {
                         String districtName = rs.getString("districtName");
                         int provinceID = rs.getInt("provinceID");
                         Province province = ProvinceDAO.findById(provinceID);
-                        ward = new District(id, districtName, province);
+                        district = new District(provinceID, districtName, province);
                     }
                 }
                 cn.close();
@@ -68,7 +68,7 @@ public class DistrictDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ward;
+        return district;
     }
     
     public static List<District> findByProvinceID(int provinceID) {
