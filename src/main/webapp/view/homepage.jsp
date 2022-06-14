@@ -350,7 +350,6 @@
                     complete: function (obj) {
                         var data = JSON.parse(obj.responseText);
                         for (var i = 0; i < data.length; i++) {
-<<<<<<< HEAD
                             $("#province").append($("<option/>", {
                                 value: data[i].provinceID,
                                 text: data[i].provinceName,
