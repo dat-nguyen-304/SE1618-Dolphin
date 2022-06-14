@@ -4,11 +4,11 @@
  */
 package com.dolphin.hostelmanagement.DAO;
 
+import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.ImageHostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
-import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -70,7 +70,7 @@ public class HostelDAO {
         }
         return list;
     }
-    
+
     public static List<Hostel> findOutstandingHostels() {
         List<Hostel> list = null;
         Connection cn = null;
@@ -108,7 +108,7 @@ public class HostelDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         return list;
     }
 
@@ -162,7 +162,7 @@ public class HostelDAO {
                 java.sql.Date sqlRegDate = new java.sql.Date(t.getRegisteredDate().getTime());
                 String sql = "insert into Hostel(streetAddress, hostelName, "
                         + "registeredDate, activate, rating, landlordID, "
-                        + "wardId) "
+                        + "districtID) "
                         + "values(?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setString(1, t.getStreetAddress());
@@ -280,6 +280,50 @@ public class HostelDAO {
         return check;
     }
 
+    public static List<Hostel> findByDistrict(int wardID) {
+        List<Hostel> hostelList = new ArrayList();
+
+        Connection cn = null;
+
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "select * from Hostel where districtID = ?";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, wardID);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    int hostelId = rs.getInt("hostelID");
+                    String streetAddress = rs.getString("streetAddress");
+                    String hostelName = rs.getString("hostelName");
+                    int totalRoom = rs.getInt("totalRoom");
+                    Date regDate = rs.getDate("registeredDate");
+                    boolean activate = rs.getBoolean("activate");
+                    float rating = rs.getFloat("rating");
+                    int landlordId = rs.getInt("landlordID");
+                    Landlord landlord = LandlordDAO.findById(landlordId);
+                    int minPrice = rs.getInt("minPrice");
+                    int maxPrice = rs.getInt("maxPrice");
+                    int minArea = rs.getInt("minArea");
+                    int maxArea = rs.getInt("maxArea");
+                    int districtID = rs.getInt("districtID");
+                    District district = DistrictDAO.findById(districtID);
+                    int availableRoom = rs.getInt("availableRoom");
+                    String desc = rs.getString("description");
+                    ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
+                    hostelList.add(new Hostel(hostelId, streetAddress, district, hostelName, totalRoom,
+                            regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
+                }
+                cn.close();
+            }
+            cn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return hostelList;
+    }
+
     public static List<Hostel> findFavoriteList(int tenantID) {
         List<Hostel> list = new ArrayList<>();
         Connection cn = null;
@@ -303,7 +347,7 @@ public class HostelDAO {
         }
         return list;
     }
-    
+
     public static boolean updateRating(int hostelId, float newHostelRating) {
         Connection cn = null;
         try {
@@ -314,18 +358,18 @@ public class HostelDAO {
                 pst.setFloat(1, newHostelRating);
                 pst.setInt(2, hostelId);
                 int rows = pst.executeUpdate();
-                if (rows > 0) return true;
+                if (rows > 0) {
+                    return true;
+                }
                 cn.close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
     public static void main(String[] args) {
-        for (Hostel hostel : findAll()) {
-            System.out.println(hostel);
-        }
+
     }
 }

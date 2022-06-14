@@ -28,119 +28,126 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="/sakura/assets/css/user-profile.css">   
         <link rel="stylesheet" href="/sakura/assets/css/header-user.css">
+        
+        <!--Javascript-->
+        <script src="../assets/javascript/jquery.js"></script>
     </head>
     <body>
         <header id="header-section" class="sticky">
             <%@include file="headerUser.jsp" %>
         </header>
+        
         <c:choose>
             <c:when test="${sessionScope.currentUser != null}">
                 <!--Profile panel-->
                 <div class="profile-section w-screen h-screen flex justify-center pt-[70px] relative overflow-hidden">
                     <%-- Notification --%>
                     <!--code for notification starts--> 
-                    <c:if test = "${requestScope.success == true}">
-                    <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
-                         class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden"
-                         id="notification">
-                        <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
-                            <i class="bi bi-check-circle"></i>
+                    <c:if test = "${not empty requestScope.message}">
+                        <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
+                             class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden"
+                             id="notification">
+                            <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div class="px-2 py-2">
+                                <h1 class="text-lg text-[#4d4d4d] font-semibold">Lưu thành công!</h1>
+                                <p class="text-[12px] text-[#8a8a8a] font-normal">Thông tin của bạn đã được cập nhật.</p>
+                            </div>
+                            <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeModal()">
+                                <i class="bi bi-x-lg"></i>
+                            </a>
                         </div>
-                        <div class="px-2 py-2">
-                            <h1 class="text-lg text-[#4d4d4d] font-semibold">Lưu thành công!</h1>
-                            <p class="text-[12px] text-[#8a8a8a] font-normal">Thông tin của bạn đã được cập nhật.</p>
-                        </div>
-                        <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeModal()">
-                            <i class="bi bi-x-lg"></i>
-                        </a>
-                    </div>
                     </c:if>
                     <!--code for notification ends-->
 
                     <div class="profile-container w-3/5 h-[70%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
-                        <!-- Left Side -->
-                        <div class="profile-left w-[30%] h-full relative">
-                            <!-- Profile Card -->
-                            <div class="card">
-                                <div class="card-image">
-                                    <form class="change-img" method="post" action="/sakura/account/upload-image" enctype="multipart/form-data">
-                                        <input type="file" name="file" size="60" /><br /><br /> 
-                                        <input type="submit" value="Upload" />
-                                    </form>
-                                    <img src="../assets/images/user-avatar/ava3.jpg" alt="">
-                                </div>
-                                <h1 class="text-[25px] font-semibold text-[#FF6532] mt-[20px]">${sessionScope.currentUser.fullname}</h1>
-                                <h3 class="text-[15px] font-normal text-[#bbbbbb]">${sessionScope.currentUser.account.username}</h3>
+                        <form id="user-profile-form" class="w-full h-full flex p-0 m-0 mx-auto" action="/sakura/account/userProfile" method="post" enctype="multipart/form-data">
+                            <!-- Left Side -->
+                            <div class="profile-left w-[30%] h-full relative">
+                                <!-- Profile Card -->
+                                <div class="card">
+                                    <div class="card-image">
+                                        <div class="avatar-edit">
+                                            <input id="image-upload" type="file" name="image" />
+                                            <label for="image-upload"><i class="bi bi-pen-fill"></i></label>
+                                        </div>
+                                        <img id="image-preview" src="${sessionScope.currentUser.account.avatar}" alt="">
+                  
+                                    </div>
+                                    <h1 class="text-[25px] font-semibold text-[#FF6532] mt-[20px]">${sessionScope.currentUser.fullname}</h1>
+                                    <h3 class="text-[15px] font-normal text-[#bbbbbb]">${sessionScope.currentUser.account.username}</h3>
 
+                                </div>
+                                <ul class="addition w-full h-auto p-2 absolute bottom-0 bg-[#f6fafc] rounded-lg">
+                                    <li>
+                                        <span>Trạng thái</span>
+                                        <span class="label">${sessionScope.currentUser.account.activate == true ? "Active" : "Inactive"}</span>
+                                    </li>
+                                    <li>
+                                        <span>Đang thuê</span>
+                                        <span class="label inactive">Không</span>
+                                    </li>
+                                    <li class="flex items-center py-3">
+                                        <span>Ngày đăng ký</span>
+                                        <span class="ml-auto">${sessionScope.currentUser.account.registrationDate}</span>
+                                    </li>
+                                </ul>
+                                <!-- End of profile card -->
                             </div>
-                            <ul class="addition w-full h-auto p-2 absolute bottom-0 bg-[#f6fafc] rounded-lg">
-                                <li>
-                                    <span>Trạng thái</span>
-                                    <span class="label">${sessionScope.currentUser.account.activate == true ? "Active" : "Inactive"}</span>
-                                </li>
-                                <li>
-                                    <span>Đang thuê</span>
-                                    <span class="label inactive">Không</span>
-                                </li>
-                                <li class="flex items-center py-3">
-                                    <span>Ngày đăng ký</span>
-                                    <span class="ml-auto">${sessionScope.currentUser.account.registrationDate}</span>
-                                </li>
-                            </ul>
-                            <!-- End of profile card -->
-                        </div>
 
-                        <!-- Right Side -->
-                        <div class="profile-right w-3/5 h-full ml-[60px] relative">
-                            <!-- About Section -->
-                            <form id="profile-form" action="/sakura/account/userProfile" method="POST">
-                                <div class="profile-info">
+                            <!-- Right Side -->
+                            <div class="profile-right w-3/5 h-full ml-[60px] relative">
+                                <!-- About Section -->
+                                <div id="profile-form">
+                                    <div class="profile-info">
 
-                                    <div class="info-title">
-                                        <i class="bi bi-person-rolodex"></i>
-                                        <span> Thông tin cá nhân</span>
+                                        <div class="info-title">
+                                            <i class="bi bi-person-rolodex"></i>
+                                            <span> Thông tin cá nhân</span>
+                                        </div>
+                                        <div class="info-detail">
+                                            <div class="detail-item">
+                                                <label for="fullname">Họ tên</label>
+                                                <input type="text" id="fullname" name="fullname" placeholder="${sessionScope.currentUser.fullname}" value="${sessionScope.currentUser.fullname}">
+                                                <!--<p class="error" id="fullnameError">Tên không hợp lệ</p>-->
+                                            </div>
+                                            <div class="detail-item">
+                                                <label for="username">Tên đăng nhập</label>
+                                                <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}">
+                                                <!--<p class="error" id="usernameError">Tên đăng nhập không hợp lệ</p>-->
+                                            </div>
+                                            <div class="detail-item">
+                                                <label for="birthday">Ngày sinh</label>
+                                                <p id="birthday">19 / 11 / 2002</p>
+                                            </div>
+                                        </div>
+                                        <div class="info-title">
+                                            <i class="bi bi-chat-square-text-fill"></i>
+                                            <span> Thông tin liên hệ</span>
+                                        </div>
+                                        <div class="info-detail">
+                                            <div class="detail-item">
+                                                <label for="phone">Số điện thoại</label>
+                                                <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.phone}" value="${sessionScope.currentUser.phone}">
+                                                <!--<p class="error" id="phoneError">Số điện thoại bao gồm 10 chữ số</p>-->
+                                            </div>
+                                            <div class="detail-item">
+                                                <label for="email">Email</label>
+                                                <input type="tel" id="phone" name="email" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}">
+                                                <!--<p class="error" id="emailError">Không đúng định dạng email</p>-->
+                                            </div>
+                                            <div class="detail-item">
+                                                <label for="facebook">Facebook</label>
+                                                <input type="text" id="facebook" name="facebook" value="">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="info-detail">
-                                        <div class="detail-item">
-                                            <label for="fullname">Họ tên</label>
-                                            <input type="text" id="fullname" name="fullname" placeholder="${sessionScope.currentUser.fullname}" value="${sessionScope.currentUser.fullname}">
-                                            <!--<p class="error" id="fullnameError">Tên không hợp lệ</p>-->
-                                        </div>
-                                        <div class="detail-item">
-                                            <label for="username">Tên đăng nhập</label>
-                                            <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}">
-                                            <!--<p class="error" id="usernameError">Tên đăng nhập không hợp lệ</p>-->
-                                        </div>
-                                        <div class="detail-item">
-                                            <label for="birthday">Ngày sinh</label>
-                                            <p id="birthday">19 / 11 / 2002</p>
-                                        </div>
-                                    </div>
-                                    <div class="info-title">
-                                        <i class="bi bi-chat-square-text-fill"></i>
-                                        <span> Thông tin liên hệ</span>
-                                    </div>
-                                    <div class="info-detail">
-                                        <div class="detail-item">
-                                            <label for="phone">Số điện thoại</label>
-                                            <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.phone}" value="${sessionScope.currentUser.phone}">
-                                            <!--<p class="error" id="phoneError">Số điện thoại bao gồm 10 chữ số</p>-->
-                                        </div>
-                                        <div class="detail-item">
-                                            <label for="email">Email</label>
-                                            <input type="tel" id="phone" name="email" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}">
-                                            <!--<p class="error" id="emailError">Không đúng định dạng email</p>-->
-                                        </div>
-                                        <div class="detail-item">
-                                            <label for="facebook">Facebook</label>
-                                            <input type="text" id="facebook" name="facebook" value="">
-                                        </div>
-                                    </div>
+                                    <button id="confirm" type="submit" name="action" value="Save" class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded-lg absolute right-0 bottom-0">Lưu thay đổi</button>
+                                    <!-- End of about section -->
                                 </div>
-                                <button id="confirm" type="submit" name="action" value="Save" class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded-lg absolute right-0 bottom-0">Lưu thay đổi</button>
-                                <!-- End of about section -->
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -223,9 +230,9 @@
             }
 
             const cfBtn = document.querySelector("#cf-btn");
-            const form = document.querySelector("#profile-form");
-            //            form.submit();
+            const form = document.querySelector("#user-profile-form");
             cfBtn.addEventListener("click", () => {
+                console.log("Submit");
                 form.submit();
             });
         </script>
@@ -243,8 +250,25 @@
             function closeModal() {
                 Notification.style.transform = "translateX(150%)";
                 Notification.classList.remove("hidden");
-                // setTimeout(function () {Notification.style.transform = "translateX(0%)";}, 1000);
+                //setTimeout(function () {Notification.style.transform = "translateX(0%)";}, 1000);
             }
+        </script>
+        <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#image-preview').attr('src', e.target.result);
+                        $('#image-preview').toggle("active");
+                        $('#image-preview').hide();
+                        $('#image-preview').fadeIn(500);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#image-upload").change(function () {
+                readURL(this);
+            });
         </script>
 
     </body>

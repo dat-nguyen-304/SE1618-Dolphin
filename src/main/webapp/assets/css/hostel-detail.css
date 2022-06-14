@@ -293,7 +293,11 @@ footer {
     margin-right : 28px;
 }
 
-.tenant-name {}
+
+.tenant-name {
+    padding-bottom: 6px;
+    font-size: 14px;
+}
 
 .tenant-rating {
     color: orange;
@@ -365,8 +369,6 @@ footer {
     box-shadow   : 0 0 8px #ccc;
     overflow     : hidden;
     margin-top   : 20px;
-    border: none;
-    text-align: left;
 }
 
 .hostel-vip-item:hover {

@@ -10,19 +10,29 @@ import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.net.URISyntaxException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author Admin
  */
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class AccountController extends HttpServlet {
 
     private static final String ERROR = "error.jsp";
@@ -92,17 +102,20 @@ public class AccountController extends HttpServlet {
                 HttpSession session = request.getSession(true);
 
                 int role = (int) session.getAttribute("role");
+                Account acc = null;
 
                 if (role == 1) { //tenant
                     Tenant t = (Tenant) session.getAttribute("currentUser");
                     t.setFullname(fullname);
                     t.setPhone(phone);
                     t.getAccount().setEmail(email);
-                    
+
+                    acc = t.getAccount();
+
                     System.out.println("AccountID: " + t.getAccount());
 
                     System.out.println("Email: " + t.getAccount().getEmail());
-                    
+
                     if (TenantDAO.updateTenant(t)) {
                         System.out.println("Successfully updated tenant's information!");
                     }
@@ -115,6 +128,8 @@ public class AccountController extends HttpServlet {
                     l.setPhone(phone);
                     l.getAccount().setEmail(email);
 
+                    acc = l.getAccount();
+
                     if (LandlordDAO.updateLandlord(l)) {
                         System.out.println("Successfully updated landlord's information!");
                     }
@@ -122,9 +137,35 @@ public class AccountController extends HttpServlet {
                         System.out.println("Successfully updated account's information!");
                     }
                 }
-                request.setAttribute("success", true);
+
+                try {
+
+                    Part part = request.getPart("image");
+
+                    if (extractFileName(part).length() > 0) { //upload avatar
+                        String fileName = acc.getAccountID() + "_ava.jpg";
+                        String fullPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
+
+                        System.out.println(fullPath);
+                        String src = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
+                        String dest = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + fileName;
+                        AccountDAO.saveUserImgURL("/sakura/assets/images/user-avatars/" + fileName, acc.getAccountID());
+                        acc.setAvatar("/sakura/assets/images/user-avatars/" + fileName);
+                        part.write(src);
+                        copy(src, dest);
+                        request.setAttribute("fileName", fileName);
+                    } else {
+                        System.out.println("Empty file");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error at uploading avatar function!");
+                    e.printStackTrace();
+                }
+
+                request.setAttribute("message", "Lưu thành công!");
                 url = "/view/userProfile.jsp";
             } else {
+                request.setAttribute("message", null);
                 url = "/view/userProfile.jsp";
             }
 
@@ -163,7 +204,63 @@ public class AccountController extends HttpServlet {
         }
     }
 
+    private void copy(String src, String dest) throws IOException {
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(src);
+            os = new FileOutputStream(dest);
+            // buffer size 1K
+            byte[] buf = new byte[1024];
+
+            int bytesRead;
+            while ((bytesRead = is.read(buf)) > 0) {
+                os.write(buf, 0, bytesRead);
+            }
+        } finally {
+            is.close();
+            os.close();
+        }
+    }
+
+    /**
+     * Extracts file name from HTTP header content-disposition
+     */
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
+
+    public File getFolderUpload(HttpServletRequest request) throws URISyntaxException {
+        String path = request.getServletContext().getRealPath("/").replace("\\", "/");
+        File target = new File(path);
+        File par = new File(target.getParent());
+        File folderUpload = new File(par.getParent() + "/src/main/webapp/assets/images/user-avatars");
+
+//        File folderUpload = new File(request.getServletContext().getRealPath("/") + "assets/images/user-avatars/");
+        // System.out.println(folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
+
+    public File getRuntimeFolder(HttpServletRequest request) throws URISyntaxException {
+        File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/user-avatars");
+        System.out.println("Runtime folder: " + folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *

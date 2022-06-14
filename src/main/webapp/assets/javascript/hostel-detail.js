@@ -1,3 +1,4 @@
+
 const inputRating = document.querySelector('input[name="rating"]');
 const starList = document.querySelectorAll('.send-feedback-star');
 const sendFeedbackBtn = document.querySelector('.send-feedback-btn');

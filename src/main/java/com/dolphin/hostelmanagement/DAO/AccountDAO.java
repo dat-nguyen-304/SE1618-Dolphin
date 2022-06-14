@@ -38,7 +38,8 @@ public class AccountDAO {
                         Date regDate = rs.getDate("registeredDate");
                         int role = rs.getInt("role");
                         boolean activate = rs.getBoolean("activate");
-                        list.add(new Account(id, username, password, email, regDate, role, activate));
+                        String avatar = rs.getString("avatar");
+                        list.add(new Account(id, username, password, email, regDate, role, activate, avatar));
                     }
                 }
             }
@@ -74,12 +75,13 @@ public class AccountDAO {
                     Date regDate = rs.getDate("registeredDate");
                     int role = rs.getInt("role");
                     boolean activate = rs.getBoolean("activate");
-                    t = new Account(id, username, password, email, regDate, role, activate);
+                    String avatar = rs.getString("avatar");
+                    t = new Account(id, username, password, email, regDate, role, activate, avatar);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (cn != null) {
                 try {
                     cn.close();
@@ -88,40 +90,80 @@ public class AccountDAO {
                 }
             }
         }
-            return t;
-        }
-
-    
+        return t;
+    }
 
     public static Account findByEmail(String email) {
-        for (Account account : findAll()) {
-            if (account.getEmail().compareToIgnoreCase(email) == 0) {
-                return account;
+        Connection cn = null;
+        Account acc = null;
+
+        try {
+            cn = DBUtils.makeConnection();
+
+            String sql = "Select * from Account where email = ?";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setString(1, email);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                int id = rs.getInt("accountID");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                Date regDate = rs.getDate("registeredDate");
+                int role = rs.getInt("role");
+                boolean activate = rs.getBoolean("activate");
+                String avatar = rs.getString("avatar");
+                acc = new Account(id, username, password, email, regDate, role, activate, avatar);
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+        return acc;
     }
 
     public static boolean checkUsername(String username) {
-        boolean check = false;
-        for (Account account : findAll()) {
-            if (username.equals(account.getUsername())) {
-                check = true;
-                break;
+        Connection cn = null;
+
+        try {
+            cn = DBUtils.makeConnection();
+
+            String sql = "Select * from Account where username = ?";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setString(1, username);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                return true;
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return check;
+
+        return false;
     }
 
     public static boolean checkEmail(String email) {
-        boolean check = false;
-        for (Account account : findAll()) {
-            if (email.equals(account.getEmail())) {
-                check = true;
-                break;
+        Connection cn = null;
+
+        try {
+            cn = DBUtils.makeConnection();
+
+            String sql = "Select * from Account where email = ?";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setString(1, email);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                return true;
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return check;
+
+        return false;
     }
 
     public static boolean save(Account t) throws Exception {
@@ -213,7 +255,7 @@ public class AccountDAO {
         }
         return check;
     }
-    
+
     public static boolean updateAccount(Account a) {
         boolean check = false;
         Connection cn = null;
@@ -231,7 +273,7 @@ public class AccountDAO {
         }
         return check;
     }
-    
+
     public static Account loginByEmail(String inputEmail, String inputPassword) {
         Account acc = null;
         Connection cn = null;
@@ -252,7 +294,8 @@ public class AccountDAO {
                         Date regDate = rs.getDate("registeredDate");
                         int role = rs.getInt("role");
                         boolean activate = rs.getBoolean("activate");
-                        acc = new Account(id, username, password, email, regDate, role, activate);
+                        String avatar = rs.getString("avatar");
+                        acc = new Account(id, username, password, email, regDate, role, activate, avatar);
                     }
                 }
             }
@@ -261,7 +304,7 @@ public class AccountDAO {
         }
         return acc;
     }
-    
+
     public static Account login(String inputUsername, String inputPassword) {
         Account acc = null;
         Connection cn = null;
@@ -282,7 +325,8 @@ public class AccountDAO {
                         Date regDate = rs.getDate("registeredDate");
                         int role = rs.getInt("role");
                         boolean activate = rs.getBoolean("activate");
-                        acc = new Account(id, username, password, email, regDate, role, activate);
+                        String avatar = rs.getString("avatar");
+                        acc = new Account(id, username, password, email, regDate, role, activate, avatar);
                     }
                 }
             }
@@ -291,8 +335,39 @@ public class AccountDAO {
         }
         return acc;
     }
-    
-    public static void main(String[] args) {
-
+    public static boolean saveUserImgURL(String URL, int accountID) {
+        boolean check = false;
+        Connection cn = null;
+        try {
+            Account acc = findById(accountID);
+            acc.setAvatar(URL);
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Account SET avatar = ? WHERE accountID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, URL);
+                pst.setInt(2, accountID);
+                check = pst.executeUpdate() != 0;
+                if (check) {
+                    System.out.println("!!! Update avatar of accountID " + accountID);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return check;
     }
+
+    public static void main(String[] args) {
+        System.out.println(checkUsername("anvu1911"));
+    }
+
 }

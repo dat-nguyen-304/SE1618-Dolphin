@@ -175,11 +175,5 @@ public class Hostel {
     public void setImgList(ArrayList<String> imgList) {
         this.imgList = imgList;
     }
-
-    @Override
-    public String toString() {
-        return "Hostel{" + "hostelID=" + hostelID + ", streetAddress=" + streetAddress + ", district=" + district + ", hostelName=" + hostelName + ", totalRoom=" + totalRoom + ", registeredDate=" + registeredDate + ", rating=" + rating + ", landlord=" + landlord + ", activate=" + activate + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" + maxArea + ", availableRoom=" + availableRoom + ", description=" + description + ", imgList=" + imgList + '}';
-    }
-
     
 }

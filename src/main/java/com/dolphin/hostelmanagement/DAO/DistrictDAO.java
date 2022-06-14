@@ -31,7 +31,8 @@ public class DistrictDAO {
                 if (rs != null) {
                     while (rs.next()) {
                         int id = rs.getInt("districtID");
-                        String districtName = rs.getString("districtName");
+
+                        String districtName = rs.getNString("districtName");
                         int provinceID = rs.getInt("provinceID");
                         Province province = ProvinceDAO.findById(provinceID);
                         list.add(new District(id, districtName, province));
@@ -45,6 +46,7 @@ public class DistrictDAO {
         return list;
     }
     
+
     public static District findById(int id) {
         District district = null;
         Connection cn = null;
@@ -99,9 +101,12 @@ public class DistrictDAO {
     }
     
     public static void main(String[] args) {
-        List<District> list = findByProvinceID(1);
-        for (District district : list) {
+        /*for (District district : findAll()) {
             System.out.println(district.getDistrictName());
+        }*/
+        for(int i = 1;i <= 10;++i) {
+            System.out.println(findById(i).getDistrictName());
         }
+        
     }
 }

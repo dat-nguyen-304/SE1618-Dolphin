@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +60,7 @@ public class FeedbackDAO {
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 pst.setInt(2, tenantId);
+
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     if (rs.next()) {
@@ -124,7 +124,10 @@ public class FeedbackDAO {
     }
     
     public static void main(String[] args) {
-        Feedback f = findByHostelTenant(9, 9);
-        System.out.println(f.getContent());
+        float currentHostelRating = (float)3.5;
+        int feedbackQuantity = 5;
+        int rating = 4;
+        float a = (float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10)/10;
+        System.out.println(a);
     }
 }

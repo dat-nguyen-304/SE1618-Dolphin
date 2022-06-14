@@ -15,8 +15,9 @@
     </div>
     <!-- right header section -->
     <div class="profile">
+        
         <div class="profile-avatar" onclick="menuToggle()" >    
-            <img src="/sakura/assets/images/user-avatar/ava3.jpg" alt="">
+            <img src="${sessionScope.currentUser.account.avatar}" alt="">
         </div>
         <div class="profile-menu">
             <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>

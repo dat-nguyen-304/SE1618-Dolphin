@@ -4,14 +4,12 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
-import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
 import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DTO.Province;
-import com.dolphin.hostelmanagement.DTO.FavoriteHostel;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Tenant;
