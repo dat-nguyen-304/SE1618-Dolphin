@@ -7,8 +7,10 @@ package com.dolphin.hostelmanagement.controller;
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
+import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
+import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -285,44 +287,35 @@ public class HostelController extends HttpServlet {
                     FavoriteHostelDAO.remove(hostelID, tenantID);
                 }
                 session.setAttribute("favoriteHostelIds", FavoriteHostelDAO.findFavHostelIds(t.getAccount().getAccountID()));
-            } /*else if (path.equals("/findWardDistrict")) {
-                try {
-                    String param = request.getParameter("param");
-                    if (param.equals("district")) {
-                        System.out.println(param);
-                        JSONArray list = new JSONArray();
-                        for (District district : DistrictDAO.findAll()) {
-                            JSONObject obj = new JSONObject();
-                            String districtID = Integer.toString(district.getDistrictID());
-                            String districtName = district.getDistrictName();
-                            obj.put("districtID", districtID);
-                            obj.put("districtName", districtName);
-                            list.add(obj);
-                        }
-                        out.write(list.toJSONString());
-                        out.close();
+            }
+            else if(path.equals("/roomList")) {
+                int hostelID = 1;//Integer.parseInt(request.getParameter("hostelID"));                
+                ArrayList<Room> fullRoomList = (ArrayList<Room>) RoomDAO.findByHostelID(hostelID);
+
+                ArrayList<ArrayList<Room>> roomList = new ArrayList<>();
+                roomList.add(new ArrayList<Room>());
+
+                for (Room r : fullRoomList) {
+                    ArrayList<Room> lastList = roomList.get(roomList.size() - 1);
+                    if (lastList.isEmpty() || lastList.get(lastList.size() - 1).getArea() == r.getArea()) {
+                        lastList.add(r);
+                        roomList.set(roomList.size() - 1, lastList);
+                    } else {
+                        lastList = new ArrayList<>();
+                        lastList.add(r);
+                        roomList.add(lastList);
                     }
-                    if (param.equals("ward")) {
-                        System.out.println(param);
-                        System.out.println(request.getParameter("districtID"));
-                        JSONArray list = new JSONArray();
-                        int districtID = Integer.parseInt(request.getParameter("districtID"));
-                        System.out.println("Line 85 " + districtID);
-                        for (Ward ward : WardDAO.findByDistrictID(districtID)) {
-                            JSONObject obj = new JSONObject();
-                            String wardID = Integer.toString(ward.getWardID());
-                            String wardName = ward.getWardName();
-                            obj.put("wardID", wardID);
-                            obj.put("wardName", wardName);
-                            list.add(obj);
-                        }
-                        out.write(list.toJSONString());
-                        out.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }*/
+
+                request.setAttribute("roomList", roomList);
+                request.getRequestDispatcher("/view/roomList.jsp").forward(request, response);
+            } else if (path.equals("/roomDetail")) {
+                int roomID = Integer.parseInt(request.getParameter("roomID"));
+                System.out.println("RoomID: " + roomID);
+                Room room = RoomDAO.findByID(roomID);
+                request.setAttribute("room", room);
+                request.getRequestDispatcher("/view/roomDetail.jsp").forward(request, response);
+            }
         }
     }
 
