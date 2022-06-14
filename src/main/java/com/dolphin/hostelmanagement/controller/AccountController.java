@@ -153,7 +153,6 @@ public class AccountController extends HttpServlet {
                         acc.setAvatar("/sakura/assets/images/user-avatars/" + fileName);
                         part.write(src);
                         copy(src, dest);
-                        request.setAttribute("message", "Lưu thành công!");
                         request.setAttribute("fileName", fileName);
                     } else {
                         System.out.println("Empty file");
@@ -163,9 +162,10 @@ public class AccountController extends HttpServlet {
                     e.printStackTrace();
                 }
 
-                request.setAttribute("success", true);
+                request.setAttribute("message", "Lưu thành công!");
                 url = "/view/userProfile.jsp";
             } else {
+                request.setAttribute("message", null);
                 url = "/view/userProfile.jsp";
             }
 
@@ -200,45 +200,6 @@ public class AccountController extends HttpServlet {
                 out.flush();
             } catch (Exception e) {
                 e.getMessage();
-            }
-        } else if (path.equals("/change-profile")) {
-            try {
-                HttpSession session = request.getSession(true);
-                int role = (int) session.getAttribute("role");
-                Account acc = null;
-                if (role == 1) {
-                    Tenant t = (Tenant) session.getAttribute("currentUser");
-                    acc = t.getAccount();
-                } else {
-                    Landlord l = (Landlord) session.getAttribute("currentUser");
-                    acc = l.getAccount();
-                }
-                Part part = request.getPart("image");
-
-                if (extractFileName(part).length() > 0) {
-                    String fileName = acc.getAccountID() + "_ava.jpg";
-                    String fullPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
-
-                    System.out.println(fullPath);
-                    String src = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
-                    String dest = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + fileName;
-                    AccountDAO.saveUserImgURL("/sakura/assets/images/user-avatars/" + fileName, acc.getAccountID());
-                    acc.setAvatar("/sakura/assets/images/user-avatars/" + fileName);
-                    part.write(src);
-                    copy(src, dest);
-                    request.setAttribute("message", "Lưu thành công!");
-                    request.setAttribute("fileName", fileName);
-                } else {
-                    System.out.println("Empty file");
-                }
-
-                getServletContext().getRequestDispatcher("/view/userProfile.jsp").forward(request, response);
-//                getServletContext().getRequestDispatcher("/view/testUploadResult.jsp").forward(request, response);
-                //url = "/view/changePassword.jsp";
-//                request.getRequestDispatcher("/view/testUploadResult.jsp").forward(request, response);
-            } catch (IOException | URISyntaxException | ServletException ex) {
-                //Logger.getLogger(SendNewPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
             }
         }
     }
