@@ -4,7 +4,7 @@
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
 <nav class="header">
-    <a class="logo" href="#">
+    <a class="logo" href="/sakura/">
         <img id="logo-header" src="/sakura/assets/icons/logo.png" alt="">
         <h3 id="name-header">Sakura</h3>
     </a>
@@ -15,7 +15,9 @@
     </div>
     <!-- right header section -->
     <div class="profile">
-        
+        <form action = "/sakura/account/myNotification" method = "post">
+            <button type ="submit" name = "action"> My notification </button>
+        </form>
         <div class="profile-avatar" onclick="menuToggle()" >    
             <img src="${sessionScope.currentUser.account.avatar}" alt="">
         </div>

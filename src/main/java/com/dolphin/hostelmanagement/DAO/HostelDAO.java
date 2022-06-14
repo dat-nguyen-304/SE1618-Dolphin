@@ -324,8 +324,30 @@ public class HostelDAO {
         }
         return false;
     }
+    
+    public static int findLandlordID(int hostelID) {
+        Connection cn = null;
+        
+        int landlordID = -1;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select landlordId from Hostel where hostelID = ?";
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setInt(1, hostelID);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs != null && rs.next()) landlordID = rs.getInt("landlordId");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return landlordID;
+    }
 
     public static void main(String[] args) {
-
+        System.out.println(findLandlordID(3));
     }
 }

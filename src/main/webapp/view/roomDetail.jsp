@@ -28,6 +28,12 @@
                 <td>${requestScope.room.maxNumberOfResident}</td>
                 <td>${requestScope.room.currentNumberOfResident}</td>
             </tr>
+            <form action = "/sakura/hostel/sendRentalRequest" method = "post">
+                <input type ="hidden" name ="hostelID" value ="${requestScope.room.hostel.hostelID}">
+                <input type ="hidden" name ="roomID" value ="${requestScope.room.roomID}">
+                <button type ="submit" name ="action">Đặt lịch xem phòng</button>
+                <!--<button type ="submit" name ="action">Hủy lịch xem phòng</button>--> 
+            </form>
         </table>
     </body>
 </html>

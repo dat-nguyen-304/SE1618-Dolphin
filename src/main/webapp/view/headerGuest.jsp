@@ -4,7 +4,7 @@
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
 <nav class="header">
-    <a class="logo" href="#">
+    <a class="logo" href="/sakura/">
         <img id="logo-header" src="assets/images/homepage-icon/logo_white.png" alt="">
         <h3 id="name-header">Sakura</h3>
     </a>

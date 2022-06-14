@@ -4,12 +4,15 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.AccountDAO;
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
+import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
+import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -289,7 +293,7 @@ public class HostelController extends HttpServlet {
                 session.setAttribute("favoriteHostelIds", FavoriteHostelDAO.findFavHostelIds(t.getAccount().getAccountID()));
             }
             else if(path.equals("/roomList")) {
-                int hostelID = 1;//Integer.parseInt(request.getParameter("hostelID"));                
+                int hostelID = Integer.parseInt(request.getParameter("hostelID"));                
                 ArrayList<Room> fullRoomList = (ArrayList<Room>) RoomDAO.findByHostelID(hostelID);
 
                 ArrayList<ArrayList<Room>> roomList = new ArrayList<>();
@@ -315,7 +319,42 @@ public class HostelController extends HttpServlet {
                 Room room = RoomDAO.findByID(roomID);
                 request.setAttribute("room", room);
                 request.getRequestDispatcher("/view/roomDetail.jsp").forward(request, response);
-            }
+            } else if (path.equals("/sendRentalRequest")) {
+                HttpSession session = request.getSession(true);
+                Tenant t = (Tenant) session.getAttribute("currentUser");
+                
+                Notification rentalNoti = new Notification();
+                
+                rentalNoti.setFrom(t.getAccount());
+                
+                int roomID = Integer.parseInt(request.getParameter("roomID"));
+                int hostelID = Integer.parseInt(request.getParameter("hostelID"));
+                
+                int landlordID = HostelDAO.findLandlordID(hostelID);
+                rentalNoti.setTo(AccountDAO.findById(landlordID));
+                rentalNoti.setCreatedDate(new Date());
+                
+                String content = "Rent " + roomID + " in " + hostelID;
+                rentalNoti.setContent(content);
+                rentalNoti.setNotiType(1); //notification type 1 - used in sending rental request
+                rentalNoti.setStatus(1); //1 means pending or read only status
+                
+                boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
+                if(check) {
+                    System.out.println("Successfully sent rental request!");
+                    Notification successNoti = new Notification();
+                    
+                    successNoti.setTo(t.getAccount());
+                    successNoti.setFrom(t.getAccount()); //same account means system sends noti to user
+                    successNoti.setCreatedDate(new Date());
+                    successNoti.setContent("You have successfully booked room " + RoomDAO.findByID(roomID).getRoomNumber() + " in hostel " +
+                            HostelDAO.findById(hostelID).getHostelName());
+                    successNoti.setNotiType(2);
+                    successNoti.setStatus(1);
+                    NotificationDAO.saveNotification(successNoti);
+                }
+                response.sendRedirect("/sakura/hostel/detail?filterStar=0&hostelId=" + hostelID);
+            } 
         }
     }
 

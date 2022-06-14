@@ -6,9 +6,11 @@ package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.AccountDAO;
 import com.dolphin.hostelmanagement.DAO.LandlordDAO;
+import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -201,6 +204,28 @@ public class AccountController extends HttpServlet {
             } catch (Exception e) {
                 e.getMessage();
             }
+        }
+        else if(path.equals("/myNotification")) {
+            HttpSession session = request.getSession(true);
+            
+            Account acc = null;
+            
+            int role = (int) session.getAttribute("role");
+            if(role == 1) { //tenant
+                Tenant t = (Tenant) session.getAttribute("currentUser");
+                acc = t.getAccount();
+            }
+            else {
+                Landlord l = (Landlord) session.getAttribute("currentUser");
+                acc = l.getAccount();
+            }
+            
+            ArrayList<Notification> notiList = NotificationDAO.getNotificationByToID(acc.getAccountID());
+            for(Notification noti: notiList) {
+                System.out.println(noti.getContent());
+            }
+            request.setAttribute("notiList", notiList);
+            request.getRequestDispatcher("/view/myNotification.jsp").forward(request, response);
         }
     }
 
