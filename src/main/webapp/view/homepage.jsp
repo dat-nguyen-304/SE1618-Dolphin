@@ -84,12 +84,12 @@
             <div class="home-filter">
                 <div data-aos="fade-up" class="row filter-container">
                     <form action="" class="filter">
-                        <select id="district" class="filter-address">
-                            <option value="">Chọn quận</option>
+                        <select id="province" class="filter-address">
+                            <option value="">Chọn thành phố</option>
                         </select>
 
-                        <select id="ward" class="filter-address">
-                            <option value="">Chọn phường</option>
+                        <select id="district" class="filter-address">
+                            <option value="">Chọn quận</option>
                         </select>
 
                         <div class="filter-submit">
@@ -338,10 +338,43 @@
             $(document).ready(function () {
                 console.log('Line 69');
                 jQuery.ajax({
-                    url: '/sakura/hostel/findWardDistrict',
+                    url: '/sakura/hostel/findDistrictProvince',
                     type: 'GET',
-                    data: {param: "district"},
+                    data: {param: "province"},
                     dataType: 'text',
+                    sucess: function (response) {
+                    },
+                    error: function () {
+                        console.log('Error 78');
+                    },
+                    complete: function (obj) {
+                        var data = JSON.parse(obj.responseText);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#province").append($("<option/>", {
+                                value: data[i].provinceID,
+                                text: data[i].provinceName,
+                            }
+                            ));
+                        }
+                        console.log('Complete 71');
+                    }
+                });
+            });
+
+            $('#province').change(function () {
+                $('#district').find('option').remove();
+                $('#district').append('<option>Chọn quận</option>');
+
+                let provinceID = $('#province').val();
+                let data = {
+                    param: "district",
+                    provinceID: provinceID
+                };
+
+                jQuery.ajax({
+                    url: "/sakura/hostel/findDistrictProvince",
+                    method: "GET",
+                    data: data,
                     sucess: function (response) {
                     },
                     error: function () {
@@ -353,39 +386,6 @@
                             $("#district").append($("<option/>", {
                                 value: data[i].districtID,
                                 text: data[i].districtName,
-                            }
-                            ));
-                        }
-                        console.log('Complete 71');
-                    }
-                });
-            });
-
-            $('#district').change(function () {
-                $('#ward').find('option').remove();
-                $('#ward').append('<option>Chọn phường</option>');
-
-                let districtID = $('#district').val();
-                let data = {
-                    param: "ward",
-                    districtID: districtID
-                };
-
-                jQuery.ajax({
-                    url: "/sakura/hostel/findWardDistrict",
-                    method: "GET",
-                    data: data,
-                    sucess: function (response) {
-                    },
-                    error: function () {
-                        console.log('Error 78');
-                    },
-                    complete: function (obj) {
-                        var data = JSON.parse(obj.responseText);
-                        for (var i = 0; i < data.length; i++) {
-                            $("#ward").append($("<option/>", {
-                                value: data[i].wardID,
-                                text: data[i].wardName,
                             }
                             ));
                         }

@@ -317,7 +317,7 @@ public class HostelController extends HttpServlet {
                     FavoriteHostelDAO.remove(hostelID, tenantID);
                 }
                 session.setAttribute("favoriteHostelIds", FavoriteHostelDAO.findFavHostelIds(t.getAccount().getAccountID()));
-            } else if (path.equals("/findWardDistrict")) {
+            } else if (path.equals("/findDistrictProvince")) {
                 try {
                     String param = request.getParameter("param");
                     if (param.equals("province")) {
@@ -327,7 +327,7 @@ public class HostelController extends HttpServlet {
                             JSONObject obj = new JSONObject();
                             String provinceID = Integer.toString(province.getProvinceID());
                             String provinceName = province.getProvinceName();
-                            obj.put("provinceID", provinceName);
+                            obj.put("provinceID", provinceID);
                             obj.put("provinceName", provinceName);
                             list.add(obj);
                         }
@@ -344,8 +344,8 @@ public class HostelController extends HttpServlet {
                             JSONObject obj = new JSONObject();
                             String districtID = Integer.toString(district.getDistrictID());
                             String districtName = district.getDistrictName();
-                            obj.put("wardID", districtID);
-                            obj.put("wardName", districtName);
+                            obj.put("districtID", districtID);
+                            obj.put("districtName", districtName);
                             list.add(obj);
                         }
                         out.write(list.toJSONString());
