@@ -93,82 +93,9 @@ public class AccountController extends HttpServlet {
                 ex.printStackTrace();
             }
             request.getRequestDispatcher(url).forward(request, response);
-        } else if (path.equals("/userProfile")) {
-            String fullname = request.getParameter("fullname");
-            String email = request.getParameter("email");
-            String phone = request.getParameter("phone");
-
-            if (fullname != null) {
-                HttpSession session = request.getSession(true);
-
-                int role = (int) session.getAttribute("role");
-                Account acc = null;
-
-                if (role == 1) { //tenant
-                    Tenant t = (Tenant) session.getAttribute("currentUser");
-                    t.setFullname(fullname);
-                    t.setPhone(phone);
-                    t.getAccount().setEmail(email);
-
-                    acc = t.getAccount();
-
-                    System.out.println("AccountID: " + t.getAccount());
-
-                    System.out.println("Email: " + t.getAccount().getEmail());
-
-                    if (TenantDAO.updateTenant(t)) {
-                        System.out.println("Successfully updated tenant's information!");
-                    }
-                    if (AccountDAO.updateAccount(t.getAccount())) {
-                        System.out.println("Successfully updated account's information!");
-                    }
-                } else if (role == 2) { //landlord, "else if" in case we need a new role :D 
-                    Landlord l = (Landlord) session.getAttribute("currentUser");
-                    l.setFullname(fullname);
-                    l.setPhone(phone);
-                    l.getAccount().setEmail(email);
-
-                    acc = l.getAccount();
-
-                    if (LandlordDAO.updateLandlord(l)) {
-                        System.out.println("Successfully updated landlord's information!");
-                    }
-                    if (AccountDAO.updateAccount(l.getAccount())) {
-                        System.out.println("Successfully updated account's information!");
-                    }
-                }
-
-                try {
-
-                    Part part = request.getPart("image");
-
-                    if (extractFileName(part).length() > 0) { //upload avatar
-                        String fileName = acc.getAccountID() + "_ava.jpg";
-                        String fullPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
-
-                        System.out.println(fullPath);
-                        String src = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
-                        String dest = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + fileName;
-                        AccountDAO.saveUserImgURL("/sakura/assets/images/user-avatars/" + fileName, acc.getAccountID());
-                        acc.setAvatar("/sakura/assets/images/user-avatars/" + fileName);
-                        part.write(src);
-                        copy(src, dest);
-                        request.setAttribute("fileName", fileName);
-                    } else {
-                        System.out.println("Empty file");
-                    }
-                } catch (Exception e) {
-                    System.out.println("Error at uploading avatar function!");
-                    e.printStackTrace();
-                }
-
-                request.setAttribute("message", "Lưu thành công!");
-                url = "/view/userProfile.jsp";
-            } else {
-                request.setAttribute("message", null);
-                url = "/view/userProfile.jsp";
-            }
-
+        } else if (path.equals("/profile")) {
+            request.setAttribute("message", null);
+            url = "/view/userProfile.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } else if (path.equals("/checkUsername")) {
             String username = request.getParameter("username");
@@ -201,6 +128,82 @@ public class AccountController extends HttpServlet {
             } catch (Exception e) {
                 e.getMessage();
             }
+        } else if (path.equals("/change-profile")) {
+            String fullname = request.getParameter("fullname");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+               
+            int changed = 0;
+            if (fullname != null) {
+                HttpSession session = request.getSession(true);
+
+                int role = (int) session.getAttribute("role");
+                Account acc = null;
+
+                if (role == 1) { //tenant
+                    Tenant t = (Tenant) session.getAttribute("currentUser");
+                    if (!t.getFullname().equals(fullname) || !t.getPhone().equals(phone) || !t.getAccount().getEmail().equals(email)) changed = 1;
+                    t.setFullname(fullname);
+                    t.setPhone(phone);
+                    t.getAccount().setEmail(email);
+
+                    acc = t.getAccount();
+                    System.out.println("AccountID: " + t.getAccount());
+                    System.out.println("Email: " + t.getAccount().getEmail());
+
+                    if (TenantDAO.updateTenant(t)) {
+                        System.out.println("Successfully updated tenant's information!");
+                    }
+                    if (AccountDAO.updateAccount(t.getAccount())) {
+                        System.out.println("Successfully updated account's information!");
+                    }
+                } else if (role == 2) { //landlord, "else if" in case we need a new role :D 
+                    Landlord l = (Landlord) session.getAttribute("currentUser");
+                    if (!l.getFullname().equals(fullname) || !l.getPhone().equals(phone) || !l.getAccount().getEmail().equals(email)) changed = 1;
+                    l.setFullname(fullname);
+                    l.setPhone(phone);
+                    l.getAccount().setEmail(email);
+
+                    acc = l.getAccount();
+
+                    if (LandlordDAO.updateLandlord(l)) {
+                        System.out.println("Successfully updated landlord's information!");
+                    }
+                    if (AccountDAO.updateAccount(l.getAccount())) {
+                        System.out.println("Successfully updated account's information!");
+                    }
+                }
+
+                try {
+                    Part part = request.getPart("image");
+                    if (extractFileName(part).length() > 0) { //upload avatar
+                        String fileName = String.valueOf(acc.getAccountID()) + "_ava.jpg";
+                        String fullPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
+
+                        System.out.println(fullPath);
+                        String src = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
+                        String dest = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + fileName;
+                        AccountDAO.saveUserImgURL("/sakura/assets/images/user-avatars/" + fileName, acc.getAccountID());
+                        acc.setAvatar("/sakura/assets/images/user-avatars/" + fileName);
+                        part.write(src);
+                        copy(src, dest);
+                        request.setAttribute("fileName", fileName);
+                    } else {
+                        System.out.println("Empty file");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error at uploading avatar function!");
+                    e.printStackTrace();
+                }
+
+                if (changed == 1) request.setAttribute("message", "Lưu thành công!");
+                url = "/view/userProfile.jsp";
+            } else {
+                request.setAttribute("message", "");
+                url = "/view/userProfile.jsp";
+            }
+
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

@@ -7,6 +7,7 @@
 <%@page import="com.dolphin.hostelmanagement.DTO.Tenant"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,26 +44,26 @@
                 <div class="profile-section w-screen h-screen flex justify-center pt-[70px] relative overflow-hidden">
                     <%-- Notification --%>
                     <!--code for notification starts--> 
-                    <c:if test = "${not empty requestScope.message}">
+                    <%--<c:if test = "${not empty requestScope.message}">--%>
                         <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
-                             class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden"
+                             class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden ${fn:length(requestScope.message) > 0 ? 'show' : 'hide'}"
                              id="notification">
                             <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
                                 <i class="bi bi-check-circle"></i>
                             </div>
                             <div class="px-2 py-2">
-                                <h1 class="text-lg text-[#4d4d4d] font-semibold">Lưu thành công!</h1>
+                                <h1 class="text-lg text-[#4d4d4d] font-semibold">${requestScope.message}</h1>
                                 <p class="text-[12px] text-[#8a8a8a] font-normal">Thông tin của bạn đã được cập nhật.</p>
                             </div>
-                            <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeModal()">
+                            <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeNoti()">
                                 <i class="bi bi-x-lg"></i>
                             </a>
                         </div>
-                    </c:if>
+                    <%--</c:if>--%>
                     <!--code for notification ends-->
 
-                    <div class="profile-container w-3/5 h-[70%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
-                        <form id="user-profile-form" class="w-full h-full flex p-0 m-0 mx-auto" action="/sakura/account/userProfile" method="post" enctype="multipart/form-data">
+                    <div class="profile-container w-[55%] h-[75%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
+                        <form id="user-profile-form" class="w-full h-full flex p-0 m-0 mx-auto" action="/sakura/account/change-profile" method="post" enctype="multipart/form-data">
                             <!-- Left Side -->
                             <div class="profile-left w-[30%] h-full relative">
                                 <!-- Profile Card -->
@@ -97,7 +98,7 @@
                             </div>
 
                             <!-- Right Side -->
-                            <div class="profile-right w-3/5 h-full ml-[60px] relative">
+                            <div class="profile-right w-[70%] h-full ml-[60px] relative">
                                 <!-- About Section -->
                                 <div id="profile-form">
                                     <div class="profile-info">
@@ -243,14 +244,20 @@
             }
         </script>
         <script>
-            var Notification = document.getElementById("notification");
-            Notification.style.transform = "translateX(150%)";
-            Notification.classList.remove("hidden");
-            Notification.style.transform = "translateX(0%)";
-            function closeModal() {
-                Notification.style.transform = "translateX(150%)";
-                Notification.classList.remove("hidden");
-                //setTimeout(function () {Notification.style.transform = "translateX(0%)";}, 1000);
+            let noti = document.getElementById("notification");
+            noti.style.transform = "translateX(0%);";
+            if (noti.classList.contains("show")) {
+                noti.style.transform = "translateX(0%)";
+                setTimeout(function () {
+                    noti.style.transform = "translateX(150%)";
+                }, 2000);
+            } 
+            if (noti.classList.contains("hide")) {
+                noti.style.display = "none";
+            }
+
+            function closeNoti() {
+                noti.style.transform = "translateX(150%)";
             }
         </script>
         <script>
