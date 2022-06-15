@@ -6,29 +6,26 @@ package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
-/**
- *
- * @author Admin
- */
 public class Notification {
     private int notiID;
     private String content;
     private Date createdDate;
     private int status;
-    private Account from;
-    private Account to;
+    private Account fromAccount;
+    private Account toAccount;
     private int notiType;
     
-    public Notification() {}
+    public Notification() {
+    }
 
-    public Notification(int notiID, String content, Date createdDate, int status, Account from, Account to, int notiType) {
+    public Notification(int notiID, String content, Date createdDate, int status, Account fromAccount, Account toAccount) {
         this.notiID = notiID;
         this.content = content;
         this.createdDate = createdDate;
         this.status = status;
-        this.from = from;
-        this.to = to;
         this.notiType = notiType;
+        this.fromAccount = fromAccount;
+        this.toAccount = toAccount;
     }
 
     public int getNotiID() {
@@ -63,20 +60,20 @@ public class Notification {
         this.status = status;
     }
 
-    public Account getFrom() {
-        return from;
+    public Account getFromAccount() {
+        return fromAccount;
     }
 
-    public void setFrom(Account from) {
-        this.from = from;
+    public void setFromAccount(Account fromAccount) {
+        this.fromAccount = fromAccount;
     }
 
-    public Account getTo() {
-        return to;
+    public Account getToAccount() {
+        return toAccount;
     }
 
-    public void setTo(Account to) {
-        this.to = to;
+    public void setToAccount(Account toAccount) {
+        this.toAccount = toAccount;
     }
 
     public int getNotiType() {
@@ -86,6 +83,6 @@ public class Notification {
     public void setNotiType(int notiType) {
         this.notiType = notiType;
     }
-    
-    
+
+ 
 }

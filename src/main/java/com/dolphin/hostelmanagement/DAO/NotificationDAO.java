@@ -33,8 +33,8 @@ public class NotificationDAO {
             pst.setString(1, n.getContent());
             pst.setDate(2, sqlRegDate);
             pst.setInt(3, n.getStatus());
-            pst.setInt(4, n.getFrom().getAccountID());
-            pst.setInt(5, n.getTo().getAccountID());
+            pst.setInt(4, n.getFromAccount().getAccountID());
+            pst.setInt(5, n.getToAccount().getAccountID());
             pst.setInt(6, n.getNotiType());
 
             boolean check = pst.executeUpdate() != 0;
@@ -101,7 +101,7 @@ public class NotificationDAO {
                 Account to = AccountDAO.findById(toID);
                 int notiType = rs.getInt("notiType");
                 
-                notiList.add(new Notification(notiID, content, createdDate, status, from, to, notiType));
+                notiList.add(new Notification(notiID, content, createdDate, status, from, to));
             }
 
         } catch (Exception e) {

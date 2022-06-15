@@ -71,7 +71,7 @@ public class Hostel {
     public void setDistrict(District district) {
         this.district = district;
     }
-
+   
     public String getHostelName() {
         return hostelName;
     }
@@ -175,7 +175,5 @@ public class Hostel {
     public void setImgList(ArrayList<String> imgList) {
         this.imgList = imgList;
     }
-
-    
     
 }

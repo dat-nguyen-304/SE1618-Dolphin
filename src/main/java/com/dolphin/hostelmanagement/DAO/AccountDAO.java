@@ -335,7 +335,6 @@ public class AccountDAO {
         }
         return acc;
     }
-
     public static boolean saveUserImgURL(String URL, int accountID) {
         boolean check = false;
         Connection cn = null;

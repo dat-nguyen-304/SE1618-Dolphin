@@ -9,17 +9,18 @@ package com.dolphin.hostelmanagement.DTO;
  * @author Vu Thien An - SE160296
  */
 public class District {
+
     private int districtID;
     private String districtName;
-    private int provinceID;
-    
+    private Province province;
+
     public District() {
     }
 
-    public District(int districtID, String districtName, int provinceID) {
+    public District(int districtID, String districtName, Province province) {
         this.districtID = districtID;
         this.districtName = districtName;
-        this.provinceID = provinceID;
+        this.province = province;
     }
 
     public int getDistrictID() {
@@ -38,14 +39,13 @@ public class District {
         this.districtName = districtName;
     }
 
-    public int getProvinceID() {
-        return provinceID;
+    public Province getProvince() {
+        return province;
     }
 
-    public void setProvinceID(int provinceID) {
-        this.provinceID = provinceID;
+    public void setProvince(Province province) {
+        this.province = province;
     }
 
-    
     
 }

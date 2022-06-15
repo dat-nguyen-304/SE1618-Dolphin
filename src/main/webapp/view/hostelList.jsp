@@ -355,6 +355,9 @@
                     </c:if>
                 </form>
                 <h4 class="result-number">Có ${requestScope.itemQuantity} kết quả:</h4>
+                <c:if test="${requestScope.itemQuantity == 0}">
+                    <h3>Không tìm thấy kết quả</h3>
+                </c:if>
                 <div class="grid">
                     <ul class="hostel-list row">
                         <c:set var="i" value="-1" />
@@ -451,7 +454,8 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </div>
-                                                <div class="hostel-address">${hostel.streetAddress} </div>
+                                                <div class="hostel-address">${hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
+
                                                 <div class="hostel-info">
                                                     <span class="hostel-room-available">Còn ${hostel.availableRoom} phòng trống</span>
                                                     <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea} m²</span>

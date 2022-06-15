@@ -9,14 +9,20 @@ import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.NotificationDAO;
+import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
+import com.dolphin.hostelmanagement.DAO.DistrictDAO;
+import com.dolphin.hostelmanagement.DTO.Province;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Tenant;
+import com.dolphin.hostelmanagement.DTO.District;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,6 +33,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -220,6 +228,9 @@ public class HostelController extends HttpServlet {
                 HttpSession session = request.getSession();
                 Tenant t = (Tenant) session.getAttribute("currentUser");
 
+                List<Hostel> outstandingHostels = HostelDAO.findOutstandingHostels();
+                request.setAttribute("outstandingHostels", outstandingHostels);
+
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 Hostel hostel = HostelDAO.findById(hostelId);
 
@@ -239,18 +250,37 @@ public class HostelController extends HttpServlet {
                     }
                     request.setAttribute("filterStar", filterStar);
                 }
-                
+
                 if (request.getParameter("feedbackContent") != null) {
                     String feedbackContent = request.getParameter("feedbackContent");
                     int rating = Integer.parseInt(request.getParameter("rating"));
                     int feedbackQuantity = feedbackList.size();
                     float currentHostelRating = hostel.getRating();
-                    float newHostelRating = (float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10;
-                    hostel.setRating((float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10);
+                    float newHostelRating = (float) Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10;
+                    hostel.setRating(newHostelRating);
                     HostelDAO.updateRating(hostelId, newHostelRating);
                     FeedbackDAO.add(t.getAccount().getAccountID(), hostelId, feedbackContent, rating);
                     feedbackList = FeedbackDAO.findByHostelId(hostelId);
                 }
+
+                if (request.getParameter("updateContent") != null) {
+                    String updateContent = request.getParameter("updateContent");
+                    int rating = Integer.parseInt(request.getParameter("rating"));
+                    int oldRating = Integer.parseInt(request.getParameter("oldRating"));
+                    int feedbackQuantity = feedbackList.size();
+                    float currentHostelRating = hostel.getRating();
+                    float newHostelRating = (float) Math.round((currentHostelRating * feedbackQuantity - oldRating + rating) / feedbackQuantity * 10) / 10;
+                    hostel.setRating(newHostelRating);
+                    HostelDAO.updateRating(hostelId, newHostelRating);
+                    LocalDateTime current = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String formatted = current.format(formatter);
+                    FeedbackDAO.update(t.getAccount().getAccountID(), hostelId, updateContent, rating, formatted);
+                    feedbackList = FeedbackDAO.findByHostelId(hostelId);
+                }
+
+                Feedback feedback = FeedbackDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
+                request.setAttribute("feedback", feedback);
 
                 int itemQuantity = feedbackList.size();
                 int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);
@@ -291,9 +321,45 @@ public class HostelController extends HttpServlet {
                     FavoriteHostelDAO.remove(hostelID, tenantID);
                 }
                 session.setAttribute("favoriteHostelIds", FavoriteHostelDAO.findFavHostelIds(t.getAccount().getAccountID()));
-            }
-            else if(path.equals("/roomList")) {
-                int hostelID = Integer.parseInt(request.getParameter("hostelID"));                
+            } else if (path.equals("/findDistrictProvince")) {
+                try {
+                    String param = request.getParameter("param");
+                    if (param.equals("province")) {
+                        System.out.println(param);
+                        JSONArray list = new JSONArray();
+                        for (Province province : ProvinceDAO.findAll()) {
+                            JSONObject obj = new JSONObject();
+                            String provinceID = Integer.toString(province.getProvinceID());
+                            String provinceName = province.getProvinceName();
+                            obj.put("provinceID", provinceID);
+                            obj.put("provinceName", provinceName);
+                            list.add(obj);
+                        }
+                        out.write(list.toJSONString());
+                        out.close();
+                    }
+                    if (param.equals("district")) {
+                        System.out.println(param);
+                        System.out.println(request.getParameter("provinceID"));
+                        JSONArray list = new JSONArray();
+                        int provinceID = Integer.parseInt(request.getParameter("provinceID"));
+                        System.out.println("Line 85 " + provinceID);
+                        for (District district : DistrictDAO.findByProvinceID(provinceID)) {
+                            JSONObject obj = new JSONObject();
+                            String districtID = Integer.toString(district.getDistrictID());
+                            String districtName = district.getDistrictName();
+                            obj.put("districtID", districtID);
+                            obj.put("districtName", districtName);
+                            list.add(obj);
+                        }
+                        out.write(list.toJSONString());
+                        out.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (path.equals("/roomList")) {
+                int hostelID = Integer.parseInt(request.getParameter("hostelID"));
                 ArrayList<Room> fullRoomList = (ArrayList<Room>) RoomDAO.findByHostelID(hostelID);
 
                 ArrayList<ArrayList<Room>> roomList = new ArrayList<>();
@@ -322,39 +388,39 @@ public class HostelController extends HttpServlet {
             } else if (path.equals("/sendRentalRequest")) {
                 HttpSession session = request.getSession(true);
                 Tenant t = (Tenant) session.getAttribute("currentUser");
-                
+
                 Notification rentalNoti = new Notification();
-                
-                rentalNoti.setFrom(t.getAccount());
-                
+
+                rentalNoti.setFromAccount(t.getAccount());
+
                 int roomID = Integer.parseInt(request.getParameter("roomID"));
                 int hostelID = Integer.parseInt(request.getParameter("hostelID"));
-                
+
                 int landlordID = HostelDAO.findLandlordID(hostelID);
-                rentalNoti.setTo(AccountDAO.findById(landlordID));
+                rentalNoti.setToAccount(AccountDAO.findById(landlordID));
                 rentalNoti.setCreatedDate(new Date());
-                
+
                 String content = "Rent " + roomID + " in " + hostelID;
                 rentalNoti.setContent(content);
                 rentalNoti.setNotiType(1); //notification type 1 - used in sending rental request
                 rentalNoti.setStatus(1); //1 means pending or read only status
-                
+
                 boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
-                if(check) {
+                if (check) {
                     System.out.println("Successfully sent rental request!");
                     Notification successNoti = new Notification();
-                    
-                    successNoti.setTo(t.getAccount());
-                    successNoti.setFrom(t.getAccount()); //same account means system sends noti to user
+
+                    successNoti.setFromAccount(t.getAccount()); //same account means system sends noti to user
+                    successNoti.setToAccount(t.getAccount());
                     successNoti.setCreatedDate(new Date());
-                    successNoti.setContent("You have successfully booked room " + RoomDAO.findByID(roomID).getRoomNumber() + " in hostel " +
-                            HostelDAO.findById(hostelID).getHostelName());
+                    successNoti.setContent("You have successfully booked room " + RoomDAO.findByID(roomID).getRoomNumber() + " in hostel "
+                            + HostelDAO.findById(hostelID).getHostelName());
                     successNoti.setNotiType(2);
                     successNoti.setStatus(1);
                     NotificationDAO.saveNotification(successNoti);
                 }
                 response.sendRedirect("/sakura/hostel/detail?filterStar=0&hostelId=" + hostelID);
-            } 
+            }
         }
     }
 
