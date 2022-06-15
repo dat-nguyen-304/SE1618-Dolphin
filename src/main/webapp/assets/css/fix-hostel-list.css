@@ -1,0 +1,35 @@
+/* 
+    Created on : Jun 15, 2022, 1:22:33 AM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
+
+#search-hostel {
+    outline: none;
+    height: 100%;
+    border-right: none;
+}
+#search-hostel:focus, #search-hostel:active {
+    outline: none !important; 
+    height: 100%;
+}
+input, input:focus, input:active {
+    outline: none;
+}
+
+#search-btn {
+    border-radius: 0;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.search-result-dsc  {
+    font-weight: 700;
+    font-size: 23px;
+    color: #38405C;
+}
+
+.result-number {
+    font-weight: 400;
+    font-size: 15px;
+    color: #38405C;
+}

@@ -35,8 +35,7 @@
         <link rel="stylesheet" href="assets/css/header-user.css">
         <link rel="stylesheet" href="assets/css/header-guest.css">
 
-        <!-- script
-       ================================================== -->
+        <!-- script -->
         <script src="assets/javascript/homepage-modernizr.js"></script>
         <script src="assets/javascript/homepage-pace.min.js"></script>
 

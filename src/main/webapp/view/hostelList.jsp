@@ -12,351 +12,159 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <title>Sakura - Danh sách nhà trọ</title>
 
+        <!-- Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+        <!--Favicon-->
+        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
+
+        <!-- Icon -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+        <script src="https://cdn.tailwindcss.com"></script>
         <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../assets/css/hostel-list.css">
-        <link rel="stylesheet" href="../assets/css/header.css">
-        <link rel="stylesheet" href="../assets/css/hostel-list-responsive.css">
+        <!--<link rel="stylesheet" href="../assets/css/header.css">-->
+        <!--<link rel="stylesheet" href="../assets/css/hostel-list-responsive.css">-->
+        <link rel="stylesheet" href="../assets/css/fix-hostel-list.css">
+        <link rel="stylesheet" href="../assets/css/header-user-search-address.css">
     </head>
     <body>
-        <header>
-            <div id="content-wrapper" class="d-flex flex-column">
-                <div id="content">
-                    <nav class="header-navbar navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                        <img src="../assets/images/logo.png" alt="" class="header-logo">
-
-                        <!-- Topbar Search -->
-                        <form style="width: 100%;"
-                              class="d-none d-md-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group header-search-container">
-                                <div class="header-search-title"></div>
-                                <select class="custom-select filter-address">
-                                    <option value="">Chọn Tỉnh --</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-
-                                <select class="custom-select filter-address">
-                                    <option value="">Chọn Huyện --</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-
-
-
-                                <div class="input-group-append">
-                                    <button class="btn btn-search" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ml-auto">
-
-                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                            <li class="nav-item  no-arrow d-md-none">
-                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-search fa-fw"></i>
-                                </a>
-
-                                <!--                            Distrct, ward filter    -->
-                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                     aria-labelledby="searchDropdown">
-                                    <form class="form-inline mr-auto w-100 navbar-search">
-                                        <span style="margin-right: 12px;">Tôi muốn tìm nhà tại....</span>
-                                        <div class="input-group">
-                                            <select class="custom-select">
-                                                <option value="">Chọn Tỉnh --</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-
-                                            <select class="custom-select">
-                                                <option value="">Chọn Huyện --</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-search" type="button">
-                                                    <i class="fas fa-search fa-sm"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-
-                            <!-- Nav Item - Alerts -->
-                            <li class="nav-item dropdown no-arrow mx-1">
-                                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style>
-                                    <i class="fas fa-bell fa-fw"></i>
-                                    <!-- Counter - Alerts -->
-                                    <span class="badge badge-danger badge-counter">3+</span>
-                                </a>
-                                <!-- Dropdown - Alerts -->
-                                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="alertsDropdown">
-                                    <h6 class="dropdown-header">
-                                        Thông báo
-                                    </h6>
-                                    <div style="max-height: 50vh; overflow: auto;" class="">
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">2/1/2022</div>
-                                                Ngẩng mặt hận đời Ngẩng mặt hận đời Ngẩng mặt hận
-                                                đời Ngẩng mặt hận đời
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">2/1/2022</div>
-                                                Ngẩng mặt hận đời Ngẩng mặt hận đời Ngẩng mặt hận
-                                                đời Ngẩng mặt hận đời
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">2/1/2022</div>
-                                                Ngẩng mặt hận đời Ngẩng mặt hận đời Ngẩng mặt hận
-                                                đời Ngẩng mặt hận đời
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">2/1/2022</div>
-                                                Ngẩng mặt hận đời Ngẩng mặt hận đời Ngẩng mặt hận
-                                                đời Ngẩng mặt hận đời
-                                            </div>
-                                        </a>
-                                    </div>
-
-
-
-                                    <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                                </div>
-                            </li>
-
-
-
-                            <div class="topbar-divider d-none d-sm-block"></div>
-
-                            <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ngẩng mặt hận đời</span>
-                                    <img class="img-profile rounded-circle" src="../assets/images/undraw_profile.svg">
-                                </a>
-                                <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="/sakura/account/profile">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Trang cá nhân
-                                    </a>
-                                    <a class="dropdown-item" href="/sakura/account/changePassword">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Đổi mật khẩu
-                                    </a>
-
-
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/sakura/access/login" data-toggle="modal" data-target="#logoutModal">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Đăng xuất
-                                    </a>
-                                </div>
-                            </li>
-
-                        </ul>
-
-                    </nav>
-
-                </div>
-
-            </div>
+        <header id="header-section" class="stick z-[10]">
+            <%@include file="headerUserSearchAddress.jsp" %>
         </header>
-        <div class="container">
+
+        <div class="w-full m-0 p-0 bg-white mt-[90px]">
             <!--    SEARCH BY NAME  -->
 
-            <div class="grid">
-                <div class="row">
-                    <form action="/sakura/hostel/list" class="search-bar__input col-12 col-md-6" method="post">
-                        <input type="text" name="keyword" placeholder="Nhập tên phòng trọ ...">
+            <div class="w-[60%] mx-auto py-5">
+                <div class="grid grid-cols-2">
+                    <form action="/sakura/hostel/list" class="input-group relative flex w-[90%] h-[50px] mb-4" method="post">
                         <c:if test="${requestScope.favorite == true}">
                             <input type="hidden" name="favorite" value="true"/>
                         </c:if>
-                        <button class="search-bar__submit" type="submit">Tìm
-                            kiếm</button>
+                        <input id="search-hostel" type="search" name="keyword" value="${requestScope.keyword}"
+                               class="form-control relative block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 border-r-0 rounded-tl-md rounded-bl-md transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-[#17535B] focus:outline-none" placeholder="Nhập tên phòng trọ..." aria-label="Search" aria-describedby="button-addon2">
+                        <button id="search-btn" class="btn px-6 py-2.5 bg-[#17535B] text-white font-medium text-xs leading-tight rounded-tr-md rounded-br-md hover:bg-[#13484F] hover:text-white focus:outline-none transition ease-in-out flex items-center"
+                                type="submit" id="button-addon2">
+                            <i class="bi bi-search"></i>
+                        </button>
                     </form>
-                    <div class="col-12 col-md-6">
-                        <div class="grid">
-
-                            <div class="row filter-list">
-                                <div class="filter-item col-6 col-sm-4">
-                                    <div class="search-bar__sort">
-                                        Đánh giá
-                                        <ul class="search-bar-sort-list">
-                                            <li class="search-bar-sort-item">
-                                                <form action="/sakura/hostel/list">
-                                                    <c:if test="${requestScope.favorite == true}">
-                                                        <input type="hidden" name="favorite" value="true"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.keyword != null}">
-                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                    </c:if>
-                                                    <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
-                                                </form>
-                                            </li>
-                                            <li class="search-bar-sort-item">
-                                                <form action="/sakura/hostel/list">
-                                                    <c:if test="${requestScope.favorite == true}">
-                                                        <input type="hidden" name="favorite" value="true"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.keyword != null}">
-                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                    </c:if>
-                                                    <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="filter-item col-6 col-sm-4">
-                                    <div class="search-bar__sort">
-                                        Giá tiền
-                                        <ul class="search-bar-sort-list">
-                                            <li class="search-bar-sort-item">
-                                                <form action="/sakura/hostel/list">
-                                                    <c:if test="${requestScope.favorite == true}">
-                                                        <input type="hidden" name="favorite" value="true"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.keyword != null}">
-                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                    </c:if>
-                                                    <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
-                                                </form>
-                                            </li>
-                                            <li class="search-bar-sort-item">
-                                                <form action="/sakura/hostel/list">
-                                                    <c:if test="${requestScope.favorite == true}">
-                                                        <input type="hidden" name="favorite" value="true"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.keyword != null}">
-                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                    </c:if>
-                                                    <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
-                                                </form>
-                                            </li>
-                                            <li class="search-bar-sort-item">
-                                                <form action="/sakura/hostel/list">
-                                                    <c:if test="${requestScope.favorite == true}">
-                                                        <input type="hidden" name="favorite" value="true"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.keyword != null}">
-                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                    </c:if>
-                                                    <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
-                                                </form>
-                                            </li>
-                                            <li class="search-bar-sort-item">
-                                                <form action="/sakura/hostel/list">
-                                                    <c:if test="${requestScope.favorite == true}">
-                                                        <input type="hidden" name="favorite" value="true"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.keyword != null}">
-                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                    </c:if>
-                                                    <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="filter-item favorite-filter col-12 col-sm-4">
-                                    <!--<a href="/sakura/hostel/list?favorite=true" >Yêu thích</a>-->
-                                    <form class="submit-filter" action="/sakura/hostel/list">
-                                        <c:if test="${requestScope.keyword != null}">
-                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                        </c:if>
-                                        <c:if test="${requestScope.favorite == null}">
-                                            <button type="submit" name="favorite" value="true" >Yêu thích</button>
-                                        </c:if>
-                                        <c:if test="${requestScope.favorite != null}">
-                                            <button type="submit" name="favorite" value="false" >Yêu thích</button>
-                                        </c:if>
-                                    </form>
-                                </div>
+                    <div class="grid grid-cols-3 gap-5 z-[5]">
+                        <div class="filter-item p-0 m-0 mr-[50px]">
+                            <div class="rating-btn h-[50px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border-1 border-[#17535B]">
+                                Đánh giá <i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                <ul class="rating-sort-list hidden group-hover:block absolute top-[50px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
+                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                        <form action="/sakura/hostel/list">
+                                            <c:if test="${requestScope.favorite == true}">
+                                                <input type="hidden" name="favorite" value="true"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
+                                        </form>
+                                    </li>
+                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                        <form action="/sakura/hostel/list">
+                                            <c:if test="${requestScope.favorite == true}">
+                                                <input type="hidden" name="favorite" value="true"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </div>
-
                         </div>
-                        </form>
+                        <div class="filter-item p-0 m-0 mr-[50px]">
+                            <div class="rating-btn h-[50px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border-1 border-[#17535B]">
+                                Giá tiền <i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                <ul class="rating-sort-list hidden group-hover:block absolute top-[50px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
+                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                        <form action="/sakura/hostel/list">
+                                            <c:if test="${requestScope.favorite == true}">
+                                                <input type="hidden" name="favorite" value="true"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
+                                        </form>
+                                    </li>
+                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                        <form action="/sakura/hostel/list">
+                                            <c:if test="${requestScope.favorite == true}">
+                                                <input type="hidden" name="favorite" value="true"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
+                                        </form>
+                                    </li>
+                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                        <form action="/sakura/hostel/list">
+                                            <c:if test="${requestScope.favorite == true}">
+                                                <input type="hidden" name="favorite" value="true"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
+                                        </form>
+                                    </li>
+                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                        <form action="/sakura/hostel/list">
+                                            <c:if test="${requestScope.favorite == true}">
+                                                <input type="hidden" name="favorite" value="true"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <c:if test="${sessionScope.currentUser != null}">
+                            <div class="filter-item p-0 m-0">
+                                <form class="submit-filter h-[50px] w-[180px] bg-[#ee7b35] text-[#E6EEF1] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center" action="/sakura/hostel/list">
+                                    <c:if test="${requestScope.keyword != null}">
+                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.favorite == null}">
+                                        <button type="submit" name="favorite" value="true">Yêu thích</button>
+                                    </c:if>
+                                    <c:if test="${requestScope.favorite != null}">
+                                        <button type="submit" name="favorite" value="false">Yêu thích</button>
+                                    </c:if>
+                                </form>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
-                <form action="/sakura/hostel/list" class="result-address">
-                    <button type="submit" name="address" value="HCM">Phòng cho thuê ở HCM</button>
-                    <c:if test="${requestScope.keyword != null}">
-                        <input type="hidden" name="address" value="HCM"></input>
-                        >><button type="submit" name="keyword" value="${requestScope.keyword}"> Từ khóa: ${requestScope.keyword}</button>
-                    </c:if>
+                <form action="/sakura/hostel/list" class="result-address my-[20px] ">
+                    <button type="submit" name="address" value="HCM" class="search-result-dsc">Phòng cho thuê ở HCM</button>
+                    <%-- <c:if test="${requestScope.keyword != null}"> --%>
+                    <!--<input type="hidden" name="address" value="HCM"/>-->
+                    <!--<button type="submit" name="keyword" value="${requestScope.keyword}" class="search-result-dsc">Từ khoá: ${requestScope.keyword}</button>-->
+                    <%-- </c:if> --%>
                 </form>
-                <h4 class="result-number">Có ${requestScope.itemQuantity} kết quả:</h4>
+
+                <c:if test="${requestScope.itemQuantity != 0}">
+                    <h4 class="result-number text-[#282C3B] text-[17px] font-md mt-[20px]">Có ${requestScope.itemQuantity} kết quả</h4>
+                </c:if>
                 <c:if test="${requestScope.itemQuantity == 0}">
-                    <h3>Không tìm thấy kết quả</h3>
+                    <h4 class="result-number text-[#282C3B] text-[20px] font-bold mt-[20px]">Không tìm thấy kết quả</h4>
                 </c:if>
                 <div class="grid">
                     <ul class="hostel-list row">
@@ -402,12 +210,12 @@
                                                 <div class="btn-prev-next">
                                                     <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button"
                                                        data-slide="prev">
-                                                        <span><i class="fa-solid fa-angle-left"></i></span>
+                                                        <span><i class="bi bi-caret-left-fill"></i></span>
                                                         <span class="sr-only">Previous</span>
                                                     </a>
                                                     <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button"
                                                        data-slide="next">
-                                                        <span><i class="fa-solid fa-angle-right"></i></span>
+                                                        <span><i class="bi bi-caret-right-fill"></i></span>
                                                         <span class="sr-only">Next</span>
                                                     </a>
                                                 </div>
@@ -421,47 +229,48 @@
                                                         <c:forEach begin="1" end="5" var="iterator">
                                                             <c:choose>
                                                                 <c:when test="${iterator <= hostel.rating}">
-                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="bi bi-star-fill"></i>
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     <c:choose>
                                                                         <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
-                                                                            <i class="fa-solid fa-star"></i>
+                                                                            <i class="bi bi-star-fill"></i>
                                                                         </c:when>
                                                                         <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
-                                                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                                                            <i class="bi bi-star-half"></i>
                                                                         </c:when>
                                                                         <c:otherwise>
-                                                                            <i class="fa-solid fa-star" style="color: #ccc"></i>
+                                                                            <i class="bi bi-star"></i>
                                                                         </c:otherwise>
                                                                     </c:choose>
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </c:forEach>
-                                                        <span class="hostel-rating-number">${hostel.rating}/5</span>
+                                                        <span class="hostel-rating-number ml-[5px]">${hostel.rating}/5</span>
                                                     </div>
-
-                                                    <c:choose>
-                                                        <c:when test="${requestScope.toggleList.get(i) == true}">
-                                                            <div class="hostel-favorite">
-                                                                <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                            </div>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <div class="hostel-favorite">
-                                                                <i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                            </div>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                    <c:if test="${sessionScope.currentUser != null}">
+                                                        <c:choose>
+                                                            <c:when test="${requestScope.toggleList.get(i) == true}">
+                                                                <div class="hostel-favorite">
+                                                                    <i class="bi bi-heart-fill" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="hostel-favorite">
+                                                                    <i class="bi bi-heart-fill" style="color: #DBDBDB;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:if>
                                                 </div>
                                                 <div class="hostel-address">${hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
 
                                                 <div class="hostel-info">
-                                                    <span class="hostel-room-available">Còn ${hostel.availableRoom} phòng trống</span>
-                                                    <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
+                                                    <span class="hostel-room-available">${hostel.availableRoom} phòng trống</span>
+                                                    <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea}m<sup>2</sup></span>
                                                 </div>
 
-                                                <div class="hostel-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
+                                                <div class="hostel-price">${hostel.minPrice / 1000000} - ${hostel.maxPrice / 1000000} triệu</div>
                                             </div>
 
                                     </button>
@@ -470,7 +279,7 @@
                         </c:forEach>
                     </ul>
 
-                    <!--            PAGING-->
+                    <!--  PAGING-->
                     <div class="pagination">
                         <ul class="pagination__list">
                             <li class="pagination-item pagination-previous pagination-previous--fast">
@@ -487,7 +296,7 @@
                                     <c:if test="${requestScope.sortByRate != null}">
                                         <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
                                     </c:if>
-                                    <button type="submit" name="paging" value="1"><i class="fa-solid fa-angles-left"></i></button>
+                                    <button type="submit" name="paging" value="1"><i class="bi bi-arrow-bar-left"></i></button>
                                 </form>
                             </li>
 
@@ -506,10 +315,10 @@
                                         <c:if test="${requestScope.sortByRate != null}">
                                             <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
                                         </c:if>
-                                        <button type="submit" name="paging" value="${requestScope.currentPage - 1}"><i class="fas fa-chevron-left"></i></button>
+                                        <button type="submit" name="paging" value="${requestScope.currentPage - 1}"><i class="bi bi-arrow-left"></i></button>
                                         </c:if>
                                         <c:if test="${requestScope.currentPage == 1}">
-                                        <button><i class="fas fa-chevron-left"></i></button>
+                                        <button><i class="bi bi-arrow-left"></i></button>
                                         </c:if>
                                 </form>
                             </li>
@@ -553,7 +362,7 @@
                                     <c:if test="${requestScope.sortByRate != null}">
                                         <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
                                     </c:if>
-                                    <button type="submit" name="paging" value="${requestScope.currentPage + 1}"><i class="fas fa-chevron-right"></i></button>
+                                    <button type="submit" name="paging" value="${requestScope.currentPage + 1}"><i class="bi bi-arrow-right"></i></button>
                                 </form>
                             </li>
                             <li class="pagination-item pagination-next pagination-next--fast">
@@ -570,7 +379,7 @@
                                     <c:if test="${requestScope.sortByRate != null}">
                                         <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
                                     </c:if>
-                                    <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="fa-solid fa-angles-right"></i></button>
+                                    <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="bi bi-arrow-bar-right"></i></button>
                                 </form>
                             </li>
                         </ul>
@@ -580,15 +389,82 @@
 
             </div>
         </div>
-        <footer class="sticky-footer">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; SE1618 Dolphin 2022</span>
+
+        <footer class="w-full h-auto mx-0 bg-[#FBFBFB]">
+            <div class="px-4 pt-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 ">
+                <div class="grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="sm:col-span-2">
+                        <a href="/" aria-label="Go home" title="Company" class="inline-flex items-center">
+                            <img class="w-9 h-9" src="../assets/icons/logo.png" alt="">
+                            <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">SAKURA</span>
+                        </a>
+                        <div class="mt-6 lg:max-w-sm">
+                            <p class="text-sm text-gray-800">
+                                Sakura mong muốn trở thành công cụ thuận tiện cho người thuê và chủ nhà để quản lý phòng trọ.
+                            </p>
+                            <p class="mt-4 text-sm text-gray-800">
+                                Với Sakura, chủ nhà sẽ được hỗ trợ rất nhiều về các chức năng khác nhau như quản lý người thuê và phòng trọ, xem số liệu thống kê về doanh thu và sử dụng nhà trọ...
+                            </p>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <p class="text-base font-bold tracking-wide text-gray-900">Liên hệ</p>
+                        <div class="flex">
+                            <p class="mr-1 text-gray-800">Số điện thoại</p>
+                            <a href="tel:0357543625" aria-label="Our phone" title="Our phone" class="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800">(+84) 357 543 625</a>
+                        </div>
+                        <div class="flex">
+                            <p class="mr-1 text-gray-800">Email:</p>
+                            <a href="mailto:info@lorem.mail" aria-label="Our email" title="Our email" class="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800">sakura.support@gmail.com</a>
+                        </div>
+                        <div class="flex">
+                            <p class="mr-1 text-gray-800">Địa chỉ:</p>
+                            <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer" aria-label="Our address" title="Our address" class="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800">
+                                101 Nguyễn Xiển, Q.9<br>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-base font-bold tracking-wide text-gray-900">Kết nối</span>
+                        <div class="flex items-center mt-1 space-x-3">
+                            <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="h-5">
+                                <path
+                                    d="M22,0H2C0.895,0,0,0.895,0,2v20c0,1.105,0.895,2,2,2h11v-9h-3v-4h3V8.413c0-3.1,1.893-4.788,4.659-4.788 c1.325,0,2.463,0.099,2.795,0.143v3.24l-1.918,0.001c-1.504,0-1.795,0.715-1.795,1.763V11h4.44l-1,4h-3.44v9H22c1.105,0,2-0.895,2-2 V2C24,0.895,23.105,0,22,0z"
+                                    ></path>
+                                </svg>
+                            </a>
+                            <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400">
+                                <svg viewBox="0 0 30 30" fill="currentColor" class="h-6">
+                                <circle cx="15" cy="15" r="4"></circle>
+                                <path
+                                    d="M19.999,3h-10C6.14,3,3,6.141,3,10.001v10C3,23.86,6.141,27,10.001,27h10C23.86,27,27,23.859,27,19.999v-10   C27,6.14,23.859,3,19.999,3z M15,21c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S18.309,21,15,21z M22,9c-0.552,0-1-0.448-1-1   c0-0.552,0.448-1,1-1s1,0.448,1,1C23,8.552,22.552,9,22,9z"
+                                    ></path>
+                                </svg>
+                            </a>
+
+                        </div>
+                        <p class="mt-4 text-sm text-gray-500">
+                            Kết nối và theo dõi SAKURA trên các nền tảng xã hội để cập nhật tin tức, xu hướng cùng những ưu đãi mới nhất!
+                        </p>
+                    </div>
                 </div>
-
-
+                <div class="flex flex-col-reverse justify-between pt-5 pb-10 border-t lg:flex-row">
+                    <p class="text-sm text-gray-600">
+                        © Copyright 2022 Dolphin Inc. All rights reserved.
+                    </p>
+                    <ul class="flex flex-col mb-3 space-y-2 lg:mb-0 sm:space-y-0 sm:space-x-5 sm:flex-row">
+                        <li>
+                            <a href="/" class="text-sm text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">F.A.Q</a>
+                        </li>
+                        <li>
+                            <a href="/" class="text-sm text-gray-600 transition-colors duration-300 hover:text-deep-purple-accent-400">Chính sách &amp; Điều kiện</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </footer>
+        </footer>                        
+
         <script src="../assets/javascript//jquery/jquery.min.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/javascript/hostel-list.js"></script>
@@ -596,7 +472,7 @@
         <script>
                                                                     function toggleFavoriteHostel(hostelID, element) {
                                                                         if (element.style.color === 'red')
-                                                                            element.style.color = 'gray';
+                                                                            element.style.color = '#DBDBDB';
                                                                         else
                                                                             element.style.color = 'red';
                                                                         console.log("line 413");

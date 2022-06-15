@@ -20,7 +20,7 @@ a {
     transition: all 0.2s ease-in-out;
 }
 
-#header-section.sticky {
+#header-section.stick {
     background-color: #ffffff;
 }
 
@@ -47,7 +47,7 @@ nav .logo h3 {
     margin: 0;
 }
 
-#header-section.sticky nav .logo h3 {
+#header-section.stick nav .logo h3 {
     color: #17535B;
 }
 
@@ -73,11 +73,11 @@ nav .item-list .item.select, nav .item-list .item:hover {
     color: #ffffff;
 }
 
-#header-section.sticky nav .item-list .item {
+#header-section.stick nav .item-list .item {
     color: #bbbbbb;
 }
 
-#header-section.sticky nav .item-list .item.select, #header-section.sticky nav .item-list .item:hover {
+#header-section.stick nav .item-list .item.select, #header-section.stick nav .item-list .item:hover {
     color: #FF6532;
 }
 
@@ -99,7 +99,7 @@ nav .access a {
     cursor: pointer;
 }
 
-#header-section.sticky nav .access a {
+#header-section.stick nav .access a {
     color: #E6EEF1;
     background: #17535B;
 }
@@ -118,7 +118,7 @@ nav .access a:last-child {
     margin-left: 10px;
 }
 
-#header-section.sticky nav .access a:last-child {
+#header-section.stick nav .access a:last-child {
     color: #757575;
     outline: 1px solid #757575;
     background-color: transparent;
