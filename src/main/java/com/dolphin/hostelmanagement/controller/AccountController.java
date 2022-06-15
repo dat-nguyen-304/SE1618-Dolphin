@@ -131,7 +131,7 @@ public class AccountController extends HttpServlet {
             } catch (Exception e) {
                 e.getMessage();
             }
-        } else if (path.equals("/change-profile")) {
+        } else if (path.equals("/userProfile")) {
             String fullname = request.getParameter("fullname");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");

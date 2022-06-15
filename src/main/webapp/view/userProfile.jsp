@@ -64,7 +64,7 @@
                     <!--code for notification ends-->
 
                     <div class="profile-container w-[55%] h-[75%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
-                        <form id="user-profile-form" class="w-full h-full flex p-0 m-0 mx-auto" action="/sakura/account/change-profile" method="post" enctype="multipart/form-data">
+                        <form id="user-profile-form" class="w-full h-full flex p-0 m-0 mx-auto" action="/sakura/account/userProfile" method="post" enctype="multipart/form-data">
                             <!-- Left Side -->
                             <div class="profile-left w-[30%] h-full relative">
                                 <!-- Profile Card -->

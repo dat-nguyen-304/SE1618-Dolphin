@@ -56,7 +56,7 @@
 
                     <!-- change password form -->
                     <div class="w-3/5 h-full pt-[4%] pb-[6%] px-[6%]">
-                        <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/register" method="post" id="form" name="register-form" novalidate="">
+                        <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/account/changePassword" method="post" novalidate="">
                             <div class="form-header w-full h-14 text-center m-0 p-0 relative">
                                 <h2 class="text-3xl text-[#FF6532] font-medium ">Thay đổi mật khẩu</h2>
                                 <p>${requestScope.errorMessage}</p>
@@ -64,7 +64,7 @@
                             <ul class="item-list list-none w-[52%]">
                                 <!--Current Password-->
                                 <li class="item block relative z-0 w-full mb-7">
-                                    <input type="password" id="current-password" name="current-password" placeholder=" " required onchange="checkCurentPassword()"
+                                    <input type="password" id="current-password" name="currentPwd" placeholder=" " required
                                            class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
                                     <p id="cur-password-error" class="warning font-light absolute right-0">${requestScope.warning}</p>
                                     <label for="current-password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Mật khẩu hiện tại</label>
@@ -73,7 +73,7 @@
 
                                 <!--New Password-->
                                 <li class="item block relative z-0 w-full mb-7">
-                                    <input type="password" id="new-password" name="new-password" placeholder=" " required onchange="checkNewPassword()"
+                                    <input type="password" id="new-password" name="newPwd" placeholder=" " required onchange="checkNewPassword()"
                                            class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
                                     <p id="new-password-error" class="warning font-light absolute right-0">${requestScope.warning}</p>
                                     <label for="new-password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Mật khẩu mới<span class="font-extralight"> (ít nhất 8 kí tự)</span></label>
@@ -82,14 +82,14 @@
 
                                 <!--Confirm password-->
                                 <li class="item block relative z-0 w-full mb-8">
-                                    <input type="password" id="cf-new-password" name="cf-new-password" placeholder=" " required onchange="checkConfirmPassword()"
+                                    <input type="password" id="cf-new-password" name="newPwdConfirm" placeholder=" " required onchange="checkConfirmPassword()"
                                            class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
                                     <p id="cf-new-password-error" class="warning font-light absolute right-0">${requestScope.warning}</p>
                                     <label for="cf-new-password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Xác nhận mật khẩu mới</label>
                                     <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-cf-password"></i>
                                 </li>
                                 <li class="mb-9">
-                                    <button type="submit" id="register-btn"  value="Change password" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick="return validate()">
+                                    <button type="submit" name = "action" value="Change password" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">
                                         Thay đổi mật khẩu
                                     </button>  
                                 </li>
@@ -170,11 +170,11 @@
                 var cfNewPwd = $("#cf-new-password").val().trim();
                 if (!newPwd || $("#new-password-error").html() !== "") {
                     $("#new-password").css("border-bottom", "1.5px solid red");
-                    $("#new-password").focus();
+                    //$("#new-password").focus();
                     return false;
                 } else if (!cfNewPwd || $("#cf-new-password-error").html !== "") {
                     $("#cf-new-password").css("border-bottom", "1.5 solid red");
-                    $("#cf-new-password").focus();
+                    //$("#cf-new-password").focus();
                     return false;
                 }
             }

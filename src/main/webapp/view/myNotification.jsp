@@ -34,10 +34,10 @@
                             <td>OK!</td></c:otherwise> 
                     </c:choose>
                     <c:choose>
-                        <c:when test="${noti.from.getAccountID() == noti.to.getAccountID()}">
+                        <c:when test="${noti.fromAccount.getAccountID() == noti.toAccount.getAccountID()}">
                             <td>System</td></c:when>
                         <c:otherwise>
-                            <td>${noti.from.getUsername()}</td></c:otherwise> 
+                            <td>${noti.fromAccount.getUsername()}</td></c:otherwise> 
                     </c:choose>
                 </tr>
             </c:forEach>
