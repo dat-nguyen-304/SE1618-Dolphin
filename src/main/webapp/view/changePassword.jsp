@@ -89,7 +89,7 @@
                                     <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-cf-password"></i>
                                 </li>
                                 <li class="mb-9">
-                                    <button type="submit" name = "action" value="Change password" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">
+                                    <button type="submit" name = "action" value="Change password" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick ="return validate()">
                                         Thay đổi mật khẩu
                                     </button>  
                                 </li>
@@ -156,6 +156,7 @@
                     $("#new-password-error").html("Mật khẩu phải có ít nhất 8 kí tự!");
                     $("#new-password-error").css("color", "red");
                 }
+                else $("#new-password-error").html("");
             }
             function checkConfirmPassword() {
                 $("#cf-new-password-error").html("");
@@ -164,19 +165,23 @@
                     $("#cf-new-password-error").html("Không khớp!");
                     $("#cf-new-password-error").css("color", "red");
                 }
+                else $("#cf-new-password-error").html("");
             }
             function validate() {
                 var newPwd = $("#new-password").val().trim();
                 var cfNewPwd = $("#cf-new-password").val().trim();
                 if (!newPwd || $("#new-password-error").html() !== "") {
                     $("#new-password").css("border-bottom", "1.5px solid red");
-                    //$("#new-password").focus();
+                    $("#new-password").focus();
+                    //alert("wrong in pwd");
                     return false;
-                } else if (!cfNewPwd || $("#cf-new-password-error").html !== "") {
+                } else if (!cfNewPwd || $("#cf-new-password-error").html() !== "") {
                     $("#cf-new-password").css("border-bottom", "1.5 solid red");
-                    //$("#cf-new-password").focus();
+                    $("#cf-new-password").focus();
+                    //alert($("#cf-new-password-error").html);
                     return false;
                 }
+                return true;
             }
         </script>
     </body>

@@ -310,7 +310,10 @@
                             <div class="hostel-total-rom">Có tất cả ${requestScope.hostel.totalRoom} phòng</div>
                             <div class="hostel-available-room">Hiện đang có ${requestScope.hostel.availableRoom} phòng trống</div>
                             <div class="hostel-address">${requestScope.hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
-                            <button class="btn-view-all-room">Xem tất cả phòng</button>
+                            <form action ="/sakura/hostel/roomList" method="post">
+                                <input type="hidden" name="hostelID" value="${requestScope.hostel.hostelID}">
+                            <button type = "submit" name = "action" class="btn-view-all-room">Xem tất cả phòng</button>
+                            </form>
                         </div>
                         <div class="landlord-info">
                             <h2 class="landlord-info-title">Thông tin người quản lí:</h2>
