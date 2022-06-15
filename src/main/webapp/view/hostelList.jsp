@@ -470,29 +470,30 @@
         <script src="../assets/javascript/hostel-list.js"></script>
         <script src="../assets/javascript/jquery.js"></script>
         <script>
-                                                                    function toggleFavoriteHostel(hostelID, element) {
-                                                                        if (element.style.color === 'red')
-                                                                            element.style.color = '#DBDBDB';
-                                                                        else
-                                                                            element.style.color = 'red';
-                                                                        console.log("line 413");
-                                                                        console.log(hostelID);
-                                                                        jQuery.ajax({
-                                                                            type: 'POST',
-                                                                            data: {'hostelID': hostelID},
-                                                                            url: '/sakura/hostel/toggleFavHostel',
-                                                                            success: function (result) {
-                                                                                console.log('Success 36');
-                                                                            },
-                                                                            error: function () {
-                                                                                console.log('Error 39');
-                                                                            },
-                                                                            complete: function (result) {
-                                                                                console.log('Complete 41');
-                                                                            }
-                                                                        });
-                                                                        console.log("line 429");
-                                                                    }
+                                                                        function toggleFavoriteHostel(hostelID, element) {
+                                                                            if (element.style.color === 'red')
+                                                                                element.style.color = '#DBDBDB';
+                                                                            else
+                                                                                element.style.color = 'red';
+                                                                            console.log("line 413");
+                                                                            console.log(hostelID);
+                                                                            jQuery.ajax({
+                                                                                type: 'POST',
+                                                                                data: {'hostelID': hostelID},
+                                                                                url: '/sakura/hostel/toggleFavHostel',
+                                                                                success: function (result) {
+                                                                                    console.log('Success 36');
+                                                                                },
+                                                                                error: function () {
+                                                                                    console.log('Error 39');
+                                                                                },
+                                                                                complete: function (result) {
+                                                                                    console.log('Complete 41');
+                                                                                }
+                                                                            });
+                                                                            console.log("line 429");
+                                                                        }
+
         </script>
     </body>
 </html>
