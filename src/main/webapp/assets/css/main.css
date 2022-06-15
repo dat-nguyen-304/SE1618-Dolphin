@@ -1522,7 +1522,7 @@ nav.container {
   transition      : all 0.2s ease-in-out;
 }
 
-nav.container.sticky {
+nav.container.stick {
   background-color: #fff;
   box-shadow      : rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 
@@ -1541,7 +1541,7 @@ nav .logo h3 {
   margin     : 0;
 }
 
-nav.sticky .logo h3 {
+nav.stick .logo h3 {
   color: #17535B;
 }
 
@@ -1563,7 +1563,7 @@ nav .item-list .item {
   padding    : 0 15px;
 }
 
-nav.sticky .item-list .item {
+nav.stick .item-list .item {
   color: #bbbbbb;
 }
 
@@ -1571,7 +1571,7 @@ nav .item-list .item.active {
   color: #ffffff;
 }
 
-nav.sticky .item-list .item.active {
+nav.stick .item-list .item.active {
   color: #FF6532;
 }
 
@@ -1579,7 +1579,7 @@ nav .item-list .item:hover {
   color: #ffffff;
 }
 
-nav.sticky .item-list .item:hover {
+nav.stick .item-list .item:hover {
   color: #FF6532;
 }
 
@@ -1601,7 +1601,7 @@ nav .access a {
   cursor       : pointer;
 }
 
-nav.sticky .access a {
+nav.stick .access a {
   height       : 70%;
   padding      : 2px 10px;
   color        : #E6EEF1;
@@ -1623,7 +1623,7 @@ nav .access a:last-child {
   margin-left     : 20px;
 }
 
-nav.sticky .access a:last-child {
+nav.stick .access a:last-child {
   color           : #757575;
   border          : 1px solid #757575;
   background-color: transparent;

@@ -1,7 +1,8 @@
 /* 
-    Created on : Jun 9, 2022, 9:01:29 AM
+    Created on : Jun 15, 2022, 8:18:57 AM
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 */
+
 a {
     text-decoration: none;
 }
@@ -34,6 +35,15 @@ nav.header {
     transition: all 0.2s ease-in-out;
 }
 
+.header-left {
+    display: flex;
+}
+
+
+.header-right {
+    display: flex;
+}
+
 nav .logo {
     display: flex;
     align-items: center;
@@ -60,6 +70,7 @@ nav .logo img {
 nav .item-list {
     display: flex;
     align-items: center;
+    margin-right: 20px;
 }
 
 nav .item-list .item {
@@ -182,4 +193,68 @@ nav .item-list .item:hover {
 
 .profile .profile-menu li:hover span {
     transform: scale(1.05);
+}
+
+/*Filter address*/
+.home-filter {
+    width: 400px;
+    height: 100%;
+    padding: 5px 10px;
+    margin-left: 20px;
+}
+
+.filter {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #F5F5F5;
+    padding-left: 20px;
+}
+
+/* Hide arrow  */
+select {
+    -moz-appearance   : none;
+    -webkit-appearance: none;
+    appearance        : none;
+}
+
+.filter-address {
+    margin: 0;
+    background-color: transparent;
+    color: #17535B;
+    width: 35%;
+    height: 60%;
+    text-align: center;
+}
+.filter-address:first-child {
+    border-right: 1px solid #288D87;
+}
+.filter-submit {
+    width: 20%;
+}
+
+.filter-submit button {
+    background-color: #17535B;
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    font-size: 15px;
+    margin: 0;
+    padding         : 10px 20px;
+}
+
+.filter-submit button:hover {
+    color: #fff;
+    background-color: #13484F;
+}
+
+.filter-submit button:focus, .filter-submit button:active, .filter-submit button:target {
+    outline: none;
+    color: #fff;
+    background-color: #13484F;
 }
