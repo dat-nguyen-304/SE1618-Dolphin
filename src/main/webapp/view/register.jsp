@@ -231,7 +231,9 @@
             function checkUsername() {
                 $("#usernameError").html("");
                 $("#username").css("border-bottom", "");
-                jQuery.ajax({
+                var username = $("#username").val().trim();
+                if (username.length !== 0) {
+                    jQuery.ajax({
                     type: 'POST',
                     data: 'username=' + $("#username").val(),
                     url: '/sakura/account/checkUsername',
@@ -255,17 +257,20 @@
                         console.log('Complete check username');
                     }
                 });
+                }
             }
 
             function checkEmail() {
                 $("#emailError").html("");
                 $("#email").css("border-bottom", "");
-                jQuery.ajax({
+                var email = $("#email").val().trim();
+                if (email.length !== 0) {
+                    jQuery.ajax({
                     type: 'POST',
                     data: 'email=' + $("#email").val(),
                     url: '/sakura/account/checkEmail',
                     success: function (result) {
-                        if (result.length === 0) {
+                        if (result.length === 0 && email.length !==0) {
                             var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
                             if (!re.test($("#email").val())) {
                                 $("#emailError").html("Sai định dạng email!");
@@ -284,6 +289,7 @@
                         console.log('Complete 71');
                     }
                 });
+                }
             }
 
             function checkPassword() {
@@ -309,12 +315,13 @@
             function checkPhone() {
                 $("#phoneError").html("");
                 $("#phone").css("border", "");
-                console.log("checking phone");
                 var phone = $("#phone").val().trim();
-                var re = /^\d{10}$/;
-                if (!re.test(phone)) {
-                    $("#phoneError").html("SĐT phải có 10 chữ số!");
-                    $("#phoneError").css("color", "red");
+                if (phone.length !== 0) {
+                    var re = /^\d{10}$/;
+                    if (!re.test(phone) && phone.length !== 0) {
+                        $("#phoneError").html("SĐT phải có 10 chữ số!");
+                        $("#phoneError").css("color", "red");
+                    }
                 }
             }
 
@@ -355,8 +362,6 @@
                     $("#phone").focus();
                     return false;
                 }
-//                if ($("#usernameError").html.length !== 0 || !$("#emailError").html().length !== 0)
-//                    return false;
             }
         </script>
     </body>

@@ -272,14 +272,16 @@
                         <div class="hostel-info">
                             <div class="hostel-info-title">
                                 <h3 class="hostel-name">${requestScope.hostel.hostelName}</h3>
-                                <div class="hostel-favorite">
-                                    <c:if test="${requestScope.isFavorite == true}">
-                                        <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
-                                    </c:if>
-                                    <c:if test="${requestScope.isFavorite == false}">
-                                        <i class="fa-solid fa-heart" style="color: #ccc;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
-                                    </c:if>
-                                </div>
+                                <c:if test="${sessionScope.currentUser != null}">
+                                    <div class="hostel-favorite">
+                                        <c:if test="${requestScope.isFavorite == true}">
+                                            <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
+                                        </c:if>
+                                        <c:if test="${requestScope.isFavorite == false}">
+                                            <i class="fa-solid fa-heart" style="color: #ccc;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
+                                        </c:if>
+                                    </div>
+                                </c:if>
                             </div>
                             <div class="hostel-rating">
                                 <c:forEach begin="1" end="5" var="iterator">
@@ -335,12 +337,6 @@
                         <div class="hostel-description">
                             ${requestScope.hostel.description}
                         </div>
-                        <div class="hostel-policy">
-                            <h4 class="hostel-policy-title">Chính sách:</h4>
-                            <div class="hostel-policy">
-                                射雕英雄传 射雕英雄传 射雕英雄传 射雕英雄传 射雕英雄传 射雕英雄传 射雕英雄传
-                            </div>
-                        </div>
                     </div>
                     <div class="col-12 col-sm-4 hostel-room">
                         <h3 class="hostel-room-title">Loại phòng</h3>
@@ -354,7 +350,7 @@
                     <h3 class="section-title">
                         đánh giá từ người dùng
                     </h3>
-                    
+
                     <c:if test="${requestScope.feedbackList == null}">
                         <h3 class="no-rating">Chưa có đánh giá nào</h3>
                     </c:if>
@@ -538,42 +534,47 @@
                     <h3 class="section-title">
                         đánh giá của bạn
                     </h3>
-                    <form action="/sakura/hostel/detail">
-                        <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                        <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                        <c:if test="${requestScope.feedback == null}">
-                            <div class="send-feedback">
-                                <input type="hidden" name="rating" value="5" />
-                                <div class="send-feedback-star-list">
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                    <c:if test="${sessionScope.currentUser != null}">
+                        <form action="/sakura/hostel/detail">
+                            <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                            <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                            <c:if test="${requestScope.feedback == null}">
+                                <div class="send-feedback">
+                                    <input type="hidden" name="rating" value="5" />
+                                    <div class="send-feedback-star-list">
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    </div>
+                                    <textarea class="text-area" placeholder="Nhập vào đây đánh giá của bạn"
+                                              name="feedbackContent" rows="4" cols="100"></textarea>
+                                    <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
                                 </div>
-                                <textarea class="text-area" placeholder="Nhập vào đây đánh giá của bạn"
-                                          name="feedbackContent" rows="4" cols="100"></textarea>
-                                <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
-                            </div>
-                        </c:if>
-                        <c:if test="${requestScope.feedback != null}">
-                            <div class="send-feedback">
-                                <input type="hidden" name="oldRating" value="${requestScope.feedback.rating}" />
-                                <input type="hidden" name="rating" value="${requestScope.feedback.rating}" />
-                                <div class="send-feedback-star-list">
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                            </c:if>
+                            <c:if test="${requestScope.feedback != null}">
+                                <div class="send-feedback">
+                                    <input type="hidden" name="oldRating" value="${requestScope.feedback.rating}" />
+                                    <input type="hidden" name="rating" value="${requestScope.feedback.rating}" />
+                                    <div class="send-feedback-star-list">
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                                    </div>
+                                    <textarea class="text-area" disabled placeholder="Nhập vào đây đánh giá của bạn"
+                                              name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
+                                    <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
+                                    <button type="submit" class="update-feedback-btn">Chỉnh sửa đánh giá</button>
                                 </div>
-                                <textarea class="text-area" disabled placeholder="Nhập vào đây đánh giá của bạn"
-                                          name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
-                                <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
-                                <button type="submit" class="update-feedback-btn">Chỉnh sửa đánh giá</button>
-                            </div>
-                        </c:if>
-                    </form>
+                            </c:if>
+                        </form>
+                    </c:if>
+                    <c:if test="${sessionScope.currentUser == null}">
+                        <h3>Bạn phải đăng nhập để đánh giá nhà trọ này</h3>
+                    </c:if>
                 </div>
 
                 <div class="section">
@@ -691,29 +692,29 @@
             <script src="../assets/javascript/jquery.js"></script>
             <script src="../assets/javascript/hostel-detail.js"></script>
             <script>
-                                            function toggleFavoriteHostel(hostelID, element) {
-                                                if (element.style.color === 'red')
-                                                    element.style.color = 'gray';
-                                                else
-                                                    element.style.color = 'red';
-                                                console.log("line 413");
-                                                console.log(hostelID);
-                                                jQuery.ajax({
-                                                    type: 'POST',
-                                                    data: {'hostelID': hostelID},
-                                                    url: '/sakura/hostel/toggleFavHostel',
-                                                    success: function (result) {
-                                                        console.log('Success 36');
-                                                    },
-                                                    error: function () {
-                                                        console.log('Error 39');
-                                                    },
-                                                    complete: function (result) {
-                                                        console.log('Complete 41');
-                                                    }
-                                                });
-                                                console.log("line 429");
-                                            }
+                                                function toggleFavoriteHostel(hostelID, element) {
+                                                    if (element.style.color === 'red')
+                                                        element.style.color = 'gray';
+                                                    else
+                                                        element.style.color = 'red';
+                                                    console.log("line 413");
+                                                    console.log(hostelID);
+                                                    jQuery.ajax({
+                                                        type: 'POST',
+                                                        data: {'hostelID': hostelID},
+                                                        url: '/sakura/hostel/toggleFavHostel',
+                                                        success: function (result) {
+                                                            console.log('Success 36');
+                                                        },
+                                                        error: function () {
+                                                            console.log('Error 39');
+                                                        },
+                                                        complete: function (result) {
+                                                            console.log('Complete 41');
+                                                        }
+                                                    });
+                                                    console.log("line 429");
+                                                }
             </script>
     </body>
 

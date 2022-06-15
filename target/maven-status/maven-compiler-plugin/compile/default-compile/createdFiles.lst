@@ -5,6 +5,7 @@ com\dolphin\hostelmanagement\controller\HostelController$5.class
 com\dolphin\hostelmanagement\controller\LoginController.class
 com\dolphin\hostelmanagement\utils\EmailService$1.class
 com\dolphin\hostelmanagement\DAO\DistrictDAO.class
+com\dolphin\hostelmanagement\DAO\NotificationDAO.class
 com\dolphin\hostelmanagement\DAO\FeedbackDAO.class
 com\dolphin\hostelmanagement\DTO\Contract.class
 com\dolphin\hostelmanagement\controller\AccessController.class

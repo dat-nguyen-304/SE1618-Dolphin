@@ -204,7 +204,7 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                      aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="/sakura/account/userProfile">
+                                    <a class="dropdown-item" href="/sakura/account/profile">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Trang cá nhân
                                     </a>
@@ -327,20 +327,22 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="filter-item favorite-filter col-12 col-sm-4">
-                                    <!--<a href="/sakura/hostel/list?favorite=true" >Yêu thích</a>-->
-                                    <form class="submit-filter" action="/sakura/hostel/list">
-                                        <c:if test="${requestScope.keyword != null}">
-                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                        </c:if>
-                                        <c:if test="${requestScope.favorite == null}">
-                                            <button type="submit" name="favorite" value="true" >Yêu thích</button>
-                                        </c:if>
-                                        <c:if test="${requestScope.favorite != null}">
-                                            <button type="submit" name="favorite" value="false" >Yêu thích</button>
-                                        </c:if>
-                                    </form>
-                                </div>
+                                <c:if test="${sessionScope.currentUser != null}">
+                                    <div class="filter-item favorite-filter col-12 col-sm-4">
+                                        <!--<a href="/sakura/hostel/list?favorite=true" >Yêu thích</a>-->
+                                        <form class="submit-filter" action="/sakura/hostel/list">
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.favorite == null}">
+                                                <button type="submit" name="favorite" value="true" >Yêu thích</button>
+                                            </c:if>
+                                            <c:if test="${requestScope.favorite != null}">
+                                                <button type="submit" name="favorite" value="false" >Yêu thích</button>
+                                            </c:if>
+                                        </form>
+                                    </div>
+                                </c:if>
                             </div>
 
                         </div>
@@ -440,19 +442,20 @@
                                                         </c:forEach>
                                                         <span class="hostel-rating-number">${hostel.rating}/5</span>
                                                     </div>
-
-                                                    <c:choose>
-                                                        <c:when test="${requestScope.toggleList.get(i) == true}">
-                                                            <div class="hostel-favorite">
-                                                                <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                            </div>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <div class="hostel-favorite">
-                                                                <i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                            </div>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                    <c:if test="${sessionScope.currentUser != null}">
+                                                        <c:choose>
+                                                            <c:when test="${requestScope.toggleList.get(i) == true}">
+                                                                <div class="hostel-favorite">
+                                                                    <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="hostel-favorite">
+                                                                    <i class="fa-solid fa-heart" style="color: gray;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:if>
                                                 </div>
                                                 <div class="hostel-address">${hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
 
@@ -594,29 +597,29 @@
         <script src="../assets/javascript/hostel-list.js"></script>
         <script src="../assets/javascript/jquery.js"></script>
         <script>
-                                                                    function toggleFavoriteHostel(hostelID, element) {
-                                                                        if (element.style.color === 'red')
-                                                                            element.style.color = 'gray';
-                                                                        else
-                                                                            element.style.color = 'red';
-                                                                        console.log("line 413");
-                                                                        console.log(hostelID);
-                                                                        jQuery.ajax({
-                                                                            type: 'POST',
-                                                                            data: {'hostelID': hostelID},
-                                                                            url: '/sakura/hostel/toggleFavHostel',
-                                                                            success: function (result) {
-                                                                                console.log('Success 36');
-                                                                            },
-                                                                            error: function () {
-                                                                                console.log('Error 39');
-                                                                            },
-                                                                            complete: function (result) {
-                                                                                console.log('Complete 41');
-                                                                            }
-                                                                        });
-                                                                        console.log("line 429");
-                                                                    }
+                                                                        function toggleFavoriteHostel(hostelID, element) {
+                                                                            if (element.style.color === 'red')
+                                                                                element.style.color = 'gray';
+                                                                            else
+                                                                                element.style.color = 'red';
+                                                                            console.log("line 413");
+                                                                            console.log(hostelID);
+                                                                            jQuery.ajax({
+                                                                                type: 'POST',
+                                                                                data: {'hostelID': hostelID},
+                                                                                url: '/sakura/hostel/toggleFavHostel',
+                                                                                success: function (result) {
+                                                                                    console.log('Success 36');
+                                                                                },
+                                                                                error: function () {
+                                                                                    console.log('Error 39');
+                                                                                },
+                                                                                complete: function (result) {
+                                                                                    console.log('Complete 41');
+                                                                                }
+                                                                            });
+                                                                            console.log("line 429");
+                                                                        }
         </script>
     </body>
 </html>

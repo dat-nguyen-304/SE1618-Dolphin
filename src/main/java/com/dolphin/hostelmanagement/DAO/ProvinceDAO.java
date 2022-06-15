@@ -28,7 +28,7 @@ public class ProvinceDAO {
                 PreparedStatement pst = cn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
-                    while (rs.next()) {
+                    while (rs != null && rs.next()) {
                         int id = rs.getInt("provinceID");
                         String provinceName = rs.getString("provinceName");
                         list.add(new Province(id, provinceName));
