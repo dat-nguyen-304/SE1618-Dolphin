@@ -62,7 +62,7 @@ public class DistrictDAO {
                         String districtName = rs.getString("districtName");
                         int provinceID = rs.getInt("provinceID");
                         Province province = ProvinceDAO.findById(provinceID);
-                        district = new District(provinceID, districtName, province);
+                        district = new District(id, districtName, province);
                     }
                 }
                 cn.close();
@@ -101,12 +101,10 @@ public class DistrictDAO {
     }
     
     public static void main(String[] args) {
-        /*for (District district : findAll()) {
-            System.out.println(district.getDistrictName());
-        }*/
-        for(int i = 1;i <= 10;++i) {
-            System.out.println(findById(i).getDistrictName());
+        for (District district : findByProvinceID(1)) {
+//            System.out.println(district.getDistrictName());
         }
-        
+        District district = findById(1);
+        System.out.println(district.getDistrictName());
     }
 }

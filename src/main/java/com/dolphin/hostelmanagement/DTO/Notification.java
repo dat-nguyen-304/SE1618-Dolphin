@@ -7,65 +7,29 @@ package com.dolphin.hostelmanagement.DTO;
 import java.util.Date;
 
 public class Notification {
-    private int notiID;
-    private String content;
-    private Date createdDate;
-    private int status;
-    private Account fromAccount;
+    private int notificationID;
     private Account toAccount;
-    private int notiType;
+    private Date createdDate;
+    private String content;
+    private int status;
     
     public Notification() {
     }
 
-    public Notification(int notiID, String content, Date createdDate, int status, Account fromAccount, Account toAccount) {
-        this.notiID = notiID;
-        this.content = content;
-        this.createdDate = createdDate;
-        this.status = status;
-        this.notiType = notiType;
-        this.fromAccount = fromAccount;
+    public Notification(int notificationID, Account toAccount, Date createdDate, String content, int status) {
+        this.notificationID = notificationID;
         this.toAccount = toAccount;
-    }
-
-    public int getNotiID() {
-        return notiID;
-    }
-
-    public void setNotiID(int notiID) {
-        this.notiID = notiID;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
+        this.content = content;
         this.status = status;
     }
 
-    public Account getFromAccount() {
-        return fromAccount;
+    public int getNotificationID() {
+        return notificationID;
     }
 
-    public void setFromAccount(Account fromAccount) {
-        this.fromAccount = fromAccount;
+    public void setNotificationID(int notificationID) {
+        this.notificationID = notificationID;
     }
 
     public Account getToAccount() {
@@ -76,13 +40,29 @@ public class Notification {
         this.toAccount = toAccount;
     }
 
-    public int getNotiType() {
-        return notiType;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setNotiType(int notiType) {
-        this.notiType = notiType;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
- 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    
 }

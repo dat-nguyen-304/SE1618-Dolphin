@@ -38,10 +38,10 @@ public class ProvinceDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         return list;
     }
-    
+
     public static Province findById(int id) {
         Province province = null;
         Connection cn = null;
@@ -63,13 +63,13 @@ public class ProvinceDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         return province;
     }
-    
+
     public static void main(String[] args) {
-        for (Province district : findAll()) {
-            System.out.println(district);
+        for (Province province : findAll()) {
+            System.out.println(province.getProvinceID() + " " + province.getProvinceName());
         }
     }
 }

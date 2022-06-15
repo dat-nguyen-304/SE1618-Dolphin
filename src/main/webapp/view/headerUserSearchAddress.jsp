@@ -3,6 +3,7 @@
     Created on : Jun 15, 2022, 8:19:38 AM
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="header">
     <!--LEFT-->
     <div class="header-left">
@@ -10,21 +11,26 @@
             <img id="logo-header" src="/sakura/assets/icons/logo.png" alt="">
             <h3 id="name-header">Sakura</h3>
         </a>
+
         <div class="home-filter">
-            <form action="" class="filter">
-                <select id="province" class="filter-address">
-                    <option value="">Thành phố</option>
+            <form action="/sakura/hostel/list" class="filter">
+                <select id="province" name="province" class="filter-address" onchange="renderDistrict(this)">
+                    <option value="0">Tỉnh</option>
+                    <c:forEach items="${requestScope.provinceList}" var="province">
+                        <option value="${province.provinceID}">${province.provinceName}</option>
+                    </c:forEach>
                 </select>
-                <select id="district" class="filter-address">
-                    <option value="">Quận huyện</option>
+                <select id="district" name="district" class="filter-address">
+                    <option value='0'>Quận huyện</option>
                 </select>
                 <div class="filter-submit">
-                    <button class="btn btn-search" type="button">
+                    <button class="btn btn-search" type="submit">
                         Lọc
                     </button>
                 </div>
             </form>
         </div>
+
     </div>
     <div class="header-right">
         <!--RIGHT-->
@@ -68,4 +74,23 @@
             toggleMenu.classList.toggle("active");
         }
     });
+</script>
+
+<script>
+    function renderDistrict(element) {
+        var provinceID = element.value;
+        var districtElemet = document.querySelector('#district');
+        jQuery.ajax({
+            type: 'POST',
+            data: {'provinceID': provinceID},
+            url: '/sakura/hostel/address',
+            success: function (response) {
+                districtElemet.innerHTML = "<option value='0'>Quận huyện</option>" + response;
+            },
+            error: function () {
+            },
+            complete: function (result) {
+            }
+        });
+    }
 </script>

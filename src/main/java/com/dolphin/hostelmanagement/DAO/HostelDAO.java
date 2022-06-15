@@ -6,7 +6,6 @@ package com.dolphin.hostelmanagement.DAO;
 
 import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.Hostel;
-import com.dolphin.hostelmanagement.DTO.ImageHostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.utils.DBUtils;
@@ -392,6 +391,6 @@ public class HostelDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(findLandlordID(3));
+
     }
 }

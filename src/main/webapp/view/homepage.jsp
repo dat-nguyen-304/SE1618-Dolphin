@@ -82,7 +82,7 @@
             </div>
             <div class="home-filter">
                 <div data-aos="fade-up" class="row filter-container">
-                    <form action="" class="filter">
+                    <form action="/sakura/hostel/list" class="filter">
                         <select id="province" class="filter-address">
                             <option value="">Chọn thành phố</option>
                         </select>

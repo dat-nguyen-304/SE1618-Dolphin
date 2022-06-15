@@ -44,8 +44,8 @@ public class RoomDAO {
                         int advertisedPrice = rs.getInt("advertisedPrice");
                         
                         
-                        list.add(new Room(roomID, hostel, roomNumber, 
-                                area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice));
+//                        list.add(new Room(roomID, hostel, roomNumber, 
+//                                area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice));
                     }
                 }
             }
@@ -87,8 +87,8 @@ public class RoomDAO {
                         int currentNumberOfResident = rs.getInt("currentNoResidents");
                         int advertisedPrice = rs.getInt("advertisedPrice");
                         
-                        list.add(new Room(roomID, hostel, roomNumber, 
-                                area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice));
+//                        list.add(new Room(roomID, hostel, roomNumber, 
+//                                area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice));
                     }
                 }
             }
@@ -134,7 +134,7 @@ public class RoomDAO {
                 int status = rs.getInt("status");
                 ArrayList<String> images = null; //cho nay em chua biet lam sao :D
 
-                room = new Room(roomID, hostel, roomNumber, area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice);
+//                room = new Room(roomID, hostel, roomNumber, area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice);
             }
         }
         catch(Exception e) {
@@ -146,7 +146,7 @@ public class RoomDAO {
     
     public static void main(String args[]) {
         for(Room room: findByHostelID(1)) {
-            System.out.println(room.getArea());
+//            System.out.println(room.getArea());
         }
     }
 }

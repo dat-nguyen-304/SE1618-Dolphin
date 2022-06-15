@@ -28,7 +28,6 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../assets/css/hostel-list.css">
-        <!--<link rel="stylesheet" href="../assets/css/header.css">-->
         <!--<link rel="stylesheet" href="../assets/css/hostel-list-responsive.css">-->
         <link rel="stylesheet" href="../assets/css/fix-hostel-list.css">
         <link rel="stylesheet" href="../assets/css/header-user-search-address.css">
@@ -43,9 +42,15 @@
 
             <div class="w-[60%] mx-auto py-5">
                 <div class="grid grid-cols-2">
-                    <form action="/sakura/hostel/list" class="input-group relative flex w-[90%] h-[50px] mb-4" method="post">
+                    <form action="/sakura/hostel/list" class="input-group relative flex w-[90%] h-[50px] mb-4" method="get">
                         <c:if test="${requestScope.favorite == true}">
                             <input type="hidden" name="favorite" value="true"/>
+                        </c:if>
+                        <c:if test="${requestScope.province != null}">
+                            <input type="hidden" name="province" value="${requestScope.province}"/>
+                        </c:if>
+                        <c:if test="${requestScope.district != null}">
+                            <input type="hidden" name="district" value="${requestScope.district}"/>
                         </c:if>
                         <input id="search-hostel" type="search" name="keyword" value="${requestScope.keyword}"
                                class="form-control relative block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 border-r-0 rounded-tl-md rounded-bl-md transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-[#17535B] focus:outline-none" placeholder="Nhập tên phòng trọ..." aria-label="Search" aria-describedby="button-addon2">
@@ -67,6 +72,12 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
+                                            <c:if test="${requestScope.province != null}">
+                                                <input type="hidden" name="province" value="${requestScope.province}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.district != null}">
+                                                <input type="hidden" name="district" value="${requestScope.district}"/>
+                                            </c:if>
                                             <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
                                         </form>
                                     </li>
@@ -77,6 +88,12 @@
                                             </c:if>
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.province != null}">
+                                                <input type="hidden" name="province" value="${requestScope.province}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.district != null}">
+                                                <input type="hidden" name="district" value="${requestScope.district}"/>
                                             </c:if>
                                             <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
                                         </form>
@@ -96,6 +113,12 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
+                                            <c:if test="${requestScope.province != null}">
+                                                <input type="hidden" name="province" value="${requestScope.province}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.district != null}">
+                                                <input type="hidden" name="district" value="${requestScope.district}"/>
+                                            </c:if>
                                             <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
                                         </form>
                                     </li>
@@ -106,6 +129,12 @@
                                             </c:if>
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.province != null}">
+                                                <input type="hidden" name="province" value="${requestScope.province}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.district != null}">
+                                                <input type="hidden" name="district" value="${requestScope.district}"/>
                                             </c:if>
                                             <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
                                         </form>
@@ -118,6 +147,12 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
+                                            <c:if test="${requestScope.province != null}">
+                                                <input type="hidden" name="province" value="${requestScope.province}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.district != null}">
+                                                <input type="hidden" name="district" value="${requestScope.district}"/>
+                                            </c:if>
                                             <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
                                         </form>
                                     </li>
@@ -128,6 +163,12 @@
                                             </c:if>
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.province != null}">
+                                                <input type="hidden" name="province" value="${requestScope.province}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.district != null}">
+                                                <input type="hidden" name="district" value="${requestScope.district}"/>
                                             </c:if>
                                             <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
                                         </form>
@@ -296,6 +337,12 @@
                                     <c:if test="${requestScope.sortByRate != null}">
                                         <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
                                     </c:if>
+                                    <c:if test="${requestScope.province != null}">
+                                        <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.district != null}">
+                                        <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                    </c:if>
                                     <button type="submit" name="paging" value="1"><i class="bi bi-arrow-bar-left"></i></button>
                                 </form>
                             </li>
@@ -303,6 +350,12 @@
                             <li class="pagination-item pagination-previous">
                                 <form action="/sakura/hostel/list">
                                     <c:if test="${requestScope.currentPage > 1}">
+                                        <c:if test="${requestScope.province != null}">
+                                            <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.district != null}">
+                                            <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                        </c:if>
                                         <c:if test="${requestScope.keyword != null}">
                                             <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                         </c:if>
@@ -331,6 +384,12 @@
                                     <li class="pagination-item">
                                     </c:if>
                                     <form action="/sakura/hostel/list">
+                                        <c:if test="${requestScope.province != null}">
+                                            <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.district != null}">
+                                            <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                        </c:if>
                                         <c:if test="${requestScope.keyword != null}">
                                             <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                         </c:if>
@@ -350,6 +409,12 @@
                             </c:forEach>
                             <li class="pagination-item pagination-next">
                                 <form action="/sakura/hostel/list">
+                                    <c:if test="${requestScope.province != null}">
+                                        <input type="hidden" name="province" value="${requestScope.province}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.district != null}">
+                                        <input type="hidden" name="district" value="${requestScope.district}"/>
+                                    </c:if>
                                     <c:if test="${requestScope.keyword != null}">
                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                     </c:if>
@@ -367,6 +432,12 @@
                             </li>
                             <li class="pagination-item pagination-next pagination-next--fast">
                                 <form action="/sakura/hostel/list">
+                                    <c:if test="${requestScope.province != null}">
+                                        <input type="hidden" name="province" value="${requestScope.province}"/>
+                                    </c:if>
+                                    <c:if test="${requestScope.district != null}">
+                                        <input type="hidden" name="district" value="${requestScope.district}"/>
+                                    </c:if>
                                     <c:if test="${requestScope.keyword != null}">
                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                     </c:if>
@@ -495,5 +566,6 @@
                                                                         }
 
         </script>
+
     </body>
 </html>
