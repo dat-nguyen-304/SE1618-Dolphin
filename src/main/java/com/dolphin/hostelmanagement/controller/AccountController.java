@@ -12,6 +12,7 @@ import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Tenant;
+import com.dolphin.hostelmanagement.utils.PasswordHash;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -66,6 +67,11 @@ public class AccountController extends HttpServlet {
                     System.out.println("Current pwd: " + currentPassword);
                     System.out.println("New pwd: " + newPassword);
                     System.out.println("Newc pwd: " + newPasswordConfirm);
+                    
+                    String hashedCurrentPassword = PasswordHash.doHashing(currentPassword);
+                    String hashedNewPassword = PasswordHash.doHashing(newPassword);
+                            
+                    
                     int role = (int) session.getAttribute("role");
                     url = "/view/changePassword.jsp";
                     //System.out.println("Role: " + role);
@@ -80,14 +86,14 @@ public class AccountController extends HttpServlet {
                     }
 
                     //System.out.println("username: " + acc.getUsername());
-                    if (acc.getPassword().compareTo(currentPassword) != 0) {
+                    if (acc.getPassword().compareTo(hashedCurrentPassword) != 0) {
                         request.setAttribute("errorMessage", "Wrong current password!");
                     } else if (newPassword.compareTo(newPasswordConfirm) != 0) {
                         request.setAttribute("errorMessage", "New passwords don't match!");
                     } else {
                         request.setAttribute("errorMessage", "Successfully changed password!");
-                        AccountDAO.changePassword(acc.getAccountID(), newPassword);
-                        acc.setPassword(newPassword);
+                        AccountDAO.changePassword(acc.getAccountID(), hashedNewPassword);
+                        acc.setPassword(hashedNewPassword);
                     }
                 } else {
                     url = "/view/changePassword.jsp";

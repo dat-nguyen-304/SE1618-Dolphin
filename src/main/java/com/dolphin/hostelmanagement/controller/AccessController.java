@@ -12,6 +12,7 @@ import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.utils.EmailService;
+import com.dolphin.hostelmanagement.utils.PasswordHash;
 import com.dolphin.hostelmanagement.utils.StringUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,7 +46,7 @@ public class AccessController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String url = ERROR;
             String path = request.getPathInfo();
@@ -58,15 +59,18 @@ public class AccessController extends HttpServlet {
                     //System.out.println("Hajjjj: " + username + " " + password);
                     if (logout == null) {
                         if (username != null && password != null) {
+
+                            String hashedPassword = PasswordHash.doHashing(password);
+
                             Account acc = null;
 
                             if (username.contains("@")) {
                                 System.out.println("I logged in by email!");
-                                acc = AccountDAO.loginByEmail(username, password);
+                                acc = AccountDAO.loginByEmail(username, hashedPassword);
 
                             } else {
                                 System.out.println("I logged in by username!");
-                                acc = AccountDAO.login(username, password);
+                                acc = AccountDAO.login(username, hashedPassword);
                             }
 
                             if (acc != null) {
@@ -83,7 +87,7 @@ public class AccessController extends HttpServlet {
                                     session.setAttribute("currentUser", landlord);
                                 }
                                 response.sendRedirect("/sakura/hostel/list");
-                                return ;
+                                return;
                             } else {
                                 request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
                                 url = "/view/login.jsp";
@@ -110,7 +114,9 @@ public class AccessController extends HttpServlet {
                 String password = request.getParameter("password");
                 if (username != null && password != null) {
                     try {
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+                        String hashedPassword = PasswordHash.doHashing(password);
+
                         String email = request.getParameter("email");
                         String fullname = request.getParameter("fullname");
                         String phone = request.getParameter("phone");
@@ -119,10 +125,10 @@ public class AccessController extends HttpServlet {
                         boolean status = true;
                         boolean check = false;
                         if (role == 1) {
-                            Tenant t = new Tenant(new Account(0, username, password, email, regDate, role, status), fullname, phone, false);
+                            Tenant t = new Tenant(new Account(0, username, hashedPassword, email, regDate, role, status), fullname, phone, false);
                             check = TenantDAO.save(t);
                         } else {
-                            Landlord l = new Landlord(new Account(0, username, password, email, regDate, role, status), fullname, phone);
+                            Landlord l = new Landlord(new Account(0, username, hashedPassword, email, regDate, role, status), fullname, phone);
                             check = LandlordDAO.save(l);
                         }
                         if (check) {
