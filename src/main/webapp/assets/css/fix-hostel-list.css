@@ -23,8 +23,8 @@ input, input:focus, input:active {
 }
 
 .search-result-dsc  {
-    font-weight: 700;
-    font-size: 23px;
+    font-weight: 500;
+    font-size: 14px;
     color: #38405C;
 }
 

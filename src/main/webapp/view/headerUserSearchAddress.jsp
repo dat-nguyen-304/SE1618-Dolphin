@@ -15,13 +15,24 @@
         <div class="home-filter">
             <form action="/sakura/hostel/list" class="filter">
                 <select id="province" name="province" class="filter-address" onchange="renderDistrict(this)">
+
                     <option value="0">Tỉnh</option>
                     <c:forEach items="${requestScope.provinceList}" var="province">
-                        <option value="${province.provinceID}">${province.provinceName}</option>
+                        <c:if test="${province.provinceID == requestScope.province.provinceID}">
+                            <option selected value="${province.provinceID}">${province.provinceName}</option>
+                        </c:if>
+                        <c:if test="${province.provinceID != requestScope.province.provinceID}">
+                            <option value="${province.provinceID}">${province.provinceName}</option>
+                        </c:if>
                     </c:forEach>
+
+
                 </select>
                 <select id="district" name="district" class="filter-address">
                     <option value='0'>Quận huyện</option>
+                    <c:if test="${requestScope.district != null && requestScope.district.districtID != 0}">
+                        <input type="hidden" class="districtSelected-hidden" value="${requestScope.district.districtID}" />
+                    </c:if>
                 </select>
                 <div class="filter-submit">
                     <button class="btn btn-search" type="submit">
@@ -79,10 +90,10 @@
 <script>
     function renderDistrict(element) {
         var provinceID = element.value;
-        var districtElemet = document.querySelector('#district');
         jQuery.ajax({
             type: 'POST',
-            data: {'provinceID': provinceID},
+            data: {'provinceID': provinceID
+            },
             url: '/sakura/hostel/address',
             success: function (response) {
                 districtElemet.innerHTML = "<option value='0'>Quận huyện</option>" + response;
@@ -94,3 +105,5 @@
         });
     }
 </script>
+
+

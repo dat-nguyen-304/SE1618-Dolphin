@@ -149,9 +149,13 @@ public class HostelController extends HttpServlet {
 
                     if (request.getParameter("province") != null && !request.getParameter("province").equals("0")) {
                         int provinceID = Integer.parseInt(request.getParameter("province"));
-                        int districtID = Integer.parseInt(request.getParameter("district"));
+                        int districtID = 0;
+                        if (request.getParameter("district") != null && !request.getParameter("district").equals("0")) {
+                            districtID = Integer.parseInt(request.getParameter("district"));
+                        }
                         List<Hostel> hostelListTmp = new ArrayList<>();
-                        request.setAttribute("province", provinceID);
+                        Province province = ProvinceDAO.findById(provinceID);
+                        request.setAttribute("province", province);
                         if (districtID == 0) {
                             for (Hostel hostel : hostelList) {
                                 if (hostel.getDistrict().getProvince().getProvinceID() == provinceID) {
@@ -164,7 +168,8 @@ public class HostelController extends HttpServlet {
                                     hostelListTmp.add(hostel);
                                 }
                             }
-                            request.setAttribute("district", districtID);
+                            District district = DistrictDAO.findById(districtID);
+                            request.setAttribute("district", district);
                         }
                         hostelList = hostelListTmp;
                     }
@@ -179,53 +184,52 @@ public class HostelController extends HttpServlet {
                         hostelList = hostelListTmp;
                         request.setAttribute("keyword", keyword);
                     }
+                }
+                List<Province> provinceList = ProvinceDAO.findAll();
+                request.setAttribute("provinceList", provinceList);
 
-                    List<Province> provinceList = ProvinceDAO.findAll();
-                    request.setAttribute("provinceList", provinceList);
+                if (request.getParameter("sortByMinPrice") != null) {
+                    if (request.getParameter("sortByMinPrice").equals("asc")) {
+                        sortByMinPrice(hostelList, true);
+                        request.setAttribute("sortByMinPrice", "asc");
+                    } else {
+                        sortByMinPrice(hostelList, false);
+                        request.setAttribute("sortByMinPrice", "desc");
+                    }
+                }
+                if (request.getParameter("sortByMaxPrice") != null) {
+                    if (request.getParameter("sortByMaxPrice").equals("asc")) {
+                        sortByMaxPrice(hostelList, true);
+                        request.setAttribute("sortByMaxPrice", "asc");
+                    } else {
+                        sortByMaxPrice(hostelList, false);
+                        request.setAttribute("sortByMaxPrice", "desc");
+                    }
+                }
+                if (request.getParameter("sortByRate") != null) {
+                    if (request.getParameter("sortByRate").equals("asc")) {
+                        sortByRate(hostelList, true);
+                        request.setAttribute("sortByRate", "asc");
+                    } else {
+                        sortByRate(hostelList, false);
+                        request.setAttribute("sortByRate", "desc");
+                    }
+                }
 
-                    if (request.getParameter("sortByMinPrice") != null) {
-                        if (request.getParameter("sortByMinPrice").equals("asc")) {
-                            sortByMinPrice(hostelList, true);
-                            request.setAttribute("sortByMinPrice", "asc");
-                        } else {
-                            sortByMinPrice(hostelList, false);
-                            request.setAttribute("sortByMinPrice", "desc");
-                        }
-                    }
-                    if (request.getParameter("sortByMaxPrice") != null) {
-                        if (request.getParameter("sortByMaxPrice").equals("asc")) {
-                            sortByMaxPrice(hostelList, true);
-                            request.setAttribute("sortByMaxPrice", "asc");
-                        } else {
-                            sortByMaxPrice(hostelList, false);
-                            request.setAttribute("sortByMaxPrice", "desc");
-                        }
-                    }
-                    if (request.getParameter("sortByRate") != null) {
-                        if (request.getParameter("sortByRate").equals("asc")) {
-                            sortByRate(hostelList, true);
-                            request.setAttribute("sortByRate", "asc");
-                        } else {
-                            sortByRate(hostelList, false);
-                            request.setAttribute("sortByRate", "desc");
-                        }
-                    }
-
-                    if (session.getAttribute("favoriteHostelIds") != null) {
-                        List<Boolean> toggleList = new ArrayList<>();
-                        List<Integer> favHostelIds = (List<Integer>) session.getAttribute("favoriteHostelIds");
-                        for (Hostel hostel : hostelList) {
-                            boolean isFavorite = false;
-                            for (int i = 0; i < favHostelIds.size(); i++) {
-                                if (hostel.getHostelID() == favHostelIds.get(i)) {
-                                    isFavorite = true;
-                                    break;
-                                }
+                if (session.getAttribute("favoriteHostelIds") != null) {
+                    List<Boolean> toggleList = new ArrayList<>();
+                    List<Integer> favHostelIds = (List<Integer>) session.getAttribute("favoriteHostelIds");
+                    for (Hostel hostel : hostelList) {
+                        boolean isFavorite = false;
+                        for (int i = 0; i < favHostelIds.size(); i++) {
+                            if (hostel.getHostelID() == favHostelIds.get(i)) {
+                                isFavorite = true;
+                                break;
                             }
-                            toggleList.add(isFavorite);
                         }
-                        request.setAttribute("toggleList", toggleList);
+                        toggleList.add(isFavorite);
                     }
+                    request.setAttribute("toggleList", toggleList);
                 }
                 int itemQuantity = hostelList.size();
                 int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);
@@ -451,8 +455,20 @@ public class HostelController extends HttpServlet {
             else if (path.equals("/address")) {
                 int provinceID = Integer.parseInt(request.getParameter("provinceID"));
                 List<District> districtList = DistrictDAO.findByProvinceID(provinceID);
-                for (District district : districtList) {
-                    out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
+                int districtSelected = 0;
+                if (request.getParameter("districtSelected") != null && !request.getParameter("districtSelected").equals("")) {
+                    districtSelected = Integer.parseInt(request.getParameter("districtSelected"));
+                    for (District district : districtList) {
+                        if (district.getDistrictID() == districtSelected) {
+                            out.println("<option selected value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
+                        } else {
+                            out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
+                        }
+                    }
+                } else {
+                    for (District district : districtList) {
+                        out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
+                    }
                 }
 
             }
