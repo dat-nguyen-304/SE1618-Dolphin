@@ -16,10 +16,8 @@ import com.dolphin.hostelmanagement.utils.PasswordHash;
 import com.dolphin.hostelmanagement.utils.StringUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +58,7 @@ public class AccessController extends HttpServlet {
                     if (logout == null) {
                         if (username != null && password != null) {
 
-                            String hashedPassword = PasswordHash.doHashing(password);
+                            String hashedPassword = password;//PasswordHash.doHashing(password);
 
                             Account acc = null;
 
@@ -72,7 +70,10 @@ public class AccessController extends HttpServlet {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, hashedPassword);
                             }
-
+                            
+                            System.out.println("Cai loz gi z ?");
+                            System.out.println(username);
+                            System.out.println(password);
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
                                 if (acc.getRole() == 1) {
@@ -86,6 +87,7 @@ public class AccessController extends HttpServlet {
                                     Landlord landlord = LandlordDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", landlord);
                                 }
+                                System.out.println("hihi ?");
                                 response.sendRedirect("/sakura/hostel/list");
                                 return;
                             } else {

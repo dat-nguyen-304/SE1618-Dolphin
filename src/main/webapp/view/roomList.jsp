@@ -17,33 +17,53 @@
             <tr>
                 <td></td>
                 <td>Số phòng</td>
+                <td>Loại phòng</td>
                 <td>Diện tích</td>
-                <td>Trạng thái</td>
                 <td>Giá</td>
+                <td>Trạng thái</td>
+                <td>picture</td>
             </tr>
-            <c:forEach items = "${roomList}" var = "roomType">
+            <c:forEach items = "${roomTypeList}" varStatus = "ptr">
                 <tr>
-                    <td>Dạng phòng</td>
-                    <c:forEach items = "${roomType}" var = "room">
-                    <tr>
-                        <td></td>
-                        <td>${room.roomNumber}</td>
-                        <td>${room.area}</td>
-                        <c:choose>
-                            <c:when test="${room.status == 1}">
-                                <td>Trống</td></c:when> 
-                            <c:when test="${room.status == 2}">
-                                <td>Sắp</td></c:when>
-                            <c:otherwise>
-                                <td>Đủ</td></c:otherwise> 
-                        </c:choose>
-                        <td>${room.advertisedPrice}</td>
-                        <td>
-                            <form action = "/sakura/hostel/roomDetail" method = "post">
-                                <input type = "hidden" name = "roomID" value = "${room.roomID}">
-                                <button type ="submit">See detail
-                            </form></td>
-                    </tr>
+                    <c:forEach items = "${roomList[ptr.index]}" var = "room" varStatus = "ptr2"> <!-- 2 vong for -->
+                        <c:if test = "${(roomList[ptr.index][ptr2.index].status != 2)}">
+                            <c:if test = "${(roomList[ptr.index][ptr2.index].currentNumberOfResidents < roomTypeList[ptr.index].maxNumberOfResidents)}">
+                        <tr>
+                            <td></td>
+                            <td>${roomList[ptr.index][ptr2.index].roomNumber}</td>
+                            <td><c:out value = "${roomTypeList[ptr.index].roomTypeName}"/></td>
+                            <td><c:out value = "${roomTypeList[ptr.index].area}"/></td>
+                            <td><c:out value = "${roomTypeList[ptr.index].advertisedPrice}"/></td>
+                            <c:choose>
+                                <c:when test="${roomList[ptr.index][ptr2.index].status == 0}">
+                                    <td>Trống</td></c:when> 
+                                <c:when test="${roomList[ptr.index][ptr2.index].status == 1}">
+                                    <td>Sắp</td></c:when>
+                            </c:choose>
+                            <td>
+                                <div class="hostel-images">
+                                    <div class="carousel-inner">
+                                        <c:if test="${roomTypeList[ptr.index].imgList.size() > 0}">
+                                            <c:forEach begin="0" end="0" var="iterator">
+                                                <c:if test="${iterator == 0}">
+                                                    <div class="carousel-item active">
+                                                    </c:if>
+                                                    <img class="d-block w-100" height = "30" width = "30" src="${roomTypeList[ptr.index].imgList.get(iterator)}">
+                                                </div>
+                                            </c:forEach>
+                                        </c:if>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <form action = "/sakura/hostel/roomDetail" method = "post">
+                                    <input type = "hidden" name = "roomID" value = "${roomList[ptr.index][ptr2.index].roomID}">
+                                    <button type ="submit">See detail</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </c:if>
+                    </c:if>
                 </c:forEach>
             </tr>
         </c:forEach>

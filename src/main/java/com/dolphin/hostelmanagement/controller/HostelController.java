@@ -13,12 +13,14 @@ import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
 import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DTO.Province;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.DTO.District;
+import com.dolphin.hostelmanagement.DTO.RoomType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -392,22 +394,14 @@ public class HostelController extends HttpServlet {
                 }
             } else if (path.equals("/roomList")) {
                 int hostelID = Integer.parseInt(request.getParameter("hostelID"));
-                ArrayList<Room> fullRoomList = (ArrayList<Room>) RoomDAO.findByHostelID(hostelID);
-
+                ArrayList<RoomType> roomTypeList = (ArrayList<RoomType>) RoomTypeDAO.findByHostelID(hostelID);
                 ArrayList<ArrayList<Room>> roomList = new ArrayList<>();
-                roomList.add(new ArrayList<Room>());
+                for (RoomType rt : roomTypeList) {
+                    ArrayList<Room> rooms = RoomDAO.findByRoomTypeID(rt.getRoomTypeID());
+                    roomList.add(rooms);
+                }
 
-//                for (Room r : fullRoomList) {
-//                    ArrayList<Room> lastList = roomList.get(roomList.size() - 1);
-//                    if (lastList.isEmpty() || lastList.get(lastList.size() - 1).getArea() == r.getArea()) {
-//                        lastList.add(r);
-//                        roomList.set(roomList.size() - 1, lastList);
-//                    } else {
-//                        lastList = new ArrayList<>();
-//                        lastList.add(r);
-//                        roomList.add(lastList);
-//                    }
-//                }
+                request.setAttribute("roomTypeList", roomTypeList);
                 request.setAttribute("roomList", roomList);
                 request.getRequestDispatcher("/view/roomList.jsp").forward(request, response);
             } else if (path.equals("/roomDetail")) {

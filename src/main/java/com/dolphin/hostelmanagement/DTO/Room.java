@@ -8,20 +8,20 @@ import java.util.ArrayList;
 
 public class Room {
     private int roomID;
-    private int roomNumber;
-    private int currentNumberOfResident;
+    private String roomNumber;
+    private int currentNumberOfResidents;
     private int status;
-    private RoomType roomtype;
+    private RoomType roomType;
 
     public Room() {
     }
 
-    public Room(int roomID, int roomNumber, int currentNumberOfResident, int status, RoomType roomtype) {
+    public Room(int roomID, String roomNumber, int currentNumberOfResidents, int status, RoomType roomType) {
         this.roomID = roomID;
         this.roomNumber = roomNumber;
-        this.currentNumberOfResident = currentNumberOfResident;
+        this.currentNumberOfResidents = currentNumberOfResidents;
         this.status = status;
-        this.roomtype = roomtype;
+        this.roomType = roomType;
     }
 
     public int getRoomID() {
@@ -32,20 +32,20 @@ public class Room {
         this.roomID = roomID;
     }
 
-    public int getRoomNumber() {
+    public String getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(int roomNumber) {
+    public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    public int getCurrentNumberOfResident() {
-        return currentNumberOfResident;
+    public int getCurrentNumberOfResidents() {
+        return currentNumberOfResidents;
     }
 
-    public void setCurrentNumberOfResident(int currentNumberOfResident) {
-        this.currentNumberOfResident = currentNumberOfResident;
+    public void setCurrentNumberOfResidents(int currentNumberOfResidents) {
+        this.currentNumberOfResidents = currentNumberOfResidents;
     }
 
     public int getStatus() {
@@ -56,11 +56,13 @@ public class Room {
         this.status = status;
     }
 
-    public RoomType getRoomtype() {
-        return roomtype;
+    public RoomType getRoomType() {
+        return roomType;
     }
 
-    public void setRoomtype(RoomType roomtype) {
-        this.roomtype = roomtype;
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
+
+    
 }

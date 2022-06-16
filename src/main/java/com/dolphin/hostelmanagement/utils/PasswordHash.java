@@ -31,6 +31,6 @@ public class PasswordHash {
     
     public static void main(String[] args) {
         //PW = 12345678
-        System.out.println(doHashing("12345678"));
+        System.out.println(doHashing("1"));
     }
 }

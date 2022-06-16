@@ -6,6 +6,7 @@ package com.dolphin.hostelmanagement.DAO;
 
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Room;
+import com.dolphin.hostelmanagement.DTO.RoomType;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,7 +35,7 @@ public class RoomDAO {
                         int roomID = rs.getInt("roomId");
                         int hostelID = rs.getInt("hostelId");
                         Hostel hostel = HostelDAO.findById(hostelID);
-                        int roomNumber = rs.getInt("roomNumber");
+                        String roomNumber = rs.getString("roomNumber");
                         int area = rs.getInt("area");
                         ArrayList<String> images = null; //cho nay em chua biet lam sao :D
                         String description = rs.getNString("description");
@@ -42,8 +43,7 @@ public class RoomDAO {
                         int maxNumberOfResident = rs.getInt("maxNoResidents");
                         int currentNumberOfResident = rs.getInt("currentNoResidents");
                         int advertisedPrice = rs.getInt("advertisedPrice");
-                        
-                        
+
 //                        list.add(new Room(roomID, hostel, roomNumber, 
 //                                area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice));
                     }
@@ -62,33 +62,28 @@ public class RoomDAO {
         }
         return list;
     }
-    
-    public static List<Room> findByHostelID(int hostelID) {
-        List<Room> list = null;
+
+    public static ArrayList<Room> findByRoomTypeID(int roomTypeID) {
+        ArrayList<Room> list = null;
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select * from Room where hostelID = ? order by area, advertisedPrice";
+                String sql = "select * from Room where roomTypeID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
-                pst.setInt(1, hostelID);
+                pst.setInt(1, roomTypeID);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
                         int roomID = rs.getInt("roomID");
-                        Hostel hostel = HostelDAO.findById(hostelID);
-                        int roomNumber = rs.getInt("roomNumber");
-                        int area = rs.getInt("area");
-                        ArrayList<String> images = null; //cho nay em chua biet lam sao :D
-                        String description = rs.getNString("description");
+                        String roomNumber = rs.getString("roomNumber");
+                        int currentNoResidents = rs.getInt("currentNoResidents");
                         int status = rs.getInt("status");
-                        int maxNumberOfResident = rs.getInt("maxNoResidents");
-                        int currentNumberOfResident = rs.getInt("currentNoResidents");
-                        int advertisedPrice = rs.getInt("advertisedPrice");
-                        
-//                        list.add(new Room(roomID, hostel, roomNumber, 
-//                                area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice));
+
+                        RoomType roomType = RoomTypeDAO.findByID(roomTypeID);
+
+                        list.add(new Room(roomID, roomNumber, currentNoResidents, status, roomType));
                     }
                 }
             }
@@ -105,7 +100,7 @@ public class RoomDAO {
         }
         return list;
     }
-    
+
     public static Room findByID(int inputRoomID) {
         Room room = null;
 
@@ -121,32 +116,31 @@ public class RoomDAO {
 
             ResultSet rs = pst.executeQuery();
 
-            if(rs != null && rs.next()) {
-                    int roomID = rs.getInt("roomId");
-                int hostelID = rs.getInt("hostelID");
-                Hostel hostel = HostelDAO.findById(hostelID);
-                int roomNumber = rs.getInt("roomNumber");
-                int area = rs.getInt("area");
-                String description = rs.getNString("description");
-                int maxNumberOfResident = rs.getInt("maxNoResidents");
+            if (rs != null && rs.next()) {
+                int roomID = rs.getInt("roomId");
+                String roomNumber = rs.getString("roomNumber");
                 int currentNumberOfResident = rs.getInt("currentNoResidents");
-                int advertisedPrice = rs.getInt("advertisedPrice");
                 int status = rs.getInt("status");
-                ArrayList<String> images = null; //cho nay em chua biet lam sao :D
+                int roomTypeID = rs.getInt("roomTypeID");
+                RoomType roomType = RoomTypeDAO.findByID(roomTypeID);
+                
+                room = new Room(roomID, roomNumber, currentNumberOfResident, status, roomType);
 
 //                room = new Room(roomID, hostel, roomNumber, area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice);
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return room;
     }
-    
+
     public static void main(String args[]) {
-        for(Room room: findByHostelID(1)) {
-//            System.out.println(room.getArea());
-        }
+        //for (Room room : findByRoomTypeID(1)) {
+        //    System.out.println(room.getCurrentNumberOfResidents());
+        //}
+        System.out.println(findByID(1).getRoomNumber());
+        System.out.println(findByID(2).getRoomNumber());
+        System.out.println(findByID(6).getRoomNumber());
     }
 }
