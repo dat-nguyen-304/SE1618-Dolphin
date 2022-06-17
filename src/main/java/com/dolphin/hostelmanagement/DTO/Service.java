@@ -4,23 +4,23 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
-import java.util.Date;
+import java.time.YearMonth;
 
 public class Service {
     private int serviceID;
     private String serviceName;
     private int serviceFee;
-    private Date appliedDate;
+    private YearMonth monthApplied;
     private Hostel hostel;
 
     public Service() {
     }
 
-    public Service(int serviceID, String serviceName, int serviceFee, Date appliedDate, Hostel hostel) {
+    public Service(int serviceID, String serviceName, int serviceFee, YearMonth monthApplied, Hostel hostel) {
         this.serviceID = serviceID;
         this.serviceName = serviceName;
         this.serviceFee = serviceFee;
-        this.appliedDate = appliedDate;
+        this.monthApplied = monthApplied;
         this.hostel = hostel;
     }
 
@@ -48,12 +48,12 @@ public class Service {
         this.serviceFee = serviceFee;
     }
 
-    public Date getAppliedDate() {
-        return appliedDate;
+    public YearMonth getMonthApplied() {
+        return monthApplied;
     }
 
-    public void setAppliedDate(Date appliedDate) {
-        this.appliedDate = appliedDate;
+    public void setMonthApplied(YearMonth monthApplied) {
+        this.monthApplied = monthApplied;
     }
 
     public Hostel getHostel() {

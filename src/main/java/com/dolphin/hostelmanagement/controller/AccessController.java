@@ -82,6 +82,11 @@ public class AccessController extends HttpServlet {
                                     session.setAttribute("currentUser", tenant);
                                     List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
                                     session.setAttribute("favoriteHostelIds", favHostelIds);
+                                    
+                                    if (tenant.isRentStatus()) {
+                                        response.sendRedirect("/sakura/tenant/dashboard");
+                                    }
+                                    
                                 } else {
                                     session.setAttribute("role", 2);
                                     Landlord landlord = LandlordDAO.findByAccount(acc);

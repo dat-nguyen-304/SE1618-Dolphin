@@ -83,16 +83,16 @@
             <div class="home-filter">
                 <div data-aos="fade-up" class="row filter-container">
                     <form action="/sakura/hostel/list" class="filter">
-                        <select id="province" class="filter-address">
+                        <select id="province" class="filter-address" name="province">
                             <option value="">Chọn thành phố</option>
                         </select>
 
-                        <select id="district" class="filter-address">
+                        <select id="district" class="filter-address" name="district">
                             <option value="">Chọn quận</option>
                         </select>
 
                         <div class="filter-submit">
-                            <button class="btn btn-search" type="button">
+                            <button class="btn btn-search" type="submit">
                                 <i class="bi-search"></i> Tìm phòng
                             </button>
                         </div>
