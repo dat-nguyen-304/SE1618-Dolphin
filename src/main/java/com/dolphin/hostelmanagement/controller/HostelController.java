@@ -5,6 +5,7 @@
 package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.AccountDAO;
+import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
@@ -271,6 +272,9 @@ public class HostelController extends HttpServlet {
 
                 List<Feedback> feedbackList = FeedbackDAO.findByHostelId(hostelId);
 
+                List<Province> provinceList = ProvinceDAO.findAll();
+                request.setAttribute("provinceList", provinceList);
+
                 if (session.getAttribute("currentUser") != null) {
                     Tenant t = (Tenant) session.getAttribute("currentUser");
                     boolean isFavorite = FavoriteHostelDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
@@ -471,6 +475,17 @@ public class HostelController extends HttpServlet {
                     }
                 }
 
+            } else if (path.equals("/sendRentalRequest")) {
+                
+                Tenant t = (Tenant) session.getAttribute("currentUser");
+                int roomID = Integer.parseInt(request.getParameter("roomID"));
+                
+                Date tmp = new Date();
+                BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomID, tmp, 1);
+                request.setAttribute("messageTitle", "Yêu cầu thành công!");
+                request.setAttribute("messageDetail", "Chủ nhà sẽ tiếp nhận yêu cầu và xác nhận lại với bạn.");
+
+                request.getRequestDispatcher("/hostel/list").forward(request, response);
             }
         }
     }

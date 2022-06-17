@@ -355,31 +355,8 @@ dd {
 /* ------------------------------------------------------------------- 
  * Spacing - (_document-setup)  
  * ------------------------------------------------------------------- */
-
-button,
-.button {
-    margin-bottom: 1.2rem;
-}
-
 fieldset {
     margin-bottom: 1.5rem;
-}
-
-input,
-textarea,
-select,
-pre,
-blockquote,
-figure,
-table,
-p,
-ul,
-ol,
-dl,
-form,
-.fluid-video-wrapper,
-.ss-custom-select {
-    margin-bottom: 3rem;
 }
 
 
@@ -719,127 +696,6 @@ select:-webkit-autofill:focus {
     transition             : background-color 5000s ease-in-out 0s;
 }
 
-
-
-/* ===================================================================
- *  06. buttons - (_button-essentials.scss)
- *
- * ------------------------------------------------------------------- */
-
-.button,
-button,
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
-    display           : inline-block;
-    font-size         : 1.5rem;
-    height            : 5.4rem;
-    line-height       : calc(5.4rem - .6rem);
-    padding           : 0 3rem;
-    margin            : 0 .3rem 1.2rem 0;
-    color             : #222222;
-    text-decoration   : none;
-    cursor            : pointer;
-    text-align        : center;
-    white-space       : nowrap;
-    border-radius     : .5rem;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition        : all 0.3s ease-in-out;
-    background-color  : #c5c5c5;
-    border            : .3rem solid #c5c5c5;
-}
-
-.button:hover,
-button:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-input[type="button"]:hover,
-.button:focus,
-button:focus,
-input[type="submit"]:focus,
-input[type="reset"]:focus,
-input[type="button"]:focus {
-    background-color: #b8b8b8;
-    border-color    : #b8b8b8;
-    color           : #000000;
-    outline         : 0;
-}
-
-.button.button-primary,
-button.button-primary,
-input[type="submit"].button-primary,
-input[type="reset"].button-primary,
-input[type="button"].button-primary {
-    background-color: #39b54a;
-    border-color    : #39b54a;
-    color           : #FFFFFF;
-}
-
-.button.button-primary:hover,
-button.button-primary:hover,
-input[type="submit"].button-primary:hover,
-input[type="reset"].button-primary:hover,
-input[type="button"].button-primary:hover,
-.button.button-primary:focus,
-button.button-primary:focus,
-input[type="submit"].button-primary:focus,
-input[type="reset"].button-primary:focus,
-input[type="button"].button-primary:focus {
-    background  : #309a3f;
-    border-color: #309a3f;
-}
-
-button.full-width,
-.button.full-width {
-    width       : 100%;
-    margin-right: 0;
-}
-
-button.medium,
-.button.medium {
-    height     : 5.7rem !important;
-    line-height: calc(5.7rem - .6rem) !important;
-}
-
-button.large,
-.button.large {
-    height     : 6rem !important;
-    line-height: calc(6rem - .6rem) !important;
-}
-
-button.stroke,
-.button.stroke {
-    background: transparent !important;
-    color     : #a5a5a5 !important;
-}
-
-button.stroke:hover,
-.button.stroke:hover {
-    border: 0.3rem solid #39b54a;
-    color : #39b54a;
-}
-
-button.pill,
-.button.pill {
-    padding-left : 3rem !important;
-    padding-right: 3rem !important;
-    border-radius: 1000px;
-}
-
-button::-moz-focus-inner,
-input::-moz-focus-inner {
-    border : 0;
-    padding: 0;
-}
-
-
-
-/* ===================================================================
- *  07. other components - (_others.scss)
- *
- * ------------------------------------------------------------------- */
-
-
 /* ------------------------------------------------------------------- 
  * alert box - (_alert-box.scss)
  * ------------------------------------------------------------------- */
@@ -1136,7 +992,7 @@ h1.intro-header::before {
     left            : 0;
     width           : 100%;
     height          : 100%;
-    opacity         : .4;
+    opacity         : .6;
     background-color: #000000;
 }
 
@@ -1175,7 +1031,7 @@ h1.intro-header::before {
 
 .parallax {
     /* The image used */
-    background-image: url("../images/homepage-images/hero5.jpg");
+    background-image: url("../images/homepage-images/hero.jpg");
 
     /* Set a specific height */
     min-height: 100vh;

@@ -10,22 +10,20 @@
     </a>
     <!-- left header section -->
     <div class="item-list">
-        <a class="item select" href="/sakura/home">Trang chủ</a>
-        <a class="item" href="/sakura/hostel/list">Thuê phòng</a>
+        <a class="item  ${empty requestScope['javax.servlet.forward.servlet_path'] ? 'select' : ''}" href="/sakura">Trang chủ</a>
+        <a class="item  ${requestScope['javax.servlet.forward.servlet_path'] == '/hostel' ? 'select' : ''}" href="/sakura/hostel/list">Thuê phòng</a>
     </div>
     <!-- right header section -->
     <div class="profile">
-        <form action = "/sakura/account/myNotification" method = "post">
-            <button type ="submit" name = "action"> Thông báo </button>
-        </form>
-        <div class="profile-avatar" onclick="menuToggle()" >    
-            <img src="${sessionScope.currentUser.account.avatar}" alt="">
+
+        <div class="profile-avatar">    
+            <img id="profile-btn" src="${empty sessionScope.currentUser.account.avatar ? "/sakura/assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="">
         </div>
         <div class="profile-menu">
             <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
             <ul>
                 <form action = "/sakura/access/login" method = "post">
-                    <a href="/sakura/account/userProfile">
+                    <a href="/sakura/account/profile">
                         <li><span><i class="bi bi-person-fill"></i>Trang cá nhân</span></li>
                     </a>
                     <a href="/sakura/account/changePassword">

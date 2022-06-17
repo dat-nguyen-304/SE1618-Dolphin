@@ -1,0 +1,215 @@
+/* 
+    Created on : Jun 15, 2022, 11:02:14 AM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
+
+a {
+    text-decoration: none;
+}
+
+#header-section {
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+#header-section.stick {
+    background-color: #ffffff;
+    box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
+}
+
+nav.header {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    transition: all 0.2s ease-in-out;
+}
+
+.header-left, .header-right {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.header-left {
+    width: 50%;
+}
+
+nav .logo {
+    display: flex;
+    align-items: center;
+}
+
+nav .logo h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    align-items: center;
+    margin: 0;
+}
+
+#header-section.stick nav .logo h3 {
+    color: #17535B;
+}
+
+nav .logo img {
+    width: 30px;
+    height: auto;
+    margin-right: 10px;
+}
+
+nav .item-list {
+    display: flex;
+    align-items: center;
+}
+
+nav .item-list .item {
+    font-size: 17px;
+    font-weight: 500;
+    color: #bebebe;
+    padding: 0 15px;
+}
+
+nav .item-list .item.select, nav .item-list .item:hover {
+    color: #ffffff;
+}
+
+#header-section.stick nav .item-list .item {
+    color: #bbbbbb;
+}
+
+#header-section.stick nav .item-list .item.select, #header-section.stick nav .item-list .item:hover {
+    color: #FF6532;
+}
+
+nav .access {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+nav .access a {
+    height: 80%;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    color: #17535B;
+    background: #ffffff;
+    border-radius: 4px;
+    border: none;
+    margin: 0;
+    font-weight: 600;
+    font-size: 17px;
+    cursor: pointer;
+    margin-left: 20px;
+    color: #e2e2e2;
+
+}
+
+#header-section.stick nav .access a {
+    color: #E6EEF1;
+    background: #17535B;
+}
+
+nav .access a:hover {
+    transform: scale(0.95, 0.95);
+}
+
+nav .access a:last-child {
+    color: #e7e7e7;
+    /* border: 1px solid #e7e7e7; */
+    /* box-shadow: 1px #e7e7e7 inset; */
+    outline: 1px solid #e7e7e7;
+    outline-offset: -1px;
+    background-color: transparent;
+}
+
+#header-section.stick nav .access a:last-child {
+    color: #757575;
+    outline: 1px solid #757575;
+    background-color: transparent;
+}
+
+/*Filter address*/
+.home-filter {
+    max-width: 500px;
+    width: fit-content;
+    height: 100%;
+    padding: 5px 10px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.filter {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #F5F5F5;
+}
+
+/* Hide arrow  */
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.filter-address {
+    margin: 0;
+    background-color: transparent;
+    color: #17535B;
+    width: fit-content;
+    padding: 0 20px;
+    height: 70%;
+    text-align: center;
+    outline: none;
+}
+
+.filter-address:first-child {
+    border-right: 1px solid #88b6b3;
+}
+
+.filter-submit {
+    width: 20%;
+    height: 100%;
+}
+
+.filter-submit button {
+    background-color: #17535B;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    height: 100%;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-size: 15px;
+    margin: 0;
+    padding: 10px 20px;
+}
+
+.filter-submit button:hover {
+    color: #fff;
+    background-color: #13484F;
+}
+
+.filter-submit button:focus, .filter-submit button:active, .filter-submit button:target {
+    outline: none;
+    color: #fff;
+    background-color: #13484F;
+}

@@ -53,8 +53,8 @@ footer {
 
 .carousel-item img {
     border-radius: 4px;
-    overflow     : hidden;
-    height: 400px;
+    overflow     :hidden;
+    height: 450px;
     object-fit: cover;
 }
 
@@ -135,8 +135,8 @@ footer {
 }
 
 .landlord-avatar img {
-    width        : 50px;
-    height       : 50px;
+    width        : 30px;
+    height       : 30px;
     border-radius: 100%;
     object-fit   : cover;
 }
@@ -144,7 +144,6 @@ footer {
 .landlord-name,
 .landlord-phone,
 .landlord-email {
-    margin-left: 12px;
     color      : var(--dark-primary-color);
     font-weight: 500;
     font-size  : 16px;
@@ -160,13 +159,12 @@ footer {
 }
 
 .landlord-messenger {
-    font-size: 24px;
-    color    : #5757bd;
+    font-size: 30px;
+    color    : #0083FF;
 }
 
 .landlord-phone,
 .landlord-email {
-    margin-left: 62px;
     padding    : 5px 0;
 }
 

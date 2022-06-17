@@ -7,12 +7,11 @@
 <%@page import="com.dolphin.hostelmanagement.DTO.Tenant"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>User profile</title>
 
         <!-- Font -->
@@ -64,7 +63,7 @@
                     <!--code for notification ends-->
 
                     <div class="profile-container w-[55%] h-[75%] p-[30px] border border-[#17535b2d] flex justify-center rounded-lg mt-[30px]">
-                        <form id="user-profile-form" class="w-full h-full flex p-0 m-0 mx-auto" action="/sakura/account/userProfile" method="post" enctype="multipart/form-data">
+                        <form id="user-profile-form" class="w-full h-full flex p-0 m-0 mx-auto" action="/sakura/account/profile" method="post" enctype="multipart/form-data">
                             <!-- Left Side -->
                             <div class="profile-left w-[30%] h-full relative">
                                 <!-- Profile Card -->
@@ -74,7 +73,7 @@
                                             <input id="image-upload" type="file" name="image" />
                                             <label for="image-upload"><i class="bi bi-pen-fill"></i></label>
                                         </div>
-                                        <img id="image-preview" src="${sessionScope.currentUser.account.avatar}" alt="">
+                                        <img id="image-preview" src="${empty sessionScope.currentUser.account.avatar ? "../assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="">
                   
                                     </div>
                                     <h1 class="text-[25px] font-semibold text-[#FF6532] mt-[20px]">${sessionScope.currentUser.fullname}</h1>
@@ -83,7 +82,7 @@
                                 </div>
                                 <ul class="addition w-full h-auto p-2 absolute bottom-0 bg-[#f6fafc] rounded-lg">
                                     <li>
-                                        <span>Trạng thái</span>
+                                        <span>Trạng thái ${requestScope.message}</span>
                                         <span class="label">${sessionScope.currentUser.account.activate == true ? "Active" : "Inactive"}</span>
                                     </li>
                                     <li>
@@ -119,10 +118,10 @@
                                                 <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}">
                                                 <!--<p class="error" id="usernameError">Tên đăng nhập không hợp lệ</p>-->
                                             </div>
-                                            <div class="detail-item">
+<!--                                            <div class="detail-item">
                                                 <label for="birthday">Ngày sinh</label>
                                                 <p id="birthday">19 / 11 / 2002</p>
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <div class="info-title">
                                             <i class="bi bi-chat-square-text-fill"></i>

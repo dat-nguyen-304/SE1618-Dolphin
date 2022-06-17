@@ -10,8 +10,8 @@
     </a>
     <!-- left header section -->
     <div class="item-list">
-        <a class="item select" href="#">Trang chủ</a>
-        <a class="item" href="#">Thuê phòng</a>
+        <a class="item select" href="/sakura">Trang chủ</a>
+        <a class="item" href="/sakura/hostel/list">Thuê phòng</a>
         <a class="item" href="#">Đăng tin nhà trọ</a>
     </div>
     <!-- right header section -->

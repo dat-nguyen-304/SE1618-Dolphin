@@ -67,11 +67,10 @@ public class AccountController extends HttpServlet {
                     System.out.println("Current pwd: " + currentPassword);
                     System.out.println("New pwd: " + newPassword);
                     System.out.println("Newc pwd: " + newPasswordConfirm);
-                    
+
                     String hashedCurrentPassword = PasswordHash.doHashing(currentPassword);
                     String hashedNewPassword = PasswordHash.doHashing(newPassword);
-                            
-                    
+
                     int role = (int) session.getAttribute("role");
                     url = "/view/changePassword.jsp";
                     //System.out.println("Role: " + role);
@@ -102,7 +101,7 @@ public class AccountController extends HttpServlet {
                 ex.printStackTrace();
             }
             request.getRequestDispatcher(url).forward(request, response);
-        } else if (path.equals("/profile")) {
+        } else if (path.equals("/cprofile")) {
             request.setAttribute("message", null);
             url = "/view/userProfile.jsp";
             request.getRequestDispatcher(url).forward(request, response);
@@ -137,11 +136,11 @@ public class AccountController extends HttpServlet {
             } catch (Exception e) {
                 e.getMessage();
             }
-        } else if (path.equals("/userProfile")) {
+        } else if (path.equals("/profile")) {
             String fullname = request.getParameter("fullname");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
-               
+
             int changed = 0;
             if (fullname != null) {
                 HttpSession session = request.getSession(true);
@@ -151,7 +150,9 @@ public class AccountController extends HttpServlet {
 
                 if (role == 1) { //tenant
                     Tenant t = (Tenant) session.getAttribute("currentUser");
-                    if (!t.getFullname().equals(fullname) || !t.getPhone().equals(phone) || !t.getAccount().getEmail().equals(email)) changed = 1;
+                    if (!t.getFullname().equals(fullname) || !t.getPhone().equals(phone) || !t.getAccount().getEmail().equals(email)) {
+                        changed = 1;
+                    }
                     t.setFullname(fullname);
                     t.setPhone(phone);
                     t.getAccount().setEmail(email);
@@ -168,7 +169,9 @@ public class AccountController extends HttpServlet {
                     }
                 } else if (role == 2) { //landlord, "else if" in case we need a new role :D 
                     Landlord l = (Landlord) session.getAttribute("currentUser");
-                    if (!l.getFullname().equals(fullname) || !l.getPhone().equals(phone) || !l.getAccount().getEmail().equals(email)) changed = 1;
+                    if (!l.getFullname().equals(fullname) || !l.getPhone().equals(phone) || !l.getAccount().getEmail().equals(email)) {
+                        changed = 1;
+                    }
                     l.setFullname(fullname);
                     l.setPhone(phone);
                     l.getAccount().setEmail(email);
@@ -197,6 +200,7 @@ public class AccountController extends HttpServlet {
                         part.write(src);
                         copy(src, dest);
                         request.setAttribute("fileName", fileName);
+                        changed = 1;
                     } else {
                         System.out.println("Empty file");
                     }
@@ -205,7 +209,10 @@ public class AccountController extends HttpServlet {
                     e.printStackTrace();
                 }
 
-                if (changed == 1) request.setAttribute("message", "Lưu thành công!");
+                if (changed == 1) {
+                    System.out.println("Thay ava");
+                    request.setAttribute("message", "Lưu thành công!");
+                }
                 url = "/view/userProfile.jsp";
             } else {
                 request.setAttribute("message", "");
@@ -213,22 +220,20 @@ public class AccountController extends HttpServlet {
             }
 
             request.getRequestDispatcher(url).forward(request, response);
-        }
-        else if(path.equals("/myNotification")) {
+        } else if (path.equals("/myNotification")) {
             HttpSession session = request.getSession(true);
-            
+
             Account acc = null;
-            
+
             int role = (int) session.getAttribute("role");
-            if(role == 1) { //tenant
+            if (role == 1) { //tenant
                 Tenant t = (Tenant) session.getAttribute("currentUser");
                 acc = t.getAccount();
-            }
-            else {
+            } else {
                 Landlord l = (Landlord) session.getAttribute("currentUser");
                 acc = l.getAccount();
             }
-            
+
 //            ArrayList<Notification> notiList = NotificationDAO.getNotificationByToID(acc.getAccountID());
 //            for(Notification noti: notiList) {
 //                System.out.println(noti.getContent());
