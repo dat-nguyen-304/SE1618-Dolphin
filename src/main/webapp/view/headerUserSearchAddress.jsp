@@ -7,7 +7,7 @@
 <nav class="header">
     <!--LEFT-->
     <div class="header-left">
-        <a class="logo" href="#">
+        <a class="logo" href="/sakura/home">
             <img id="logo-header" src="/sakura/assets/icons/logo.png" alt="">
             <h3 id="name-header">Sakura</h3>
         </a>

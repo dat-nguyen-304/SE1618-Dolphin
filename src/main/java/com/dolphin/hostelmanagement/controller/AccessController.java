@@ -93,7 +93,7 @@ public class AccessController extends HttpServlet {
                                     session.setAttribute("currentUser", landlord);
                                 }
                                 System.out.println("hihi ?");
-                                response.sendRedirect("/sakura/hostel/list");
+                                response.sendRedirect("/sakura/home");
                                 return;
                             } else {
                                 request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");

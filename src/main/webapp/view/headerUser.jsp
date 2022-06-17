@@ -4,19 +4,19 @@
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
 <nav class="header">
-    <a class="logo" href="/sakura/">
+    <a class="logo" href="/sakura/home">
         <img id="logo-header" src="/sakura/assets/icons/logo.png" alt="">
         <h3 id="name-header">Sakura</h3>
     </a>
     <!-- left header section -->
     <div class="item-list">
-        <a class="item select" href="/sakura">Trang chủ</a>
-        <a class="item" href="#">Thuê phòng</a>
+        <a class="item select" href="/sakura/home">Trang chủ</a>
+        <a class="item" href="/sakura/hostel/list">Thuê phòng</a>
     </div>
     <!-- right header section -->
     <div class="profile">
         <form action = "/sakura/account/myNotification" method = "post">
-            <button type ="submit" name = "action"> My notification </button>
+            <button type ="submit" name = "action"> Thông báo </button>
         </form>
         <div class="profile-avatar" onclick="menuToggle()" >    
             <img src="${sessionScope.currentUser.account.avatar}" alt="">
