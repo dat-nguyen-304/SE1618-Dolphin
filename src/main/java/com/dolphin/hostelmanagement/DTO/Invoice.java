@@ -4,12 +4,12 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Invoice {
+
     private int invoiceID;
-    private Room room;
+    private Contract contract;
     private Date startDate;
     private Date endDate;
     private int status;
@@ -18,9 +18,9 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(int invoiceID, Room room, Date startDate, Date endDate, int status, int totalPrice) {
+    public Invoice(int invoiceID, Contract contract, Date startDate, Date endDate, int status, int totalPrice) {
         this.invoiceID = invoiceID;
-        this.room = room;
+        this.contract = contract;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
@@ -33,14 +33,6 @@ public class Invoice {
 
     public void setInvoiceID(int invoiceID) {
         this.invoiceID = invoiceID;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 
     public Date getStartDate() {
@@ -73,6 +65,18 @@ public class Invoice {
 
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
-    }  
-    
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{" + "invoiceID=" + invoiceID + ", contract=" + contract + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + ", totalPrice=" + totalPrice + '}';
+    }
 }

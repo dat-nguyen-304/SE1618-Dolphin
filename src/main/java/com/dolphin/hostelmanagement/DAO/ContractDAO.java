@@ -4,10 +4,93 @@
  */
 package com.dolphin.hostelmanagement.DAO;
 
+import com.dolphin.hostelmanagement.DTO.Contract;
+import com.dolphin.hostelmanagement.DTO.Hostel;
+import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DTO.Room;
+import com.dolphin.hostelmanagement.DTO.Tenant;
+import com.dolphin.hostelmanagement.utils.DBUtils;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Date;
+
 /**
  *
  * @author Admin
  */
 public class ContractDAO {
-    
+    public static Contract findByID(int id) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select * from Contract where contractID = ?";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                int contractID = rs.getInt("contractID");
+                Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                Tenant tenant = TenantDAO.findById(rs.getInt("tenantID"));
+                Landlord landlord = LandlordDAO.findById(rs.getInt("landlordID"));
+                Hostel hostel = HostelDAO.findById(rs.getInt("hostelID"));
+                Date startDate = rs.getDate("startDate");
+                Date endDate = rs.getDate("endDate");
+                int deposit = rs.getInt("deposit");
+                int status = rs.getInt("status");
+                int rentalFee = rs.getInt("rentalFeePerMonth");
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Contract findActiveContract(Tenant t) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select * from Contract where tenantID = ? and status = 1";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, t.getAccount().getAccountID());
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                int contractID = rs.getInt("contractID");
+                Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                Tenant tenant = TenantDAO.findById(rs.getInt("tenantID"));
+                Landlord landlord = LandlordDAO.findById(rs.getInt("landlordID"));
+                Hostel hostel = HostelDAO.findById(rs.getInt("hostelID"));
+                Date startDate = rs.getDate("startDate");
+                Date endDate = rs.getDate("endDate");
+                int deposit = rs.getInt("deposit");
+                int status = rs.getInt("status");
+                int rentalFee = rs.getInt("rentalFeePerMonth");
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(findActiveContract(TenantDAO.findById(3)));
+    }
 }

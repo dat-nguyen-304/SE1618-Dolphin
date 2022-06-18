@@ -82,13 +82,18 @@ public class AccessController extends HttpServlet {
                                     session.setAttribute("currentUser", tenant);
                                     List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
                                     session.setAttribute("favoriteHostelIds", favHostelIds);
+                                    
+                                    if (tenant.isRentStatus()) {
+                                        response.sendRedirect("/sakura/tenant/dashboard");
+                                    }
+                                    
                                 } else {
                                     session.setAttribute("role", 2);
                                     Landlord landlord = LandlordDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", landlord);
                                 }
                                 System.out.println("hihi ?");
-                                response.sendRedirect("/sakura/hostel/list");
+                                response.sendRedirect("/sakura/home");
                                 return;
                             } else {
                                 request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");

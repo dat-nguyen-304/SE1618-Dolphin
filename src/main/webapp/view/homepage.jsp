@@ -67,7 +67,7 @@
                     <div class="home-content-left">
                         <h1 data-aos="fade-up">
                             Không gian sống tiêu chuẩn<br>
-                            <span style="color: #ff771d;">dành cho giới trẻ</span>
+                            <span style="color: #FF9410;">dành cho giới trẻ</span>
                         </h1>
                         <h5 data-aos="fade-up">Điều kiện sống chất lượng với nhiều ưu điểm nổi bật</h5>
                     </div>
@@ -83,16 +83,16 @@
             <div class="home-filter">
                 <div data-aos="fade-up" class="row filter-container">
                     <form action="/sakura/hostel/list" class="filter">
-                        <select id="province" class="filter-address">
+                        <select id="province" class="filter-address" name="province">
                             <option value="">Chọn thành phố</option>
                         </select>
 
-                        <select id="district" class="filter-address">
+                        <select id="district" class="filter-address" name="district">
                             <option value="">Chọn quận</option>
                         </select>
 
                         <div class="filter-submit">
-                            <button class="btn btn-search" type="button">
+                            <button class="btn btn-search" type="submit">
                                 <i class="bi-search"></i> Tìm phòng
                             </button>
                         </div>
@@ -213,21 +213,13 @@
             <div class="footer-main">
                 <div class="row">
                     <div class="col-three md-1-3 tab-full footer-info">
-                        <div class="footer-logo"></div>
+                        <!--<div class="mb-[15px] text-[20px] font-medium text-[#17535B]">Sakura</div>-->
                         <p>
                             Sakura mong muốn trở thành công cụ thuận tiện cho người thuê và chủ nhà để quản lý phòng trọ.
                             Với Sakura, chủ nhà sẽ được hỗ trợ rất nhiều về các chức năng khác nhau như quản lý người thuê
                             và phòng trọ, xem số liệu thống kê về doanh thu và sử dụng nhà trọ...
                         </p>
 
-                        <ul class="footer-social-list">
-                            <li>
-                                <a href="#"><i class="fa fa-facebook-square"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                            </li>
-                        </ul>
                     </div> <!-- end footer-info -->
                     <div class="col-three md-1-3 tab-1-2 mob-full footer-contact">
                         <h4>Liên hệ</h4>
@@ -293,7 +285,7 @@
         <script type="text/javascript">
             window.addEventListener("scroll", function () {
                 var header = document.querySelector("#header-section");
-                header.classList.toggle("sticky", window.scrollY > 0);
+                header.classList.toggle("stick", window.scrollY > 0);
 
                 // var img = document.querySelector("#logo-header");
                 // img.src = "../assets/images/homepage-icon/logo.png"; 

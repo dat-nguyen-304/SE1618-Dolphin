@@ -106,7 +106,7 @@
 
                 </form>
                 <div class="backlink absolute bottom-10 right-10">
-                    <a class="w-[40px] h-[40px] flex justify-center items-center border-2 border-[#17535B] rounded-full animate-pulse" href="#">
+                    <a class="w-[40px] h-[40px] flex justify-center items-center border-2 border-[#17535B] rounded-full animate-pulse" href="#" onclick="history.back()">
                         <i class="bi bi-arrow-left text-[#17535B] text-2xl"></i>
                     </a>
                 </div>

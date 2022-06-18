@@ -1,0 +1,37 @@
+.hostel-description {
+    border-bottom: 1px solid #cacaca;
+}
+
+.nav.nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin-bottom: 16px;
+}
+
+.nav-tabs .nav-item {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.nav-tabs .nav-item .nav-link {
+    width: 100%;
+    display: block;
+    font-weight: 500;
+    font-size: 20px;
+    padding: 5px 10px;
+    border: 0;
+    color: #6b6b6b;
+    background-color: #eeeeee;
+    border-radius: 0;
+}
+
+.nav-tabs .nav-item .nav-link.active {
+    color: #fff;
+    background-color: #17535B;
+}
+
+.send-feedback-btn {
+    background-color: #17535B;
+    color: #fff;
+}
