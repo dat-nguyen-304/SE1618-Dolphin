@@ -361,6 +361,10 @@
                                 $("#email").css("border-bottom", "1.5px solid red");
                                 $("#email").focus();
                                 return false;
+                            } else if (!phone || $("#phoneError").html() !== "") {
+                                $("#phone").css("border-bottom", "1.5px solid red");
+                                $("#phone").focus();
+                                return false;
                             } else if (!password || $("#passwordError").html() !== "") {
                                 $("#password").css("border-bottom", "1.5px solid red");
                                 $("#password").focus();
@@ -368,10 +372,6 @@
                             } else if (!confirmPassword || $("#cf-passwordError").html() !== "") {
                                 $("#cf-password").css("border-bottom", "1.5px solid red");
                                 $("#cf-password").focus();
-                                return false;
-                            } else if (!phone || $("#phoneError").html() !== "") {
-                                $("#phone").css("border-bottom", "1.5px solid red");
-                                $("#phone").focus();
                                 return false;
                             }
                         }

@@ -58,7 +58,7 @@ public class AccessController extends HttpServlet {
                     if (logout == null) {
                         if (username != null && password != null) {
 
-                            String hashedPassword = password;//PasswordHash.doHashing(password);
+                            String hashedPassword = PasswordHash.doHashing(password);
 
                             Account acc = null;
 
@@ -71,9 +71,6 @@ public class AccessController extends HttpServlet {
                                 acc = AccountDAO.login(username, hashedPassword);
                             }
                             
-                            System.out.println("Cai loz gi z ?");
-                            System.out.println(username);
-                            System.out.println(password);
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
                                 if (acc.getRole() == 1) {
@@ -92,10 +89,10 @@ public class AccessController extends HttpServlet {
                                     Landlord landlord = LandlordDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", landlord);
                                 }
-                                System.out.println("hihi ?");
                                 response.sendRedirect("/sakura/home");
                                 return;
                             } else {
+                                request.setAttribute("username", username);
                                 request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
                                 url = "/view/login.jsp";
                             }
