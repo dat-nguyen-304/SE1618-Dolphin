@@ -43,7 +43,7 @@ public class RoomTypeDAO {
                 Hostel hostel = HostelDAO.findById(hostelID);
                 ArrayList<String> imgList = getAllImagesById(roomTypeID);
                 
-                roomTypeList.add(new RoomType(roomTypeID, roomTypeName, hostelID, advertisedPrice, maxNumberOfResidents, description, hostel, imgList));
+                roomTypeList.add(new RoomType(roomTypeID, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList));
             }
             
         }catch(Exception e) {
@@ -101,7 +101,7 @@ public class RoomTypeDAO {
                 Hostel hostel = HostelDAO.findById(hostelID);
                 ArrayList<String> imgList = getAllImagesById(roomTypeID);
                 
-                rt = new RoomType(roomTypeID, roomTypeName, hostelID, advertisedPrice, maxNumberOfResidents, description, hostel, imgList);
+                rt = new RoomType(roomTypeID, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList);
             
             }
             
