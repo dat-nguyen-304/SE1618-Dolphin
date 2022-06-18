@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,6 +57,7 @@
                 </header>
             </c:otherwise>
         </c:choose>
+
         <div class="w-[60%] mx-auto mt-[90px]">
             <div class="row section">
                 <div class="col-12 col-sm-7">
@@ -171,9 +173,9 @@
                             ${requestScope.hostel.description}
                         </div>
                     </div>
-<!--                    <div class="col-12 col-sm-4 hostel-room">
-                        <h3 class="hostel-room-title">Loại phòng</h3>
-                    </div>-->
+                    <!--                    <div class="col-12 col-sm-4 hostel-room">
+                                            <h3 class="hostel-room-title">Loại phòng</h3>
+                                        </div>-->
                     <div class="col-12 col-sm-6 hostel-service">
                         <h3 class="hostel-service-title">Dịch vụ</h3>
                     </div>
@@ -512,6 +514,20 @@
                     </ul>
                 </div>
             </div>
+            <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
+                 class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden ${(param.successBookingMessage == "true") ? 'show' : 'hide'}"
+                 id="notification">
+                <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="px-2 py-2">
+                    <h1 class="text-lg text-[#4d4d4d] font-semibold">Yêu cầu thành công</h1>
+                    <p class="text-[12px] text-[#8a8a8a] font-normal">Chủ nhà sẽ tiếp nhận yêu cầu và xác nhận lại với bạn.</p>
+                </div>
+                <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeNoti()">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            </div>
         </div>
         <%@include file="footer.jsp" %>    
         <script src="../assets/javascript//jquery/jquery.min.js"></script>
@@ -519,29 +535,47 @@
         <script src="../assets/javascript/jquery.js"></script>
         <script src="../assets/javascript/hostel-detail.js"></script>
         <script>
-                                                function toggleFavoriteHostel(hostelID, element) {
-                                                    if (element.style.color === 'red')
-                                                        element.style.color = 'gray';
-                                                    else
-                                                        element.style.color = 'red';
-                                                    console.log("line 413");
-                                                    console.log(hostelID);
-                                                    jQuery.ajax({
-                                                        type: 'POST',
-                                                        data: {'hostelID': hostelID},
-                                                        url: '/sakura/hostel/toggleFavHostel',
-                                                        success: function (result) {
-                                                            console.log('Success 36');
-                                                        },
-                                                        error: function () {
-                                                            console.log('Error 39');
-                                                        },
-                                                        complete: function (result) {
-                                                            console.log('Complete 41');
-                                                        }
-                                                    });
-                                                    console.log("line 429");
-                                                }
+                    function toggleFavoriteHostel(hostelID, element) {
+                        if (element.style.color === 'red')
+                            element.style.color = 'gray';
+                        else
+                            element.style.color = 'red';
+                        console.log("line 413");
+                        console.log(hostelID);
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'hostelID': hostelID},
+                            url: '/sakura/hostel/toggleFavHostel',
+                            success: function (result) {
+                                console.log('Success 36');
+                            },
+                            error: function () {
+                                console.log('Error 39');
+                            },
+                            complete: function (result) {
+                                console.log('Complete 41');
+                            }
+                        });
+                        console.log("line 429");
+                    }
+        </script>
+        <script>
+            let noti = document.getElementById("notification");
+            noti.style.transform = "translateX(0%);";
+            if (noti.classList.contains("show")) {
+                noti.style.transform = "translateX(0%)";
+                setTimeout(function () {
+                    noti.style.transform = "translateX(150%)";
+                }, 5000);
+            }
+            if (noti.classList.contains("hide")) {
+                noti.style.display = "none";
+            }
+
+            function closeNoti() {
+                noti.style.transform = "translateX(150%)";
+         
+            }
         </script>
     </body>
 

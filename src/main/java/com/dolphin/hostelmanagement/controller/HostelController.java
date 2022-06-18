@@ -456,12 +456,15 @@ public class HostelController extends HttpServlet {
                 
                 //this is booking request adding function
                 BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomID, rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
-                
-                
+
                 //end booking request adding function
                 
-                response.sendRedirect("/sakura/hostel/detail?filterStar=0&hostelId=" + hostelID);
+                //this will show notification after returning back to hostel detail page!
+
+                response.sendRedirect("/sakura/hostel/detail?successBookingMessage=true&filterStar=0&hostelId=" + hostelID);
                 return;
+                
+                //end function
             } else if (path.equals("/address")) {
                 int provinceID = Integer.parseInt(request.getParameter("provinceID"));
                 List<District> districtList = DistrictDAO.findByProvinceID(provinceID);
