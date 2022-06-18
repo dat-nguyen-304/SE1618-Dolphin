@@ -44,7 +44,7 @@ public class AccessController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String url = ERROR;
             String path = request.getPathInfo();
@@ -70,7 +70,7 @@ public class AccessController extends HttpServlet {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, hashedPassword);
                             }
-                            
+
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
                                 if (acc.getRole() == 1) {
@@ -79,11 +79,11 @@ public class AccessController extends HttpServlet {
                                     session.setAttribute("currentUser", tenant);
                                     List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
                                     session.setAttribute("favoriteHostelIds", favHostelIds);
-                                    
+
                                     if (tenant.isRentStatus()) {
                                         response.sendRedirect("/sakura/tenant/dashboard");
                                     }
-                                    
+
                                 } else {
                                     session.setAttribute("role", 2);
                                     Landlord landlord = LandlordDAO.findByAccount(acc);
@@ -112,8 +112,6 @@ public class AccessController extends HttpServlet {
                 }
             }
             if (path.equals("/register")) {
-                //System.out.println("I was in here!");
-
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 if (username != null && password != null) {
@@ -127,18 +125,32 @@ public class AccessController extends HttpServlet {
                         Date regDate = new Date();
                         int role = Integer.parseInt(request.getParameter("role"));
                         boolean status = true;
-                        boolean check = false;
+                        Account acc = new Account(0, username, hashedPassword, email, regDate, role, status);
+                        HttpSession session = request.getSession(true);
+
                         if (role == 1) {
-                            Tenant t = new Tenant(new Account(0, username, hashedPassword, email, regDate, role, status), fullname, phone, false);
-                            check = TenantDAO.save(t);
+                            Tenant t = new Tenant(acc, fullname, phone, false);
+                            session.setAttribute("tempUser", t);
+                            //check = TenantDAO.save(t);
                         } else {
-                            Landlord l = new Landlord(new Account(0, username, hashedPassword, email, regDate, role, status), fullname, phone);
-                            check = LandlordDAO.save(l);
+                            Landlord l = new Landlord(acc, fullname, phone);
+                            //check = LandlordDAO.save(l);
+                            session.setAttribute("tempUser", l);
+                            request.setAttribute("role", 2);
                         }
-                        if (check) {
-                            request.setAttribute("successNotification", "Registered Successfully!");
-                            url = "/view/login.jsp";
-                        }
+                        //request.setAttribute("successNotification", "Registered Successfully!");
+                        //request.setAttribute("account", acc);
+                        //url = "/view/login.jsp";
+                        //send verification code
+                        String verificationCode = StringUtils.randomString(10);
+                        EmailService sender = new EmailService();
+                        sender.sendVerificationEmail(email, verificationCode);
+
+                        session.setAttribute("verificationCode", verificationCode);
+                        session.setAttribute("role", role);
+
+                        //end send verification code
+                        url = "/access/mailVerification";
                     } catch (Exception e) {
                         log("Error at SignUpServlet: " + e.toString());
                     }
@@ -151,7 +163,7 @@ public class AccessController extends HttpServlet {
             }
             if (path.equals("/forgotPassword")) {
                 try {
-                    String email = request.getParameter("txt-email");
+                    String email = request.getParameter("email");
                     if (email != null) {
                         String newPwd = StringUtils.randomString(12);
 
@@ -160,10 +172,10 @@ public class AccessController extends HttpServlet {
                         System.out.println("Email: " + email);
 
                         if (acc != null) {
-                            AccountDAO.changePassword(acc.getAccountID(), newPwd);
+                            AccountDAO.changePassword(acc.getAccountID(), PasswordHash.doHashing(newPwd));
 
                             EmailService sender = new EmailService();
-                            sender.sendMail(email, newPwd);
+                            sender.sendResetPasswordEmail(email, newPwd);
 
                         }
                         url = "/view/login.jsp";
@@ -174,6 +186,54 @@ public class AccessController extends HttpServlet {
                     ex.printStackTrace();
                 }
                 request.getRequestDispatcher(url).forward(request, response);
+            }
+            if (path.equals("/mailVerification")) {
+                HttpSession session = request.getSession(true);
+                if (session.getAttribute("tempUser") == null) {
+                    System.out.println("????inlogin");
+                    url = "/sakura/access/login";
+                    response.sendRedirect(url);
+                } else {
+                    if (request.getParameter("code") != null) {
+                        String verificationCode = (String) session.getAttribute("verificationCode");
+                        int role = (int) session.getAttribute("role");
+
+                        String inputCode = request.getParameter("code");
+
+                        System.out.println("Code 1: " + verificationCode);
+                        System.out.println("Code 2: " + inputCode);
+                        if (inputCode.equals(verificationCode)) {
+                            if (role == 1) {
+                                Tenant t = (Tenant) session.getAttribute("tempUser");
+                                TenantDAO.save(t);
+                            } else {
+                                Landlord l = (Landlord) session.getAttribute("tempUser");
+                                LandlordDAO.save(l);
+                            }
+
+                            session.invalidate();
+
+                            response.sendRedirect("/sakura/access/login?register=success");
+                        } else {
+                            request.setAttribute("errorMessage", "Mã xác nhận sai! Mời bạn kiểm tra lại mã và nhập lại.");
+                            request.getRequestDispatcher("/view/mailVerification.jsp").forward(request, response);
+                        }
+                    } else {
+                        request.getRequestDispatcher("/view/mailVerification.jsp").forward(request, response);
+                    }
+                }
+            }
+            if (path.equals("/checkVerificationCode")) { //check if verification code is equal 
+                String inputCode = request.getParameter("code").trim();
+                HttpSession session = request.getSession(true);
+
+                String verificationCode = (String) session.getAttribute("verificationCode");
+                String servletResponse = "Sai mã xác minh!";
+                response.setContentType("text/html");
+                response.setCharacterEncoding("UTF-8");
+                out.print(servletResponse);
+                out.flush();
+
             }
         }
     }

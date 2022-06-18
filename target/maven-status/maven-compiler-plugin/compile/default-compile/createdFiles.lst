@@ -41,6 +41,7 @@ com\dolphin\hostelmanagement\DTO\ServiceDetail.class
 com\dolphin\hostelmanagement\controller\AdminController.class
 com\dolphin\hostelmanagement\DAO\AccountDAO.class
 com\dolphin\hostelmanagement\DTO\Hostel.class
+com\dolphin\hostelmanagement\utils\EmailService$2.class
 com\dolphin\hostelmanagement\DTO\Invoice.class
 com\dolphin\hostelmanagement\controller\HostelController$6.class
 com\dolphin\hostelmanagement\DTO\RoomType.class
