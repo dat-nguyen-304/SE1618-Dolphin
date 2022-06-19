@@ -77,11 +77,11 @@
                         <c:if test="${requestScope.favorite == true}">
                             <input type="hidden" name="favorite" value="true"/>
                         </c:if>
-                        <c:if test="${requestScope.province != null}">
-                            <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                        <c:if test="${sessionScope.province != null}">
+                            <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                         </c:if>
-                        <c:if test="${requestScope.district != null}">
-                            <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                        <c:if test="${sessionScope.district != null}">
+                            <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                         </c:if>
                         <input id="search-hostel" type="search" name="keyword" value="${requestScope.keyword}"
                                class="form-control relative block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 border-r-0 rounded-tl-md rounded-bl-md transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-[#17535B] focus:outline-none" placeholder="Nhập tên phòng trọ..." aria-label="Search" aria-describedby="button-addon2">
@@ -103,11 +103,11 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.province != null}">
-                                                <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                            <c:if test="${sessionScope.province != null}">
+                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.district != null}">
-                                                <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                            <c:if test="${sessionScope.district != null}">
+                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                             </c:if>
                                             <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
                                         </form>
@@ -120,11 +120,11 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.province != null}">
-                                                <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                            <c:if test="${sessionScope.province != null}">
+                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.district != null}">
-                                                <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                            <c:if test="${sessionScope.district != null}">
+                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                             </c:if>
                                             <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
                                         </form>
@@ -144,11 +144,11 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.province != null}">
-                                                <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                            <c:if test="${sessionScope.province != null}">
+                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.district != null}">
-                                                <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                            <c:if test="${sessionScope.district != null}">
+                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                             </c:if>
                                             <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
                                         </form>
@@ -161,11 +161,11 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.province != null}">
-                                                <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                            <c:if test="${sessionScope.province != null}">
+                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.district != null}">
-                                                <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                            <c:if test="${sessionScope.district != null}">
+                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                             </c:if>
                                             <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
                                         </form>
@@ -178,11 +178,11 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.province != null}">
-                                                <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                            <c:if test="${sessionScope.province != null}">
+                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.district != null}">
-                                                <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                            <c:if test="${sessionScope.district != null}">
+                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                             </c:if>
                                             <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
                                         </form>
@@ -195,11 +195,11 @@
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.province != null}">
-                                                <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                            <c:if test="${sessionScope.province != null}">
+                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>
-                                            <c:if test="${requestScope.district != null}">
-                                                <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                            <c:if test="${sessionScope.district != null}">
+                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                             </c:if>
                                             <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
                                         </form>
@@ -225,11 +225,11 @@
                     </div>
                 </div>
                 <div class="result-address my-[20px]">
-                    <c:if test="${requestScope.province != null}"> 
-                        <span>Phòng cho thuê:  </span><span class="search-result-dsc">${requestScope.province.provinceName}</span>
+                    <c:if test="${sessionScope.province != null}"> 
+                        <span>Phòng cho thuê:  </span><span class="search-result-dsc">${sessionScope.province.provinceName}</span>
                     </c:if>
-                    <c:if test="${requestScope.district != null}"> 
-                        <span class="search-result-dsc"> - ${requestScope.district.districtName}</span><br/>
+                    <c:if test="${sessionScope.district != null}"> 
+                        <span class="search-result-dsc"> - ${sessionScope.district.districtName}</span><br/>
                     </c:if>
                     <c:if test="${requestScope.keyword != null}"> 
                         <span>Từ khoá:</span><span class="search-result-dsc"> ${requestScope.keyword}</span>
@@ -372,11 +372,11 @@
                                     <c:if test="${requestScope.sortByRate != null}">
                                         <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
                                     </c:if>
-                                    <c:if test="${requestScope.province != null}">
-                                        <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                    <c:if test="${sessionScope.province != null}">
+                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                     </c:if>
-                                    <c:if test="${requestScope.district != null}">
-                                        <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                    <c:if test="${sessionScope.district != null}">
+                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                     </c:if>
                                     <button type="submit" name="paging" value="1"><i class="bi bi-arrow-bar-left"></i></button>
                                 </form>
@@ -384,11 +384,11 @@
 
                             <li class="pagination-item pagination-previous">
                                 <form action="/sakura/hostel/list">
-                                    <c:if test="${requestScope.province != null}">
-                                        <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                    <c:if test="${sessionScope.province != null}">
+                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                     </c:if>
-                                    <c:if test="${requestScope.district != null}">
-                                        <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                    <c:if test="${sessionScope.district != null}">
+                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                     </c:if>
                                     <c:if test="${requestScope.keyword != null}">
                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
@@ -423,11 +423,11 @@
                                     <li class="pagination-item">
                                     </c:if>
                                     <form action="/sakura/hostel/list">
-                                        <c:if test="${requestScope.province != null}">
-                                            <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                        <c:if test="${sessionScope.province != null}">
+                                            <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                         </c:if>
-                                        <c:if test="${requestScope.district != null}">
-                                            <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                        <c:if test="${sessionScope.district != null}">
+                                            <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                         </c:if>
                                         <c:if test="${requestScope.keyword != null}">
                                             <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
@@ -448,11 +448,11 @@
                             </c:forEach>
                             <li class="pagination-item pagination-next">
                                 <form action="/sakura/hostel/list">
-                                    <c:if test="${requestScope.province != null}">
-                                        <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                    <c:if test="${sessionScope.province != null}">
+                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                     </c:if>
-                                    <c:if test="${requestScope.district != null}">
-                                        <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                    <c:if test="${sessionScope.district != null}">
+                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                     </c:if>
                                     <c:if test="${requestScope.keyword != null}">
                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
@@ -480,11 +480,11 @@
                             </li>
                             <li class="pagination-item pagination-next pagination-next--fast">
                                 <form action="/sakura/hostel/list">
-                                    <c:if test="${requestScope.province != null}">
-                                        <input type="hidden" name="province" value="${requestScope.province.provinceID}"/>
+                                    <c:if test="${sessionScope.province != null}">
+                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                     </c:if>
-                                    <c:if test="${requestScope.district != null}">
-                                        <input type="hidden" name="district" value="${requestScope.district.districtID}"/>
+                                    <c:if test="${sessionScope.district != null}">
+                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                     </c:if>
                                     <c:if test="${requestScope.keyword != null}">
                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
@@ -514,57 +514,8 @@
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/javascript/hostel-list.js"></script>
         <script src="../assets/javascript/jquery.js"></script>
-        <script>
-                                                                        function toggleFavoriteHostel(hostelID, element) {
-                                                                            if (element.style.color === 'red')
-                                                                                element.style.color = '#DBDBDB';
-                                                                            else
-                                                                                element.style.color = 'red';
-                                                                            console.log("line 413");
-                                                                            console.log(hostelID);
-                                                                            jQuery.ajax({
-                                                                                type: 'POST',
-                                                                                data: {'hostelID': hostelID},
-                                                                                url: '/sakura/hostel/toggleFavHostel',
-                                                                                success: function (result) {
-                                                                                    console.log('Success 36');
-                                                                                },
-                                                                                error: function () {
-                                                                                    console.log('Error 39');
-                                                                                },
-                                                                                complete: function (result) {
-                                                                                    console.log('Complete 41');
-                                                                                }
-                                                                            });
-                                                                            console.log("line 429");
-                                                                        }
-
-        </script>
-        <script>
-            console.log(document.querySelector(".districtSelected-hidden"));
-            if (document.querySelector(".districtSelected-hidden"))
-                var districtSelected = document.querySelector(".districtSelected-hidden").value;
-            var districtElemet = document.querySelector('#district');
-            if (districtSelected) {
-                console.log(districtSelected);
-                var provinceID = document.querySelector('#province').value;
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'provinceID': provinceID,
-                        'districtSelected': districtSelected
-                    },
-                    url: '/sakura/hostel/address',
-                    success: function (response) {
-                        districtElemet.innerHTML = "<option value='0'>Quận huyện</option>" + response;
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
-                    }
-                });
-            }
-
-        </script>
+        <script src="../assets/javascript/toggle-favorite.js"></script>
+        <script src="../assets/javascript/keep-district.js"></script>
         <script>
             let noti = document.getElementById("notification");
             noti.style.transform = "translateX(0%);";

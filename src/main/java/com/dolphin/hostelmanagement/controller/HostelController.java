@@ -148,31 +148,38 @@ public class HostelController extends HttpServlet {
 
                     hostelList = (ArrayList<Hostel>) HostelDAO.findAll();
 
-                    if (request.getParameter("province") != null && !request.getParameter("province").equals("0")) {
-                        int provinceID = Integer.parseInt(request.getParameter("province"));
-                        int districtID = 0;
-                        if (request.getParameter("district") != null && !request.getParameter("district").equals("0")) {
-                            districtID = Integer.parseInt(request.getParameter("district"));
-                        }
-                        List<Hostel> hostelListTmp = new ArrayList<>();
-                        Province province = ProvinceDAO.findById(provinceID);
-                        request.setAttribute("province", province);
-                        if (districtID == 0) {
-                            for (Hostel hostel : hostelList) {
-                                if (hostel.getDistrict().getProvince().getProvinceID() == provinceID) {
-                                    hostelListTmp.add(hostel);
-                                }
+                    if (request.getParameter("province") != null) {
+                        if (!request.getParameter("province").equals("0")) {
+                            int provinceID = Integer.parseInt(request.getParameter("province"));
+                            int districtID = 0;
+                            if (request.getParameter("district") != null) {
+                                districtID = Integer.parseInt(request.getParameter("district"));
                             }
+                            List<Hostel> hostelListTmp = new ArrayList<>();
+                            Province province = ProvinceDAO.findById(provinceID);
+                            session.setAttribute("province", province);
+                            if (districtID == 0) {
+                                for (Hostel hostel : hostelList) {
+                                    if (hostel.getDistrict().getProvince().getProvinceID() == provinceID) {
+                                        hostelListTmp.add(hostel);
+                                    }
+                                }
+                                session.setAttribute("district", null);
+                            } else {
+                                for (Hostel hostel : hostelList) {
+                                    if (hostel.getDistrict().getDistrictID() == districtID) {
+                                        hostelListTmp.add(hostel);
+                                    }
+                                }
+                                District district = DistrictDAO.findById(districtID);
+                                session.setAttribute("district", district);
+                            }
+                            hostelList = hostelListTmp;
                         } else {
-                            for (Hostel hostel : hostelList) {
-                                if (hostel.getDistrict().getDistrictID() == districtID) {
-                                    hostelListTmp.add(hostel);
-                                }
-                            }
-                            District district = DistrictDAO.findById(districtID);
-                            request.setAttribute("district", district);
+                            session.setAttribute("province", null);
+                            session.setAttribute("district", null);
                         }
-                        hostelList = hostelListTmp;
+
                     }
                     if (request.getParameter("keyword") != null) {
                         String keyword = request.getParameter("keyword");
@@ -187,7 +194,7 @@ public class HostelController extends HttpServlet {
                     }
                 }
                 List<Province> provinceList = ProvinceDAO.findAll();
-                request.setAttribute("provinceList", provinceList);
+                session.setAttribute("provinceList", provinceList);
 
                 if (request.getParameter("sortByMinPrice") != null) {
                     if (request.getParameter("sortByMinPrice").equals("asc")) {
@@ -264,6 +271,10 @@ public class HostelController extends HttpServlet {
                     currentPage = Integer.parseInt(request.getParameter("paging"));
                 }
 
+                if (request.getParameter("message") != null) {
+                    String message = request.getParameter("message");
+                    request.setAttribute("message", message);
+                }
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 Hostel hostel = HostelDAO.findById(hostelId);
 
@@ -476,10 +487,10 @@ public class HostelController extends HttpServlet {
                 }
 
             } else if (path.equals("/sendRentalRequest")) {
-                
+
                 Tenant t = (Tenant) session.getAttribute("currentUser");
                 int roomID = Integer.parseInt(request.getParameter("roomID"));
-                
+
                 Date tmp = new Date();
                 BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomID, tmp, 1);
                 request.setAttribute("messageTitle", "Yêu cầu thành công!");
