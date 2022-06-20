@@ -6,7 +6,7 @@ package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
-public class Contract {
+public class Contract implements Comparable<Contract> {
     private int contractID;
     private Room room;
     private Tenant tenant;
@@ -112,5 +112,15 @@ public class Contract {
 
     public void setHostel(Hostel hostel) {
         this.hostel = hostel;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" + "contractID=" + contractID + ", room=" + room + ", tenant=" + tenant + ", landlord=" + landlord + ", hostel=" + hostel + ", startDate=" + startDate + ", endDate=" + endDate + ", deposit=" + deposit + ", status=" + status + ", rentalFeePerMonth=" + rentalFeePerMonth + '}';
+    }
+
+    @Override
+    public int compareTo(Contract o) {
+        return o.startDate.compareTo(this.startDate);
     }
 }

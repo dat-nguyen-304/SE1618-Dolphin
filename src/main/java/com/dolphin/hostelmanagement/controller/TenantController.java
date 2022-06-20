@@ -16,7 +16,11 @@ import com.dolphin.hostelmanagement.DTO.RoomResident;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,22 +52,32 @@ public class TenantController extends HttpServlet {
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
+            Tenant t = (Tenant) session.getAttribute("currentUser");
+
             if (path.equals("/dashboard")) {
-                Tenant t = (Tenant) session.getAttribute("currentUser");
-                Contract contract = ContractDAO.findActiveContract(t);
-                Landlord landlord = contract.getLandlord();
-                Room room = contract.getRoom();
-                Hostel hostel = contract.getHostel();
-                List<Invoice> invoiceList = InvoiceDAO.findByContract(contract);
-                List<RoomResident> residentList = RoomDAO.findResidentByRoom(room);
-                request.setAttribute("hostel", hostel);
-                request.setAttribute("landlord", landlord);
-                request.setAttribute("room", room);
-                request.setAttribute("invoiceList", invoiceList);
-                request.setAttribute("residentList", residentList);
+                List<Contract> contractList = ContractDAO.findByTenant(t);
+
+                HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
+                for (Contract contract : contractList) {
+                    invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract));
+                }
+                TreeMap<Contract, ArrayList<Invoice>> sorted = new TreeMap<>();
+                sorted.putAll(invoiceMap);
+                
+                request.setAttribute("contractList", contractList);
+                request.setAttribute("invoiceMap", sorted);
+
                 url = "/view/rentedTenantPage.jsp";
-                request.getRequestDispatcher(url).forward(request, response);
             }
+
+            if (path.equals("/invoice")) {
+//                List<Invoice> invoiceList = InvoiceDAO.findByContract(contract);
+//                request.setAttribute("invoiceList", invoiceList);
+
+                url = "/view/tenantInvoiceList.jsp";
+            }
+
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

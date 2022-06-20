@@ -4,12 +4,19 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
+import com.dolphin.hostelmanagement.DAO.ServiceDAO;
+import com.dolphin.hostelmanagement.DTO.Invoice;
+import com.dolphin.hostelmanagement.DTO.Service;
+import com.dolphin.hostelmanagement.DTO.ServiceDetail;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -24,22 +31,30 @@ public class InvoiceController extends HttpServlet {
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if an I/O error occurs       
      */
+    private static final String ERROR = "error.jsp";    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet InvoiceController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet InvoiceController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try (PrintWriter out = response.getWriter()) {
+            String url = ERROR;
+            String path = request.getPathInfo();
+            System.out.println("Path: " + path);
+//            HttpSession session = request.getSession();
+            
+            if (path.equals("/invoiceDetail")) {    
+                int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
+                Invoice invoice = InvoiceDAO.findByID(invoiceID );
+                request.setAttribute("invoice", invoice);
+                HashMap<Service, ServiceDetail> serviceMap = ServiceDAO.findDetailsByInvoice(invoice);
+                request.setAttribute("serviceMap", serviceMap);
+                
+                url = "/view/invoiceDetail.jsp";
+            }
+
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
