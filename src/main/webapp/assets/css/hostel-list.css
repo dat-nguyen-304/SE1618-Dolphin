@@ -1,9 +1,3 @@
-:root {
-    --dark-primary-color  : #17535B;
-    --medium-primary-color: #288D87;
-    --light-primary-color : #0EAF72;
-}
-
 * {
     padding   : 0;
     margin    : 0;
@@ -24,25 +18,9 @@ a:hover {
 }
 
 footer {
-    height          : 100px;
-    background-color: var(--dark-primary-color);
-    position        : fixed;
     left            : 0;
     right           : 0;
     z-index         : 100;
-}
-
-footer {
-    position: static;
-    bottom  : 0;
-}
-
-body {
-    background-color: #eee;
-}
-
-.container {
-    width: 100%;
 }
 
 .custom-select option {
@@ -66,10 +44,14 @@ body {
     display         : inline-block;
     padding         : 4px 12px;
     color           : #fff;
-    background-color: var(--light-primary-color);
+    background-color: #e44f4f;
     border          : none;
     border-radius   : 4px;
     cursor          : pointer;
+}
+
+.submit-filter button {
+    border: none;
 }
 
 .filter-province,
@@ -78,13 +60,8 @@ body {
     width: 160px;
 }
 
-.result-address {
-    color    : #333;
-    margin   : 12px 0;
-    font-size: 20px;
+.search-bar {
 }
-
-.search-bar {}
 
 
 .search-bar__input input {
@@ -109,22 +86,7 @@ body {
     max-width       : 136px;
 }
 
-.search-bar__sort:hover .search-bar-sort-list {
-    display: block;
-}
-
-.search-bar-sort-list {
-    display         : none;
-    position        : relative;
-    position        : absolute;
-    top             : calc(100% + 8px);
-    left            : 12px;
-    width           : 200px;
-    background-color: #eee;
-    box-shadow      : 0 0 4px #ccc;
-}
-
-.search-bar-sort-list::after {
+/* .rating-sort-list::after {
     display : block;
     content : "";
     position: absolute;
@@ -132,21 +94,29 @@ body {
     height  : 20px;
     top     : -20px;
     left    : -12px;
-}
+} */
 
-.search-bar-sort-item {
+.rating-sort-item {
+    display: block;
+    padding: 3px 5px;
     border-radius: 4px;
 }
 
-.search-bar-sort-item:hover {
-    background-color: var(--light-primary-color);
+.rating-sort-item button:hover {
+    background-color: #eee;
 }
 
-.search-bar-sort-item a {
+.rating-sort-item button {
     display        : block;
     text-decoration: none;
     color          : #333;
-    padding        : 8px 12px;
+    border         : none;
+    outline        : none;
+    width          : 100%;
+    text-align     : left;
+    padding        : 6px 12px;
+    border-radius  : 4px;
+
 }
 
 .search-bar__submit {
@@ -164,7 +134,8 @@ body {
     background-color: var(--light-primary-color);
 }
 
-.form-filter {}
+.form-filter {
+}
 
 .filter-list {
     align-items: center;
@@ -181,8 +152,9 @@ body {
     justify-content: right;
 }
 
-.favorite-filter a {
+.favorite-filter button {
     background-color: #e44f4f;
+    color           : #fff;
 }
 
 .favorite-filter a:hover {
@@ -207,14 +179,17 @@ body {
 .hostel-item {
     display      : block;
     border-radius: 4px;
-    box-shadow   : 0 0 8px #ccc;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
     overflow     : hidden;
-    margin-top   : 20px;
+    margin-top   : 30px;
+    text-align   : left;
+    border       : none;
+    transition: transform 0.15s ease-in-out
 }
 
 .hostel-item:hover {
     outline  : 1px solid orange;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .hostel-img {
@@ -228,9 +203,10 @@ body {
 }
 
 .hostel-name {
-    font-size  : 18px;
-    font-weight: 500;
-    color      : var(--text-color);
+    font-size  : 20px;
+    font-weight: 700;
+    color      : #40576C;
+    margin: 5px 0;
 }
 
 .hostel-content-header {
@@ -263,9 +239,8 @@ body {
 
 .hostel-address {
     font-size         : 12px;
-    line-height       : 16px;
-    height            : 32px;
     font-weight       : 400;
+    padding: 5px 0;
     color             : #666;
     display           : -webkit-box;
     -webkit-box-orient: vertical;
@@ -278,16 +253,13 @@ body {
     justify-content: space-between;
     align-items    : center;
     padding-bottom : 8px;
-    border-bottom  : 1px solid #ccc;
+    border-bottom  : 0.5px dashed #E6EEF1;
 }
 
 .hostel-room-available {
-    font-size      : 10px;
-    display        : flex;
-    justify-content: end;
-    color          : red;
-    position       : relative;
-    bottom         : -4px;
+    font-size      : 12px;
+    font-weight: 500;
+    color          : #EE7B35;
 }
 
 .hostel-area {
@@ -296,17 +268,41 @@ body {
 
 .hostel-price {
     text-align : right;
-    color      : #ff6532;
-    font-size  : 20px;
+    color      : #597187;
+    font-size  : 18px;
+    font-weight: 600;
     padding-top: 6px;
 }
 
+.hostel-images:hover~.btn-prev-next {
+    display: block;
+}
+
+.btn-prev-next:hover {
+    display: block;
+}
+
+.btn-prev-next {
+    display: none;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    opacity  : 1;
+    font-size: 20px;
+}
+
 .carousel-item img {
-    height    : 180px;
+    height    : 200px;
     object-fit: cover;
 }
 
+.carousel-indicators {
+    height: 20px;
+}
+
 .carousel-indicators .active {
+    display         : block;
     position        : relative;
     -webkit-box-flex: 0;
     -ms-flex        : 0 1 auto;
@@ -315,9 +311,11 @@ body {
     height          : 3px;
     margin-right    : 3px;
     margin-left     : 3px;
-    text-indent     : -999px;
-    background-color: rgba(255, 255, 255, .5);
-    border-radius   : 4px;
+    background-color: #fff;
+
+    border-radius: 50px;
+    border       : 0px;
+
 }
 
 .carousel-indicators li {
@@ -330,8 +328,11 @@ body {
     margin-right    : 3px;
     margin-left     : 3px;
     text-indent     : -999px;
-    background-color: rgba(255, 255, 255, .5);
-    border-radius   : 100px;
+    background-color: #fff;
+    border-radius   : 50px;
+    border          : 0px;
+    transition      : width ease-in-out 0.4s;
+
 }
 
 .pagination {
@@ -356,19 +357,22 @@ body {
     color    : #888;
 }
 
-.pagination-item a {
+.pagination-item button {
     display        : block;
     padding        : 4px 14px;
     color          : currentColor;
     text-decoration: none;
+    outline        : none;
+    border         : none;
 }
 
-.pagination-item--active a {
-    background-color: var(--medium-primary-color);
+.pagination-item--active button {
+    background-color: #17535B;
     color           : #fff;
 }
 
 .pagination-previous,
 .pagination-next {
     font-size: 16px;
+    color    : red;
 }

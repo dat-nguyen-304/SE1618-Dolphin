@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
 public class Account {
+
     private int accountID;
     private String username;
     private String password;
@@ -14,8 +11,10 @@ public class Account {
     private Date registrationDate;
     private int role;
     private boolean activate;
+    private String avatar;
 
     public Account() {
+        
     }
 
     public Account(int accountID, String username, String password, String email, Date registrationDate, int role, boolean activate) {
@@ -26,6 +25,19 @@ public class Account {
         this.registrationDate = registrationDate;
         this.role = role;
         this.activate = activate;
+    }
+    
+    
+
+    public Account(int accountID, String username, String password, String email, Date registrationDate, int role, boolean activate, String avatar) {
+        this.accountID = accountID;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.registrationDate = registrationDate;
+        this.role = role;
+        this.activate = activate;
+        this.avatar = avatar;
     }
 
     public int getAccountID() {
@@ -52,6 +64,14 @@ public class Account {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Date getRegistrationDate() {
         return registrationDate;
     }
@@ -76,16 +96,12 @@ public class Account {
         this.activate = activate;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    @Override
-    public String toString() {
-        return "Account{" + "accountID=" + accountID + ", username=" + username + ", password=" + password + ", email=" + email + ", registrationDate=" + registrationDate + ", role=" + role + ", activate=" + activate + '}';
-    }
 }

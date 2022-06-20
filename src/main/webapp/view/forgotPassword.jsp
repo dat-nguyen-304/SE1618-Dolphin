@@ -25,9 +25,12 @@
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
 
         <!--CSS-->
-        <!--<link rel="stylesheet" href="../assets/css/style.css">-->
         <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="../assets/css/register.css">
         <link rel="stylesheet" href="../assets/css/app.css">
+
+        <!--Javascript-->
+        <script src="../assets/javascript/jquery.js"></script>
     </head>
     <body>
         <!-- logo -->
@@ -53,35 +56,42 @@
             <!-- form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
 
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="MainController" method="post"  id="form" name="login-form">
+                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/forgotPassword" method="post"  id="form" name="login-form">
                     <!--form header-->
-                    <div class="form-header w-full h-28 mb-5 text-center">
+                    <div class="form-header w-full h-18 mb-3 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Lấy lại mật khẩu</h2>
-                        <p id="error" class="warning text-base font-light mt-4">Link khôi phục mật khẩu sẽ được gửi vào mail liên kết với tài khoản của bạn!</p>
+                        <p id="error" class="warning text-base font-light mt-4">Mật khẩu mới sẽ được gửi vào email liên kết của bạn!</p>
                     </div>
 
-                    <ul class="item-list list-none mt-12 w-3/5">
+                    <ul class="item-list list-none w-[52%]">
                         <!--Email input-->
-                        <li class="item relative mt-[20px] mb-[40px]">
-                            <input type="text" class="input-field text-[16px] w-full border-b-2 border-[#c5c5c5] text-[#252525] outline-none bg-transparent peer py-2 pr-[36px] placeholder-transparent" id="email" name="txt-email" placeholder="Email" value="" />
-                            <label class="absolute left-0 -top-[15px] peer-placeholder-shown:text-[#7b8577] peer-placeholder-shown:font-light  peer-placeholder-shown:text-base peer-placeholder-shown:top-[8.5px] transition-all font-light text-sm" for="email">Email</label>
-                        </li>
-                        <!--Submit-->
-                        <li>
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" name="action" value="ResetPwd">Gửi link khôi phục</button>  
+                        <li class="item block relative z-0 w-full mb-12">
+                            <input type="email" id="email" name="email" placeholder=" " required onchange="checkEmail()"
+                                   class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
+                            <p id="emailError" class="warning font-light absolute right-0"></p>
+                            <label for="email" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Email</label>
                         </li>
 
+                        <!--Submit-->
+                        <li class="mb-7">
+                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">Gửi link khôi phục</button>  
+                        </li>
+
+                        <div id="more" class="mt-3 flex justify-center text-sm font-light">
+                            <span>Thử lại với tài khoản khác? </span> <a id="signin" href="/sakura/access/login" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng nhập</a>
+                        </div>
+                        <div id="more" class="mt-3 flex justify-center text-sm font-light">
+                            <span>Chưa có tài khoản? </span> <a id="signup" href="/sakura/access/register" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng ký</a>
+                        </div>
                     </ul>
 
                 </form>
                 <div class="backlink absolute bottom-10 right-10">
-                    <a class="w-[40px] h-[40px] flex justify-center items-center border-2 border-[#17535B] rounded-full animate-pulse" href="#">
+                    <a class="w-[40px] h-[40px] flex justify-center items-center border-2 border-[#17535B] rounded-full animate-pulse" href="#" onclick="history.back()">
                         <i class="bi bi-arrow-left text-[#17535B] text-2xl"></i>
                     </a>
                 </div>
             </div>
-
-
         </div>
 
         <script>
@@ -108,6 +118,36 @@
 
             const btn = document.getElementById("login-btn");
             btn.addEventListener("click", rippleEffect);
+
+
+            function checkEmail() {
+                $("#emailError").html("");
+                $("#email").css("border-bottom", "");
+                jQuery.ajax({
+                    type: 'POST',
+                    data: 'email=' + $("#email").val(),
+                    url: '/sakura/account/checkEmail',
+                    success: function (result) {
+                        if (result.length === 0) {
+                            var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+                            if (!re.test($("#email").val())) {
+                                $("#emailError").html("Sai định dạng email!");
+                                $("#emailError").css("color", "red");
+                            }
+                        } else {
+                            $("#emailError").html(result);
+                            $("#emailError").css("color", "red");
+                        }
+                        console.log('Success 65');
+                    },
+                    error: function () {
+                        console.log('Error 68');
+                    },
+                    complete: function (result) {
+                        console.log('Complete 71');
+                    }
+                });
+            }
         </script>
     </body>
 </html>

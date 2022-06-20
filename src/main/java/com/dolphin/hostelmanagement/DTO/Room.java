@@ -8,30 +8,20 @@ import java.util.ArrayList;
 
 public class Room {
     private int roomID;
-    private Hostel hostel;
-    private int roomNumber;
-    private int area;
-    private ArrayList<String> images;
-    private String description;
+    private String roomNumber;
+    private int currentNumberOfResidents;
     private int status;
-    private int maxNumberOfResident;
-    private int currentNumberOfResident;
-    private int advertisedPrice;
+    private RoomType roomType;
 
     public Room() {
     }
 
-    public Room(int roomID, Hostel hostel, int roomNumber, int area, ArrayList<String> images, String description, int status, int maxNumberOfResident, int currentNumberOfResident, int advertisedPrice) {
+    public Room(int roomID, String roomNumber, int currentNumberOfResidents, int status, RoomType roomType) {
         this.roomID = roomID;
-        this.hostel = hostel;
         this.roomNumber = roomNumber;
-        this.area = area;
-        this.images = images;
-        this.description = description;
+        this.currentNumberOfResidents = currentNumberOfResidents;
         this.status = status;
-        this.maxNumberOfResident = maxNumberOfResident;
-        this.currentNumberOfResident = currentNumberOfResident;
-        this.advertisedPrice = advertisedPrice;
+        this.roomType = roomType;
     }
 
     public int getRoomID() {
@@ -42,44 +32,20 @@ public class Room {
         this.roomID = roomID;
     }
 
-    public Hostel getHostel() {
-        return hostel;
-    }
-
-    public void setHostel(Hostel hostel) {
-        this.hostel = hostel;
-    }
-
-    public int getRoomNumber() {
+    public String getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(int roomNumber) {
+    public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    public int getArea() {
-        return area;
+    public int getCurrentNumberOfResidents() {
+        return currentNumberOfResidents;
     }
 
-    public void setArea(int area) {
-        this.area = area;
-    }
-
-    public ArrayList<String> getImages() {
-        return images;
-    }
-
-    public void setImages(ArrayList<String> images) {
-        this.images = images;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCurrentNumberOfResidents(int currentNumberOfResidents) {
+        this.currentNumberOfResidents = currentNumberOfResidents;
     }
 
     public int getStatus() {
@@ -90,29 +56,13 @@ public class Room {
         this.status = status;
     }
 
-    public int getMaxNumberOfResident() {
-        return maxNumberOfResident;
+    public RoomType getRoomType() {
+        return roomType;
     }
 
-    public void setMaxNumberOfResident(int maxNumberOfResident) {
-        this.maxNumberOfResident = maxNumberOfResident;
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 
-    public int getCurrentNumberOfResident() {
-        return currentNumberOfResident;
-    }
-
-    public void setCurrentNumberOfResident(int currentNumberOfResident) {
-        this.currentNumberOfResident = currentNumberOfResident;
-    }
-
-    public int getAdvertisedPrice() {
-        return advertisedPrice;
-    }
-
-    public void setAdvertisedPrice(int advertisedPrice) {
-        this.advertisedPrice = advertisedPrice;
-    }
-    
     
 }

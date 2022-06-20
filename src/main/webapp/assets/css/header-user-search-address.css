@@ -1,0 +1,259 @@
+/* 
+    Created on : Jun 15, 2022, 8:18:57 AM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
+
+a {
+    text-decoration: none;
+}
+
+#header-section {
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+#header-section.stick {
+    background-color: #ffffff;
+    box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
+}
+
+nav.header {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    transition: all 0.2s ease-in-out;
+}
+
+.header-left {
+    display: flex;
+}
+
+.header-right {
+    display: flex;
+}
+
+nav .logo {
+    display: flex;
+    align-items: center;
+}
+
+nav .logo h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    align-items: center;
+    margin: 0;
+}
+
+#header-section.stick nav .logo h3 {
+    color: #17535B;
+}
+
+nav .logo img {
+    width: 30px;
+    height: auto;
+    margin-right: 10px;
+}
+
+nav .item-list {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+nav .item-list .item {
+    font-size: 17px;
+    font-weight: 500;
+    color: #bebebe;
+    padding: 0 15px;
+}
+
+#header-section.stick nav .item-list .item {
+    color: #bbbbbb;
+}
+
+nav .item-list .item.select {
+    color: #ffffff;
+}
+
+#header-section.stick nav .item-list .item.select {
+    color: #FF6532;
+}
+
+nav .item-list .item:hover {
+    color: #ffffff;
+}
+
+#header-section.stick nav .item-list .item:hover {
+    color: #FF6532;
+}
+
+.profile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.profile .profile-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+}
+
+#header-section.stick .profile .profile-avatar {
+    border: none;
+}
+
+.profile .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile .profile-menu {
+    position: absolute;
+    top: 90px;
+    right: 0;
+    background-color: #ffffff;
+    border: 0.2px solid rgba(23, 83, 91, 0.165);
+    width: 180px;
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.15s ease-out;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.profile .profile-menu.active {
+    top: 70px;
+    visibility: visible;
+    opacity: 1;
+}
+
+.profile .profile-menu h3 {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #FF6532;
+    margin: 10px 0;
+}
+
+.profile .profile-menu h3 span {
+    font-size: 14px;
+    color: #ff7e53;
+    font-weight: 500;
+}
+
+.profile .profile-menu ul {
+    padding: 0;
+    margin: 0;
+}
+.profile .profile-menu ul a, .profile .profile-menu ul button {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.profile .profile-menu ul li {
+    list-style: none;
+    padding: 10px 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    color: #17535B;
+    align-items: center;
+    transition: all 0.2s ease-in;
+}
+
+.profile .profile-menu ul li i {
+    margin-right: 10px;
+}
+
+
+.profile .profile-menu li:hover {
+    background-color: #f2f4f5;
+}
+
+.profile .profile-menu li:hover span {
+    transform: scale(1.05);
+}
+
+/*Filter address*/
+.home-filter {
+    width: 400px;
+    height: 100%;
+    padding: 5px 10px;
+    margin-left: 20px;
+}
+
+.filter {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #F5F5F5;
+    padding-left: 20px;
+}
+
+/* Hide arrow  */
+select {
+    -moz-appearance   : none;
+    -webkit-appearance: none;
+    appearance        : none;
+}
+
+.filter-address {
+    margin: 0;
+    background-color: transparent;
+    color: #17535B;
+    width: 35%;
+    height: 60%;
+    text-align: center;
+    outline: none;
+}
+.filter-address:first-child {
+    border-right: 1px solid #288D87;
+}
+.filter-submit {
+    width: 20%;
+}
+
+.filter-submit button {
+    background-color: #17535B;
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    font-size: 15px;
+    margin: 0;
+    padding         : 10px 20px;
+}
+
+.filter-submit button:hover {
+    color: #fff;
+    background-color: #13484F;
+}
+
+.filter-submit button:focus, .filter-submit button:active, .filter-submit button:target {
+    outline: none;
+    color: #fff;
+    background-color: #13484F;
+}

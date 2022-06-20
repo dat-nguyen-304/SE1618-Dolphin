@@ -88,16 +88,83 @@ public class LandlordDAO {
     }
 
     public static Landlord findById(int id) {
-        Landlord t = null;
-        for (Landlord landlord : findAll()) {
-            if (landlord.getAccount().getAccountID()== id) {
-                t = landlord;
+        Landlord landlord = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Landlord where landlordID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String fullname = rs.getString("fullname");
+                        String phone = rs.getString("phone");
+                        Account acc = AccountDAO.findById(id);
+                        landlord = new Landlord(acc, fullname, phone);
+                    }
+                }
+                cn.close();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return t;
+        return landlord;
     }
-    
+
+    public static Landlord findByAccount(Account acc) {
+        Landlord landlord = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Landlord where landlordID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, acc.getAccountID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String fullname = rs.getString("fullname");
+                        String phone = rs.getString("phone");
+                        landlord = new Landlord(acc, fullname, phone);
+                    }
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return landlord;
+    }
+
     public static boolean deleteById(int id) {
         return AccountDAO.deleteById(id);
+    }
+    
+    public static boolean updateLandlord(Landlord l) {
+        boolean check = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update Tenant set fullname = ? and phone = ? where tenantID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setNString(1, l.getFullname());
+                pst.setString(2, l.getPhone());
+                check = pst.executeUpdate() != 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return check;
     }
 }

@@ -4,47 +4,48 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Hostel {
 
     private int hostelID;
     private String streetAddress;
-    private Ward ward;
+    private District district;
     private String hostelName;
     private int totalRoom;
     private Date registeredDate;
     private float rating;
     private Landlord landlord;
     private boolean activate;
-    private String images;
     private int minPrice;
     private int maxPrice;
     private int minArea;
     private int maxArea;
     private int availableRoom;
     private String description;
+    private ArrayList<String> imgList;
 
     public Hostel() {
     }
 
-    public Hostel(int hostelID, String streetAddress, Ward ward, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, String images, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom, String description) {
+    public Hostel(int hostelID, String streetAddress, District district, String hostelName, int totalRoom, Date registeredDate, float rating, Landlord landlord, boolean activate, int minPrice, int maxPrice, int minArea, int maxArea, int availableRoom, String description, ArrayList<String> imgList) {
         this.hostelID = hostelID;
         this.streetAddress = streetAddress;
-        this.ward = ward;
+        this.district = district;
         this.hostelName = hostelName;
         this.totalRoom = totalRoom;
         this.registeredDate = registeredDate;
         this.rating = rating;
         this.landlord = landlord;
         this.activate = activate;
-        this.images = images;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.minArea = minArea;
         this.maxArea = maxArea;
         this.availableRoom = availableRoom;
         this.description = description;
+        this.imgList = imgList;
     }
 
     public int getHostelID() {
@@ -63,14 +64,14 @@ public class Hostel {
         this.streetAddress = streetAddress;
     }
 
-    public Ward getWard() {
-        return ward;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setWard(Ward ward) {
-        this.ward = ward;
+    public void setDistrict(District district) {
+        this.district = district;
     }
-
+   
     public String getHostelName() {
         return hostelName;
     }
@@ -117,14 +118,6 @@ public class Hostel {
 
     public void setActivate(boolean activate) {
         this.activate = activate;
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
     }
 
     public int getMinPrice() {
@@ -175,8 +168,12 @@ public class Hostel {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Hostel{" + "hostelID=" + hostelID + ", streetAddress=" + streetAddress + ", ward=" + ward + ", hostelName=" + hostelName + ", totalRoom=" + totalRoom + ", registeredDate=" + registeredDate + ", rating=" + rating + ", landlord=" + landlord + ", activate=" + activate + ", images=" + images + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" + maxArea + ", availableRoom=" + availableRoom + ", description=" + description + '}';
+    public ArrayList<String> getImgList() {
+        return imgList;
     }
+
+    public void setImgList(ArrayList<String> imgList) {
+        this.imgList = imgList;
+    }
+    
 }
