@@ -4,10 +4,16 @@
  */
 package com.dolphin.hostelmanagement.DAO;
 
+import com.dolphin.hostelmanagement.DTO.Service;
+import java.util.List;
+
 /**
  *
  * @author Admin
  */
 public class ServiceDAO {
-    
+    public static List<Service> findAllServiceByHostelId(int id) {
+        List<Service> list = null;
+        return list;
+    }
 }

@@ -48,12 +48,12 @@
         <c:choose>
             <c:when test="${sessionScope.currentUser != null}">
                 <header id="header-section" class="stick z-[100]">
-                    <%@include file="headerUser.jsp" %>
+                    <%@include file="headerUserSearchAddress.jsp" %>
                 </header>
             </c:when>
             <c:otherwise>
                 <header id="header-section" class="stick z-[100]">
-                    <%@include file="headerGuest.jsp" %>
+                    <%@include file="headerGuestSearchAddress.jsp" %>
                 </header>
             </c:otherwise>
         </c:choose>
@@ -66,11 +66,11 @@
                             <c:if test="${requestScope.hostel.imgList.size() > 0}">
                                 <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
                                     <c:if test="${iterator == 0}">
-                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
                                         </li>
                                     </c:if>
                                     <c:if test="${iterator > 0}">
-                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}">
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="${iterator}">
                                         </li>
                                     </c:if>
                                 </c:forEach>
@@ -262,7 +262,7 @@
                                 <div class="tenant-item-header">
                                     <div class="tenant-info">
                                         <div class="tenant-avt">
-                                            <img src="https://upload.wikimedia.org/wikipedia/vi/0/03/Haruno_Sakura.jpg" alt="">
+                                            <img src="${sessionScope.currentUser.account.avatar}" alt="">
                                         </div>
                                         <div>
                                             <div class="tenant-name">
@@ -293,9 +293,7 @@
                                         </div>
                                     </div>
                                     <div class="tenant-posting-date">${feedback.date}</div>
-
                                 </div>
-
                                 <div class="tenant-item-content">
                                     ${feedback.content}
                                 </div>
@@ -349,7 +347,16 @@
                                 <form action="/sakura/hostel/detail">
                                     <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                                     <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                    <button type="submit" name="paging" value="${requestScope.currentPage + 1}"><i class="fas fa-chevron-right"></i></button>
+                                    <c:if test="${requestScope.currentPage < requestScope.endPage}">
+                                        <button type="submit" name="paging" value="${requestScope.currentPage + 1}">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${requestScope.currentPage == requestScope.endPage}">
+                                        <button type="submit" name="paging" value="${requestScope.endPage}">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </c:if>
                                 </form>
                             </li>
                             <li class="pagination-item pagination-next pagination-next--fast">
@@ -385,7 +392,7 @@
                                     </div>
                                     <textarea class="text-area" placeholder="Nhập vào đây đánh giá của bạn"
                                               name="feedbackContent" rows="4" cols="100"></textarea>
-                                    <button type="submit" class="send-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
+                                    <button type="submit" name="message" value="Cảm ơn đánh giá của bạn" class="send-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
                                 </div>
                             </c:if>
                             <c:if test="${requestScope.feedback != null}">
@@ -402,7 +409,7 @@
                                     <textarea class="text-area" disabled placeholder="Nhập vào đây đánh giá của bạn"
                                               name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
                                     <button type="submit" class="send-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
-                                    <button type="submit" class="update-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Chỉnh sửa đánh giá</button>
+                                    <button class="update-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Chỉnh sửa đánh giá</button>
                                 </div>
                             </c:if>
                         </form>
@@ -441,7 +448,6 @@
                                             </ol>
                                             <div class="hostel-vip-images">
                                                 <div class="carousel-inner">
-
                                                     <c:if test="${hostel.imgList.size() > 0}">
                                                         <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
                                                             <c:if test="${iterator == 0}">
@@ -503,10 +509,8 @@
                                                     <span class="hostel-vip-room-available">Còn ${hostel.availableRoom} phòng trống</span>
                                                     <span class="hostel-vip-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
                                                 </div>
-
                                                 <div class="hostel-vip-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
                                             </div>
-
                                     </button>
                                 </form>
                             </li>
@@ -529,7 +533,23 @@
                 </a>
             </div>
         </div>
+        <c:if test="${requestScope.message != null}">
+            <div class="modaL">
+                <div class="modal-ticket">
+                    <div class="modalHeader">
+                        <i class="fas fa-suitcase"></i>
+                        <span class="modalHeader-title">sakura</span>
+                    </div>
+                    <div class="modal-close-btn"><i class="fas fa-times"></i></div>
+                    <div class="modal-content">
+                        <h5>${requestScope.message}</h5>
+                    </div>
+                </div>
+            </div>
+        </c:if>
+
         <%@include file="footer.jsp" %>    
+        <script src="../assets/javascript/hostel-detail.js"></script>
         <script src="../assets/javascript//jquery/jquery.min.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/javascript/jquery.js"></script>
@@ -578,5 +598,4 @@
             }
         </script>
     </body>
-
 </html>

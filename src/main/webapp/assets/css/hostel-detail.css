@@ -569,3 +569,67 @@ footer {
     color       : red;
     font-size   : 12px;
 }
+
+.modaL {
+    display         : flex;
+    justify-content : space-around;
+    align-items     : center;
+    background-color: rgba(0, 0, 0, 0.5);
+    position        : fixed;
+    z-index         : 100;
+    top             : 0;
+    bottom          : 0;
+    left            : 0;
+    right           : 0;
+}
+
+.modal-ticket {
+    position : relative;
+    width    : 500px;
+    max-width: calc(100% - 16px);
+    animation: showModal .2s linear;
+}
+
+@keyframes showModal {
+    from {
+        opacity  : 0.1;
+        transform: translateY(-50%);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modalHeader {
+    text-align: center;
+    padding   : 8px 0;
+    background: rgb(0, 150, 136);
+    color     : #fff;
+}
+
+.modalHeader-title {
+    font-size  : 24px;
+    margin-left: 12px;
+}
+
+.modal-close-btn {
+    position : absolute;
+    right    : 0;
+    top      : 0;
+    display  : inline-block;
+    color    : #fff;
+    font-size: 24px;
+    padding  : 8px 12px;
+}
+
+.modal-close-btn:hover {
+    color : #ccc;
+    cursor: pointer;
+}
+
+.modal-content {
+    padding         : 12px 24px;
+    padding-bottom  : 36px;
+    background-color: #fff;
+}
