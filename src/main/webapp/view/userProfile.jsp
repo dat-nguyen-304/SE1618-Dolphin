@@ -29,7 +29,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="/sakura/assets/css/user-profile.css">   
         <link rel="stylesheet" href="/sakura/assets/css/header-user.css">
-        
+
         <!--Javascript-->
         <script src="../assets/javascript/jquery.js"></script>
     </head>
@@ -37,7 +37,7 @@
         <header id="header-section" class="stick">
             <%@include file="headerUser.jsp" %>
         </header>
-        
+
         <c:choose>
             <c:when test="${sessionScope.currentUser != null}">
                 <!--Profile panel-->
@@ -45,20 +45,20 @@
                     <%-- Notification --%>
                     <!--code for notification starts--> 
                     <%--<c:if test = "${not empty requestScope.message}">--%>
-                        <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
-                             class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden ${fn:length(requestScope.message) > 0 ? 'show' : 'hide'}"
-                             id="notification">
-                            <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
-                                <i class="bi bi-check-circle"></i>
-                            </div>
-                            <div class="px-2 py-2">
-                                <h1 class="text-lg text-[#4d4d4d] font-semibold">${requestScope.message}</h1>
-                                <p class="text-[12px] text-[#8a8a8a] font-normal">Thông tin của bạn đã được cập nhật.</p>
-                            </div>
-                            <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeNoti()">
-                                <i class="bi bi-x-lg"></i>
-                            </a>
+                    <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
+                         class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden ${fn:length(requestScope.message) > 0 ? 'show' : 'hide'}"
+                         id="notification">
+                        <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
+                            <i class="bi bi-check-circle"></i>
                         </div>
+                        <div class="px-2 py-2">
+                            <h1 class="text-lg text-[#4d4d4d] font-semibold">${requestScope.message}</h1>
+                            <p class="text-[12px] text-[#8a8a8a] font-normal">Thông tin của bạn đã được cập nhật.</p>
+                        </div>
+                        <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeNoti()">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    </div>
                     <%--</c:if>--%>
                     <!--code for notification ends-->
 
@@ -74,7 +74,7 @@
                                             <label for="image-upload"><i class="bi bi-pen-fill"></i></label>
                                         </div>
                                         <img id="image-preview" src="${empty sessionScope.currentUser.account.avatar ? "../assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="">
-                  
+
                                     </div>
                                     <h1 class="text-[25px] font-semibold text-[#FF6532] mt-[20px]">${sessionScope.currentUser.fullname}</h1>
                                     <h3 class="text-[15px] font-normal text-[#bbbbbb]">${sessionScope.currentUser.account.username}</h3>
@@ -110,18 +110,18 @@
                                         <div class="info-detail">
                                             <div class="detail-item">
                                                 <label for="fullname">Họ tên</label>
-                                                <input type="text" id="fullname" name="fullname" placeholder="${sessionScope.currentUser.fullname}" value="${sessionScope.currentUser.fullname}">
-                                                <!--<p class="error" id="fullnameError">Tên không hợp lệ</p>-->
+                                                <input type="text" id="fullname" name="fullname" placeholder="${sessionScope.currentUser.fullname}" value="${sessionScope.currentUser.fullname}" onchange="checkFullname(this)">
+                                                <p class="error" id="fullnameError"></p>
                                             </div>
                                             <div class="detail-item">
                                                 <label for="username">Tên đăng nhập</label>
-                                                <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}">
-                                                <!--<p class="error" id="usernameError">Tên đăng nhập không hợp lệ</p>-->
+                                                <input type="text" id="username" name="username" placeholder="${sessionScope.currentUser.account.username}" value="${sessionScope.currentUser.account.username}" onchange="checkUsername(this)">
+                                                <p class="error" id="usernameError"></p>
                                             </div>
-<!--                                            <div class="detail-item">
-                                                <label for="birthday">Ngày sinh</label>
-                                                <p id="birthday">19 / 11 / 2002</p>
-                                            </div>-->
+                                            <!--                                            <div class="detail-item">
+                                                                                            <label for="birthday">Ngày sinh</label>
+                                                                                            <p id="birthday">19 / 11 / 2002</p>
+                                                                                        </div>-->
                                         </div>
                                         <div class="info-title">
                                             <i class="bi bi-chat-square-text-fill"></i>
@@ -130,13 +130,13 @@
                                         <div class="info-detail">
                                             <div class="detail-item">
                                                 <label for="phone">Số điện thoại</label>
-                                                <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.phone}" value="${sessionScope.currentUser.phone}">
-                                                <!--<p class="error" id="phoneError">Số điện thoại bao gồm 10 chữ số</p>-->
+                                                <input type="tel" id="phone" name="phone" placeholder="${sessionScope.currentUser.phone}" value="${sessionScope.currentUser.phone}" onchange="checkPhone(this)">
+                                                <p class="error" id="phoneError"></p>
                                             </div>
                                             <div class="detail-item">
                                                 <label for="email">Email</label>
-                                                <input type="tel" id="phone" name="email" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}">
-                                                <!--<p class="error" id="emailError">Không đúng định dạng email</p>-->
+                                                <input type="tel" id="email" name="email" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}" onchange="checkEmail(this)">
+                                                <p class="error" id="emailError"></p>
                                             </div>
                                             <div class="detail-item">
                                                 <label for="facebook">Facebook</label>
@@ -197,7 +197,7 @@
             for (var i = 0; i < openmodal.length; i++) {
                 openmodal[i].addEventListener('click', function (event) {
                     event.preventDefault();
-                    toggleModal();
+                    if (validate()) toggleModal();
                 });
             }
 
@@ -251,7 +251,7 @@
                 setTimeout(function () {
                     noti.style.transform = "translateX(150%)";
                 }, 2000);
-            } 
+            }
             if (noti.classList.contains("hide")) {
                 noti.style.display = "none";
             }
@@ -278,5 +278,126 @@
             });
         </script>
 
+        <script src="..assets/javascript/jquery.js"></script>
+        <script>
+            function checkFullname(element) {
+                $("#fullnameError").html("");
+                $("#fullname").css("border-bottom", "");
+                var fullname = $("#fullname").val().trim();
+                if (fullname !== element.placeholder) {
+                    var re = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
+                    if (!re.test(fullname) && fullname.length !== 0) {
+                        $("#fullnameError").html("Tên riêng chỉ gồm chữ cái tiếng Việt!");
+                        $("#fullnameError").css("color", "red");
+                    }
+                }
+            }
+
+            function checkEmail(element) {
+                $("#emailError").html("");
+                $("#email").css("border-bottom", "");
+                var email = $("#email").val().trim();
+                if (email !== element.placeholder) {
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: 'email=' + $("#email").val(),
+                        url: '/sakura/account/checkEmail',
+                        success: function (result) {
+                            if (result.length === 0 && email.length !== 0) {
+                                var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+                                if (!re.test($("#email").val())) {
+                                    $("#emailError").html("Sai định dạng email!");
+                                    $("#emailError").css("color", "red");
+                                }
+                            } else {
+                                $("#emailError").html(result);
+                                $("#emailError").css("color", "red");
+                            }
+                        },
+                        error: function () {
+                            console.log('Error');
+                        },
+                        complete: function (result) {
+                            console.log('Complete');
+                        }
+                    });
+                }
+            }
+
+            function checkUsername(element) {
+                $("#usernameError").html("");
+                $("#username").css("border-bottom", "");
+                var username = $("#username").val().trim();
+                if (username.length < 6) {
+                    $("#usernameError").html("Tên đăng nhập phải có ít nhất 6 kí tự!");
+                    $("#usernameError").css("color", "red");
+                } else if (username !== element.placeholder) {
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: 'username=' + $("#username").val(),
+                        url: '/sakura/account/checkUsername',
+                        success: function (result) {
+                            if (result.length === 0) {
+                                var re = /^[a-zA-Z]\w+$/;
+                                if (!re.test($("#username").val()) && username.length !== 0) {
+                                    $("#usernameError").html("Tên đăng nhập bắt đầu bằng chữ cái, không chứa các kí tự đặc biệt trừ '_'!");
+                                    $("#usernameError").css("color", "red");
+                                }
+                            } else {
+                                $("#usernameError").html(result);
+                                $("#usernameError").css("color", "red");
+                            }
+                            console.log('Success check username');
+                        },
+                        error: function () {
+                            console.log('Error check username');
+                        },
+                        complete: function (result) {
+                            console.log('Complete check username');
+                        }
+                    });
+                }
+            }
+
+            function checkPhone(element) {
+                $("#phoneError").html("");
+                $("#phone").css("border", "");
+                var phone = $("#phone").val().trim();
+                if (phone !== element.placeholder) {
+                    var re = /^\d{10}$/;
+                    if (!re.test(phone) && phone.length !== 0) {
+                        $("#phoneError").html("SĐT phải có 10 chữ số!");
+                        $("#phoneError").css("color", "red");
+                    }
+                }
+            }
+
+            function validate() {
+                var fullname = $("#fullname").val().trim();
+                var username = $("#username").val().trim();
+                var email = $("#email").val().trim();
+                var phone = $("#phone").val().trim();
+                if (!fullname || $("#fullnameError").html() !== "") {
+                    $("#fullname").css("border-bottom", "1.5px solid red");
+                    $("#fullname").focus();
+//                    document.getElementById("fullname").style = "border:2px solid red";
+//                    document.getElementById("fullname").focus();
+                    return false;
+                } else if (!username || $("#usernameError").html() !== "") {
+                    $("#username").css("border-bottom", "1.5px solid red");
+                    $("#username").focus();
+                    return false;
+                } else if (!phone || $("#phoneError").html() !== "") {
+                    $("#phone").css("border-bottom", "1.5px solid red");
+                    $("#phone").focus();
+                    return false;
+                } else if (!email || $("#emailError").html() !== "") {
+                    $("#email").css("border-bottom", "1.5px solid red");
+                    $("#email").focus();
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </body>
 </html>

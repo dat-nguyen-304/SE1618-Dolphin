@@ -12,16 +12,18 @@ public class Service {
     private int serviceFee;
     private YearMonth monthApplied;
     private Hostel hostel;
+    private String unit;
 
     public Service() {
     }
 
-    public Service(int serviceID, String serviceName, int serviceFee, YearMonth monthApplied, Hostel hostel) {
+    public Service(int serviceID, String serviceName, int serviceFee, YearMonth monthApplied, Hostel hostel, String unit) {
         this.serviceID = serviceID;
         this.serviceName = serviceName;
         this.serviceFee = serviceFee;
         this.monthApplied = monthApplied;
         this.hostel = hostel;
+        this.unit = unit;
     }
 
     public int getServiceID() {
@@ -62,5 +64,18 @@ public class Service {
 
     public void setHostel(Hostel hostel) {
         this.hostel = hostel;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    @Override
+    public String toString() {
+        return "Service{" + "serviceID=" + serviceID + ", serviceName=" + serviceName + ", serviceFee=" + serviceFee + ", monthApplied=" + monthApplied + ", hostel=" + hostel + ", unit=" + unit + '}';
     }
 }

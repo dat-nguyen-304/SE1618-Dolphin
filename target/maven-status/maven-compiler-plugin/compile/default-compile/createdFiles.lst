@@ -35,6 +35,7 @@ com\dolphin\hostelmanagement\DTO\Account.class
 com\dolphin\hostelmanagement\DAO\HostelDAO.class
 com\dolphin\hostelmanagement\controller\InvoiceController.class
 com\dolphin\hostelmanagement\controller\HostelController$3.class
+com\dolphin\hostelmanagement\DAO\BookingRequestDAO.class
 com\dolphin\hostelmanagement\DAO\InvoiceDAO.class
 com\dolphin\hostelmanagement\DTO\ServiceDetail.class
 com\dolphin\hostelmanagement\controller\AdminController.class

@@ -44,7 +44,7 @@ public class AccessController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String url = ERROR;
             String path = request.getPathInfo();
@@ -58,8 +58,7 @@ public class AccessController extends HttpServlet {
                     if (logout == null) {
                         if (username != null && password != null) {
 
-                            String hashedPassword = password; //PasswordHash.doHashing(password);
-
+                            String hashedPassword = PasswordHash.doHashing(password);
                             Account acc = null;
 
                             if (username.contains("@")) {
@@ -70,7 +69,7 @@ public class AccessController extends HttpServlet {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, hashedPassword);
                             }
-                            
+
                             System.out.println(username);
                             System.out.println(password);
                             if (acc != null) {
@@ -81,20 +80,20 @@ public class AccessController extends HttpServlet {
                                     session.setAttribute("currentUser", tenant);
                                     List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
                                     session.setAttribute("favoriteHostelIds", favHostelIds);
-                                    
+
                                     if (tenant.isRentStatus()) {
                                         response.sendRedirect("/sakura/tenant/dashboard");
                                     }
-                                    
+
                                 } else {
                                     session.setAttribute("role", 2);
                                     Landlord landlord = LandlordDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", landlord);
                                 }
-                                System.out.println("hihi ?");
                                 response.sendRedirect("/sakura/home");
                                 return;
                             } else {
+                                request.setAttribute("username", username);
                                 request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
                                 url = "/view/login.jsp";
                             }

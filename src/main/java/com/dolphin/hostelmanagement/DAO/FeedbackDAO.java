@@ -28,6 +28,7 @@ public class FeedbackDAO {
             if (cn != null) {
                 feedbackList = new ArrayList<>();
                 String sql = "select feedbackID, TenantID, content, rating, date from feedback where hostelID = ? order by date DESC";
+
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 ResultSet rs = pst.executeQuery();
@@ -49,7 +50,7 @@ public class FeedbackDAO {
         }
         return feedbackList;
     }
-    
+
     public static Feedback findByHostelTenant(int hostelId, int tenantId) {
         Feedback feedback = null;
         Connection cn = null;
@@ -79,7 +80,7 @@ public class FeedbackDAO {
         }
         return feedback;
     }
-    
+
     public static boolean add(int tenantId, int hostelId, String content, int rating) {
         Connection cn = null;
         try {
@@ -92,15 +93,17 @@ public class FeedbackDAO {
                 pst.setString(3, content);
                 pst.setInt(4, rating);
                 int rows = pst.executeUpdate();
-                if (rows > 0) return true;
+                if (rows > 0) {
+                    return true;
+                }
                 cn.close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
-    
+
     public static boolean update(int tenantId, int hostelId, String content, int rating, String date) {
         Connection cn = null;
         try {
@@ -114,20 +117,22 @@ public class FeedbackDAO {
                 pst.setInt(4, tenantId);
                 pst.setInt(5, hostelId);
                 int rows = pst.executeUpdate();
-                if (rows > 0) return true;
+                if (rows > 0) {
+                    return true;
+                }
                 cn.close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
-    
+
     public static void main(String[] args) {
-        float currentHostelRating = (float)3.5;
+        float currentHostelRating = (float) 3.5;
         int feedbackQuantity = 5;
         int rating = 4;
-        float a = (float)Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10)/10;
+        float a = (float) Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10;
         System.out.println(a);
     }
 }

@@ -84,11 +84,11 @@
                 <div data-aos="fade-up" class="row filter-container">
                     <form action="/sakura/hostel/list" class="filter">
                         <select id="province" class="filter-address" name="province">
-                            <option value="">Chọn thành phố</option>
+                            <option value="0">Chọn thành phố</option>
                         </select>
 
                         <select id="district" class="filter-address" name="district">
-                            <option value="">Chọn quận</option>
+                            <option value="0">Chọn quận</option>
                         </select>
 
                         <div class="filter-submit">
@@ -354,7 +354,7 @@
 
             $('#province').change(function () {
                 $('#district').find('option').remove();
-                $('#district').append('<option>Chọn quận</option>');
+                $('#district').append('<option value="0">Chọn quận</option>');
 
                 let provinceID = $('#province').val();
                 let data = {

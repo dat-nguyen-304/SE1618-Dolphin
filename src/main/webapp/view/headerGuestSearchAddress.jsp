@@ -14,19 +14,19 @@
             <form action="/sakura/hostel/list" class="filter">
                 <select id="province" name="province" class="filter-address" onchange="renderDistrict(this)">
                     <option value="0">Thành phố</option>
-                    <c:forEach items="${requestScope.provinceList}" var="province">
-                        <c:if test="${province.provinceID == requestScope.province.provinceID}">
+                    <c:forEach items="${sessionScope.provinceList}" var="province">
+                        <c:if test="${province.provinceID == sessionScope.province.provinceID}">
                             <option selected value="${province.provinceID}">${province.provinceName}</option>
                         </c:if>
-                        <c:if test="${province.provinceID != requestScope.province.provinceID}">
+                        <c:if test="${province.provinceID != sessionScope.province.provinceID}">
                             <option value="${province.provinceID}">${province.provinceName}</option>
                         </c:if>
                     </c:forEach>
                 </select>
                 <select id="district" name="district" class="filter-address">
                     <option value='0'>Quận huyện</option>
-                    <c:if test="${requestScope.district != null && requestScope.district.districtID != 0}">
-                        <input type="hidden" class="districtSelected-hidden" value="${requestScope.district.districtID}" />
+                    <c:if test="${sessionScope.district != null && sessionScope.district.districtID != 0}">
+                        <input type="hidden" class="districtSelected-hidden" value="${sessionScope.district.districtID}" />
                     </c:if>
                 </select>
                 <div class="filter-submit">
@@ -50,22 +50,4 @@
     </div>
 
 </nav>
-
-<script>
-    function renderDistrict(element) {
-        var provinceID = element.value;
-        jQuery.ajax({
-            type: 'POST',
-            data: {'provinceID': provinceID
-            },
-            url: '/sakura/hostel/address',
-            success: function (response) {
-                districtElemet.innerHTML = "<option value='0'>Quận huyện</option>" + response;
-            },
-            error: function () {
-            },
-            complete: function (result) {
-            }
-        });
-    }
-</script>
+<script src="../assets/javascript/render-district.js"></script>
