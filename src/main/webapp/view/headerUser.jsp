@@ -17,7 +17,7 @@
     <div class="profile">
 
         <div class="profile-avatar">    
-            <img id="profile-btn" src="${empty sessionScope.currentUser.account.avatar ? "/sakura/assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="">
+            <img id="profile-btn" src="${empty sessionScope.currentUser.account.avatar ? "/sakura/assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="/sakura/assets/images/user-avatars/no_ava.jpg">
         </div>
         <div class="profile-menu">
             <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>

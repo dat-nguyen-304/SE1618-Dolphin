@@ -157,9 +157,11 @@ public class AccessController extends HttpServlet {
                             if (role == 1) {
                                 t = (Tenant) session.getAttribute("tempUser");
                                 TenantDAO.save(t);
+                                t.getAccount().setAvatar(avatar);
                             } else {
                                 l = (Landlord) session.getAttribute("tempUser");
                                 LandlordDAO.save(l);
+                                l.getAccount().setAvatar(avatar);
                             }
 
                             Account newAcc = AccountDAO.findByEmail(email);
@@ -279,9 +281,12 @@ public class AccessController extends HttpServlet {
 
                             EmailService sender = new EmailService();
                             sender.sendResetPasswordEmail(email, newPwd);
-
+                            url = "/view/login.jsp";
                         }
-                        url = "/view/login.jsp";
+                        else {
+                            request.setAttribute("errorMessage", "Email không tồn tại!");
+                            url = "/view/forgotPassword.jsp";
+                        }
                     } else {
                         url = "/view/forgotPassword.jsp";
                     }

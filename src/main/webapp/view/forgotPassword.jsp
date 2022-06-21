@@ -48,7 +48,7 @@
             <div class="w-2/5 relativee">
                 <div class="w-2/5 h-screen absolute z-[5] bg-black black opacity-80 flex flex-col justify-center items-center">
                     <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">It's okay</h2>
-                    <p  class="z-10 pt-9 w-4/5 mx-auto text-center text-white opacity-100 text-[20px] font-extralight" >Enter the email address or phone number associated with your account and reset your password</p>
+                    <p  class="z-10 pt-9 w-4/5 mx-auto text-center text-white opacity-100 text-[20px] font-extralight" >Nhập email của tài khoản bạn đã đăng kí và lấy lại mật khẩu</p>
                 </div>
                 <img class="w-2/5 h-screen absolute " src="../assets/images/bg5.jpg" alt="">
             </div>
@@ -61,6 +61,7 @@
                     <div class="form-header w-full h-18 mb-3 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Lấy lại mật khẩu</h2>
                         <p id="error" class="warning text-base font-light mt-4">Mật khẩu mới sẽ được gửi vào email liên kết của bạn!</p>
+                        <p class="warning text-base font-light mt-4" style ="color:red">${requestScope.errorMessage}</p>
                     </div>
 
                     <ul class="item-list list-none w-[52%]">
@@ -74,7 +75,7 @@
 
                         <!--Submit-->
                         <li class="mb-7">
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">Gửi link khôi phục</button>  
+                            <button type="submit" id="login-btn" onsubmit="checkEmailExist()" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">Gửi link khôi phục</button>  
                         </li>
 
                         <div id="more" class="mt-3 flex justify-center text-sm font-light">
@@ -135,8 +136,8 @@
                                 $("#emailError").css("color", "red");
                             }
                         } else {
-                            $("#emailError").html(result);
-                            $("#emailError").css("color", "red");
+                            //$("#emailError").html(result);
+                            //$("#emailError").css("color", "red");
                         }
                         console.log('Success 65');
                     },
