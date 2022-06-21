@@ -27,7 +27,7 @@ public class FeedbackDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 feedbackList = new ArrayList<>();
-                String sql = "select feedbackID, TenantID, content, rating, date from feedback where hostelID = ?";
+                String sql = "select feedbackID, TenantID, content, rating, date from feedback where hostelID = ? order by date DESC";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 ResultSet rs = pst.executeQuery();
