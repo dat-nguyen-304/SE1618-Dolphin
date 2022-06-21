@@ -8,7 +8,7 @@
         <div class="grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
             <div class="sm:col-span-2">
                 <a href="/" aria-label="Go home" title="Company" class="inline-flex items-center">
-                    <img class="w-9 h-9" src="../assets/icons/logo.png" alt="">
+                    <img class="w-9 h-9" src="/sakura/assets/icons/logo.png" alt="">
                     <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">SAKURA</span>
                 </a>
                 <div class="mt-6 lg:max-w-sm">

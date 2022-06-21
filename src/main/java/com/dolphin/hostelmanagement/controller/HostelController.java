@@ -430,44 +430,53 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("room", room);
                 request.getRequestDispatcher("/view/roomDetail.jsp").forward(request, response);
 
-            } //else if (path.equals("/sendRentalRequest")) {
-            //                //HttpSession session = request.getSession(true);
-            //                Tenant t = (Tenant) session.getAttribute("currentUser");
-            //
-            //                Notification rentalNoti = new Notification();
-            //
-            //                rentalNoti.setFromAccount(t.getAccount());
-            //
-            //                int roomID = Integer.parseInt(request.getParameter("roomID"));
-            //                int hostelID = Integer.parseInt(request.getParameter("hostelID"));
-            //
-            //                int landlordID = HostelDAO.findLandlordID(hostelID);
-            //                rentalNoti.setToAccount(AccountDAO.findById(landlordID));
-            //                rentalNoti.setCreatedDate(new Date());
-            //
-            //                String content = "Rent " + roomID + " in " + hostelID;
-            //                rentalNoti.setContent(content);
-            //                rentalNoti.setNotiType(1); //notification type 1 - used in sending rental request
-            //                rentalNoti.setStatus(1); //1 means pending or read only status
-            //
-            //                boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
-            //                if (check) {
-            //                    System.out.println("Successfully sent rental request!");
-            //                    Notification successNoti = new Notification();
-            //
-            //                    successNoti.setFromAccount(t.getAccount()); //same account means system sends noti to user
-            //                    successNoti.setToAccount(t.getAccount());
-            //                    successNoti.setCreatedDate(new Date());
-            //                    successNoti.setContent("You have successfully booked room " + RoomDAO.findByID(roomID).getRoomNumber() + " in hostel "
-            //                            + HostelDAO.findById(hostelID).getHostelName());
-            //                    successNoti.setNotiType(2);
-            //                    successNoti.setStatus(1);
-            //                    NotificationDAO.saveNotification(successNoti);
-            //                }
-            //                response.sendRedirect("/sakura/hostel/detail?filterStar=0&hostelId=" + hostelID);
-            //
-            //            } 
-            else if (path.equals("/address")) {
+            } else if (path.equals("/sendRentalRequest")) {
+                Tenant t = (Tenant) session.getAttribute("currentUser");
+
+                Notification rentalNoti = new Notification();
+
+                int roomID = Integer.parseInt(request.getParameter("roomID"));
+                int hostelID = Integer.parseInt(request.getParameter("hostelID"));
+                Hostel hostel = HostelDAO.findById(hostelID);
+                Room room = RoomDAO.findByID(roomID);
+
+                //this is notification for landlord about booking request from tenant
+                int landlordID = HostelDAO.findLandlordID(hostelID);
+                rentalNoti.setToAccount(AccountDAO.findById(landlordID));
+                rentalNoti.setCreatedDate(new Date());
+                rentalNoti.setContent("Người dùng " + t.getFullname() + " muốn xem phòng " + room.getRoomNumber() + "\n" +
+"ở nhà trọ " + hostel.getHostelName() + "!");
+                rentalNoti.setStatus(0); //0 means unread
+                
+                boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
+                System.out.println("Successfully sent rental request!");
+                
+                //end notification for landlord
+                //this is notification for tenant about successfully booking request from system
+                
+                Notification successNoti = new Notification();
+                
+                successNoti.setToAccount(t.getAccount());
+                successNoti.setCreatedDate(new Date());
+                successNoti.setContent("Bạn đã đăng kí xem phòng " + room.getRoomNumber() + " ở nhà trọ " + hostel.getHostelName() + " thành công!");
+                
+                successNoti.setStatus(0); //0 means unread
+                NotificationDAO.saveNotification(successNoti);
+                
+                //end notification for landlord
+                
+                //this is booking request adding function
+                BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomID, rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
+
+                //end booking request adding function
+                
+                //this will show notification after returning back to hostel detail page!
+
+                response.sendRedirect("/sakura/hostel/detail?successBookingMessage=true&filterStar=0&hostelId=" + hostelID);
+                return;
+                
+                //end function
+            } else if (path.equals("/address")) {
                 int provinceID = Integer.parseInt(request.getParameter("provinceID"));
                 List<District> districtList = DistrictDAO.findByProvinceID(provinceID);
                 int districtSelected = 0;
@@ -485,18 +494,6 @@ public class HostelController extends HttpServlet {
                         out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
                     }
                 }
-
-            } else if (path.equals("/sendRentalRequest")) {
-
-                Tenant t = (Tenant) session.getAttribute("currentUser");
-                int roomID = Integer.parseInt(request.getParameter("roomID"));
-
-                Date tmp = new Date();
-                BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomID, tmp, 1);
-                request.setAttribute("messageTitle", "Yêu cầu thành công!");
-                request.setAttribute("messageDetail", "Chủ nhà sẽ tiếp nhận yêu cầu và xác nhận lại với bạn.");
-
-                request.getRequestDispatcher("/hostel/list").forward(request, response);
             }
         }
     }

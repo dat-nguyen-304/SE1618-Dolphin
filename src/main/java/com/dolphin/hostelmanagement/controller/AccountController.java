@@ -233,13 +233,11 @@ public class AccountController extends HttpServlet {
                 Landlord l = (Landlord) session.getAttribute("currentUser");
                 acc = l.getAccount();
             }
+            
+            ArrayList<Notification> notiList = NotificationDAO.getNotificationByToID(acc.getAccountID());
 
-//            ArrayList<Notification> notiList = NotificationDAO.getNotificationByToID(acc.getAccountID());
-//            for(Notification noti: notiList) {
-//                System.out.println(noti.getContent());
-//            }
-//            request.setAttribute("notiList", notiList);
-//            request.getRequestDispatcher("/view/myNotification.jsp").forward(request, response);
+            request.setAttribute("notiList", notiList);
+            request.getRequestDispatcher("/view/myNotification.jsp").forward(request, response);
         }
     }
 

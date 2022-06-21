@@ -27,17 +27,9 @@
                     <td>${noti.createdDate}</td>
                     <c:choose>
                         <c:when test="${noti.status == 0}">
-                            <td>Hủy</td></c:when> 
+                            <td>Unread</td></c:when> 
                         <c:when test="${noti.status == 1}">
-                            <td>Chờ</td></c:when>
-                        <c:otherwise>
-                            <td>OK!</td></c:otherwise> 
-                    </c:choose>
-                    <c:choose>
-                        <c:when test="${noti.fromAccount.getAccountID() == noti.toAccount.getAccountID()}">
-                            <td>System</td></c:when>
-                        <c:otherwise>
-                            <td>${noti.fromAccount.getUsername()}</td></c:otherwise> 
+                            <td>Read</td></c:when> 
                     </c:choose>
                 </tr>
             </c:forEach>
