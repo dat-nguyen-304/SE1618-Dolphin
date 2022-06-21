@@ -365,9 +365,55 @@ public class AccountDAO {
         }
         return check;
     }
+    
+    public static boolean saveGoogleAccount(int googleID, String googleToken) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Insert into GoogleAccount (googleID, googleToken) values (?, ?)";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, googleID);
+            pst.setString(2, googleToken);
+            
+            boolean check = pst.executeUpdate() > 0;
+            
+            return check;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return true;
+    }
+    
+    public static String findGoogleToken(int googleID) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Select * from GoogleAccount where googleID = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, googleID);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs != null && rs.next()) return rs.getString("googleToken");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
 
     public static void main(String[] args) {
-        System.out.println(checkUsername("anvu1911"));
+        //saveGoogleAccount(3, "hiohiahha");
+        System.out.println(findGoogleToken(10));
     }
 
 }

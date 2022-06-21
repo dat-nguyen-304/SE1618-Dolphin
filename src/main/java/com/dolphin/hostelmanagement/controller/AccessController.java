@@ -9,15 +9,18 @@ import com.dolphin.hostelmanagement.DAO.FavoriteHostelDAO;
 import com.dolphin.hostelmanagement.DAO.LandlordDAO;
 import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.Account;
+import com.dolphin.hostelmanagement.DTO.GooglePojo;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.utils.EmailService;
+import com.dolphin.hostelmanagement.utils.GoogleUtils;
 import com.dolphin.hostelmanagement.utils.PasswordHash;
 import com.dolphin.hostelmanagement.utils.StringUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -112,6 +115,8 @@ public class AccessController extends HttpServlet {
                 }
             }
             if (path.equals("/register")) {
+                HttpSession session = request.getSession(true);
+
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 if (username != null && password != null) {
@@ -126,7 +131,6 @@ public class AccessController extends HttpServlet {
                         int role = Integer.parseInt(request.getParameter("role"));
                         boolean status = true;
                         Account acc = new Account(0, username, hashedPassword, email, regDate, role, status);
-                        HttpSession session = request.getSession(true);
 
                         if (role == 1) {
                             Tenant t = new Tenant(acc, fullname, phone, false);
@@ -136,21 +140,61 @@ public class AccessController extends HttpServlet {
                             Landlord l = new Landlord(acc, fullname, phone);
                             //check = LandlordDAO.save(l);
                             session.setAttribute("tempUser", l);
-                            request.setAttribute("role", 2);
+                            //request.setAttribute("role", 2);
                         }
                         //request.setAttribute("successNotification", "Registered Successfully!");
                         //request.setAttribute("account", acc);
                         //url = "/view/login.jsp";
                         //send verification code
-                        String verificationCode = StringUtils.randomString(10);
-                        EmailService sender = new EmailService();
-                        sender.sendVerificationEmail(email, verificationCode);
 
-                        session.setAttribute("verificationCode", verificationCode);
-                        session.setAttribute("role", role);
+                        if (session.getAttribute("googleToken") != null) { //if user registers with his/her google email
+                            String googleToken = (String) session.getAttribute("googleToken");
+                            String avatar = (String) session.getAttribute("avatarUrl");
 
-                        //end send verification code
-                        url = "/access/mailVerification";
+                            Tenant t = null;
+                            Landlord l = null;
+
+                            if (role == 1) {
+                                t = (Tenant) session.getAttribute("tempUser");
+                                TenantDAO.save(t);
+                            } else {
+                                l = (Landlord) session.getAttribute("tempUser");
+                                LandlordDAO.save(l);
+                            }
+
+                            Account newAcc = AccountDAO.findByEmail(email);
+
+                            AccountDAO.saveUserImgURL(avatar, newAcc.getAccountID()); // save avatar
+                            AccountDAO.saveGoogleAccount(newAcc.getAccountID(), googleToken);
+
+                            session.invalidate(); //reset session to delete old information
+                            session = request.getSession(true);
+
+                            if (role == 1) {
+                                session.setAttribute("currentUser", t);
+                                session.setAttribute("role", 1);
+                                List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(t.getAccount().getAccountID());
+
+                                session.setAttribute("favoriteHostelIds", favHostelIds);
+
+                            } else if (role == 2) {
+                                session.setAttribute("currentUser", l);
+                                session.setAttribute("role", 2);
+                            }
+
+                            response.sendRedirect("/sakura/home");
+
+                        } else {
+                            String verificationCode = StringUtils.randomString(10);
+                            EmailService sender = new EmailService();
+                            sender.sendVerificationEmail(email, verificationCode);
+
+                            session.setAttribute("verificationCode", verificationCode);
+                            session.setAttribute("role", role);
+
+                            //end send verification code
+                            url = "/access/mailVerification";
+                        }
                     } catch (Exception e) {
                         log("Error at SignUpServlet: " + e.toString());
                     }
@@ -160,6 +204,65 @@ public class AccessController extends HttpServlet {
                 }
 
                 request.getRequestDispatcher(url).forward(request, response);
+            }
+            if (path.equals("/googleAccess")) {
+                HttpSession session = request.getSession(true);
+
+                String code = request.getParameter("code");
+                String accessToken = GoogleUtils.getToken(code);
+                GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
+                request.setAttribute("id", googlePojo.getId());
+                request.setAttribute("name", googlePojo.getName());
+                request.setAttribute("email", googlePojo.getEmail());
+                request.setAttribute("picture", googlePojo.getPicture());
+                //RequestDispatcher dis = request.getRequestDispatcher("/view/index.jsp");
+                System.out.println("Where the fuck am I ?");
+                boolean emailInSystem = AccountDAO.checkEmail(googlePojo.getEmail());
+
+                //System.out.println("This is login: " + request.getParameter("is_login"));
+                if (emailInSystem == true) { //ton tai tai khoan da dang ki trong he thong
+                    Account acc = AccountDAO.findByEmail(googlePojo.getEmail());
+                    String googleToken = AccountDAO.findGoogleToken(acc.getAccountID());
+
+                    if (googleToken == null || googleToken.equals(googlePojo.getId())) { // duoc phep dang nhap
+
+//                            Account acc = AccountDAO.findByEmail(googlePojo.getEmail());
+                        if(googleToken == null) { //Tai khoan chua lien ket voi google (khong co token trong he thong)
+                            AccountDAO.saveGoogleAccount(acc.getAccountID(), googlePojo.getId());
+                        }
+
+                        if (acc.getRole() == 1) {
+                            Tenant t = TenantDAO.findByAccount(acc);
+                            session.setAttribute("currentUser", t);
+                            session.setAttribute("role", 1);
+
+                            List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(t.getAccount().getAccountID());
+                            session.setAttribute("favoriteHostelIds", favHostelIds);
+
+                            if (t.isRentStatus()) {
+                                response.sendRedirect("/sakura/tenant/dashboard");
+                            }
+                        } else {
+                            Landlord l = LandlordDAO.findByAccount(acc);
+                            session.setAttribute("currentUser", l);
+                            session.setAttribute("role", 2);
+                        }
+
+                        response.sendRedirect("/sakura/home");
+                    }
+                    
+                    else {
+                        //hihi khong biet, cai nay` danh` cho may thang fake google account chui vo he thong a'
+                    }
+                }
+                else { //email khong co trong he thong thi` chuyen qua page dang ki
+                    session.setAttribute("name", googlePojo.getName());
+                    session.setAttribute("email", googlePojo.getEmail());
+                    session.setAttribute("googleToken", googlePojo.getId());
+                    session.setAttribute("avatarUrl", googlePojo.getPicture());
+
+                    response.sendRedirect("/sakura/access/register");
+                }
             }
             if (path.equals("/forgotPassword")) {
                 try {
