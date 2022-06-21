@@ -77,9 +77,10 @@
                         <p class="title-font text-center font-medium text-[18px] text-[#40576C]">${requestScope.room.roomType.advertisedPrice / 1000000 } triệu / tháng</p>
                     </div>
 
-                    <form action = "/sakura/hostel/sendRentalRequest" method="post" class="w-full m-0 p-0">
+                        <form action = "${sessionScope.currentUser == null ? "/sakura/access/login" : "/sakura/hostel/sendRentalRequest"}" method="post" class="w-full m-0 p-0">
                         <input type ="hidden" name ="hostelID" value ="${requestScope.room.roomType.hostel.hostelID}">
                         <input type ="hidden" name ="roomID" value ="${requestScope.room.roomID}">
+                        
                         <button type ="submit" name ="action" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đặt thuê</button>
                     </form>
                 </div>
