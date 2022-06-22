@@ -31,7 +31,7 @@
         <link rel="stylesheet" href="../assets/css/app.css">
 
         <!--Javascript-->
-        <script src="../assets/javascript/jquery.js"></script>
+        <script src="assets/javascript/jquery.js"></script>
 
     </head>
     <body>
@@ -52,7 +52,7 @@
                     <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Hello, Friend!</h2>
                     <p  class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">Enter your personal details and start journey with us</p>
                 </div>
-                <img class="w-2/5 h-screen absolute " src="../assets/images/bg2.jpg" alt="">
+                <img class="w-2/5 h-screen absolute " src="assets/images/bg2.jpg" alt="">
             </div>
 
             <!-- login form -->
@@ -159,13 +159,13 @@
                             <div class="social flex justify-between my-5">
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-transform" href="https://accounts.google.com/o/oauth2/auth?scope=email+profile&redirect_uri=http://localhost:8080/sakura/access/googleAccess&response_type=code&client_id=730896390786-dleufk3i61p0pk8f6lavcrubmbucp5jq.apps.googleusercontent.com&approval_prompt=force">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="../assets/icons/google.svg" width="20" height="20"></object>
+                                        <object class="inline" data="assets/icons/google.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Google</span>
                                     </div>
                                 </a>  
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-transform" href="#">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="../assets/icons/facebook.svg" width="20" height="20"></object>
+                                        <object class="inline" data="assets/icons/facebook.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Facebook</span>
                                     </div>
                                 </a> 

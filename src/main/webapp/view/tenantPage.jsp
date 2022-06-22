@@ -194,7 +194,7 @@
                         </button>
                         <ul id="dropdown-example" class="hidden py-2 space-y-2">
                             <li>
-                                <a href="tenantPageInvoiceList.jsp"
+                                <a href="/sakura/invoice/list"
                                    class="menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Danh
                                     sách hoá đơn</a>
                             </li>
@@ -328,8 +328,6 @@
                     </div>
 
                     <form class="card cancel-rent w-[15%] h-[120px]">
-                        <input hidden type=text" name=tenantID" value="101" />
-                        <input hidden type="text" name=roomID" value="101" />
                         <button type="button"
                                 class="w-full h-full bg-[#F3F8FA] p-5 flex justify-center items-center text-[#17535B] font-medium text-[22px] hover:bg-[#DCE8E9]">Huỷ
                             thuê phòng</button>
