@@ -12,17 +12,19 @@ public class Invoice {
     private Contract contract;
     private Date startDate;
     private Date endDate;
+    private Date dueDate;
     private int status;
     private int totalPrice;
 
     public Invoice() {
     }
 
-    public Invoice(int invoiceID, Contract contract, Date startDate, Date endDate, int status, int totalPrice) {
+    public Invoice(int invoiceID, Contract contract, Date startDate, Date endDate, Date dueDate, int status, int totalPrice) {
         this.invoiceID = invoiceID;
         this.contract = contract;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.dueDate = dueDate;
         this.status = status;
         this.totalPrice = totalPrice;
     }
@@ -75,8 +77,16 @@ public class Invoice {
         this.contract = contract;
     }
 
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
     @Override
     public String toString() {
-        return "Invoice{" + "invoiceID=" + invoiceID + ", contract=" + contract + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + ", totalPrice=" + totalPrice + '}';
+        return "Invoice{" + "invoiceID=" + invoiceID + ", contract=" + contract + ", startDate=" + startDate + ", endDate=" + endDate + ", dueDate=" + dueDate + ", status=" + status + ", totalPrice=" + totalPrice + '}';
     }
 }
