@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <html class="no-js" lang="en">
     <!--<![endif]-->
 
@@ -281,7 +282,23 @@
         <script src="assets/javascript/homepage-jquery-2.1.3.min.js"></script>
         <script src="assets/javascript/homepage-plugins.js"></script>
         <script src="assets/javascript/homepage-main.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" > </script>
+        <script type="text/javascript">
+            /* window.addEventListener("pageshow", function (event) {
+             var historyTraversal = event.persisted ||
+             (typeof window.performance !== "undefined" &&
+             window.performance.getEntriesByType("navigation")[0].type === "back_forward");
+             if (historyTraversal) {
+             // Handle page restore.
+             window.location.reload();
+             }
+             }); */
+            $(window).bind("pageshow", function (event) {
+                if (event.originalEvent.persisted) {
+                    window.location.reload();
+                }
+            });
+        </script>
         <script type="text/javascript">
             window.addEventListener("scroll", function () {
                 var header = document.querySelector("#header-section");
@@ -289,7 +306,7 @@
 
                 // var img = document.querySelector("#logo-header");
                 // img.src = "../assets/images/homepage-icon/logo.png"; 
-            })
+            });
 
             var initialSrc = "assets/images/homepage-icon/logo_white.png";
             var scrollSrc = "assets/images/homepage-icon/logo.png";

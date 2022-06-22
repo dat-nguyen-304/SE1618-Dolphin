@@ -62,7 +62,6 @@ public class AccessController extends HttpServlet {
                         if (username != null && password != null) {
 
                             String hashedPassword = PasswordHash.doHashing(password);
-
                             Account acc = null;
 
                             if (username.contains("@")) {
@@ -73,7 +72,6 @@ public class AccessController extends HttpServlet {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, hashedPassword);
                             }
-
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
                                 if (acc.getRole() == 1) {
