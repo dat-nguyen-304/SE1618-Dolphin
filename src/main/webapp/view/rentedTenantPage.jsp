@@ -31,7 +31,7 @@
                                 <p>
                                     <strong>&emsp;&emsp;Invoice ID: ${invoice.invoiceID}</strong>&emsp;&emsp;from ${invoice.startDate} to ${invoice.endDate}&emsp;
                                     <span>
-                                        <form style="display: inline-block" action="/sakura/invoice/invoiceDetail" method="post">
+                                        <form style="display: inline-block" action="/sakura/invoice/detail" method="post">
                                             <input type="hidden" name="invoiceID" value="${invoice.invoiceID}">
                                             <button type="submit">Invoice Detail</button>
                                         </form>

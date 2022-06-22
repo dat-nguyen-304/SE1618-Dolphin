@@ -36,9 +36,10 @@ public class InvoiceDAO {
                         int invoiceID = rs.getInt("invoiceID");
                         Date startDate = rs.getDate("startDate");
                         Date endDate = rs.getDate("endDate");
+                        Date dueDate = rs.getDate("dueDate");
                         int status = rs.getInt("status");
                         int totalPrice = rs.getInt("totalPrice");
-                        list.add(new Invoice(invoiceID, c, startDate, endDate, status, totalPrice));
+                        list.add(new Invoice(invoiceID, c, startDate, endDate, dueDate, status, totalPrice));
                     }
                 }
             }
@@ -69,11 +70,12 @@ public class InvoiceDAO {
                     int invoiceID = rs.getInt("invoiceID");
                     Date startDate = rs.getDate("startDate");
                     Date endDate = rs.getDate("endDate");
+                    Date dueDate = rs.getDate("dueDate");
                     int status = rs.getInt("status");
                     int totalPrice = rs.getInt("totalPrice");
                     int contractID = rs.getInt("contractID");
                     Contract contract = ContractDAO.findByID(contractID);
-                    return new Invoice(invoiceID, contract, startDate, endDate, status, totalPrice);
+                    return new Invoice(invoiceID, contract, startDate, endDate, dueDate, status, totalPrice);
                 }
             }
         } catch (Exception e) {

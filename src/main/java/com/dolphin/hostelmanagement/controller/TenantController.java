@@ -53,9 +53,9 @@ public class TenantController extends HttpServlet {
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
             Tenant t = (Tenant) session.getAttribute("currentUser");
+            List<Contract> contractList = ContractDAO.findByTenant(t);
 
             if (path.equals("/dashboard")) {
-                List<Contract> contractList = ContractDAO.findByTenant(t);
 
                 HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
                 for (Contract contract : contractList) {
@@ -63,21 +63,23 @@ public class TenantController extends HttpServlet {
                 }
                 TreeMap<Contract, ArrayList<Invoice>> sorted = new TreeMap<>();
                 sorted.putAll(invoiceMap);
-                
+
                 request.setAttribute("contractList", contractList);
                 request.setAttribute("invoiceMap", sorted);
 
-                url = "/view/rentedTenantPage.jsp";
+                request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
             }
 
-            if (path.equals("/invoice")) {
-//                List<Invoice> invoiceList = InvoiceDAO.findByContract(contract);
-//                request.setAttribute("invoiceList", invoiceList);
+            if (path.equals("/invoiceList")) {
+                
+                List<Invoice> invoiceList = new ArrayList();
+                for (Contract contract : contractList) {
+                    invoiceList.addAll(InvoiceDAO.findByContract(contract));
+                }
+                request.setAttribute("invoiceList", invoiceList);
 
-                url = "/view/tenantInvoiceList.jsp";
+                request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
             }
-
-            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
