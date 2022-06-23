@@ -296,7 +296,7 @@ public class HostelController extends HttpServlet {
                         int rating = Integer.parseInt(request.getParameter("rating"));
                         int feedbackQuantity = feedbackList.size();
                         float currentHostelRating = hostel.getRating();
-                        float newHostelRating = (float) Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10;
+                        float newHostelRating = (float)(currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1);
                         hostel.setRating(newHostelRating);
                         HostelDAO.updateRating(hostelId, newHostelRating);
                         FeedbackDAO.add(t.getAccount().getAccountID(), hostelId, feedbackContent, rating);
@@ -309,7 +309,7 @@ public class HostelController extends HttpServlet {
                         int oldRating = Integer.parseInt(request.getParameter("oldRating"));
                         int feedbackQuantity = feedbackList.size();
                         float currentHostelRating = hostel.getRating();
-                        float newHostelRating = (float) Math.round((currentHostelRating * feedbackQuantity - oldRating + rating) / feedbackQuantity * 10) / 10;
+                        float newHostelRating = (float)(currentHostelRating * feedbackQuantity - oldRating + rating) / feedbackQuantity;
                         hostel.setRating(newHostelRating);
                         HostelDAO.updateRating(hostelId, newHostelRating);
                         LocalDateTime current = LocalDateTime.now();

@@ -6,14 +6,13 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang người thuê</title>
+    <title>Trang người cho thuê</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/logo.png">
@@ -29,7 +28,6 @@
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="LRoomDetail.css">
-
     <!-- icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
@@ -436,8 +434,72 @@
                         <div class="grid grid-cols-2 gap-8">
                             <div class="shadow-lg rounded text-center p-2 bg-red-300">Loại Phòng: Bình Dân
                             </div>
-                            <button class="shadow-lg rounded text-center p-2 bg-red-300">Chỉnh sửa thông tin cho loại
-                                phòng này</button>
+                            <button
+                                class="w-fit inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                type="button" data-modal-toggle="editRoom">
+                                Chỉnh sửa
+                            </button>
+
+                            <div id="editRoom" tabindex="-1" aria-hidden="true"
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+                                <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                                        <div
+                                            class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                Chỉnh sửa cho phòng 101
+                                            </h3>
+                                            <button type="button"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-toggle="editRoom">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        <div class="p-4">
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Loại phòng</label>
+                                                <select name="roomType" id="" class="w-[180px] p-1">
+                                                    <option>Bình Dân</option>
+                                                    <option>Trung Bình</option>
+                                                    <option>Cao Cấp</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Tên phòng</label>
+                                                <input type="text" class="text-sm p-1">
+                                                <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Giá</label>
+                                                <input type="text" class="text-sm p-1">
+                                                <span class="ml-2 text-xs">VD: 1000000</span>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Diện tích</label>
+                                                <input type="text" class="text-sm p-1">
+                                                <span class="ml-2 text-xs">VD: 25, 40</span>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Số người tối đa</label>
+                                                <input type="text" class="text-sm p-1">
+                                                <span class="ml-2 text-xs">VD: 5, 10</span>
+                                            </div>
+                                            <div class="grid justify-items-end">
+                                                <button class=" px-8 py-2 mx-4 my-2 border-2 rounded">Xác nhận</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="grid grid-cols-3 py-4">
                             <div class="shadow-lg rounded text-center py-2 px-4 bg-red-300 w-fit">Giá: 2.000.000</div>
@@ -488,7 +550,8 @@
                                                     value="Nguyễn Văn An" />
                                             </td>
                                             <td class="p-4">
-                                                <input type="text" class="border-none w-full text-center text-xs p-1"
+                                                <input type="date" name="date" min="1920-1-1" max="2022-12-31"
+                                                    class="border-none w-full text-center text-xs p-1"
                                                     value="1/1/2000" />
                                             </td>
                                             <td class="p-4">
@@ -496,15 +559,12 @@
                                                     value="0987654321" />
                                             </td>
                                             <td class="p-4">
-                                                <select class="border-none text-xs text-center w-full px-2">
-                                                    <option value="">YES</option>
-                                                    <option value="">NO</option>
-                                                </select>
+                                                <input type="radio" name="roomLeader" class="" />
                                             </td>
                                             <td class="p-4 text-right">
-                                                <a href="#"
+                                                <button
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Cập
-                                                    nhật</a>
+                                                    nhật</button>
                                             </td>
                                         </tr>
                                         <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -513,7 +573,8 @@
                                                     value="Nguyễn Văn An" />
                                             </td>
                                             <td class="p-4">
-                                                <input type="text" class="border-none w-full text-center text-xs p-1"
+                                                <input type="date" name="date" min="1920-1-1" max="2022-12-31"
+                                                    class="border-none w-full text-center text-xs p-1"
                                                     value="1/1/2000" />
                                             </td>
                                             <td class="p-4">
@@ -521,15 +582,12 @@
                                                     value="0987654321" />
                                             </td>
                                             <td class="p-4">
-                                                <select class="border-none text-xs text-center w-full px-2">
-                                                    <option value="">YES</option>
-                                                    <option value="">NO</option>
-                                                </select>
+                                                <input type="radio" name="roomLeader" class="" />
                                             </td>
                                             <td class="p-4 text-right">
-                                                <a href="#"
+                                                <button
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Cập
-                                                    nhật</a>
+                                                    nhật</button>
                                             </td>
                                         </tr>
                                         <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -538,7 +596,8 @@
                                                     value="Nguyễn Văn An" />
                                             </td>
                                             <td class="p-4">
-                                                <input type="text" class="border-none w-full text-center text-xs p-1"
+                                                <input type="date" name="date" min="1920-1-1" max="2022-12-31"
+                                                    class="border-none w-full text-center text-xs p-1"
                                                     value="1/1/2000" />
                                             </td>
                                             <td class="p-4">
@@ -546,15 +605,12 @@
                                                     value="0987654321" />
                                             </td>
                                             <td class="p-4">
-                                                <select class="border-none text-xs text-center w-full px-2">
-                                                    <option value="">YES</option>
-                                                    <option value="">NO</option>
-                                                </select>
+                                                <input type="radio" name="roomLeader" class="" />
                                             </td>
                                             <td class="p-4 text-right">
-                                                <a href="#"
+                                                <button
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Cập
-                                                    nhật</a>
+                                                    nhật</button>
                                             </td>
                                         </tr>
                                         <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -563,7 +619,8 @@
                                                     value="Nguyễn Văn An" />
                                             </td>
                                             <td class="p-4">
-                                                <input type="text" class="border-none w-full text-center text-xs p-1"
+                                                <input type="date" name="date" min="1920-1-1" max="2022-12-31"
+                                                    class="border-none w-full text-center text-xs p-1"
                                                     value="1/1/2000" />
                                             </td>
                                             <td class="p-4">
@@ -571,15 +628,12 @@
                                                     value="0987654321" />
                                             </td>
                                             <td class="p-4">
-                                                <select class="border-none text-xs text-center w-full px-2">
-                                                    <option value="">YES</option>
-                                                    <option value="">NO</option>
-                                                </select>
+                                                <input type="radio" name="roomLeader" class="" />
                                             </td>
                                             <td class="p-4 text-right">
-                                                <a href="#"
+                                                <button
                                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Cập
-                                                    nhật</a>
+                                                    nhật</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -626,8 +680,6 @@
 
     <!-- chartJS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/chart.js"></script>
-
 </body>
 
 </html>
