@@ -87,8 +87,10 @@ public class AccessController extends HttpServlet {
 
                                 } else {
                                     session.setAttribute("role", 2);
+                                    System.out.println("role 2");
                                     Landlord landlord = LandlordDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", landlord);
+                                    response.sendRedirect("/sakura/landlord/contractList");
                                 }
                                 response.sendRedirect("/sakura/home");
                                 return;

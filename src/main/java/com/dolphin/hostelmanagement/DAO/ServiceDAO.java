@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,11 +22,44 @@ import java.util.List;
  * @author Admin
  */
 public class ServiceDAO {
-    public static List<Service> findAllServiceByHostelId(int id) {
+
+    public static List<Service> findHostelActiveServices(Hostel hostel) {
         List<Service> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied, serviceFee, unit from Service s where hostelID = ? and active = 1";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, hostel.getHostelID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int serviceID = rs.getInt("serviceID");
+                        String serviceName = rs.getString("serviceName");
+                        String monthAppliedString = rs.getString("monthApplied");
+                        YearMonth monthApplied = YearMonth.parse(monthAppliedString);
+                        int serviceFee = rs.getInt("serviceFee");
+                        String unit = rs.getString("unit");
+                        list.add(new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return list;
     }
-    
+
     public static Service findServiceByID(int id) {
         Connection cn = null;
         try {
@@ -97,5 +131,11 @@ public class ServiceDAO {
             }
         }
         return serviceMap;
+    }
+    
+    public static void main(String[] args) {
+        for (Service service : findHostelActiveServices(HostelDAO.findById(1))) {
+            System.out.println(service);
+        }
     }
 }

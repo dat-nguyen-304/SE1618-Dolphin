@@ -8,6 +8,7 @@ import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
 import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.Contract;
+import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Service;
@@ -128,7 +129,9 @@ public class InvoiceController extends HttpServlet {
                     if (request.getParameter("sortByStatus") != null) {
                         int status = Integer.parseInt(request.getParameter("sortByStatus"));
                         System.out.println("status" + status);
-                        if (status != 0) sortByStatus(invoiceList, status);
+                        if (status != 0) {
+                            sortByStatus(invoiceList, status);
+                        }
                     }
 
                     if (request.getParameter("start") != null && !request.getParameter("start").equals("")) {
@@ -168,6 +171,18 @@ public class InvoiceController extends HttpServlet {
             } else {
 
                 Landlord l = (Landlord) session.getAttribute("currUser");
+
+                if (path.equals("/new")) {
+                    int contractID = Integer.parseInt(request.getParameter("contractID"));
+                    Contract contract = ContractDAO.findByID(contractID);
+                    Hostel hostel = contract.getRoom().getRoomType().getHostel();
+                    List<Service> activeServices = ServiceDAO.findHostelActiveServices(hostel);
+
+                    request.setAttribute("contract", ContractDAO.findByID(contractID));
+                    request.setAttribute("activeServices", activeServices);
+
+                    request.getRequestDispatcher("/view/createInvoice.jsp").forward(request, response);
+                }
 
             }
         }
