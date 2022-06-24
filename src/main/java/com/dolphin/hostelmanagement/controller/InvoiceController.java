@@ -108,7 +108,7 @@ public class InvoiceController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
@@ -128,7 +128,9 @@ public class InvoiceController extends HttpServlet {
                     if (request.getParameter("sortByStatus") != null) {
                         int status = Integer.parseInt(request.getParameter("sortByStatus"));
                         System.out.println("status" + status);
-                        if (status != 0) sortByStatus(invoiceList, status);
+                        if (status != 0) {
+                            sortByStatus(invoiceList, status);
+                        }
                     }
 
                     if (request.getParameter("start") != null && !request.getParameter("start").equals("")) {
@@ -155,13 +157,20 @@ public class InvoiceController extends HttpServlet {
                 }
 
                 if (path.equals("/detail")) {
-                    int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
-                    Invoice invoice = InvoiceDAO.findByID(invoiceID);
-                    request.setAttribute("invoice", invoice);
-                    HashMap<Service, ServiceDetail> serviceMap = ServiceDAO.findDetailsByInvoice(invoice);
-                    request.setAttribute("serviceMap", serviceMap);
-
-                    url = "/view/tenantPageInvoiceDetail.jsp";
+                    if (request.getParameter("invoiceID") != null) {
+                        int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
+                        Invoice invoice = InvoiceDAO.findByID(invoiceID);
+                        request.setAttribute("invoice", invoice);
+                        HashMap<Service, ServiceDetail> serviceMap = ServiceDAO.findDetailsByInvoice(invoice);
+                        for(ServiceDetail sd: serviceMap.values()) {
+                            System.out.println(sd.getStartValue() + " " + sd.getEndValue());
+                        }
+                        request.setAttribute("serviceMap", serviceMap);
+                        url = "/view/tenantPageInvoiceDetail.jsp";
+                    }
+                    else {
+                        url = "/invoice/list"; //Neu bam vao page ma` khong qua con mat' thi cho no ve list :D
+                    }
                     request.getRequestDispatcher(url).forward(request, response);
                 }
 

@@ -4,6 +4,7 @@
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -161,7 +162,7 @@
             <div class="navigation-bar overflow-y-auto h-full py-4 px-3 bg-[#ffffff]">
                 <ul class="space-y-2">
                     <li class="">
-                        <a href="tenantPage.jsp"
+                        <a href="/sakura/tenant/dashboard"
                            class="menu-item active flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]"
@@ -199,7 +200,7 @@
                                     sách hoá đơn</a>
                             </li>
                             <li>
-                                <a href="tenantPageInvoiceDetail.jsp"
+                                <a href="/sakura/invoice/detail"
                                    class="menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]"
                                    id="list-item">Chi
                                     tiết hoá đơn</a>
@@ -287,42 +288,43 @@
                     <div class="card hostel-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
                         <div class="hostel-info-head flex justify-between items-baseline">
                             <div class="hostel-name text-[20px] font-bold text-[#2A3C46]">
-                                <h3>Nhà trọ An Khang</h3>
+                                <h3>Nhà trọ ${sessionScope.currentContract.hostel.hostelName}</h3>
                             </div>
                             <div class="hostel-rating text-[18px] font-semibold text-[#FFB31F] flex items-center">
-                                <h3 class="rating mr-[3px]">4.6/5</h3>
+                                <h3 class="rating mr-[3px]">${sessionScope.currentContract.hostel.rating}/5</h3>
                                 <i class="bi bi-star-fill"></i>
                             </div>
                         </div>
                         <div class="hostel-address text-[14px] font-normal text-[#597187] bottom-0 self-end">
-                            <p class="">35 đường Nguyễn Xiển, phường Long Thạnh Mỹ, Quận 9, Thành phố Hồ Chí Minh</p>
+                            <p class="">${sessionScope.currentContract.hostel.streetAddress}, ${sessionScope.currentContract.hostel.district.districtName}
+                            , ${sessionScope.currentContract.hostel.district.province.provinceName}</p>
                         </div>
                     </div>
 
                     <div class="card landlord-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
                         <div class="landlord-name text-[20px] font-bold text-[#2A3C46]">
-                            <h3>Nguyễn Văn An</h3>
+                            <h3>${sessionScope.currentContract.landlord.fullname}</h3>
                         </div>
 
                         <div class="landlord-contact text-[14px] font-normal text-[#597187]">
-                            <p class=""><i class="bi bi-telephone-fill mr-[10px]"></i> 0357545630</p>
-                            <p class=""><i class="bi bi-envelope-fill mr-[10px]"></i> annguyenvan101@gmail.com</p>
+                            <p class=""><i class="bi bi-telephone-fill mr-[10px]"></i> ${sessionScope.currentContract.landlord.phone}</p>
+                            <p class=""><i class="bi bi-envelope-fill mr-[10px]"></i> ${sessionScope.currentContract.landlord.account.email}</p>
                         </div>
                     </div>
 
                     <div class="card room-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
                         <div class="room-code text-[20px] font-bold text-[#2A3C46]">
-                            <h3>Phòng A102</h3>
+                            <h3>Phòng ${currentContract.room.roomNumber}</h3>
                         </div>
 
                         <div class="room-type text-[14px] font-normal text-[#597187]">
                             <div class="grid grid-cols-3 w-[65%]">
                                 <p class="">Diện tích</p>
-                                <p class="col-span-2 font-medium">40m<sup>2</sup></p>
+                                <p class="col-span-2 font-medium">${currentContract.room.roomType.area}m<sup>2</sup></p>
                             </div>
                             <div class="grid grid-cols-3 w-[65%]">
                                 <p class="">Giá phòng</p>
-                                <p class="col-span-2 font-medium">4.0 triệu / tháng</p>
+                                <p class="col-span-2 font-medium">${currentContract.rentalFeePerMonth}đ/tháng</p>
                             </div>
                         </div>
                     </div>
@@ -352,42 +354,20 @@
                             <div class="relative overflow-x-auto">
                                 <table class="w-full text-sm text-left text-gray-500">
                                     <tbody>
+                                        <c:forEach items = "${sessionScope.roomResidentList}" var = "roomResident">
                                         <tr class="bg-white border-b hover:bg-gray-50">
                                             <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                Nguyễn Văn An
+                                                ${roomResident.fullname}
                                             </th>
                                             <td class="px-6 py-4">
-                                                0357563650
+                                                ${roomResident.phone}
                                             </td>
                                             <td class="px-6 py-4 text-right">
                                                 <a href="#" class="font-medium text-[#288D87] hover:underline"><i
                                                         class="bi bi-pencil-fill"></i></a>
                                             </td>
                                         </tr>
-                                        <tr class="bg-white border-b hover:bg-gray-50">
-                                            <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                Lê Văn Bình
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                0357856560
-                                            </td>
-                                            <td class="px-6 py-4 text-right">
-                                                <a href="#" class="font-medium text-[#288D87] hover:underline"><i
-                                                        class="bi bi-pencil-fill"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr class="bg-white hover:bg-gray-50">
-                                            <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                Trần Văn Đức
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                0195789730
-                                            </td>
-                                            <td class="px-6 py-4 text-right">
-                                                <a href="#" class="font-medium text-[#288D87] hover:underline"><i
-                                                        class="bi bi-pencil-fill"></i></a>
-                                            </td>
-                                        </tr>
+                                        </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -409,7 +389,7 @@
                                                 Mã hoá đơn
                                             </th>
                                             <td class="px-6 py-4">
-                                                0020354
+                                                ${sessionScope.latestInvoice.invoiceID}
                                             </td>
                                         </tr>
                                         <tr class="bg-white border-b hover:bg-gray-50">
@@ -417,7 +397,7 @@
                                                 Kỳ thanh toán
                                             </th>
                                             <td class="px-6 py-4">
-                                                05/2022
+                                                ${sessionScope.latestInvoice.startDate.month}/${sessionScope.latestInvoice.startDate.year + 1900}
                                             </td>
                                         </tr>
                                         <tr class="bg-white  border-b hover:bg-gray-50">
@@ -425,7 +405,7 @@
                                                 Giá tiền
                                             </th>
                                             <td class="px-6 py-4">
-                                                4.875.000 VNĐ
+                                                ${sessionScope.latestInvoice.totalPrice}đ
                                             </td>
                                         </tr>
                                         <tr class="bg-white hover:bg-gray-50">
@@ -433,10 +413,13 @@
                                                 Trạng thái
                                             </th>
                                             <td class="px-6 py-4">
-                                                Chưa thanh toán
+                                                <c:choose>
+                                                    <c:when test = "${sessionScope.latestInvoice.status == 0}">Quá hạn thanh toán</c:when>
+                                                    <c:when test = "${sessionScope.latestInvoice.status == 1}">Chờ thanh toán</c:when>
+                                                    <c:when test = "${sessionScope.latestInvoice.status == 2}">Ðã thanh toán</c:when>
+                                                </c:choose>
                                             </td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </div>

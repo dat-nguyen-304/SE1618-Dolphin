@@ -8,6 +8,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
+
+<% 
+    //response.setHeader("Cache-Control", "no-cache, no-store");
+%>
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -516,6 +521,7 @@
         <script src="../assets/javascript/jquery.js"></script>
         <script src="../assets/javascript/toggle-favorite.js"></script>
         <script src="../assets/javascript/keep-district.js"></script>
+        
         <script>
             let noti = document.getElementById("notification");
             noti.style.transform = "translateX(0%);";

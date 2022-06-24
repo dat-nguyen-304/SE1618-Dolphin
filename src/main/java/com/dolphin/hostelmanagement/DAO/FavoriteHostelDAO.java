@@ -4,10 +4,6 @@
  */
 package com.dolphin.hostelmanagement.DAO;
 
-import com.dolphin.hostelmanagement.DTO.Account;
-import com.dolphin.hostelmanagement.DTO.Hostel;
-import com.dolphin.hostelmanagement.DTO.Landlord;
-import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -29,7 +29,7 @@
                     <a href="/sakura/account/changePassword">
                         <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
                     </a>
-                    <a href="#">
+                    <a href="/sakura/tenant/dashboard">
                         <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
                     </a>
                     <button type ="submit" name ="logout" value="true">

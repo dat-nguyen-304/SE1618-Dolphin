@@ -4,6 +4,7 @@
  */
 package com.dolphin.hostelmanagement.DAO;
 
+import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
@@ -130,11 +131,51 @@ public class ContractDAO {
         }
         return list;
     }
+    
+    public static Contract findLatestContractByTenant(Tenant t) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select top 1 * from Contract where tenantID = ? order by startDate desc";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, t.getAccount().getAccountID());
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs != null && rs.next()) {
+                int contractID = rs.getInt("contractID");
+                Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                Tenant tenant = TenantDAO.findById(rs.getInt("tenantID"));
+                Landlord landlord = room.getRoomType().getHostel().getLandlord();
+                Hostel hostel = room.getRoomType().getHostel();
+                Date startDate = rs.getDate("startDate");
+                Date endDate = rs.getDate("endDate");
+                int deposit = rs.getInt("deposit");
+                int status = rs.getInt("status");
+                int rentalFee = rs.getInt("rentalFeePerMonth");
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
 //        System.out.println(findActiveContract(TenantDAO.findById(3)));
-        for (Contract contract : findByTenant(TenantDAO.findById(3))) {
+        /*for (Contract contract : findByTenant(TenantDAO.findById(3))) {
             System.out.println(contract);
-        }
+        }*/
+        Tenant t = new Tenant();
+        t.setAccount(new Account());
+        t.getAccount().setAccountID(10);
+        System.out.println(findLatestContractByTenant(t));
     }
 }

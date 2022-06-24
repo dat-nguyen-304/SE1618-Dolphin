@@ -36,7 +36,7 @@ public class InvoiceDAO {
                         int invoiceID = rs.getInt("invoiceID");
                         Date startDate = rs.getDate("startDate");
                         Date endDate = rs.getDate("endDate");
-                        Date dueDate = rs.getDate("dueDate");
+                        Date dueDate = null;//rs.getDate("dueDate");
                         int status = rs.getInt("status");
                         int totalPrice = rs.getInt("totalPrice");
                         list.add(new Invoice(invoiceID, c, startDate, endDate, dueDate, status, totalPrice));
@@ -56,6 +56,41 @@ public class InvoiceDAO {
         }
         return list;
     }
+    
+    public static Invoice findLatestByContract(Contract c) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select top 1 * from Invoice where contractID = ? order by startDate desc";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, c.getContractID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int invoiceID = rs.getInt("invoiceID");
+                        Date startDate = rs.getDate("startDate");
+                        Date endDate = rs.getDate("endDate");
+                        Date dueDate = null;//rs.getDate("dueDate");
+                        int status = rs.getInt("status");
+                        int totalPrice = rs.getInt("totalPrice");
+                        return new Invoice(invoiceID, c, startDate, endDate, dueDate, status, totalPrice);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
     public static Invoice findByID(int id) {
         Connection cn = null;
@@ -70,7 +105,7 @@ public class InvoiceDAO {
                     int invoiceID = rs.getInt("invoiceID");
                     Date startDate = rs.getDate("startDate");
                     Date endDate = rs.getDate("endDate");
-                    Date dueDate = rs.getDate("dueDate");
+                    Date dueDate = null;//rs.getDate("dueDate");
                     int status = rs.getInt("status");
                     int totalPrice = rs.getInt("totalPrice");
                     int contractID = rs.getInt("contractID");

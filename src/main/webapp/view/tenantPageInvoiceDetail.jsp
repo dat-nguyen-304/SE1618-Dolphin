@@ -301,7 +301,7 @@
                         <div>Trạng thái: ${(invoice.status == 1) ? "Chưa thanh toán" : (invoice.status == 2) ? "Đã thanh toán" : "Quá hạn"}
                         </div>
                         <div>Phòng: ${invoice.contract.room.roomNumber}</div>
-                        <div>Kỳ thanh toán <strong>???</strong></div>
+                        <div>Kỳ thanh toán: ${invoice.startDate.month}/${invoice.startDate.year + 1900}</div>
                         <div>Đến: <span class="date">${invoice.endDate}</span></div>
                         <div>Hạn: <span class="date">${invoice.dueDate}</span></div>
                     </div>
@@ -315,23 +315,23 @@
                             <input hidden type=text" name=tenantID" value="101" />
                             <input hidden type="text" name=roomID" value="101" />
 
-<!--                            <div class="left-part">
-                                 Search invoice by id 
-                                <label for="default-search"
-                                       class="mb-2 text-[14px] font-[14px] text-gray-900 sr-only">Search</label>
-                                <div class="relative h-full">
-                                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
-                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                        </svg>
-                                    </div>
-                                    <input type="search" id="search-invoice-id"
-                                           class="block pl-10 w-full text-[14px] text-gray-900 bg-gray-50 rounded-[4px] border border-gray-300 focus:ring-0 focus:border-[#17535B]"
-                                           placeholder="Tìm theo mã hoá đơn..." required="">
-                                </div>
-                            </div>-->
+                            <!--                            <div class="left-part">
+                                                             Search invoice by id 
+                                                            <label for="default-search"
+                                                                   class="mb-2 text-[14px] font-[14px] text-gray-900 sr-only">Search</label>
+                                                            <div class="relative h-full">
+                                                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
+                                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <input type="search" id="search-invoice-id"
+                                                                       class="block pl-10 w-full text-[14px] text-gray-900 bg-gray-50 rounded-[4px] border border-gray-300 focus:ring-0 focus:border-[#17535B]"
+                                                                       placeholder="Tìm theo mã hoá đơn..." required="">
+                                                            </div>
+                                                        </div>-->
                         </form>
                         <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                             <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
@@ -504,18 +504,19 @@
                                                                         đ50.000
                                                                     </td>
                                                                 </tr>
-                                -->                                                                <tr class="bg-white border-b hover:bg-gray-50">
+                                -->                                                                
+                                <tr class="bg-white border-b hover:bg-gray-50">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         <a href="#" class="hover:text-[#288D87] hover:underline">Phí thuê phòng</a>
                                     </th>
                                     <td class="px-6 py-4">
-                                        phòng
+                                        Phòng
                                     </td>
                                     <td class="px-6 py-4">
-
+                                        0
                                     </td>
                                     <td class="px-6 py-4">
-
+                                        0
                                     </td>
                                     <td class="px-6 py-4">
                                         1
@@ -557,8 +558,8 @@
                             <div class="summary grid grid-cols-5 grid-rows-2 w-[50%]">
                                 <div class="col-span-1 text-[20px] text-[#17535B] font-bold">Thành tiền</div>
                                 <div class="col-span-4 text-[20px] text-[#17535B] "><span id="bottomSum" class="money"></span></div>
-<!--                                <div class="col-span-1">bằng chữ</div>
-                                <div class="col-span-4"><em>Năm triệu không trăm chín mươi ba nghìn đồng</em></div>-->
+                                <!--                                <div class="col-span-1">bằng chữ</div>
+                                                                <div class="col-span-4"><em>Năm triệu không trăm chín mươi ba nghìn đồng</em></div>-->
                             </div>
                             <!-- End Summation -->
 
@@ -635,7 +636,7 @@
 //                console.log(sum);
                 $("#invoiceSum").html(sum);
                 $("#bottomSum").html(sum + " đồng");
-                
+
 
                 for (var i = 0; i < allDateCells.length; i++) {
                     var node = allDateCells[i];

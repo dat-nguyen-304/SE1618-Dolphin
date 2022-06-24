@@ -31,7 +31,8 @@ public class ServiceDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied,  hostelID, serviceFee, unit from Service s where serviceID = ?";
+                //String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied,  hostelID, serviceFee, unit from Service s where serviceID = ?";
+                String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied,  hostelID, serviceFee from Service s where serviceID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, id);
                 ResultSet rs = pst.executeQuery();
@@ -43,7 +44,7 @@ public class ServiceDAO {
                     int hostelID = rs.getInt("hostelID");
                     Hostel hostel = HostelDAO.findById(hostelID);
                     int serviceFee = rs.getInt("serviceFee");
-                    String unit = rs.getString("unit");
+                    String unit = null;//rs.getString("unit");
                     return new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit);
                 }
             }
@@ -97,5 +98,16 @@ public class ServiceDAO {
             }
         }
         return serviceMap;
+    }
+    
+    public static void main(String args[]) {
+        Invoice i = new Invoice();
+        i.setInvoiceID(1);
+        
+        HashMap<Service, ServiceDetail> hm = findDetailsByInvoice(i);
+        
+        for(ServiceDetail sd: hm.values()) {
+            System.out.println(sd.getStartValue() + " " + sd.getEndValue());
+        }
     }
 }

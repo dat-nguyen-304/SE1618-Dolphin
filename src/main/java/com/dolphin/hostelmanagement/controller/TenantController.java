@@ -5,8 +5,10 @@ package com.dolphin.hostelmanagement.controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
+import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
@@ -51,13 +53,13 @@ public class TenantController extends HttpServlet {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
             Tenant t = (Tenant) session.getAttribute("currentUser");
             List<Contract> contractList = ContractDAO.findByTenant(t);
 
             if (path.equals("/dashboard")) {
 
-                HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
+                /*HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
                 for (Contract contract : contractList) {
                     invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract));
                 }
@@ -65,8 +67,20 @@ public class TenantController extends HttpServlet {
                 sorted.putAll(invoiceMap);
 
                 request.setAttribute("contractList", contractList);
-                request.setAttribute("invoiceMap", sorted);
-
+                request.setAttribute("invoiceMap", sorted);*/
+                
+                Contract currentContract = ContractDAO.findLatestContractByTenant(t);
+                ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
+                Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
+                
+                //currentContract.ge
+                
+                session.setAttribute("currentContract", currentContract);
+                session.setAttribute("roomResidentList", roomResidentList);
+                session.setAttribute("latestInvoice", latestInvoice);
+                
+                //currentContract.getHostel().getDistrict().
+                
                 request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
             }
 
