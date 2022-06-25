@@ -96,122 +96,124 @@
                         </button>
                     </form>
                     <div class="grid grid-cols-3 gap-5 z-[5]">
-                        <div class="filter-item p-0 m-0 mr-[50px]">
-                            <div class="rating-btn h-[50px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border-1 border-[#17535B]">
-                                Đánh giá <i class="bi bi-caret-down-fill ml-[10px]"></i>
-                                <ul class="rating-sort-list hidden group-hover:block absolute top-[50px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
-                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                        <form action="/sakura/hostel/list">
-                                            <c:if test="${requestScope.favorite == true}">
-                                                <input type="hidden" name="favorite" value="true"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.keyword != null}">
-                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.province != null}">
-                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.district != null}">
-                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                            </c:if>
-                                            <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
-                                        </form>
-                                    </li>
-                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                        <form action="/sakura/hostel/list">
-                                            <c:if test="${requestScope.favorite == true}">
-                                                <input type="hidden" name="favorite" value="true"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.keyword != null}">
-                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.province != null}">
-                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.district != null}">
-                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                            </c:if>
-                                            <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
-                                        </form>
-                                    </li>
-                                </ul>
+                        <c:if test="${requestScope.itemQuantity != 0}">
+                            <div class="filter-item p-0 m-0 mr-[50px]">
+                                <div class="rating-btn h-[50px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border-1 border-[#17535B]">
+                                    Đánh giá <i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                    <ul class="rating-sort-list hidden group-hover:block absolute top-[50px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
+                                        <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                            <form action="/sakura/hostel/list">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
+                                            </form>
+                                        </li>
+                                        <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                            <form action="/sakura/hostel/list">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="filter-item p-0 m-0 mr-[50px]">
-                            <div class="rating-btn h-[50px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border-1 border-[#17535B]">
-                                Giá tiền <i class="bi bi-caret-down-fill ml-[10px]"></i>
-                                <ul class="rating-sort-list hidden group-hover:block absolute top-[50px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
-                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                        <form action="/sakura/hostel/list">
-                                            <c:if test="${requestScope.favorite == true}">
-                                                <input type="hidden" name="favorite" value="true"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.keyword != null}">
-                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.province != null}">
-                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.district != null}">
-                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                            </c:if>
-                                            <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
-                                        </form>
-                                    </li>
-                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                        <form action="/sakura/hostel/list">
-                                            <c:if test="${requestScope.favorite == true}">
-                                                <input type="hidden" name="favorite" value="true"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.keyword != null}">
-                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.province != null}">
-                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.district != null}">
-                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                            </c:if>
-                                            <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
-                                        </form>
-                                    </li>
-                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                        <form action="/sakura/hostel/list">
-                                            <c:if test="${requestScope.favorite == true}">
-                                                <input type="hidden" name="favorite" value="true"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.keyword != null}">
-                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.province != null}">
-                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.district != null}">
-                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                            </c:if>
-                                            <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
-                                        </form>
-                                    </li>
-                                    <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                        <form action="/sakura/hostel/list">
-                                            <c:if test="${requestScope.favorite == true}">
-                                                <input type="hidden" name="favorite" value="true"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.keyword != null}">
-                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.province != null}">
-                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.district != null}">
-                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                            </c:if>
-                                            <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
-                                        </form>
-                                    </li>
-                                </ul>
+                            <div class="filter-item p-0 m-0 mr-[50px]">
+                                <div class="rating-btn h-[50px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border-1 border-[#17535B]">
+                                    Giá tiền <i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                    <ul class="rating-sort-list hidden group-hover:block absolute top-[50px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
+                                        <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                            <form action="/sakura/hostel/list">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
+                                            </form>
+                                        </li>
+                                        <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                            <form action="/sakura/hostel/list">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
+                                            </form>
+                                        </li>
+                                        <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                            <form action="/sakura/hostel/list">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
+                                            </form>
+                                        </li>
+                                        <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                            <form action="/sakura/hostel/list">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
                         <c:if test="${sessionScope.currentUser != null}">
                             <div class="filter-item p-0 m-0">
                                 <form class="submit-filter h-[50px] w-[180px] bg-[#ee7b35] text-[#E6EEF1] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center" action="/sakura/hostel/list">
@@ -361,72 +363,34 @@
                     </ul>
 
                     <!--  PAGING-->
-                    <div class="pagination">
-                        <ul class="pagination__list">
-                            <li class="pagination-item pagination-previous pagination-previous--fast">
-                                <form action="/sakura/hostel/list">
-                                    <c:if test="${requestScope.keyword != null}">
-                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByMinPrice != null}">
-                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByMaxPrice != null}">
-                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByRate != null}">
-                                        <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
-                                    </c:if>
-                                    <c:if test="${sessionScope.province != null}">
-                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                    </c:if>
-                                    <c:if test="${sessionScope.district != null}">
-                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                    </c:if>
-                                    <button type="submit" name="paging" value="1"><i class="bi bi-arrow-bar-left"></i></button>
-                                </form>
-                            </li>
+                    <c:if test="${!(requestScope.beginPage == 1 && requestScope.endPage == 1 || requestScope.itemQuantity == 0)}">
+                        <div class="pagination">
+                            <ul class="pagination__list">
+                                <li class="pagination-item pagination-previous pagination-previous--fast">
+                                    <form action="/sakura/hostel/list">
+                                        <c:if test="${requestScope.keyword != null}">
+                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMinPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMaxPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByRate != null}">
+                                            <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                        </c:if>
+                                        <c:if test="${sessionScope.province != null}">
+                                            <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                        </c:if>
+                                        <c:if test="${sessionScope.district != null}">
+                                            <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                        </c:if>
+                                        <button type="submit" name="paging" value="1"><i class="bi bi-arrow-bar-left"></i></button>
+                                    </form>
+                                </li>
 
-                            <li class="pagination-item pagination-previous">
-                                <form action="/sakura/hostel/list">
-                                    <c:if test="${sessionScope.province != null}">
-                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                    </c:if>
-                                    <c:if test="${sessionScope.district != null}">
-                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.keyword != null}">
-                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByMinPrice != null}">
-                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByMaxPrice != null}">
-                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByRate != null}">
-                                        <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage > 1}">
-                                        <button type="submit" name="paging" value="${requestScope.currentPage - 1}">
-                                            <i class="bi bi-arrow-left"></i>
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage == 1}">
-                                        <button>
-                                            <i class="bi bi-arrow-left"></i>
-                                        </button>
-                                    </c:if>
-                                </form>
-                            </li>
-
-                            <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
-                                <c:if test="${requestScope.currentPage == iterator}">
-                                    <li class="pagination-item pagination-item--active">
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage != iterator}">
-                                    <li class="pagination-item">
-                                    </c:if>
+                                <li class="pagination-item pagination-previous">
                                     <form action="/sakura/hostel/list">
                                         <c:if test="${sessionScope.province != null}">
                                             <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
@@ -446,71 +410,109 @@
                                         <c:if test="${requestScope.sortByRate != null}">
                                             <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
                                         </c:if>
-                                        <button type="submit" name="paging" value="${iterator}">${iterator}</button>
+                                        <c:if test="${requestScope.currentPage > 1}">
+                                            <button type="submit" name="paging" value="${requestScope.currentPage - 1}">
+                                                <i class="bi bi-arrow-left"></i>
+                                            </button>
+                                        </c:if>
+                                        <c:if test="${requestScope.currentPage == 1}">
+                                            <button>
+                                                <i class="bi bi-arrow-left"></i>
+                                            </button>
+                                        </c:if>
                                     </form>
                                 </li>
 
-                            </c:forEach>
-                            <li class="pagination-item pagination-next">
-                                <form action="/sakura/hostel/list">
-                                    <c:if test="${sessionScope.province != null}">
-                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                    </c:if>
-                                    <c:if test="${sessionScope.district != null}">
-                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.keyword != null}">
-                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByMinPrice != null}">
-                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByMaxPrice != null}">
-                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByRate != null}">
-                                        <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage < requestScope.endPage}">
-                                        <button type="submit" name="paging" value="${requestScope.currentPage + 1}">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage == requestScope.endPage}">
-                                        <button type="submit" name="paging" value="${requestScope.endPage}">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </button>
-                                    </c:if>
-                                </form>
-                            </li>
-                            <li class="pagination-item pagination-next pagination-next--fast">
-                                <form action="/sakura/hostel/list">
-                                    <c:if test="${sessionScope.province != null}">
-                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                    </c:if>
-                                    <c:if test="${sessionScope.district != null}">
-                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.keyword != null}">
-                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByMinPrice != null}">
-                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByMaxPrice != null}">
-                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
-                                    </c:if>
-                                    <c:if test="${requestScope.sortByRate != null}">
-                                        <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
-                                    </c:if>
-                                    <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="bi bi-arrow-bar-right"></i></button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
+                                <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
+                                    <c:if test="${requestScope.currentPage == iterator}">
+                                        <li class="pagination-item pagination-item--active">
+                                        </c:if>
+                                        <c:if test="${requestScope.currentPage != iterator}">
+                                        <li class="pagination-item">
+                                        </c:if>
+                                        <form action="/sakura/hostel/list">
+                                            <c:if test="${sessionScope.province != null}">
+                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                            </c:if>
+                                            <c:if test="${sessionScope.district != null}">
+                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.sortByMinPrice != null}">
+                                                <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.sortByMaxPrice != null}">
+                                                <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.sortByRate != null}">
+                                                <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                            </c:if>
+                                            <button type="submit" name="paging" value="${iterator}">${iterator}</button>
+                                        </form>
+                                    </li>
 
+                                </c:forEach>
+                                <li class="pagination-item pagination-next">
+                                    <form action="/sakura/hostel/list">
+                                        <c:if test="${sessionScope.province != null}">
+                                            <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                        </c:if>
+                                        <c:if test="${sessionScope.district != null}">
+                                            <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.keyword != null}">
+                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMinPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMaxPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByRate != null}">
+                                            <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.currentPage < requestScope.endPage}">
+                                            <button type="submit" name="paging" value="${requestScope.currentPage + 1}">
+                                                <i class="bi bi-arrow-right"></i>
+                                            </button>
+                                        </c:if>
+                                        <c:if test="${requestScope.currentPage == requestScope.endPage}">
+                                            <button type="submit" name="paging" value="${requestScope.endPage}">
+                                                <i class="bi bi-arrow-right"></i>
+                                            </button>
+                                        </c:if>
+                                    </form>
+                                </li>
+                                <li class="pagination-item pagination-next pagination-next--fast">
+                                    <form action="/sakura/hostel/list">
+                                        <c:if test="${sessionScope.province != null}">
+                                            <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                        </c:if>
+                                        <c:if test="${sessionScope.district != null}">
+                                            <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.keyword != null}">
+                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMinPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByMaxPrice != null}">
+                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.sortByRate != null}">
+                                            <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                        </c:if>
+                                        <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="bi bi-arrow-bar-right"></i></button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </c:if>
                 </div>
-
             </div>
         </div>
         <%@include file="footer.jsp" %>      
@@ -523,21 +525,21 @@
         <script src="../assets/javascript/keep-district.js"></script>
         
         <script>
-            let noti = document.getElementById("notification");
-            noti.style.transform = "translateX(0%);";
-            if (noti.classList.contains("show")) {
-                noti.style.transform = "translateX(0%)";
-                setTimeout(function () {
-                    noti.style.transform = "translateX(150%)";
-                }, 5000);
-            }
-            if (noti.classList.contains("hide")) {
-                noti.style.display = "none";
-            }
+                                                                        let noti = document.getElementById("notification");
+                                                                        noti.style.transform = "translateX(0%);";
+                                                                        if (noti.classList.contains("show")) {
+                                                                            noti.style.transform = "translateX(0%)";
+                                                                            setTimeout(function () {
+                                                                                noti.style.transform = "translateX(150%)";
+                                                                            }, 5000);
+                                                                        }
+                                                                        if (noti.classList.contains("hide")) {
+                                                                            noti.style.display = "none";
+                                                                        }
 
-            function closeNoti() {
-                noti.style.transform = "translateX(150%)";
-            }
+                                                                        function closeNoti() {
+                                                                            noti.style.transform = "translateX(150%)";
+                                                                        }
         </script>
     </body>
 </html>
