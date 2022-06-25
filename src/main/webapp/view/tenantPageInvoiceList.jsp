@@ -197,7 +197,7 @@
                         </a>
                         <ul id="dropdown-example" class="py-2 space-y-2">
                             <li>
-                                <a href="tenantPageInvoiceList.jsp"
+                                <a href="/sakura/invoice/list"
                                    class="active menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Danh
                                     sách hoá đơn</a>
                             </li>
@@ -329,7 +329,7 @@
                                                   clip-rule="evenodd"></path>
                                             </svg>
                                         </div>
-                                        <input name="start" type="text" id="start-date"
+                                        <input name="start" type="text" id="start-date" <c:if test="${param.start != null}">value="${param.start}"</c:if>
                                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10  datepicker-input"
                                                placeholder="Ngày đầu">
                                     </div>
@@ -343,7 +343,7 @@
                                                   clip-rule="evenodd"></path>
                                             </svg>
                                         </div>
-                                        <input name="end" type="text" id="end-date"
+                                        <input name="end" type="text" id="end-date" <c:if test="${param.end != null}">value="${param.end}"</c:if>
                                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10 datepicker-input"
                                                placeholder="Ngày cuối">
                                     </div>
@@ -353,9 +353,9 @@
                             <!-- Filter by status -->
                             <select name="sortByStatus">
                                 <option value="0">Trạng thái</option>
-                                <option value="1">Chưa thanh toán</option>
-                                <option value="2">Đã thanh toán</option>
-                                <option value="3">Qúa hạn</option>
+                                <option value="1" <c:if test="${param.sortByStatus != null && param.sortByStatus == 1}">selected</c:if>>Chưa thanh toán</option>
+                                <option value="2" <c:if test="${param.sortByStatus != null && param.sortByStatus == 2}">selected</c:if>>Đã thanh toán</option>
+                                <option value="3" <c:if test="${param.sortByStatus != null && param.sortByStatus == 3}">selected</c:if>>Qúa hạn</option>
                             </select>
                             <!--<div class="dropdown-status mr-[20px]">-->
                             <!--                                <button id="dropdownDefault" data-dropdown-toggle="dropdown-status"
@@ -576,7 +576,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../assets/javascript/chart-tenant-page.js"></script>
     <script src="../assets/javascript/jquery.js"></script>
-    <script src="../assets/javascript/moment.js"></script>
     <script>
         $(document).ready(function () {
             var allDateCells = $(".date");
@@ -585,10 +584,6 @@
             for (var i = 0; i < allDateCells.length; i++) {
                 var node = allDateCells[i];
                 var isoDate = node.childNodes[0].nodeValue;
-//                    var date = moment().toString();
-//                    console.log(date);
-//                    console.log(date.format("dd/MM/YYYY"));
-//                var vnDate = new Moment(isoDate);
                 node.childNodes[0].nodeValue = isoDate.split('-').reverse().join(' / ');
             }
 

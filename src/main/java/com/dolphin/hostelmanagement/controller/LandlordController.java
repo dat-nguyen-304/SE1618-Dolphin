@@ -4,12 +4,17 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.ContractDAO;
+import com.dolphin.hostelmanagement.DTO.Contract;
+import com.dolphin.hostelmanagement.DTO.Landlord;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,17 +34,18 @@ public class LandlordController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LandlordController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LandlordController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try (PrintWriter out = response.getWriter()) {
+            String path = request.getPathInfo();
+            System.out.println("Path: " + path);
+            HttpSession session = request.getSession();
+            Landlord l = (Landlord) session.getAttribute("currentUser");
+            List<Contract> contractList = ContractDAO.findByLandlord(l);
+
+            if (path.equals("/contractList")) {
+
+                request.setAttribute("contractList", contractList);
+                request.getRequestDispatcher("/view/landlordContractList.jsp").forward(request, response);
+            }
         }
     }
 

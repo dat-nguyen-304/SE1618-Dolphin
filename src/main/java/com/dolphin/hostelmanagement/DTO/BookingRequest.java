@@ -67,6 +67,4 @@ public class BookingRequest {
     public void setStatus(int status) {
         this.status = status;
     }
-    
-    
 }
