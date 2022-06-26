@@ -15,11 +15,14 @@ public class Invoice {
     private Date dueDate;
     private int status;
     private int totalPrice;
+    private String month;
+    private int ElectricPrice;
+    private int WaterPrice;
 
     public Invoice() {
     }
 
-    public Invoice(int invoiceID, Contract contract, Date startDate, Date endDate, Date dueDate, int status, int totalPrice) {
+    public Invoice(int invoiceID, Contract contract, Date startDate, Date endDate, Date dueDate, int status, int totalPrice, String month, int ElectricPrice, int WaterPrice) {
         this.invoiceID = invoiceID;
         this.contract = contract;
         this.startDate = startDate;
@@ -27,6 +30,9 @@ public class Invoice {
         this.dueDate = dueDate;
         this.status = status;
         this.totalPrice = totalPrice;
+        this.month = month;
+        this.ElectricPrice = ElectricPrice;
+        this.WaterPrice = WaterPrice;
     }
 
     public int getInvoiceID() {
@@ -85,6 +91,30 @@ public class Invoice {
         this.dueDate = dueDate;
     }
 
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public int getElectricPrice() {
+        return ElectricPrice;
+    }
+
+    public void setElectricPrice(int ElectricPrice) {
+        this.ElectricPrice = ElectricPrice;
+    }
+
+    public int getWaterPrice() {
+        return WaterPrice;
+    }
+
+    public void setWaterPrice(int WaterPrice) {
+        this.WaterPrice = WaterPrice;
+    }
+    
     @Override
     public String toString() {
         return "Invoice{" + "invoiceID=" + invoiceID + ", contract=" + contract + ", startDate=" + startDate + ", endDate=" + endDate + ", dueDate=" + dueDate + ", status=" + status + ", totalPrice=" + totalPrice + '}';

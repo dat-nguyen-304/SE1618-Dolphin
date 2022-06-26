@@ -441,7 +441,7 @@ public class HostelController extends HttpServlet {
                 Room room = RoomDAO.findByID(roomID);
 
                 //this is notification for landlord about booking request from tenant
-                int landlordID = HostelDAO.findLandlordID(hostelID);
+                int landlordID = hostel.getLandlord().getAccount().getAccountID();
                 rentalNoti.setToAccount(AccountDAO.findById(landlordID));
                 rentalNoti.setCreatedDate(new Date());
                 rentalNoti.setContent("Người dùng " + t.getFullname() + " muốn xem phòng " + room.getRoomNumber() + "\n" +

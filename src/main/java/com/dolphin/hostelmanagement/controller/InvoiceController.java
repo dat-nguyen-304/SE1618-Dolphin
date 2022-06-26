@@ -123,7 +123,7 @@ public class InvoiceController extends HttpServlet {
                 if (path.equals("/list")) {
                     List<Invoice> invoiceList = new ArrayList();
                     for (Contract contract : contractList) {
-                        invoiceList.addAll(InvoiceDAO.findByContract(contract));
+                        invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
                     }
 
                     if (request.getParameter("sortByStatus") != null) {

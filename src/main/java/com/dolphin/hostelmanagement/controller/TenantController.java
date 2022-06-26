@@ -63,7 +63,7 @@ public class TenantController extends HttpServlet {
 
                 /*HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
                 for (Contract contract : contractList) {
-                    invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract));
+                    invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract.getContractID()));
                 }
                 TreeMap<Contract, ArrayList<Invoice>> sorted = new TreeMap<>();
                 sorted.putAll(invoiceMap);
@@ -90,7 +90,7 @@ public class TenantController extends HttpServlet {
                 
                 List<Invoice> invoiceList = new ArrayList();
                 for (Contract contract : contractList) {
-                    invoiceList.addAll(InvoiceDAO.findByContract(contract));
+                    invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
                 }
                 request.setAttribute("invoiceList", invoiceList);
 

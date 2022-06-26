@@ -114,8 +114,8 @@ public class ServiceDAO {
                         int endValue = rs.getInt("endValue");
                         int serviceID = rs.getInt("serviceID");
                         Service service = findServiceByID(serviceID);
-                        boolean isUsed = rs.getBoolean("isUsed");
-                        ServiceDetail serviceDetail = new ServiceDetail(serviceDetailID, startValue, endValue, isUsed, invoice, service);
+                        int quantity = rs.getInt("quantity");
+                        ServiceDetail serviceDetail = new ServiceDetail(serviceDetailID, startValue, endValue, quantity, invoice, service);
                         serviceMap.put(service, serviceDetail);
                     }
                 }
@@ -133,7 +133,45 @@ public class ServiceDAO {
         }
         return serviceMap;
     }
-    
+
+    public static List<ServiceDetail> findDetailsByInvoice(int invoiceId) {
+        List<ServiceDetail> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from ServiceDetail where invoiceID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, invoiceId);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    list = new ArrayList<>();
+                    while (rs.next()) {
+                        int serviceDetailID = rs.getInt("serviceDetailID");
+                        int startValue = rs.getInt("startValue");
+                        int endValue = rs.getInt("endValue");
+                        int serviceID = rs.getInt("serviceID");
+                        Service service = findServiceByID(serviceID);
+                        int quantity = rs.getInt("quantity");
+                        Invoice invoice = InvoiceDAO.findByID(invoiceId);
+                        list.add(new ServiceDetail(serviceDetailID, startValue, endValue, quantity, invoice, service));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         for (Service service : findHostelActiveServices(HostelDAO.findById(1))) {
             System.out.println(service);
