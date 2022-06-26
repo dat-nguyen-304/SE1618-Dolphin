@@ -4,11 +4,13 @@ package com.dolphin.hostelmanagement.controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
+import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
@@ -73,13 +75,13 @@ public class TenantController extends HttpServlet {
                 ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
                 Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
                 
-                //currentContract.ge
+                //currentContract
                 
                 session.setAttribute("currentContract", currentContract);
                 session.setAttribute("roomResidentList", roomResidentList);
                 session.setAttribute("latestInvoice", latestInvoice);
                 
-                //currentContract.getHostel().getDistrict().
+                //currentContract.getHostel().getDistrict()
                 
                 request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
             }
@@ -93,6 +95,16 @@ public class TenantController extends HttpServlet {
                 request.setAttribute("invoiceList", invoiceList);
 
                 request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
+            }
+            
+            if (path.equals("/rentalRequestList")) {
+                ArrayList<BookingRequest> bookingList = BookingRequestDAO.getBookingRequestByTenant(t, 1);
+                ArrayList<BookingRequest> invitationList = BookingRequestDAO.getBookingRequestByTenant(t, 2);
+                
+                request.setAttribute("bookingList", bookingList);
+                request.setAttribute("invitationList", invitationList);
+                
+                request.getRequestDispatcher("/view/tenantRentalRequestPage.jsp").forward(request, response);
             }
         }
     }

@@ -107,7 +107,7 @@ public class AccessController extends HttpServlet {
                     } else {
                         HttpSession session = request.getSession(true);
                         session.invalidate();
-                        response.setHeader("Cache-Control", "no-cache, no-store");
+                        //response.setHeader("Cache-Control", "no-cache, no-store");
                         url = "/sakura/";
                         response.sendRedirect(url);
                     }
