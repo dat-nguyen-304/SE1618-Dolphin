@@ -40,7 +40,7 @@ public class LandlordController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     public int[] statisticElectrictWater(List<Invoice> invoiceList) {
-        int kq[] = new int[6];
+        int kq[] = new int[7];
         Invoice firstInvoice = invoiceList.get(invoiceList.size() - 1);
         List<ServiceDetail> serviceDetailList = ServiceDAO.findDetailsByInvoice(firstInvoice.getInvoiceID());
         for (ServiceDetail serviceDetail : serviceDetailList) {
@@ -64,6 +64,7 @@ public class LandlordController extends HttpServlet {
         for (Invoice invoice : invoiceList) {
             kq[2] += invoice.getElectricPrice();
             kq[5] += invoice.getWaterPrice();
+            kq[6] += invoice.getTotalPrice();
         }
         return kq;
     }
@@ -77,7 +78,9 @@ public class LandlordController extends HttpServlet {
             HttpSession session = request.getSession();
             Landlord landlord = (Landlord) session.getAttribute("currentUser");
             List<Hostel> listHostel = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
-            if (path.equals("/contract-list")) {
+            if (path.equals("/overview")) {
+                request.getRequestDispatcher("/view/LOverView.jsp").forward(request, response);
+            } else if (path.equals("/contract-list")) {
                 int hostelId = listHostel.get(0).getHostelID();
                 int roomId = 0;
                 if (request.getParameter("roomId") != null) {
@@ -94,9 +97,7 @@ public class LandlordController extends HttpServlet {
                 System.out.println("----------------------------" + hostelId + "--------------------------------");
                 request.setAttribute("contractList", contractList);
                 request.getRequestDispatcher("/view/LContractList.jsp").forward(request, response);
-            }
-
-            if (path.equals("/contract-detail")) {
+            } else if (path.equals("/contract-detail")) {
                 int contractId = Integer.parseInt(request.getParameter("contractId"));
                 Contract contract = ContractDAO.findByID(contractId);
 
@@ -107,8 +108,9 @@ public class LandlordController extends HttpServlet {
                 int startWater = 0;
                 int endWater = 0;
                 int totalWater = 0;
+                int totalAll = 0;
                 if (invoiceList.size() > 0) {
-                    int kq[] = new int[6];
+                    int kq[] = new int[7];
                     kq = statisticElectrictWater(invoiceList);
                     startElectrict = kq[0];
                     endElectrict = kq[1];
@@ -116,10 +118,7 @@ public class LandlordController extends HttpServlet {
                     startWater = kq[3];
                     endWater = kq[4];
                     totalWater = kq[5];
-                }
-                int totalAll = 0;
-                for (Invoice invoice : invoiceList) {
-                    totalAll += invoice.getTotalPrice();
+                    totalAll = kq[6];
                 }
                 request.setAttribute("startElectrict", startElectrict);
                 request.setAttribute("endElectrict", endElectrict);
@@ -131,6 +130,20 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("invoiceList", invoiceList);
                 request.setAttribute("contract", contract);
                 request.getRequestDispatcher("/view/LContractDetail.jsp").forward(request, response);
+            } else if (path.equals("/room-type")) {
+                request.getRequestDispatcher("/view/LRoomType.jsp").forward(request, response);
+            } else if (path.equals("/room-list")) {
+                request.getRequestDispatcher("/view/LRoomList.jsp").forward(request, response);
+            } else if (path.equals("/room-detail")) {
+                request.getRequestDispatcher("/view/LRoomDetail.jsp").forward(request, response);
+            } else if (path.equals("/invoice-list")) {
+                request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
+            } else if (path.equals("/invoice-detail")) {
+                request.getRequestDispatcher("/view/LInvoiceDetail.jsp").forward(request, response);
+            } else if (path.equals("/add-invoice")) {
+                request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
+            } else if (path.equals("/notification")) {
+                request.getRequestDispatcher("/view/LNotification.jsp").forward(request, response);
             }
         }
     }
