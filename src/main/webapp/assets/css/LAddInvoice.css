@@ -1,58 +1,73 @@
 * {
-    box-sizing : border-box;
-    margin     : 0;
-    padding    : 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     font-family: 'Mulish', sans-serif;
 }
 
-
 .menu-item.active,
 .menu-item.active svg {
-    color           : #17535B;
+    color: #17535B;
     background-color: #F3F3F3;
 }
 
-.hostel-date {
-    font-style: italic;
+.parent-active span,
+.parent-active svg {
+    color: #17535B;
 }
 
-.hostel-label {
-    width: 70px;
-}
-
-.hostel-number {
-    width      : 100px;
-    margin-left: 12px;
-}
-
-.select-hostel {
-    padding      : 6px 50px;
+.card {
     border-radius: 4px;
+    box-shadow: rgba(60, 64, 67, 0.08) 0px 1px 2px 0px, rgba(60, 64, 67, 0.03) 0px 2px 6px 2px;
 }
 
-.img-item {
-    position: relative;
+.dropdown-shadow {
+    top: 0;
+    right: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.img-item:hover button {
-    opacity: 1;
-    padding: 4px 12px;
+.breadcrumb {
+    margin: 0;
 }
 
-.img-item button {
-    font-size       : 16px;
-    font-weight     : 500;
-    opacity         : 0;
-    position        : absolute;
-    top             : 0;
-    right           : 0;
-    background-color: pink;
-    padding         : 4px 8px;
-    transition      : all 0.1s linear;
+.table-paging .current {
+    color: #fff;
+    background-color: #17535B;
 }
 
-.hasResident:checked .inputResident {
-    display: inline-block !important;
+.table-paging .current:hover {
+    color: #fff;
+    background-color: #256f79;
+}
+
+[type=search]:focus,
+[type=search]:active,
+[type=text]:focus,
+[type=text]:active,
+.in-edit,
+.in-edit:focus,
+.in-edit:active,
+#start-date:focus,
+#start-date:active,
+#end-date:focus,
+#end-date:active {
+    outline: none;
+    border: none;
+}
+
+#search-invoice-id:focus,
+#search-invoice-id:active,
+#start-date:focus,
+#start-date:active,
+#end-date:focus,
+#end-date:active {
+    outline: none !important;
+    border: 1px solid #17535B !important;
+}
+
+.grid-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
 }
 
 .datepicker-picker {
@@ -73,11 +88,11 @@
     background: rgb(243 244 246) !important;
 }
 
-.datepicker-cell.focused,
-.datepicker-cell.selected {
-    background: #17535B !important;
+.datepicker-cell.focused, .datepicker-cell.selected {
+background: #17535B !important;
     color: #fff !important;
 }
+
 
 [multiple],
 [type=date],
@@ -97,7 +112,7 @@ select:focus,
 select:active,
 textarea {
     outline: none;
-
+  
 }
 
 [multiple]:focus,
@@ -119,10 +134,4 @@ textarea:focus {
     --tw-ring-shadow: none;
     border: none;
     border: solid 1px #17535B;
-}
-
-form h2 {
-    font-size: 22px;
-    font-weight: 500;
-    color: #40576C;
 }

@@ -20,26 +20,30 @@ import java.util.List;
  */
 public class InvoiceDAO {
 
-    public static List<Invoice> findByContract(Contract c) {
+    public static List<Invoice> findByContract(int contractId) {
         List<Invoice> list = null;
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select * from Invoice where contractID = ?";
+                String sql = "select * from Invoice where contractID = ? ORDER BY createdDate DESC";
                 PreparedStatement pst = cn.prepareCall(sql);
-                pst.setInt(1, c.getContractID());
+                pst.setInt(1, contractId);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     list = new ArrayList();
                     while (rs.next()) {
                         int invoiceID = rs.getInt("invoiceID");
+                        Contract contract = ContractDAO.findByID(contractId);
                         Date startDate = rs.getDate("startDate");
                         Date endDate = rs.getDate("endDate");
                         Date dueDate = rs.getDate("dueDate");
                         int status = rs.getInt("status");
                         int totalPrice = rs.getInt("totalPrice");
-                        list.add(new Invoice(invoiceID, c, startDate, endDate, dueDate, status, totalPrice));
+                        String month = rs.getString("month");
+                        int  electricPrice = rs.getInt("electricPrice");
+                        int  waterPrice = rs.getInt("waterPrice");
+                        list.add(new Invoice(invoiceID, contract, startDate, endDate, dueDate, status, totalPrice, month, electricPrice, waterPrice));
                     }
                 }
             }
@@ -74,8 +78,11 @@ public class InvoiceDAO {
                     int status = rs.getInt("status");
                     int totalPrice = rs.getInt("totalPrice");
                     int contractID = rs.getInt("contractID");
+                    String month = rs.getString("month");
                     Contract contract = ContractDAO.findByID(contractID);
-                    return new Invoice(invoiceID, contract, startDate, endDate, dueDate, status, totalPrice);
+                    int  electricPrice = rs.getInt("electricPrice");
+                        int  waterPrice = rs.getInt("waterPrice");
+                        return new Invoice(invoiceID, contract, startDate, endDate, dueDate, status, totalPrice, month, electricPrice, waterPrice);
                 }
             }
         } catch (Exception e) {
@@ -93,9 +100,9 @@ public class InvoiceDAO {
     }
 
     public static void main(String[] args) {
-        Contract c = ContractDAO.findActiveContract(TenantDAO.findById(3));
-        for (Invoice inv : findByContract(c)) {
-            System.out.println(inv);
+        List<Invoice> invoiceList = findByContract(1);
+        for (Invoice invoice : invoiceList) {
+            System.out.println(invoice.getInvoiceID());
         }
     }
 }
