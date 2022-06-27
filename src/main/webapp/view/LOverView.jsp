@@ -83,17 +83,93 @@
                 <form action="" class="flex items-center">
                     <div class="flex items-center mr-[20px]">
                         <h3 class="text-sm font-medium text-gray-400 mr-[10px]">Chọn nhà trọ: </h3>
-                        <button type="button"
+                        <button type="button" data-modal-toggle="hostelModal"
                             class="rounded w-fit h-[30px] px-[20px] bg-[#288D87] hover:bg-[#248781] flex flex justify-between items-center">
                             <h3 class="font-medium text-[15px] text-[#fff]">An Khang</h3>
                         </button>
+                        <div id="hostelModal" tabindex="-1" aria-hidden="true"
+                        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+
+                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                                <div
+                                    class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        Chọn Phòng
+                                    </h3>
+                                    <button type="button"
+                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                        data-modal-toggle="hostelModal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="p-6 space-y-6">
+                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Huyền Thiết</a>
+                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Châu Tấn</a>
+                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Á Bằng</a>
+                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Doanh Doanh</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button type="button"
+                    </div>
+                    <button type="button" data-modal-toggle="addHostel"
                         class="rounded w-[150px] h-[30px] bg-[#fff] border order-gray-400 hover:border-[#288D87] flex justify-center items-center group">
                         <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Thêm nhà trọ <i
                                 class="bi bi-plus-lg"></i></p>
 
                     </button>
+                    <div id="addHostel" tabindex="-1" aria-hidden="true"
+                        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+
+                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                                <div
+                                    class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        Thêm nhà trọ mới
+                                    </h3>
+                                    <button type="button"
+                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                        data-modal-toggle="addHostel">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="p-4">
+                                    <div class="my-2">
+                                        <label class="w-[160px] inline-block" for="">Tên nhà trọ mới</label>
+                                        <input type="text" class="text-sm p-1">
+                                    </div>
+                                    <div class="my-2">
+                                        <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
+                                        <textarea class="text-sm p-1" name="" id="" cols="48" rows="2">abcxyz</textarea>
+                                    </div>
+                                    <div class="my-2">
+                                        <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
+                                        <input type="file" multiple rounded />
+                                    </div>
+                                </div>
+                                <div class="grid justify-items-end">
+                                    <button class=" px-8 py-2 mx-4 my-2 border-2 rounded">Thêm</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </form>
 
                 <!-- End breadcrumb -->

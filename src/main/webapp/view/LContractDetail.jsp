@@ -36,7 +36,7 @@
     </head>
 
     <body>
-       <%@include file="../view/LControllBar.jsp" %>
+        <%@include file="../view/LControllBar.jsp" %>
 
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
@@ -89,8 +89,8 @@
                                 <div class="col-span-4 text-xs">Người cho thuê: ${requestScope.contract.landlord.fullname}</div>
                             <div class="col-span-2 text-xs">Người thuê: ${requestScope.contract.tenant.fullname}</div>
                             <div class="col-span-2 text-xs text-right">Phòng cho thuê: 101</div>
-                            <div class="col-span-2 text-xs">Tiền đặt cọc: ${requestScope.contract.deposit} VNĐ</div>
-                            <div class="col-span-2 text-xs text-right">Giá hằng tháng: ${requestScope.contract.rentalFeePerMonth} VNĐ</div>
+                            <div class="col-span-2 text-xs">Tiền đặt cọc: <span class="money">${requestScope.contract.deposit}</span></div>
+                            <div class="col-span-2 text-xs text-right">Giá hằng tháng: <span class="money">${requestScope.contract.rentalFeePerMonth}</span></div>
                             <c:if test="${requestScope.contract.description != null}">
                                 <div class="col-span-4 text-xs">Nội dung: -${requestScope.contract.description}-
                                 </div>
@@ -100,16 +100,16 @@
                     </div>
                     <div class="mt-4 border-2 rounded p-4">
                         <div class="grid grid-cols-6 gap-4">
-                            <div class="text-sm col-span-3 ">Thời hạn: ${requestScope.contract.duration} Tháng</div>
-                            <div class="text-sm col-span-3 ">Tổng tiền nhà: ${requestScope.contract.rentalFeePerMonth * requestScope.invoiceList.size()} VNĐ</div>
-                            <div class="text-sm col-span-2 ">Số điện: ${requestScope.startElectrict} - ${requestScope.endElectrict}</div>
-                            <div class="text-sm col-span-2 ">Số lượng: ${requestScope.endElectrict - requestScope.startElectrict}</div>
-                            <div class="text-sm col-span-2 ">Tổng: ${requestScope.totalElectric} VNĐ</div>
-                            <div class="text-sm col-span-2 ">Số nước: ${requestScope.startWater} - ${requestScope.endWater}</div>
-                            <div class="text-sm col-span-2 ">Số lượng: ${requestScope.endWater - requestScope.startWater}</div>
-                            <div class="text-sm col-span-2 ">Tổng: ${requestScope.totalWater} VNĐ</div>
-                            <div class="text-sm col-span-6 ">Các dịch vụ khác: ${requestScope.totalAll - requestScope.totalElectric - requestScope.totalWater} VNÐ</div>
-                            <div class="text-md col-span-6 ">Tổng cộng: ${requestScope.totalAll} VNÐ</div>
+                            <div class="text-sm col-span-3">Thời hạn: ${requestScope.contract.duration} Tháng</div>
+                            <div class="text-sm col-span-3">Tổng tiền nhà: <span class="money">${requestScope.contract.rentalFeePerMonth * requestScope.invoiceList.size()}</span></div>
+                            <div class="text-sm col-span-2">Số điện: ${requestScope.startElectrict} - ${requestScope.endElectrict}</div>
+                            <div class="text-sm col-span-2">Số lượng: ${requestScope.endElectrict - requestScope.startElectrict}</div>
+                            <div class="text-sm col-span-2">Tổng: <span class="money">${requestScope.totalElectric}</span></div>
+                            <div class="text-sm col-span-2">Số nước: ${requestScope.startWater} - ${requestScope.endWater}</div>
+                            <div class="text-sm col-span-2">Số lượng: ${requestScope.endWater - requestScope.startWater}</div>
+                            <div class="text-sm col-span-2">Tổng: <span class="money">${requestScope.totalWater}</span></div>
+                            <div class="text-sm col-span-6">Các dịch vụ khác: <span class="money">${requestScope.totalAll - requestScope.totalElectric - requestScope.totalWater}</span></div>
+                            <div class="text-md col-span-6">Tổng cộng: <span class="money">${requestScope.totalAll}</span></div>
                         </div>
                     </div>
                     <p class="mt-8">Danh sách hóa đơn:</p>
@@ -152,7 +152,7 @@
                                             <td class="text-center px-6 py-4">
                                                 ${invoice.month}
                                             </td>
-                                            <td class="text-center px-6 py-4">
+                                            <td class="text-center px-6 py-4 money">
                                                 ${invoice.totalPrice}
                                             </td>
                                             <td class="text-center px-6 py-4">
@@ -207,7 +207,21 @@
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+        <script>
+            var formatMoney = function (n) {
+                var s = '' + (Math.floor(n)), i = s.length, r = '';
+                while ((i -= 3) > 0) {
+                    r = '.' + s.substr(i, 3) + r;
+                }
+                return s.substr(0, i + 3) + r + " VNÐ";
+            };
+            const moneyElements = document.querySelectorAll('.money');
+            moneyElements.forEach(money => {
+                const originMoney = money.innerHTML;
+                console.log(originMoney);
+                money.innerHTML = formatMoney(originMoney);
+            })
+        </script>
     </body>
 
 </html>
