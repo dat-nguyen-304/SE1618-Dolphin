@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,7 +81,7 @@
                     <button
                         class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         type="button" data-modal-toggle="hostelModal">
-                        Sakura
+                        ${requestScope.currentHostel.hostelName}
                     </button>
 
                     <div id="hostelModal" tabindex="-1" aria-hidden="true"
@@ -92,7 +93,7 @@
                                 <div
                                     class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                        Chọn Phòng
+                                        Chọn nhà trọ
                                     </h3>
                                     <button type="button"
                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -107,10 +108,11 @@
                                 </div>
 
                                 <div class="p-6 space-y-6">
-                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Huyền Thiết</a>
-                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Châu Tấn</a>
-                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Á Bằng</a>
-                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Doanh Doanh</a>
+                                    <c:forEach items="${requestScope.hostelList}" var="hostel">
+                                        <form action="/sakura/landlord/overview" class="inline-block">
+                                            <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
+                                        </form>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +126,7 @@
                     <button
                         class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         type="button" data-modal-toggle="roomModal">
-                        Bình Dân
+                        ${requestScope.currentRoomType.roomTypeName}
                     </button>
                     <div id="roomModal" tabindex="-1" aria-hidden="true"
                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
@@ -150,9 +152,11 @@
                                 </div>
 
                                 <div class="p-6 space-y-6">
-                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Bình Dân</a>
-                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Trung Bình</a>
-                                    <a href="" class="px-4 py-2 mx-2 rounded border-2">Cao Cấp</a>
+                                    <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
+                                        <form action="/sakura/landlord/room-type" class="inline-block">
+                                            <button type="submit" name="roomTypeId" value="${roomtype.roomTypeID}" class="px-4 py-2 mx-2 rounded border-2">${roomtype.roomTypeName}</button>
+                                        </form>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
@@ -242,34 +246,24 @@
                             <div class="mt-[24px] grid grid-cols-3 gap-4">
                                 <div class="">
                                     <span>Giá: </span>
-                                    <input type="text" name="" disabled
-                                        class="border-none text-sm text-right p-1 bg-transparent inline-block w-24"
-                                        value="6.000.000">
-                                    <span>VNĐ</span>
+                                    <span class="w-full border-none text-sm text-right p-1 w-full">
+                                        ${requestScope.currentRoomType.advertisedPrice}
+                                    </span>
                                 </div>
                                 <div class="">
                                     <span>Diện tích: </span>
-                                    <input type="text" name="" disabled
-                                        class="border-none text-sm text-right p-1 bg-transparent inline-block w-8"
-                                        value="32">
-                                    <span>m2</span>
+                                    <span class="border-none text-sm text-right p-1 w-full">
+                                        ${requestScope.currentRoomType.area} m2</span>
                                 </div>
                                 <div class="">
                                     <span>Số người tối đa: </span>
-                                    <input type="text" name="" disabled
-                                        class="border-none text-sm text-right p-1 bg-transparent inline-block w-6"
-                                        value="5">
-                                    <span>người</span>
+                                    <span class="border-none text-sm text-right p-1 w-full">
+                                        ${requestScope.currentRoomType.maxNumberOfResidents} người</span>
                                 </div>
                                 <div class="col-span-3">
-                                    <p class="">Mô tả: </p>
-                                    <textarea class="mt-[8px] p-2 border-none text-sm bg-transparent" disabled name=""
-                                        id="" cols="72" rows="2">abcxyz</textarea>
+                                    <span class="">Mô tả: </span>
+                                    <span class="mt-[8px] p-2 border-none text-sm">${requestScope.currentRoomType.description}</span>
                                 </div>
-                                <div class="col-span-2"></div>
-                                <button class="border-2 rounded p-1 hidden">Lưu</button>
-                                <button class="border-2 rounded p-1 ">Chỉnh sửa</button>
-
                             </div>
                         </div>
                     </div>
@@ -306,20 +300,14 @@
                                         </div>
 
                                         <div class="p-4">
-                                            <div class="my-2">
+                                            <form action="" class="my-2">
                                                 <label class="w-[160px] inline-block" for="">Tên phòng</label>
                                                 <input type="text" class="text-sm p-1">
                                                 <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
-                                            </div>
-                                            <div class="my-2">
-                                                <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô
-                                                    tả</label>
-                                                <textarea class="text-sm p-1" name="" id="" cols="48"
-                                                    rows="2">abcxyz</textarea>
-                                            </div>
+                                            </form>
                                         </div>
                                         <div class="grid justify-items-end">
-                                            <button class=" px-8 py-2 mx-4 my-2 border-2 rounded">Tiếp tục</button>
+                                            <button class=" px-8 py-2 mx-4 my-2 border-2 rounded">Thêm</button>
                                         </div>
 
                                     </div>
@@ -327,15 +315,11 @@
                             </div>
                         </div>
                         <div class="my-[24px] grid grid-cols-10 gap-x-8">
-                            <button class="border-2 rounded text-center p-1">101</button>
-                            <button class="border-2 rounded text-center p-1">101</button>
-                            <button class="border-2 rounded text-center p-1">101</button>
-                            <button class="border-2 rounded text-center p-1">101</button>
-                            <button class="border-2 rounded text-center p-1">101</button>
-                            <button class="border-2 rounded text-center p-1">101</button>
-                            <button class="border-2 rounded text-center p-1">101</button>
-                            <button class="border-2 rounded text-center p-1">101</button>
-
+                            <c:forEach items="${requestScope.roomList}" var="room">
+                                <form action="/sakura/landlord/room-detail" class="border-2 rounded text-center p-1">
+                                    <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
+                                </form>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ public class RoomTypeDAO {
         try {
             cn = DBUtils.makeConnection();
             
-            String sql = "Select * from RoomType where hostelID = ?";
+            String sql = "Select * from RoomType where hostelID = ? ORDER BY advertisedPrice";
             
             PreparedStatement pst = cn.prepareCall(sql);
             

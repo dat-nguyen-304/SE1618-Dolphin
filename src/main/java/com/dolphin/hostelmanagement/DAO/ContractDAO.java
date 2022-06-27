@@ -44,7 +44,8 @@ public class ContractDAO {
                 int rentalFee = rs.getInt("rentalFeePerMonth");
                 String description = rs.getString("description");
                 int duration = rs.getInt("duration");
-                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration);
+                Date createdDate = rs.getDate("createdDate");
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration, createdDate);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +61,7 @@ public class ContractDAO {
         return null;
     }
 
-    public static Contract findActiveContract(Tenant tenant) {
+    public static Contract findActiveContractByTenant(Tenant tenant) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
@@ -80,7 +81,47 @@ public class ContractDAO {
                 Landlord landlord = room.getRoomType().getHostel().getLandlord();
                 String description = rs.getString("description");
                 int duration = rs.getInt("duration");
-                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration);
+                Date createdDate = rs.getDate("createdDate");
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration, createdDate);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Contract findActiveContractByRoomID(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select * from Contract where roomID = ? and status = 1";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, roomId);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                int contractID = rs.getInt("contractID");
+                Room room = RoomDAO.findByID(roomId);
+                int tenantID = rs.getInt("tenantID");
+                Tenant tenant = TenantDAO.findById(tenantID);
+                Hostel hostel = room.getRoomType().getHostel();
+                Date startDate = rs.getDate("startDate");
+                Date endDate = rs.getDate("endDate");
+                int deposit = rs.getInt("deposit");
+                int status = rs.getInt("status");
+                int rentalFee = rs.getInt("rentalFeePerMonth");
+                Landlord landlord = room.getRoomType().getHostel().getLandlord();
+                String description = rs.getString("description");
+                int duration = rs.getInt("duration");
+                Date createdDate = rs.getDate("createdDate");
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration, createdDate);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,7 +160,8 @@ public class ContractDAO {
                         Landlord landlord = hostel.getLandlord();
                         String description = rs.getString("description");
                         int duration = rs.getInt("duration");
-                        list.add(new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration));
+                        Date createdDate = rs.getDate("createdDate");
+                        list.add(new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration, createdDate));
                     }
                 }
             }
@@ -161,7 +203,8 @@ public class ContractDAO {
                             int rentalFee = rs.getInt("rentalFeePerMonth");
                             String description = rs.getString("description");
                             int duration = rs.getInt("duration");
-                            list.add(new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration));
+                            Date createdDate = rs.getDate("createdDate");
+                            list.add(new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration, createdDate));
                         }
                     }
                 }
@@ -204,7 +247,8 @@ public class ContractDAO {
                             int rentalFee = rs.getInt("rentalFeePerMonth");
                             String description = rs.getString("description");
                             int duration = rs.getInt("duration");
-                            list.add(new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration));
+                            Date createdDate = rs.getDate("createdDate");
+                            list.add(new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration, createdDate));
                         }
                     }
                 }
@@ -224,7 +268,7 @@ public class ContractDAO {
     }
 
     public static void main(String[] args) {
-        Contract contract = findByID(1);
-        System.out.println(contract.getStatus());
+        Contract contract = findActiveContractByRoomID(4);
+        System.out.println(contract);
     }
 }

@@ -7,11 +7,15 @@ package com.dolphin.hostelmanagement.controller;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
+import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DTO.Room;
+import com.dolphin.hostelmanagement.DTO.RoomType;
 import com.dolphin.hostelmanagement.DTO.Service;
 import com.dolphin.hostelmanagement.DTO.ServiceDetail;
 import java.io.IOException;
@@ -77,11 +81,18 @@ public class LandlordController extends HttpServlet {
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
             Landlord landlord = (Landlord) session.getAttribute("currentUser");
-            List<Hostel> listHostel = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
+            List<Hostel> hostelList = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
             if (path.equals("/overview")) {
+                Hostel currentHostel = hostelList.get(0);
+                if (request.getParameter("hostelId") != null) {
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    currentHostel = HostelDAO.findById(hostelId);
+                }
+                request.setAttribute("currentHostel", currentHostel);
+                request.setAttribute("hostelList", hostelList);
                 request.getRequestDispatcher("/view/LOverView.jsp").forward(request, response);
             } else if (path.equals("/contract-list")) {
-                int hostelId = listHostel.get(0).getHostelID();
+                int hostelId = hostelList.get(0).getHostelID();
                 int roomId = 0;
                 if (request.getParameter("roomId") != null) {
                     roomId = Integer.parseInt(request.getParameter("roomId"));
@@ -131,10 +142,58 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("contract", contract);
                 request.getRequestDispatcher("/view/LContractDetail.jsp").forward(request, response);
             } else if (path.equals("/room-type")) {
+                Hostel currentHostel;
+                List<RoomType> roomTypeList;
+                RoomType currentRoomType;
+                if (request.getParameter("roomTypeId") != null) {
+                    int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                    currentRoomType = RoomTypeDAO.findByID(roomTypeId);
+                    currentHostel = currentRoomType.getHostel();
+                    roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
+                } else if (request.getParameter("hostelId") != null) {
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    currentHostel = HostelDAO.findById(hostelId);
+                    roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
+                    currentRoomType = roomTypeList.get(0);
+                } else {
+                    currentHostel = hostelList.get(0);
+                    roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
+                    currentRoomType = roomTypeList.get(0);
+                }
+                List<Room> roomList = RoomDAO.findByRoomTypeID(currentRoomType.getRoomTypeID());
+                request.setAttribute("currentRoomType", currentRoomType);
+                request.setAttribute("roomTypeList", roomTypeList);
+                request.setAttribute("roomList", roomList);
+                request.setAttribute("currentHostel", currentHostel);
+                request.setAttribute("hostelList", hostelList);
                 request.getRequestDispatcher("/view/LRoomType.jsp").forward(request, response);
             } else if (path.equals("/room-list")) {
                 request.getRequestDispatcher("/view/LRoomList.jsp").forward(request, response);
             } else if (path.equals("/room-detail")) {
+                Hostel currentHostel = hostelList.get(0);
+                Room currentRoom;
+                if (request.getParameter("roomId") != null) {
+                    int roomId = Integer.parseInt(request.getParameter("roomId"));
+                    currentRoom = RoomDAO.findByID(roomId);
+                    currentHostel = currentRoom.getRoomType().getHostel();
+                } else if (request.getParameter("hostelId") != null) {
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    currentHostel = HostelDAO.findById(hostelId);
+                    RoomType roomtype = RoomTypeDAO.findByHostelID(currentHostel.getHostelID()).get(0);
+                    currentRoom = RoomDAO.findByRoomTypeID(roomtype.getRoomTypeID()).get(0);
+                } else {
+                    RoomType roomtype = RoomTypeDAO.findByHostelID(currentHostel.getHostelID()).get(0);
+                    currentRoom = RoomDAO.findByRoomTypeID(roomtype.getRoomTypeID()).get(0);
+                }
+                List<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
+                List<Room> roomList = RoomDAO.findByRoomHostelID(currentHostel.getHostelID());
+                Contract contract = ContractDAO.findActiveContractByRoomID(currentRoom.getRoomID());
+                request.setAttribute("contract", contract);
+                request.setAttribute("roomTypeList", roomTypeList);
+                request.setAttribute("currentRoom", currentRoom);
+                request.setAttribute("roomList", roomList);
+                request.setAttribute("currentHostel", currentHostel);
+                request.setAttribute("hostelList", hostelList);
                 request.getRequestDispatcher("/view/LRoomDetail.jsp").forward(request, response);
             } else if (path.equals("/invoice-list")) {
                 request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);

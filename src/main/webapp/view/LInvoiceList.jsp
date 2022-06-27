@@ -198,10 +198,10 @@
                                     Mã hoá đơn
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Ngày đầu
+                                    Phòng
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Ngày cuối
+                                    Hóa đơn tháng
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Hạn
@@ -223,10 +223,10 @@
                                     <a href="#" class="hover:text-[#288D87] hover:underline">0020354</a>
                                 </th>
                                 <td class="px-6 py-4">
-                                    01/05/2022
+                                    A101
                                 </td>
                                 <td class="px-6 py-4">
-                                    31/05/2022
+                                    06/2022
                                 </td>
                                 <td class="px-6 py-4">
                                     10/06/2022
@@ -241,12 +241,7 @@
 
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
+                                    <a href="#" class="font-medium text-[#17535B]">Xem chi tiết</a>
                                 </td>
                             </tr>
                             <tr class="bg-white border-b hover:bg-gray-50">
@@ -254,10 +249,10 @@
                                     <a href="#" class="hover:text-[#288D87] hover:underline">0020353</a>
                                 </th>
                                 <td class="px-6 py-4">
-                                    01/04/2022
+                                    A101
                                 </td>
                                 <td class="px-6 py-4">
-                                    30/04/2022
+                                    06/2022
                                 </td>
                                 <td class="px-6 py-4">
                                     10/05/2022
@@ -272,12 +267,7 @@
 
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
+                                    <a href="#" class="font-medium text-[#17535B]">Xem chi tiết</a>
                                 </td>
                             </tr>
                             <tr class="bg-white border-b hover:bg-gray-50">
@@ -285,40 +275,10 @@
                                     <a href="#" class="hover:text-[#288D87] hover:underline">0020352</a>
                                 </th>
                                 <td class="px-6 py-4">
-                                    01/03/2022
+                                    A101
                                 </td>
                                 <td class="px-6 py-4">
-                                    31/03/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/04/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ4.610.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020351</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/03/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/03/2022
+                                    06/2022
                                 </td>
                                 <td class="px-6 py-4">
                                     10/04/2022
@@ -332,252 +292,7 @@
                                         thanh toán</span>
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020350</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/02/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    28/02/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/03/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ5.610.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020349</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/01/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/01/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/02/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ0.010.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020348</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/12/2021
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/12/2021
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/01/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ4.512.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020347</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/11/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    30/11/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/12/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ4.520.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020346</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/10/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/10/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/11/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ3.160.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020346</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/09/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    30/09/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/10/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ4.450.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020346</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/08/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/08/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/09/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ4.780.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <a href="#" class="hover:text-[#288D87] hover:underline">0020346</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    01/07/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/07/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    10/08/2022
-                                </td>
-                                <td class="px-6 py-4">
-                                    đ4.360.000
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                        thanh toán</span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    <a href="#" class="font-medium text-[#17535B]">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i>
-                                    </a>
+                                    <a href="#" class="font-medium text-[#17535B]">Xem chi tiết</a>
                                 </td>
                             </tr>
                         </tbody>

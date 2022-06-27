@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,7 +83,7 @@
                         <button
                             class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="button" data-modal-toggle="hostelModal">
-                            Sakura
+                            ${requestScope.currentHostel.hostelName}
                         </button>
 
                         <div id="hostelModal" tabindex="-1" aria-hidden="true"
@@ -94,7 +95,7 @@
                                     <div
                                         class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                            Chọn Phòng
+                                            Chọn nhà trọ
                                         </h3>
                                         <button type="button"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -109,10 +110,11 @@
                                     </div>
 
                                     <div class="p-6 space-y-6">
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">Huyền Thiết</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">Châu Tấn</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">Á Bằng</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">Doanh Doanh</a>
+                                        <c:forEach items="${requestScope.hostelList}" var="hostel">
+                                            <form action="/sakura/landlord/room-detail" class="inline-block">
+                                                <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
+                                            </form>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +128,7 @@
                         <button
                             class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="button" data-modal-toggle="roomModal">
-                            101
+                            ${requestScope.currentRoom.roomNumber}
                         </button>
 
                         <div id="roomModal" tabindex="-1" aria-hidden="true"
@@ -153,15 +155,18 @@
                                     </div>
 
                                     <div class="p-6 space-y-6">
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">101</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">102</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">103</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">104</a>
+                                        <c:forEach items="${requestScope.roomList}" var="room">
+                                            <form action="/sakura/landlord/room-detail" class="inline-block px-4 py-2 mx-2 rounded border-2">
+                                                <button type="submit" name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
+                                            </form>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <a href="" class="inline-block bg-gray-100 py-2 px-4 ml-[24px]">Xem hóa đơn</a>
+                        <form action="/sakura/landlord/invoice-list" class="inline-block bg-gray-100 py-2 px-4 ml-[24px]">
+                            <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="w-full">Xem hóa đơn</button>
+                        </form>
                     </div>
                     <div class="grid grid-cols-12 gap-x-8">
                         <div class="col-span-5 border-4 p-4 border-2 rounded mt-[24px]">
@@ -230,33 +235,38 @@
                                     </span>
                                 </button>
                             </div>
-                            <p class="mt-[24px]">Hợp đồng hiện tại: </p>
+                            <p class="mt-[24px]">Hợp đồng gần nhất: </p>
                             <div class="images border-2 p-2 rounded mt-[12px] grid grid-cols-4 gap-4">
-                                <div class="col-span-2">Hợp đồng ID: 012984</div>
-                                <div class="col-span-1 text-xs italic text-right">Ngày tạo: 1/1/2022</div>
-                                <a href=""
-                                   class="inline-block col-span-1 text-xs text-center italic border-2 rounded italic decoration-rose-900">Danh
-                                    sách hóa đơn</a>
-
-                                <div class="col-span-2 text-xs">Thời hạn: 1/1/2022 - 1/7/2022</div>
-                                <div class="col-span-2 text-xs italic text-right">Trạng thái: Đã kết thúc</div>
-                                <div class="col-span-4 text-xs">Người cho thuê: Nguyễn Văn An</div>
-                                <div class="col-span-4 text-xs">Người thuê: Trần Văn Bình</div>
-                                <div class="col-span-2 text-xs">Tiền đặt cọc: 14.000.000 VNĐ</div>
-                                <div class="col-span-2 text-xs">Giá hằng tháng: 7.000.000 VNĐ</div>
-                                <div class="col-span-4 text-xs">Nội dung: Chẳng cần lo ngại đường xa vì xung quanh đã có rất
-                                    nhiều
-                                    tiện ích bao gồm : Siêu thị Bách hóa xanh, điện máy Nguyễn Kim, chợ Ông Địa Đại học Bách
-                                    Khoa HCM Nhà thi đấu Phú Thọ, trường đua Phú Thọ, công viên Văn hóa Đầm Sen
+                                <div class="col-span-2">Hợp đồng ID: ${requestScope.contract.contractID}</div>
+                                <div class="col-span-1 text-xs italic text-right">Ngày tạo: ${requestScope.contract.createdDate}</div>
+                                <form action="/sakura/landlord/contract-detail" class="inline-block col-span-1 text-xs text-center italic border-2 rounded italic decoration-rose-900">
+                                    <button type="submit" name="contractId" value="${requestScope.contract.contractID}" class="w-full">Xem hóa đơn</button>
+                                </form>
+                                <div class="col-span-2 text-xs">Thời hạn: ${requestScope.contract.startDate} - ${requestScope.contract.endDate}</div>
+                                <div class="col-span-2 text-xs italic text-right">
+                                    <c:if test="${requestScope.contract.status == 0}">
+                                        Trạng thái: Đã kết thúc
+                                    </c:if>
+                                    <c:if test="${requestScope.contract.status == 1}">
+                                        Trạng thái: Còn hiệu lực
+                                    </c:if>
                                 </div>
-                                <button class="col-span-4 text-right">Đã ký tên</button>
+                                <div class="col-span-4 text-xs">Người cho thuê: ${requestScope.contract.tenant.fullname}</div>
+                                <div class="col-span-4 text-xs">Người thuê: ${requestScope.contract.landlord.fullname}</div>
+                                <div class="col-span-2 text-xs">Tiền đặt cọc: <span class="money">${requestScope.contract.deposit}</span></div>
+                                <div class="col-span-2 text-xs">Giá hằng tháng: <span class="money">${requestScope.contract.rentalFeePerMonth}</span></div>
+                                <div class="col-span-4 text-xs">Nội dung: ${requestScope.contract.description}
+                                </div>
+                                <button class="col-span-4 text-right">Đã xác nhận</button>
                             </div>
-                            <a href="" class="mt-2 inline-block px-4 py-2 border-2 rounded">Xem tất cả hợp đồng</a>
+                            <form action="/sakura/contract-list" class="mt-2 inline-block px-4 py-2 border-2 rounded">
+                                <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="w-full">Xem lịch hợp đồng của phòng này</button>
+                            </form>
                         </div>
 
                         <div class="col-span-7 border-4 p-4 border-2 rounded mt-[24px]">
                             <div class="grid grid-cols-2 gap-8">
-                                <div class="shadow-lg rounded text-center p-2 bg-red-300">Loại Phòng: Bình Dân
+                                <div class="shadow-lg rounded text-center p-2 bg-red-300">Loại Phòng: ${requestScope.currentRoom.roomType.roomTypeName}
                                 </div>
                                 <div class="grid grid-cols-2 gap-8">
                                     <button
@@ -279,7 +289,7 @@
                                                 <div
                                                     class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                                                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                        Chỉnh sửa cho phòng 101
+                                                        Chỉnh sửa cho phòng ${requestScope.currentRoom.roomNumber}
                                                     </h3>
                                                     <button type="button"
                                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -297,31 +307,15 @@
                                                     <div class="my-2">
                                                         <label class="w-[160px] inline-block" for="">Loại phòng</label>
                                                         <select name="roomType" id="" class="w-[180px] p-1">
-                                                            <option>Bình Dân</option>
-                                                            <option>Trung Bình</option>
-                                                            <option>Cao Cấp</option>
-
+                                                            <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
+                                                                <option>${roomtype.roomTypeName}</option>
+                                                            </c:forEach>
                                                         </select>
                                                     </div>
                                                     <div class="my-2">
                                                         <label class="w-[160px] inline-block" for="">Tên phòng</label>
-                                                        <input type="text" class="text-sm p-1">
+                                                        <input type="text" name="roomNumber" value="${requestScope.currentRoom.roomNumber}" class="text-sm p-1">
                                                         <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
-                                                    </div>
-                                                    <div class="my-2">
-                                                        <label class="w-[160px] inline-block" for="">Giá</label>
-                                                        <input type="text" class="text-sm p-1">
-                                                        <span class="ml-2 text-xs">VD: 1000000</span>
-                                                    </div>
-                                                    <div class="my-2">
-                                                        <label class="w-[160px] inline-block" for="">Diện tích</label>
-                                                        <input type="text" class="text-sm p-1">
-                                                        <span class="ml-2 text-xs">VD: 25, 40</span>
-                                                    </div>
-                                                    <div class="my-2">
-                                                        <label class="w-[160px] inline-block" for="">Số người tối đa</label>
-                                                        <input type="text" class="text-sm p-1">
-                                                        <span class="ml-2 text-xs">VD: 5, 10</span>
                                                     </div>
                                                     <div class="grid justify-items-end">
                                                         <button class=" px-8 py-2 mx-4 my-2 border-2 rounded">Xác nhận</button>
@@ -358,19 +352,13 @@
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 py-4">
-                                <div class="shadow-lg rounded text-center py-2 px-4 bg-red-300 w-fit">Giá: 2.000.000</div>
-                                <div class="shadow-lg rounded text-center py-2 px-4 bg-red-300 w-fit">Diện tích: 20m</div>
-                                <div class="shadow-lg rounded text-center py-2 px-4 bg-red-300 w-fit">Số người tối đa: 5
+                                <div class="shadow-lg rounded text-center py-2 px-4 bg-red-300 w-fit">Giá thuê: <span class="money">${requestScope.contract.rentalFeePerMonth}</span></div>
+                                <div class="shadow-lg rounded text-center py-2 px-4 bg-red-300 w-fit">Diện tích: ${requestScope.currentRoom.roomType.area}m2</div>
+                                <div class="shadow-lg rounded text-center py-2 px-4 bg-red-300 w-fit">Số người tối đa: ${requestScope.currentRoom.roomType.maxNumberOfResidents}
                                 </div>
                             </div>
-                            <div class="border-2 rounded p-4 text-sm">Chẳng cần lo ngại đường xa vì xung quanh đã có rất
-                                nhiều tiện
-                                ích bao gồm
-                                :
-
-                                Siêu thị Bách hóa xanh, điện máy Nguyễn Kim, chợ Ông Địa
-                                Đại học Bách Khoa HCM
-                                Nhà thi đấu Phú Thọ, trường đua Phú Thọ, công viên Văn hóa Đầm Sen
+                            <div class="border-2 rounded p-4 text-sm">
+                                Mô tả: ${requestScope.currentRoom.roomType.description}
                             </div>
                             <div class="mt-5 w-96 shadow-lg rounded text-center p-2 bg-red-300">Số
                                 người hiện

@@ -102,6 +102,42 @@ public class RoomDAO {
         }
         return list;
     }
+    
+    public static ArrayList<Room> findByRoomHostelID(int hostelID) {
+        ArrayList<Room> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "select * from Room";
+                PreparedStatement pst = cn.prepareCall(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int roomID = rs.getInt("roomID");
+                        String roomNumber = rs.getString("roomNumber");
+                        int currentNoResidents = rs.getInt("currentNoResidents");
+                        int status = rs.getInt("status");
+                        RoomType roomType = findByID(roomID).getRoomType();
+                        if (roomType.getHostel().getHostelID() == hostelID)
+                            list.add(new Room(roomID, roomNumber, currentNoResidents, status, roomType));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
 
     public static Room findByID(int inputRoomID) {
         Room room = null;
@@ -174,11 +210,8 @@ public class RoomDAO {
     }
 
     public static void main(String args[]) {
-        //for (Room room : findByRoomTypeID(1)) {
-        //    System.out.println(room.getCurrentNumberOfResidents());
-        //}
-        System.out.println(findByID(1).getRoomNumber());
-        System.out.println(findByID(2).getRoomNumber());
-        System.out.println(findByID(6).getRoomNumber());
+        for (Room room : findByRoomTypeID(1)) {
+            System.out.println(room.getRoomID());
+        }
     }
 }
