@@ -114,9 +114,4 @@ public class Invoice {
     public void setWaterPrice(int WaterPrice) {
         this.WaterPrice = WaterPrice;
     }
-
-    @Override
-    public String toString() {
-        return "Invoice{" + "invoiceID=" + invoiceID + ", contract=" + contract + ", startDate=" + startDate + ", endDate=" + endDate + ", createdDate=" + createdDate + ", status=" + status + ", totalPrice=" + totalPrice + ", month=" + month + ", ElectricPrice=" + ElectricPrice + ", WaterPrice=" + WaterPrice + '}';
-    }
 }

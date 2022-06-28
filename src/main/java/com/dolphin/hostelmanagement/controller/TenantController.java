@@ -73,14 +73,14 @@ public class TenantController extends HttpServlet {
 
                 request.setAttribute("contractList", contractList);
                 request.setAttribute("invoiceMap", sorted);*/
-                Contract currentContract = ContractDAO.findCurrentContractByTenantID(t.getAccount().getAccountID());
-                ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
-                Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
+//                Contract currentContract = ContractDAO.findCurrentContractByTenantID(t.getAccount().getAccountID());
+//                ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
+//                Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
 
                 //currentContract
-                session.setAttribute("currentContract", currentContract);
-                session.setAttribute("roomResidentList", roomResidentList);
-                session.setAttribute("latestInvoice", latestInvoice);
+//                session.setAttribute("currentContract", currentContract);
+//                session.setAttribute("roomResidentList", roomResidentList);
+//                session.setAttribute("latestInvoice", latestInvoice);
 
                 //currentContract.getHostel().getDistrict()
                 request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
@@ -109,7 +109,7 @@ public class TenantController extends HttpServlet {
                 } else if (request.getParameter("queryType").equals("accept")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
-                    ContractDAO.changeStatus(contractID, 1);
+//                    ContractDAO.changeStatus(contractID, 1);
                     BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID());
                     RoomDAO.changeStatus(contract.getRoom().getRoomID(), 2);
                     
@@ -139,7 +139,7 @@ public class TenantController extends HttpServlet {
                     response.sendRedirect("/sakura/tenant/dashboard");
                 } else if (request.getParameter("queryType").equals("refuse")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
-                    ContractDAO.changeStatus(contractID, 0);
+//                    ContractDAO.changeStatus(contractID, 0);
                     response.sendRedirect("/sakura/tenant/dashboard");
                 }
             }

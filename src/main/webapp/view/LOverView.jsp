@@ -159,6 +159,23 @@
                                         <input type="text" class="text-sm p-1">
                                     </div>
                                     <div class="my-2">
+                                        <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
+                                        <select class="w-[200px] p-1">
+                                            <option>Tỉnh</option>
+                                        </select>
+                                    </div>
+                                    <div class="my-2">
+                                        <label class="w-[160px] inline-block" for="">Chọn huyện</label>
+                                        <select class="w-[200px] p-1">
+                                            <option>Huyện</option>
+                                        </select> 
+                                    </div>
+                                    <div class="my-2">
+                                        <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
+                                        <input type="text" class="w-[400px] text-sm p-1">
+                                        <p class="ml-[200px] text-xs">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
+                                    </div>
+                                    <div class="my-2">
                                         <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
                                         <textarea class="text-sm p-1" name="" id="" cols="48" rows="2">abcxyz</textarea>
                                     </div>

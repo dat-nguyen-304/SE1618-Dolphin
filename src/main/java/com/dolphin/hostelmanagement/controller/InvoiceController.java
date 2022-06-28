@@ -174,13 +174,13 @@ public class InvoiceController extends HttpServlet {
             } else {
 
                 Landlord l = (Landlord) session.getAttribute("currentUser");
-                List<Contract> contractList = ContractDAO.findByLandlord(l);
+//                List<Contract> contractList = ContractDAO.findByLandlord(l);
                 
                 if (path.equals("/list")) {
                     List<Invoice> invoiceList = new ArrayList();
-                    for (Contract contract : contractList) {
-                        invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
-                    }
+//                    for (Contract contract : contractList) {
+//                        invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
+//                    }
 
                     if (request.getParameter("sortByStatus") != null) {
                         int status = Integer.parseInt(request.getParameter("sortByStatus"));

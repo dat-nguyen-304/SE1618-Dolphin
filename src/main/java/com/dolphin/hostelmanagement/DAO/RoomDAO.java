@@ -103,7 +103,7 @@ public class RoomDAO {
         return list;
     }
     
-    public static ArrayList<Room> findByRoomHostelID(int hostelID) {
+    public static ArrayList<Room> findByHostelID(int hostelID) {
         ArrayList<Room> list = null;
         Connection cn = null;
         try {

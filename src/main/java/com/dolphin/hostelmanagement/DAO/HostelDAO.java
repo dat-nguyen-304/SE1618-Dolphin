@@ -152,35 +152,27 @@ public class HostelDAO {
         return hostel;
     }
 
-    public static boolean save(Hostel t) throws Exception {
-        boolean check = false;
+    public static boolean save(Hostel hostel) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                java.sql.Date sqlRegDate = new java.sql.Date(t.getRegisteredDate().getTime());
-                String sql = "insert into Hostel(streetAddress, hostelName, "
-                        + "registeredDate, activate, rating, landlordID, "
-                        + "districtID) "
-                        + "values(?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement pst = cn.prepareCall(sql);
-                pst.setString(1, t.getStreetAddress());
-                pst.setString(2, t.getHostelName());
-                pst.setDate(3, sqlRegDate);
-                pst.setBoolean(4, true);
-                pst.setFloat(5, t.getRating());
-                pst.setInt(6, t.getLandlord().getAccount().getAccountID());
-                pst.setInt(7, t.getDistrict().getDistrictID());
-                check = pst.executeUpdate() != 0;
-                if (check) {
-                    System.out.println("!!! SAVED hostel");
+                String sql = "INSERT INTO Hostel(hostelName, streetAddress, districtID, description) VALUES(?, ?, ?, ?)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, hostel.getHostelName());
+                pst.setString(2, hostel.getStreetAddress());
+                pst.setInt(3, hostel.getDistrict().getDistrictID());
+                pst.setString(4, hostel.getDescription());
+                int rowEffect = pst.executeUpdate();
+                if (rowEffect > 0) {
+                    cn.close();
+                    return true;
                 }
-                cn.close();
             }
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
-        return check;
+        return false;
     }
 
     public static List<Hostel> findByName(String name) {

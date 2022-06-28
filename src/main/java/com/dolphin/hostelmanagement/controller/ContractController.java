@@ -63,9 +63,9 @@ public class ContractController extends HttpServlet {
                     }
                     int duration = Integer.parseInt(request.getParameter("duration"));
                     
-                    Contract c = new Contract(bookingRequestID, r, t, startDate, endDate, deposit, 2, rentalFeePerMonth, description, duration);
-                    ContractDAO.save(c);
-                    
+//                    Contract c = new Contract(bookingRequestID, r, t, startDate, endDate, deposit, 2, rentalFeePerMonth, description, duration);
+//                    ContractDAO.save(c);
+//                    
                     //change booking request status
                     //BookingRequestDAO.disableByRoomID(c.getRoom().getRoomID()); //reject all booking request
                     System.out.println("Booking: " + bookingRequestID);
