@@ -37,6 +37,19 @@ public class Contract implements Comparable<Contract> {
         this.description = description;
         this.duration = duration;
     }
+    
+    public Contract(int contractID, Room room, Tenant tenant, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth, String description, int duration) {
+        this.contractID = contractID;
+        this.room = room;
+        this.tenant = tenant;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.deposit = deposit;
+        this.status = status;
+        this.rentalFeePerMonth = rentalFeePerMonth;
+        this.description = description;
+        this.duration = duration;
+    }
 
     public int getContractID() {
         return contractID;

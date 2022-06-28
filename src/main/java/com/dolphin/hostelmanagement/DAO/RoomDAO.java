@@ -172,13 +172,31 @@ public class RoomDAO {
         }
         return list;
     }
+    
+    public static void changeStatus(int roomID, int status) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Update Room set status = ? where roomID = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setInt(1, status);
+            pst.setInt(2, roomID);
+            pst.executeUpdate();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String args[]) {
         //for (Room room : findByRoomTypeID(1)) {
         //    System.out.println(room.getCurrentNumberOfResidents());
         //}
-        System.out.println(findByID(1).getRoomNumber());
-        System.out.println(findByID(2).getRoomNumber());
-        System.out.println(findByID(6).getRoomNumber());
+        
+        changeStatus(5, 0);
     }
 }

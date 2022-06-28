@@ -142,20 +142,22 @@ public class LandlordController extends HttpServlet {
                 String queryType = request.getParameter("queryType") == null ? "" : request.getParameter("queryType");
                 if (queryType.equals("accept")) {
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
+                    response.sendRedirect("/sakura/contract/addContract?bookingRequestID=" + bookingRequestID);
+                    return;
                 } else if (queryType.equals("reject")) {
                     //change status of booking request from 1 to 0, means rejected request
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
                     BookingRequest currentBr = BookingRequestDAO.getBookingRequestByID(bookingRequestID);
                     BookingRequestDAO.changeStatus(bookingRequestID, 0);
-                    int hostelID = currentBr.getRoom().getRoomType().getHostel().getHostelID();
+                    int hostelID = currentBr.getRoomType().getHostel().getHostelID();
 
                     //end change
                     //send notification to tenant about rejecting 
                     Notification rejectNoti = new Notification();
                     rejectNoti.setToAccount(currentBr.getTenant().getAccount());
                     rejectNoti.setCreatedDate(new Date());
-                    rejectNoti.setContent("Yêu cầu xem phòng " + currentBr.getRoom().getRoomNumber()
-                            + " ở nhà trọ " + currentBr.getRoom().getRoomType().getHostel().getHostelName()
+                    rejectNoti.setContent("Yêu cầu xem phòng"
+                            + " ở nhà trọ " + currentBr.getRoomType().getHostel().getHostelName()
                             + " của bạn đã bị từ chối. Vui lòng liên lạc với chủ nhà nếu có sự nhầm lẫn!");
                     rejectNoti.setStatus(0);
                     //end send notification to tenant
@@ -169,7 +171,7 @@ public class LandlordController extends HttpServlet {
 
                 ArrayList<BookingRequest> bookingList = BookingRequestDAO.getBookingRequestByHostelID(hostelID, 1);
                 for (BookingRequest br : bookingList) {
-                    System.out.println(br.getRoom().getRoomID());
+                    System.out.println(br.getRoomType().getRoomTypeName());
                     System.out.println(br.getBookingRequestID());
                     System.out.println(br.getTenant().getFullname());
                 }

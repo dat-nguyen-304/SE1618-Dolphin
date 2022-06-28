@@ -4,6 +4,7 @@ import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Room;
+import com.dolphin.hostelmanagement.DTO.RoomType;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
@@ -18,17 +19,17 @@ import java.util.Date;
  */
 public class BookingRequestDAO {
 
-    public static int saveBookingRequest(int tenantID, int roomID, Date date, int status) {
+    public static int saveBookingRequest(int tenantID, int roomTypeID, Date date, int status) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
 
             java.sql.Date createdDate = new java.sql.Date(date.getTime());
-            String sql = "Insert into BookingRequest (tenantID, roomID, createdDate, status) values (?, ?, ?, ?)";
+            String sql = "Insert into BookingRequest (tenantID, roomTypeID, createdDate, status) values (?, ?, ?, ?)";
 
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setInt(1, tenantID);
-            pst.setInt(2, roomID);
+            pst.setInt(2, roomTypeID);
             pst.setDate(3, (java.sql.Date) createdDate);
             pst.setInt(4, status);
 
@@ -61,10 +62,10 @@ public class BookingRequestDAO {
 
             while (rs != null && rs.next()) {
                 int bookingRequestID = rs.getInt("bookingRequestID");
-                Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                RoomType roomType = RoomTypeDAO.findByID(rs.getInt("roomTypeID"));
                 Date createdDate = rs.getDate("createdDate");
 
-                arr.add(new BookingRequest(bookingRequestID, t, room, createdDate, status));
+                arr.add(new BookingRequest(bookingRequestID, t, roomType, createdDate, status));
             }
 
         } catch (Exception e) {
@@ -83,10 +84,9 @@ public class BookingRequestDAO {
         try {
             cn = DBUtils.makeConnection();
 
-            String sql = "Select BookingRequest.bookingRequestID, BookingRequest.createdDate, BookingRequest.roomID, BookingRequest.status, BookingRequest.tenantID\n"
+            String sql = "Select BookingRequest.bookingRequestID, BookingRequest.createdDate, BookingRequest.roomTypeID, BookingRequest.status, BookingRequest.tenantID\n"
                     + "from BookingRequest \n"
-                    + "inner join Room on Room.roomID = BookingRequest.roomID\n"
-                    + "inner join RoomType on RoomType.roomTypeID = Room.roomTypeID\n"
+                    + "inner join RoomType on RoomType.roomTypeID = BookingRequest.roomTypeID\n"
                     + "inner join Hostel on Hostel.hostelID = RoomType.hostelID\n"
                     + "where Hostel.hostelID = ? and BookingRequest.status = ?";
 
@@ -98,11 +98,11 @@ public class BookingRequestDAO {
 
             while (rs != null && rs.next()) {
                 int bookingRequestID = rs.getInt("bookingRequestID");
-                Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                RoomType roomType = RoomTypeDAO.findByID(rs.getInt("roomTypeID"));
                 Date createdDate = rs.getDate("createdDate");
                 Tenant t = TenantDAO.findById(rs.getInt("tenantID"));
 
-                arr.add(new BookingRequest(bookingRequestID, t, room, createdDate, status));
+                arr.add(new BookingRequest(bookingRequestID, t, roomType, createdDate, status));
             }
 
         } catch (Exception e) {
@@ -150,12 +150,12 @@ public class BookingRequestDAO {
             ResultSet rs = pst.executeQuery();
 
             while (rs != null && rs.next()) {
-                Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                RoomType roomType = RoomTypeDAO.findByID(rs.getInt("roomTypeID"));
                 Date createdDate = rs.getDate("createdDate");
                 Tenant t = TenantDAO.findById(rs.getInt("tenantID"));
                 int status = rs.getInt("status");
                 
-                br = (new BookingRequest(bookingRequestID, t, room, createdDate, status));
+                br = (new BookingRequest(bookingRequestID, t, roomType, createdDate, status));
             }
 
         } catch (Exception e) {
@@ -163,6 +163,61 @@ public class BookingRequestDAO {
         }
 
         return br;
+    }
+    
+    /*public static boolean disableByRoomID(int roomID) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Update BookingRequest set status = 0 where roomID = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setInt(1, roomID);
+            
+            return pst.executeUpdate() > 0;
+            
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return false;
+    }*/
+    
+    public static void removeAllByTenantID(int tenantID) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Update BookingRequest set status = 0 where tenantID = ?";
+        
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, tenantID);
+            
+            pst.executeUpdate();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void changeCreatedDate(int bookingRequestID, Date date) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Update BookingRequest set createdDate = ? where bookingRequestID = ?";
+            
+            java.sql.Date sqlRegDate = new java.sql.Date(date.getTime());
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setDate(1, sqlRegDate);
+            pst.setInt(2, bookingRequestID);
+            
+            pst.executeUpdate();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String args[]) {
@@ -174,8 +229,7 @@ public class BookingRequestDAO {
             System.out.println(br.getBookingRequestID());
             System.out.println(br.getTenant().getFullname());
         }*/
-        
-        System.out.println(getBookingRequestByID(1).getTenant().getAccount().getAccountID());
+        changeCreatedDate(1002, new Date());
     }
 
     

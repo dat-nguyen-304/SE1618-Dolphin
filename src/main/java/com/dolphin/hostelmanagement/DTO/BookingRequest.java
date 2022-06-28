@@ -13,17 +13,17 @@ import java.util.Date;
 public class BookingRequest {
     private int bookingRequestID;
     private Tenant tenant;
-    private Room room;
+    private RoomType roomType;
     private Date createdDate;
     private int status;
 
     public BookingRequest() {
     }
 
-    public BookingRequest(int bookingRequestID, Tenant tenant, Room room, Date createdDate, int status) {
+    public BookingRequest(int bookingRequestID, Tenant tenant, RoomType roomType, Date createdDate, int status) {
         this.bookingRequestID = bookingRequestID;
         this.tenant = tenant;
-        this.room = room;
+        this.roomType = roomType;
         this.createdDate = createdDate;
         this.status = status;
     }
@@ -44,12 +44,12 @@ public class BookingRequest {
         this.tenant = tenant;
     }
 
-    public Room getRoom() {
-        return room;
+    public RoomType getRoomType() {
+        return roomType;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 
     public Date getCreatedDate() {
@@ -67,4 +67,6 @@ public class BookingRequest {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    
 }

@@ -444,12 +444,13 @@ public class HostelController extends HttpServlet {
                 int landlordID = hostel.getLandlord().getAccount().getAccountID();
                 rentalNoti.setToAccount(AccountDAO.findById(landlordID));
                 rentalNoti.setCreatedDate(new Date());
-                rentalNoti.setContent("Người dùng " + t.getFullname() + " muốn xem phòng " + room.getRoomNumber() + "\n" +
-"ở nhà trọ " + hostel.getHostelName() + "!");
+                rentalNoti.setContent("Người thuê nhà " + t.getFullname() + " muốn xem phòng " + room.getRoomNumber() + ", loại phòng " + room.getRoomType().getRoomTypeName()
+ + " ở nhà trọ " + hostel.getHostelName() + "!");
                 rentalNoti.setStatus(0); //0 means unread
                 
                 boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
-                System.out.println("Successfully sent rental request!");
+                if(!check) System.out.println("Something wrong in save rental notification function!");
+                else System.out.println("Successfully save rental notification!");
                 
                 //end notification for landlord
                 //this is notification for tenant about successfully booking request from system
@@ -458,18 +459,19 @@ public class HostelController extends HttpServlet {
                 
                 successNoti.setToAccount(t.getAccount());
                 successNoti.setCreatedDate(new Date());
-                successNoti.setContent("Bạn đã đăng kí xem phòng " + room.getRoomNumber() + " ở nhà trọ " + hostel.getHostelName() + " thành công!");
+                successNoti.setContent("Bạn đã đăng kí xem phòng " + room.getRoomNumber() + ", loại phòng " + room.getRoomType().getRoomTypeName()
+                        + ", ở nhà trọ " + hostel.getHostelName() + " thành công!");
                 
                 successNoti.setStatus(0); //0 means unread
-                NotificationDAO.saveNotification(successNoti);
-                
+                check = NotificationDAO.saveNotification(successNoti);
+                if(!check) System.out.println("Something wrong in save success notification function!");
+                else System.out.println("Successflly save success notification function");
                 //end notification for landlord
                 
                 //this is booking request adding function
-                BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomID, rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
+                BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), room.getRoomType().getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
 
                 //end booking request adding function
-                
                 //this will show notification after returning back to hostel detail page!
 
                 response.sendRedirect("/sakura/hostel/detail?successBookingMessage=true&filterStar=0&hostelId=" + hostelID);
