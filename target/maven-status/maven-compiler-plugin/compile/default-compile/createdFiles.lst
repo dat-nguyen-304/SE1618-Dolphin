@@ -53,5 +53,6 @@ com\dolphin\hostelmanagement\DTO\Room.class
 com\dolphin\hostelmanagement\controller\LandlordController.class
 com\dolphin\hostelmanagement\utils\EmailService.class
 com\dolphin\hostelmanagement\controller\HostelController$2.class
+com\dolphin\hostelmanagement\controller\ContractController.class
 com\dolphin\hostelmanagement\controller\HomeController.class
 com\dolphin\hostelmanagement\DAO\ContractDAO.class
