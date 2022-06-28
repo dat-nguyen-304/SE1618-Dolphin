@@ -13,220 +13,50 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <title>Sakura - Nhà trọ ${requestScope.hostel.hostelName}</title>
 
+        <!-- Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+        <!--Favicon-->
+        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
+
+        <!-- Icon -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
         <link href="./css/sb-admin-2.min.css" rel="stylesheet">
         <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../assets/css/hostel-detail.css">
-        <link rel="stylesheet" href="../assets/css/header.css">
+        <c:choose>
+            <c:when test="${sessionScope.currentUser != null}">
+                <link rel="stylesheet" href="../assets/css/header-user-search-address.css">
+            </c:when>
+            <c:otherwise>
+                <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
+            </c:otherwise>
+        </c:choose>
+        <link rel="stylesheet" href="../assets/css/fix-hostel-detail.css">
     </head>
 
     <body>
-        <header>
-            <div id="content-wrapper" class="d-flex flex-column">
-                <div id="content">
-                    <nav class="header-navbar navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                        <img src="./img/logo.png" alt="" class="header-logo">
-
-                        <!-- Topbar Search -->
-                        <form style="width: 100%;"
-                              class="d-none d-md-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group header-search-container">
-                                <div class="header-search-title"></div>
-                                <select class="custom-select filter-address">
-                                    <option value="">Chọn Tỉnh --</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-
-                                <select class="custom-select filter-address">
-                                    <option value="">Chọn Huyện --</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-
-
-
-                                <div class="input-group-append">
-                                    <button class="btn btn-search" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ml-auto">
-
-                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                            <li class="nav-item no-arrow d-md-none">
-                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-search fa-fw"></i>
-                                </a>
-                                <!-- Dropdown - Messages -->
-                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                     aria-labelledby="searchDropdown">
-                                    <form class="form-inline mr-auto w-100 navbar-search">
-                                        <span style="margin-right: 12px;">Tôi muốn tìm nhà tại....</span>
-                                        <div class="input-group">
-                                            <select class="custom-select">
-                                                <option value="">Chọn Tỉnh --</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-
-                                            <select class="custom-select">
-                                                <option value="">Chọn Huyện --</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-search" type="button">
-                                                    <i class="fas fa-search fa-sm"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-
-                            <!-- Nav Item - Alerts -->
-                            <li class="nav-item dropdown no-arrow mx-1">
-                                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style>
-                                    <i class="fas fa-bell fa-fw"></i>
-                                    <!-- Counter - Alerts -->
-                                    <span class="badge badge-danger badge-counter">3+</span>
-                                </a>
-                                <!-- Dropdown - Alerts -->
-                                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="alertsDropdown">
-                                    <h6 class="dropdown-header">
-                                        Thông báo
-                                    </h6>
-                                    <div style="max-height: 50vh; overflow: auto;" class="">
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">2/1/2022</div>
-                                                Ngẩng mặt hận đời Ngẩng mặt hận đời Ngẩng mặt hận
-                                                đời Ngẩng mặt hận đời
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">2/1/2022</div>
-                                                Ngẩng mặt hận đời Ngẩng mặt hận đời Ngẩng mặt hận
-                                                đời Ngẩng mặt hận đời
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">2/1/2022</div>
-                                                Ngẩng mặt hận đời Ngẩng mặt hận đời Ngẩng mặt hận
-                                                đời Ngẩng mặt hận đời
-                                            </div>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-donate text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">2/1/2022</div>
-                                                Ngẩng mặt hận đời Ngẩng mặt hận đời Ngẩng mặt hận
-                                                đời Ngẩng mặt hận đời
-                                            </div>
-                                        </a>
-                                    </div>
-
-
-
-                                    <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                                </div>
-                            </li>
-
-
-
-                            <div class="topbar-divider d-none d-sm-block"></div>
-
-                            <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ngẩng mặt hận đời</span>
-                                    <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-                                </a>
-                                <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Thông tin tài khoản
-                                    </a>
-
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Đăng xuất
-                                    </a>
-                                </div>
-                            </li>
-
-                        </ul>
-
-                    </nav>
-
-                </div>
-
-            </div>
-        </header>
-        <div class="container">
+        <c:choose>
+            <c:when test="${sessionScope.currentUser != null}">
+                <header id="header-section" class="stick z-[100]">
+                    <%@include file="headerUserSearchAddress.jsp" %>
+                </header>
+            </c:when>
+            <c:otherwise>
+                <header id="header-section" class="stick z-[100]">
+                    <%@include file="headerGuestSearchAddress.jsp" %>
+                </header>
+            </c:otherwise>
+        </c:choose>
+        <div class="w-[60%] mx-auto mt-[90px]">
             <div class="row section">
                 <div class="col-12 col-sm-7">
                     <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
@@ -234,11 +64,11 @@
                             <c:if test="${requestScope.hostel.imgList.size() > 0}">
                                 <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
                                     <c:if test="${iterator == 0}">
-                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
                                         </li>
                                     </c:if>
                                     <c:if test="${iterator > 0}">
-                                        <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}">
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="${iterator}">
                                         </li>
                                     </c:if>
                                 </c:forEach>
@@ -306,16 +136,16 @@
                                 </c:forEach>
                                 <span style="margin-left: 16px" class="hostel-rating-number">${requestScope.hostel.rating}</span>
                             </div>
-                            <div class="hostel-cost">${requestScope.hostel.minPrice / 1000-00} triệu - ${requestScope.hostel.maxPrice / 1000000} triệu VNÐ</div>
+                            <div class="hostel-cost">${requestScope.hostel.minPrice / 1000000} triệu - ${requestScope.hostel.maxPrice / 1000000} triệu VNÐ</div>
                             <div class="hostel-total-rom">Có tất cả ${requestScope.hostel.totalRoom} phòng</div>
                             <div class="hostel-available-room">Hiện đang có ${requestScope.hostel.availableRoom} phòng trống</div>
                             <div class="hostel-address">${requestScope.hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
                             <form action ="/sakura/hostel/roomList" method="post">
                                 <input type="hidden" name="hostelID" value="${requestScope.hostel.hostelID}">
-                            <button type = "submit" name = "action" class="btn-view-all-room">Xem tất cả phòng</button>
+                                <button type = "submit" name = "action" class="btn-view-all-room bg-[#17535B] text-[#fff] hover:bg-[#13484F]">Xem tất cả phòng</button>
                             </form>
                         </div>
-                        <div class="landlord-info">
+                        <div class="landlord-info mt-[10px]">
                             <h2 class="landlord-info-title">Thông tin người quản lí:</h2>
                             <div class="landlord-title">
                                 <div class="landlord-content">
@@ -323,7 +153,7 @@
                                         <img src="https://anhdep123.com/wp-content/uploads/2021/05/hinh-avatar-trang.jpg"
                                              alt="">
                                     </div>
-                                    <div class="landlord-name">Họ và tên: <span>${requestScope.hostel.landlord.fullname}</span> </div>
+                                    <div class="landlord-name"><span>${requestScope.hostel.landlord.fullname}</span> </div>
                                 </div>
                                 <a href="" class="landlord-messenger">
                                     <i class="fa-brands fa-facebook-messenger"></i>
@@ -335,16 +165,16 @@
                     </div>
                 </div>
                 <div class="row section" style="margin-top: 20px">
-                    <div class="col-12 col-sm-4 hostel-overview">
+                    <div class="col-12 col-sm-6 hostel-overview">
                         <h3 class="hostel-overview-title">Tổng quan</h3>
                         <div class="hostel-description">
                             ${requestScope.hostel.description}
                         </div>
                     </div>
-                    <div class="col-12 col-sm-4 hostel-room">
-                        <h3 class="hostel-room-title">Loại phòng</h3>
-                    </div>
-                    <div class="col-12 col-sm-4 hostel-service">
+                    <!--                    <div class="col-12 col-sm-4 hostel-room">
+                                            <h3 class="hostel-room-title">Loại phòng</h3>
+                                        </div>-->
+                    <div class="col-12 col-sm-6 hostel-service">
                         <h3 class="hostel-service-title">Dịch vụ</h3>
                     </div>
                 </div>
@@ -430,7 +260,7 @@
                                 <div class="tenant-item-header">
                                     <div class="tenant-info">
                                         <div class="tenant-avt">
-                                            <img src="https://upload.wikimedia.org/wikipedia/vi/0/03/Haruno_Sakura.jpg" alt="">
+                                            <img src="${sessionScope.currentUser.account.avatar}" alt="">
                                         </div>
                                         <div>
                                             <div class="tenant-name">
@@ -461,9 +291,7 @@
                                         </div>
                                     </div>
                                     <div class="tenant-posting-date">${feedback.date}</div>
-
                                 </div>
-
                                 <div class="tenant-item-content">
                                     ${feedback.content}
                                 </div>
@@ -517,7 +345,16 @@
                                 <form action="/sakura/hostel/detail">
                                     <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                                     <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                    <button type="submit" name="paging" value="${requestScope.currentPage + 1}"><i class="fas fa-chevron-right"></i></button>
+                                    <c:if test="${requestScope.currentPage < requestScope.endPage}">
+                                        <button type="submit" name="paging" value="${requestScope.currentPage + 1}">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${requestScope.currentPage == requestScope.endPage}">
+                                        <button type="submit" name="paging" value="${requestScope.endPage}">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </c:if>
                                 </form>
                             </li>
                             <li class="pagination-item pagination-next pagination-next--fast">
@@ -553,7 +390,7 @@
                                     </div>
                                     <textarea class="text-area" placeholder="Nhập vào đây đánh giá của bạn"
                                               name="feedbackContent" rows="4" cols="100"></textarea>
-                                    <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
+                                    <button type="submit" name="message" value="Cảm ơn đánh giá của bạn" class="send-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
                                 </div>
                             </c:if>
                             <c:if test="${requestScope.feedback != null}">
@@ -569,8 +406,8 @@
                                     </div>
                                     <textarea class="text-area" disabled placeholder="Nhập vào đây đánh giá của bạn"
                                               name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
-                                    <button type="submit" class="send-feedback-btn">Gửi đánh giá</button>
-                                    <button type="submit" class="update-feedback-btn">Chỉnh sửa đánh giá</button>
+                                    <button type="submit" class="send-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
+                                    <button class="update-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Chỉnh sửa đánh giá</button>
                                 </div>
                             </c:if>
                         </form>
@@ -609,7 +446,6 @@
                                             </ol>
                                             <div class="hostel-vip-images">
                                                 <div class="carousel-inner">
-
                                                     <c:if test="${hostel.imgList.size() > 0}">
                                                         <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
                                                             <c:if test="${iterator == 0}">
@@ -671,10 +507,8 @@
                                                     <span class="hostel-vip-room-available">Còn ${hostel.availableRoom} phòng trống</span>
                                                     <span class="hostel-vip-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
                                                 </div>
-
                                                 <div class="hostel-vip-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
                                             </div>
-
                                     </button>
                                 </form>
                             </li>
@@ -682,43 +516,28 @@
                     </ul>
                 </div>
             </div>
-
-            <footer class="sticky-footer">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; SE1618 Dolphin 2022</span>
+        </div>
+        <c:if test="${requestScope.message != null}">
+            <div class="modaL">
+                <div class="modal-ticket">
+                    <div class="modalHeader">
+                        <i class="fas fa-suitcase"></i>
+                        <span class="modalHeader-title">sakura</span>
+                    </div>
+                    <div class="modal-close-btn"><i class="fas fa-times"></i></div>
+                    <div class="modal-content">
+                        <h5>${requestScope.message}</h5>
                     </div>
                 </div>
-            </footer>
-            <script src="../assets/javascript//jquery/jquery.min.js"></script>
-            <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="../assets/javascript/jquery.js"></script>
-            <script src="../assets/javascript/hostel-detail.js"></script>
-            <script>
-                                                function toggleFavoriteHostel(hostelID, element) {
-                                                    if (element.style.color === 'red')
-                                                        element.style.color = 'gray';
-                                                    else
-                                                        element.style.color = 'red';
-                                                    console.log("line 413");
-                                                    console.log(hostelID);
-                                                    jQuery.ajax({
-                                                        type: 'POST',
-                                                        data: {'hostelID': hostelID},
-                                                        url: '/sakura/hostel/toggleFavHostel',
-                                                        success: function (result) {
-                                                            console.log('Success 36');
-                                                        },
-                                                        error: function () {
-                                                            console.log('Error 39');
-                                                        },
-                                                        complete: function (result) {
-                                                            console.log('Complete 41');
-                                                        }
-                                                    });
-                                                    console.log("line 429");
-                                                }
-            </script>
-    </body>
+            </div>
+        </c:if>
 
+        <%@include file="footer.jsp" %>    
+        <script src="../assets/javascript/hostel-detail.js"></script>
+        <script src="../assets/javascript//jquery/jquery.min.js"></script>
+        <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/javascript/jquery.js"></script>
+        <script src="../assets/javascript/toggle-favorite.js"></script>
+        <script src="../assets/javascript/keep-district.js"></script>
+    </body>
 </html>

@@ -4,19 +4,36 @@ package com.dolphin.hostelmanagement.controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
+import com.dolphin.hostelmanagement.DAO.ContractDAO;
+import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
+import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DTO.Contract;
+import com.dolphin.hostelmanagement.DTO.Hostel;
+import com.dolphin.hostelmanagement.DTO.Invoice;
+import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DTO.Room;
+import com.dolphin.hostelmanagement.DTO.RoomResident;
+import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
 public class TenantController extends HttpServlet {
+
+    private static final String ERROR = "error.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,17 +47,39 @@ public class TenantController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TenantController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TenantController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try (PrintWriter out = response.getWriter()) {
+            String url = ERROR;
+            String path = request.getPathInfo();
+            System.out.println("Path: " + path);
+            HttpSession session = request.getSession();
+            Tenant t = (Tenant) session.getAttribute("currentUser");
+            List<Contract> contractList = ContractDAO.findByTenant(t);
+
+            if (path.equals("/dashboard")) {
+
+                HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
+                for (Contract contract : contractList) {
+                    invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract.getContractID()));
+                }
+                TreeMap<Contract, ArrayList<Invoice>> sorted = new TreeMap<>();
+                sorted.putAll(invoiceMap);
+
+                request.setAttribute("contractList", contractList);
+                request.setAttribute("invoiceMap", sorted);
+
+                request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
+            }
+
+            if (path.equals("/invoiceList")) {
+                
+                List<Invoice> invoiceList = new ArrayList();
+                for (Contract contract : contractList) {
+                    invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
+                }
+                request.setAttribute("invoiceList", invoiceList);
+
+                request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
+            }
         }
     }
 

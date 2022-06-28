@@ -6,28 +6,38 @@ package com.dolphin.hostelmanagement.DTO;
 
 import java.util.Date;
 
-public class Contract {
+public class Contract implements Comparable<Contract> {
     private int contractID;
     private Room room;
     private Tenant tenant;
+    private Landlord landlord;
+    private Hostel hostel;
     private Date startDate;
     private Date endDate;
     private int deposit;
     private int status;
     private int rentalFeePerMonth;
+    private String description;
+    private int duration;
+    private Date createdDate;
 
     public Contract() {
     }
 
-    public Contract(int contractID, Room room, Tenant tenant, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth) {
+    public Contract(int contractID, Room room, Tenant tenant, Landlord landlord, Hostel hostel, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth, String description, int duration, Date createdDate) {
         this.contractID = contractID;
         this.room = room;
         this.tenant = tenant;
+        this.landlord = landlord;
+        this.hostel = hostel;
         this.startDate = startDate;
         this.endDate = endDate;
         this.deposit = deposit;
         this.status = status;
         this.rentalFeePerMonth = rentalFeePerMonth;
+        this.description = description;
+        this.duration = duration;
+        this.createdDate = createdDate;
     }
 
     public int getContractID() {
@@ -52,6 +62,14 @@ public class Contract {
 
     public void setTenant(Tenant tenant) {
         this.tenant = tenant;
+    }
+
+    public Landlord getLandlord() {
+        return landlord;
+    }
+
+    public void setLandlord(Landlord landlord) {
+        this.landlord = landlord;
     }
 
     public Date getStartDate() {
@@ -93,6 +111,46 @@ public class Contract {
     public void setRentalFeePerMonth(int rentalFeePerMonth) {
         this.rentalFeePerMonth = rentalFeePerMonth;
     }
-    
-    
+
+    public Hostel getHostel() {
+        return hostel;
+    }
+
+    public void setHostel(Hostel hostel) {
+        this.hostel = hostel;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" + "contractID=" + contractID + ", room=" + room + ", tenant=" + tenant + ", landlord=" + landlord + ", hostel=" + hostel + ", startDate=" + startDate + ", endDate=" + endDate + ", deposit=" + deposit + ", status=" + status + ", rentalFeePerMonth=" + rentalFeePerMonth + '}';
+    }
+
+    @Override
+    public int compareTo(Contract o) {
+        return o.startDate.compareTo(this.startDate);
+    }
 }

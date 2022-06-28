@@ -7,7 +7,7 @@
 <nav class="header">
     <!--LEFT-->
     <div class="header-left">
-        <a class="logo" href="#">
+        <a class="logo" href="/sakura/home">
             <img id="logo-header" src="/sakura/assets/icons/logo.png" alt="">
             <h3 id="name-header">Sakura</h3>
         </a>
@@ -15,13 +15,21 @@
         <div class="home-filter">
             <form action="/sakura/hostel/list" class="filter">
                 <select id="province" name="province" class="filter-address" onchange="renderDistrict(this)">
-                    <option value="0">Tỉnh</option>
-                    <c:forEach items="${requestScope.provinceList}" var="province">
-                        <option value="${province.provinceID}">${province.provinceName}</option>
+                    <option value="0">Thành phố</option>
+                    <c:forEach items="${sessionScope.provinceList}" var="province">
+                        <c:if test="${province.provinceID == sessionScope.province.provinceID}">
+                            <option selected value="${province.provinceID}">${province.provinceName}</option>
+                        </c:if>
+                        <c:if test="${province.provinceID != sessionScope.province.provinceID}">
+                            <option value="${province.provinceID}">${province.provinceName}</option>
+                        </c:if>
                     </c:forEach>
                 </select>
                 <select id="district" name="district" class="filter-address">
                     <option value='0'>Quận huyện</option>
+                    <c:if test="${sessionScope.district != null && sessionScope.district.districtID != 0}">
+                        <input type="hidden" class="districtSelected-hidden" value="${sessionScope.district.districtID}" />
+                    </c:if>
                 </select>
                 <div class="filter-submit">
                     <button class="btn btn-search" type="submit">
@@ -40,13 +48,13 @@
         </div>
         <div class="profile">
             <div class="profile-avatar">    
-                <img id="profile-btn" src="${sessionScope.currentUser.account.avatar}" alt="">
+                <img id="profile-btn" src="${empty sessionScope.currentUser.account.avatar ? "../assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="">
             </div>
             <div class="profile-menu">
                 <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
                 <ul>
                     <form action = "/sakura/access/login" method = "post">
-                        <a href="/sakura/account/userProfile">
+                        <a href="/sakura/account/profile">
                             <li><span><i class="bi bi-person-fill"></i>Trang cá nhân</span></li>
                         </a>
                         <a href="/sakura/account/changePassword">
@@ -68,29 +76,13 @@
     const toggleMenu = document.querySelector(".profile-menu");
 
     document.addEventListener('click', function (event) {
-        if (event.target.id != 'profile-btn') {
+        if (event.target.id !== 'profile-btn') {
             toggleMenu.classList.remove("active");
         } else {
             toggleMenu.classList.toggle("active");
         }
     });
 </script>
+<script src="../assets/javascript/render-district.js"></script>
 
-<script>
-    function renderDistrict(element) {
-        var provinceID = element.value;
-        var districtElemet = document.querySelector('#district');
-        jQuery.ajax({
-            type: 'POST',
-            data: {'provinceID': provinceID},
-            url: '/sakura/hostel/address',
-            success: function (response) {
-                districtElemet.innerHTML = "<option value='0'>Quận huyện</option>" + response;
-            },
-            error: function () {
-            },
-            complete: function (result) {
-            }
-        });
-    }
-</script>
+

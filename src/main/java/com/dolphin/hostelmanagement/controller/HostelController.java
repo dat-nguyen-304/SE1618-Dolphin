@@ -148,26 +148,38 @@ public class HostelController extends HttpServlet {
 
                     hostelList = (ArrayList<Hostel>) HostelDAO.findAll();
 
-                    if (request.getParameter("province") != null && !request.getParameter("province").equals("0")) {
-                        int provinceID = Integer.parseInt(request.getParameter("province"));
-                        int districtID = Integer.parseInt(request.getParameter("district"));
-                        List<Hostel> hostelListTmp = new ArrayList<>();
-                        request.setAttribute("province", provinceID);
-                        if (districtID == 0) {
-                            for (Hostel hostel : hostelList) {
-                                if (hostel.getDistrict().getProvince().getProvinceID() == provinceID) {
-                                    hostelListTmp.add(hostel);
-                                }
+                    if (request.getParameter("province") != null) {
+                        if (!request.getParameter("province").equals("0")) {
+                            int provinceID = Integer.parseInt(request.getParameter("province"));
+                            int districtID = 0;
+                            if (request.getParameter("district") != null) {
+                                districtID = Integer.parseInt(request.getParameter("district"));
                             }
+                            List<Hostel> hostelListTmp = new ArrayList<>();
+                            Province province = ProvinceDAO.findById(provinceID);
+                            session.setAttribute("province", province);
+                            if (districtID == 0) {
+                                for (Hostel hostel : hostelList) {
+                                    if (hostel.getDistrict().getProvince().getProvinceID() == provinceID) {
+                                        hostelListTmp.add(hostel);
+                                    }
+                                }
+                                session.setAttribute("district", null);
+                            } else {
+                                for (Hostel hostel : hostelList) {
+                                    if (hostel.getDistrict().getDistrictID() == districtID) {
+                                        hostelListTmp.add(hostel);
+                                    }
+                                }
+                                District district = DistrictDAO.findById(districtID);
+                                session.setAttribute("district", district);
+                            }
+                            hostelList = hostelListTmp;
                         } else {
-                            for (Hostel hostel : hostelList) {
-                                if (hostel.getDistrict().getDistrictID() == districtID) {
-                                    hostelListTmp.add(hostel);
-                                }
-                            }
-                            request.setAttribute("district", districtID);
+                            session.setAttribute("province", null);
+                            session.setAttribute("district", null);
                         }
-                        hostelList = hostelListTmp;
+
                     }
                     if (request.getParameter("keyword") != null) {
                         String keyword = request.getParameter("keyword");
@@ -180,53 +192,52 @@ public class HostelController extends HttpServlet {
                         hostelList = hostelListTmp;
                         request.setAttribute("keyword", keyword);
                     }
+                }
+                List<Province> provinceList = ProvinceDAO.findAll();
+                session.setAttribute("provinceList", provinceList);
 
-                    List<Province> provinceList = ProvinceDAO.findAll();
-                    request.setAttribute("provinceList", provinceList);
+                if (request.getParameter("sortByMinPrice") != null) {
+                    if (request.getParameter("sortByMinPrice").equals("asc")) {
+                        sortByMinPrice(hostelList, true);
+                        request.setAttribute("sortByMinPrice", "asc");
+                    } else {
+                        sortByMinPrice(hostelList, false);
+                        request.setAttribute("sortByMinPrice", "desc");
+                    }
+                }
+                if (request.getParameter("sortByMaxPrice") != null) {
+                    if (request.getParameter("sortByMaxPrice").equals("asc")) {
+                        sortByMaxPrice(hostelList, true);
+                        request.setAttribute("sortByMaxPrice", "asc");
+                    } else {
+                        sortByMaxPrice(hostelList, false);
+                        request.setAttribute("sortByMaxPrice", "desc");
+                    }
+                }
+                if (request.getParameter("sortByRate") != null) {
+                    if (request.getParameter("sortByRate").equals("asc")) {
+                        sortByRate(hostelList, true);
+                        request.setAttribute("sortByRate", "asc");
+                    } else {
+                        sortByRate(hostelList, false);
+                        request.setAttribute("sortByRate", "desc");
+                    }
+                }
 
-                    if (request.getParameter("sortByMinPrice") != null) {
-                        if (request.getParameter("sortByMinPrice").equals("asc")) {
-                            sortByMinPrice(hostelList, true);
-                            request.setAttribute("sortByMinPrice", "asc");
-                        } else {
-                            sortByMinPrice(hostelList, false);
-                            request.setAttribute("sortByMinPrice", "desc");
-                        }
-                    }
-                    if (request.getParameter("sortByMaxPrice") != null) {
-                        if (request.getParameter("sortByMaxPrice").equals("asc")) {
-                            sortByMaxPrice(hostelList, true);
-                            request.setAttribute("sortByMaxPrice", "asc");
-                        } else {
-                            sortByMaxPrice(hostelList, false);
-                            request.setAttribute("sortByMaxPrice", "desc");
-                        }
-                    }
-                    if (request.getParameter("sortByRate") != null) {
-                        if (request.getParameter("sortByRate").equals("asc")) {
-                            sortByRate(hostelList, true);
-                            request.setAttribute("sortByRate", "asc");
-                        } else {
-                            sortByRate(hostelList, false);
-                            request.setAttribute("sortByRate", "desc");
-                        }
-                    }
-
-                    if (session.getAttribute("favoriteHostelIds") != null) {
-                        List<Boolean> toggleList = new ArrayList<>();
-                        List<Integer> favHostelIds = (List<Integer>) session.getAttribute("favoriteHostelIds");
-                        for (Hostel hostel : hostelList) {
-                            boolean isFavorite = false;
-                            for (int i = 0; i < favHostelIds.size(); i++) {
-                                if (hostel.getHostelID() == favHostelIds.get(i)) {
-                                    isFavorite = true;
-                                    break;
-                                }
+                if (session.getAttribute("favoriteHostelIds") != null) {
+                    List<Boolean> toggleList = new ArrayList<>();
+                    List<Integer> favHostelIds = (List<Integer>) session.getAttribute("favoriteHostelIds");
+                    for (Hostel hostel : hostelList) {
+                        boolean isFavorite = false;
+                        for (int i = 0; i < favHostelIds.size(); i++) {
+                            if (hostel.getHostelID() == favHostelIds.get(i)) {
+                                isFavorite = true;
+                                break;
                             }
-                            toggleList.add(isFavorite);
                         }
-                        request.setAttribute("toggleList", toggleList);
+                        toggleList.add(isFavorite);
                     }
+                    request.setAttribute("toggleList", toggleList);
                 }
                 int itemQuantity = hostelList.size();
                 int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);
@@ -260,6 +271,10 @@ public class HostelController extends HttpServlet {
                     currentPage = Integer.parseInt(request.getParameter("paging"));
                 }
 
+                if (request.getParameter("message") != null) {
+                    String message = request.getParameter("message");
+                    request.setAttribute("message", message);
+                }
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 Hostel hostel = HostelDAO.findById(hostelId);
 
@@ -267,6 +282,9 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("outstandingHostels", outstandingHostels);
 
                 List<Feedback> feedbackList = FeedbackDAO.findByHostelId(hostelId);
+
+                List<Province> provinceList = ProvinceDAO.findAll();
+                request.setAttribute("provinceList", provinceList);
 
                 if (session.getAttribute("currentUser") != null) {
                     Tenant t = (Tenant) session.getAttribute("currentUser");
@@ -278,7 +296,7 @@ public class HostelController extends HttpServlet {
                         int rating = Integer.parseInt(request.getParameter("rating"));
                         int feedbackQuantity = feedbackList.size();
                         float currentHostelRating = hostel.getRating();
-                        float newHostelRating = (float) Math.round((currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1) * 10) / 10;
+                        float newHostelRating = (float)(currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1);
                         hostel.setRating(newHostelRating);
                         HostelDAO.updateRating(hostelId, newHostelRating);
                         FeedbackDAO.add(t.getAccount().getAccountID(), hostelId, feedbackContent, rating);
@@ -291,7 +309,7 @@ public class HostelController extends HttpServlet {
                         int oldRating = Integer.parseInt(request.getParameter("oldRating"));
                         int feedbackQuantity = feedbackList.size();
                         float currentHostelRating = hostel.getRating();
-                        float newHostelRating = (float) Math.round((currentHostelRating * feedbackQuantity - oldRating + rating) / feedbackQuantity * 10) / 10;
+                        float newHostelRating = (float)(currentHostelRating * feedbackQuantity - oldRating + rating) / feedbackQuantity;
                         hostel.setRating(newHostelRating);
                         HostelDAO.updateRating(hostelId, newHostelRating);
                         LocalDateTime current = LocalDateTime.now();
@@ -423,7 +441,7 @@ public class HostelController extends HttpServlet {
                 Room room = RoomDAO.findByID(roomID);
 
                 //this is notification for landlord about booking request from tenant
-                int landlordID = HostelDAO.findLandlordID(hostelID);
+                int landlordID = hostel.getLandlord().getAccount().getAccountID();
                 rentalNoti.setToAccount(AccountDAO.findById(landlordID));
                 rentalNoti.setCreatedDate(new Date());
                 rentalNoti.setContent("Người dùng " + t.getFullname() + " muốn xem phòng " + room.getRoomNumber() + "\n" +
@@ -458,10 +476,33 @@ public class HostelController extends HttpServlet {
             } else if (path.equals("/address")) {
                 int provinceID = Integer.parseInt(request.getParameter("provinceID"));
                 List<District> districtList = DistrictDAO.findByProvinceID(provinceID);
-                for (District district : districtList) {
-                    out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
+                int districtSelected = 0;
+                if (request.getParameter("districtSelected") != null && !request.getParameter("districtSelected").equals("")) {
+                    districtSelected = Integer.parseInt(request.getParameter("districtSelected"));
+                    for (District district : districtList) {
+                        if (district.getDistrictID() == districtSelected) {
+                            out.println("<option selected value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
+                        } else {
+                            out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
+                        }
+                    }
+                } else {
+                    for (District district : districtList) {
+                        out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
+                    }
                 }
-            }
+            } else if (path.equals("/sendRentalRequest")) {
+
+                Tenant t = (Tenant) session.getAttribute("currentUser");
+                int roomID = Integer.parseInt(request.getParameter("roomID"));
+
+                Date tmp = new Date();
+                BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomID, tmp, 1);
+                request.setAttribute("messageTitle", "Yêu cầu thành công!");
+                request.setAttribute("messageDetail", "Chủ nhà sẽ tiếp nhận yêu cầu và xác nhận lại với bạn.");
+
+                request.getRequestDispatcher("/hostel/list").forward(request, response);
+           }
         }
     }
 

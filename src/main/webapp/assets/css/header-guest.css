@@ -90,12 +90,12 @@ nav .access {
 nav .access a {
     padding: 2px 7px;
     color: #17535B;
-    background: #E6EEF1;
-    border-radius: 8px;
+    background: #ffffff;
+    border-radius: 4px;
     border: none;
     margin: 0;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 17px;
     cursor: pointer;
 }
 
@@ -110,8 +110,6 @@ nav .access a:hover {
 
 nav .access a:last-child {
     color: #e7e7e7;
-    /* border: 1px solid #e7e7e7; */
-    /* box-shadow: 1px #e7e7e7 inset; */
     outline: 1px solid #e7e7e7;
     outline-offset: -1px;
     background-color: transparent;

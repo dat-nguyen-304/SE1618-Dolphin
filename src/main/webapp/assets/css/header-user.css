@@ -92,8 +92,18 @@ nav .item-list .item:hover {
 .profile {
     position: relative;
     display: flex;
-    flex-direction: column;
-    align-items: baseline;
+    /*flex-direction: column;*/
+    /*align-items: baseline;*/
+    align-items: center;
+}
+
+.profile form {
+    marigin-bottom: 0;
+}
+
+.profile form  buttom{
+    marigin-bottom: 0;
+    margin-right: 12px;
 }
 
 .profile .profile-avatar {
