@@ -61,7 +61,7 @@ public class ContractDAO {
         return null;
     }
 
-    public static Contract findActiveContract(Tenant tenant) {
+    public static Contract findActiveContractByTenant(Tenant tenant) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
@@ -72,6 +72,44 @@ public class ContractDAO {
             if (rs != null && rs.next()) {
                 int contractID = rs.getInt("contractID");
                 Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                Hostel hostel = room.getRoomType().getHostel();
+                Date startDate = rs.getDate("startDate");
+                Date endDate = rs.getDate("endDate");
+                int deposit = rs.getInt("deposit");
+                int status = rs.getInt("status");
+                int rentalFee = rs.getInt("rentalFeePerMonth");
+                Landlord landlord = room.getRoomType().getHostel().getLandlord();
+                String description = rs.getString("description");
+                int duration = rs.getInt("duration");
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Contract findActiveContractByRoomID(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select * from Contract where roomID = ? and status = 1";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, roomId);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                int contractID = rs.getInt("contractID");
+                Room room = RoomDAO.findByID(roomId);
+                int tenantID = rs.getInt("tenantID");
+                Tenant tenant = TenantDAO.findById(tenantID);
                 Hostel hostel = room.getRoomType().getHostel();
                 Date startDate = rs.getDate("startDate");
                 Date endDate = rs.getDate("endDate");
@@ -157,17 +195,17 @@ public class ContractDAO {
             if (rs != null && rs.next()) {
                 int contractID = rs.getInt("contractID");
                 Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                Tenant tenant = TenantDAO.findById(rs.getInt("tenantID"));
+                Landlord landlord = room.getRoomType().getHostel().getLandlord();
                 Hostel hostel = room.getRoomType().getHostel();
                 Date startDate = rs.getDate("startDate");
                 Date endDate = rs.getDate("endDate");
                 int deposit = rs.getInt("deposit");
                 int status = rs.getInt("status");
                 int rentalFee = rs.getInt("rentalFeePerMonth");
-                Landlord landlord = hostel.getLandlord();
                 String description = rs.getString("description");
                 int duration = rs.getInt("duration");
-                Tenant tenant = TenantDAO.findById(tenantID);
-                c = new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration);
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration);
             }
 
         } catch (Exception e) {

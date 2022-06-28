@@ -110,7 +110,7 @@ public class TenantController extends HttpServlet {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
                     ContractDAO.changeStatus(contractID, 1);
-                    BookingRequestDAO.removeAllByTenantID(contractID);
+                    BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID());
                     RoomDAO.changeStatus(contract.getRoom().getRoomID(), 2);
                     
                     //send accept notification to landlord

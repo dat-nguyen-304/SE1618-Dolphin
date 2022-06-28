@@ -22,13 +22,11 @@ public class Contract implements Comparable<Contract> {
 
     public Contract() {
     }
-
-    public Contract(int contractID, Room room, Tenant tenant, Landlord landlord, Hostel hostel, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth, String description, int duration) {
+    
+    public Contract(int contractID, Room room, Tenant tenant, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth, String description, int duration) {
         this.contractID = contractID;
         this.room = room;
         this.tenant = tenant;
-        this.landlord = landlord;
-        this.hostel = hostel;
         this.startDate = startDate;
         this.endDate = endDate;
         this.deposit = deposit;
@@ -37,11 +35,13 @@ public class Contract implements Comparable<Contract> {
         this.description = description;
         this.duration = duration;
     }
-    
-    public Contract(int contractID, Room room, Tenant tenant, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth, String description, int duration) {
+
+    public Contract(int contractID, Room room, Tenant tenant, Landlord landlord, Hostel hostel, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth, String description, int duration) {
         this.contractID = contractID;
         this.room = room;
         this.tenant = tenant;
+        this.landlord = landlord;
+        this.hostel = hostel;
         this.startDate = startDate;
         this.endDate = endDate;
         this.deposit = deposit;
@@ -81,6 +81,14 @@ public class Contract implements Comparable<Contract> {
 
     public void setLandlord(Landlord landlord) {
         this.landlord = landlord;
+    }
+
+    public Hostel getHostel() {
+        return hostel;
+    }
+
+    public void setHostel(Hostel hostel) {
+        this.hostel = hostel;
     }
 
     public Date getStartDate() {
@@ -123,14 +131,6 @@ public class Contract implements Comparable<Contract> {
         this.rentalFeePerMonth = rentalFeePerMonth;
     }
 
-    public Hostel getHostel() {
-        return hostel;
-    }
-
-    public void setHostel(Hostel hostel) {
-        this.hostel = hostel;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -146,6 +146,9 @@ public class Contract implements Comparable<Contract> {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+    
+    
+
 
     @Override
     public String toString() {
