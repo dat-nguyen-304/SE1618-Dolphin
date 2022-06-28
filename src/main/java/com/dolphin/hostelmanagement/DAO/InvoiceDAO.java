@@ -37,13 +37,13 @@ public class InvoiceDAO {
                         Contract contract = ContractDAO.findByID(contractId);
                         Date startDate = rs.getDate("startDate");
                         Date endDate = rs.getDate("endDate");
-                        Date dueDate = null;//rs.getDate("dueDate");
+                        Date createdDate = rs.getDate("createdDate");
                         int status = rs.getInt("status");
                         int totalPrice = rs.getInt("totalPrice");
                         String month = rs.getString("month");
-                        int  electricPrice = rs.getInt("electricPrice");
-                        int  waterPrice = rs.getInt("waterPrice");
-                        list.add(new Invoice(invoiceID, contract, startDate, endDate, dueDate, status, totalPrice, month, electricPrice, waterPrice));
+                        int electricPrice = rs.getInt("electricPrice");
+                        int waterPrice = rs.getInt("waterPrice");
+                        list.add(new Invoice(invoiceID, contract, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice));
                     }
                 }
             }
@@ -60,7 +60,7 @@ public class InvoiceDAO {
         }
         return list;
     }
-    
+
     public static Invoice findLatestByContract(Contract c) {
         Connection cn = null;
         try {
@@ -75,12 +75,12 @@ public class InvoiceDAO {
                         int invoiceID = rs.getInt("invoiceID");
                         Date startDate = rs.getDate("startDate");
                         Date endDate = rs.getDate("endDate");
-                        Date dueDate = null;//rs.getDate("dueDate");
+                        Date createdDate = rs.getDate("createdDate");
                         int status = rs.getInt("status");
                         int totalPrice = rs.getInt("totalPrice");
                         int waterPrice = rs.getInt("waterPrice");
                         int electricPrice = rs.getInt("electricPrice");
-                        return new Invoice(invoiceID, c, startDate, endDate, dueDate, status, totalPrice, sql, electricPrice, waterPrice);
+                        return new Invoice(invoiceID, c, startDate, endDate, createdDate, status, totalPrice, sql, electricPrice, waterPrice);
                     }
                 }
             }
@@ -111,15 +111,15 @@ public class InvoiceDAO {
                     int invoiceID = rs.getInt("invoiceID");
                     Date startDate = rs.getDate("startDate");
                     Date endDate = rs.getDate("endDate");
-                    Date dueDate = null;//rs.getDate("dueDate");
+                    Date createdDate = rs.getDate("createdDate");
                     int status = rs.getInt("status");
                     int totalPrice = rs.getInt("totalPrice");
                     int contractID = rs.getInt("contractID");
                     String month = rs.getString("month");
                     Contract contract = ContractDAO.findByID(contractID);
-                    int  electricPrice = rs.getInt("electricPrice");
-                        int  waterPrice = rs.getInt("waterPrice");
-                        return new Invoice(invoiceID, contract, startDate, endDate, dueDate, status, totalPrice, month, electricPrice, waterPrice);
+                    int electricPrice = rs.getInt("electricPrice");
+                    int waterPrice = rs.getInt("waterPrice");
+                    return new Invoice(invoiceID, contract, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice);
                 }
             }
         } catch (Exception e) {
@@ -137,9 +137,10 @@ public class InvoiceDAO {
     }
 
     public static void main(String[] args) {
-        List<Invoice> invoiceList = findByContract(1);
-        for (Invoice invoice : invoiceList) {
-            System.out.println(invoice.getInvoiceID());
-        }
+//        List<Invoice> invoiceList = findByContract(1);
+//        for (Invoice invoice : invoiceList) {
+//            System.out.println(invoice.getInvoiceID());
+//        }
+        System.out.println(findByID(1));
     }
 }

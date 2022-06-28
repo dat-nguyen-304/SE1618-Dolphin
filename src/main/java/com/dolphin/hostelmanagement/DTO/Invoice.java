@@ -12,7 +12,7 @@ public class Invoice {
     private Contract contract;
     private Date startDate;
     private Date endDate;
-    private Date dueDate;
+    private Date createdDate;
     private int status;
     private int totalPrice;
     private String month;
@@ -22,12 +22,12 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(int invoiceID, Contract contract, Date startDate, Date endDate, Date dueDate, int status, int totalPrice, String month, int ElectricPrice, int WaterPrice) {
+    public Invoice(int invoiceID, Contract contract, Date startDate, Date endDate, Date createdDate, int status, int totalPrice, String month, int ElectricPrice, int WaterPrice) {
         this.invoiceID = invoiceID;
         this.contract = contract;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.dueDate = dueDate;
+        this.createdDate = createdDate;
         this.status = status;
         this.totalPrice = totalPrice;
         this.month = month;
@@ -83,12 +83,12 @@ public class Invoice {
         this.contract = contract;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getMonth() {
@@ -114,9 +114,9 @@ public class Invoice {
     public void setWaterPrice(int WaterPrice) {
         this.WaterPrice = WaterPrice;
     }
-    
+
     @Override
     public String toString() {
-        return "Invoice{" + "invoiceID=" + invoiceID + ", contract=" + contract + ", startDate=" + startDate + ", endDate=" + endDate + ", dueDate=" + dueDate + ", status=" + status + ", totalPrice=" + totalPrice + '}';
+        return "Invoice{" + "invoiceID=" + invoiceID + ", contract=" + contract + ", startDate=" + startDate + ", endDate=" + endDate + ", createdDate=" + createdDate + ", status=" + status + ", totalPrice=" + totalPrice + ", month=" + month + ", ElectricPrice=" + ElectricPrice + ", WaterPrice=" + WaterPrice + '}';
     }
 }

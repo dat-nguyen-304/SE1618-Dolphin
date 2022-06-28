@@ -50,7 +50,7 @@ public class LandlordController extends HttpServlet {
     public int[] statisticElectrictWater(List<Invoice> invoiceList) {
         int kq[] = new int[7];
         Invoice firstInvoice = invoiceList.get(invoiceList.size() - 1);
-        List<ServiceDetail> serviceDetailList = ServiceDAO.findDetailsByInvoice(firstInvoice.getInvoiceID());
+        List<ServiceDetail> serviceDetailList = ServiceDAO.findDetailsByInvoice(firstInvoice);
         for (ServiceDetail serviceDetail : serviceDetailList) {
             if (serviceDetail.getService().getServiceName().equals("Điện")) {
                 kq[0] = serviceDetail.getStartValue();
@@ -60,7 +60,7 @@ public class LandlordController extends HttpServlet {
             }
         }
         Invoice lastInvoice = invoiceList.get(0);
-        serviceDetailList = ServiceDAO.findDetailsByInvoice(lastInvoice.getInvoiceID());
+        serviceDetailList = ServiceDAO.findDetailsByInvoice(lastInvoice);
         for (ServiceDetail serviceDetail : serviceDetailList) {
             if (serviceDetail.getService().getServiceName().equals("Điện")) {
                 kq[1] = serviceDetail.getEndValue();

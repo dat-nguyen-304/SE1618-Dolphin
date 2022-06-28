@@ -412,9 +412,6 @@
                                     Ngày cuối
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Hạn
-                                </th>
-                                <th scope="col" class="px-6 py-3">
                                     Giá tiền
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -436,9 +433,6 @@
                                     </td>
                                     <td class="px-6 py-4 date">
                                         ${invoice.endDate}
-                                    </td>
-                                    <td class="px-6 py-4 date">
-                                        ${invoice.dueDate}
                                     </td>
                                     <td class="px-6 py-4 money">
                                         ${invoice.totalPrice} đ

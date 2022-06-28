@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -42,7 +41,8 @@ public class ServiceDAO {
                         YearMonth monthApplied = YearMonth.parse(monthAppliedString);
                         int serviceFee = rs.getInt("serviceFee");
                         String unit = rs.getString("unit");
-                        list.add(new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit));
+                        int type = rs.getInt("type");
+                        list.add(new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit, type));
                     }
                 }
             }
@@ -65,8 +65,7 @@ public class ServiceDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                //String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied,  hostelID, serviceFee, unit from Service s where serviceID = ?";
-                String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied,  hostelID, serviceFee from Service s where serviceID = ?";
+                String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied,  hostelID, serviceFee, unit, type from Service s where serviceID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, id);
                 ResultSet rs = pst.executeQuery();
@@ -78,8 +77,9 @@ public class ServiceDAO {
                     int hostelID = rs.getInt("hostelID");
                     Hostel hostel = HostelDAO.findById(hostelID);
                     int serviceFee = rs.getInt("serviceFee");
-                    String unit = null;//rs.getString("unit");
-                    return new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit);
+                    String unit = rs.getString("unit");
+                    int type = rs.getInt("type");
+                    return new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit, type);
                 }
             }
         } catch (Exception e) {
@@ -96,45 +96,7 @@ public class ServiceDAO {
         return null;
     }
 
-    public static HashMap<Service, ServiceDetail> findDetailsByInvoice(Invoice invoice) {
-        HashMap<Service, ServiceDetail> serviceMap = null;
-        Connection cn = null;
-        try {
-            cn = DBUtils.makeConnection();
-            if (cn != null) {
-                String sql = "select * from ServiceDetail where invoiceID = ?";
-                PreparedStatement pst = cn.prepareCall(sql);
-                pst.setInt(1, invoice.getInvoiceID());
-                ResultSet rs = pst.executeQuery();
-                if (rs != null) {
-                    serviceMap = new HashMap();
-                    while (rs.next()) {
-                        int serviceDetailID = rs.getInt("serviceDetailID");
-                        int startValue = rs.getInt("startValue");
-                        int endValue = rs.getInt("endValue");
-                        int serviceID = rs.getInt("serviceID");
-                        Service service = findServiceByID(serviceID);
-                        int quantity = rs.getInt("quantity");
-                        ServiceDetail serviceDetail = new ServiceDetail(serviceDetailID, startValue, endValue, quantity, invoice, service);
-                        serviceMap.put(service, serviceDetail);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return serviceMap;
-    }
-
-    public static List<ServiceDetail> findDetailsByInvoice(int invoiceId) {
+    public static List<ServiceDetail> findDetailsByInvoice(Invoice invoice) {
         List<ServiceDetail> list = null;
         Connection cn = null;
         try {
@@ -142,7 +104,7 @@ public class ServiceDAO {
             if (cn != null) {
                 String sql = "select * from ServiceDetail where invoiceID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
-                pst.setInt(1, invoiceId);
+                pst.setInt(1, invoice.getInvoiceID());
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     list = new ArrayList<>();
@@ -153,7 +115,6 @@ public class ServiceDAO {
                         int serviceID = rs.getInt("serviceID");
                         Service service = findServiceByID(serviceID);
                         int quantity = rs.getInt("quantity");
-                        Invoice invoice = InvoiceDAO.findByID(invoiceId);
                         list.add(new ServiceDetail(serviceDetailID, startValue, endValue, quantity, invoice, service));
                     }
                 }

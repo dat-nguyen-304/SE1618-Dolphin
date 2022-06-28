@@ -297,13 +297,12 @@
                         </div>
                         <div>Mã hợp đồng: ${invoice.contract.contractID}</div>
                         <div>Từ: <span class="date">${invoice.startDate}</span></div>
-                        <div>Ngày xuất hoá đơn: <strong>Không có trong db</strong></div>
+                        <div>Ngày xuất hoá đơn: <span class="date">${invoice.createdDate}</span></div>
                         <div>Trạng thái: ${(invoice.status == 1) ? "Chưa thanh toán" : (invoice.status == 2) ? "Đã thanh toán" : "Quá hạn"}
                         </div>
                         <div>Phòng: ${invoice.contract.room.roomNumber}</div>
-                        <div>Kỳ thanh toán: ${invoice.startDate.month}/${invoice.startDate.year + 1900}</div>
+                        <div>Kỳ thanh toán <strong>???</strong></div>
                         <div>Đến: <span class="date">${invoice.endDate}</span></div>
-                        <div>Hạn: <span class="date">${invoice.dueDate}</span></div>
                     </div>
                 </div>
                 <!-- End Search and filter -->
@@ -363,28 +362,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="row" items="${requestScope.serviceMap}">
+                                <c:forEach var="detail" items="${requestScope.detailList}">
                                     <tr class="bg-white border-b hover:bg-gray-50">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            <a href="#" class="hover:text-[#288D87] hover:underline">${row.key.serviceName}</a>
+                                            <a href="#" class="hover:text-[#288D87] hover:underline">${detail.service.serviceName}</a>
                                         </th>
                                         <td class="px-6 py-4">
-                                            ${row.key.unit}
+                                            ${detail.service.unit}
                                         </td>
                                         <td class="px-6 py-4">
-                                            ${row.value.startValue}
+                                            ${(detail.service.type == 1) ? detail.startValue : ""}
                                         </td>
                                         <td class="px-6 py-4">
-                                            ${row.value.endValue}
+                                            ${(detail.service.type == 1) ? detail.endValue : ""}
                                         </td>
                                         <td class="px-6 py-4">
-                                            ${row.value.endValue - row.value.startValue}
+                                            ${detail.quantity}
                                         </td>
                                         <td class="px-6 py-4 money">
-                                            ${row.key.serviceFee}
+                                            ${detail.service.serviceFee}
                                         </td>
                                         <td class="px-6 py-4 money rowSum">
-                                            ${(row.value.endValue - row.value.startValue) * row.key.serviceFee}
+                                            ${(detail.quantity) * detail.service.serviceFee}
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -504,19 +503,18 @@
                                                                         đ50.000
                                                                     </td>
                                                                 </tr>
-                                -->                                                                
-                                <tr class="bg-white border-b hover:bg-gray-50">
+                                -->                                                                <tr class="bg-white border-b hover:bg-gray-50">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         <a href="#" class="hover:text-[#288D87] hover:underline">Phí thuê phòng</a>
                                     </th>
                                     <td class="px-6 py-4">
-                                        Phòng
+                                        phòng
                                     </td>
                                     <td class="px-6 py-4">
-                                        0
+
                                     </td>
                                     <td class="px-6 py-4">
-                                        0
+
                                     </td>
                                     <td class="px-6 py-4">
                                         1
@@ -623,6 +621,7 @@
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="../assets/javascript/chart-tenant-page.js"></script>
+        <script src="../assets/javascript/jquery.js"></script>
         <script>
             $(document).ready(function () {
                 var allDateCells = $(".date");

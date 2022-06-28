@@ -16,10 +16,10 @@ public class DBUtils {
     public static Connection makeConnection() throws Exception {
         Connection cn = null;
         String IP = "localhost";
-        String instanceName = "PEASHOOTER";
+        String instanceName = "DESKTOP-DBTPFC3\\SQLEXPRESS";
         String port = "1433";
         String uid = "sa";
-        String pwd = "123456";
+        String pwd = "12345";
         String db = "HostelManagement";
         String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
         String url = "jdbc:sqlserver://" + IP + "\\" + instanceName + ":" + port + ";databasename=" + db + ";user=" + uid + ";password=" + pwd;

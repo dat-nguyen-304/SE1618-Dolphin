@@ -162,14 +162,10 @@ public class InvoiceController extends HttpServlet {
                         int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
                         Invoice invoice = InvoiceDAO.findByID(invoiceID);
                         request.setAttribute("invoice", invoice);
-                        HashMap<Service, ServiceDetail> serviceMap = ServiceDAO.findDetailsByInvoice(invoice);
-                        for(ServiceDetail sd: serviceMap.values()) {
-                            System.out.println(sd.getStartValue() + " " + sd.getEndValue());
-                        }
-                        request.setAttribute("serviceMap", serviceMap);
+                        List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
+                        request.setAttribute("detailList", detailList);
                         url = "/view/tenantPageInvoiceDetail.jsp";
-                    }
-                    else {
+                    } else {
                         url = "/invoice/list"; //Neu bam vao page ma` khong qua con mat' thi cho no ve list :D
                     }
                     request.getRequestDispatcher(url).forward(request, response);
@@ -177,7 +173,59 @@ public class InvoiceController extends HttpServlet {
 
             } else {
 
-                Landlord l = (Landlord) session.getAttribute("currUser");
+                Landlord l = (Landlord) session.getAttribute("currentUser");
+                List<Contract> contractList = ContractDAO.findByLandlord(l);
+                
+                if (path.equals("/list")) {
+                    List<Invoice> invoiceList = new ArrayList();
+                    for (Contract contract : contractList) {
+                        invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
+                    }
+
+                    if (request.getParameter("sortByStatus") != null) {
+                        int status = Integer.parseInt(request.getParameter("sortByStatus"));
+                        System.out.println("status" + status);
+                        if (status != 0) {
+                            sortByStatus(invoiceList, status);
+                        }
+                    }
+
+                    if (request.getParameter("start") != null && !request.getParameter("start").equals("")) {
+                        String startDate = request.getParameter("start");
+                        Date start = df.parse(startDate);
+                        System.out.println("start" + startDate);
+                        if (request.getParameter("end") != null && !request.getParameter("end").equals("")) {
+                            String endDate = request.getParameter("end");
+                            Date end = df.parse(endDate);
+                            System.out.println("end" + endDate);
+                            sortByDate(invoiceList, start, end);
+                        } else {
+                            sortByDate(invoiceList, start, null);
+                        }
+                    } else if (request.getParameter("end") != null && !request.getParameter("end").equals("")) {
+                        String endDate = request.getParameter("end");
+                        System.out.println("end" + endDate);
+                        Date end = df.parse(endDate);
+                        sortByDate(invoiceList, null, end);
+                    }
+
+                    request.setAttribute("invoiceList", invoiceList);
+                    request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
+                }
+                
+                if (path.equals("/detail")) {
+                    if (request.getParameter("invoiceID") != null) {
+                        int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
+                        Invoice invoice = InvoiceDAO.findByID(invoiceID);
+                        request.setAttribute("invoice", invoice);
+                        List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
+                        request.setAttribute("detailList", detailList);
+                        url = "/view/tenantPageInvoiceDetail.jsp";
+                    } else {
+                        url = "/invoice/list"; //Neu bam vao page ma` khong qua con mat' thi cho no ve list :D
+                    }
+                    request.getRequestDispatcher(url).forward(request, response);
+                }
 
                 if (path.equals("/new")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));

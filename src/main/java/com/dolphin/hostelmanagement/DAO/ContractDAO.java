@@ -354,6 +354,51 @@ public class ContractDAO {
         
         return false;
     }
+    
+    public static List<Contract> findByLandlord(Landlord l) {
+        List<Contract> list = new ArrayList();
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select contractID, c.roomID, tenantID, startDate, endDate, c.status, rentalFeePerMonth, deposit, c.description from Contract c\n"
+                        + "join Room r on c.roomID = r.roomID\n"
+                        + "join RoomType rt on r.roomTypeID = rt.roomTypeID\n"
+                        + "join Hostel h on h.hostelID = rt.hostelID\n"
+                        + "join Landlord l on l.landlordID = h.landlordId\n"
+                        + "where l.landlordID = ? order by startDate desc";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, l.getAccount().getAccountID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int contractID = rs.getInt("contractID");
+                        Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                        Tenant tenant = TenantDAO.findById(rs.getInt("tenantID"));
+                        Hostel hostel = room.getRoomType().getHostel();
+                        Date startDate = rs.getDate("startDate");
+                        Date endDate = rs.getDate("endDate");
+                        int deposit = rs.getInt("deposit");
+                        int status = rs.getInt("status");
+                        int rentalFee = rs.getInt("rentalFeePerMonth");
+                        String description = rs.getString("description");
+                        list.add(new Contract(contractID, room, tenant, l, hostel, startDate, endDate, deposit, status, rentalFee, description, status));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
 //        System.out.println(findActiveContract(TenantDAO.findById(3)));
