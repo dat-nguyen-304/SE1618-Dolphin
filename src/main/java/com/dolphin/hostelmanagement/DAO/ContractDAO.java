@@ -266,6 +266,53 @@ public class ContractDAO {
         }
         return list;
     }
+    
+    public static List<Contract> findByLandlord(Landlord landlord) {
+        List<Contract> list = new ArrayList();
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select contractID, c.roomID, tenantID, startDate, endDate, c.status, rentalFeePerMonth, deposit, createdDate, duration, c.description from Contract c\n"
+                        + "join Room r on c.roomID = r.roomID\n"
+                        + "join RoomType rt on r.roomTypeID = rt.roomTypeID\n"
+                        + "join Hostel h on h.hostelID = rt.hostelID\n"
+                        + "join Landlord l on l.landlordID = h.landlordId\n"
+                        + "where l.landlordID = ? order by startDate desc";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, landlord.getAccount().getAccountID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int contractID = rs.getInt("contractID");
+                        Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                        Tenant tenant = TenantDAO.findById(rs.getInt("tenantID"));
+                        Hostel hostel = room.getRoomType().getHostel();
+                        Date startDate = rs.getDate("startDate");
+                        Date endDate = rs.getDate("endDate");
+                        int deposit = rs.getInt("deposit");
+                        int status = rs.getInt("status");
+                        int duration = rs.getInt("duration");
+                        int rentalFee = rs.getInt("rentalFeePerMonth");
+                        String description = rs.getString("description");
+                        Date createdDate = rs.getDate("createdDate");
+                        list.add(new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration, createdDate));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         Contract contract = findActiveContractByRoomID(4);

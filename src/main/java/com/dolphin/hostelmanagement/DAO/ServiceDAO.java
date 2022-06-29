@@ -29,7 +29,7 @@ public class ServiceDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied, serviceFee, unit from Service s where hostelID = ? and active = 1";
+                String sql = "select s.type, serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied, serviceFee, unit from Service s where hostelID = ? and active = 1";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, hostel.getHostelID());
                 ResultSet rs = pst.executeQuery();
@@ -65,7 +65,7 @@ public class ServiceDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied,  hostelID, serviceFee, unit, type from Service s where serviceID = ?";
+                String sql = "select serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied,  hostelID, serviceFee, unit, s.type from Service s where serviceID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, id);
                 ResultSet rs = pst.executeQuery();

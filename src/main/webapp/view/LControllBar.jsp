@@ -240,7 +240,7 @@
                             sách hoá đơn</a>
                     </li>
                     <li>
-                        <a href="/sakura/landlord/add-invoice"
+                        <a href="/sakura/invoice/new"
                            class="menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]"
                            id="list-item">Thêm hóa đơn</a>
                     </li>

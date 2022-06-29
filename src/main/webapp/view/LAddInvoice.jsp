@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,6 +90,60 @@
                     <div class="card col-span-3 p-5 bg-[#fff]">
                         <div class="text-[20px] font-bold text-[#2A3C46] self-start">Tạo hoá đơn mới
                         </div>
+
+                        <div class="">
+                            <span>Nhà trọ: </span>
+                            <button
+                                class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                type="button" data-modal-toggle="hostelModal">
+                                <span id="hostelName">
+                                    ${(requestScope.chosenHostel != null) ? requestScope.chosenHostel.hostelName : "Chọn nhà trọ"}</span>
+                                <%--<c:choose>--%>
+                                    <%--<c:when test="${requestScope.chosenHostel != null}">${requestScope.chosenHostel.hostelName}</c:when>--%>
+                                    <%--<c:otherwise>Chọn nhà trọ</c:otherwise>--%>
+                                <%--</c:choose>--%>
+                            </button>
+
+                            <div id="hostelModal" tabindex="-1" aria-hidden="true"
+                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+                                <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                                        <div
+                                            class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                Chọn Nhà Trọ
+                                            </h3>
+                                            <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-modal-toggle="hostelModal">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        <div class="p-6 space-y-6">
+                                            <c:forEach var="hostel" items="${requestScope.hostelList}">
+                                                <!--<a href="" class="px-4 py-2 mx-2 rounded border-2" onclick="changeHostelName()">${hostel.hostelName}</a>-->
+                                                <button class="px-4 py-2 mx-2 rounded border-2" data-modal-toggle="hostelModal" onclick="changeHostel(${hostel.hostelID}, '${hostel.hostelName}')">${hostel.hostelName} </button>
+                                            </c:forEach>
+<!--                                            <a href="" class="px-4 py-2 mx-2 rounded border-2">Huyền Thiết</a>
+                                            <a href="" class="px-4 py-2 mx-2 rounded border-2">Châu Tấn</a>
+                                            <a href="" class="px-4 py-2 mx-2 rounded border-2">Á Bằng</a>
+                                            <a href="" class="px-4 py-2 mx-2 rounded border-2">Doanh Doanh</a>-->
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
                         <form action="" class="invoice-detail ">
                             <div class="invoice-detail-info mt-[20px] grid grid-cols-6">
 
@@ -96,7 +151,7 @@
                                 <button
                                     class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                     type="button" data-modal-toggle="roomModal">
-                                    101
+                                    <span id="roomNumber">${(requestScope.chosenRoom != null) ? requestScope.chosenRoom.roomNumber : "Chọn phòng"}</span>
                                 </button>
 
                                 <div id="roomModal" tabindex="-1" aria-hidden="true"
@@ -109,8 +164,8 @@
                                                 class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                                     Chọn Phòng
-                                                        <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng"/>
-                                                    
+                                                    <!--<input class="ml-2" type="text" name="sefarchRoom" placeholder="Tìm Phòng"/>-->
+
                                                 </h3>
                                                 <button type="button"
                                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -124,16 +179,15 @@
                                                 </button>
                                             </div>
 
-                                            <div class="p-6 space-y-6">
-                                                <a href="" class="mt-1 px-4 py-2 mx-2 rounded border-2">101</a>
+                                            <div class="p-6 space-y-6" id="roomList">
+<!--                                                <a href="" class="mt-1 px-4 py-2 mx-2 rounded border-2">101</a>
                                                 <a href="" class="mt-1 px-4 py-2 mx-2 rounded border-2">102</a>
                                                 <a href="" class="mt-1 px-4 py-2 mx-2 rounded border-2">103</a>
                                                 <a href="" class="mt-1 px-4 py-2 mx-2 rounded border-2">104</a>
                                                 <a href="" class="mt-1 px-4 py-2 mx-2 rounded border-2">101</a>
                                                 <a href="" class="mt-1 px-4 py-2 mx-2 rounded border-2">102</a>
                                                 <a href="" class="mt-1 px-4 py-2 mx-2 rounded border-2">103</a>
-                                                <a href="" class="mt-6 px-4 py-2 mx-2 rounded border-2">104</a>
-
+                                                <a href="" class="mt-6 px-4 py-2 mx-2 rounded border-2">104</a>-->
                                             </div>
                                         </div>
                                     </div>
@@ -213,147 +267,170 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                        <td class="px-6 py-4">
-                                            Điện
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            kWh
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <input id="start-electric" type="number" min="0" value=""
-                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <input id="start-electric" type="number" min="0" value=""
-                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ12.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ0
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                        <td class="px-6 py-4">
-                                            Nước
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            m<sup>3</sup>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <input id="start-electric" type="number" min="0" value=""
-                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <input id="start-electric" type="number" min="0" value=""
-                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ7.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ0
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                        <td class="px-6 py-4">
-                                            Internet
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            thuê bao
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            0
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            0
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <input id="start-electric" type="number" min="0" value=""
-                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ90.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ0
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                        <td class="px-6 py-4">
-                                            Gửi xe
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            cái
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            0
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            0
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <input id="start-electric" type="number" min="0" value=""
-                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ150.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ0.000
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                        <td class="px-6 py-4">
-                                            Xử lý rác
-                                        </td>
-                                        <td class="px-6 py-4">
-
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            0
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            0
-                                        </td>
-                                        <!-- Xử lý rác là bắt buộc -->
-                                        <td class="px-6 py-4">
-                                            1
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ50.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ780.000
-                                        </td>
-                                    </tr>
+                                    <c:forEach items="${requestScope.activeServices}" var="service">
+                                        <tr>
+                                            <td scope="col" class="px-6 py-3">${service.serviceName}</td>
+                                            <td scope="col" class="px-6 py-3">${service.unit}</td>
+                                            <td scope="col" class="px-6 py-3">
+                                                <c:if test="${service.type == 1}">
+                                                    <input type="text" name="" id="startInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type})">
+                                                </c:if>
+                                            </td>
+                                            <td scope="col" class="px-6 py-3">
+                                                <c:if test="${service.type == 1}">
+                                                    <input type="text" name="" id="endInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type})"></td>
+                                                </c:if>
+                                            <td scope="col" class="px-6 py-3">
+                                                <c:choose>
+                                                    <c:when test="${service.type == 1}">
+                                                        <span id="quantity${service.serviceID}"></span></td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="text" name="" id="quantity${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type})">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            <td scope="col" class="px-6 py-3"><span id="serviceFee${service.serviceID}" class="rate">${service.serviceFee}</span></td>
+                                            <!--<td><input type="checkbox" class="useCheckBox" checked="" onclick="enableInput(${service.serviceID})"></td>-->
+                                            <td scope="col" class="px-6 py-3"><span class="rowSum money" id="rowSum${service.serviceID}"></span></td>
+                                        </tr>
+                                    </c:forEach>
+                                    <!--                                <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
+                                                                        <td class="px-6 py-4">
+                                                                            Điện
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            kWh
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            <input id="start-electric" type="number" min="0" value=""
+                                                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            <input id="start-electric" type="number" min="0" value=""
+                                                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ12.000
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ0
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
+                                                                        <td class="px-6 py-4">
+                                                                            Nước
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            m<sup>3</sup>
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            <input id="start-electric" type="number" min="0" value=""
+                                                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            <input id="start-electric" type="number" min="0" value=""
+                                                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ7.000
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ0
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
+                                                                        <td class="px-6 py-4">
+                                                                            Internet
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            thuê bao
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            0
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            0
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            <input id="start-electric" type="number" min="0" value=""
+                                                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ90.000
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ0
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
+                                                                        <td class="px-6 py-4">
+                                                                            Gửi xe
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            cái
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            0
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            0
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            <input id="start-electric" type="number" min="0" value=""
+                                                                                   class="bg-[#] p-[5px] w-[100px] rounded border border-gray-300 duration-200">
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ150.000
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ0.000
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
+                                                                        <td class="px-6 py-4">
+                                                                            Xử lý rác
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                    
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            0
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            0
+                                                                        </td>
+                                                                         Xử lý rác là bắt buộc 
+                                                                        <td class="px-6 py-4">
+                                                                            1
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ50.000
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            đ780.000
+                                                                        </td>
+                                                                    </tr>-->
                                     <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
                                         <td class="px-6 py-4">
                                             Phí thuê phòng
                                         </td>
                                         <td class="px-6 py-4">
-                                            phòng
                                         </td>
                                         <td class="px-6 py-4">
-                                            0
                                         </td>
                                         <td class="px-6 py-4">
-                                            0
                                         </td>
                                         <td class="px-6 py-4">
-                                            1
+                                        </td>
+                                        <td class="px-6 py-4 rate">
+                                            ${requestScope.contract.rentalFeePerMonth}
                                         </td>
                                         <td class="px-6 py-4">
-                                            đ4.000.000
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            đ4.000.000
+                                            <span id="rentalFee" class="rate">${contract.rentalFeePerMonth}</span>
                                         </td>
                                     </tr>
                                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -372,7 +449,7 @@
                                             Tổng tiền
                                         </td>
                                         <td class="px-6 py-4 text-[17px] text-[#17535B] font-bold">
-                                            đ5.093.000
+                                            <span id="invoiceSum" style="color:red" class="money"></span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -384,7 +461,7 @@
                                 <!-- Summation -->
                                 <div class="summary grid grid-cols-5">
                                     <div class="col-span-1 text-[20px] text-[#17535B] font-bold">Thành tiền</div>
-                                    <div class="col-span-4 text-[20px] text-[#17535B] ">đ5.093.000</div>
+                                    <div class="col-span-4 text-[20px] text-[#17535B] "><span id="bottomSum" class="money" style="color:red"></span></div>
                                 </div>
                                 <!-- End Summation -->
 
@@ -503,7 +580,93 @@
 
         <!-- Breadcrumb -->
         <script src="js/breadcrumb.js"></script>
-
+        <script>
+            $(document).ready(function () {
+                var allRateCells = $(".rate");
+                for (var i = 0; i < allRateCells.length; i++) {
+                var node = allRateCells[i];
+                var money = node.childNodes[0].nodeValue;
+                node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            });
+            
+            function changeHostel(hostelID, hostelName) {
+                $("#hostelName").html(hostelName);
+                $("#roomNumber").html("Chọn phòng");
+//                var roomAnchors = $("#roomList").children();
+//                console.log(roomAnchors.length);
+                $("#roomList").empty();
+//                const roomList = document.getElementById('roomList');
+//                roomList.replaceChildren();
+                
+                jQuery.ajax({
+                    url: '/sakura/room/roomsNeedInvoice',
+                    type: 'GET',
+                    data: {hostelID: hostelID},
+                    dataType: 'text',
+                    success: function (result) {
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                        console.log("Compelte");
+                        var data = JSON.parse(result.responseText);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#roomList").append('<a href="/sakura/invoice/new?hostelID=' + hostelID +'&roomID=' + data[i].roomID + '" class="mt-1 px-4 py-2 mx-2 rounded border-2">' + data[i].roomNumber + '</a>');
+                        }
+                    }
+                });
+            }
+            
+        function enableInput(serviceID) {
+            $("#startInput" + serviceID).val("");
+            $("#endInput" + serviceID).val("");
+            $("#rowSum" + serviceID).html("");
+            if ($("#startInput" + serviceID).prop("disabled") === true) {
+                $("#startInput" + serviceID).prop("disabled", false);
+                $("#endInput" + serviceID).prop("disabled", false);
+            } else {
+                $("#startInput" + serviceID).prop("disabled", true);
+                $("#endInput" + serviceID).prop("disabled", true);
+            }
+        }
+        
+        function updateSum(serviceID, type) {
+            $("#rowSum" + serviceID).html("");)
+            var sum; 
+            console.log(type);
+            if (type === 1) {
+                sum = parseInt($("#endInput" + serviceID).val()) - parseInt($("#startInput" + serviceID).val());
+                $("#quantity" + serviceID).html(sum);
+            } else {
+                sum = $("#quantity" + serviceID).val();
+            }       
+            sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
+            $("#rowSum" + serviceID).html(parseInt(sum));
+            
+            
+            var allRowSum = $(".rowSum");
+            var sumService = 0;
+            for (var i = 0; i < allRowSum.length; i++) {
+                var node = allRowSum[i];
+                console.log($(node).html());
+                sumService += parseInt($(node).html());
+            }
+            
+            $("#serviceSum").html(sumService);
+            $("#invoiceSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
+            $("#invoiceSum").html($("#invoiceSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            
+            $("#bottomSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
+            $("#bottomSum").html($("#bottomSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
+            
+            var allSumCells = $(".rowSum");
+            for (var i = 0; i < allSumCells.length; i++) {
+                var node = allSumCells[i];
+                var money = node.childNodes[0].nodeValue;
+                node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+        }
+        </script>
     </body>
-
 </html>

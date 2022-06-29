@@ -11,6 +11,8 @@ import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DAO.HostelDAO;
+import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DTO.Service;
 import com.dolphin.hostelmanagement.DTO.ServiceDetail;
 import com.dolphin.hostelmanagement.DTO.Tenant;
@@ -20,7 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -174,13 +175,13 @@ public class InvoiceController extends HttpServlet {
             } else {
 
                 Landlord l = (Landlord) session.getAttribute("currentUser");
-//                List<Contract> contractList = ContractDAO.findByLandlord(l);
-                
+                List<Contract> contractList = ContractDAO.findByLandlord(l);
+
                 if (path.equals("/list")) {
                     List<Invoice> invoiceList = new ArrayList();
-//                    for (Contract contract : contractList) {
-//                        invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
-//                    }
+                    for (Contract contract : contractList) {
+                        invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
+                    }
 
                     if (request.getParameter("sortByStatus") != null) {
                         int status = Integer.parseInt(request.getParameter("sortByStatus"));
@@ -212,7 +213,7 @@ public class InvoiceController extends HttpServlet {
                     request.setAttribute("invoiceList", invoiceList);
                     request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
                 }
-                
+
                 if (path.equals("/detail")) {
                     if (request.getParameter("invoiceID") != null) {
                         int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
@@ -228,15 +229,27 @@ public class InvoiceController extends HttpServlet {
                 }
 
                 if (path.equals("/new")) {
-                    int contractID = Integer.parseInt(request.getParameter("contractID"));
-                    Contract contract = ContractDAO.findByID(contractID);
-                    Hostel hostel = contract.getRoom().getRoomType().getHostel();
-                    List<Service> activeServices = ServiceDAO.findHostelActiveServices(hostel);
-
-                    request.setAttribute("contract", ContractDAO.findByID(contractID));
-                    request.setAttribute("activeServices", activeServices);
-
-                    request.getRequestDispatcher("/view/createInvoice.jsp").forward(request, response);
+                    List<Hostel> hostelList = HostelDAO.findByLandlordObject(l);
+                    request.setAttribute("hostelList", hostelList);
+                    List<Service> activeServices = new ArrayList();
+                    String chosenHostelID = request.getParameter("hostelID");
+                    String chosenRoomID = request.getParameter("roomID");
+                    if (chosenHostelID != null && chosenRoomID != null) {
+                        Hostel hostel = HostelDAO.findById(Integer.parseInt(chosenHostelID));
+                        request.setAttribute("chosenHostel", hostel);
+                        request.setAttribute("chosenRoom", RoomDAO.findByID(Integer.parseInt(chosenRoomID)));
+                        activeServices = ServiceDAO.findHostelActiveServices(hostel);
+                        for (Service activeService : activeServices) {
+                            System.out.println(activeService);
+                        }
+                        
+                        Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
+                        request.setAttribute("contract", contract);
+                        
+                        request.setAttribute("activeServices", activeServices);
+                    }
+                    System.out.println(activeServices.size());
+                    request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
                 }
 
             }

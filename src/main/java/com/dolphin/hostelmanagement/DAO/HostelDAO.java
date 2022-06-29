@@ -399,6 +399,46 @@ public class HostelDAO {
         }
         return list;
     }
+    
+    public static List<Hostel> findByLandlordObject(Landlord landlord) {
+        List<Hostel> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList<>();
+                String sql = "SELECT * FROM Hostel WHERE landlordID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, landlord.getAccount().getAccountID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null)
+                    while (rs.next()) {
+                        int hostelId = rs.getInt("hostelID");
+                    String streetAddress = rs.getString("streetAddress");
+                    String hostelName = rs.getString("hostelName");
+                    int totalRoom = rs.getInt("totalRoom");
+                    Date regDate = rs.getDate("registeredDate");
+                    boolean activate = rs.getBoolean("activate");
+                    float rating = rs.getFloat("rating");
+//                    Landlord landlord = LandlordDAO.findById(landlordId);
+                    int minPrice = rs.getInt("minPrice");
+                    int maxPrice = rs.getInt("maxPrice");
+                    int minArea = rs.getInt("minArea");
+                    int maxArea = rs.getInt("maxArea");
+                    int districtID = rs.getInt("districtID");
+                    District district = DistrictDAO.findById(districtID);
+                    int availableRoom = rs.getInt("availableRoom");
+                    String desc = rs.getString("description");
+                    ArrayList<String> imgList = HostelDAO.getAllImagesById(hostelId);
+                    list.add(new Hostel(hostelId, streetAddress, district, hostelName, totalRoom,
+                            regDate, rating, landlord, activate, minPrice, maxPrice, minArea, maxArea, availableRoom, desc, imgList));
+                    }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         List<Hostel> list = findByLandlord(44);

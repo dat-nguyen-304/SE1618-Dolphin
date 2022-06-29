@@ -12,6 +12,7 @@ import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -226,6 +227,46 @@ public class RoomDAO {
         catch(Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public static List<Room> findRoomsNeedInvoice(int hostelID) {
+        List<Room> list = null;
+        Connection cn = null;
+        YearMonth thisMonth = YearMonth.now();
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "select roomID, roomNumber, status, CONCAT(YEAR(latestInvoiceMonth), '-', RIGHT(CONCAT('00', MONTH(latestInvoiceMonth)), 2)) as latestInvoiceMonth\n"
+                        + "from Room";
+                PreparedStatement pst = cn.prepareCall(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int roomID = rs.getInt("roomID");
+                        String roomNumber = rs.getString("roomNumber");
+                        int status = rs.getInt("status");
+                        RoomType roomType = findByID(roomID).getRoomType();
+                        String latestMonthString = rs.getString("latestInvoiceMonth");
+                        YearMonth latestInvoiceMonth = YearMonth.parse(latestMonthString);
+                        if (roomType.getHostel().getHostelID() == hostelID && status == 1 && latestInvoiceMonth.isBefore(thisMonth)) {
+                            list.add(new Room(roomID, roomNumber));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
     }
 
     public static void main(String args[]) {
