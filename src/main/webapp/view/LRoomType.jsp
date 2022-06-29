@@ -81,7 +81,7 @@
                         <button
                             class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="button" data-modal-toggle="hostelModal">
-                            ${requestScope.currentHostel.hostelName}
+                            ${sessionScope.currentHostel.hostelName}
                         </button>
 
                         <div id="hostelModal" tabindex="-1" aria-hidden="true"
@@ -108,7 +108,7 @@
                                     </div>
 
                                     <div class="p-6 space-y-6">
-                                        <c:forEach items="${requestScope.hostelList}" var="hostel">
+                                        <c:forEach items="${sessionScope.hostelList}" var="hostel">
                                             <form action="/sakura/landlord/overview" class="inline-block">
                                                 <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
                                             </form>
@@ -191,12 +191,12 @@
                                         </button>
                                     </div>
                                     <div class="addRoomMessage pl-4">
-<!--                                        <span class="inline-block text-green-600">Thêm loại phòng Chất chơi thành công! Xem
-                                            <form class="inline-block w-[1px] text-left" action="/sakura/landlord/room-type">
-                                                <input name="roomTypeId" value="">
-                                                <input type="submit" value=" tại đây">
-                                            </form>
-                                        </span>-->
+                                        <!--                                        <span class="inline-block text-green-600">Thêm loại phòng Chất chơi thành công! Xem
+                                                                                    <form class="inline-block w-[1px] text-left" action="/sakura/landlord/room-type">
+                                                                                        <input name="roomTypeId" value="">
+                                                                                        <input type="submit" value=" tại đây">
+                                                                                    </form>
+                                                                                </span>-->
                                     </div>
 
                                     <form action="/sakura/landlord/room-type" >
@@ -230,11 +230,11 @@
                                                 <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
                                                 <input type="file" multiple rounded />
                                             </div>
-                                            <input type="hidden" name="hostelId" value="${requestScope.currentHostel.hostelID}" />
+                                            <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}" />
 
                                         </div>
                                         <div class="grid justify-items-end">
-                                            <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded" onclick="addRoom()">Thêm</button>
+                                            <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded" onclick="addRoomType()">Thêm</button>
                                         </div>
                                     </form>
 
@@ -301,6 +301,7 @@
                                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                                     Thêm Phòng mới
                                                 </h3>
+
                                                 <button type="button"
                                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                         data-modal-toggle="addRoom">
@@ -314,15 +315,19 @@
                                             </div>
 
                                             <div class="p-4">
-                                                <form action="" class="my-2">
+                                                <span class="text-xs validRoomMessage"></span>
+                                                <form action="/sakura/landlord/room-type" class="my-2">
                                                     <label class="w-[160px] inline-block" for="">Tên phòng</label>
-                                                    <input type="text" class="text-sm p-1">
+                                                    <input type="hidden" name="roomTypeId" value="${requestScope.currentRoomType.roomTypeID}"/>
+                                                    <input type="text" name="addRoomNumber" class="text-sm p-1" onkeyup="checkValidRoom(this)"/>
                                                     <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
+
+                                                    <div class="grid justify-items-end">
+                                                        <button type="submit" class="addRoom px-8 py-2 mx-4 my-2 border-2 rounded">Thêm</button>
+                                                    </div>
                                                 </form>
                                             </div>
-                                            <div class="grid justify-items-end">
-                                                <button class=" px-8 py-2 mx-4 my-2 border-2 rounded">Thêm</button>
-                                            </div>
+
 
                                         </div>
                                     </div>
@@ -376,19 +381,19 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="../assets/javascript//jquery/jquery.min.js"></script>
             <script>
-                                                const hasResident = document.querySelectorAll('input[name="status"]');
-                                                const inputResident = document.querySelector('.inputResident');
-                                                hasResident.forEach(element => {
-                                                    element.onclick = () => {
-                                                        if (element.value == "2" || element.value == "3") {
-                                                            inputResident.style.display = "block";
-                                                        } else
-                                                            inputResident.style.display = "none";
-                                                    }
-                                                });
+                                                        const hasResident = document.querySelectorAll('input[name="status"]');
+                                                        const inputResident = document.querySelector('.inputResident');
+                                                        hasResident.forEach(element => {
+                                                            element.onclick = () => {
+                                                                if (element.value == "2" || element.value == "3") {
+                                                                    inputResident.style.display = "block";
+                                                                } else
+                                                                    inputResident.style.display = "none";
+                                                            }
+                                                        });
             </script>
             <script>
-                function addRoom() {
+                function addRoomType() {
                     const name = document.querySelector("input[name='name']");
                     const price = document.querySelector("input[name='price']");
                     const area = document.querySelector("input[name='area']");
@@ -396,7 +401,6 @@
                     const description = document.querySelector("textarea[name='description']");
                     const hostelId = document.querySelector("input[name='hostelId']");
                     const messageElement = document.querySelector(".addRoomMessage");
-                    
                     jQuery.ajax({
                         type: 'POST',
                         data: {'name': name.value,
@@ -414,6 +418,36 @@
                             maxNumberOfResidents.value = "";
                             description.value = "";
                             messageElement.innerHTML = response;
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
+                }
+
+                function checkValidRoom(element) {
+                    const hostelId = document.querySelector("input[name='hostelId']").value;
+                    const validRoomMessage = document.querySelector(".validRoomMessage");
+                    const addRoomElement = document.querySelector(".addRoom");
+                    jQuery.ajax({   
+                        type: 'POST',
+                        data: {'roomNumber': element.value,
+                            'hostelId': hostelId
+                        },
+                        url: '/sakura/landlord/check-room-valid',
+                        success: function (response) {
+                            validRoomMessage.innerHTML = response;
+                            if (response) {
+                                addRoomElement.onclick = (e) => {
+                                    e.preventDefault();
+                                }
+                            } else {
+                                addRoomElement.onclick = (e) => {
+                                    e.returnValue = true;
+                                }
+                            }
+
                         },
                         error: function () {
                         },

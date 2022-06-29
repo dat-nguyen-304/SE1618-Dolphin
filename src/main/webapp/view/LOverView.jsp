@@ -86,7 +86,7 @@
                             <h3 class="text-sm font-medium text-gray-400 mr-[10px]">Chọn nhà trọ: </h3>
                             <button type="button" data-modal-toggle="hostelModal"
                                     class="rounded w-fit h-[30px] px-[20px] bg-[#288D87] hover:bg-[#248781] flex flex justify-between items-center">
-                                <h3 class="font-medium text-[15px] text-[#fff]">${requestScope.currentHostel.hostelName}</h3>
+                                <h3 class="font-medium text-[15px] text-[#fff]">${sessionScope.currentHostel.hostelName}</h3>
                             </button>
                         </div>
                         <button type="button" data-modal-toggle="addHostel"
@@ -120,7 +120,7 @@
                                 </div>
 
                                 <div class="p-6 space-y-6">
-                                    <c:forEach items="${requestScope.hostelList}" var="hostel">
+                                    <c:forEach items="${sessionScope.hostelList}" var="hostel">
                                         <form action="/sakura/landlord/overview" class="inline-block">
                                             <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
                                         </form>
@@ -205,7 +205,7 @@
                                 phòng trọ</h3>
                         </div>
                         <div class="overall-info-content ">
-                            <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${requestScope.currentHostel.totalRoom}</p>
+                            <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${sessionScope.currentHostel.totalRoom}</p>
                         </div>
                     </a>
                     <a href="#"
@@ -215,7 +215,7 @@
                                 người thuê</h3>
                         </div>
                         <div class="overall-info-content ">
-                            <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${requestScope.currentHostel.totalRoom - requestScope.currentHostel.availableRoom}</p>
+                            <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${sessionScope.currentHostel.totalRoom - sessionScope.currentHostel.availableRoom}</p>
                         </div>
                     </a>
                     <a href="#"

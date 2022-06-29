@@ -83,7 +83,7 @@
                         <button
                             class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="button" data-modal-toggle="hostelModal">
-                            ${requestScope.currentHostel.hostelName}
+                            ${sessionScope.currentHostel.hostelName}
                         </button>
 
                         <div id="hostelModal" tabindex="-1" aria-hidden="true"
@@ -110,7 +110,7 @@
                                     </div>
 
                                     <div class="p-6 space-y-6">
-                                        <c:forEach items="${requestScope.hostelList}" var="hostel">
+                                        <c:forEach items="${sessionScope.hostelList}" var="hostel">
                                             <form action="/sakura/landlord/room-detail" class="inline-block">
                                                 <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
                                             </form>

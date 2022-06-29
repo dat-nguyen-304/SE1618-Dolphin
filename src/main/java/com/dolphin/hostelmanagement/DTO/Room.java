@@ -68,6 +68,4 @@ public class Room {
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
-
-    
 }

@@ -81,7 +81,7 @@
                         <button
                             class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             type="button" data-modal-toggle="hostelModal">
-                            Sakura
+                            ${sessionScope.currentHostel.hostelName}
                         </button>
 
                         <div id="hostelModal" tabindex="-1" aria-hidden="true"
@@ -108,10 +108,11 @@
                                     </div>
 
                                     <div class="p-6 space-y-6">
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">Huyền Thiết</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">Châu Tấn</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">Á Bằng</a>
-                                        <a href="" class="px-4 py-2 mx-2 rounded border-2">Doanh Doanh</a>
+                                        <c:forEach items="${sessionScope.hostelList}" var="hostel">
+                                            <form action="/sakura/landlord/contract-list" class="inline-block">
+                                                <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
+                                            </form>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -216,17 +217,17 @@
                                             <td class="text-center px-6 py-4">
                                                 ${contract.endDate}
                                             </td>
-                                            
+
                                             <td class="text-center px-6 py-4">
                                                 <c:if test="${contract.status == 0}">Đã kết thúc</c:if>
                                                 <c:if test="${contract.status == 1}">Còn hiệu lực</c:if>
-                                            </td>
-                                            <td class="text-center px-6 py-4 text-center">
-                                                <form action="/sakura/landlord/contract-detail">
-                                                <button name="contractId" value="${contract.contractID}"
-                                                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem
-                                                    chi tiết</button>
-                                                    </form>
+                                                </td>
+                                                <td class="text-center px-6 py-4 text-center">
+                                                    <form action="/sakura/landlord/contract-detail">
+                                                        <button name="contractId" value="${contract.contractID}"
+                                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem
+                                                        chi tiết</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     </c:forEach>
