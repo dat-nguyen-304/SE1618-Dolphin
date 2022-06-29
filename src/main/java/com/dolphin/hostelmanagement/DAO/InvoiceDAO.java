@@ -6,10 +6,16 @@ package com.dolphin.hostelmanagement.DAO;
 
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Invoice;
+import com.dolphin.hostelmanagement.DTO.ServiceDetail;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +25,9 @@ import java.util.List;
  * @author Admin
  */
 public class InvoiceDAO {
+
+    private static SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    private static SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 
     public static List<Invoice> findByContract(int contractId) {
         List<Invoice> list = null;
@@ -103,7 +112,7 @@ public class InvoiceDAO {
         }
         return list;
     }
-    
+
     public static List<Invoice> findByRoomID(int roomId) {
         List<Invoice> list = null;
         Connection cn = null;
@@ -222,7 +231,81 @@ public class InvoiceDAO {
         return null;
     }
 
-    public static void main(String[] args) {
+    public static boolean save(String startDate, String endDate, int totalPrice,
+            int contractID, String month, java.util.Date createdDate, int electricPrice, int waterPrice, List<ServiceDetail> detailList, int roomID) {
+        boolean check = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                int invoiceID = 0;
+                cn.setAutoCommit(false);
+                String sql = "insert into Invoice(startDate, endDate, status, "
+                        + "totalPrice, contractID, month, createdDate, electricPrice, waterPrice) "
+                        + "values(?, ?, 1, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setDate(1, new java.sql.Date(df.parse(startDate).getTime()));
+                pst.setDate(2, new java.sql.Date(df.parse(endDate).getTime()));
+                pst.setInt(3, totalPrice);
+                pst.setInt(4, contractID);
+                pst.setString(5, month);
+                pst.setDate(6, new java.sql.Date((new Date()).getTime()));
+                pst.setInt(7, electricPrice);
+                pst.setInt(8, waterPrice);
+                pst.executeUpdate();
 
+                // update room latestInvoiceMonth
+                sql = "update Room set latestInvoiceMonth = GETDATE() where roomID = ?";
+                pst = cn.prepareCall(sql);
+                pst.setInt(1, roomID);
+                pst.executeUpdate();
+
+                // get Invoice ID that is latest
+                sql = "select top 1 invoiceID from invoice order by invoiceID desc";
+                pst = cn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    invoiceID = rs.getInt("invoiceID");
+                }
+                
+                System.out.println("270 " + invoiceID);
+
+                // insert service detail
+                for (ServiceDetail serviceDetail : detailList) {
+                    sql = "insert into ServiceDetail(startValue, endValue, invoiceID, serviceID, quantity) values (?, ?, ?, ?, ?)";
+                    pst = cn.prepareStatement(sql);
+                    pst.setInt(1, serviceDetail.getStartValue());
+                    pst.setInt(2, serviceDetail.getEndValue());
+                    pst.setInt(3, invoiceID);
+                    pst.setInt(4, serviceDetail.getService().getServiceID());
+                    pst.setInt(5, serviceDetail.getQuantity());
+                    pst.executeUpdate();
+                }
+                cn.commit();
+                return true;
+            } else {
+                System.out.println("CANNOT INSERT INVOICE!");
+            }
+        } catch (Exception e) {
+            try {
+                if (cn != null) {
+                    cn.rollback();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            check = false;
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.setAutoCommit(true);
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return check;
     }
 }

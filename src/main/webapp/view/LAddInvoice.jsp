@@ -144,7 +144,11 @@
                             </div>
                         </div>
 
-                            <form action="" class="invoice-detail " method="POST">
+                            <form action="/sakura/invoice/save" class="invoice-detail " method="POST">
+                                
+                                <input type="hidden" name="chosenRoomID" value="${requestScope.chosenRoom.roomID}">
+                                <input type="hidden" name="contractID" value="${requestScope.contract.contractID}">
+                                
                             <div class="invoice-detail-info mt-[20px] grid grid-cols-6">
 
                                 <span>Chọn phòng: </span>
@@ -205,7 +209,7 @@
                                            class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn tháng...">
                                 </div>
-                                <div class="flex items-center col-span-2 grid grid-cols-6">
+<!--                                <div class="flex items-center col-span-2 grid grid-cols-6">
                                     <label for="invoice-start-date "
                                            class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Hạn
                                         thanh toán: </label>
@@ -213,7 +217,7 @@
                                            type="text" name="due-date" id="invoice-due-date"
                                            class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn ngày...">
-                                </div>
+                                </div>-->
                             </div>
                             <div class="invoice-time-range mt-[30px] grid grid-cols-6">
                                 <div class="start-date flex items-center col-span-2 grid grid-cols-6">
@@ -221,7 +225,7 @@
                                            class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Ngày
                                         đầu:</label>
                                     <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
-                                           type="text" id="invoice-start-date"
+                                           type="text" id="invoice-start-date" name="startDate"
                                            class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn ngày...">
                                 </div>
@@ -230,7 +234,7 @@
                                            class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Ngày
                                         cuối: </label>
                                     <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
-                                           type="text" id="invoice-end-date"
+                                           type="text" id="invoice-end-date" name="endDate"
                                            class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn ngày...">
                                 </div>
@@ -273,12 +277,12 @@
                                             <td scope="col" class="px-6 py-3">${service.unit}</td>
                                             <td scope="col" class="px-6 py-3">
                                                 <c:if test="${service.type == 1}">
-                                                    <input type="number" name="startInput" oninput="validity.valid||(value='');" min="0" value="0" id="startInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type}, this)">
+                                                    <input type="number" name="startInput${service.serviceID}" oninput="validity.valid||(value='');" min="0" value="0" id="startInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type}, this)">
                                                 </c:if>
                                             </td>
                                             <td scope="col" class="px-6 py-3">
                                                 <c:if test="${service.type == 1}">
-                                                    <input type="number" name="endInput" oninput="validity.valid||(value='');" min="0" value="0" id="endInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type}, this)"></td>
+                                                    <input type="number" name="endInput${service.serviceID}" oninput="validity.valid||(value='');" min="0" value="0" id="endInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type}, this)"></td>
                                                 </c:if>
                                             <td scope="col" class="px-6 py-3">
                                                 <c:choose>
@@ -286,7 +290,7 @@
                                                         <span id="quantity${service.serviceID}"></span></td>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <input type="number" name="quantity" oninput="validity.valid||(value='');" min="0" id="quantity${service.serviceID}" value="0" onchange="updateSum(${service.serviceID}, ${service.type}, this)">
+                                                        <input type="number" name="quantity${service.serviceID}" oninput="validity.valid||(value='');" min="0" id="quantity${service.serviceID}" value="0" onchange="updateSum(${service.serviceID}, ${service.type}, this)">
                                                     </c:otherwise>
                                                 </c:choose>
                                             <td scope="col" class="px-6 py-3"><span id="serviceFee${service.serviceID}" class="rate">${service.serviceFee}</span></td>
@@ -450,6 +454,7 @@
                                         </td>
                                         <td class="px-6 py-4 text-[17px] text-[#17535B] font-bold">
                                             <span id="invoiceSum" style="color:red" class="money"></span>
+                                            <input id="invoiceSumHidden" type="hidden" name="invoiceSum">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -466,7 +471,7 @@
                                 <!-- End Summation -->
 
                                 <div class="flex justify-between items-center">
-                                    <button type="button"
+                                    <button type="submit"
                                             class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-[#fff] flex items-center justify-center focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F]">Đăng
                                         hoá đơn
                                     </button>
@@ -671,6 +676,8 @@
             
             $("#serviceSum").html(sumService);
             $("#invoiceSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
+            $("#invoiceSumHidden").val(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
+            console.log("hidden " + $("#invoiceSumHidden").val());
             $("#invoiceSum").html($("#invoiceSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
             
             $("#bottomSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
