@@ -214,6 +214,7 @@
                                 </div>
                             </div>
                         </c:if>
+
                         <c:if test="${sessionScope.currentUser != null}">
                             <div class="filter-item p-0 m-0">
                                 <form class="submit-filter h-[50px] w-[180px] bg-[#ee7b35] text-[#E6EEF1] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center" action="/sakura/hostel/list">
@@ -228,21 +229,6 @@
                                     </c:if>
                                 </form>
                             </div>
-                            <c:if test="${sessionScope.currentUser != null}">
-                                <div class="filter-item p-0 m-0">
-                                    <form class="submit-filter h-[50px] w-[180px] bg-[#ee7b35] text-[#E6EEF1] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center" action="/sakura/hostel/list">
-                                        <c:if test="${requestScope.keyword != null}">
-                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                        </c:if>
-                                        <c:if test="${requestScope.favorite == null}">
-                                            <button type="submit" name="favorite" value="true">Yêu thích</button>
-                                        </c:if>
-                                        <c:if test="${requestScope.favorite != null}">
-                                            <button type="submit" name="favorite" value="false">Yêu thích</button>
-                                        </c:if>
-                                    </form>
-                                </div>
-                            </c:if>
                         </c:if>
                     </div>
                 </div>

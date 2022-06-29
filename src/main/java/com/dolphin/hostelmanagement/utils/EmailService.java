@@ -20,8 +20,8 @@ import java.util.Properties;
 
 public class EmailService {
 
-    private String username = "nguyenmykhanhvy@gmail.com"; //base mail of our website
-    private String password = "jgjzcxlxpoaegckc";
+    private String username = "swp.sakurahms@gmail.com"; //base mail of our website
+    private String password = "hxntkmwuzptkulzw";
 
     private Properties prop;
 

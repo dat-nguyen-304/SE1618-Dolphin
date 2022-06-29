@@ -251,6 +251,10 @@ public class InvoiceController extends HttpServlet {
                     System.out.println(activeServices.size());
                     request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
                 }
+                
+                if (path.equals("/save")) {
+                    
+                }
 
             }
         }
