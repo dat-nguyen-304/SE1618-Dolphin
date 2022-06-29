@@ -273,12 +273,12 @@
                                             <td scope="col" class="px-6 py-3">${service.unit}</td>
                                             <td scope="col" class="px-6 py-3">
                                                 <c:if test="${service.type == 1}">
-                                                    <input type="text" name="" id="startInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type})">
+                                                    <input type="text" name="" value="0" id="startInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type}, this)">
                                                 </c:if>
                                             </td>
                                             <td scope="col" class="px-6 py-3">
                                                 <c:if test="${service.type == 1}">
-                                                    <input type="text" name="" id="endInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type})"></td>
+                                                    <input type="text" name="" value="0" id="endInput${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type}, this)"></td>
                                                 </c:if>
                                             <td scope="col" class="px-6 py-3">
                                                 <c:choose>
@@ -286,12 +286,12 @@
                                                         <span id="quantity${service.serviceID}"></span></td>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <input type="text" name="" id="quantity${service.serviceID}" onchange="updateSum(${service.serviceID}, ${service.type})">
+                                                        <input type="text" name="" id="quantity${service.serviceID}" placeholder="0" onchange="updateSum(${service.serviceID}, ${service.type})">
                                                     </c:otherwise>
                                                 </c:choose>
                                             <td scope="col" class="px-6 py-3"><span id="serviceFee${service.serviceID}" class="rate">${service.serviceFee}</span></td>
                                             <!--<td><input type="checkbox" class="useCheckBox" checked="" onclick="enableInput(${service.serviceID})"></td>-->
-                                            <td scope="col" class="px-6 py-3"><span class="rowSum money" id="rowSum${service.serviceID}"></span></td>
+                                            <td scope="col" class="px-6 py-3"><span class="rowSum money" id="rowSum${service.serviceID}">0</span></td>
                                         </tr>
                                     </c:forEach>
                                     <!--                                <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
@@ -631,12 +631,16 @@
             }
         }
         
-        function updateSum(serviceID, type) {
-            $("#rowSum" + serviceID).html("");)
+        function updateSum(serviceID, type, element) {
+            $("#rowSum" + serviceID).html("");
             var sum; 
             console.log(type);
             if (type === 1) {
-                sum = parseInt($("#endInput" + serviceID).val()) - parseInt($("#startInput" + serviceID).val());
+                if ($(element).val() === "") sum = 0;
+                else {
+                    sum = parseInt($("#endInput" + serviceID).val()) - parseInt($("#startInput" + serviceID).val());
+                }
+                console.log(sum);
                 $("#quantity" + serviceID).html(sum);
             } else {
                 sum = $("#quantity" + serviceID).val();
@@ -650,7 +654,7 @@
             for (var i = 0; i < allRowSum.length; i++) {
                 var node = allRowSum[i];
                 console.log($(node).html());
-                sumService += parseInt($(node).html());
+                sumService += parseInt($(node).html().replace(/,/g, ''));
             }
             
             $("#serviceSum").html(sumService);
