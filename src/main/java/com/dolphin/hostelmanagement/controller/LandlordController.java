@@ -21,8 +21,14 @@ import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.RoomType;
 import com.dolphin.hostelmanagement.DTO.Service;
 import com.dolphin.hostelmanagement.DTO.ServiceDetail;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +37,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -325,6 +332,59 @@ public class LandlordController extends HttpServlet {
                 }
             }
         }
+    }
+    
+    private void copy(String src, String dest) throws IOException {
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(src);
+            os = new FileOutputStream(dest);
+            // buffer size 1K
+            byte[] buf = new byte[1024];
+
+            int bytesRead;
+            while ((bytesRead = is.read(buf)) > 0) {
+                os.write(buf, 0, bytesRead);
+            }
+        } finally {
+            is.close();
+            os.close();
+        }
+    }
+
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
+
+    public File getFolderUpload(HttpServletRequest request) throws URISyntaxException {
+        String path = request.getServletContext().getRealPath("/").replace("\\", "/");
+        File target = new File(path);
+        File par = new File(target.getParent());
+        File folderUpload = new File(par.getParent() + "/src/main/webapp/assets/images/user-avatars");
+
+//        File folderUpload = new File(request.getServletContext().getRealPath("/") + "assets/images/user-avatars/");
+        // System.out.println(folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
+
+    public File getRuntimeFolder(HttpServletRequest request) throws URISyntaxException {
+        File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/user-avatars");
+        System.out.println("Runtime folder: " + folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -162,6 +162,14 @@
                                         <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
                                         <select class="w-[200px] p-1">
                                             <option>Tỉnh</option>
+                                            <c:forEach items="${sessionScope.provinceList}" var="province">
+                                                    <c:if test="${province.provinceID == sessionScope.province.provinceID}">
+                                                        <option selected value="${province.provinceID}">${province.provinceName}</option>
+                                                    </c:if>
+                                                    <c:if test="${province.provinceID != sessionScope.province.provinceID}">
+                                                        <option value="${province.provinceID}">${province.provinceName}</option>
+                                                    </c:if>
+                                                </c:forEach>
                                         </select>
                                     </div>
                                     <div class="my-2">
