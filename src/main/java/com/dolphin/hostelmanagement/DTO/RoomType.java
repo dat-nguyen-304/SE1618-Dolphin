@@ -97,6 +97,4 @@ public class RoomType {
     public void setImgList(ArrayList<String> imgList) {
         this.imgList = imgList;
     }
-    
-    
 }

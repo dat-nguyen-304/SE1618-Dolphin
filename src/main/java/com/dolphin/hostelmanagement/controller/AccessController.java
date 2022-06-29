@@ -88,8 +88,10 @@ public class AccessController extends HttpServlet {
 
                                 } else {
                                     session.setAttribute("role", 2);
+                                    System.out.println("role 2");
                                     Landlord landlord = LandlordDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", landlord);
+                                    response.sendRedirect("/sakura/landlord/overview");
                                 }
                                 response.sendRedirect("/sakura/home");
                                 return;
@@ -106,6 +108,7 @@ public class AccessController extends HttpServlet {
                     } else {
                         HttpSession session = request.getSession(true);
                         session.invalidate();
+                        //response.setHeader("Cache-Control", "no-cache, no-store");
                         url = "/sakura/";
                         response.sendRedirect(url);
                     }
@@ -156,9 +159,11 @@ public class AccessController extends HttpServlet {
                             if (role == 1) {
                                 t = (Tenant) session.getAttribute("tempUser");
                                 TenantDAO.save(t);
+                                t.getAccount().setAvatar(avatar);
                             } else {
                                 l = (Landlord) session.getAttribute("tempUser");
                                 LandlordDAO.save(l);
+                                l.getAccount().setAvatar(avatar);
                             }
 
                             Account newAcc = AccountDAO.findByEmail(email);
@@ -215,7 +220,7 @@ public class AccessController extends HttpServlet {
                 request.setAttribute("email", googlePojo.getEmail());
                 request.setAttribute("picture", googlePojo.getPicture());
                 //RequestDispatcher dis = request.getRequestDispatcher("/view/index.jsp");
-                System.out.println("Where the fuck am I ?");
+                //System.out.println("Where the fuck am I ?");
                 boolean emailInSystem = AccountDAO.checkEmail(googlePojo.getEmail());
 
                 //System.out.println("This is login: " + request.getParameter("is_login"));
@@ -226,7 +231,7 @@ public class AccessController extends HttpServlet {
                     if (googleToken == null || googleToken.equals(googlePojo.getId())) { // duoc phep dang nhap
 
 //                            Account acc = AccountDAO.findByEmail(googlePojo.getEmail());
-                        if(googleToken == null) { //Tai khoan chua lien ket voi google (khong co token trong he thong)
+                        if (googleToken == null) { //Tai khoan chua lien ket voi google (khong co token trong he thong)
                             AccountDAO.saveGoogleAccount(acc.getAccountID(), googlePojo.getId());
                         }
 
@@ -248,13 +253,10 @@ public class AccessController extends HttpServlet {
                         }
 
                         response.sendRedirect("/sakura/home");
-                    }
-                    
-                    else {
+                    } else {
                         //hihi khong biet, cai nay` danh` cho may thang fake google account chui vo he thong a'
                     }
-                }
-                else { //email khong co trong he thong thi` chuyen qua page dang ki
+                } else { //email khong co trong he thong thi` chuyen qua page dang ki
                     session.setAttribute("name", googlePojo.getName());
                     session.setAttribute("email", googlePojo.getEmail());
                     session.setAttribute("googleToken", googlePojo.getId());
@@ -278,9 +280,11 @@ public class AccessController extends HttpServlet {
 
                             EmailService sender = new EmailService();
                             sender.sendResetPasswordEmail(email, newPwd);
-
+                            url = "/view/login.jsp";
+                        } else {
+                            request.setAttribute("errorMessage", "Email không tồn tại!");
+                            url = "/view/forgotPassword.jsp";
                         }
-                        url = "/view/login.jsp";
                     } else {
                         url = "/view/forgotPassword.jsp";
                     }

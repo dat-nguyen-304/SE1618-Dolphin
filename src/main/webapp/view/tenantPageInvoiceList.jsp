@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -196,7 +197,7 @@
                         </a>
                         <ul id="dropdown-example" class="py-2 space-y-2">
                             <li>
-                                <a href="tenantPageInvoiceList.jsp"
+                                <a href="/sakura/invoice/list"
                                    class="active menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Danh
                                     sách hoá đơn</a>
                             </li>
@@ -286,9 +287,7 @@
 
                 <!-- Search and filter -->
                 <div class="general-info flex justify-between mt-[20px]">
-                    <form class="w-full flex justify-between items-center">
-                        <input hidden type=text" name=tenantID" value="101" />
-                        <input hidden type="text" name=roomID" value="101" />
+                    <form class="w-full flex justify-between items-center" action="/sakura/invoice/list" method="post">
 
                         <!-- View current room only -->
                         <!-- <div class="flex items-center mb-4">
@@ -313,7 +312,7 @@
                                 </div>
                                 <input type="search" id="search-invoice-id"
                                        class="block pl-10 w-full text-[14px] text-gray-900 bg-gray-50 rounded-[4px] border border-gray-300 focus:ring-0 focus:border-[#17535B]"
-                                       placeholder="Tìm theo mã hoá đơn..." required="">
+                                       placeholder="Tìm theo mã hoá đơn...">
                             </div>
                         </div>
 
@@ -330,7 +329,7 @@
                                                   clip-rule="evenodd"></path>
                                             </svg>
                                         </div>
-                                        <input name="start" type="text" id="start-date"
+                                        <input name="start" type="text" id="start-date" <c:if test="${param.start != null}">value="${param.start}"</c:if>
                                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10  datepicker-input"
                                                placeholder="Ngày đầu">
                                     </div>
@@ -344,7 +343,7 @@
                                                   clip-rule="evenodd"></path>
                                             </svg>
                                         </div>
-                                        <input name="end" type="text" id="end-date"
+                                        <input name="end" type="text" id="end-date" <c:if test="${param.end != null}">value="${param.end}"</c:if>
                                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10 datepicker-input"
                                                placeholder="Ngày cuối">
                                     </div>
@@ -352,442 +351,121 @@
                             </div>
 
                             <!-- Filter by status -->
-                            <div class="dropdown-status mr-[20px]">
-                                <button id="dropdownDefault" data-dropdown-toggle="dropdown-status"
-                                        class="text-[#17535B] bg-[#fff] hover:bg-[#F6F8FA] font-[14px] rounded text-sm px-4 py-2.5 text-center inline-flex items-center border border-[#17535B]"
-                                        type="button">Trạng thái <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
-                                                              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M19 9l-7 7-7-7">
-                                    </path>
-                                    </svg>
-                                </button>
-                                <div id="dropdown-status" class="z-10 hidden bg-white rounded shadow"
-                                     data-popper-placement="bottom-start"
-                                     style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(592px, 681px);">
-                                    <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Chưa thanh toán</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Đã thanh toán</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Quá hạn</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <select name="sortByStatus">
+                                <option value="0">Trạng thái</option>
+                                <option value="1" <c:if test="${param.sortByStatus != null && param.sortByStatus == 1}">selected</c:if>>Chưa thanh toán</option>
+                                <option value="2" <c:if test="${param.sortByStatus != null && param.sortByStatus == 2}">selected</c:if>>Đã thanh toán</option>
+                                <option value="3" <c:if test="${param.sortByStatus != null && param.sortByStatus == 3}">selected</c:if>>Qúa hạn</option>
+                            </select>
+                            <!--<div class="dropdown-status mr-[20px]">-->
+                            <!--                                <button id="dropdownDefault" data-dropdown-toggle="dropdown-status"
+                                                                    class="text-[#17535B] bg-[#fff] hover:bg-[#F6F8FA] font-[14px] rounded text-sm px-4 py-2.5 text-center inline-flex items-center border border-[#17535B]"
+                                                                    type="button">Trạng thái <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
+                                                                                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                      d="M19 9l-7 7-7-7">
+                                                                </path>
+                                                                </svg>
+                                                            </button>-->
 
-
-                            <!-- Submit button -->
-                            <button type="button"
-                                    class="py-2.5 px-5 text-[14px] font-[14px] text-[#fff] focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F] focus:z-10">Lọc</button>
+                            <!--                                <div id="dropdown-status" class="z-10 hidden bg-white rounded shadow"
+                                                                 data-popper-placement="bottom-start"
+                                                                 style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(592px, 681px);">
+                                                                <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
+                                                                    <li>
+                                                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Chưa thanh toán</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Đã thanh toán</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Quá hạn</a>
+                                                                    </li>
+                                                                </ul>
+                            
+                                                            </div>-->
                         </div>
 
-                    </form>
+
+                        <!-- Submit button -->
+                        <button type="submit"
+                                class="py-2.5 px-5 text-[14px] font-[14px] text-[#fff] focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F] focus:z-10">Lọc</button>
                 </div>
-                <!-- End Search and filter -->
 
-                <!-- table invoice list -->
-                <div class="statistic flex justify-between mt-[20px] w-full">
-                    <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
-                        <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                            <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Mã hoá đơn
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Ngày đầu
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Ngày cuối
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Hạn
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Giá tiền
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Trạng thái
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        <span class="sr-only">Edit</span>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                </form>
+            </div>
+            <!-- End Search and filter -->
+
+            <!-- table invoice list -->
+            <div class="statistic flex justify-between mt-[20px] w-full">
+                <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
+                    <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                        <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Mã hoá đơn
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Ngày đầu
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Ngày cuối
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Giá tiền
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Trạng thái
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="invoice" items="${requestScope.invoiceList}">
                                 <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020354</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/05/2022
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        <a href="#" class="hover:text-[#288D87] hover:underline">${invoice.invoiceID}</a>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        31/05/2022
+                                    <td class="px-6 py-4 date">
+                                        ${invoice.startDate}
                                     </td>
-                                    <td class="px-6 py-4">
-                                        10/06/2022
+                                    <td class="px-6 py-4 date">
+                                        ${invoice.endDate}
                                     </td>
-                                    <td class="px-6 py-4">
-                                        đ4.560.000
+                                    <td class="px-6 py-4 money">
+                                        ${invoice.totalPrice} đ
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
-                                            class="bg-blue-100 text-blue-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa
-                                            thanh toán</span>
-
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020353</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/04/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        30/04/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/05/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ4.200.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Quá
-                                            hạn</span>
+                                            class="bg-blue-100 text-blue-800 text-[14px] font-normal px-2.5 py-0.5 rounded">
+                                            ${(invoice.status == 1) ? "Chưa thanh toán" : (invoice.status == 2) ? "Đã thanh toán" : "Quá hạn"}
+                                        </span>
 
                                     </td>
                                     <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020352</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/03/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        31/03/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/04/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ4.610.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
+                                        <form action="/sakura/invoice/detail" method="post">
+                                            <input type="hidden" name="invoiceID" value="${invoice.invoiceID}">
+                                            <button type="submit"><i class="bi bi-eye-fill"></i></button>
+                                        </form>
+                                        <!--                                            <a href="#" class="font-medium text-[#17535B]">
+                                                                                        <i class="bi bi-eye-fill"></i>
+                                                                                    </a>-->
                                         <a href="#" class="font-medium text-[#17535B]">
                                             <i class="bi bi-file-earmark-spreadsheet"></i>
                                         </a>
                                     </td>
                                 </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020351</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/03/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        31/03/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/04/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ4.610.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020350</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/02/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        28/02/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/03/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ5.610.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020349</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/01/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        31/01/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/02/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ0.010.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020348</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/12/2021
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        31/12/2021
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/01/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ4.512.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020347</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/11/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        30/11/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/12/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ4.520.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020346</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/10/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        31/10/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/11/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ3.160.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020346</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/09/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        30/09/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/10/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ4.450.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020346</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/08/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        31/08/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/09/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ4.780.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">0020346</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        01/07/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        31/07/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        10/08/2022
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        đ4.360.000
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã
-                                            thanh toán</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="#" class="font-medium text-[#17535B]">
-                                            <i class="bi bi-file-earmark-spreadsheet"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            </c:forEach>
+                        </tbody>
+                    </table>
 
-                        <!-- Pagination + Export excel -->
-                        <div class="table-extend flex justify-between">
+                    <!-- Pagination + Export excel -->
+                    <div class="table-extend flex justify-between">
 
-                            <!-- Pagination -->
+                        <!-- Pagination -->
+                        <c:if test="${requestScope.invoiceList.size() > 0}">
                             <nav aria-label="Page navigation example">
                                 <ul class="table-paging inline-flex items-center -space-x-px">
                                     <li>
@@ -828,67 +506,87 @@
                                     </li>
                                 </ul>
                             </nav>
-                            <!-- End Pagination -->
+                        </c:if>
+                        <!-- End Pagination -->
 
-                            <!-- Export excel button -->
-                            <button type="button"
-                                    class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">Xuất
-                                file excel
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                     class="w-4 h-4 ml-[5px] text-[#288D87] group-hover:text-[#288D87]">
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path
-                                    d="M2.859 2.877l12.57-1.795a.5.5 0 0 1 .571.495v20.846a.5.5 0 0 1-.57.495L2.858 21.123a1 1 0 0 1-.859-.99V3.867a1 1 0 0 1 .859-.99zM17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4V3zm-6.8 9L13 8h-2.4L9 10.286 7.4 8H5l2.8 4L5 16h2.4L9 13.714 10.6 16H13l-2.8-4z" />
-                                </svg>
+                        <!-- Export excel button -->
+                        <button type="button"
+                                class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">Xuất
+                            file excel
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                 class="w-4 h-4 ml-[5px] text-[#288D87] group-hover:text-[#288D87]">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path
+                                d="M2.859 2.877l12.57-1.795a.5.5 0 0 1 .571.495v20.846a.5.5 0 0 1-.57.495L2.858 21.123a1 1 0 0 1-.859-.99V3.867a1 1 0 0 1 .859-.99zM17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4V3zm-6.8 9L13 8h-2.4L9 10.286 7.4 8H5l2.8 4L5 16h2.4L9 13.714 10.6 16H13l-2.8-4z" />
+                            </svg>
 
-                            </button>
-                        </div>
-                        <!-- End Pagination + Export excel -->
-
-
+                        </button>
                     </div>
+                    <!-- End Pagination + Export excel -->
+
 
                 </div>
 
-
-                <!-- End table invoice list -->
             </div>
 
-            <!-- Footer -->
 
-            <footer class="w-full px-[20px] pb-[20px]">
-                <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
-                    <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
-                                                                                 class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
-                    </span>
-                    <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6 ">Về Sakura</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">Chính sách bảo mật</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-[#17535B]">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </footer>
-
-            <!-- End footer -->
-
+            <!-- End table invoice list -->
         </div>
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
+        <!-- Footer -->
 
-        <!-- chartJS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="../assets/javascript/chart-tenant-page.js"></script>
-    </body>
+        <footer class="w-full px-[20px] pb-[20px]">
+            <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
+                <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
+                                                                             class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
+                </span>
+                <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
+                    <li>
+                        <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6 ">Về Sakura</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">Chính sách bảo mật</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">FAQ</a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-[#17535B]">Liên hệ</a>
+                    </li>
+                </ul>
+            </div>
+
+        </footer>
+
+        <!-- End footer -->
+
+    </div>
+
+    <!-- flowbite -->
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
+
+    <!-- chartJS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/javascript/chart-tenant-page.js"></script>
+    <script src="../assets/javascript/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            var allDateCells = $(".date");
+            var allMoneyCells = $(".money");
+
+            for (var i = 0; i < allDateCells.length; i++) {
+                var node = allDateCells[i];
+                var isoDate = node.childNodes[0].nodeValue;
+                node.childNodes[0].nodeValue = isoDate.split('-').reverse().join(' / ');
+            }
+
+            for (var i = 0; i < allMoneyCells.length; i++) {
+                var node = allMoneyCells[i];
+                var money = node.childNodes[0].nodeValue;
+                node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+        });
+    </script>
+</body>
 </html>

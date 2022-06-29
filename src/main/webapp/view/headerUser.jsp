@@ -17,7 +17,7 @@
     <div class="profile">
 
         <div class="profile-avatar">    
-            <img id="profile-btn" src="${empty sessionScope.currentUser.account.avatar ? "/sakura/assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="">
+            <img id="profile-btn" src="${empty sessionScope.currentUser.account.avatar ? "/sakura/assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="/sakura/assets/images/user-avatars/no_ava.jpg">
         </div>
         <div class="profile-menu">
             <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
@@ -29,7 +29,7 @@
                     <a href="/sakura/account/changePassword">
                         <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
                     </a>
-                    <a href="#">
+                    <a href="/sakura/tenant/dashboard">
                         <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
                     </a>
                     <button type ="submit" name ="logout" value="true">

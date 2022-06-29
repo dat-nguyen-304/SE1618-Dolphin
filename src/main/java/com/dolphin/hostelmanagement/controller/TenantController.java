@@ -4,19 +4,26 @@ package com.dolphin.hostelmanagement.controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
+import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
+import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
+import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.RoomResident;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,37 +54,95 @@ public class TenantController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
             Tenant t = (Tenant) session.getAttribute("currentUser");
+            List<Contract> contractList = ContractDAO.findByTenant(t);
 
             if (path.equals("/dashboard")) {
-                List<Contract> contractList = ContractDAO.findByTenant(t);
 
-                HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
+                /*HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
                 for (Contract contract : contractList) {
-                    invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract));
+                    invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract.getContractID()));
                 }
                 TreeMap<Contract, ArrayList<Invoice>> sorted = new TreeMap<>();
                 sorted.putAll(invoiceMap);
-                
+
                 request.setAttribute("contractList", contractList);
-                request.setAttribute("invoiceMap", sorted);
+                request.setAttribute("invoiceMap", sorted);*/
+//                Contract currentContract = ContractDAO.findCurrentContractByTenantID(t.getAccount().getAccountID());
+//                ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
+//                Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
 
-                url = "/view/rentedTenantPage.jsp";
+                //currentContract
+//                session.setAttribute("currentContract", currentContract);
+//                session.setAttribute("roomResidentList", roomResidentList);
+//                session.setAttribute("latestInvoice", latestInvoice);
+
+                //currentContract.getHostel().getDistrict()
+                request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
             }
 
-            if (path.equals("/invoice")) {
-//                List<Invoice> invoiceList = InvoiceDAO.findByContract(contract);
-//                request.setAttribute("invoiceList", invoiceList);
+            if (path.equals("/invoiceList")) {
 
-                url = "/view/tenantInvoiceList.jsp";
+                List<Invoice> invoiceList = new ArrayList();
+                for (Contract contract : contractList) {
+                    invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
+                }
+                request.setAttribute("invoiceList", invoiceList);
+
+                request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
             }
 
-            request.getRequestDispatcher(url).forward(request, response);
+            if (path.equals("/rentalRequestList")) {
+                if (request.getParameter("queryType") == null) {
+                    ArrayList<BookingRequest> bookingList = BookingRequestDAO.getBookingRequestByTenant(t, 1);
+                    ArrayList<BookingRequest> invitationList = BookingRequestDAO.getBookingRequestByTenant(t, 2);
+
+                    request.setAttribute("bookingList", bookingList);
+                    request.setAttribute("invitationList", invitationList);
+
+                    request.getRequestDispatcher("/view/tenantRentalRequestPage.jsp").forward(request, response);
+                } else if (request.getParameter("queryType").equals("accept")) {
+                    int contractID = Integer.parseInt(request.getParameter("contractID"));
+                    Contract contract = ContractDAO.findByID(contractID);
+//                    ContractDAO.changeStatus(contractID, 1);
+                    BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID());
+                    RoomDAO.changeStatus(contract.getRoom().getRoomID(), 2);
+                    
+                    //send accept notification to landlord
+                    Notification landlordNoti = new Notification();
+                    
+                    landlordNoti.setToAccount(contract.getLandlord().getAccount());
+                    landlordNoti.setCreatedDate(new Date());
+                    landlordNoti.setContent(t.getFullname() + " đã đồng ý hợp đồng thuê nhà ở phòng " + contract.getRoom().getRoomNumber()
+                            + ", nhà trọ " + contract.getHostel().getHostelName());
+
+                    landlordNoti.setStatus(0); //0 means unread
+                    boolean check = NotificationDAO.saveNotification(landlordNoti);
+                    //end send accept notification to landlord
+                    
+                    //send accept notification to landlord
+                    Notification tenantNoti = new Notification();
+                    
+                    tenantNoti.setToAccount(t.getAccount());
+                    tenantNoti.setCreatedDate(new Date());
+                    tenantNoti.setContent("Bạn đã đồng ý hợp đồng thuê nhà ở phòng " + contract.getRoom().getRoomNumber()
+                            + ", nhà trọ " + contract.getHostel().getHostelName());
+
+                    tenantNoti.setStatus(0); //0 means unread
+                    check = NotificationDAO.saveNotification(tenantNoti);
+                    //end send accept notification to landlord   
+                    response.sendRedirect("/sakura/tenant/dashboard");
+                } else if (request.getParameter("queryType").equals("refuse")) {
+                    int contractID = Integer.parseInt(request.getParameter("contractID"));
+//                    ContractDAO.changeStatus(contractID, 0);
+                    response.sendRedirect("/sakura/tenant/dashboard");
+                }
+            }
         }
     }
 

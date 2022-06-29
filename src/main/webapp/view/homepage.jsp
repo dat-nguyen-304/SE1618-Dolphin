@@ -8,6 +8,20 @@
 <!DOCTYPE html>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" ></script>
+<script>
+    /*$(window).bind("pageshow", function(event) {
+     if (event.originalEvent.persisted) {
+     window.location.reload(); 
+     }
+     });*/
+</script> 
+
+<% 
+    //response.setHeader("Cache-Control", "no-cache, no-store");
+%>
+
 <html class="no-js" lang="en">
     <!--<![endif]-->
 
@@ -19,6 +33,9 @@
         <title>Sakura</title>
         <meta name="description" content="">
         <meta name="author" content="">
+
+
+        <!-- Reload page-->
 
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +64,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     </head>
 
-    <body id="top">
+    <body id="top" onbeforeunload='return reloadPage()'>
 
         <!-- HOME -->
         <section id="home" class="parallax w-full h-full bg-transparent relative">
@@ -288,27 +305,27 @@
         <script src="assets/javascript/homepage-main.js"></script>
 
         <script type="text/javascript">
-            window.addEventListener("scroll", function () {
-                var header = document.querySelector("#header-section");
-                header.classList.toggle("stick", window.scrollY > 0);
+    window.addEventListener("scroll", function () {
+        var header = document.querySelector("#header-section");
+        header.classList.toggle("stick", window.scrollY > 0);
 
-                // var img = document.querySelector("#logo-header");
-                // img.src = "../assets/images/homepage-icon/logo.png"; 
-            })
+        // var img = document.querySelector("#logo-header");
+        // img.src = "../assets/images/homepage-icon/logo.png"; 
+    });
 
-            var initialSrc = "assets/images/homepage-icon/logo_white.png";
-            var scrollSrc = "assets/images/homepage-icon/logo.png";
+    var initialSrc = "assets/images/homepage-icon/logo_white.png";
+    var scrollSrc = "assets/images/homepage-icon/logo.png";
 
-            $(window).scroll(function () {
-                var value = $(this).scrollTop();
-                if (value > 0) {
-                    //$("#name-header").css("color", "#17535B");
-                    $("#logo-header").attr("src", scrollSrc);
-                } else {
-                    //$("#name-header").css("color", "#fff");
-                    $("#logo-header").attr("src", initialSrc);
-                }
-            });
+    $(window).scroll(function () {
+        var value = $(this).scrollTop();
+        if (value > 0) {
+            //$("#name-header").css("color", "#17535B");
+            $("#logo-header").attr("src", scrollSrc);
+        } else {
+            //$("#name-header").css("color", "#fff");
+            $("#logo-header").attr("src", initialSrc);
+        }
+    });
         </script>
         <script>
             /* When the user clicks on the button, toggle between hiding and showing the dropdown content */

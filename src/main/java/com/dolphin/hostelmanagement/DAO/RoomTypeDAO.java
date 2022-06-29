@@ -25,7 +25,7 @@ public class RoomTypeDAO {
         try {
             cn = DBUtils.makeConnection();
             
-            String sql = "Select * from RoomType where hostelID = ?";
+            String sql = "Select * from RoomType where hostelID = ? ORDER BY advertisedPrice";
             
             PreparedStatement pst = cn.prepareCall(sql);
             
@@ -80,9 +80,7 @@ public class RoomTypeDAO {
     
     public static RoomType findByID(int roomTypeID) { //find a roomType by ID
         Connection cn = null;
-        
         RoomType rt = null;
-        
         try {
             cn = DBUtils.makeConnection();
             String sql = "Select * from RoomType where roomTypeID = ?";
@@ -100,17 +98,64 @@ public class RoomTypeDAO {
                 int hostelID = rs.getInt("hostelID");
                 Hostel hostel = HostelDAO.findById(hostelID);
                 ArrayList<String> imgList = getAllImagesById(roomTypeID);
-                
                 rt = new RoomType(roomTypeID, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList);
-            
             }
             
         }catch(Exception e) {
             e.printStackTrace();
         }
-        
         return rt;
     }   
+    
+    public static boolean save(String name, int price, int area, int maxNumberOfResidents, String description, int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO RoomType(roomTypeName, roomTypeArea, description, maxNumberOfResidents, advertisedPrice, hostelID) VALUES(?, ?, ?, ?, ?, ?)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, name);
+                pst.setInt(2, area);
+                pst.setString(3, description);
+                pst.setInt(4, maxNumberOfResidents);
+                pst.setInt(5, price);
+                pst.setInt(6, hostelId);
+                int addSuccess = pst.executeUpdate();
+                if (addSuccess > 0) return true;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    } 
+    
+    public static RoomType findLastRoomTypeByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select top 1 * from RoomType where hostelID = ? order by roomTypeID desc";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    int roomTypeId = rs.getInt("roomTypeID");
+                    String roomTypeName = rs.getString("roomTypeName");
+                    int roomTypeArea = rs.getInt("roomTypeArea");
+                    String description = rs.getString("description");
+                    int maxNumberOfResidents = rs.getInt("maxNumberOfResidents");
+                    int advertisedPrice = rs.getInt("advertisedPrice");
+                    Hostel hostel = HostelDAO.findById(hostelId);
+                    ArrayList<String> imgList = getAllImagesById(roomTypeId);
+                    cn.close();
+                    return new RoomType(roomTypeId, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList);
+                }
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     
     public static void main(String args[]) {
         for(RoomType rt: findByHostelID(1)) {

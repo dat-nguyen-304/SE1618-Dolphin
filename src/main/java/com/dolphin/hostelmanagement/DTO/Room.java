@@ -23,6 +23,11 @@ public class Room {
         this.status = status;
         this.roomType = roomType;
     }
+    
+    public Room(int roomID, String roomNumber) {
+        this.roomID = roomID;
+        this.roomNumber = roomNumber;
+    }
 
     public int getRoomID() {
         return roomID;
@@ -63,6 +68,4 @@ public class Room {
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
-
-    
 }

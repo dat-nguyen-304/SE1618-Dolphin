@@ -20,25 +20,30 @@ import java.util.List;
  */
 public class InvoiceDAO {
 
-    public static List<Invoice> findByContract(Contract c) {
+    public static List<Invoice> findByContract(int contractId) {
         List<Invoice> list = null;
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select * from Invoice where contractID = ?";
+                String sql = "select * from Invoice where contractID = ? ORDER BY createdDate DESC";
                 PreparedStatement pst = cn.prepareCall(sql);
-                pst.setInt(1, c.getContractID());
+                pst.setInt(1, contractId);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     list = new ArrayList();
                     while (rs.next()) {
                         int invoiceID = rs.getInt("invoiceID");
+                        Contract contract = ContractDAO.findByID(contractId);
                         Date startDate = rs.getDate("startDate");
                         Date endDate = rs.getDate("endDate");
+                        Date createdDate = rs.getDate("createdDate");
                         int status = rs.getInt("status");
                         int totalPrice = rs.getInt("totalPrice");
-                        list.add(new Invoice(invoiceID, c, startDate, endDate, status, totalPrice));
+                        String month = rs.getString("month");
+                        int electricPrice = rs.getInt("electricPrice");
+                        int waterPrice = rs.getInt("waterPrice");
+                        list.add(new Invoice(invoiceID, contract, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice));
                     }
                 }
             }
@@ -56,6 +61,129 @@ public class InvoiceDAO {
         return list;
     }
 
+    public static List<Invoice> findByHostelID(int hostelId) {
+        List<Invoice> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Invoice ORDER BY createdDate DESC";
+                PreparedStatement pst = cn.prepareCall(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    list = new ArrayList();
+                    while (rs.next()) {
+                        int invoiceID = rs.getInt("invoiceID");
+                        int contractId = rs.getInt("contractID");
+                        Contract contract = ContractDAO.findByID(contractId);
+                        if (contract.getHostel().getHostelID() == hostelId) {
+                            Date startDate = rs.getDate("startDate");
+                            Date endDate = rs.getDate("endDate");
+                            Date createdDate = rs.getDate("createdDate");
+                            int status = rs.getInt("status");
+                            int totalPrice = rs.getInt("totalPrice");
+                            String month = rs.getString("month");
+                            int electricPrice = rs.getInt("electricPrice");
+                            int waterPrice = rs.getInt("waterPrice");
+                            list.add(new Invoice(invoiceID, contract, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+    
+    public static List<Invoice> findByRoomID(int roomId) {
+        List<Invoice> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select * from Invoice ORDER BY createdDate DESC";
+                PreparedStatement pst = cn.prepareCall(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    list = new ArrayList();
+                    while (rs.next()) {
+                        int invoiceID = rs.getInt("invoiceID");
+                        int contractId = rs.getInt("contractID");
+                        Contract contract = ContractDAO.findByID(contractId);
+                        if (contract.getRoom().getRoomID() == roomId) {
+                            Date startDate = rs.getDate("startDate");
+                            Date endDate = rs.getDate("endDate");
+                            Date createdDate = rs.getDate("createdDate");
+                            int status = rs.getInt("status");
+                            int totalPrice = rs.getInt("totalPrice");
+                            String month = rs.getString("month");
+                            int electricPrice = rs.getInt("electricPrice");
+                            int waterPrice = rs.getInt("waterPrice");
+                            list.add(new Invoice(invoiceID, contract, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
+    public static Invoice findLatestByContract(Contract c) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select top 1 * from Invoice where contractID = ? order by startDate desc";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, c.getContractID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int invoiceID = rs.getInt("invoiceID");
+                        Date startDate = rs.getDate("startDate");
+                        Date endDate = rs.getDate("endDate");
+                        Date createdDate = rs.getDate("createdDate");
+                        int status = rs.getInt("status");
+                        int totalPrice = rs.getInt("totalPrice");
+                        int waterPrice = rs.getInt("waterPrice");
+                        int electricPrice = rs.getInt("electricPrice");
+                        return new Invoice(invoiceID, c, startDate, endDate, createdDate, status, totalPrice, sql, electricPrice, waterPrice);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
     public static Invoice findByID(int id) {
         Connection cn = null;
         try {
@@ -69,11 +197,15 @@ public class InvoiceDAO {
                     int invoiceID = rs.getInt("invoiceID");
                     Date startDate = rs.getDate("startDate");
                     Date endDate = rs.getDate("endDate");
+                    Date createdDate = rs.getDate("createdDate");
                     int status = rs.getInt("status");
                     int totalPrice = rs.getInt("totalPrice");
                     int contractID = rs.getInt("contractID");
+                    String month = rs.getString("month");
                     Contract contract = ContractDAO.findByID(contractID);
-                    return new Invoice(invoiceID, contract, startDate, endDate, status, totalPrice);
+                    int electricPrice = rs.getInt("electricPrice");
+                    int waterPrice = rs.getInt("waterPrice");
+                    return new Invoice(invoiceID, contract, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice);
                 }
             }
         } catch (Exception e) {
@@ -91,9 +223,6 @@ public class InvoiceDAO {
     }
 
     public static void main(String[] args) {
-        Contract c = ContractDAO.findActiveContract(TenantDAO.findById(3));
-        for (Invoice inv : findByContract(c)) {
-            System.out.println(inv);
-        }
+
     }
 }
