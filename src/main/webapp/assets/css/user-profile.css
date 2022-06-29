@@ -1,6 +1,6 @@
 body {
     background: #feffff;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Mulish', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -69,7 +69,7 @@ body {
 .profile-left .addition li .label {
     background-color: #ff653227;
     border: 1px solid #FF6532;
-    border-radius: 8px;
+    border-radius: 20px;
     color: #FF6532;
     padding: 3px 8px;
 }

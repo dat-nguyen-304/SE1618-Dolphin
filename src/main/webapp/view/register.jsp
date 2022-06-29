@@ -76,8 +76,8 @@
                         <li class="item block relative z-0 w-full mb-7">
                             <input type="text" id="username" name="username" placeholder=" " required onchange="checkUsername()"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none  focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
-                            <p id="usernameError" class="warning font-light absolute right-0"></p>
-                            <label for="username" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Tên đăng nhập <span class="font-extralight">(chỉ gồm chữ, số, kí tự '_')</span></label>
+                            <p id="usernameError" class="warning font-light absolute right-0"> <span class="font-extralight">(tối thiểu 6 kí tự gồm chữ, số hoặc kí tự '_', bắt đầu với chữ cái)</span></p>
+                            <label for="username" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Tên đăng nhập</label>
                         </li>
 
                         <!--Email-->
@@ -104,7 +104,7 @@
                         <li class="item block relative z-0 w-full mb-7">
                             <input type="tel" id="phone" name="phone" placeholder=" " required onchange="checkPhone()"
                                    class="pt-3 pb-1 block w-full px-0 mt-2 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
-                            <p id="phoneError" class="warning font-light absolute right-0"></p>
+                            <p id="phoneError" class="warning font-light absolute right-0"><span class="font-extralight">Gồm 10 chữ số</span></p>
                             <label for="phone" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Số điện thoại</label>
                         </li>
 
@@ -112,7 +112,7 @@
                         <li class="item block relative z-0 w-full mb-7">
                             <input type="password" id="password" name="password" placeholder=" " required onchange="checkPassword()"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
-                            <p id="passwordError" class="warning font-light absolute right-0">${requestScope.warning}</p>
+                            <p id="password-error" class="warning font-light absolute right-0">${requestScope.warning}</p>
                             <label for="password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Mật khẩu <span class="font-extralight">(tối thiểu 8 kí tự)</span></label>
                             <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-password"></i>
                         </li>
@@ -121,7 +121,7 @@
                         <li class="item block relative z-0 w-full mb-8">
                             <input type="password" id="cf-password" name="cf-password" placeholder=" " required onchange="checkConfirmPassword()"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
-                            <p id="cf-passwordError" class="warning font-light absolute right-0">${requestScope.warning}</p>
+                            <p id="cf-password-error" class="warning font-light absolute right-0">${requestScope.warning}</p>
                             <label for="cf-password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Xác nhận mật khẩu</label>
                             <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-cf-password"></i>
                         </li>
@@ -142,12 +142,11 @@
                                     <label for="landlord" class="role-label flex items-center cursor-pointer">
                                         <span class="w-4 h-4 inline-block mr-1 border border-gray-500 rounded-full"></span>Chủ nhà</label>
                                 </div>
-
                             </div>
                         </li>
 
                         <li class="mb-9">
-                            <button type="submit" id="register-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick="return validate()">
+                            <button type="submit" id="register-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%] disabled:cursor-progress disabled:bg-opacity-[50%]" onclick="return validate()">
                                 Đăng ký
                             </button>  
                         </li>
@@ -188,207 +187,335 @@
         </div>
         <script src="../assets/javascript/jquery.js"></script>
         <script>
-            // Toggle Password
-            const togglePassword = document.querySelector("#toggle-password");
-            const toggleCfPassword = document.querySelector("#toggle-cf-password");
-            const password = document.querySelector("#password");
-            const cf_password = document.querySelector("#cf-password");
-            togglePassword.addEventListener("click", function () {
-                // toggle the type attribute
-                const type = password.getAttribute("type") === "password" ? "text" : "password";
-                password.setAttribute("type", type);
-                // toggle the icon
-                this.classList.toggle('bi-eye');
-            });
-            toggleCfPassword.addEventListener("click", function () {
-                // toggle the type attribute
-                const cf_type = cf_password.getAttribute("type") === "password" ? "text" : "password";
-                cf_password.setAttribute("type", cf_type);
-                // toggle the icon
-                this.classList.toggle('bi-eye');
-            });
+                        // Toggle Password
+                        const togglePassword = document.querySelector("#toggle-password");
+                        const toggleCfPassword = document.querySelector("#toggle-cf-password");
+                        const password = document.querySelector("#password");
+                        const cf_password = document.querySelector("#cf-password");
+                        togglePassword.addEventListener("click", function () {
+                            // toggle the type attribute
+                            const type = password.getAttribute("type") === "password" ? "text" : "password";
+                            password.setAttribute("type", type);
+                            // toggle the icon
+                            this.classList.toggle('bi-eye');
+                        });
+                        toggleCfPassword.addEventListener("click", function () {
+                            // toggle the type attribute
+                            const cf_type = cf_password.getAttribute("type") === "password" ? "text" : "password";
+                            cf_password.setAttribute("type", cf_type);
+                            // toggle the icon
+                            this.classList.toggle('bi-eye');
+                        });
 
-            // ====================================
-            // Ripple Effect
-            const button = document.querySelector('#register-btn');
+                        // ====================================
+                        // Ripple Effect
+                        const button = document.querySelector('#register-btn');
 
-            button.addEventListener('click', function (e) {
-                // 1
-                let x = e.clientX;
-                let y = e.clientY;
+                        button.addEventListener('click', function (e) {
+                            // 1
+                            let x = e.clientX;
+                            let y = e.clientY;
 
-                // 2
-                let buttonTop = e.target.offsetTop;
-                let buttonLeft = e.target.offsetLeft;
+                            // 2
+                            let buttonTop = e.target.offsetTop;
+                            let buttonLeft = e.target.offsetLeft;
 
-                // 3
-                let xInside = x - buttonLeft;
-                let yInside = y - buttonTop;
+                            // 3
+                            let xInside = x - buttonLeft;
+                            let yInside = y - buttonTop;
 
-                let circle = document.createElement('span');
-                circle.classList.add('circle');
-                circle.style.top = yInside + 'px';
-                circle.style.left = xInside + 'px';
+                            let circle = document.createElement('span');
+                            circle.classList.add('circle');
+                            circle.style.top = yInside + 'px';
+                            circle.style.left = xInside + 'px';
 
-                this.appendChild(circle);
+                            this.appendChild(circle);
 
-                setTimeout(() => {
-                    circle.remove();
-                }, 500);
-            });
+                            setTimeout(() => {
+                                circle.remove();
+                            }, 500);
+                        });
 
-            // ====================================
-            // Validation
-            function checkFullname() {
-                $("#fullnameError").html("");
-                $("#fullname").css("border-bottom", "");
-                var fullname = $("#fullname").val().trim();
-                if (fullname.length !== 0) {
-                    var re = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
-                    if (!re.test(fullname) && fullname.length !== 0) {
-                        $("#fullnameError").html("Tên riêng chỉ gồm chữ cái tiếng Việt!");
-                        $("#fullnameError").css("color", "red");
-                    }
-                }
-            }
+                        // ====================================
+                        // Validation
+                        function removeAscent(str) {
+                            if (str === null || str === undefined)
+                                return str;
+                            str = str.toLowerCase();
+                            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+                            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+                            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+                            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+                            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+                            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+                            str = str.replace(/đ/g, "d");
+                            return str;
+                        }
 
-            function checkUsername() {
-                $("#usernameError").html("");
-                $("#username").css("border-bottom", "");
-                var username = $("#username").val().trim();
-                if (username.length < 6) {
-                    $("#usernameError").html("Tên đăng nhập phải có ít nhất 6 kí tự!");
-                    $("#usernameError").css("color", "red");
-                } else if (username.length !== 0) {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: 'username=' + $("#username").val(),
-                        url: '/sakura/account/checkUsername',
-                        success: function (result) {
-                            if (result.length === 0) {
-                                var re = /^[a-zA-Z]\w+$/;
-                                if (!re.test($("#username").val())) {
-                                    $("#usernameError").html("Tên đăng nhập bắt đầu bằng chữ cái, không chứa các kí tự đặc biệt trừ '_'!");
-                                    $("#usernameError").css("color", "red");
+                        function checkFullname(submit) {
+                            $("#fullnameError").html("");
+                            $("#fullname").css("border-bottom", "");
+                            var fullname = $("#fullname").val().trim();
+                            if (fullname.length !== 0) {
+                                var re = /^[a-zA-Z\s]{2,}$/g; // regex here
+                                if (!re.test(removeAscent(fullname)) && fullname.length !== 0) {
+                                    $("#fullnameError").html("Tên riêng chỉ gồm chữ cái!");
+                                    $("#fullnameError").css("color", "red");
+                                    if (submit === 1)
+                                        $("#fullname").focus();
+                                    return false;
                                 }
-                            } else {
-                                $("#usernameError").html(result);
+                                return true;
+                            }
+                            return false;
+                        }
+
+                        function checkUsername(submit) {
+                            $("#usernameError").html("");
+                            $("#username").css("border-bottom", "");
+                            var username = $("#username").val().trim();
+                            if (username.length > 0 && username.length < 6) {
+                                $("#usernameError").html("Ít nhất 6 kí tự!");
                                 $("#usernameError").css("color", "red");
+                                if (submit === 1)
+                                    $("#username").focus();
+                                return false;
+                            } else if (username.length !== 0) {
+                                jQuery.ajax({
+                                    type: 'POST',
+                                    data: 'username=' + $("#username").val(),
+                                    url: '/sakura/account/checkUsername',
+                                    success: function (result) {
+                                        if (result.length === 0) {
+                                            var re = /^[a-zA-Z]\w+$/;
+                                            if (!re.test($("#username").val())) {
+                                                $("#usernameError").html("Bắt đầu bằng chữ cái, không chứa các kí tự đặc biệt trừ '_'");
+                                                $("#usernameError").css("color", "red");
+                                                if (submit === 1)
+                                                    $("#username").focus();
+                                                return false;
+                                            }
+                                        } else {
+                                            $("#usernameError").html(result);
+                                            $("#usernameError").css("color", "red");
+                                            if (submit === 1)
+                                                $("#username").focus();
+                                            return false;
+                                        }
+                                        return true;
+                                        //console.log('Success check username');
+                                    },
+                                    error: function () {
+                                        //console.log('Error check username');
+                                    },
+                                    complete: function (result) {
+                                        //console.log('Complete check username');
+                                    }
+                                });
+                                return true;
                             }
-                            console.log('Success check username');
-                        },
-                        error: function () {
-                            console.log('Error check username');
-                        },
-                        complete: function (result) {
-                            console.log('Complete check username');
+                            return false;
                         }
-                    });
-                }
-            }
 
-            function checkEmail() {
-                $("#emailError").html("");
-                $("#email").css("border-bottom", "");
-                var email = $("#email").val().trim();
-                if (email.length !== 0) {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: 'email=' + $("#email").val(),
-                        url: '/sakura/account/checkEmail',
-                        success: function (result) {
-                            if (result.length === 0 && email.length !== 0) {
-                                var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-                                if (!re.test($("#email").val())) {
-                                    $("#emailError").html("Sai định dạng email!");
-                                    $("#emailError").css("color", "red");
+                        function checkEmail(submit) {
+                            $("#emailError").html("");
+                            $("#email").css("border-bottom", "");
+                            var email = $("#email").val().trim();
+                            if (email.length !== 0) {
+                                jQuery.ajax({
+                                    type: 'POST',
+                                    data: 'email=' + $("#email").val(),
+                                    url: '/sakura/account/checkEmail',
+                                    success: function (result) {
+                                        if (result.length === 0 && email.length !== 0) {
+                                            var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+                                            if (!re.test($("#email").val())) {
+                                                $("#emailError").html("Sai định dạng email!");
+                                                $("#emailError").css("color", "red");
+                                                if (submit === 1)
+                                                    $("#email").focus();
+                                                return false;
+                                            }
+                                        } else {
+                                            $("#emailError").html(result);
+                                            $("#emailError").css("color", "red");
+                                            if (submit === 1)
+                                                $("#email").focus();
+                                            return false;
+                                        }
+                                        return true;
+                                        //console.log('Success 65');
+                                    },
+                                    error: function () {
+                                        //console.log('Error 68');
+                                    },
+                                    complete: function (result) {
+                                        //console.log('Complete 71');
+                                    }
+                                });
+                                return true;
+                            }
+                            return false;
+                        }
+
+                        function checkPassword(submit) {
+                            $("#password-error").html("");
+                            $("#password").css("border", "");
+                            var re = /^\S*$/;
+                            var re = /^[a-zA-Z\s]{2,}$/g; // regex here
+                            console.log($("#password").val());
+                            if (re.test($("#password").val())) {
+                                console.log($("#password").val());
+                                $("#password-error").html("Không chứa khoảng trắng!");
+                                $("#password-error").css("color", "red");
+                                if (submit === 1)
+                                    $("#password").focus();
+                                return false;
+                            }
+                            if ($("#password").val().trim().length > 0 && $("#password").val().trim().length < 8) {
+                                $("#password-error").html("Ít nhất 8 kí tự!");
+                                $("#password-error").css("color", "red");
+                                if (submit === 1)
+                                    $("#password").focus();
+                                return false;
+                            }
+                            return true;
+                        }
+
+                        function checkConfirmPassword(submit) {
+                            $("#cf-password-error").html("");
+                            $("#cf-password").css("border", "");
+                            if ($("#password").val().trim() !== $("#cf-password").val().trim()) {
+                                $("#cf-password-error").html("Không khớp!");
+                                $("#cf-password-error").css("color", "red");
+                                if (submit === 1)
+                                    $("#cf-password").focus();
+                                return false;
+                            }
+                            return true;
+                        }
+
+                        function checkPhone(submit) {
+                            $("#phoneError").html("");
+                            $("#phone").css("border", "");
+                            var phone = $("#phone").val().trim();
+                            if (phone.length !== 0) {
+                                var re = /^\d{10}$/;
+                                if (!re.test(phone)) {
+                                    $("#phoneError").html("SĐT gồm 10 chữ số!");
+                                    if (phone.length < 10)
+                                        $("#phoneError").html("SĐT phải gồm 10 chữ số!");
+                                    if (phone.length > 10)
+                                        $("#phoneError").html("SĐT chỉ gồm 10 chữ số!");
+                                    $("#phoneError").css("color", "red");
+                                    if (submit === 1)
+                                        $("#phone").focus();
+                                    return false;
                                 }
-                            } else {
-                                $("#emailError").html(result);
-                                $("#emailError").css("color", "red");
+                                return true;
                             }
-                            console.log('Success 65');
-                        },
-                        error: function () {
-                            console.log('Error 68');
-                        },
-                        complete: function (result) {
-                            console.log('Complete 71');
+                            return false;
                         }
-                    });
-                }
-            }
 
-            function checkPassword() {
-                $("#passwordError").html("");
-                $("#password").css("border", "");
-                console.log("Checking password");
-                if ($("#password").val().trim().length < 8) {
-                    $("#passwordError").html("Mật khẩu phải có ít nhất 8 kí tự!");
-                    $("#passwordError").css("color", "red");
-                }
-            }
-
-            function checkConfirmPassword() {
-                $("#cf-passwordError").html("");
-                $("#cf-password").css("border", "");
-                console.log("checking confirm password");
-                if ($("#password").val().trim() !== $("#cf-password").val().trim()) {
-                    $("#cf-passwordError").html("Xác nhận lại mật khẩu!");
-                    $("#cf-passwordError").css("color", "red");
-                }
-            }
-
-            function checkPhone() {
-                $("#phoneError").html("");
-                $("#phone").css("border", "");
-                var phone = $("#phone").val().trim();
-                if (phone.length !== 0) {
-                    var re = /^\d{10}$/;
-                    if (!re.test(phone) && phone.length !== 0) {
-                        $("#phoneError").html("SĐT phải có 10 chữ số!");
-                        $("#phoneError").css("color", "red");
-                    }
-                }
-            }
-
-            function validate() {
-                var registerForm = document.getElementById("registerForm");
-                var fullname = $("#fullname").val().trim();
-                var username = $("#username").val().trim();
-                var email = $("#email").val().trim();
-                var phone = $("#phone").val().trim();
-                var password = $("#password").val().trim();
-                var confirmPassword = $("#cf-password").val().trim();
+                        function validate() {
+                            var registerForm = document.getElementById("registerForm");
+                            var fullname = $("#fullname").val().trim();
+                            var username = $("#username").val().trim();
+                            var email = $("#email").val().trim();
+                            var phone = $("#phone").val().trim();
+                            var password = $("#password").val();
+                            var confirmPassword = $("#cf-password").val();
 ////                var confirmPassword = registerForm.confirmPassword.value.trim();
-                if (!fullname || $("#fullnameError").html() !== "") {
-                    $("#fullname").css("border-bottom", "1.5px solid red");
-                    $("#fullname").focus();
-//                    document.getElementById("fullname").style = "border:2px solid red";
-//                    document.getElementById("fullname").focus();
-                    return false;
-                } else if (!username || $("#usernameError").html() !== "") {
-                    $("#username").css("border-bottom", "1.5px solid red");
-                    $("#username").focus();
-                    return false;
-                } else if (!email || $("#emailError").html() !== "") {
-                    $("#email").css("border-bottom", "1.5px solid red");
-                    $("#email").focus();
-                    return false;
-                } else if (!phone || $("#phoneError").html() !== "") {
-                    $("#phone").css("border-bottom", "1.5px solid red");
-                    $("#phone").focus();
-                    return false;
-                } else if (!password || $("#passwordError").html() !== "") {
-                    $("#password").css("border-bottom", "1.5px solid red");
-                    $("#password").focus();
-                    return false;
-                } else if (!confirmPassword || $("#cf-passwordError").html() !== "") {
-                    $("#cf-password").css("border-bottom", "1.5px solid red");
-                    $("#cf-password").focus();
-                    return false;
-                }
-            }
+                            var res = true;
+                            if (confirmPassword === "") {
+                                $("#cf-password").css("border-bottom", "1.5px solid red");
+                                $("#cf-password").focus();
+                                $("#cf-password-error").html("Không được để trống!");
+                                $("#cf-password-error").css("color", "red");
+
+                                res = false;
+                                // return false;
+                            } else {
+                                var tmp = checkConfirmPassword(1);
+                                console.log("Cf pass: " + tmp);
+                                if (tmp === false)
+                                    res = false;
+                            }
+                            if (password === "") {
+                                $("#password").css("border-bottom", "1.5px solid red");
+                                $("#password").focus();
+                                $("#password-error").html("Không được để trống!");
+                                $("#password-error").css("color", "red");
+
+                                res = false;
+                                // return false;
+                            } else {
+                                var tmp = checkPassword(1);
+                                console.log("Pass: " + tmp);
+                                if (tmp === false)
+                                    res = false;
+                            }
+                            if (phone === "") {
+                                $("#phone").css("border-bottom", "1.5px solid red");
+                                $("#phone").focus();
+                                $("#phoneError").html("Không được để trống!");
+                                $("#phoneError").css("color", "red");
+                                res = false;
+                                // return false;
+                            } else {
+                                var tmp = checkPhone(1);
+                                console.log("Phone: " + tmp);
+                                if (tmp === false)
+                                    res = false;
+                            }
+                            if (email === "") {
+                                $("#email").css("border-bottom", "1.5px solid red");
+                                $("#email").focus();
+                                $("#emailError").html("Không được để trống!");
+                                $("#emailError").css("color", "red");
+                                res = false;
+                                // return false;
+                            } else {
+                                var tmp = checkEmail(1);
+                                console.log("Email: " + tmp);
+                                if (tmp === false)
+                                    res = false;
+                            }
+                            if (username === "") {
+                                $("#username").css("border-bottom", "1.5px solid red");
+                                $("#username").focus();
+                                $("#usernameError").html("Không được để trống!");
+                                $("#usernameError").css("color", "red");
+                                res = false;
+                            } else {
+                                var tmp = checkUsername(1);
+                                console.log("Username " + tmp);
+                                if (tmp === false)
+                                    res = false;
+                            }
+                            if (fullname === "") {
+                                $("#fullname").css("border-bottom", "1.5px solid red");
+                                $("#fullname").focus();
+                                $("#fullnameError").html("Không được để trống!");
+                                $("#fullnameError").css("color", "red");
+                                res = false;
+                            } else {
+                                var tmp = checkFullname(1);
+                                console.log("Fullname " + tmp);
+                                if (tmp === false)
+                                    res = false;
+                            }
+                            console.log("Res: " + res);
+                            return res;
+                        }
+
+                        const form = document.getElementById('form');
+                        const submitBtn = document.getElementById('register-btn');
+                        form.addEventListener('submit', function () {
+                            console.log("Form submit");
+                            submitBtn.disabled = true;
+                            submitBtn.innerHTML = "Đang gửi mã xác thực đến mail...";
+                        });
         </script>
     </body>
 </html>

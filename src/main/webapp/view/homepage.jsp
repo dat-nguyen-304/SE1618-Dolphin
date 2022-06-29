@@ -55,7 +55,8 @@
 
         <!-- script -->
         <script src="assets/javascript/homepage-modernizr.js"></script>
-        <script src="assets/javascript/homepage-pace.min.js"></script>
+        <script src="assets/javascript/jquery/jquery.min.js"></script>
+        <!--<script src="assets/javascript/homepage-pace.min.js"></script>-->
 
         <!-- favicons -->
         <link rel="shortcut icon" href="/sakura/assets/icons/logo.png" type="image/x-icon">
@@ -89,12 +90,12 @@
                 </div>
                 <div data-aos="fade-up" class="filter-container w-full h-auto bg-white/80 backdrop-blur-md  py-[20px] px-[60px] rounded z-[2]">
                     <form action="/sakura/hostel/list" class="filter grid grid-cols-5 gap-[20px]">
-                        <select id="province" class="filter-address col-span-2 outline-none border border-[#40576C] hover:border-[#FF9F47] rounded text-[18px] font-bold text-[#40576C] w-full h-full p-2" name="province">
-                            <option value="0">Chọn thành phố</option>
+                        <select id="province" class="filter-address col-span-2 outline-none border border-[#40576C] hover:border-[#FF9F47] focus:border-[#FF9F47] active:border-[#FF9F47] hover:outline-none active:ring-0 active:outline-none focus:ring-0 focus:outline-none rounded text-[18px] font-bold text-[#40576C] w-full h-full p-2" name="province">
+                            <option value="0">Thành phố</option>
                         </select>
 
-                        <select id="district" class="filter-address col-span-2 outline-none border border-[#40576C] hover:border-[#FF9F47] rounded text-[18px] font-bold text-[#40576C] w-full h-full p-2" name="district">
-                            <option value="0">Chọn quận</option>
+                        <select id="district" class="filter-address col-span-2 outline-none border border-[#40576C] hover:border-[#FF9F47] focus:border-[#FF9F47] active:border-[#FF9F47] hover:outline-none active:ring-0 active:outline-none focus:ring-0 focus:outline-none rounded text-[18px] font-bold text-[#40576C] w-full h-full p-2" name="district">
+                            <option value="0">Quận huyện</option>
                         </select>
 
                         <button class="btn btn-search text-[#fff] bg-[#17535B] hover:bg-[#13484F] w-full h-full rounded cursor-pointer" type="submit">
@@ -113,45 +114,51 @@
 
         </section> <!-- end home -->
 
-        <!-- about
-        ================================================== -->
-        <section id="about" class="w-full bg-[#fff] overflow-hidden pt-[80px]">
-            <div class="about-intro w-[65%] mx-auto pb-[40px] border-b border-b-[#C5C7C9] grid grid-cols-3">
+        <!-- about -->
+        <section id="about" class="w-full bg-[#fff] overflow-hidden pt-[120px]">
+            <div class="bottom-divider relative about-intro w-[65%] mx-auto pb-[80px] grid grid-cols-3">
                 <div class="col-span-1">
                     <h1 class="intro-header text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Về Sakura</h1>
                 </div>
                 <div class="col-span-2">
                     <p class="lead text-justify text-[20px] text-[#727980] font-normal leading-9" data-aos="fade-up">
-                        Hệ thống quản lý nhà trọ Sakura hướng đến mục tiêu trở thành một ứng dụng thuận tiện cho cả người thuê và chủ nhà. Chủ nhà sẽ được hỗ trợ rất nhiều với các chức năng như quản lý khách thuê, phòng thuê, xem thống kê doanh thu, dịch sử dụng,... Sakura cung cấp cho chủ nhà khả năng tương tác với người thuê một cách thuận tiện, gửi - nhận yêu cầu cũng như đăng thông tin thanh toán. Khách thuê có thể nhanh chóng tìm kiếm giá thuê phù hợp nhờ chức năng lọc thông minh của hệ thống.
+                        Hệ thống quản lý nhà trọ Sakura hướng đến mục tiêu trở thành một ứng dụng thuận tiện cho cả người thuê và chủ nhà.
+                        Chủ nhà sẽ được hỗ trợ các chức năng như quản lý khách thuê, phòng thuê, doanh thu, dịch vụ, nhận yêu cầu cũng như đăng thông tin thanh toán...
+                        Khách thuê có thể nhanh chóng tìm kiếm phòng thuê với giá cả phù hợp.
                     </p>
                 </div>
             </div>
 
-            <div class="about-how w-[65%] mx-auto mt-[30px] pb-[40px] border-b border-b-[#C5C7C9]">
+            <div class="bottom-divider relative about-how w-[65%] mx-auto mt-[120px] pb-[80px]">
                 <div class="flex justify-center">
                     <h1 class="intro-header mx-auto text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Tại sao nên chọn Sakura?</h1>
-                    <%-- <p class="text-gray-500 sm:text-[25px]">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p> --%>
                 </div>
                 <div class="mt-14 space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
                     <div data-aos="fade-up">
-                        <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-[#ECF4F4]" data-aos="fade-up">
-                            <svg class="w-5 h-5 text-[#17535B]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <div class="w-full h-[50px] flex justify-center items-center mb-[20px]">
+                            <div class="w-10 h-10 flex justify-center items-center rounded-full bg-[#ECF4F4]">
+                                <svg class="w-5 h-5 text-[#17535B]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
                         </div>
                         <h3 class="mb-2 text-[25px] font-bold">Không gian tiêu chuẩn, mức giá hợp lý</h3>
                         <p class="text-gray-500">SAKURA cung cấp các căn hộ khép kín tọa lạc tại các vị trí thuận lợi với mức giá hợp lí nhưng vẫn đảm bảo đầy đủ các thiết bị nội thất và dịch vụ thiết yếu.</p>
                     </div>
                     <div data-aos="fade-up">
-                        <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-[#ECF4F4]">
-                            <svg class="w-5 h-5 text-[#17535B] " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path></svg>
+                        <div class="w-full h-[50px] flex justify-center items-center mb-[20px]">
+                            <div class="w-10 h-10 flex justify-center items-center rounded-full bg-[#ECF4F4]">
+                                <svg class="w-5 h-5 text-[#17535B] " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path></svg>
+                            </div>
                         </div>
-                        <h3 class="mb-2 text-[25px] font-bold">Thông tin cập nhật liên tục, chính xác</h3>
+                        <h3 class="mb-2 text-[25px] font-bold">Thông tin cập nhật liên tục và chính xác</h3>
                         <p class="text-gray-500">Thông tin chi tiết và hình ảnh về các dự án căn hộ cũng như các dịch vụ tiện ích luôn được cập nhật liên tục và chính xác bởi SAKURA.</p>
                     </div>
                     <div data-aos="fade-up">
-                        <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-[#ECF4F4]">
-                            <svg class="w-5 h-5 text-[#17535B]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>                    
+                        <div class="w-full h-[50px] flex justify-center items-center mb-[20px]">
+                            <div class="w-10 h-10 flex justify-center items-center rounded-full bg-[#ECF4F4]">
+                                <svg class="w-5 h-5 text-[#17535B]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>                    
+                            </div>
                         </div>
-                        <h3 class="mb-2 text-[25px] font-bold">Dễ dàng đặt lịch xem phòng</h3>
+                        <h3 class="mb-2 text-[25px] font-bold">Dễ dàng đặt thuê và quản lý phòng trọ</h3>
                         <p class="text-gray-500">Dễ dàng đặt lịch tư vấn và xem phòng vào các khung giờ phù hợp cùng với đại diện của SAKURA.</p>
                     </div>
                 </div>
@@ -162,7 +169,7 @@
         <!-- customer-review Section
         ================================================== -->
         <section id="customer-review" class="w-full bg-[#fff] overflow-hidden pt-[80px]">
-            <div class="review-container w-[65%] mx-auto mt-[30px] pb-[40px]">
+            <div class="bottom-divider relative review-container w-[65%] mx-auto mt-[30px] pb-[40px]">
                 <div class="flex justify-center">
                     <h1 class="intro-header mx-auto text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Khách hàng đánh giá về SAKURA</h1>
                 </div>
@@ -172,7 +179,7 @@
                         <!-- Item 1 -->
                         <div class="hidden duration-200 ease-linear" data-carousel-item>
                             <div class="review w-[80%] mx-auto">
-                                <p class="text-[28px] font-normal text-[#40576C] text-center">"Chọn SAKURA mình vừa tiết kiệm vừa có chỗ ở chất lượng không như các phòng trọ khác."</p>
+                                <p class="text-[20px] font-normal text-[#40576C] text-center">"Chọn SAKURA mình vừa tiết kiệm vừa có chỗ ở chất lượng không như các phòng trọ khác."</p>
                             </div>
                             <div class="author mt-[20px] flex items-center justify-center">
                                 <img src="assets/images/homepage-images/avatars/ava1.jpg" alt="Author image"
@@ -185,7 +192,7 @@
                         <!-- Item 2 -->
                         <div class="hidden duration-200 ease-linear" data-carousel-item>
                             <div class="review w-[80%] mx-auto">
-                                <p class="text-[28px] font-normal text-[#40576C] text-center">"Cảm ơn SAKURA đã mang lại nơi ở tiện nghi, an ninh. Mình rất hài lòng về mọi thứ."</p>
+                                <p class="text-[20px] font-normal text-[#40576C] text-center">"Cảm ơn SAKURA đã mang lại nơi ở tiện nghi, an ninh. Mình rất hài lòng về mọi thứ."</p>
                             </div>
                             <div class="author mt-[20px] flex items-center justify-center">
                                 <img src="assets/images/homepage-images/avatars/ava2.jpg" alt="Author image"
@@ -198,7 +205,7 @@
                         <!-- Item 3 -->
                         <div class="hidden duration-200 ease-linear" data-carousel-item="active">
                             <div class="review w-[80%] mx-auto">
-                                <p class="text-[28px] font-normal text-[#40576C] text-center">"Đội ngũ tư vấn nhượng quyền rất tận tình, đưa ra phương án kinh doanh giúp tôi đạt được lợi nhuận lâu dài."</p>
+                                <p class="text-[20px] font-normal text-[#40576C] text-center">"Đội ngũ tư vấn nhượng quyền rất tận tình, đưa ra phương án kinh doanh giúp tôi đạt được lợi nhuận lâu dài."</p>
                             </div>
                             <div class="author mt-[20px] flex items-center justify-center">
                                 <img src="assets/images/homepage-images/avatars/ava3.jpg" alt="Author image"
@@ -211,7 +218,7 @@
                         <!-- Item 3 -->
                         <div class="hidden duration-200 ease-linear" data-carousel-item="active">
                             <div class="review w-[80%] mx-auto">
-                                <p class="text-[28px] font-normal text-[#40576C] text-center">"Một trải nghiệm thuê và quản lý cho thuê nhà ở hoàn toàn mới lạ, chuyên nghiệp. Mình vô cùng hài lòng về dịch vụ của Sakura"</p>
+                                <p class="text-[20px] font-normal text-[#40576C] text-center">"Một trải nghiệm thuê và quản lý cho thuê nhà ở hoàn toàn mới lạ, chuyên nghiệp. Mình vô cùng hài lòng về dịch vụ của Sakura"</p>
                             </div>
                             <div class="author mt-[20px] flex items-center justify-center">
                                 <img src="assets/images/homepage-images/avatars/ava3.jpg" alt="Author image"
@@ -224,7 +231,7 @@
                         <!-- Item 3 -->
                         <div class="hidden duration-200 ease-linear" data-carousel-item="active">
                             <div class="review w-[80%] mx-auto">
-                                <p class="text-[28px] font-normal text-[#40576C] text-center">"Không gian và tiện ích nhà ở của Sakura thực sự rất tuyệt. Không chỉ vậy các khâu quản lý cũng cực kỳ chỉn chu, nghiêm ngặt và cẩn thận. Mình cảm thấy rất an toàn và hài lòng khi ở phòng của Sakura."</p>
+                                <p class="text-[20px] font-normal text-[#40576C] text-center">"Không gian và tiện ích nhà ở của Sakura thực sự rất tuyệt. Không chỉ vậy các khâu quản lý cũng cực kỳ chỉn chu, nghiêm ngặt và cẩn thận. Mình cảm thấy rất an toàn và hài lòng khi ở phòng của Sakura."</p>
                             </div>
                             <div class="author mt-[20px] flex items-center justify-center">
                                 <img src="assets/images/homepage-images/avatars/ava3.jpg" alt="Author image"
@@ -277,9 +284,58 @@
                     </button>
                 </div>
             </div>
-
-
         </section> <!-- end customer-review -->
+
+        <!--FAQ-->
+        <section id="faq" class="w-full bg-[#fff] overflow-hidden pt-[80px]">
+            <div class=" w-[65%] mx-auto mt-[120px] pb-[80px]">
+                <div class="flex justify-center">
+                    <h1 class="intro-header mx-auto text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Những đều cần lưu ý</h1>
+                </div>
+                <div id="accordion-color" data-accordion="collapse" data-active-classes="bg-[#F5FDFA]">
+                    <h2 id="accordion-color-heading-1">
+                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left border-gray-200 text-[#17535B] hover:bg-[#F5FDFA] hover:text-[#17535B] " data-accordion-target="#accordion-color-body-1" aria-expanded="false" aria-controls="accordion-color-body-1">
+                            <span>Sakura là gì?</span>
+                            <svg data-accordion-icon="" class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </h2>
+                    <div id="accordion-color-body-1" class="duration-100" aria-labelledby="accordion-color-heading-1">
+                        <div class="p-5">
+                            <p class="mb-2 text-[#40576C] ">APLUS là mô hình chuỗi căn hộ dịch vụ tối ưu, mang đến giải pháp đột phá về nhà ở cho các bạn trẻ hiện đại với mức giá phù hợp.</p>
+                        </div>
+                    </div>
+                    <h2 id="accordion-color-heading-2">
+                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left text-gray-500 border border-b-0 border-gray-200 hover:bg-[#F5FDFA]" data-accordion-target="#accordion-color-body-2" aria-expanded="false" aria-controls="accordion-color-body-2">
+                            <span>Is there a Figma file available?</span>
+                            <svg data-accordion-icon="" class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </h2>
+                    <div id="accordion-color-body-2" class="hidden" aria-labelledby="accordion-color-heading-2">
+                        <div class="p-5 border border-b-0 border-gray-200">
+                            <p class="mb-2 text-gray-500 ">Flowbite is first conceptualized and designed using the Figma software so everything you see in the library has a design equivalent in our Figma file.</p>
+                            <p class="text-gray-500 ">Check out the <a href="https://flowbite.com/figma/" class="text-[#17535B] hover:underline">Figma design system</a> based on the utility classes from Tailwind CSS and components from Flowbite.</p>
+                        </div>
+                    </div>
+                    <h2 id="accordion-color-heading-3">
+                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left text-gray-500 border border-gray-200 hover:bg-[#F5FDFA]" data-accordion-target="#accordion-color-body-3" aria-expanded="false" aria-controls="accordion-color-body-3">
+                            <span>What are the differences between Flowbite and Tailwind UI?</span>
+                            <svg data-accordion-icon="" class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </h2>
+                    <div id="accordion-color-body-3" class="hidden" aria-labelledby="accordion-color-heading-3">
+                        <div class="p-5 border border-t-0 border-gray-200">
+                            <p class="mb-2 text-gray-500 ">The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.</p>
+                            <p class="mb-2 text-gray-500 ">However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no technical reason stopping you from using the best of two worlds.</p>
+                            <p class="mb-2 text-gray-500 ">Learn more about these technologies:</p>
+                            <ul class="pl-5 list-disc text-gray-500 ">
+                                <li><a href="https://flowbite.com/pro/" class="text-blue-600 hover:underline">Flowbite Pro</a></li>
+                                <li><a href="https://tailwindui.com/" rel="nofollow" class="text-blue-600 hover:underline">Tailwind UI</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> <!-- End FAQ -->
 
         <!-- footer
         ================================================== -->
@@ -295,14 +351,14 @@
             </div>
         </div>
         <%@include file="footer.jsp" %>      
-        <%-- <div id="preloader"><div id="loader"></div></div> --%>
+        <!--         <div id="preloader"><div id="loader"></div></div> -->
 
         <!-- Java Script
         ================================================== -->
 
-        <script src="assets/javascript/homepage-jquery-2.1.3.min.js"></script>
-        <script src="assets/javascript/homepage-plugins.js"></script>
-        <script src="assets/javascript/homepage-main.js"></script>
+        <!--<script src="assets/javascript/homepage-jquery-2.1.3.min.js"></script>-->
+        <!--<script src="assets/javascript/homepage-plugins.js"></script>-->
+        <!--<script src="assets/javascript/homepage-main.js"></script>-->
 
         <script type="text/javascript">
     window.addEventListener("scroll", function () {
