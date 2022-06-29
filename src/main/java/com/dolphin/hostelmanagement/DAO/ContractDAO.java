@@ -313,6 +313,66 @@ public class ContractDAO {
         }
         return list;
     }
+    
+    public static boolean save(Contract c) {
+        Connection cn = null;
+
+        try {
+            cn = DBUtils.makeConnection();
+
+            String sql = "Insert into Contract(contractID, roomID, tenantID, startDate, endDate, status, "
+                    + "rentalFeePerMonth, deposit, description, duration, createdDate)"
+                    + "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement pst = cn.prepareCall(sql);
+
+            pst.setInt(1, c.getContractID());
+            pst.setInt(2, c.getRoom().getRoomID());
+            pst.setInt(3, c.getTenant().getAccount().getAccountID());
+
+            java.sql.Date sqlStartDate = new java.sql.Date(c.getStartDate().getTime());
+            pst.setDate(4, sqlStartDate);
+
+            java.sql.Date sqlEndDate = new java.sql.Date(c.getEndDate().getTime());
+            pst.setDate(5, sqlEndDate);
+
+            pst.setInt(6, c.getStatus()); //status = 0 means expired, 1 means in-use, 2 means pending
+            pst.setInt(7, c.getRentalFeePerMonth());
+            pst.setInt(8, c.getDeposit());
+            pst.setNString(9, c.getDescription());
+            pst.setInt(10, c.getDuration());
+            
+            java.sql.Date sqlCreatedDate = new java.sql.Date(c.getCreatedDate().getTime());
+            pst.setDate(11, sqlCreatedDate);
+            
+            System.out.println("This is debug line: " + c.getDescription() + c.getRentalFeePerMonth());
+            
+            return pst.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    
+    public static boolean changeStatus(int contractID, int status) {
+        Connection cn = null;
+
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Update Contract set status = 1 where contractID = ?";
+
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, contractID);
+
+            return pst.executeUpdate() > 0;
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
     public static void main(String[] args) {
         Contract contract = findActiveContractByRoomID(4);

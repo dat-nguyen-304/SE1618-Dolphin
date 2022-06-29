@@ -170,7 +170,29 @@ public class TenantDAO {
         return AccountDAO.deleteById(id);
     }
     
+    public static boolean changeStatus(int tenantID, boolean status) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Update Tenant set rentStatus = ? where tenantID = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setBoolean(1, status);
+            pst.setInt(2, tenantID);
+            
+            return pst.executeUpdate() > 0;
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
+    
     public static void main(String[] args) {
         System.out.println(findById(3));
+        changeStatus(9, true);
     }
 }
