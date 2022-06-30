@@ -34,30 +34,29 @@ public class RoomController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             String path = request.getPathInfo();
             if (path.equals("/roomsNeedInvoice")) {
                 String hostelID = request.getParameter("hostelID");
                 int id = 0;
                 if (hostelID != null) {
                     id = Integer.parseInt(hostelID);
-                }
-                List<Room> roomList = RoomDAO.findRoomsNeedInvoice(id);
-                System.out.println("48  48");
+                    List<Room> roomList = RoomDAO.findRoomsNeedInvoice(id);
 
-                JSONArray list = new JSONArray();
-                for (Room room : roomList) {
-                    System.out.println(room);
-                    JSONObject obj = new JSONObject();
-                    String roomID = Integer.toString(room.getRoomID());
-                    String roomNumber = room.getRoomNumber();
-                    obj.put("roomID", roomID);
-                    obj.put("roomNumber", roomNumber);
-                    list.add(obj);
+                    JSONArray list = new JSONArray();
+                    for (Room room : roomList) {
+                        System.out.println(room);
+                        JSONObject obj = new JSONObject();
+                        String roomID = Integer.toString(room.getRoomID());
+                        String roomNumber = room.getRoomNumber();
+                        obj.put("roomID", roomID);
+                        obj.put("roomNumber", roomNumber);
+                        list.add(obj);
+                    }
+                    System.out.println(list);
+                    out.write(list.toJSONString());
+                    out.close();
                 }
-                System.out.println(list);
-                out.write(list.toJSONString());
-                out.close();
             }
         }
     }

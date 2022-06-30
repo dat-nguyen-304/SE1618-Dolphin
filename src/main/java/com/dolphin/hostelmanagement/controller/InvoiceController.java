@@ -156,7 +156,7 @@ public class InvoiceController extends HttpServlet {
                     for (Contract contract : contractList) {
                         invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
                     }
-                    
+
                     sortFilters(request, invoiceList);
 
                     request.setAttribute("invoiceList", invoiceList);
@@ -188,32 +188,7 @@ public class InvoiceController extends HttpServlet {
                         invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
                     }
 
-                    if (request.getParameter("sortByStatus") != null) {
-                        int status = Integer.parseInt(request.getParameter("sortByStatus"));
-                        System.out.println("status" + status);
-                        if (status != 0) {
-                            sortByStatus(invoiceList, status);
-                        }
-                    }
-
-                    if (request.getParameter("start") != null && !request.getParameter("start").equals("")) {
-                        String startDate = request.getParameter("start");
-                        Date start = df.parse(startDate);
-                        System.out.println("start" + startDate);
-                        if (request.getParameter("end") != null && !request.getParameter("end").equals("")) {
-                            String endDate = request.getParameter("end");
-                            Date end = df.parse(endDate);
-                            System.out.println("end" + endDate);
-                            sortByDate(invoiceList, start, end);
-                        } else {
-                            sortByDate(invoiceList, start, null);
-                        }
-                    } else if (request.getParameter("end") != null && !request.getParameter("end").equals("")) {
-                        String endDate = request.getParameter("end");
-                        System.out.println("end" + endDate);
-                        Date end = df.parse(endDate);
-                        sortByDate(invoiceList, null, end);
-                    }
+                    sortFilters(request, invoiceList);
 
                     request.setAttribute("invoiceList", invoiceList);
                     request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);

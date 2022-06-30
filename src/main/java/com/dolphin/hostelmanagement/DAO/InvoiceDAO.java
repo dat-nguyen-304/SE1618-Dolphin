@@ -254,7 +254,7 @@ public class InvoiceDAO {
                 pst.setInt(8, waterPrice);
                 pst.executeUpdate();
 
-                // update room latestInvoiceMonth
+                // update room latestInvoiceMonth OR UPDATE WHEN INVOICE CHANGE STATUS TO 'PAID'??
                 sql = "update Room set latestInvoiceMonth = GETDATE() where roomID = ?";
                 pst = cn.prepareCall(sql);
                 pst.setInt(1, roomID);
