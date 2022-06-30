@@ -117,6 +117,65 @@
                                 </div>
                             </div>
                         </div>
+
+                        <button
+                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            type="button" data-modal-toggle="addRoom">
+                            Thêm Phòng
+                        </button>
+                        <div id="addRoom" tabindex="-1" aria-hidden="true"
+                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                                    <div
+                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                            Thêm Phòng mới
+                                        </h3>
+
+                                        <button type="button"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-toggle="addRoom">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                  clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="p-4">
+                                        
+                                        <form action="/sakura/landlord/room-type" class="my-2">
+                                            <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}" />
+                                            <div>
+                                                <label class="w-[160px] inline-block" for="">Loại phòng</label>
+                                                <select name="roomTypeId" class="w-[200px]">
+                                                    <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
+                                                        <option class="p-1" value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="mt-[20px]">
+                                                <label class="w-[160px] inline-block" for="">Tên phòng</label>
+                                                <input type="hidden" name="roomTypeId" value="${requestScope.currentRoomType.roomTypeID}"/>
+                                                <input type="text" name="addRoomNumber" class="text-sm p-1" onkeyup="checkValidRoom(this)"/>
+                                                <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
+                                            </div>
+                                                <span class="ml-[160px] text-xs validRoomMessage"></span>
+                                            <div class="grid justify-items-end">
+                                                <button type="submit" class="addRoom px-8 py-2 mx-4 my-2 border-2 rounded">Thêm</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -174,7 +233,7 @@
                                             <c:if test="${room.status == 1 && room.currentNumberOfResidents == 0}">
                                                 Chưa cập nhật
                                             </c:if>
-                                                <c:if test="${room.status == 1 && room.currentNumberOfResidents != 0}">
+                                            <c:if test="${room.status == 1 && room.currentNumberOfResidents != 0}">
                                                 ${room.currentNumberOfResidents}
                                             </c:if>
                                         </td>
@@ -182,8 +241,12 @@
                                             Đã thanh toán
                                         </td>
                                         <td class="text-center px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem
-                                                chi tiết</a>
+                                            <form action="/sakura/landlord/room-detail">
+                                                <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                    <input type="hidden" name="roomId" value="${room.roomID}"/>
+                                                    Xem chi tiết
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -260,8 +323,39 @@
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="js/chart.js"></script>
+        <script>
+                                                    function checkValidRoom(element) {
+                                                        const hostelId = document.querySelector("input[name='hostelId']");
+                                                        const validRoomMessage = document.querySelector(".validRoomMessage");
+                                                        const addRoomElement = document.querySelector(".addRoom");
+                                                        jQuery.ajax({
+                                                            type: 'POST',
+                                                            data: {'roomNumber': element.value,
+                                                                'hostelId': hostelId.value
+                                                            },
+                                                            url: '/sakura/landlord/check-room-valid',
+                                                            success: function (response) {
+                                                                validRoomMessage.innerHTML = response;
+                                                                if (response) {
+                                                                    addRoomElement.onclick = (e) => {
+                                                                        e.preventDefault();
+                                                                    }
+                                                                } else {
+                                                                    addRoomElement.onclick = (e) => {
+                                                                        e.returnValue = true;
+                                                                    }
+                                                                }
 
+                                                            },
+                                                            error: function () {
+                                                            },
+                                                            complete: function (result) {
+                                                            }
+                                                        });
+                                                    }
+        </script>
     </body>
 
 </html>

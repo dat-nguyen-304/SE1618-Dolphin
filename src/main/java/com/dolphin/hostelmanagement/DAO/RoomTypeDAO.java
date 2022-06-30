@@ -17,23 +17,24 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class RoomTypeDAO {
+
     public static ArrayList<RoomType> findByHostelID(int hostelID) {
         Connection cn = null;
-        
+
         ArrayList<RoomType> roomTypeList = new ArrayList<>();
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
+
             String sql = "Select * from RoomType where hostelID = ? ORDER BY advertisedPrice";
-            
+
             PreparedStatement pst = cn.prepareCall(sql);
-            
+
             pst.setInt(1, hostelID);
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            while(rs != null && rs.next()) {
+
+            while (rs != null && rs.next()) {
                 int roomTypeID = rs.getInt("roomTypeID");
                 String roomTypeName = rs.getNString("roomTypeName");
                 int roomTypeArea = rs.getInt("roomTypeArea");
@@ -42,17 +43,17 @@ public class RoomTypeDAO {
                 int advertisedPrice = rs.getInt("advertisedPrice");
                 Hostel hostel = HostelDAO.findById(hostelID);
                 ArrayList<String> imgList = getAllImagesById(roomTypeID);
-                
+
                 roomTypeList.add(new RoomType(roomTypeID, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList));
             }
-            
-        }catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return roomTypeList;
     }
-    
+
     public static ArrayList<String> getAllImagesById(int id) {
         ArrayList<String> list = null;
         Connection cn = null;
@@ -77,7 +78,7 @@ public class RoomTypeDAO {
         }
         return list;
     }
-    
+
     public static RoomType findByID(int roomTypeID) { //find a roomType by ID
         Connection cn = null;
         RoomType rt = null;
@@ -86,10 +87,10 @@ public class RoomTypeDAO {
             String sql = "Select * from RoomType where roomTypeID = ?";
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setInt(1, roomTypeID);
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            if(rs != null && rs.next()) {
+
+            if (rs != null && rs.next()) {
                 String roomTypeName = rs.getNString("roomTypeName");
                 int roomTypeArea = rs.getInt("roomTypeArea");
                 String description = rs.getNString("description");
@@ -100,13 +101,13 @@ public class RoomTypeDAO {
                 ArrayList<String> imgList = getAllImagesById(roomTypeID);
                 rt = new RoomType(roomTypeID, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList);
             }
-            
-        }catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return rt;
-    }   
-    
+    }
+
     public static boolean save(String name, int price, int area, int maxNumberOfResidents, String description, int hostelId) {
         Connection cn = null;
         try {
@@ -121,14 +122,16 @@ public class RoomTypeDAO {
                 pst.setInt(5, price);
                 pst.setInt(6, hostelId);
                 int addSuccess = pst.executeUpdate();
-                if (addSuccess > 0) return true;
+                if (addSuccess > 0) {
+                    return true;
+                }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
-    } 
-    
+    }
+
     public static RoomType findLastRoomTypeByHostelId(int hostelId) {
         Connection cn = null;
         try {
@@ -151,18 +154,36 @@ public class RoomTypeDAO {
                     return new RoomType(roomTypeId, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList);
                 }
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    public static void main(String args[]) {
-        for(RoomType rt: findByHostelID(1)) {
-            System.out.println(rt.getDescription());
+
+    public static boolean isExistRoomType(String roomTypeName, int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "SELECT H.hostelID FROM Hostel H INNER JOIN RoomType RT ON H.hostelID = RT.hostelID\n"
+                    + "WHERE H.hostelID = ? AND RT.roomTypeName = ?";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, hostelId);
+            pst.setString(2, roomTypeName);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                cn.close();
+                return true;
+            }
+            cn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
+    }
+
+    public static void main(String args[]) {
         
-        //System.out.println(findByID(1).getDescription());
+        
     }
 
 }

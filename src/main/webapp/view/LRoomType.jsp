@@ -161,13 +161,35 @@
                                 </div>
                             </div>
                         </div>
+                        <button
+                            class="w-fit inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            type="button" data-modal-toggle="deleteRoomType">
+                            Xóa Loại phòng này
+                        </button>
 
+                        <div id="deleteRoomType" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
+                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="deleteRoomType">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                                    </button>
+                                    <div class="p-6 text-center">
+                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Loại phòng này hiện đang có 10 phòng và 12 yêu cầu thuê phòng. Dữ liệu sẽ bị mất nếu như bạn xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
+                                        <button data-modal-toggle="deleteRoomType" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                            Tôi chắc chắn
+                                        </button>
+                                        <button data-modal-toggle="deleteRoomType" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Hủy bỏ</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <button
                             class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            type="button" data-modal-toggle="addModal">
-                            Thêm loại phòng mới
+                            type="button" data-modal-toggle="editModal">
+                            Chỉnh sửa
                         </button>
-                        <div id="addModal" tabindex="-1" aria-hidden="true"
+                        <div id="editModal" tabindex="-1" aria-hidden="true"
                              class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
 
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
@@ -177,11 +199,11 @@
                                     <div
                                         class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                            Thêm loại Phòng mới
+                                            Chỉnh sửa loại phòng
                                         </h3>
                                         <button type="button"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                data-modal-toggle="addModal">
+                                                data-modal-toggle="editModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -190,7 +212,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <div class="addRoomMessage pl-4">
+                                    <div class="updateMessage pl-4">
                                         <!--                                        <span class="inline-block text-green-600">Thêm loại phòng Chất chơi thành công! Xem
                                                                                     <form class="inline-block w-[1px] text-left" action="/sakura/landlord/room-type">
                                                                                         <input name="roomTypeId" value="">
@@ -235,6 +257,88 @@
                                         </div>
                                         <div class="grid justify-items-end">
                                             <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded" onclick="addRoomType()">Thêm</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <button
+                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            type="button" data-modal-toggle="addModal">
+                            Thêm loại phòng mới
+                        </button>
+
+                        <div id="addModal" tabindex="-1" aria-hidden="true"
+                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+
+                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                                    <div
+                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                            Thêm loại Phòng mới
+                                        </h3>
+                                        <button type="button"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-toggle="addModal">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                  clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="addRoomMessage pl-4">
+                                        <!--                                        <span class="inline-block text-green-600">Thêm loại phòng Chất chơi thành công! Xem
+                                                                                    <form class="inline-block w-[1px] text-left" action="/sakura/landlord/room-type">
+                                                                                        <input name="roomTypeId" value="">
+                                                                                        <input type="submit" value=" tại đây">
+                                                                                    </form>
+                                                                                </span>-->
+                                    </div>
+
+                                    <form action="/sakura/landlord/room-type" >
+                                        <div class="p-4">
+
+                                            <div class="my-2">
+                                                <p class="text-xs validRoomTypeMessage"></p>
+                                                <label class="w-[160px] inline-block" for="">Tên</label>
+                                                <input type="text" name="name" required class="text-sm p-1" onkeyup="checkValidRoomType(this)" />
+                                                <span class="ml-2 text-xs">VD: bình dân, cao cấp, ...</span>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Giá</label>
+                                                <input type="text" name="price" required class="text-sm p-1">
+                                                <span class="ml-2 text-xs">VD: 3000000, 5000000 ...</span>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Diện tích</label>
+                                                <input type="text" name="area" required class="text-sm p-1">
+                                                <span class="ml-2 text-xs">VD: 24, 30, ...</span>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Số người tối đa</label>
+                                                <input type="text" name="maxNumberOfResidents" required class="text-sm p-1">
+                                                <span class="ml-2 text-xs">VD: 4, 5, 6, ...</span>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
+                                                <textarea class="text-sm p-1" name="description" id="" cols="48" rows="2"></textarea>
+                                            </div>
+                                            <div class="my-2">
+                                                <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
+                                                <input type="file" multiple rounded />
+                                            </div>
+                                            <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}" />
+
+                                        </div>
+                                        <div class="grid justify-items-end">
+                                            <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded addRoomTypeBtn" onclick="addRoomType()">Thêm</button>
                                         </div>
                                     </form>
 
@@ -379,18 +483,18 @@
 
             <!-- chartJS -->
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="../assets/javascript//jquery/jquery.min.js"></script>
+            <script src="../assets/javascript/jquery/jquery.min.js"></script>
             <script>
-                                                        const hasResident = document.querySelectorAll('input[name="status"]');
-                                                        const inputResident = document.querySelector('.inputResident');
-                                                        hasResident.forEach(element => {
-                                                            element.onclick = () => {
-                                                                if (element.value == "2" || element.value == "3") {
-                                                                    inputResident.style.display = "block";
-                                                                } else
-                                                                    inputResident.style.display = "none";
-                                                            }
-                                                        });
+                                            const hasResident = document.querySelectorAll('input[name="status"]');
+                                            const inputResident = document.querySelector('.inputResident');
+                                            hasResident.forEach(element => {
+                                                element.onclick = () => {
+                                                    if (element.value == "2" || element.value == "3") {
+                                                        inputResident.style.display = "block";
+                                                    } else
+                                                        inputResident.style.display = "none";
+                                                }
+                                            });
             </script>
             <script>
                 function addRoomType() {
@@ -430,7 +534,7 @@
                     const hostelId = document.querySelector("input[name='hostelId']").value;
                     const validRoomMessage = document.querySelector(".validRoomMessage");
                     const addRoomElement = document.querySelector(".addRoom");
-                    jQuery.ajax({   
+                    jQuery.ajax({
                         type: 'POST',
                         data: {'roomNumber': element.value,
                             'hostelId': hostelId
@@ -444,6 +548,36 @@
                                 }
                             } else {
                                 addRoomElement.onclick = (e) => {
+                                    e.returnValue = true;
+                                }
+                            }
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
+                }
+            </script>
+            <script>
+                function checkValidRoomType(element) {
+                    const validRoomTypeMessage = document.querySelector(".validRoomTypeMessage");
+                    const hostelId = document.querySelector("input[name='hostelId']");
+                    const addRoomTypeBtn = document.querySelector(".addRoomTypeBtn");
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'roomTypeName': element.value,
+                            'hostelId': hostelId.value
+                        },
+                        url: '/sakura/landlord/check-roomtype-valid',
+                        success: function (response) {
+                            validRoomTypeMessage.innerHTML = response;
+                            if (response) {
+                                addRoomTypeBtn.onclick = (e) => {
+                                    e.preventDefault();
+                                }
+                            } else {
+                                addRoomTypeBtn.onclick = (e) => {
                                     e.returnValue = true;
                                 }
                             }

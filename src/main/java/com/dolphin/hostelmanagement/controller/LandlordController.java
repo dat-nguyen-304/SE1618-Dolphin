@@ -6,17 +6,21 @@ package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
+import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
+import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
+import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Notification;
+import com.dolphin.hostelmanagement.DTO.Province;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.RoomType;
 import com.dolphin.hostelmanagement.DTO.Service;
@@ -103,10 +107,14 @@ public class LandlordController extends HttpServlet {
             }
 
             if (path.equals("/overview")) {
+                List<Province> provinceList = ProvinceDAO.findAll();
+                List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
                 if (request.getParameter("hostelId") != null) {
                     int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                     session.setAttribute("currentHostel", HostelDAO.findById(hostelId));;
                 }
+                request.setAttribute("provinceList", provinceList);
+                request.setAttribute("districtList", districtList);
                 request.getRequestDispatcher("/view/LOverView.jsp").forward(request, response);
             } else if (path.equals("/contract-list")) {
                 int roomId = 0;
@@ -192,8 +200,10 @@ public class LandlordController extends HttpServlet {
                 request.getRequestDispatcher("/view/LRoomType.jsp").forward(request, response);
             } else if (path.equals("/room-list")) {
                 Hostel currentHostel = (Hostel) session.getAttribute("currentHostel");
+                List<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
                 List<Room> roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());
                 request.setAttribute("roomList", roomList);
+                request.setAttribute("roomTypeList", roomTypeList);
                 request.getRequestDispatcher("/view/LRoomList.jsp").forward(request, response);
             } else if (path.equals("/room-detail")) {
                 Hostel currentHostel = (Hostel) session.getAttribute("currentHostel");
@@ -303,6 +313,34 @@ public class LandlordController extends HttpServlet {
 
                 request.getRequestDispatcher("/view/landlordRentalRequestPage.jsp").forward(request, response);
             }
+            if (path.equals("/add-hostel")) {
+                String name = request.getParameter("name");
+                int districtId = Integer.parseInt(request.getParameter("districtId"));
+                String streetAddress = request.getParameter("streetAddress");
+                String description = request.getParameter("description");
+                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
+                boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
+                Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
+                if (addSuccess) {
+                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName()+ " thành công! Xem");
+                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
+                    out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID()+ "'>");
+                    out.println("<input type=\"submit\" value=\"tại đây\">");
+                    out.println("</form></span>");
+                }
+            }
+            
+            if (path.equals("/check-hostel-valid")) {
+                String hostelName = request.getParameter("hostelName").trim();
+                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
+                boolean isExistHostel = HostelDAO.isExistHostel(hostelName, landlordId);
+                if (isExistHostel) {
+                    out.print("Tên nhà trọ đã tồn tại. Vui lòng kiểm tra lại!");
+                } else {
+                    out.print("");
+                }
+            }
+            
             if (path.equals("/add-roomtype")) {
                 String name = request.getParameter("name");
                 int price = Integer.parseInt(request.getParameter("price"));
@@ -318,6 +356,17 @@ public class LandlordController extends HttpServlet {
                     out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
                     out.println("<input type=\"submit\" value=\"tại đây\">");
                     out.println("</form></span>");
+                }
+            }
+            
+            if (path.equals("/check-roomtype-valid")) {
+                String roomTypeName = request.getParameter("roomTypeName").trim();
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
+                if (isExistRoomType) {
+                    out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                } else {
+                    out.print("");
                 }
             }
 
