@@ -77,7 +77,7 @@ public class HostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select TOP(4) * from Hostel order by rating desc";
+                String sql = "select TOP(4) * from Hostel where order by rating desc";
                 PreparedStatement pst = cn.prepareCall(sql);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
@@ -184,7 +184,7 @@ public class HostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select * from Hostel where hostelName like ?";
+                String sql = "select * from Hostel where hostelName like ? AND activate = 1";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setString(1, "%" + name + "%");
                 ResultSet rs = pst.executeQuery();
@@ -280,7 +280,7 @@ public class HostelDAO {
 
         try {
             cn = DBUtils.makeConnection();
-            String sql = "select * from Hostel where districtID = ?";
+            String sql = "select * from Hostel where districtID = ? AND activate = 1";
             PreparedStatement pst = cn.prepareStatement(sql);
             pst.setInt(1, wardID);
             ResultSet rs = pst.executeQuery();
@@ -323,7 +323,7 @@ public class HostelDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select hostelID from FavoriteHostel where tenantID = ?";
+                String sql = "select hostelID from FavoriteHostel where tenantID = ? AND activate = 1";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, tenantID);
                 ResultSet rs = pst.executeQuery();
@@ -369,7 +369,7 @@ public class HostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList<>();
-                String sql = "SELECT * FROM Hostel WHERE landlordID = ?";
+                String sql = "SELECT * FROM Hostel WHERE landlordID = ? AND activate = 1";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, landlordId);
                 ResultSet rs = pst.executeQuery();
@@ -410,7 +410,7 @@ public class HostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList<>();
-                String sql = "SELECT * FROM Hostel WHERE landlordID = ?";
+                String sql = "SELECT * FROM Hostel WHERE landlordID = ? AND activate = 1";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, landlord.getAccount().getAccountID());
                 ResultSet rs = pst.executeQuery();
@@ -449,7 +449,7 @@ public class HostelDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "SELECT TOP 1 * FROM Hostel WHERE landlordId = ? ORDER BY hostelID DESC";
+                String sql = "SELECT TOP 1 * FROM Hostel WHERE landlordId = ? AND activate = 1 ORDER BY hostelID DESC";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, landlordId);
                 ResultSet rs = pst.executeQuery();
@@ -487,7 +487,7 @@ public class HostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 String sql = "SELECT H.hostelID FROM Landlord L INNER JOIN Hostel H ON L.landlordID = H.landlordId \n"
-                        + "WHERE L.landlordID = ? AND H.hostelName = ?";
+                        + "WHERE L.landlordID = ? AND H.hostelName = ? AND activate = 1";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, landlordId);
                 pst.setString(2, hostelName);
@@ -505,7 +505,8 @@ public class HostelDAO {
     }
 
     public static void main(String[] args) {
-        List<Hostel> list = findByLandlord(44);
-        System.out.println(list.size());
+        String hostelName = "Huyền Thiết";
+       boolean b = isExistHostel(hostelName, 44);
+        System.out.println(b);
     }
 }

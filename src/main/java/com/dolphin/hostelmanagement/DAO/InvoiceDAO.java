@@ -308,4 +308,11 @@ public class InvoiceDAO {
         }
         return check;
     }
+    
+    public static void main(String[] args) {
+       List<Invoice> invoiceList = findByRoomID(2);
+        for (Invoice invoice : invoiceList) {
+            System.out.println(invoice.getInvoiceID());
+        }
+    }
 }

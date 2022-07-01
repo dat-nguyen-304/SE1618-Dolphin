@@ -67,10 +67,10 @@
                         <li aria-current="page">
                             <div class="flex items-center">
                                 <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd"></path>
+                                     xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                      clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 text-gray-400">Danh sách phòng</span>
                             </div>
@@ -78,220 +78,224 @@
                     </ol>
                 </nav>
                 <!-- End breadcrumb -->
-
+                <c:if test="${sessionScope.hostelList == null}">
+                    Bạn chưa có nhà trọ nào.
+                    <a href="/sakura/landlord/overview">Quay về trang thêm thông tin nhà trọ</a>
+                </c:if>
                 <!-- General information -->
-                <div class="general-info flex justify-between mt-[20px]">
-                    <div class="">
-                        <span>Chọn nhà trọ: </span>
-                        <button
-                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
-                            type="button" data-modal-toggle="hostelModal">
-                            ${sessionScope.currentHostel.hostelName}
-                        </button>
+                <c:if test="${sessionScope.hostelList != null}">
+                    <div class="general-info flex justify-between mt-[20px]">
+                        <div class="">
+                            <span>Chọn nhà trọ: </span>
+                            <button
+                                class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
+                                type="button" data-modal-toggle="hostelModal">
+                                ${sessionScope.currentHostel.hostelName}
+                            </button>
 
-                        <div id="hostelModal" tabindex="-1" aria-hidden="true"
-                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
-                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                            <div id="hostelModal" tabindex="-1" aria-hidden="true"
+                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+                                <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded-lg shadow">
+                                    <div class="relative bg-white rounded-lg shadow">
 
-                                    <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b">
-                                        <h3 class="text-xl font-semibold text-gray-900">
-                                            Chọn nhà trọ
-                                        </h3>
-                                        <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                                                data-modal-toggle="hostelModal">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                  clip-rule="evenodd"></path>
-                                            </svg>
-                                        </button>
+                                        <div
+                                            class="flex justify-between items-start p-4 rounded-t border-b">
+                                            <h3 class="text-xl font-semibold text-gray-900">
+                                                Chọn nhà trọ
+                                            </h3>
+                                            <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                    data-modal-toggle="hostelModal">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        <div class="p-6 space-y-6">
+                                            <c:forEach items="${sessionScope.hostelList}" var="hostel">
+                                                <form action="/sakura/landlord/contract-list" class="inline-block">
+                                                    <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border hover:bg-[#F2F5F6]">${hostel.hostelName}</button>
+                                                </form>
+                                            </c:forEach>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="p-6 space-y-6">
-                                        <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                                            <form action="/sakura/landlord/contract-list" class="inline-block">
-                                                <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border hover:bg-[#F2F5F6]">${hostel.hostelName}</button>
+                            <button
+                                class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
+                                type="button" data-modal-toggle="addRoom">
+                                Thêm Phòng
+                            </button>
+                            <div id="addRoom" tabindex="-1" aria-hidden="true"
+                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+                                <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+
+                                    <div class="relative bg-white rounded-lg shadow">
+
+                                        <div
+                                            class="flex justify-between items-start p-4 rounded-t border-b">
+                                            <h3 class="text-xl font-semibold text-gray-900">
+                                                Thêm Phòng mới
+                                            </h3>
+
+                                            <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                    data-modal-toggle="addRoom">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        <div class="p-4">
+
+                                            <form action="/sakura/landlord/room-type" class="my-2">
+                                                <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}" />
+                                                <div>
+                                                    <label class="w-[160px] inline-block" for="">Loại phòng</label>
+                                                    <select name="roomTypeId" class="w-[200px]">
+                                                        <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
+                                                            <option class="p-1" value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="mt-[20px]">
+                                                    <label class="w-[160px] inline-block" for="">Tên phòng</label>
+                                                    <input type="hidden" name="roomTypeId" value="${requestScope.currentRoomType.roomTypeID}"/>
+                                                    <input type="text" name="addRoomNumber" class="text-sm p-1" onkeyup="checkValidRoom(this)"/>
+                                                    <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
+                                                </div>
+                                                <span class="ml-[160px] text-xs validRoomMessage"></span>
+                                                <div class="grid justify-items-end">
+                                                    <button type="submit" class="addRoom px-8 py-2 mx-4 my-2 border-2 rounded">Thêm</button>
+                                                </div>
                                             </form>
-                                        </c:forEach>
+                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <button
-                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
-                            type="button" data-modal-toggle="addRoom">
-                            Thêm Phòng
-                        </button>
-                        <div id="addRoom" tabindex="-1" aria-hidden="true"
-                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
-                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-
-                                <div class="relative bg-white rounded-lg shadow">
-
-                                    <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b">
-                                        <h3 class="text-xl font-semibold text-gray-900">
-                                            Thêm Phòng mới
-                                        </h3>
-
-                                        <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                                                data-modal-toggle="addRoom">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                  clip-rule="evenodd"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-
-                                    <div class="p-4">
-
-                                        <form action="/sakura/landlord/room-type" class="my-2">
-                                            <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}" />
-                                            <div>
-                                                <label class="w-[160px] inline-block" for="">Loại phòng</label>
-                                                <select name="roomTypeId" class="w-[200px]">
-                                                    <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
-                                                        <option class="p-1" value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                            <div class="mt-[20px]">
-                                                <label class="w-[160px] inline-block" for="">Tên phòng</label>
-                                                <input type="hidden" name="roomTypeId" value="${requestScope.currentRoomType.roomTypeID}"/>
-                                                <input type="text" name="addRoomNumber" class="text-sm p-1" onkeyup="checkValidRoom(this)"/>
-                                                <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
-                                            </div>
-                                            <span class="ml-[160px] text-xs validRoomMessage"></span>
-                                            <div class="grid justify-items-end">
-                                                <button type="submit" class="addRoom px-8 py-2 mx-4 my-2 border-2 rounded">Thêm</button>
-                                            </div>
-                                        </form>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
-
-                </div>
-                <div class="mt-[20px]">
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead
-                                class="text-center text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="text-center px-6 py-3">
-                                        Mã phòng 
-                                    </th>
-                                    <th scope="col" class="text-center px-6 py-3">
-                                        Tên phòng
-                                    </th>
-                                    <th scope="col" class="text-center px-6 py-3">
-                                        Loại phòng
-                                    </th>
-                                    <th scope="col" class="text-center px-6 py-3">
-                                        Trạng thái
-                                    </th>
-                                    <th scope="col" class="text-center px-6 py-3">
-                                        Số người hiện tại
-                                    </th>
-                                    <th scope="col" class="text-center px-6 py-3">
-                                        Hóa đơn gần nhất
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${requestScope.roomList}" var="room">
-                                    <tr class="bg-white border-b">
-                                        <th scope="row"
-                                            class="text-center px-6 py-4 font-medium text-gray-900">
-                                            ${room.roomID}
+                    <div class="mt-[20px]">
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead
+                                    class="text-center text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="text-center px-6 py-3">
+                                            Mã phòng 
                                         </th>
-                                        <td class="text-center px-6 py-4">
-                                            ${room.roomNumber}
-                                        </td>
-                                        <td class="text-center px-6 py-4">
-                                            ${room.roomType.roomTypeName}
-                                        </td>
-                                        <td class="text-center px-6 py-4">
-                                            <c:if test="${room.status == 0}">
-                                                Còn trống
-                                            </c:if>
-                                            <c:if test="${room.status == 1}">
-                                                Đã có người ở 
-                                            </c:if>
-                                        </td>
-                                        <td class="text-center px-6 py-4">
-                                            <c:if test="${room.status == 0}">
-                                                --
-                                            </c:if>
-                                            <c:if test="${room.status == 1 && room.currentNumberOfResidents == 0}">
-                                                Chưa cập nhật
-                                            </c:if>
-                                            <c:if test="${room.status == 1 && room.currentNumberOfResidents != 0}">
-                                                ${room.currentNumberOfResidents}
-                                            </c:if>
-                                        </td>
-                                        <td class="text-center px-6 py-4">
-                                            Đã thanh toán
-                                        </td>
-                                        <td class="text-center px-6 py-4 text-right">
-                                            <form action="/sakura/landlord/room-detail">
-                                                <button class="font-medium text-[#288D87] hover:text-[#1BBAB1]">
-                                                    <input type="hidden" name="roomId" value="${room.roomID}"/>
-                                                    Xem chi tiết
-                                                </button>
-                                            </form>
-                                        </td>
+                                        <th scope="col" class="text-center px-6 py-3">
+                                            Tên phòng
+                                        </th>
+                                        <th scope="col" class="text-center px-6 py-3">
+                                            Loại phòng
+                                        </th>
+                                        <th scope="col" class="text-center px-6 py-3">
+                                            Trạng thái
+                                        </th>
+                                        <th scope="col" class="text-center px-6 py-3">
+                                            Số người hiện tại
+                                        </th>
+                                        <th scope="col" class="text-center px-6 py-3">
+                                            Hóa đơn gần nhất
+                                        </th>
                                     </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${requestScope.roomList}" var="room">
+                                        <tr class="bg-white border-b">
+                                            <th scope="row"
+                                                class="text-center px-6 py-4 font-medium text-gray-900">
+                                                ${room.roomID}
+                                            </th>
+                                            <td class="text-center px-6 py-4">
+                                                ${room.roomNumber}
+                                            </td>
+                                            <td class="text-center px-6 py-4">
+                                                ${room.roomType.roomTypeName}
+                                            </td>
+                                            <td class="text-center px-6 py-4">
+                                                <c:if test="${room.status == 0}">
+                                                    Còn trống
+                                                </c:if>
+                                                <c:if test="${room.status == 1}">
+                                                    Đã có người ở 
+                                                </c:if>
+                                            </td>
+                                            <td class="text-center px-6 py-4">
+                                                <c:if test="${room.status == 0}">
+                                                    --
+                                                </c:if>
+                                                <c:if test="${room.status == 1 && room.currentNumberOfResidents == 0}">
+                                                    Chưa cập nhật
+                                                </c:if>
+                                                <c:if test="${room.status == 1 && room.currentNumberOfResidents != 0}">
+                                                    ${room.currentNumberOfResidents}
+                                                </c:if>
+                                            </td>
+                                            <td class="text-center px-6 py-4">
+                                                Đã thanh toán
+                                            </td>
+                                            <td class="text-center px-6 py-4 text-right">
+                                                <form action="/sakura/landlord/room-detail">
+                                                    <button class="font-medium text-[#288D87] hover:text-[#1BBAB1]">
+                                                        <input type="hidden" name="roomId" value="${room.roomID}"/>
+                                                        Xem chi tiết
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav class="mt-[20px]" aria-label=" Page navigation example">
+                            <ul class="inline-flex -space-x-px">
+                                <li>
+                                    <a href="#"
+                                       class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">Trước</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">2</a>
+                                </li>
+                                <li>
+                                    <a href="#" aria-current="page"
+                                       class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700">3</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">4</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">5</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">Sau</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
-                    <nav class="mt-[20px]" aria-label=" Page navigation example">
-                        <ul class="inline-flex -space-x-px">
-                            <li>
-                                <a href="#"
-                                   class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">Trước</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">2</a>
-                            </li>
-                            <li>
-                                <a href="#" aria-current="page"
-                                   class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700">3</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">4</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">5</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">Sau</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
+                </c:if>
             </div>
 
             <!-- Footer -->
