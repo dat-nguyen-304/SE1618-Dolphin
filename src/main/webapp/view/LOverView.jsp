@@ -150,16 +150,16 @@
                          class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                            <div class="relative bg-white rounded shadow">
+                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
 
                                 <div
-                                    class="flex justify-between items-start p-4 rounded-t border-b">
-                                    <h3 class="text-xl font-semibold text-gray-900">
+                                    class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                         Chỉnh sửa
                                     </h3>
-                                    <p class="text-xs addHostelMessage"></p>
+                                    <p class="text-xs updateHostelMessage"></p>
                                     <button type="button"
-                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
+                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                             data-modal-toggle="editHostel">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -174,12 +174,11 @@
                                     <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
                                     <div class="my-2">
                                         <label class="w-[160px] inline-block" for="">Tên nhà trọ mới</label>
-                                        <input type="text" name="name" class="text-sm p-1" onkeyup="checkValidHostel(this)"/>
-                                        <span class="text-xs validHostelMessage"></span>
+                                        <input type="text" name="updateName" class="text-sm p-1" onkeyup="checkValidHostel(this)"/>
                                     </div>
                                     <div class="my-2">
                                         <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
-                                        <select id="province" class="w-[200px] p-1" name="provinceId" onchange="renderDistrictSimple(this)">
+                                        <select id="updateProvince" class="w-[200px] p-1" name="updateProvinceId" onchange="renderDistrictSimple(this)">
                                             <c:forEach items="${requestScope.provinceList}" var="province">
                                                 <option value="${province.provinceID}">${province.provinceName}</option>
                                             </c:forEach>
@@ -187,7 +186,7 @@
                                     </div>
                                     <div class="my-2">
                                         <label class="w-[160px] inline-block" for="">Chọn huyện</label>
-                                        <select id="district" name="districtId" class="w-[200px] p-1">
+                                        <select id="updateDistrict" name="updateDistrictId" class="w-[200px] p-1">
                                             <c:forEach items="${requestScope.districtList}" var="district">
                                                 <option value="${district.districtID}">${district.districtName}</option>
                                             </c:forEach>
@@ -195,12 +194,12 @@
                                     </div>
                                     <div class="my-2">
                                         <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
-                                        <input type="text" name="streetAddress" class="w-[400px] text-sm p-1">
+                                        <input type="text" name="updateStreetAddress" class="w-[400px] text-sm p-1">
                                         <p class="ml-[200px] text-xs">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
                                     </div>
                                     <div class="my-2">
                                         <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
-                                        <textarea class="text-sm p-1" name="description" id="" cols="48" rows="2">abcxyz</textarea>
+                                        <textarea class="text-sm p-1" name="updateDescription" id="" cols="48" rows="2">abcxyz</textarea>
                                     </div>
                                     <div class="my-2">
                                         <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
@@ -208,7 +207,7 @@
                                     </div>
                                 </div>
                                 <div class="grid justify-items-end">
-                                    <button class="addHostelBtn px-8 py-2 mx-4 my-2 border-2 rounded" onclick="addHostel()">Xác nhận</button>
+                                    <button class="updateHostelBtn px-8 py-2 mx-4 my-2 border-2 rounded" onclick="updateHostel()">Xác nhận</button>
                                 </div>
 
                             </div>
@@ -629,6 +628,7 @@
         <script src="../assets/javascript/render-district.js"></script>
         <script>
                                         function addHostel() {
+                                            console.log("da vao add hostel");
                                             const name = document.querySelector("input[name='name']");
                                             const districtId = document.querySelector("select[name='districtId']");
                                             const streetAddress = document.querySelector("input[name='streetAddress']");
@@ -663,7 +663,9 @@
                 const validHostelMessage = document.querySelector(".validHostelMessage");
                 const landlordId = document.querySelector("input[name='landlordId']");
                 const adddHostelBtn = document.querySelector(".addHostelBtn");
-                console.log("da vao checkvalidhostel")
+                console.log("da vao checkvalidhostel");
+                console.log(element.value);
+                console.log(landlordId.value);
                 jQuery.ajax({
                     type: 'POST',
                     data: {'hostelName': element.value,
@@ -675,11 +677,10 @@
                         if (response) {
                             adddHostelBtn.onclick = (e) => {
                                 e.preventDefault();
+                                console.log("da dong nut xac nhan");
                             }
                         } else {
-                            adddHostelBtn.onclick = (e) => {
-                                e.returnValue = true;
-                            }
+                            adddHostelBtn.onclick = () => addHostel();
                         }
 
                     },
@@ -691,8 +692,32 @@
             }
         </script>
         <script>
+            function deleteHostel(element) {
+
+                const deleteHostelContent = document.querySelector(".deleteHostelContent");
+                const deleteHostelId = document.querySelector("input[name='deleteHostelId']");
+                const deleteHostenBtn = document.querySelector(".deleteHostenBtn");
+
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'deleteHostelId': deleteHostelId.value
+                    },
+                    url: '/sakura/landlord/delete-hostel',
+                    success: function (response) {
+                        deleteHostelContent.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+        </script>
+
+        <script>
 
             function renderDistrictSimple(element) {
+                console.log("da vao render district")
                 var provinceID = element.value;
                 var districtElemet = document.querySelector('#district');
                 jQuery.ajax({

@@ -293,37 +293,6 @@
                 }
             }
 
-            function checkEmail(element) {
-                $("#emailError").html("");
-                $("#email").css("border-bottom", "");
-                var email = $("#email").val().trim();
-                if (email !== element.placeholder) {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: 'email=' + $("#email").val(),
-                        url: '/sakura/account/checkEmail',
-                        success: function (result) {
-                            if (result.length === 0 && email.length !== 0) {
-                                var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-                                if (!re.test($("#email").val())) {
-                                    $("#emailError").html("Sai định dạng email!");
-                                    $("#emailError").css("color", "red");
-                                }
-                            } else {
-                                $("#emailError").html(result);
-                                $("#emailError").css("color", "red");
-                            }
-                        },
-                        error: function () {
-                            console.log('Error');
-                        },
-                        complete: function (result) {
-                            console.log('Complete');
-                        }
-                    });
-                }
-            }
-
             function checkUsername(element) {
                 $("#usernameError").html("");
                 $("#username").css("border-bottom", "");
@@ -375,7 +344,6 @@
             function validate() {
                 var fullname = $("#fullname").val().trim();
                 var username = $("#username").val().trim();
-                var email = $("#email").val().trim();
                 var phone = $("#phone").val().trim();
                 if (!fullname || $("#fullnameError").html() !== "") {
                     $("#fullname").css("border-bottom", "1.5px solid red");
@@ -390,10 +358,6 @@
                 } else if (!phone || $("#phoneError").html() !== "") {
                     $("#phone").css("border-bottom", "1.5px solid red");
                     $("#phone").focus();
-                    return false;
-                } else if (!email || $("#emailError").html() !== "") {
-                    $("#email").css("border-bottom", "1.5px solid red");
-                    $("#email").focus();
                     return false;
                 }
                 return true;

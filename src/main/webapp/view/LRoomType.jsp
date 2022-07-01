@@ -63,13 +63,13 @@
                                 Phòng
                             </a>
                         </li>
-                         <li aria-current="page">
+                        <li aria-current="page">
                             <div class="flex items-center">
                                 <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd"></path>
+                                     xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                      clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 text-gray-400">Loại phòng</span>
                             </div>
@@ -198,15 +198,15 @@
 
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded shadow">
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
 
                                     <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b">
-                                        <h3 class="text-xl font-semibold text-gray-900">
+                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                             Chỉnh sửa loại phòng
                                         </h3>
                                         <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                 data-modal-toggle="editModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -230,40 +230,39 @@
 
                                             <div class="my-2">
                                                 <label class="w-[160px] inline-block" for="">Tên</label>
-                                                <input type="text" name="name" required class="text-sm p-1">
+                                                <input type="text" name="updateName" required class="text-sm p-1">
                                                 <span class="ml-2 text-xs">VD: bình dân, cao cấp, ...</span>
                                             </div>
                                             <div class="my-2">
                                                 <label class="w-[160px] inline-block" for="">Giá</label>
-                                                <input type="text" name="price" required class="text-sm p-1">
+                                                <input type="text" name="updatePrice" required class="text-sm p-1">
                                                 <span class="ml-2 text-xs">VD: 3000000, 5000000 ...</span>
                                             </div>
                                             <div class="my-2">
                                                 <label class="w-[160px] inline-block" for="">Diện tích</label>
-                                                <input type="text" name="area" required class="text-sm p-1">
+                                                <input type="text" name="updateArea" required class="text-sm p-1">
                                                 <span class="ml-2 text-xs">VD: 24, 30, ...</span>
                                             </div>
                                             <div class="my-2">
                                                 <label class="w-[160px] inline-block" for="">Số người tối đa</label>
-                                                <input type="text" name="maxNumberOfResidents" required class="text-sm p-1">
+                                                <input type="text" name="updateMaxNumberOfResidents" required class="text-sm p-1">
                                                 <span class="ml-2 text-xs">VD: 4, 5, 6, ...</span>
                                             </div>
                                             <div class="my-2">
                                                 <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
-                                                <textarea class="text-sm p-1" name="description" id="" cols="48" rows="2"></textarea>
+                                                <textarea class="text-sm p-1" name="updateDescription" id="" cols="48" rows="2"></textarea>
                                             </div>
                                             <div class="my-2">
                                                 <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
                                                 <input type="file" multiple rounded />
                                             </div>
-                                            <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}" />
+                                            <input type="hidden" name="updateHostelId" value="${sessionScope.currentHostel.hostelID}" />
 
                                         </div>
                                         <div class="grid justify-items-end">
-                                            <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded" onclick="addRoomType()">Thêm</button>
+                                            <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded" onclick="updateRoomType()">Thêm</button>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -502,6 +501,7 @@
             </script>
             <script>
                 function addRoomType() {
+                    console.log("da vao add roomtype");
                     const name = document.querySelector("input[name='name']");
                     const price = document.querySelector("input[name='price']");
                     const area = document.querySelector("input[name='area']");
@@ -581,9 +581,8 @@
                                     e.preventDefault();
                                 }
                             } else {
-                                addRoomTypeBtn.onclick = (e) => {
-                                    e.returnValue = true;
-                                }
+                                addRoomTypeBtn.onclick = () => addRoomType();
+
                             }
 
                         },

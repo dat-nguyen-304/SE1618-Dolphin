@@ -5,12 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<<<<<<< Updated upstream
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-=======
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
->>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +16,7 @@
         <title>Quản lý phòng thuê - Chi tiết hoá đơn</title>
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="images/logo.png">
+        <link rel="shortcut icon" href="../assets/icons/logo.png">
 
         <!-- <link rel="stylesheet" href="app.css"> -->
         <!-- Font -->
@@ -49,9 +44,6 @@
         <%@include file="../view/headerLandlordDashboard.jsp" %>
         <%@include file="../view/navbarLandlordDashboard.jsp" %>
 
-        <c:if test="${sessionScope.currentUser == null}">
-            <p>Bạn phải đăng nhập để xem trang này</p>
-        </c:if>
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -94,7 +86,7 @@
 
                 <!-- Search and filter -->
                 <div class="general-info flex justify-between mt-[20px]">
-
+                    
                 </div>
                 <div class="card p-5 mt-[20px]">
                     <div class="grid grid-cols-5 grid-rows-2 ">
@@ -112,7 +104,7 @@
                         <div>Phòng: ${invoice.contract.room.roomNumber}</div>
                         <div>Kỳ thanh toán <strong>???</strong></div>
                         <div>Đến: <span class="date">${invoice.endDate}</span></div>
-                        <div>Hạn: <span class="date">${invoice.dueDate}</span></div>
+                        <!--<div>Hạn: <span class="date">${invoice.dueDate}</span></div>-->
                     </div>
                 </div>
                 <!-- End Search and filter -->

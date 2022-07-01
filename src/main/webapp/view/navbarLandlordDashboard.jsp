@@ -1,3 +1,4 @@
+<c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <aside class="w-[256px] top-[60px] h-[calc(100vh-60px)] fixed border-r border-[#e6e9e9]" aria-label="Sidebar">
     <div class="navigation-bar overflow-y-auto h-full py-4 px-3 bg-[#ffffff]">
         <ul class="space-y-2">
@@ -61,35 +62,46 @@
                                     class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full bg-gray-700 text-gray-300">Pro</span> 
                             </a>
                         </li>-->
-            <li class="menu-item">
-                <button type="button"
-                        class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp' || pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? 'parent-active' : ''} flex items-center justify-between p-2 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 group hover:bg-[#F3F3F3] hover:text-[#17535B]"
-                        aria-controls="dropdown-example" data-collapse-toggle="dropdown-contract">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-5 text-[#929CA5] transition duration-75 group-hover:text-[#17535B] m-0 p-0"
-                         viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M2 3h20v4H2zm17 5H3v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8h-2zm-3 6H8v-2h8v2z"></path>
+            <li>
+                <a href="/sakura/landlord/contract-list"
+                   class="${(requestPath == '/sakura/landlord/contract-list' || requestPath == '/sakura/landlord/contract-detail') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                     </svg>
-                    <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="">Hợp đồng</span>
-                    <svg sidebar-toggle-item="" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                              clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-                <ul id="dropdown-contract" class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp' || pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? '' : 'hidden'}  py-2 space-y-2">
-                    <li>
-                        <a href="/sakura/landlord/contract-list"
-                           class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp') ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Danh
-                            sách hợp đồng</a>
-                    </li>
-                    <li>
-                        <a href="/sakura/contract/add-contract"
-                           class="${(pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? 'active' : ''}  menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Thêm hợp đồng</a>
-                    </li>
-                </ul>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Hợp đồng</span>
+                    <!-- <span
+                        class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full bg-gray-700 text-gray-300">Pro</span> -->
+                </a>
             </li>
+            <!--            <li class="menu-item">
+                            <button type="button"
+                                    class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp' || pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? 'parent-active' : ''} flex items-center justify-between p-2 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 group hover:bg-[#F3F3F3] hover:text-[#17535B]"
+                                    aria-controls="dropdown-example" data-collapse-toggle="dropdown-contract">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-6 h-5 text-[#929CA5] transition duration-75 group-hover:text-[#17535B] m-0 p-0"
+                                     viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M2 3h20v4H2zm17 5H3v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8h-2zm-3 6H8v-2h8v2z"></path>
+                                </svg>
+                                <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="">Hợp đồng</span>
+                                <svg sidebar-toggle-item="" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                          clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                            <ul id="dropdown-contract" class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp' || pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? '' : 'hidden'}  py-2 space-y-2">
+                                <li>
+                                    <a href="/sakura/landlord/contract-list"
+                                       class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp') ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Danh
+                                        sách hợp đồng</a>
+                                </li>
+                                <li>
+                                    <a href="/sakura/contract/add-contract"
+                                       class="${(pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? 'active' : ''}  menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Thêm hợp đồng</a>
+                                </li>
+                            </ul>
+                        </li>-->
             <li class="menu-item">
                 <button type="button"
                         class="${(pageContext.request.requestURI == '/sakura/view/LInvoiceList.jsp' || pageContext.request.requestURI == '/sakura/view/LAddInvoice.jsp') ? 'parent-active' : ''} flex items-center p-2 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 group hover:bg-[#F3F3F3] hover:text-[#17535B]"
@@ -140,7 +152,7 @@
             </li>
             <li>
                 <a href="/sakura/landlord/rentalRequestList"
-                   class="${(pageContext.request.requestURI == '/sakura/view/landlordRentalRequestPage.jsp') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
+                   class="${(pageContext.request.requestURI == '/sakura/view/landlordRentalRequestPage.jsp' || requestPath =='/sakura/contract/add-contract') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                     </svg>

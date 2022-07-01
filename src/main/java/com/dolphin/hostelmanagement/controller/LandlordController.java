@@ -175,11 +175,13 @@ public class LandlordController extends HttpServlet {
                     RoomDAO.save(roomTypeId, roomNumber);
                     currentRoomType = RoomTypeDAO.findByID(roomTypeId);
                     currentHostel = currentRoomType.getHostel();
+                    session.setAttribute("currentHostel", currentHostel);
                     roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
                 } else if (request.getParameter("roomTypeId") != null) {
                     int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
                     currentRoomType = RoomTypeDAO.findByID(roomTypeId);
                     currentHostel = currentRoomType.getHostel();
+                    session.setAttribute("currentHostel", currentHostel);
                     roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
                 } else if (request.getParameter("hostelId") != null) {
                     int hostelId = Integer.parseInt(request.getParameter("hostelId"));
@@ -189,11 +191,18 @@ public class LandlordController extends HttpServlet {
                     currentRoomType = roomTypeList.get(0);
                 } else {
                     currentHostel = (Hostel) session.getAttribute("currentHostel");
-                    roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
-                    currentRoomType = roomTypeList.get(0);
+                    if (currentHostel != null) {
+                        roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
+                        currentRoomType = roomTypeList.get(0);
+                    } else {
+                        roomTypeList = null;
+                        currentRoomType = null;
+                    }
                 }
-
-                List<Room> roomList = RoomDAO.findByRoomTypeID(currentRoomType.getRoomTypeID());
+                List<Room> roomList = null;
+                if (currentRoomType != null) {
+                    roomList = RoomDAO.findByRoomTypeID(currentRoomType.getRoomTypeID());
+                }
                 request.setAttribute("currentRoomType", currentRoomType);
                 request.setAttribute("roomTypeList", roomTypeList);
                 request.setAttribute("roomList", roomList);
@@ -260,7 +269,8 @@ public class LandlordController extends HttpServlet {
             } else if (path.equals("/invoice-detail")) {
                 int invoiceId = Integer.parseInt(request.getParameter("invoiceId"));
                 Invoice invoice = InvoiceDAO.findByID(invoiceId);
-
+                List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
+                request.setAttribute("detailList", detailList);
                 request.setAttribute("invoice", invoice);
                 request.getRequestDispatcher("/view/LInvoiceDetail.jsp").forward(request, response);
             } else if (path.equals("/add-invoice")) {
@@ -297,7 +307,7 @@ public class LandlordController extends HttpServlet {
                     //end send notification to landlord
                 }
 
-                int hostelID = Integer.parseInt(request.getParameter("hostelID") == null ? "0" : request.getParameter("hostelID"));
+                int hostelID = ((Hostel) session.getAttribute("currentHostel")).getHostelID();
                 request.setAttribute("hostelID", hostelID);
 
                 ArrayList<BookingRequest> bookingList = BookingRequestDAO.getBookingRequestByHostelID(hostelID, 1);
@@ -322,14 +332,14 @@ public class LandlordController extends HttpServlet {
                 boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
                 Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
                 if (addSuccess) {
-                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName()+ " thành công! Xem");
+                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
-                    out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID()+ "'>");
+                    out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
                     out.println("<input type=\"submit\" value=\"tại đây\">");
                     out.println("</form></span>");
                 }
             }
-            
+
             if (path.equals("/check-hostel-valid")) {
                 String hostelName = request.getParameter("hostelName").trim();
                 int landlordId = Integer.parseInt(request.getParameter("landlordId"));
@@ -340,7 +350,7 @@ public class LandlordController extends HttpServlet {
                     out.print("");
                 }
             }
-            
+
             if (path.equals("/add-roomtype")) {
                 String name = request.getParameter("name");
                 int price = Integer.parseInt(request.getParameter("price"));
@@ -358,7 +368,7 @@ public class LandlordController extends HttpServlet {
                     out.println("</form></span>");
                 }
             }
-            
+
             if (path.equals("/check-roomtype-valid")) {
                 String roomTypeName = request.getParameter("roomTypeName").trim();
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
@@ -382,7 +392,7 @@ public class LandlordController extends HttpServlet {
             }
         }
     }
-    
+
     private void copy(String src, String dest) throws IOException {
         InputStream is = null;
         OutputStream os = null;
