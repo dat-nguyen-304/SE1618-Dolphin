@@ -97,7 +97,7 @@
                         </div>
 
                         <div class="">
-                            <span>Nhà trọ: </span>
+                            <span>Chọn nhà trọ: </span>
                             <button
                                 class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
                                 type="button" data-modal-toggle="hostelModal">
@@ -143,10 +143,11 @@
 
                         <c:if test="${requestScope.chosenRoom != null}">
 
-                            <form action="#" class="invoice-detail " method="POST">
+                            <form action="/sakura/invoice/save" class="invoice-detail " method="POST" id="invoice-form">
 
                                 <input type="hidden" name="chosenRoomID" value="${requestScope.chosenRoom.roomID}">
                                 <input type="hidden" name="contractID" value="${requestScope.contract.contractID}">
+                                <input type="hidden" id="refreshed" value="no">
 
                                 <div class="invoice-detail-info mt-[20px] grid grid-cols-6">
 
@@ -348,10 +349,29 @@
                                     <!-- End Summation -->
 
                                     <div class="flex justify-between items-center">
-                                        <button type="submit" onclick="return validate()"
+                                        <button type="button" onclick="validate()"
                                                 class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-[#fff] flex items-center justify-center focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F]">Đăng
                                             hoá đơn
                                         </button>
+
+                                        <div id="saveInvoice" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
+                                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="saveInvoice" id="toggleButton">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                                                    </button>
+                                                    <div class="p-6 text-center">
+                                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><p>Bạn có chắc chắn muốn đăng hóa đơn?</p></h3>
+                                                        <button id="confirmButton" data-modal-toggle="saveInvoice" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                            Tôi chắc chắn
+                                                        </button>
+                                                        <button data-modal-toggle="saveInvoice" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Hủy bỏ</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <!-- Export excel button -->
                                         <button type="button"
                                                 class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">Xuất
@@ -371,27 +391,39 @@
                         </c:if>
                     </div>
 
-                    <c:if test="${requestScope.chosenRoom == null}">
-                        <!-- table invoice list -->
-                        <div class="statistic flex justify-between">
-                            <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
-                                <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                                    <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                Phòng chưa có hóa đơn
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="roomList">
-                                    </tbody>
-                                </table>
-                            </div>
+                    <!--table invoice list--> 
+                    <div class="statistic flex justify-between">
+                        <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
+                            <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter"></input>
+                            <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                                <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Chọn phòng chưa có hóa đơn
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="roomList">
+                                    <c:if test="${requestScope.noInvoiceList != null}">
+                                        <c:forEach var="room" items="${requestScope.noInvoiceList}">
+                                            <tr>
+                                                <th>
+                                                    <form method="post" action="/sakura/invoice/new">
+                                                        <button class="roomNoInvoice ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="roomID" value="${room.roomID}" type="submit">
+                                                            ${room.roomNumber}</button>
+                                                    </form>
+                                                </th>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:if>
+                                </tbody>
+                            </table>
                         </div>
                         <!-- End table invoice list -->
                     </c:if>
 
                 </div>
+
 
             </div>
 
@@ -436,14 +468,40 @@
         <!-- Breadcrumb -->
         <script src="js/breadcrumb.js"></script>
         <script>
-                                            $(document).ready(function () {
-                                                var allRateCells = $(".rate");
-                                                for (var i = 0; i < allRateCells.length; i++) {
-                                                    var node = allRateCells[i];
-                                                    var money = node.childNodes[0].nodeValue;
-                                                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                }
-                                            });
+
+            jQuery(document).ready(function ($) {
+
+                if (window.history && window.history.pushState) {
+
+                    $(window).on('popstate', function () {
+                        var hashLocation = location.hash;
+                        var hashSplit = hashLocation.split("#!/");
+                        var hashName = hashSplit[1];
+
+                        if (hashName !== '') {
+                            var hash = window.location.hash;
+                            if (hash === '') {
+                                alert('Back button was pressed.');
+                            }
+                        }
+                    });
+
+                    window.history.pushState('forward', null, './#forward');
+                }
+
+                var allRateCells = $(".rate");
+                for (var i = 0; i < allRateCells.length; i++) {
+                    var node = allRateCells[i];
+                    var money = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+            });
+
+            $("#confirmButton").on('click', function () {
+                console.log("SUBMIT");
+                $("#invoice-form").submit();
+            });
 
                                             $("#invoice-month").click(function () {
                                                 $("#invoice-month").css("border", "");
@@ -457,35 +515,48 @@
                                                 $("#invoice-end-date").css("border", "");
                                             });
 
-                                            function changeHostel(hostelID, hostelName) {
-                                                $("#hostelName").html(hostelName);
-                                                $("#roomNumber").html("Chọn phòng");
-                                                $("#roomList").empty();
+            $("#room-filter").on('input', function () {
+                var text = $("#room-filter").val();
+                var allRoomButtons = $(".roomNoInvoice");
+                for (var i = 0; i < allRoomButtons.length; i++) {
+                    var node = allRoomButtons[i];
+                    if ($(node).children("a").html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
+                        $(node).css("display", "none");
+                    } else
+                        $(node).css("display", "inline");
+                }
+            });
 
-                                                jQuery.ajax({
-                                                    url: '/sakura/room/roomsNeedInvoice',
-                                                    type: 'GET',
-                                                    data: {hostelID: hostelID},
-                                                    dataType: 'text',
-                                                    success: function (result) {
-                                                    },
-                                                    error: function () {
-                                                    },
-                                                    complete: function (result) {
-                                                        console.log("Compelte");
-                                                        var data = JSON.parse(result.responseText);
-                                                        for (var i = 0; i < data.length; i++) {
-                                                            $("#roomList").append('<tr><th><button class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center" type="button"><a href="/sakura/invoice/new?hostelID='
-                                                                    + hostelID + '&roomID=' + data[i].roomID +
-                                                                    '">'
-                                                                    + data[i].roomNumber + '</a></span></button></th></tr>');
-                                                        }
-                                                        if (data.length === 0) {
-                                                            $("#roomList").append('<tr><th><span style="color: red">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</span></th></tr>');
-                                                        }
-                                                    }
-                                                });
-                                            }
+            function changeHostel(hostelID, hostelName) {
+                $("#hostelName").html(hostelName);
+                $("#roomNumber").html("Chọn phòng");
+                $("#roomList").empty();
+                $("#invoice-form").css("display", "none");
+
+                jQuery.ajax({
+                    url: '/sakura/room/roomsNeedInvoice',
+                    type: 'GET',
+                    data: {hostelID: hostelID},
+                    dataType: 'text',
+                    success: function (result) {
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                        console.log("Compelte");
+                        var data = JSON.parse(result.responseText);
+        //                                                        var strHTML = '<tr><th><form method="post" action="/sakura/invoice/new"><button class="roomNoInvoice ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit"><a href="/sakura/invoice/new?hostelID='
+                        for (var i = 0; i < data.length; i++) {
+                            $("#roomList").append('<tr><th><form method="post" action="/sakura/invoice/new"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
+                                    + data[i].roomNumber + '</button></form></th></tr>');
+                        }
+                        $(".roomNoInvoice").addClass("ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800");
+                        if (data.length === 0) {
+                            $("#roomList").append('<tr><th><span style="color: red">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</span></th></tr>');
+                        }
+                    }
+                });
+            }
 
                                             function enableInput(serviceID) {
                                                 $("#startInput" + serviceID).val("");
@@ -555,24 +626,29 @@
                                                 }
                                             }
 
-                                            function validate() {
-                                                if ($("#invoice-month").val() === "") {
-                                                    $("#invoice-month").css("border", "1.5px solid red");
-                                                    return false;
-                                                }
-                                                if ($("#invoice-start-date").val() === "") {
-                                                    $("#invoice-start-date").css("border", "1.5px solid red");
-                                                    return false;
-                                                }
-                                                if ($("#invoice-end-date").val() === "") {
-                                                    $("#invoice-end-date").css("border", "1.5px solid red");
-                                                    return false;
-                                                }
-                                                if ($("#invoice-start-date").val() > $("#invoice-end-date").val()) {
-                                                    console.log($("#invoice-start-date").val() > $("#invoice-end-date").val());
-                                                    return false;
-                                                }
-                                            }
+            function validate() {
+                var res = true;
+                if ($("#invoice-month").val() === "") {
+                    $("#invoice-month").css("border", "1.5px solid red");
+                    res = false;
+                }
+                if ($("#invoice-start-date").val() === "") {
+                    $("#invoice-start-date").css("border", "1.5px solid red");
+                    res = false;
+                }
+                if ($("#invoice-end-date").val() === "") {
+                    $("#invoice-end-date").css("border", "1.5px solid red");
+                    res = false;
+                }
+                if ($("#invoice-start-date").val() > $("#invoice-end-date").val()) {
+                    console.log($("#invoice-start-date").val() > $("#invoice-end-date").val());
+                    res = false;
+                }
+                if (res) {
+                    console.log("OK");
+                    $("#toggleButton").click();
+                }
+            }
         </script>
     </body>
 </html>

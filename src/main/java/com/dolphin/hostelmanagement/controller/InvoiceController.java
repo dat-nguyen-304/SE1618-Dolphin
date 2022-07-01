@@ -212,20 +212,30 @@ public class InvoiceController extends HttpServlet {
                     List<Hostel> hostelList = HostelDAO.findByLandlordObject(l);
                     request.setAttribute("hostelList", hostelList);
                     List<Service> activeServices = new ArrayList();
-                    String chosenHostelID = request.getParameter("hostelID");
+//                    String chosenHostelID = request.getParameter("hostelID");
                     String chosenRoomID = request.getParameter("roomID");
-                    if (chosenHostelID != null && chosenRoomID != null) {
-                        Hostel hostel = HostelDAO.findById(Integer.parseInt(chosenHostelID));
+                    if (chosenRoomID != null) {
+                        Room room = RoomDAO.findByID(Integer.parseInt(chosenRoomID));
+                        Hostel hostel = room.getRoomType().getHostel();
                         request.setAttribute("chosenHostel", hostel);
                         request.setAttribute("chosenRoom", RoomDAO.findByID(Integer.parseInt(chosenRoomID)));
                         activeServices = ServiceDAO.findHostelActiveServices(hostel);
+                        List<Room> roomNoInvoiceList = RoomDAO.findRoomsNeedInvoice(hostel.getHostelID());
+
+                        if (roomNoInvoiceList != null && !roomNoInvoiceList.isEmpty()) {
+                            List<Room> noInvoiceList = new ArrayList();
+                            for (Room currRoom : roomNoInvoiceList) {
+                                noInvoiceList.add(new Room(currRoom.getRoomID(), currRoom.getRoomNumber()));
+                            }
+                            request.setAttribute("noInvoiceList", noInvoiceList);
+                        }
 
                         Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
                         request.setAttribute("contract", contract);
 
                         request.setAttribute("activeServices", activeServices);
                     }
-                    request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
+                    request.getRequestDispatcher("/view/LAddInvoice_v2.jsp").forward(request, response);
                 }
 
                 if (path.equals("/save")) {
@@ -263,11 +273,17 @@ public class InvoiceController extends HttpServlet {
                     }
 
                     // Save invoice
-                    InvoiceDAO.save(startDate, endDate, totalPrice, contractID, month, new Date(), electricitySum, waterSum, detailList, roomID);
-                    System.out.println("!! SAVED INVOICE !!");
-                    request.getRequestDispatcher("/invoice/new").forward(request, response);
+                    if (InvoiceDAO.save(startDate, endDate, totalPrice, contractID, month, new Date(), electricitySum, waterSum, detailList, roomID)) {
+                        System.out.println("!! SAVED INVOICE !!");
+                        url = "/sakura/view/success.jsp";
+                    } else {
+                        url = "/sakura/view/failure.jsp";
+                    }
+                    response.sendRedirect(url);
                 }
-
+                
+                if (path.equals("/success")) request.getRequestDispatcher("/view/success.jsp").forward(request, response);
+                if (path.equals("/failure")) request.getRequestDispatcher("/view/failure.jsp").forward(request, response);
             }
         }
     }
