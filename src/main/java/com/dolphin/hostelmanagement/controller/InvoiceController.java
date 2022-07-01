@@ -191,7 +191,7 @@ public class InvoiceController extends HttpServlet {
                     sortFilters(request, invoiceList);
 
                     request.setAttribute("invoiceList", invoiceList);
-                    request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
+                    request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
                 }
 
                 if (path.equals("/detail")) {
@@ -201,7 +201,7 @@ public class InvoiceController extends HttpServlet {
                         request.setAttribute("invoice", invoice);
                         List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
                         request.setAttribute("detailList", detailList);
-                        url = "/view/tenantPageInvoiceDetail.jsp";
+                        url = "/view/LInvoiceDetail.jsp";
                     } else {
                         url = "/invoice/list"; //Neu bam vao page ma` khong qua con mat' thi cho no ve list :D
                     }

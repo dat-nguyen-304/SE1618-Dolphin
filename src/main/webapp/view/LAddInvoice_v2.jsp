@@ -94,7 +94,11 @@
                         <div class="">
                             <span>Chọn nhà trọ: </span>
                             <button
+<<<<<<< HEAD
                                 class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+=======
+                                class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+>>>>>>> e6a1361d00e7d9252e4c249e80b19e5b7a938776
                                 type="button" data-modal-toggle="hostelModal">
                                 <span id="hostelName">
                                     ${(requestScope.chosenHostel != null) ? requestScope.chosenHostel.hostelName : "Chọn nhà trọ"}
@@ -105,7 +109,11 @@
                                  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                                 <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
+<<<<<<< HEAD
                                     <div class="relative bg-white rounded shadow dark:bg-gray-700">
+=======
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+>>>>>>> e6a1361d00e7d9252e4c249e80b19e5b7a938776
 
                                         <div
                                             class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
@@ -113,7 +121,7 @@
                                                 Chọn Nhà Trọ
                                             </h3>
                                             <button type="button"
-                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                     data-modal-toggle="hostelModal">
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                      xmlns="http://www.w3.org/2000/svg">
@@ -149,7 +157,11 @@
                                     <c:if test="${requestScope.chosenRoom != null}">
                                         <span>Phòng: </span>
                                         <button
+<<<<<<< HEAD
                                             class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+=======
+                                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+>>>>>>> e6a1361d00e7d9252e4c249e80b19e5b7a938776
                                             type="button">
                                             <span id="hostelName">
                                                 ${requestScope.chosenRoom.roomNumber}
@@ -161,7 +173,7 @@
                                                                          class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                                                                         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                                     
-                                                                            <div class="relative bg-white rounded shadow dark:bg-gray-700">
+                                                                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                     
                                                                                 <div
                                                                                     class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
@@ -171,7 +183,7 @@
                                     
                                                                                     </h3>
                                                                                     <button type="button"
-                                                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                                                             data-modal-toggle="roomModal">
                                                                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                                                              xmlns="http://www.w3.org/2000/svg">
@@ -487,6 +499,10 @@
                     var money = node.childNodes[0].nodeValue;
                     node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
+                
+                $("#invoiceSum").html($("#rentalFee").html());
+                $("#invoiceSumHidden").val(parseInt($("#rentalFee").html().replace(/,/g, '')));
+                console.log($("#invoiceSumHidden").val());
 
             });
 
