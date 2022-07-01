@@ -37,7 +37,7 @@
         <div class="logo absolute z-10">
             <div class="container px-6 py-5">
                 <div class="flex justify-center items-center">
-                    <img class="w-9 h-9" src="../assets/icons/logo_white.png" alt="">
+                    <a href="/sakura"><img class="w-9 h-9" src="../assets/icons/logo_white.png" alt=""></a>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
             <!-- form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
 
-                <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/forgotPassword" method="post"  id="form" name="login-form">
+                <form class="reset-pwd-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/forgot-password" method="post" id="form" name="reset-pwd-form" novalidate>
                     <!--form header-->
                     <div class="form-header w-full h-18 mb-3 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Lấy lại mật khẩu</h2>
@@ -67,7 +67,7 @@
                     <ul class="item-list list-none w-[52%]">
                         <!--Email input-->
                         <li class="item block relative z-0 w-full mb-12">
-                            <input type="email" id="email" name="email" placeholder=" " required onchange="checkEmail()"
+                            <input type="email" id="email" name="email" placeholder=" " required onchange="checkEmail(0)"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
                             <p id="emailError" class="warning font-light absolute right-0"></p>
                             <label for="email" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Email</label>
@@ -75,7 +75,7 @@
 
                         <!--Submit-->
                         <li class="mb-7">
-                            <button type="submit" id="login-btn" onsubmit="checkEmailExist()" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]">Gửi link khôi phục</button>  
+                            <button onclick="return validate(event)" type="submit" id="submit-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%] disabled:cursor-progress disabled:bg-opacity-[50%]">Gửi mật khẩu mới</button>  
                         </li>
 
                         <div id="more" class="mt-3 flex justify-center text-sm font-light">
@@ -116,39 +116,79 @@
 
                 btn.appendChild(circle);
             }
-
-            const btn = document.getElementById("login-btn");
+            const btn = document.getElementById("submit-btn");
             btn.addEventListener("click", rippleEffect);
 
-
-            function checkEmail() {
+            function checkEmail(submit) {
                 $("#emailError").html("");
                 $("#email").css("border-bottom", "");
-                jQuery.ajax({
-                    type: 'POST',
-                    data: 'email=' + $("#email").val(),
-                    url: '/sakura/account/checkEmail',
-                    success: function (result) {
-                        if (result.length === 0) {
-                            var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-                            if (!re.test($("#email").val())) {
-                                $("#emailError").html("Sai định dạng email!");
-                                $("#emailError").css("color", "red");
-                            }
-                        } else {
-                            //$("#emailError").html(result);
-                            //$("#emailError").css("color", "red");
-                        }
-                        console.log('Success 65');
-                    },
-                    error: function () {
-                        console.log('Error 68');
-                    },
-                    complete: function (result) {
-                        console.log('Complete 71');
+                var email = $("#email").val().trim();
+                if (email.length !== 0) {
+                    var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+                    if (!re.test($("#email").val())) {
+                        $("#emailError").html("Sai định dạng email!");
+                        $("#emailError").css("color", "red");
+                        if (submit === 1)
+                            $("#email").focus();
+                        return false;
                     }
-                });
+                    var res = false;
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: 'email=' + $("#email").val(),
+                        url: '/sakura/account/checkEmail',
+                        success: function (result) {
+                            console.log(result);
+                            if (result === "Email đã được dùng!") {
+                                res = true;
+                                return true;
+                            } else {
+                                $("#emailError").html("Email chưa liên kết tài khoản nào!");
+                                $("#emailError").css("color", "red");
+                                console.log("Non exist");
+                                return res;
+                            }
+                        }
+                    });
+                    console.log(res);
+                    return res;
+                } else
+                    return false;
             }
+
+            function validate() {
+                var email = $("#email").val().trim();
+                var res = true;
+                if (email === "") {
+                    $("#email").css("border-bottom", "1.5px solid red");
+                    $("#email").focus();
+                    $("#emailError").html("Không được để trống!");
+                    $("#emailError").css("color", "red");
+                    res = false;
+                    // return false;
+                } else {
+                    var tmp = checkEmail(1);
+                    console.log("Email: " + tmp);
+                    if (tmp === false) {
+                        res = false;
+                        return false;
+                    }
+
+
+                }
+                console.log("Res: " + res);
+                return res;
+            }
+
+            const form = document.getElementById('form');
+            const submitBtn = document.getElementById('submit-btn');
+            form.addEventListener('submit', function () {
+                console.log("Form submit");
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = "Đang gửi mật khẩu mới đến mail...";
+                return false;
+            });
+
         </script>
     </body>
 </html>

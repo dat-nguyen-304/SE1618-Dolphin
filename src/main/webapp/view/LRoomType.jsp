@@ -36,8 +36,12 @@
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
+        <%@include file="../view/headerLandlordDashboard.jsp" %>
+        <%@include file="../view/navbarLandlordDashboard.jsp" %>
 
+        <c:if test="${sessionScope.currentUser == null}">
+            <p>Bạn phải đăng nhập để xem trang này</p>
+        </c:if>
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -59,7 +63,7 @@
                                 Phòng
                             </a>
                         </li>
-                        <!-- <li aria-current="page">
+                         <li aria-current="page">
                             <div class="flex items-center">
                                 <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -67,9 +71,9 @@
                                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 text-gray-400">Danh sách hoá đơn</span>
+                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 text-gray-400">Loại phòng</span>
                             </div>
-                        </li> -->
+                        </li>
                     </ol>
                 </nav>
                 <!-- End breadcrumb -->
@@ -79,7 +83,7 @@
                     <div class="">
                         <span>Chọn nhà trọ: </span>
                         <button
-                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
                             type="button" data-modal-toggle="hostelModal">
                             ${sessionScope.currentHostel.hostelName}
                         </button>
@@ -88,15 +92,15 @@
                              class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <div class="relative bg-white rounded shadow">
 
                                     <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        class="flex justify-between items-start p-4 rounded-t border-b">
+                                        <h3 class="text-xl font-semibold text-gray-900">
                                             Chọn nhà trọ
                                         </h3>
                                         <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                                                 data-modal-toggle="hostelModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +128,7 @@
                     <div class="">
                         <span>Chọn loại phòng: </span>
                         <button
-                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
                             type="button" data-modal-toggle="roomModal">
                             ${requestScope.currentRoomType.roomTypeName}
                         </button>
@@ -132,15 +136,15 @@
                              class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <div class="relative bg-white rounded shadow">
 
                                     <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        class="flex justify-between items-start p-4 rounded-t border-b">
+                                        <h3 class="text-xl font-semibold text-gray-900">
                                             Chọn loại Phòng
                                         </h3>
                                         <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                                                 data-modal-toggle="roomModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -162,30 +166,30 @@
                             </div>
                         </div>
                         <button
-                            class="w-fit inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            class="w-fit inline-block text-white bg-[#17535B] hover:bg-[#13484F]  font-medium rounded text-sm px-5 py-2.5 text-center"
                             type="button" data-modal-toggle="deleteRoomType">
                             Xóa Loại phòng này
                         </button>
 
                         <div id="deleteRoomType" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="deleteRoomType">
+                                <div class="relative bg-white rounded shadow">
+                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="deleteRoomType">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                                     </button>
                                     <div class="p-6 text-center">
-                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Loại phòng này hiện đang có 10 phòng và 12 yêu cầu thuê phòng. Dữ liệu sẽ bị mất nếu như bạn xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
-                                        <button data-modal-toggle="deleteRoomType" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <h3 class="mb-5 text-lg font-normal text-gray-500">Loại phòng này hiện đang có 10 phòng và 12 yêu cầu thuê phòng. Dữ liệu sẽ bị mất nếu như bạn xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
+                                        <button data-modal-toggle="deleteRoomType" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                             Tôi chắc chắn
                                         </button>
-                                        <button data-modal-toggle="deleteRoomType" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Hủy bỏ</button>
+                                        <button data-modal-toggle="deleteRoomType" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Hủy bỏ</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <button
-                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F]  font-medium rounded text-sm px-5 py-2.5 text-center"
                             type="button" data-modal-toggle="editModal">
                             Chỉnh sửa
                         </button>
@@ -194,15 +198,15 @@
 
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <div class="relative bg-white rounded shadow">
 
                                     <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        class="flex justify-between items-start p-4 rounded-t border-b">
+                                        <h3 class="text-xl font-semibold text-gray-900">
                                             Chỉnh sửa loại phòng
                                         </h3>
                                         <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                                                 data-modal-toggle="editModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -265,7 +269,7 @@
                         </div>
 
                         <button
-                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F]  font-medium rounded text-sm px-5 py-2.5 text-center"
                             type="button" data-modal-toggle="addModal">
                             Thêm loại phòng mới
                         </button>
@@ -275,15 +279,15 @@
 
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <div class="relative bg-white rounded shadow">
 
                                     <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        class="flex justify-between items-start p-4 rounded-t border-b">
+                                        <h3 class="text-xl font-semibold text-gray-900">
                                             Thêm loại Phòng mới
                                         </h3>
                                         <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                                                 data-modal-toggle="addModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -390,7 +394,7 @@
                                 <div class="text-center p-2 text-sm">Danh sách phòng hiện tại: </div>
                                 <!-- <div class="border-2 rounded text-center p-2 text-sm">Thêm Phòng</div> -->
                                 <button
-                                    class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F]  font-medium rounded text-sm px-5 py-2.5 text-center"
                                     type="button" data-modal-toggle="addRoom">
                                     Thêm Phòng
                                 </button>
@@ -398,16 +402,16 @@
                                      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                        <div class="relative bg-white rounded shadow">
 
                                             <div
-                                                class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                class="flex justify-between items-start p-4 rounded-t border-b">
+                                                <h3 class="text-xl font-semibold text-gray-900">
                                                     Thêm Phòng mới
                                                 </h3>
 
                                                 <button type="button"
-                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                                                         data-modal-toggle="addRoom">
                                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -485,16 +489,16 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="../assets/javascript/jquery/jquery.min.js"></script>
             <script>
-                                            const hasResident = document.querySelectorAll('input[name="status"]');
-                                            const inputResident = document.querySelector('.inputResident');
-                                            hasResident.forEach(element => {
-                                                element.onclick = () => {
-                                                    if (element.value == "2" || element.value == "3") {
-                                                        inputResident.style.display = "block";
-                                                    } else
-                                                        inputResident.style.display = "none";
-                                                }
-                                            });
+                                                        const hasResident = document.querySelectorAll('input[name="status"]');
+                                                        const inputResident = document.querySelector('.inputResident');
+                                                        hasResident.forEach(element => {
+                                                            element.onclick = () => {
+                                                                if (element.value == "2" || element.value == "3") {
+                                                                    inputResident.style.display = "block";
+                                                                } else
+                                                                    inputResident.style.display = "none";
+                                                            }
+                                                        });
             </script>
             <script>
                 function addRoomType() {

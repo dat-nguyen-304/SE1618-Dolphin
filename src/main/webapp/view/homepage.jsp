@@ -18,7 +18,7 @@
      });*/
 </script> 
 
-<% 
+<%
     //response.setHeader("Cache-Control", "no-cache, no-store");
 %>
 
@@ -116,7 +116,7 @@
 
         <!-- about -->
         <section id="about" class="w-full bg-[#fff] overflow-hidden pt-[120px]">
-            <div class="bottom-divider relative about-intro w-[65%] mx-auto pb-[80px] grid grid-cols-3">
+            <div class="relative about-intro w-[65%] mx-auto pb-[80px] grid grid-cols-3">
                 <div class="col-span-1">
                     <h1 class="intro-header text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Về Sakura</h1>
                 </div>
@@ -129,7 +129,7 @@
                 </div>
             </div>
 
-            <div class="bottom-divider relative about-how w-[65%] mx-auto mt-[120px] pb-[80px]">
+            <div class="top-divider relative about-how w-[65%] mx-auto mt-[120px] pb-[80px]">
                 <div class="flex justify-center">
                     <h1 class="intro-header mx-auto text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Tại sao nên chọn Sakura?</h1>
                 </div>
@@ -169,7 +169,7 @@
         <!-- customer-review Section
         ================================================== -->
         <section id="customer-review" class="w-full bg-[#fff] overflow-hidden pt-[80px]">
-            <div class="bottom-divider relative review-container w-[65%] mx-auto mt-[30px] pb-[40px]">
+            <div class="top-divider relative review-container w-[65%] mx-auto mt-[30px] pb-[40px] z-0">
                 <div class="flex justify-center">
                     <h1 class="intro-header mx-auto text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Khách hàng đánh giá về SAKURA</h1>
                 </div>
@@ -287,55 +287,56 @@
         </section> <!-- end customer-review -->
 
         <!--FAQ-->
-        <section id="faq" class="w-full bg-[#fff] overflow-hidden pt-[80px]">
-            <div class=" w-[65%] mx-auto mt-[120px] pb-[80px]">
+        <section id="faq" class="w-full bg-[#fff] overflow-hidden pt-[80px] ">
+            <div class="top-divider relative w-[65%] mx-auto mt-[120px] pb-[80px]">
                 <div class="flex justify-center">
                     <h1 class="intro-header mx-auto text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Những đều cần lưu ý</h1>
                 </div>
                 <div id="accordion-color" data-accordion="collapse" data-active-classes="bg-[#F5FDFA]">
                     <h2 id="accordion-color-heading-1">
-                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left border-gray-200 text-[#17535B] hover:bg-[#F5FDFA] hover:text-[#17535B] " data-accordion-target="#accordion-color-body-1" aria-expanded="false" aria-controls="accordion-color-body-1">
-                            <span>Sakura là gì?</span>
-                            <svg data-accordion-icon="" class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left text-gray-500 border border-b-0 border-gray-200 hover:text-[#17535B] hover:bg-[#F5FDFA]" data-accordion-target="#accordion-color-body-1" aria-expanded="false" aria-controls="accordion-color-body-2">
+                            <span>SAKURA là gì?</span>
+                            <svg data-accordion-icon="" class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
                     </h2>
-                    <div id="accordion-color-body-1" class="duration-100" aria-labelledby="accordion-color-heading-1">
-                        <div class="p-5">
-                            <p class="mb-2 text-[#40576C] ">APLUS là mô hình chuỗi căn hộ dịch vụ tối ưu, mang đến giải pháp đột phá về nhà ở cho các bạn trẻ hiện đại với mức giá phù hợp.</p>
+                    <div id="accordion-color-body-1" class="hidden" aria-labelledby="accordion-color-heading-2">
+                        <div class="p-5 border border-b-0 border-gray-200">
+                            <p class="mb-2 text-[#17535B] ">SAKURA là mô hình chuỗi căn hộ dịch vụ tối ưu, mang đến giải pháp đột phá về nhà ở cho các bạn trẻ hiện đại với mức giá phù hợp.</p>
                         </div>
                     </div>
                     <h2 id="accordion-color-heading-2">
-                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left text-gray-500 border border-b-0 border-gray-200 hover:bg-[#F5FDFA]" data-accordion-target="#accordion-color-body-2" aria-expanded="false" aria-controls="accordion-color-body-2">
-                            <span>Is there a Figma file available?</span>
+                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left text-gray-500 border border-b-0 border-gray-200 hover:text-[#17535B] hover:bg-[#F5FDFA]" data-accordion-target="#accordion-color-body-2" aria-expanded="false" aria-controls="accordion-color-body-2">
+                            <span>Nếu thuê nhà ở SAKURA, tôi sẽ được hưởng những lợi ích và quyền lợi gì?</span>
                             <svg data-accordion-icon="" class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
                     </h2>
                     <div id="accordion-color-body-2" class="hidden" aria-labelledby="accordion-color-heading-2">
                         <div class="p-5 border border-b-0 border-gray-200">
-                            <p class="mb-2 text-gray-500 ">Flowbite is first conceptualized and designed using the Figma software so everything you see in the library has a design equivalent in our Figma file.</p>
-                            <p class="text-gray-500 ">Check out the <a href="https://flowbite.com/figma/" class="text-[#17535B] hover:underline">Figma design system</a> based on the utility classes from Tailwind CSS and components from Flowbite.</p>
+                            <p class="mb-2 text-[#17535B]">Đến với APLUS, bạn sẽ được đảm bảo toàn bộ về vấn đề nhà ở và các dịch vụ khác đi kèm.</p> 
+                            <p class="mb-2 text-[#17535B]">Giá thuê phòng, chi phí điện, nước, gửi xe, wifi,... sẽ được quy định rõ ràng, cụ thể trong hợp đồng giữa 2 bên. Phòng ốc đầy đủ nội thất, an ninh an toàn và sẽ luôn có dịch vụ vệ sinh hàng tuần. </p>
+                            <p class="text-[#17535B]">Ban quản lý toà nhà sẽ luôn lắng nghe và giải quyết vấn đề của bạn 24/7.</p>
                         </div>
                     </div>
                     <h2 id="accordion-color-heading-3">
-                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left text-gray-500 border border-gray-200 hover:bg-[#F5FDFA]" data-accordion-target="#accordion-color-body-3" aria-expanded="false" aria-controls="accordion-color-body-3">
-                            <span>What are the differences between Flowbite and Tailwind UI?</span>
+                        <button type="button" class="flex justify-between items-center p-5 w-full font-medium text-left text-gray-500 border border-gray-200 hover:text-[#17535B] hover:bg-[#F5FDFA]" data-accordion-target="#accordion-color-body-3" aria-expanded="false" aria-controls="accordion-color-body-3">
+                            <span>Các chi phí về điện, nước, wifi, vệ sinh sẽ được tính thế nào?</span>
                             <svg data-accordion-icon="" class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
                     </h2>
                     <div id="accordion-color-body-3" class="hidden" aria-labelledby="accordion-color-heading-3">
                         <div class="p-5 border border-t-0 border-gray-200">
-                            <p class="mb-2 text-gray-500 ">The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.</p>
-                            <p class="mb-2 text-gray-500 ">However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no technical reason stopping you from using the best of two worlds.</p>
-                            <p class="mb-2 text-gray-500 ">Learn more about these technologies:</p>
-                            <ul class="pl-5 list-disc text-gray-500 ">
-                                <li><a href="https://flowbite.com/pro/" class="text-blue-600 hover:underline">Flowbite Pro</a></li>
-                                <li><a href="https://tailwindui.com/" rel="nofollow" class="text-blue-600 hover:underline">Tailwind UI</a></li>
-                            </ul>
+                            <p class="mb-2 text-[#17535B]">Bên cạnh tiền phòng, các chi phí khác sẽ tùy thuộc vào từng khu vực nhà ở mà bạn sinh sống.</p>
+                            <p class="mb-2 text-[#17535B]">Mọi thông tin đều được thể hiện rõ ràng trên website APLUS Home như tiền điện, tiền nước, chi phí giữ xe, dọn dẹp vệ sinh,...</p>
+                            <p class="mb-2 text-[#17535B]">
+                                Bên cạnh đó, các khoản phí này đều sẽ được quy định trong hợp đồng thuê.
+                                Vì vậy, bạn có thể hoàn toàn yên tâm về vấn đề này khi sinh sống tại APLUS.</p>
+
                         </div>
                     </div>
                 </div>
             </div>
         </section> <!-- End FAQ -->
+
 
         <!-- footer
         ================================================== -->

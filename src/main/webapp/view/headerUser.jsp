@@ -32,12 +32,12 @@
                         <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
                     </a>
                     <c:if test="${sessionScope.currentUser.account.role == 1}">
-                        <a href="#">
+                        <a href="/sakura/tenant/dashboard">
                             <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
                         </a>
                     </c:if>
                     <c:if test="${sessionScope.currentUser.account.role == 2}">
-                        <a href="#">
+                        <a href="/sakura/landlord/overview">
                             <li><span><i class="bi bi-house-fill"></i>Trang quản lí</span></li>
                         </a>
                     </c:if>

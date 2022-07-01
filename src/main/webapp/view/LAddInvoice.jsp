@@ -43,7 +43,12 @@
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
+        <%@include file="../view/headerLandlordDashboard.jsp" %>
+        <%@include file="../view/navbarLandlordDashboard.jsp" %>
+
+        <c:if test="${sessionScope.currentUser == null}">
+            <p>Bạn phải đăng nhập để xem trang này</p>
+        </c:if>
 
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
@@ -94,7 +99,7 @@
                         <div class="">
                             <span>Nhà trọ: </span>
                             <button
-                                class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
                                 type="button" data-modal-toggle="hostelModal">
                                 <span id="hostelName">
                                     ${(requestScope.chosenHostel != null) ? requestScope.chosenHostel.hostelName : "Chọn nhà trọ"}
@@ -105,15 +110,15 @@
                                  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                                 <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <div class="relative bg-white rounded shadow">
 
                                         <div
-                                            class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                            class="flex justify-between items-start p-4 rounded-t border-b">
+                                            <h3 class="text-xl font-semibold text-gray-900">
                                                 Chọn Nhà Trọ
                                             </h3>
                                             <button type="button"
-                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                                                     data-modal-toggle="hostelModal">
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                      xmlns="http://www.w3.org/2000/svg">
@@ -136,16 +141,16 @@
                             </div>
                         </div>
 
-                            <form action="#" class="invoice-detail " method="POST">
-                                
-                                <input type="hidden" name="chosenRoomID" value="${requestScope.chosenRoom.roomID}">
-                                <input type="hidden" name="contractID" value="${requestScope.contract.contractID}">
-                                
+                        <form action="#" class="invoice-detail " method="POST">
+
+                            <input type="hidden" name="chosenRoomID" value="${requestScope.chosenRoom.roomID}">
+                            <input type="hidden" name="contractID" value="${requestScope.contract.contractID}">
+
                             <div class="invoice-detail-info mt-[20px] grid grid-cols-6">
 
                                 <span>Chọn phòng: </span>
                                 <button
-                                    class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center "
                                     type="button" data-modal-toggle="roomModal">
                                     <span id="roomNumber">${(requestScope.chosenRoom != null) ? requestScope.chosenRoom.roomNumber : "Chọn phòng"}</span>
                                 </button>
@@ -154,17 +159,17 @@
                                      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                        <div class="relative bg-white rounded shadow">
 
                                             <div
-                                                class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                class="flex justify-between items-start p-4 rounded-t border-b">
+                                                <h3 class="text-xl font-semibold text-gray-900">
                                                     Chọn Phòng
                                                     <!--<input class="ml-2" type="text" name="sefarchRoom" placeholder="Tìm Phòng"/>-->
 
                                                 </h3>
                                                 <button type="button"
-                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center "
                                                         data-modal-toggle="roomModal">
                                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -193,15 +198,15 @@
                                            class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn tháng...">
                                 </div>
-<!--                                <div class="flex items-center col-span-2 grid grid-cols-6">
-                                    <label for="invoice-start-date "
-                                           class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Hạn
-                                        thanh toán: </label>
-                                    <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
-                                           type="text" name="due-date" id="invoice-due-date"
-                                           class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
-                                           placeholder="Chọn ngày...">
-                                </div>-->
+                                <!--                                <div class="flex items-center col-span-2 grid grid-cols-6">
+                                                                    <label for="invoice-start-date "
+                                                                           class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Hạn
+                                                                        thanh toán: </label>
+                                                                    <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
+                                                                           type="text" name="due-date" id="invoice-due-date"
+                                                                           class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
+                                                                           placeholder="Chọn ngày...">
+                                                                </div>-->
                             </div>
                             <div class="invoice-time-range mt-[30px] grid grid-cols-6">
                                 <div class="start-date flex items-center col-span-2 grid grid-cols-6">
@@ -274,54 +279,54 @@
                                                         <span id="quantity${service.serviceID}"></span></td>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <input type="number" name="quantity${service.serviceID}" oninput="validity.valid||(value='');" min="0" id="quantity${service.serviceID}" value="0" onchange="updateSum(${service.serviceID}, ${service.type}, this)">
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            <td scope="col" class="px-6 py-3"><span id="serviceFee${service.serviceID}" class="rate">${service.serviceFee}</span></td>
-                                            <!--<td><input type="checkbox" class="useCheckBox" checked="" onclick="enableInput(${service.serviceID})"></td>-->
-                                            <td scope="col" class="px-6 py-3"><span class="rowSum money" id="rowSum${service.serviceID}">0</span></td>
-                                        </tr>
-                                    </c:forEach>
-                                        
-                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                        <td class="px-6 py-4">
-                                            Phí thuê phòng
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4 rate">
-                                            ${requestScope.contract.rentalFeePerMonth}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <span id="rentalFee" class="rate">${contract.rentalFeePerMonth}</span>
-                                        </td>
+                                            <input type="number" name="quantity${service.serviceID}" oninput="validity.valid||(value='');" min="0" id="quantity${service.serviceID}" value="0" onchange="updateSum(${service.serviceID}, ${service.type}, this)">
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <td scope="col" class="px-6 py-3"><span id="serviceFee${service.serviceID}" class="rate">${service.serviceFee}</span></td>
+                                    <!--<td><input type="checkbox" class="useCheckBox" checked="" onclick="enableInput(${service.serviceID})"></td>-->
+                                    <td scope="col" class="px-6 py-3"><span class="rowSum money" id="rowSum${service.serviceID}">0</span></td>
                                     </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            <a href="#" class="hover:text-[#288D87] hover:underline"></a>
-                                        </th>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4 text-[17px] text-[#17535B] font-medium">
-                                            Tổng tiền
-                                        </td>
-                                        <td class="px-6 py-4 text-[17px] text-[#17535B] font-bold">
-                                            <span id="invoiceSum" style="color:red" class="money"></span>
-                                            <input id="invoiceSumHidden" type="hidden" name="invoiceSum">
-                                        </td>
-                                    </tr>
+                                </c:forEach>
+
+                                <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
+                                    <td class="px-6 py-4">
+                                        Phí thuê phòng
+                                    </td>
+                                    <td class="px-6 py-4">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                    </td>
+                                    <td class="px-6 py-4 rate">
+                                        ${requestScope.contract.rentalFeePerMonth}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span id="rentalFee" class="rate">${contract.rentalFeePerMonth}</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        <a href="#" class="hover:text-[#288D87] hover:underline"></a>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                    </td>
+                                    <td class="px-6 py-4 text-[17px] text-[#17535B] font-medium">
+                                        Tổng tiền
+                                    </td>
+                                    <td class="px-6 py-4 text-[17px] text-[#17535B] font-bold">
+                                        <span id="invoiceSum" style="color:red" class="money"></span>
+                                        <input id="invoiceSumHidden" type="hidden" name="invoiceSum">
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                             <!-- end invoice table -->
@@ -451,136 +456,140 @@
         <!-- Breadcrumb -->
         <script src="js/breadcrumb.js"></script>
         <script>
-            $(document).ready(function () {
-                var allRateCells = $(".rate");
-                for (var i = 0; i < allRateCells.length; i++) {
-                var node = allRateCells[i];
-                var money = node.childNodes[0].nodeValue;
-                node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
-            });
-            
-            $("#invoice-month").click(function() {
-                $("#invoice-month").css("border", "");
-            });
-            
-            $("#invoice-start-date").click(function() {
-                $("#invoice-start-date").css("border", "");
-            });
-            
-            $("#invoice-end-date").click(function() {
-                $("#invoice-end-date").css("border", "");
-            });
-            
-            function changeHostel(hostelID, hostelName) {
-                $("#hostelName").html(hostelName);
-                $("#roomNumber").html("Chọn phòng");
-                $("#roomList").empty();
-                
-                jQuery.ajax({
-                    url: '/sakura/room/roomsNeedInvoice',
-                    type: 'GET',
-                    data: {hostelID: hostelID},
-                    dataType: 'text',
-                    success: function (result) {
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
-                        console.log("Compelte");
-                        var data = JSON.parse(result.responseText);
-                        for (var i = 0; i < data.length; i++) {
-                            $("#roomList").append('<a href="/sakura/invoice/new?hostelID=' + hostelID +'&roomID=' + data[i].roomID + '" class="mt-1 px-4 py-2 mx-2 rounded border-2">' + data[i].roomNumber + '</a>');
-                        }
-                        if (data.length === 0) {
-                            $("#roomList").append('<span>Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</span>');
-                        }
-                    }
-                });
-            }
-            
-        function enableInput(serviceID) {
-            $("#startInput" + serviceID).val("");
-            $("#endInput" + serviceID).val("");
-            $("#rowSum" + serviceID).html("");
-            if ($("#startInput" + serviceID).prop("disabled") === true) {
-                $("#startInput" + serviceID).prop("disabled", false);
-                $("#endInput" + serviceID).prop("disabled", false);
-            } else {
-                $("#startInput" + serviceID).prop("disabled", true);
-                $("#endInput" + serviceID).prop("disabled", true);
-            }
-        }
-        
-        function updateSum(serviceID, type, element) {$("#rowSum" + serviceID).html("");
-            var sum; 
-            if (type === 1) {
-                if ($(element).val() === "") sum = 0;
-                else {
-                    if ($(element).attr('id').indexOf('startInput') >= 0) {
-                        if ($("#startInput" + serviceID).val() > $("#endInput" + serviceID).val()) {
-                            $("#endInput" + serviceID).val($("#startInput" + serviceID).val());
-                        }
-                    }
+                                        $(document).ready(function () {
+                                            var allRateCells = $(".rate");
+                                            for (var i = 0; i < allRateCells.length; i++) {
+                                                var node = allRateCells[i];
+                                                var money = node.childNodes[0].nodeValue;
+                                                node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                            }
+                                        });
 
-                    if ($(element).attr('id').indexOf('endInput') >= 0) {
-                        if ($("#startInput" + serviceID).val() > $("#endInput" + serviceID).val()) {
-                            $("#startInput" + serviceID).val($("#endInput" + serviceID).val());
-                        }
-                    }
-                    sum = parseInt($("#endInput" + serviceID).val()) - parseInt($("#startInput" + serviceID).val());
-                }
-                $("#quantity" + serviceID).html(sum);
-            } else {
-                if ($(element).val() === "") sum = 0;
-                else sum = $("#quantity" + serviceID).val();
-            }       
-            sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
-            $("#rowSum" + serviceID).html(parseInt(sum));
-            
-            
-            var allRowSum = $(".rowSum");
-            var sumService = 0;
-            for (var i = 0; i < allRowSum.length; i++) {
-                var node = allRowSum[i];
-                sumService += parseInt($(node).html().replace(/,/g, ''));
-            }
-            
-            $("#serviceSum").html(sumService);
-            $("#invoiceSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
-            $("#invoiceSumHidden").val(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
-            console.log("hidden " + $("#invoiceSumHidden").val());
-            $("#invoiceSum").html($("#invoiceSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-            
-            $("#bottomSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
-            $("#bottomSum").html($("#bottomSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
-            
-            var allSumCells = $(".rowSum");
-            for (var i = 0; i < allSumCells.length; i++) {
-                var node = allSumCells[i];
-                var money = node.childNodes[0].nodeValue;
-                node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
-        }
-        
-        function validate() {
-            if ($("#invoice-month").val() === "") {
-                $("#invoice-month").css("border", "1.5px solid red");
-                return false;
-            }
-            if ($("#invoice-start-date").val() === "") {
-                $("#invoice-start-date").css("border", "1.5px solid red");
-                return false;
-            }
-            if ($("#invoice-end-date").val() === "") {
-                $("#invoice-end-date").css("border", "1.5px solid red");
-                return false;
-            }
-            if ($("#invoice-start-date").val() > $("#invoice-end-date").val()) {
-                console.log($("#invoice-start-date").val() > $("#invoice-end-date").val());
-                return false;
-            }
-        }
+                                        $("#invoice-month").click(function () {
+                                            $("#invoice-month").css("border", "");
+                                        });
+
+                                        $("#invoice-start-date").click(function () {
+                                            $("#invoice-start-date").css("border", "");
+                                        });
+
+                                        $("#invoice-end-date").click(function () {
+                                            $("#invoice-end-date").css("border", "");
+                                        });
+
+                                        function changeHostel(hostelID, hostelName) {
+                                            $("#hostelName").html(hostelName);
+                                            $("#roomNumber").html("Chọn phòng");
+                                            $("#roomList").empty();
+
+                                            jQuery.ajax({
+                                                url: '/sakura/room/roomsNeedInvoice',
+                                                type: 'GET',
+                                                data: {hostelID: hostelID},
+                                                dataType: 'text',
+                                                success: function (result) {
+                                                },
+                                                error: function () {
+                                                },
+                                                complete: function (result) {
+                                                    console.log("Compelte");
+                                                    var data = JSON.parse(result.responseText);
+                                                    for (var i = 0; i < data.length; i++) {
+                                                        $("#roomList").append('<a href="/sakura/invoice/new?hostelID=' + hostelID + '&roomID=' + data[i].roomID + '" class="mt-1 px-4 py-2 mx-2 rounded border-2">' + data[i].roomNumber + '</a>');
+                                                    }
+                                                    if (data.length === 0) {
+                                                        $("#roomList").append('<span>Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</span>');
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                        function enableInput(serviceID) {
+                                            $("#startInput" + serviceID).val("");
+                                            $("#endInput" + serviceID).val("");
+                                            $("#rowSum" + serviceID).html("");
+                                            if ($("#startInput" + serviceID).prop("disabled") === true) {
+                                                $("#startInput" + serviceID).prop("disabled", false);
+                                                $("#endInput" + serviceID).prop("disabled", false);
+                                            } else {
+                                                $("#startInput" + serviceID).prop("disabled", true);
+                                                $("#endInput" + serviceID).prop("disabled", true);
+                                            }
+                                        }
+
+                                        function updateSum(serviceID, type, element) {
+                                            $("#rowSum" + serviceID).html("");
+                                            var sum;
+                                            if (type === 1) {
+                                                if ($(element).val() === "")
+                                                    sum = 0;
+                                                else {
+                                                    if ($(element).attr('id').indexOf('startInput') >= 0) {
+                                                        if ($("#startInput" + serviceID).val() > $("#endInput" + serviceID).val()) {
+                                                            $("#endInput" + serviceID).val($("#startInput" + serviceID).val());
+                                                        }
+                                                    }
+
+                                                    if ($(element).attr('id').indexOf('endInput') >= 0) {
+                                                        if ($("#startInput" + serviceID).val() > $("#endInput" + serviceID).val()) {
+                                                            $("#startInput" + serviceID).val($("#endInput" + serviceID).val());
+                                                        }
+                                                    }
+                                                    sum = parseInt($("#endInput" + serviceID).val()) - parseInt($("#startInput" + serviceID).val());
+                                                }
+                                                $("#quantity" + serviceID).html(sum);
+                                            } else {
+                                                if ($(element).val() === "")
+                                                    sum = 0;
+                                                else
+                                                    sum = $("#quantity" + serviceID).val();
+                                            }
+                                            sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
+                                            $("#rowSum" + serviceID).html(parseInt(sum));
+
+
+                                            var allRowSum = $(".rowSum");
+                                            var sumService = 0;
+                                            for (var i = 0; i < allRowSum.length; i++) {
+                                                var node = allRowSum[i];
+                                                sumService += parseInt($(node).html().replace(/,/g, ''));
+                                            }
+
+                                            $("#serviceSum").html(sumService);
+                                            $("#invoiceSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
+                                            $("#invoiceSumHidden").val(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
+                                            console.log("hidden " + $("#invoiceSumHidden").val());
+                                            $("#invoiceSum").html($("#invoiceSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                                            $("#bottomSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
+                                            $("#bottomSum").html($("#bottomSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
+
+                                            var allSumCells = $(".rowSum");
+                                            for (var i = 0; i < allSumCells.length; i++) {
+                                                var node = allSumCells[i];
+                                                var money = node.childNodes[0].nodeValue;
+                                                node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                            }
+                                        }
+
+                                        function validate() {
+                                            if ($("#invoice-month").val() === "") {
+                                                $("#invoice-month").css("border", "1.5px solid red");
+                                                return false;
+                                            }
+                                            if ($("#invoice-start-date").val() === "") {
+                                                $("#invoice-start-date").css("border", "1.5px solid red");
+                                                return false;
+                                            }
+                                            if ($("#invoice-end-date").val() === "") {
+                                                $("#invoice-end-date").css("border", "1.5px solid red");
+                                                return false;
+                                            }
+                                            if ($("#invoice-start-date").val() > $("#invoice-end-date").val()) {
+                                                console.log($("#invoice-start-date").val() > $("#invoice-end-date").val());
+                                                return false;
+                                            }
+                                        }
         </script>
     </body>
 </html>

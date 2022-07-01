@@ -38,7 +38,7 @@ public class ContractController extends HttpServlet {
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
 
-            if (path.equals("/addContract")) {
+            if (path.equals("/add-contract")) {
                 if (request.getParameter("queryType") != null) {
                     
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));

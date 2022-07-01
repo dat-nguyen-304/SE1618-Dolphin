@@ -36,8 +36,12 @@
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
+        <%@include file="../view/headerLandlordDashboard.jsp" %>
+        <%@include file="../view/navbarLandlordDashboard.jsp" %>
 
+        <c:if test="${sessionScope.currentUser == null}">
+            <p>Bạn phải đăng nhập để xem trang này</p>
+        </c:if>
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -91,7 +95,7 @@
                             <div class="col-span-2 text-xs text-right">Phòng cho thuê: 101</div>
                             <div class="col-span-2 text-xs">Tiền đặt cọc: <span class="money">${requestScope.contract.deposit}</span></div>
                             <div class="col-span-2 text-xs text-right">Giá hằng tháng: <span class="money">${requestScope.contract.rentalFeePerMonth}</span></div>
-                            <c:if test="${requestScope.contract.description != null}">
+                                <c:if test="${requestScope.contract.description != null}">
                                 <div class="col-span-4 text-xs">Nội dung: -${requestScope.contract.description}-
                                 </div>
                             </c:if>
@@ -115,9 +119,9 @@
                     <p class="mt-8">Danh sách hóa đơn:</p>
                     <div class="mt-[20px] col-span-2">
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table class="w-full text-sm text-left text-gray-500 ">
                                 <thead
-                                    class="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    class="text-center text-xs text-gray-700 uppercase bg-gray-50  ">
                                     <tr>
                                         <th scope="col" class="text-center px-6 py-3">
                                             Hóa đơn ID
@@ -141,9 +145,9 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.invoiceList}" var="invoice">
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <tr class="bg-white border-b ">
                                             <th scope="row"
-                                                class="text-center px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                                class="text-center px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
                                                 ${invoice.invoiceID}
                                             </th>
                                             <td class="text-center px-6 py-4">
@@ -161,7 +165,7 @@
                                                 </td>
                                                 <td class="text-center px-6 py-4 text-center">
                                                     <a href="#"
-                                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem
+                                                       class="font-medium text-blue-600 hover:underline">Xem
                                                         chi tiết</a>
                                                 </td>
                                             </tr>

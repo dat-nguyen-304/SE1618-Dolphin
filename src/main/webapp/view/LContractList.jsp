@@ -28,7 +28,7 @@
 
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="LContractList.css">
+        <link rel="stylesheet" href="../assets/css/LContractList.css">
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -36,8 +36,12 @@
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
+        <%@include file="../view/headerLandlordDashboard.jsp" %>
+        <%@include file="../view/navbarLandlordDashboard.jsp" %>
 
+        <c:if test="${sessionScope.currentUser == null}">
+            <p>Bạn phải đăng nhập để xem trang này</p>
+        </c:if>
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -79,7 +83,7 @@
                     <div class="">
                         <span>Nhà trọ: </span>
                         <button
-                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
                             type="button" data-modal-toggle="hostelModal">
                             ${sessionScope.currentHostel.hostelName}
                         </button>
@@ -88,15 +92,15 @@
                              class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <div class="relative bg-white rounded shadow">
 
                                     <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        class="flex justify-between items-start p-4 rounded-t border-b">
+                                        <h3 class="text-xl font-semibold text-gray-900 ">
                                             Chọn Nhà Trọ
                                         </h3>
                                         <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                                                 data-modal-toggle="hostelModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +127,7 @@
                     <div class="ml-32">
                         <span>Phòng: </span>
                         <button
-                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
                             type="button" data-modal-toggle="roomModal">
                             101
                         </button>
@@ -132,15 +136,15 @@
                              class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <div class="relative bg-white rounded shadow">
 
                                     <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        class="flex justify-between items-start p-4 rounded-t border-b">
+                                        <h3 class="text-xl font-semibold text-gray-900">
                                             Chọn Phòng
                                         </h3>
                                         <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
                                                 data-modal-toggle="roomModal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -169,10 +173,10 @@
 
 
                     <div class="mt-[20px]">
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <div class="relative overflow-x-auto shadow-md sm:rounded">
+                            <table class="w-full text-sm text-left text-gray-500">
                                 <thead
-                                    class="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    class="text-center text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
                                         <th scope="col" class="text-center px-6 py-3">
                                             Hợp đồng ID
@@ -200,9 +204,9 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.contractList}" var="contract">
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <tr class="bg-white border-b">
                                             <th scope="row"
-                                                class="text-center px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                                class="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                 ${contract.contractID}
                                             </th>
                                             <td class="text-center px-6 py-4">
@@ -225,7 +229,7 @@
                                                 <td class="text-center px-6 py-4 text-center">
                                                     <form action="/sakura/landlord/contract-detail">
                                                         <button name="contractId" value="${contract.contractID}"
-                                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem
+                                                            class="font-medium text-blue-600 hover:underline">Xem
                                                         chi tiết</button>
                                                 </form>
                                             </td>
@@ -238,31 +242,31 @@
                             <ul class="inline-flex -space-x-px">
                                 <li>
                                     <a href="#"
-                                       class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Trước</a>
+                                       class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">Trước</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">2</a>
                                 </li>
                                 <li>
                                     <a href="#" aria-current="page"
-                                       class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                                       class="py-2 px-3 text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 ">3</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ">4</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ">5</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Sau</a>
+                                       class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ">Sau</a>
                                 </li>
                             </ul>
                         </nav>

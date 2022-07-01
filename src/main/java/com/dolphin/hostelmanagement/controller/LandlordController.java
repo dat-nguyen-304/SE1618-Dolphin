@@ -273,7 +273,7 @@ public class LandlordController extends HttpServlet {
                 String queryType = request.getParameter("queryType") == null ? "" : request.getParameter("queryType");
                 if (queryType.equals("accept")) {
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
-                    response.sendRedirect("/sakura/contract/addContract?bookingRequestID=" + bookingRequestID);
+                    response.sendRedirect("/sakura/contract/add-contract?bookingRequestID=" + bookingRequestID);
                     return;
                 } else if (queryType.equals("reject")) {
                     //change status of booking request from 1 to 0, means rejected request

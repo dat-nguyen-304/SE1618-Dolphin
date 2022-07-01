@@ -46,7 +46,12 @@
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
+        <%@include file="../view/headerLandlordDashboard.jsp" %>
+        <%@include file="../view/navbarLandlordDashboard.jsp" %>
+
+        <c:if test="${sessionScope.currentUser == null}">
+            <p>Bạn phải đăng nhập để xem trang này</p>
+        </c:if>
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -89,7 +94,7 @@
 
                 <!-- Search and filter -->
                 <div class="general-info flex justify-between mt-[20px]">
-                    
+
                 </div>
                 <div class="card p-5 mt-[20px]">
                     <div class="grid grid-cols-5 grid-rows-2 ">

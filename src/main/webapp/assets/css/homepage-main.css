@@ -108,7 +108,7 @@ select:-webkit-autofill:focus {
  *  08. common and reusable theme styles 
  *
  * ------------------------------------------------------------------- */
-.bottom-divider::before {
+.top-divider::before {
     display: block;
     content: "";
     height: 2px;
@@ -117,7 +117,7 @@ select:-webkit-autofill:focus {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 0;
+    top: -50px;
 }
 
 .about-how h1.intro-header::before, .review-container h1.intro-header::before  {

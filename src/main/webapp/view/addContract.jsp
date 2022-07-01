@@ -15,7 +15,7 @@
     <body>
         <h2>Thêm hợp đồng thuê nhà với người thuê là 
             ${requestScope.bookingRequest.tenant.fullname}</h2>
-        <form action = "/sakura/contract/addContract" method = "post">
+        <form action = "/sakura/contract/add-contract" method = "post">
             <label for="rooms">Choose a room:</label>
             <select name="roomID">
                 <c:forEach items="${requestScope.roomList}" var="room">
