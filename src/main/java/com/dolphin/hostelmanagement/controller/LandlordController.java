@@ -91,7 +91,7 @@ public class LandlordController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
@@ -260,7 +260,8 @@ public class LandlordController extends HttpServlet {
             } else if (path.equals("/invoice-detail")) {
                 int invoiceId = Integer.parseInt(request.getParameter("invoiceId"));
                 Invoice invoice = InvoiceDAO.findByID(invoiceId);
-
+                List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
+                request.setAttribute("detailList", detailList);
                 request.setAttribute("invoice", invoice);
                 request.getRequestDispatcher("/view/LInvoiceDetail.jsp").forward(request, response);
             } else if (path.equals("/add-invoice")) {
@@ -322,14 +323,14 @@ public class LandlordController extends HttpServlet {
                 boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
                 Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
                 if (addSuccess) {
-                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName()+ " thành công! Xem");
+                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
-                    out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID()+ "'>");
+                    out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
                     out.println("<input type=\"submit\" value=\"tại đây\">");
                     out.println("</form></span>");
                 }
             }
-            
+
             if (path.equals("/check-hostel-valid")) {
                 String hostelName = request.getParameter("hostelName").trim();
                 int landlordId = Integer.parseInt(request.getParameter("landlordId"));
@@ -340,7 +341,7 @@ public class LandlordController extends HttpServlet {
                     out.print("");
                 }
             }
-            
+
             if (path.equals("/add-roomtype")) {
                 String name = request.getParameter("name");
                 int price = Integer.parseInt(request.getParameter("price"));
@@ -358,7 +359,7 @@ public class LandlordController extends HttpServlet {
                     out.println("</form></span>");
                 }
             }
-            
+
             if (path.equals("/check-roomtype-valid")) {
                 String roomTypeName = request.getParameter("roomTypeName").trim();
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
@@ -382,7 +383,7 @@ public class LandlordController extends HttpServlet {
             }
         }
     }
-    
+
     private void copy(String src, String dest) throws IOException {
         InputStream is = null;
         OutputStream os = null;

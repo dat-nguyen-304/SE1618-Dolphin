@@ -5,12 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<<<<<<< Updated upstream
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-=======
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
->>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,9 +105,8 @@
                         <div>Trạng thái: ${(invoice.status == 1) ? "Chưa thanh toán" : (invoice.status == 2) ? "Đã thanh toán" : "Quá hạn"}
                         </div>
                         <div>Phòng: ${invoice.contract.room.roomNumber}</div>
-                        <div>Kỳ thanh toán <strong>???</strong></div>
+                        <div>Kỳ thanh toán ${invoice.month}</div>
                         <div>Đến: <span class="date">${invoice.endDate}</span></div>
-                        <div>Hạn: <span class="date">${invoice.dueDate}</span></div>
                     </div>
                 </div>
                 <!-- End Search and filter -->

@@ -256,7 +256,7 @@
                     <div class="table-extend flex justify-between">
 
                         <!-- Pagination -->
-                        <c:if test="${requestScope.invoiceList.size() > 0}">
+                        <c:if test="${requestScope.invoiceList.size() > 5}">
                             <nav aria-label="Page navigation example">
                                 <ul class="table-paging inline-flex items-center -space-x-px">
                                     <li>
