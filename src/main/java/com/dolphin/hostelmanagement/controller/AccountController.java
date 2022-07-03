@@ -234,7 +234,7 @@ public class AccountController extends HttpServlet {
                 acc = l.getAccount();
             }
             
-            ArrayList<Notification> notiList = NotificationDAO.getNotificationByToID(acc.getAccountID());
+            ArrayList<Notification> notiList = NotificationDAO.getNotificationByToAccount(acc);
 
             request.setAttribute("notiList", notiList);
             request.getRequestDispatcher("/view/myNotification.jsp").forward(request, response);

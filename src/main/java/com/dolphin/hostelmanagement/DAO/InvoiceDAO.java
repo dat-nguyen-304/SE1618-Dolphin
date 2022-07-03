@@ -12,10 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +24,6 @@ import java.util.List;
 public class InvoiceDAO {
 
     private static SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-    private static SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 
     public static List<Invoice> findByContract(int contractId) {
         List<Invoice> list = null;
@@ -255,10 +251,10 @@ public class InvoiceDAO {
                 pst.executeUpdate();
 
                 // update room latestInvoiceMonth OR UPDATE WHEN INVOICE CHANGE STATUS TO 'PAID'??
-                sql = "update Room set latestInvoiceMonth = GETDATE() where roomID = ?";
-                pst = cn.prepareCall(sql);
-                pst.setInt(1, roomID);
-                pst.executeUpdate();
+//                sql = "update Room set latestInvoiceMonth = GETDATE() where roomID = ?";
+//                pst = cn.prepareCall(sql);
+//                pst.setInt(1, roomID);
+//                pst.executeUpdate();
 
                 // get Invoice ID that is latest
                 sql = "select top 1 invoiceID from invoice order by invoiceID desc";
@@ -268,8 +264,6 @@ public class InvoiceDAO {
                     invoiceID = rs.getInt("invoiceID");
                 }
                 
-                System.out.println("270 " + invoiceID);
-
                 // insert service detail
                 for (ServiceDetail serviceDetail : detailList) {
                     sql = "insert into ServiceDetail(startValue, endValue, invoiceID, serviceID, quantity) values (?, ?, ?, ?, ?)";

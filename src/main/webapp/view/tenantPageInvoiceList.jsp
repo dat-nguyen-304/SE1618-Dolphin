@@ -121,7 +121,7 @@
                                             </svg>
                                         </div>
                                         <input name="start" type="text" id="start-date" <c:if test="${param.start != null}">value="${param.start}"</c:if>
-                                               class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10  datepicker-input"
+                                               class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10 datepicker-input"
                                                placeholder="Ngày đầu">
                                         </div>
                                         <span class="mx-4 text-gray-500">đến</span>
@@ -142,40 +142,45 @@
                                 </div>
 
                                 <!-- Filter by status -->
-                                <select name="sortByStatus">
-                                    <option value="0">Trạng thái</option>
-                                    <option value="1" <c:if test="${param.sortByStatus != null && param.sortByStatus == 1}">selected</c:if>>Chưa thanh toán</option>
-                                <option value="2" <c:if test="${param.sortByStatus != null && param.sortByStatus == 2}">selected</c:if>>Đã thanh toán</option>
-                                <option value="3" <c:if test="${param.sortByStatus != null && param.sortByStatus == 3}">selected</c:if>>Qúa hạn</option>
-                                </select>
-                                <!--<div class="dropdown-status mr-[20px]">-->
-                                <!--                                <button id="dropdownDefault" data-dropdown-toggle="dropdown-status"
-                                                                        class="text-[#17535B] bg-[#fff] hover:bg-[#F6F8FA] font-[14px] rounded text-sm px-4 py-2.5 text-center inline-flex items-center border border-[#17535B]"
-                                                                        type="button">Trạng thái <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
-                                                                                              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                          d="M19 9l-7 7-7-7">
-                                                                    </path>
-                                                                    </svg>
-                                                                </button>-->
-
-                                <!--                                <div id="dropdown-status" class="z-10 hidden bg-white rounded shadow"
-                                                                     data-popper-placement="bottom-start"
-                                                                     style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(592px, 681px);">
-                                                                    <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
-                                                                        <li>
-                                                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Chưa thanh toán</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Đã thanh toán</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Quá hạn</a>
-                                                                        </li>
-                                                                    </ul>
-                                
+                                <!--                                <div class="dropdown-status mr-[20px]">
+                                                                    <button id="dropdownDefault" data-dropdown-toggle="dropdown-status"
+                                                                            class="text-[#17535B] bg-[#fff] hover:bg-[#F6F8FA] font-[14px] rounded text-sm px-4 py-2.5 text-center inline-flex items-center border border-[#17535B]"
+                                                                            type="button">Trạng thái <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
+                                                                                                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                              d="M19 9l-7 7-7-7">
+                                                                        </path>
+                                                                        </svg>
+                                                                    </button>
+                                                                    <div id="dropdown-status" class="z-10 hidden bg-white rounded shadow"
+                                                                         data-popper-placement="bottom-start"
+                                                                         style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(592px, 681px);">
+                                                                        <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
+                                                                            <li>
+                                                                                <a href="/sakura/invoice/list?sortByStatus=1" class="block px-4 py-2 hover:bg-gray-100">Chưa thanh toán</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="/sakura/invoice/list?sortByStatus=2" class="block px-4 py-2 hover:bg-gray-100">Đã thanh toán</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="/sakura/invoice/list?sortByStatus=3" class="block px-4 py-2 hover:bg-gray-100">Quá hạn</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>-->
+                                <div>
+                                    <select name="sortByStatus">
+                                        <option value="0">Trạng thái</option>
+                                        <option value="1" <c:if test="${param.sortByStatus != null && param.sortByStatus == 1}">selected</c:if>>Chưa thanh toán</option>
+                                        <option value="2" <c:if test="${param.sortByStatus != null && param.sortByStatus == 2}">selected</c:if>>Đã thanh toán</option>
+                                        <option value="3" <c:if test="${param.sortByStatus != null && param.sortByStatus == 3}">selected</c:if>>Qúa hạn</option>
+                                    </select>
+                                </div>
                             </div>
+
+                            <!--Reset filter button-->
+                            <button type="submit" name="resetButton" value="true"
+                                    class="py-2.5 px-5 text-[14px] font-[14px] text-[#fff] focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F] focus:z-10">Hủy tất cả</button>
 
 
                             <!-- Submit button -->
@@ -213,20 +218,20 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="invoice-list">
                             <c:forEach var="invoice" items="${requestScope.invoiceList}">
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                <tr class="bg-white border-b hover:bg-gray-50 invoice-row">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap invoice-id">
                                         <a href="#" class="hover:text-[#288D87] hover:underline">${invoice.invoiceID}</a>
                                     </td>
-                                    <td class="px-6 py-4 date">
-                                        ${invoice.startDate}
+                                    <td class="px-6 py-4">
+                                        <p class="date startDate">${invoice.startDate}</p>
                                     </td>
-                                    <td class="px-6 py-4 date">
-                                        ${invoice.endDate}
+                                    <td class="px-6 py-4">
+                                        <p class="date endDate">${invoice.endDate}</p>
                                     </td>
-                                    <td class="px-6 py-4 money">
-                                        ${invoice.totalPrice} đ
+                                    <td class="px-6 py-4">
+                                        <p class="money">${invoice.totalPrice} đ</p>
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
@@ -362,6 +367,8 @@
     <script src="../assets/javascript/chart-tenant-page.js"></script>
     <script src="../assets/javascript/jquery.js"></script>
     <script>
+        var invoiceRows = $(".invoice-row");
+
         $(document).ready(function () {
             var allDateCells = $(".date");
             var allMoneyCells = $(".money");
@@ -376,6 +383,19 @@
                 var node = allMoneyCells[i];
                 var money = node.childNodes[0].nodeValue;
                 node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+        });
+
+        $("#search-invoice-id").on("input", function () {
+            var text = $("#search-invoice-id").val();
+            console.log(text);
+            for (var i = 0; i < invoiceRows.length; i++) {
+                var node = invoiceRows[i];
+                if ($(node).find(".invoice-id a").html().indexOf(text) < 0) {
+                    $(node).remove();
+                } else {
+                    $("#invoice-list").append($(node));
+                }
             }
         });
     </script>

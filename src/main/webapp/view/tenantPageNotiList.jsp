@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -76,7 +77,7 @@
                 <div class="content mt-[20px] flex justify-between grid grid-cols-2 gap-[20px]">
                     <!-- Notification list -->
                     <div class="noti-list flex flex-col justify-between">
-                        <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
+<!--                        <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
                             <div class="noti-item-header flex justify-between items-center mb-[20px]">
                                 <div class="text-[18px] font-bold text-[#2A3C46]">
                                     <h3>Chủ nhà</h3>
@@ -91,69 +92,23 @@
                                     Quis
                                     cursus arcu condimentum vel. Eleifend eu sit tristique eros.</p>
                             </div>
-                        </div>
-                        <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
+                        </div>-->
+                        
+                        <c:forEach var="notification" items="${requestScope.notificationList}">
+                            <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
                             <div class="noti-item-header flex justify-between items-center mb-[20px]">
                                 <div class="text-[18px] font-bold text-[#2A3C46]">
-                                    <h3>Hệ thống</h3>
+                                    <h3>${notification.createdDate}</h3>
                                 </div>
-                                <div class="text-[14px] font-normal text-[#597187] flex items-center">
-                                    <h3 class="rating mr-[3px]">21:17 - 05/03/2022</h3>
-                                </div>
+<!--                                <div class="text-[14px] font-normal text-[#597187] flex items-center">
+                                    <h3 class="rating mr-[3px]">${notification.createdDate}</h3>
+                                </div>-->
                             </div>
                             <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
-                                <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat elit odio
-                                    scelerisque duis quam enim pellentesque.</p>
+                                <p class="">${notification.content}</p>
                             </div>
                         </div>
-                        <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
-                            <div class="noti-item-header flex justify-between items-center mb-[20px]">
-                                <div class="text-[18px] font-bold text-[#2A3C46]">
-                                    <h3>Chủ nhà</h3>
-                                </div>
-                                <div class="text-[14px] font-normal text-[#597187] flex items-center">
-                                    <h3 class="rating mr-[3px]">08:49 - 01/03/2022</h3>
-                                </div>
-                            </div>
-                            <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
-                                <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat elit odio
-                                    scelerisque duis quam enim pellentesque. Lorem pellentesque adipiscing pulvinar dolor.
-                                    Quis
-                                    cursus arcu condimentum vel. Eleifend eu sit tristique eros.</p>
-                            </div>
-                        </div>
-                        <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
-                            <div class="noti-item-header flex justify-between items-center mb-[20px]">
-                                <div class="text-[18px] font-bold text-[#2A3C46]">
-                                    <h3>Chủ nhà</h3>
-                                </div>
-                                <div class="text-[14px] font-normal text-[#597187] flex items-center">
-                                    <h3 class="rating mr-[3px]">14:02 - 25/04/2022</h3>
-                                </div>
-                            </div>
-                            <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
-                                <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat elit odio
-                                    scelerisque duis quam enim pellentesque. Lorem pellentesque adipiscing pulvinar dolor.
-                                    Quis
-                                    cursus arcu condimentum vel. Eleifend eu sit tristique eros.</p>
-                            </div>
-                        </div>
-                        <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
-                            <div class="noti-item-header flex justify-between items-center mb-[20px]">
-                                <div class="text-[18px] font-bold text-[#2A3C46]">
-                                    <h3>Chủ nhà</h3>
-                                </div>
-                                <div class="text-[14px] font-normal text-[#597187] flex items-center">
-                                    <h3 class="rating mr-[3px]">14:02 - 25/04/2022</h3>
-                                </div>
-                            </div>
-                            <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
-                                <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat elit odio
-                                    scelerisque duis quam enim pellentesque. Lorem pellentesque adipiscing pulvinar dolor.
-                                    Quis
-                                    cursus arcu condimentum vel. Eleifend eu sit tristique eros.</p>
-                            </div>
-                        </div>
+                        </c:forEach>
 
                     </div>
                     <!-- End Notification list -->

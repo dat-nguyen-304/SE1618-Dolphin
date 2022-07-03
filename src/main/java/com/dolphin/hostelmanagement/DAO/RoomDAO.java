@@ -296,7 +296,7 @@ public class RoomDAO {
                         String latestMonthString = rs.getString("latestInvoiceMonth");
                         YearMonth latestInvoiceMonth = YearMonth.parse(latestMonthString);
                         if (roomType.getHostel().getHostelID() == hostelID && status == 1 && latestInvoiceMonth.isBefore(thisMonth)) {
-                            list.add(new Room(roomID, roomNumber));
+                            list.add(new Room(roomID, roomNumber, roomType, latestInvoiceMonth));
                         }
                     }
                 }
@@ -314,8 +314,43 @@ public class RoomDAO {
         }
         return list;
     }
+    
+    public static Room findRoomNewInvoice(int roomIDInput) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select roomID, roomNumber, CONCAT(YEAR(latestInvoiceMonth), '-', RIGHT(CONCAT('00', MONTH(latestInvoiceMonth)), 2)) as latestInvoiceMonth\n"
+                        + "from Room where roomID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, roomIDInput);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int roomID = rs.getInt("roomID");
+                        String roomNumber = rs.getString("roomNumber");
+                        RoomType roomType = findByID(roomID).getRoomType();
+                        String latestMonthString = rs.getString("latestInvoiceMonth");
+                        YearMonth latestInvoiceMonth = YearMonth.parse(latestMonthString);
+                        return new Room(roomID, roomNumber, roomType, latestInvoiceMonth);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
     public static void main(String args[]) {
-
+        System.out.println(RoomDAO.findRoomNewInvoice(2));
     }
 }

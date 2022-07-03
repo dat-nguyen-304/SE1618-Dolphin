@@ -12,7 +12,9 @@ import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
+import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Service;
 import com.dolphin.hostelmanagement.DTO.ServiceDetail;
@@ -152,15 +154,20 @@ public class InvoiceController extends HttpServlet {
                 List<Contract> contractList = ContractDAO.findByTenant(t);
 
                 if (path.equals("/list")) {
-                    List<Invoice> invoiceList = new ArrayList();
-                    for (Contract contract : contractList) {
-                        invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
+                    if (request.getParameter("resetButton") != null) {
+                        System.out.println("Reset!");
+                        response.sendRedirect("/sakura/invoice/list");
+                    } else {
+                        List<Invoice> invoiceList = new ArrayList();
+                        for (Contract contract : contractList) {
+                            invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
+                        }
+
+                        sortFilters(request, invoiceList);
+
+                        request.setAttribute("invoiceList", invoiceList);
+                        request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
                     }
-
-                    sortFilters(request, invoiceList);
-
-                    request.setAttribute("invoiceList", invoiceList);
-                    request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
                 }
 
                 if (path.equals("/detail")) {
@@ -188,7 +195,11 @@ public class InvoiceController extends HttpServlet {
                         invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
                     }
 
-                    sortFilters(request, invoiceList);
+                    if (request.getParameter("resetButton") != null) {
+                        System.out.println("Hellos");
+                    } else {
+                        sortFilters(request, invoiceList);
+                    }
 
                     request.setAttribute("invoiceList", invoiceList);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
@@ -215,19 +226,15 @@ public class InvoiceController extends HttpServlet {
 //                    String chosenHostelID = request.getParameter("hostelID");
                     String chosenRoomID = request.getParameter("roomID");
                     if (chosenRoomID != null) {
-                        Room room = RoomDAO.findByID(Integer.parseInt(chosenRoomID));
-                        Hostel hostel = room.getRoomType().getHostel();
+                        Room chosenRoom = RoomDAO.findRoomNewInvoice(Integer.parseInt(chosenRoomID));
+                        System.out.println("230 " + chosenRoom.getLatestInvoiceMonth());
+                        Hostel hostel = chosenRoom.getRoomType().getHostel();
                         request.setAttribute("chosenHostel", hostel);
-                        request.setAttribute("chosenRoom", RoomDAO.findByID(Integer.parseInt(chosenRoomID)));
+                        request.setAttribute("chosenRoom", chosenRoom);
                         activeServices = ServiceDAO.findHostelActiveServices(hostel);
                         List<Room> roomNoInvoiceList = RoomDAO.findRoomsNeedInvoice(hostel.getHostelID());
-
-                        if (roomNoInvoiceList != null && !roomNoInvoiceList.isEmpty()) {
-                            List<Room> noInvoiceList = new ArrayList();
-                            for (Room currRoom : roomNoInvoiceList) {
-                                noInvoiceList.add(new Room(currRoom.getRoomID(), currRoom.getRoomNumber()));
-                            }
-                            request.setAttribute("noInvoiceList", noInvoiceList);
+                        if (roomNoInvoiceList != null) {
+                            request.setAttribute("noInvoiceList", roomNoInvoiceList);
                         }
 
                         Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
@@ -245,6 +252,8 @@ public class InvoiceController extends HttpServlet {
                     String month = request.getParameter("invoice-month");
                     int totalPrice = Integer.parseInt(request.getParameter("invoiceSum"));
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
+                    Contract c = ContractDAO.findByID(contractID);
+                    Tenant t = c.getTenant();
 
                     int electricitySum = 0;
                     int waterSum = 0;
@@ -276,14 +285,26 @@ public class InvoiceController extends HttpServlet {
                     if (InvoiceDAO.save(startDate, endDate, totalPrice, contractID, month, new Date(), electricitySum, waterSum, detailList, roomID)) {
                         System.out.println("!! SAVED INVOICE !!");
                         url = "/sakura/view/success.jsp";
+
+                        // send notification to tenant
+                        Notification noti = new Notification();
+                        noti.setToAccount(t.getAccount());
+                        noti.setContent("Bạn có hóa đơn mới cho phòng trọ " + room.getRoomNumber());
+                        noti.setCreatedDate(new Date());
+                        noti.setStatus(0);
+                        NotificationDAO.saveNotification(noti);
                     } else {
                         url = "/sakura/view/failure.jsp";
                     }
                     response.sendRedirect(url);
                 }
-                
-                if (path.equals("/success")) request.getRequestDispatcher("/view/success.jsp").forward(request, response);
-                if (path.equals("/failure")) request.getRequestDispatcher("/view/failure.jsp").forward(request, response);
+
+                if (path.equals("/success")) {
+                    request.getRequestDispatcher("/view/success.jsp").forward(request, response);
+                }
+                if (path.equals("/failure")) {
+                    request.getRequestDispatcher("/view/failure.jsp").forward(request, response);
+                }
             }
         }
     }

@@ -65,7 +65,7 @@
                 </a>
             </li>
             <li>
-                <a href="../view/tenantPageNotiList.jsp"
+                <a href="/sakura/tenant/notifications"
                    class="menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]"
