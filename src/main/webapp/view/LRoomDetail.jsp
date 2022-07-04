@@ -176,9 +176,9 @@
                     <div class="grid grid-cols-12 gap-x-8">
                         <div class="col-span-5 border-4 p-4 border-2 rounded mt-[24px]">
                             <div id="default-carousel" class="relative" data-carousel="static">
-                                <!-- Carousel wrapper -->
+                                Carousel wrapper 
                                 <div class="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96">
-                                    <!-- Item 1 -->
+                                    Item 1 
                                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
                                         <span
                                             class="absolute top-1/2 left-1/2 text-2xl font-semibold text-white -translate-x-1/2 -translate-y-1/2 sm:text-3xl">First
@@ -188,14 +188,14 @@
                                              class="block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2"
                                              alt="...">
                                     </div>
-                                    <!-- Item 2 -->
+                                    Item 2 
                                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
                                         <img class="h-full w-full object-cover"
                                              src="https://timtro.vn/images/2021/08/tim-tro.jpg"
                                              class="block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2"
                                              alt="...">
                                     </div>
-                                    <!-- Item 3 -->
+                                    Item 3 
                                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
                                         <img class="h-full w-full object-cover"
                                              src="https://pt123.cdn.static123.com/images/2021/02/22/cho-thue-phong-tro_1613975723.jpg"
@@ -203,7 +203,7 @@
                                              alt="...">
                                     </div>
                                 </div>
-                                <!-- Slider indicators -->
+                                Slider indicators 
                                 <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
                                     <button type="button" class="w-3 h-3 rounded-full" aria-current="false"
                                             aria-label="Slide 1" data-carousel-slide-to="0"></button>
@@ -212,7 +212,7 @@
                                     <button type="button" class="w-3 h-3 rounded-full" aria-current="false"
                                             aria-label="Slide 3" data-carousel-slide-to="2"></button>
                                 </div>
-                                <!-- Slider controls -->
+                                Slider controls 
                                 <button type="button"
                                         class="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
                                         data-carousel-prev>
@@ -274,90 +274,242 @@
                                 <div class="shadow-lg rounded text-center p-2 bg-red-300">Loại Phòng: ${requestScope.currentRoom.roomType.roomTypeName}
                                 </div>
                                 <div class="grid grid-cols-2 gap-8">
-                                    <button
-                                        class="w-fit inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                                        type="button" data-modal-toggle="editRoom">
-                                        Chỉnh sửa
-                                    </button>
-                                    <div id="editRoom" tabindex="-1" aria-hidden="true"
-                                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
-                                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                    <!-- ---------------------------------------------------------------------------------- -->
+                                    <div class="bg-[#f7f7fa]">
+                                        <div class="bg-[#fff] rounded shadow">
+                                            <!-- Modal toggle -->
+                                            <button id="updateRoom-1" type="submit" name="action" value="Save"
+                                                    class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded">
+                                                Chỉnh sửa thông tin phòng 
+                                            </button>
 
-                                            <div class="relative bg-white rounded-lg shadow">
-
+                                            <!--Modal-->
+                                            <div
+                                                class="updateRoommodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                                <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
                                                 <div
-                                                    class="flex justify-between items-start p-4 rounded-t border-b">
-                                                    <h3 class="text-xl font-semibold text-gray-900">
-                                                        Chỉnh sửa cho phòng ${requestScope.currentRoom.roomNumber}
-                                                    </h3>
-                                                    <p class="text-xs updateRoomMessage"></p>
-                                                    <button type="button"
-                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
-                                                            data-modal-toggle="editRoom">
-                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd"
-                                                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                              clip-rule="evenodd"></path>
+                                                    class="modal-container bg-white w-5/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                                    <div
+                                                        class="updateRoommodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                                        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                             viewBox="0 0 18 18">
+                                                        <path
+                                                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                        </path>
                                                         </svg>
-                                                    </button>
-                                                </div>
+                                                        <span class="text-sm">(Esc)</span>
+                                                    </div>
+                                                    <div class="modal-content">
+                                                        <!--Title-->
+                                                        <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                            <p class="text-2xl font-bold">Chỉnh sửa loại phòng ${requestScope.currentRoom.roomNumber}</p>
+                                                            <div
+                                                                class="updateRoommodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                                <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                                     height="18" viewBox="0 0 18 18">
+                                                                <path
+                                                                    d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                                </path>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        <!--Body-->
+                                                        <div class="p-4">
+                                                            <div class="my-2">
+                                                                <label class="w-[160px] inline-block" for="">Loại phòng</label>
+                                                                <select name="updateRoomType" id="" class="w-[180px] p-1">
+                                                                    <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
+                                                                        <c:if test="${requestScope.currentRoom.roomType.roomTypeID == roomtype.roomTypeID}">
+                                                                            <option selected value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
+                                                                        </c:if>
+                                                                        <c:if test="${requestScope.currentRoom.roomType.roomTypeID != roomtype.roomTypeID}">
+                                                                            <option value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
+                                                                        </c:if>
+                                                                    </c:forEach>
+                                                                </select>
+                                                            </div>
+                                                            <div class="my-2">
+                                                                <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
+                                                                <input type="hidden" name="roomId" value="${requestScope.currentRoom.roomID}"/>
+                                                                <input type="hidden" name="roomNumber" value="${requestScope.currentRoom.roomNumber}"/>
+                                                                <p class="text-xs validRoomMessage"></p>
+                                                                <label class="w-[160px] inline-block" for="">Tên phòng</label>
+                                                                <input type="text" name="updateRoomNumber" value="${requestScope.currentRoom.roomNumber}" onkeyup="checkValidRoom(this)" class="text-sm p-1">
+                                                                <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
+                                                            </div>
+                                                        </div>
 
-                                                <div class="p-4">
-                                                    <div class="my-2">
-                                                        <label class="w-[160px] inline-block" for="">Loại phòng</label>
-                                                        <select name="updateRoomType" id="" class="w-[180px] p-1">
-                                                            <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
-                                                                <c:if test="${requestScope.currentRoom.roomType.roomTypeID == roomtype.roomTypeID}">
-                                                                    <option selected value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
-                                                                </c:if>
-                                                                <c:if test="${requestScope.currentRoom.roomType.roomTypeID != roomtype.roomTypeID}">
-                                                                    <option value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </select>
+                                                        <!--Footer-->
+                                                        <div class="flex justify-end p-[20px]">
+                                                            <button
+                                                                class="updateRoommodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                            <button id="updateRoom-2" onclick="updateRoom()"
+                                                                    class="updateRoom px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu thay đổi</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="my-2">
-                                                        <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
-                                                        <input type="hidden" name="roomId" value="${requestScope.currentRoom.roomID}"/>
-                                                        <input type="hidden" name="roomNumber" value="${requestScope.currentRoom.roomNumber}"/>
-                                                        <p class="text-xs validRoomMessage"></p>
-                                                        <label class="w-[160px] inline-block" for="">Tên phòng</label>
-                                                        <input type="text" name="updateRoomNumber" value="${requestScope.currentRoom.roomNumber}" onkeyup="checkValidRoom(this)" class="text-sm p-1">
-                                                        <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
+                                                </div>
+                                            </div>
+                                            <!--Modal 2-->
+                                            <div
+                                                class="updateRoommodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                                <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                                <div
+                                                    class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                                    <div
+                                                        class="updateRoommodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                                        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                             viewBox="0 0 18 18">
+                                                        <path
+                                                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                        </path>
+                                                        </svg>
+                                                        <span class="text-sm">(Esc)</span>
                                                     </div>
-                                                    <div class="grid justify-items-end">
-                                                        <button type="button" class=" px-8 py-2 mx-4 my-2 border-2 rounded updateRoom" onclick="updateRoom()">Xác nhận</button>
+                                                    <div class="modal-content">
+                                                        <!--Title-->
+                                                        <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                            <p class="text-2xl font-bold">Xác nhận</p>
+                                                            <div
+                                                                class="updateRoommodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                                <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                                     height="18" viewBox="0 0 18 18">
+                                                                <path
+                                                                    d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                                </path>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        <!--Body-->
+                                                        <div class="p-[20px]">
+                                                            <p class="updateRoomMessage"></p>
+                                                        </div>
+                                                        <!--Footer-->
+                                                        <div class="flex justify-end p-[20px]">
+                                                            <button
+                                                                class="updateRoommodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                            <c:if test="${sessionScope.needReload == true}">
+                                                                <form action="/sakura/landlord/room-detail">
+                                                                    <input type="hidden" name="roomId" value="${requestScope.currentRoom.roomID}"/>
+                                                                    <button type="submit"
+                                                                            class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                                    </button>
+                                                                </form>
+                                                            </c:if>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button
-                                        class="w-fit inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                                        type="button" data-modal-toggle="deleteRoom">
-                                        Xóa Phòng này
-                                    </button>
+                                    <!-- ---------------------------------------------------------------------------------- -->
+                                    
+                                    <!-- ---------------------------------------------------------------------------------- -->
+                                    <div class="bg-[#f7f7fa]">
+                                        <div class="bg-[#fff] rounded shadow">
+                                            <!-- Modal toggle -->
+                                            <button id="deleteRoom-1" type="submit" name="action" value="Save"
+                                                    class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded">
+                                                Xóa phòng 
+                                            </button>
 
-                                    <div id="deleteRoom" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
-                                        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-                                            <div class="relative bg-white rounded-lg shadow">
-                                                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="deleteRoom">
-                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                                                </button>
+                                            <!--Modal-->
+                                            <div
+                                                class="deleteRoommodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                                <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                                <div
+                                                    class="modal-container bg-white w-5/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                                    <div
+                                                        class="deleteRoommodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                                        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                             viewBox="0 0 18 18">
+                                                        <path
+                                                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                        </path>
+                                                        </svg>
+                                                        <span class="text-sm">(Esc)</span>
+                                                    </div>
+                                                    <div class="modal-content">
+                                                        <!--Title-->
+                                                        <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                            <p class="text-2xl font-bold">Xóa phòng ${requestScope.currentRoom.roomNumber}</p>
+                                                            <div
+                                                                class="deleteRoommodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                                <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                                     height="18" viewBox="0 0 18 18">
+                                                                <path
+                                                                    d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                                </path>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        <!--Body-->
+                                                        <div class="p-4">
+                                                            <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Tất cả dữ liệu về hợp đồng, hóa đơn liên quan đến phòng ${requestScope.currentRoom.roomNumber} sẽ bị xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
+                                                        </div>
 
-                                                <div class="p-6 text-center">
-                                                    <p class="text-xs deleteRoomContent"></p>
-                                                    <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                    <h3 class="mb-5 text-lg font-normal text-gray-500">Phòng hiện đang có 4 người ở. Dữ liệu sẽ bị mất nếu như bạn xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
-                                                    <button data-modal-toggle="deleteRoom" onclick="deleteRoom(this)" type="button" class="deleteRoomBtn text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                                                        Tôi chắc chắn
-                                                    </button>
-                                                    <button data-modal-toggle="deleteRoom" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Hủy bỏ</button>
+                                                        <!--Footer-->
+                                                        <div class="flex justify-end p-[20px]">
+                                                            <button
+                                                                class="deleteRoommodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                            <button id="deleteRoom-2" onclick="deleteRoom()"
+                                                                    class="deleteRoom px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Tôi chắc chắn</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Modal 2-->
+                                            <div
+                                                class="deleteRoommodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                                <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                                <div
+                                                    class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                                    <div
+                                                        class="deleteRoommodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                                        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                             viewBox="0 0 18 18">
+                                                        <path
+                                                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                        </path>
+                                                        </svg>
+                                                        <span class="text-sm">(Esc)</span>
+                                                    </div>
+                                                    <div class="modal-content">
+                                                        <!--Title-->
+                                                        <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                            <p class="text-2xl font-bold">Xác nhận</p>
+                                                            <div
+                                                                class="deleteRoommodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                                <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                                     height="18" viewBox="0 0 18 18">
+                                                                <path
+                                                                    d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                                </path>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        <!--Body-->
+                                                        <div class="p-[20px]">
+                                                            <p class="deleteRoomContent"></p>
+                                                        </div>
+                                                        <!--Footer-->
+                                                        <div class="flex justify-end p-[20px]">
+                                                            <button
+                                                                class="deleteRoommodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                            <c:if test="${sessionScope.needReload == true}">
+                                                                <form action="/sakura/landlord/overview">
+                                                                    <button type="submit"
+                                                                            class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                                    </button>
+                                                                </form>
+                                                            </c:if>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- ---------------------------------------------------------------------------------- -->
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 py-4">
@@ -442,30 +594,30 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <script>
-                                                        $(function () {
-                                                            var duplicates = 0,
-                                                                    $original = $('.room-resident').clone(true);
-                                                            function DuplicateForm() {
-                                                                var newForm;
-                                                                duplicates++;
-                                                                newForm = $original.clone(true).insertBefore($('h1'));
-                                                                $.each($('input', newForm), function (i, item) {
-                                                                    $(item).attr('name', $(item).attr('name') + duplicates);
-                                                                });
-                                                                $('<h2>Thành viên ' + (duplicates + 1) + '</h2>').insertBefore(newForm);
-                                                            }
+                                                                $(function () {
+                                                                    var duplicates = 0,
+                                                                            $original = $('.room-resident').clone(true);
+                                                                    function DuplicateForm() {
+                                                                        var newForm;
+                                                                        duplicates++;
+                                                                        newForm = $original.clone(true).insertBefore($('h1'));
+                                                                        $.each($('input', newForm), function (i, item) {
+                                                                            $(item).attr('name', $(item).attr('name') + duplicates);
+                                                                        });
+                                                                        $('<h2>Thành viên ' + (duplicates + 1) + '</h2>').insertBefore(newForm);
+                                                                    }
 
-                                                            $('a[href="add-new-form"]').on('click', function (e) {
-                                                                e.preventDefault();
-                                                                console.log(count);
-                                                                DuplicateForm();
-                                                                var count = $('form .room-resident ').length;
-                                                                if (count == 5) {
-                                                                    $('a[href="add-new-form"]').removeAttr("style").hide();
-                                                                    return;
-                                                                }
-                                                            });
-                                                        });
+                                                                    $('a[href="add-new-form"]').on('click', function (e) {
+                                                                        e.preventDefault();
+                                                                        console.log(count);
+                                                                        DuplicateForm();
+                                                                        var count = $('form .room-resident ').length;
+                                                                        if (count == 5) {
+                                                                            $('a[href="add-new-form"]').removeAttr("style").hide();
+                                                                            return;
+                                                                        }
+                                                                    });
+                                                                });
         </script>
         <script>
             function checkValidRoom(element) {
@@ -473,6 +625,8 @@
                 const validRoomMessage = document.querySelector(".validRoomMessage");
                 const updateRoomBtn = document.querySelector(".updateRoom");
                 const roomNumber = document.querySelector("input[name='roomNumber']");
+                console.log("current: ", roomNumber.value.trim());
+                console.log("new: ", element.value.trim());
                 if (roomNumber.value.trim() !== element.value.trim()) {
                     jQuery.ajax({
                         type: 'POST',
@@ -497,6 +651,8 @@
                         complete: function (result) {
                         }
                     });
+                } else {
+                    validRoomMessage.innerHTML = "";
                 }
             }
 
@@ -548,6 +704,122 @@
                     complete: function (result) {
                     }
                 });
+            }
+        </script>
+
+        <script>
+            var open_modal_1 = document.querySelector('#updateRoom-1');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.updateRoommodal1');
+            });
+
+            var open_modal_2 = document.querySelector('#updateRoom-2');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.updateRoommodal2');
+            });
+
+            // Bấm ngoài modal thì đóng modal
+            // const overlay = document.querySelector('.modal .modal-overlay');
+            // overlay.addEventListener('click', toggleModal('.modal'));
+
+            var close_modal_1 = document.querySelectorAll('.updateRoommodal1 .updateRoommodal1-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.updateRoommodal1');
+                    console.log('close 1');
+                });
+            }
+
+            var close_modal_2 = document.querySelectorAll('.updateRoommodal2 .updateRoommodal2-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.updateRoommodal2');
+                    console.log('close 2');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.updateRoommodal1');
+                const modal_2 = document.querySelector('.updateRoommodal2');
+                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
+                    toggleModal('.updateRoommodal1');
+                }
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.updateRoommodal2');
+                }
+            };
+            function toggleModal(modal_item) {
+                const modal = document.querySelector(modal_item);
+                modal.classList.toggle('active-modal')
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+            }
+        </script>
+        
+        <script>
+            var open_modal_1 = document.querySelector('#deleteRoom-1');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.deleteRoommodal1');
+            });
+
+            var open_modal_2 = document.querySelector('#deleteRoom-2');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.deleteRoommodal2');
+            });
+
+            // Bấm ngoài modal thì đóng modal
+            // const overlay = document.querySelector('.modal .modal-overlay');
+            // overlay.addEventListener('click', toggleModal('.modal'));
+
+            var close_modal_1 = document.querySelectorAll('.deleteRoommodal1 .deleteRoommodal1-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.deleteRoommodal1');
+                    console.log('close 1');
+                });
+            }
+
+            var close_modal_2 = document.querySelectorAll('.deleteRoommodal2 .deleteRoommodal2-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.deleteRoommodal2');
+                    console.log('close 2');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.deleteRoommodal1');
+                const modal_2 = document.querySelector('.deleteRoommodal2');
+                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
+                    toggleModal('.deleteRoommodal1');
+                }
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.deleteRoommodal2');
+                }
+            };
+            function toggleModal(modal_item) {
+                const modal = document.querySelector(modal_item);
+                modal.classList.toggle('active-modal')
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
             }
         </script>
     </body>

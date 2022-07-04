@@ -96,22 +96,155 @@
                                         <p class="font-medium text-[15px] text-[#fff]">${sessionScope.currentHostel.hostelName}</h3>
                                     </button>
                                 </div>
-                                <button type="button" data-modal-toggle="editHostel"
-                                        class="mr-[20px] rounded w-[150px] h-[30px] bg-[#fff] border order-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                    <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Chỉnh sửa nhà trọ</p>
+                                <button id="editHostel-1" type="submit" name="action" value="Save"
+                                        class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded">
+                                    Chỉnh sửa nhà trọ
                                 </button>
-                                <button type="button" data-modal-toggle="deleteHostel"
-                                        class="mr-[20px] rounded w-[150px] h-[30px] bg-[#fff] border order-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                    <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Xóa nhà trọ này</p>
+                                <button id="deleteHostel-1" type="submit" name="action" value="Save"
+                                        class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded">
+                                    Xóa nhà trọ này
                                 </button>
                             </div>
                         </c:if>
-                        <button type="button" data-modal-toggle="addHostel"
-                                class="rounded w-[150px] h-[30px] bg-[#fff] border order-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                            <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Thêm nhà trọ <i
-                                    class="bi bi-plus-lg"></i></p>
-                        </button>
+                        <!-- ---------------------------------------------------------------------------------- -->
+                        <div class="bg-[#f7f7fa]">
+                            <div class="bg-[#fff] rounded shadow">
+                                <!-- Modal toggle -->
+                                <button id="addHostel-1" type="submit" name="action" value="Save"
+                                        class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded">
+                                    Thêm nhà trọ
+                                </button>
 
+                                <!--Modal-->
+                                <div
+                                    class="addHostelmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                    <div
+                                        class="modal-container bg-white w-5/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                        <div
+                                            class="addHostelmodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                 viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                            <span class="text-sm">(Esc)</span>
+                                        </div>
+                                        <div class="modal-content">
+                                            <!--Title-->
+                                            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                <p class="text-2xl font-bold">Thêm nhà trọ mới</p>
+                                                <div
+                                                    class="addHostelmodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                         height="18" viewBox="0 0 18 18">
+                                                    <path
+                                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                    </path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <!--Body-->
+                                            <div class="p-4">
+                                                <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Tên nhà trọ mới</label>
+                                                    <input type="text" required name="name" class="text-sm p-1" onkeyup="checkValidHostel(this)"/>
+                                                    <span class="text-xs validHostelMessage"></span>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
+                                                    <select id="province" class="w-[200px] p-1" name="provinceId" onchange="renderDistrictSimple(this)">
+                                                        <c:forEach items="${requestScope.provinceList}" var="province">
+                                                            <option value="${province.provinceID}">${province.provinceName}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Chọn huyện</label>
+                                                    <select id="district" name="districtId" class="w-[200px] p-1">
+                                                        <c:forEach items="${requestScope.districtList}" var="district">
+                                                            <option value="${district.districtID}">${district.districtName}</option>
+                                                        </c:forEach>
+                                                    </select> 
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
+                                                    <input type="text" name="streetAddress" required class="w-[400px] text-sm p-1">
+                                                    <p class="ml-[200px] text-xs">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
+                                                    <textarea required class="text-sm p-1" name="description" id="" cols="48" rows="2"></textarea>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
+                                                    <input required type="file" multiple rounded />
+                                                </div>
+                                            </div>
+                                            <!--Footer-->
+                                            <div class="flex justify-end p-[20px]">
+                                                <button
+                                                    class="addHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                <button id="addHostel-2" onclick="addHostel()"
+                                                        class="addHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Modal 2-->
+                                <div
+                                    class="addHostelmodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                    <div
+                                        class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                        <div
+                                            class="addHostelmodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                 viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                            <span class="text-sm">(Esc)</span>
+                                        </div>
+                                        <div class="modal-content">
+                                            <!--Title-->
+                                            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                <p class="text-2xl font-bold">Xác nhận</p>
+                                                <div
+                                                    class="addHostelmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                         height="18" viewBox="0 0 18 18">
+                                                    <path
+                                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                    </path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <!--Body-->
+                                            <div class="p-[20px]">
+                                                <p class="addHostelMessage"></p>
+                                            </div>
+                                            <!--Footer-->
+                                            <div class="flex justify-end p-[20px]">
+                                                <button
+                                                    class="addHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                <c:if test="${sessionScope.needReload == true}">
+                                                    <form action="/sakura/landlord/overview">
+                                                        <button type="submit"
+                                                                class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                        </button>
+                                                    </form>
+                                                </c:if>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ---------------------------------------------------------------------------------- -->
                     </div>
                     <!-- Modal list-->
                     <c:if test="${sessionScope.currentHostel != null}">
@@ -148,175 +281,254 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="editHostel" tabindex="-1" aria-hidden="true"
-                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
-                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-
-                                    <div
-                                        class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                            Chỉnh sửa
-                                        </h3>
-                                        <p class="text-xs updateHostelMessage"></p>
-                                        <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                data-modal-toggle="editHostel">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                  clip-rule="evenodd"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-
-                                    <div class="p-4">
-                                        <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
-                                        <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
-                                        <div class="my-2">
-                                            <label class="w-[160px] inline-block" for="">Tên nhà trọ</label>
-                                            <input type="hidden" name="currentName" value="${sessionScope.currentHostel.hostelName}"/>
-                                            <input type="text" name="updateName" value="${sessionScope.currentHostel.hostelName}" class="text-sm p-1" onkeyup="checkValidUpdateHostel(this)"/>
-                                            <span class="text-xs validUpdateHostelMessage"></span>
-                                        </div>
-                                        <div class="my-2">
-                                            <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
-                                            <select id="updateProvince" class="w-[200px] p-1" name="updateProvinceId" onchange="renderDistrictSimple(this)">
-                                                <c:forEach items="${requestScope.provinceList}" var="province">
-                                                    <c:if test="${province.provinceID == sessionScope.currentHostel.district.province.provinceID}">
-                                                        <option selected value="${province.provinceID}">${province.provinceName}</option>
-                                                    </c:if>
-                                                    <c:if test="${province.provinceID != sessionScope.currentHostel.district.province.provinceID}">
-                                                        <option value="${province.provinceID}">${province.provinceName}</option>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                        <div class="my-2">
-                                            <label class="w-[160px] inline-block" for="">Chọn huyện</label>
-                                            <select id="updateDistrict" name="updateDistrictId" class="w-[200px] p-1">
-                                                <c:forEach items="${requestScope.districtList}" var="district">
-                                                    <c:if test="${district.districtID == sessionScope.currentHostel.district.districtID}">
-                                                        <option selected value="${district.districtID}">${district.districtName}</option>
-                                                    </c:if>
-                                                    <c:if test="${district.districtID != sessionScope.currentHostel.district.districtID}">
-                                                        <option value="${district.districtID}">${district.districtName}</option>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </select> 
-                                        </div>
-                                        <div class="my-2">
-                                            <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
-                                            <input type="text" name="updateStreetAddress" value="${sessionScope.currentHostel.streetAddress}" class="w-[400px] text-sm p-1">
-                                            <p class="ml-[200px] text-xs">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
-                                        </div>
-                                        <div class="my-2">
-                                            <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
-                                            <textarea class="text-sm p-1" name="updateDescription" id="" cols="48" rows="2">${sessionScope.currentHostel.description}</textarea>
-                                        </div>
-                                        <div class="my-2">
-                                            <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
-                                            <input type="file" multiple rounded />
-                                        </div>
-                                    </div>
-                                    <div class="grid justify-items-end">
-                                        <button class="updateHostelBtn px-8 py-2 mx-4 my-2 border-2 rounded" onclick="updateHostel()">Xác nhận</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div id="deleteHostel" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
-                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="deleteHostel">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                                    </button>
-                                    <div class="p-6 text-center deleteHostelContent">
-                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Nhà trọ này hiện đang có 10 phòng và 12 yêu cầu thuê phòng. Dữ liệu sẽ bị mất nếu như bạn xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
-                                        <input type="hidden" name="deleteHostelId" value="${sessionScope.currentHostel.hostelID}"/>
-                                        <button data-modal-toggle="deleteHostel" type="button" onclick="deleteHostel(this)" class="deleteHostelBtn text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                                            Tôi chắc chắn
-                                        </button>
-                                        <button data-modal-toggle="deleteHostel" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                                            Hủy bỏ
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
-                    <div id="addHostel" tabindex="-1" aria-hidden="true"
-                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
-                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-
-                            <div class="relative bg-white rounded shadow">
-
+                        <!-- ---------------------------------------------------------------------------------- -->
+                        <div class="bg-[#f7f7fa]">
+                            <div class="bg-[#fff] rounded shadow">
+                                <!--Modal-->
                                 <div
-                                    class="flex justify-between items-start p-4 rounded-t border-b">
-                                    <h3 class="text-xl font-semibold text-gray-900">
-                                        Thêm nhà trọ mới
-                                    </h3>
-                                    <p class="text-xs addHostelMessage"></p>
-                                    <button type="button"
-                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
-                                            data-modal-toggle="addHostel">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                              clip-rule="evenodd"></path>
-                                        </svg>
-                                    </button>
+                                    class="editHostelmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                    <div
+                                        class="modal-container bg-white w-5/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                        <div
+                                            class="editHostelmodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                 viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                            <span class="text-sm">(Esc)</span>
+                                        </div>
+                                        <div class="modal-content">
+                                            <!--Title-->
+                                            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                <p class="text-2xl font-bold">Chỉnh sửa nhà trọ</p>
+                                                <div
+                                                    class="editHostelmodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                         height="18" viewBox="0 0 18 18">
+                                                    <path
+                                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                    </path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <!--Body-->
+                                            <div class="p-4">
+                                                <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
+                                                <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Tên nhà trọ</label>
+                                                    <input type="hidden" required name="currentName" value="${sessionScope.currentHostel.hostelName}"/>
+                                                    <input type="text" name="updateName" value="${sessionScope.currentHostel.hostelName}" class="text-sm p-1" onkeyup="checkValidUpdateHostel(this)"/>
+                                                    <span class="text-xs validUpdateHostelMessage"></span>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
+                                                    <select id="updateProvince" class="w-[200px] p-1" name="updateProvinceId" onchange="renderDistrictSimple(this)">
+                                                        <c:forEach items="${requestScope.provinceList}" var="province">
+                                                            <c:if test="${province.provinceID == sessionScope.currentHostel.district.province.provinceID}">
+                                                                <option selected value="${province.provinceID}">${province.provinceName}</option>
+                                                            </c:if>
+                                                            <c:if test="${province.provinceID != sessionScope.currentHostel.district.province.provinceID}">
+                                                                <option value="${province.provinceID}">${province.provinceName}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Chọn huyện</label>
+                                                    <select id="updateDistrict" name="updateDistrictId" class="w-[200px] p-1">
+                                                        <c:forEach items="${requestScope.districtList}" var="district">
+                                                            <c:if test="${district.districtID == sessionScope.currentHostel.district.districtID}">
+                                                                <option selected value="${district.districtID}">${district.districtName}</option>
+                                                            </c:if>
+                                                            <c:if test="${district.districtID != sessionScope.currentHostel.district.districtID}">
+                                                                <option value="${district.districtID}">${district.districtName}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select> 
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
+                                                    <input type="text" required name="updateStreetAddress" value="${sessionScope.currentHostel.streetAddress}" class="w-[400px] text-sm p-1">
+                                                    <p class="ml-[200px] text-xs">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
+                                                    <textarea class="text-sm p-1" required name="updateDescription" id="" cols="48" rows="2">${sessionScope.currentHostel.description}</textarea>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
+                                                    <input type="file" required multiple rounded />
+                                                </div>
+                                            </div>
+                                            <!--Footer-->
+                                            <div class="flex justify-end p-[20px]">
+                                                <button
+                                                    class="editHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                <button id="editHostel-2" onclick="updateHostel()"
+                                                        class="updateHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <div class="p-4">
-                                    <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
-                                    <div class="my-2">
-                                        <label class="w-[160px] inline-block" for="">Tên nhà trọ mới</label>
-                                        <input type="text" name="name" class="text-sm p-1" onkeyup="checkValidHostel(this)"/>
-                                        <span class="text-xs validHostelMessage"></span>
-                                    </div>
-                                    <div class="my-2">
-                                        <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
-                                        <select id="province" class="w-[200px] p-1" name="provinceId" onchange="renderDistrictSimple(this)">
-                                            <c:forEach items="${requestScope.provinceList}" var="province">
-                                                <option value="${province.provinceID}">${province.provinceName}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="my-2">
-                                        <label class="w-[160px] inline-block" for="">Chọn huyện</label>
-                                        <select id="district" name="districtId" class="w-[200px] p-1">
-                                            <c:forEach items="${requestScope.districtList}" var="district">
-                                                <option value="${district.districtID}">${district.districtName}</option>
-                                            </c:forEach>
-                                        </select> 
-                                    </div>
-                                    <div class="my-2">
-                                        <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
-                                        <input type="text" name="streetAddress" class="w-[400px] text-sm p-1">
-                                        <p class="ml-[200px] text-xs">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
-                                    </div>
-                                    <div class="my-2">
-                                        <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
-                                        <textarea class="text-sm p-1" name="description" id="" cols="48" rows="2">abcxyz</textarea>
-                                    </div>
-                                    <div class="my-2">
-                                        <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
-                                        <input type="file" multiple rounded />
+                                <!--Modal 2-->
+                                <div
+                                    class="editHostelmodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                    <div
+                                        class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                        <div
+                                            class="editHostelmodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                 viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                            <span class="text-sm">(Esc)</span>
+                                        </div>
+                                        <div class="modal-content">
+                                            <!--Title-->
+                                            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                <p class="text-2xl font-bold">Xác nhận</p>
+                                                <div
+                                                    class="editHostelmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                         height="18" viewBox="0 0 18 18">
+                                                    <path
+                                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                    </path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <!--Body-->
+                                            <div class="p-[20px]">
+                                                <p class="updateHostelMessage"></p>
+                                            </div>
+                                            <!--Footer-->
+                                            <div class="flex justify-end p-[20px]">
+                                                <button
+                                                    class="editHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                <c:if test="${sessionScope.needReload == true}">
+                                                    <form action="/sakura/landlord/overview">
+                                                        <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
+                                                        <button type="submit"
+                                                                class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                        </button>
+                                                    </form>
+                                                </c:if>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="grid justify-items-end">
-                                    <button class="addHostelBtn px-8 py-2 mx-4 my-2 border-2 rounded" onclick="addHostel()">Xác nhận</button>
-                                </div>
-
                             </div>
                         </div>
-                    </div>
+                        <!-- ---------------------------------------------------------------------------------- -->
+
+                        <!-- ---------------------------------------------------------------------------------- -->
+                        <div class="bg-[#f7f7fa]">
+                            <div class="bg-[#fff] rounded shadow">
+                                <!--Modal-->
+                                <div
+                                    class="deleteHostelmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                    <div
+                                        class="modal-container bg-white w-3/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                        <div
+                                            class="deleteHostelmodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                 viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                            <span class="text-sm">(Esc)</span>
+                                        </div>
+                                        <div class="modal-content">
+                                            <!--Title-->
+                                            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                <p class="text-2xl font-bold">Xóa nhà trọ</p>
+                                                <div
+                                                    class="deleteHostelmodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                         height="18" viewBox="0 0 18 18">
+                                                    <path
+                                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                    </path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <!--Body-->
+                                            <div class="p-4">
+                                                <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Tất cả dữ liệu về phòng, hợp đồng, hóa đơn liên quan đến nhà trọ ${sessionScope.currentHostel.hostelName} sẽ bị xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
+                                                <input type="hidden" name="deleteHostelId" value="${sessionScope.currentHostel.hostelID}"/>
+                                            </div>
+                                            <!--Footer-->
+                                            <div class="flex justify-end p-[20px]">
+                                                <button
+                                                    class="deleteHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                <button id="deleteHostel-2" onclick="deleteHostel()"
+                                                        class="deleteHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Chắc chắn</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Modal 2-->
+                                <div
+                                    class="deleteHostelmodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                    <div
+                                        class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                        <div
+                                            class="deleteHostelmodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                 viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                            <span class="text-sm">(Esc)</span>
+                                        </div>
+                                        <div class="modal-content">
+                                            <!--Title-->
+                                            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                <p class="text-2xl font-bold">Xác nhận</p>
+                                                <div
+                                                    class="deleteHostelmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                         height="18" viewBox="0 0 18 18">
+                                                    <path
+                                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                    </path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <!--Body-->
+                                            <div class="p-[20px]">
+                                                <p class="deleteHostelContent"></p>
+                                            </div>
+                                            <!--Footer-->
+                                            <div class="flex justify-end p-[20px]">
+                                                <button
+                                                    class="deleteHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                <form action="/sakura/landlord/overview">
+                                                    <button type="submit"
+                                                            class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ---------------------------------------------------------------------------------- -->
+                    </c:if>
                     <!-- End modal list-->
                     <!-- End breadcrumb -->
                 </div>
@@ -649,37 +861,38 @@
         <script src="js/breadcrumb.js"></script>
         <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
+
         <script>
-                                        function addHostel() {
-                                            console.log("da vao add hostel");
-                                            const name = document.querySelector("input[name='name']");
-                                            const districtId = document.querySelector("select[name='districtId']");
-                                            const streetAddress = document.querySelector("input[name='streetAddress']");
-                                            const description = document.querySelector("textarea[name='description']");
-                                            const landlordId = document.querySelector("input[name='landlordId']");
-                                            const addHostelMessage = document.querySelector(".addHostelMessage");
-                                            jQuery.ajax({
-                                                type: 'POST',
-                                                data: {'name': name.value,
-                                                    'districtId': districtId.value,
-                                                    'streetAddress': streetAddress.value,
-                                                    'description': description.value,
-                                                    'landlordId': landlordId.value
-                                                },
-                                                url: '/sakura/landlord/add-hostel',
-                                                success: function (response) {
-                                                    name.value = "";
-                                                    districtId.value = "";
-                                                    streetAddress.value = "";
-                                                    description.value = "";
-                                                    addHostelMessage.innerHTML = response;
-                                                },
-                                                error: function () {
-                                                },
-                                                complete: function (result) {
-                                                }
-                                            });
-                                        }
+                                                    function addHostel() {
+                                                        console.log("da vao add hostel");
+                                                        const name = document.querySelector("input[name='name']");
+                                                        const districtId = document.querySelector("select[name='districtId']");
+                                                        const streetAddress = document.querySelector("input[name='streetAddress']");
+                                                        const description = document.querySelector("textarea[name='description']");
+                                                        const landlordId = document.querySelector("input[name='landlordId']");
+                                                        const addHostelMessage = document.querySelector(".addHostelMessage");
+                                                        console.log("addHostelMessage", addHostelMessage);
+                                                        jQuery.ajax({
+                                                            type: 'POST',
+                                                            data: {'name': name.value,
+                                                                'districtId': districtId.value,
+                                                                'streetAddress': streetAddress.value,
+                                                                'description': description.value,
+                                                                'landlordId': landlordId.value
+                                                            },
+                                                            url: '/sakura/landlord/add-hostel',
+                                                            success: function (response) {
+                                                                name.value = "";
+                                                                streetAddress.value = "";
+                                                                description.value = "";
+                                                                addHostelMessage.innerHTML = response;
+                                                            },
+                                                            error: function () {
+                                                            },
+                                                            complete: function (result) {
+                                                            }
+                                                        });
+                                                    }
         </script>
         <script>
             function checkValidHostel(element) {
@@ -715,7 +928,7 @@
             }
         </script>
         <script>
-            function deleteHostel(element) {
+            function deleteHostel() {
 
                 const deleteHostelContent = document.querySelector(".deleteHostelContent");
                 const deleteHostelId = document.querySelector("input[name='deleteHostelId']");
@@ -787,7 +1000,7 @@
                 console.log("updateStreetAddress ", updateStreetAddress.value);
                 console.log("description ", description.value);
                 console.log("hostelId ", hostelId.value);
-                
+
                 jQuery.ajax({
                     type: 'POST',
                     data: {'name': name.value,
@@ -815,9 +1028,10 @@
                 var provinceID = element.value;
                 const provinElement = document.querySelector('#province');
                 var districtElemet = null;
-                if (provinElement === element) 
+                if (provinElement === element)
                     districtElemet = document.querySelector('#district');
-                else districtElemet = document.querySelector('#updateDistrict');
+                else
+                    districtElemet = document.querySelector('#updateDistrict');
                 jQuery.ajax({
                     type: 'POST',
                     data: {'provinceID': provinceID
@@ -832,6 +1046,172 @@
                     }
                 });
             }
+        </script>
+
+        <script>
+            var open_modal_1 = document.querySelector('#addHostel-1');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.addHostelmodal1');
+            });
+
+            var open_modal_2 = document.querySelector('#addHostel-2');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.addHostelmodal2');
+            });
+
+            // Bấm ngoài modal thì đóng modal
+            // const overlay = document.querySelector('.modal .modal-overlay');
+            // overlay.addEventListener('click', toggleModal('.modal'));
+
+            var close_modal_1 = document.querySelectorAll('.addHostelmodal1 .addHostelmodal1-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.addHostelmodal1');
+                    console.log('close 1');
+                });
+            }
+
+            var close_modal_2 = document.querySelectorAll('.addHostelmodal2 .addHostelmodal2-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.addHostelmodal2');
+                    console.log('close 2');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.addHostelmodal1');
+                const modal_2 = document.querySelector('.addHostelmodal2');
+                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
+                    toggleModal('.addHostelmodal1');
+                }
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.addHostelmodal2');
+                }
+            };
+
+            function toggleModal(modal_item) {
+                const modal = document.querySelector(modal_item);
+                modal.classList.toggle('active-modal')
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+            }
+
+        </script>
+
+        <script>
+            var open_modal_1 = document.querySelector('#editHostel-1');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.editHostelmodal1');
+            });
+
+            var open_modal_2 = document.querySelector('#editHostel-2');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.editHostelmodal2');
+            });
+
+            // Bấm ngoài modal thì đóng modal
+            // const overlay = document.querySelector('.modal .modal-overlay');
+            // overlay.addEventListener('click', toggleModal('.modal'));
+
+            var close_modal_1 = document.querySelectorAll('.editHostelmodal1 .editHostelmodal1-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.editHostelmodal1');
+                    console.log('close 1');
+                });
+            }
+
+            var close_modal_2 = document.querySelectorAll('.editHostelmodal2 .editHostelmodal2-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.editHostelmodal2');
+                    console.log('close 2');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.editHostelmodal1');
+                const modal_2 = document.querySelector('.editHostelmodal2');
+                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
+                    toggleModal('.editHostelmodal1');
+                }
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.editHostelmodal2');
+                }
+            };
+
+        </script>
+
+        <script>
+            var open_modal_1 = document.querySelector('#deleteHostel-1');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.deleteHostelmodal1');
+            });
+
+            var open_modal_2 = document.querySelector('#deleteHostel-2');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.deleteHostelmodal2');
+            });
+
+            // Bấm ngoài modal thì đóng modal
+            // const overlay = document.querySelector('.modal .modal-overlay');
+            // overlay.addEventListener('click', toggleModal('.modal'));
+
+            var close_modal_1 = document.querySelectorAll('.deleteHostelmodal1 .deleteHostelmodal1-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.deleteHostelmodal1');
+                    console.log('close 1');
+                });
+            }
+
+            var close_modal_2 = document.querySelectorAll('.deleteHostelmodal2 .deleteHostelmodal2-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.deleteHostelmodal2');
+                    console.log('close 2');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.deleteHostelmodal1');
+                const modal_2 = document.querySelector('.deleteHostelmodal2');
+                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
+                    toggleModal('.deleteHostelmodal1');
+                }
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.deleteHostelmodal2');
+                }
+            };
+
         </script>
     </body>
 
