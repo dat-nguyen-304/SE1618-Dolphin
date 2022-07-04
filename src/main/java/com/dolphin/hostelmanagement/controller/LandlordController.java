@@ -374,6 +374,49 @@ public class LandlordController extends HttpServlet {
                     out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
                     out.println("<input type=\"submit\" value=\"tại đây\">");
                     out.println("</form></span>");
+                } else {
+                    out.print("");
+                }
+            }
+            
+            if (path.equals("/update-hostel")) {
+                String name = request.getParameter("name");
+                int updateDistrictId = Integer.parseInt(request.getParameter("updateDistrictId"));
+                String updateStreetAddress = request.getParameter("updateStreetAddress");
+                String description = request.getParameter("description");
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                boolean updateSuccess = HostelDAO.updateHostelById(hostelId, name, updateDistrictId, updateStreetAddress, description);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("");
+                }
+            }
+
+            if (path.equals("/update-roomtype")) {
+                String name = request.getParameter("name");
+                int price = Integer.parseInt(request.getParameter("price"));
+                int area = Integer.parseInt(request.getParameter("area"));
+                int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
+                String description = request.getParameter("description");
+                int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                boolean updateSuccess = RoomTypeDAO.updateRoomTypeById(roomTypeId, name, price, area, maxNumberOfResidents, description);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("");
+                }
+            }
+            
+            if (path.equals("/update-room")) {
+                int roomId = Integer.parseInt(request.getParameter("roomId"));
+                String updateRoomNumber = request.getParameter("updateRoomNumber");
+                int updateRoomType = Integer.parseInt(request.getParameter("updateRoomType"));
+                boolean updateSuccess = RoomDAO.updateRoom(roomId, updateRoomType, updateRoomNumber);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("");
                 }
             }
 
@@ -383,6 +426,36 @@ public class LandlordController extends HttpServlet {
                 boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
                 if (isExistRoomType) {
                     out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                } else {
+                    out.print("");
+                }
+            }
+
+            if (path.equals("/check-update-hostel-valid")) {
+                String updateName = request.getParameter("updateName");
+                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
+                String currentName = request.getParameter("currentName");
+                if (!updateName.equals(currentName)) {
+                    boolean isExistHostel = HostelDAO.isExistHostel(updateName, landlordId);
+                    if (isExistHostel) {
+                        out.print("Tên nhà trọ đã tồn tại. Vui lòng kiểm tra lại!");
+                    } else {
+                        out.print("");
+                    }
+                }
+            }
+
+            if (path.equals("/check-update-roomtype-valid")) {
+                String roomTypeName = request.getParameter("roomTypeName").trim();
+                String currentName = request.getParameter("currentName").trim();
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                if (!roomTypeName.equals(currentName)) {
+                    boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
+                    if (isExistRoomType) {
+                        out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                    } else {
+                        out.print("");
+                    }
                 } else {
                     out.print("");
                 }
@@ -407,6 +480,16 @@ public class LandlordController extends HttpServlet {
                 } else {
                     out.print("");
                 }
+            }
+            
+            if (path.equals("/delete-roomtype")) {
+                int roomTypeId = Integer.parseInt(request.getParameter("deleteRoomTypeId"));
+                boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
+            }
+            
+            if (path.equals("/delete-room")) {
+                int roomId = Integer.parseInt(request.getParameter("deleteRoomId"));
+                boolean deleteSuccess = RoomDAO.deleteById(roomId);
             }
         }
     }

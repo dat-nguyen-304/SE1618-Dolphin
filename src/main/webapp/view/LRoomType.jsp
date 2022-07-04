@@ -184,9 +184,10 @@
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                                             </button>
                                             <div class="p-6 text-center">
+                                                <p class="text-xs deleteRoomTypeContent"></p>
                                                 <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                 <h3 class="mb-5 text-lg font-normal text-gray-500">Loại phòng này hiện đang có 10 phòng và 12 yêu cầu thuê phòng. Dữ liệu sẽ bị mất nếu như bạn xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
-                                                <button data-modal-toggle="deleteRoomType" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                <button data-modal-toggle="deleteRoomType" onclick="deleteRoomType(this)" type="button" class="deleteRoomTypeBtn text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                     Tôi chắc chắn
                                                 </button>
                                                 <button data-modal-toggle="deleteRoomType" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Hủy bỏ</button>
@@ -235,38 +236,37 @@
                                                 <div class="p-4">
 
                                                     <div class="my-2">
+                                                        <p class="text-xs validUpdateRoomTypeMessage"></p>
                                                         <label class="w-[160px] inline-block" for="">Tên</label>
-                                                        <input type="text" name="updateName" required class="text-sm p-1">
+                                                        
+                                                        <input type="text" name="updateName" value="${requestScope.currentRoomType.roomTypeName}" required class="text-sm p-1" onkeyup="checkValidUpdateRoomType(this)"/>
+                                                        <input type="hidden" name="currentName" value="${requestScope.currentRoomType.roomTypeName}"/>
                                                         <span class="ml-2 text-xs">VD: bình dân, cao cấp, ...</span>
                                                     </div>
                                                     <div class="my-2">
                                                         <label class="w-[160px] inline-block" for="">Giá</label>
-                                                        <input type="text" name="updatePrice" required class="text-sm p-1">
+                                                        <input type="text" name="updatePrice" value="${requestScope.currentRoomType.advertisedPrice}" required class="text-sm p-1">
                                                         <span class="ml-2 text-xs">VD: 3000000, 5000000 ...</span>
                                                     </div>
                                                     <div class="my-2">
                                                         <label class="w-[160px] inline-block" for="">Diện tích</label>
-                                                        <input type="text" name="updateArea" required class="text-sm p-1">
+                                                        <input type="text" name="updateArea" value="${requestScope.currentRoomType.area}" required class="text-sm p-1">
                                                         <span class="ml-2 text-xs">VD: 24, 30, ...</span>
                                                     </div>
                                                     <div class="my-2">
                                                         <label class="w-[160px] inline-block" for="">Số người tối đa</label>
-                                                        <input type="text" name="updateMaxNumberOfResidents" required class="text-sm p-1">
+                                                        <input type="text" name="updateMaxNumberOfResidents" value="${requestScope.currentRoomType.maxNumberOfResidents}" required class="text-sm p-1">
                                                         <span class="ml-2 text-xs">VD: 4, 5, 6, ...</span>
                                                     </div>
                                                     <div class="my-2">
                                                         <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
-                                                        <textarea class="text-sm p-1" name="updateDescription" id="" cols="48" rows="2"></textarea>
-                                                    </div>
-                                                    <div class="my-2">
-                                                        <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
-                                                        <input type="file" multiple rounded />
+                                                        <textarea class="text-sm p-1" name="updateDescription" value="${requestScope.currentRoomType.description}" id="" cols="48" rows="2">${requestScope.currentRoomType.description}</textarea>
                                                     </div>
                                                     <input type="hidden" name="updateHostelId" value="${sessionScope.currentHostel.hostelID}" />
 
                                                 </div>
                                                 <div class="grid justify-items-end">
-                                                    <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded" onclick="updateRoomType()">Thêm</button>
+                                                    <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded updateRoomTypeBtn" onclick="updateRoomType()">Xác nhận</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -347,7 +347,7 @@
 
                                             </div>
                                             <div class="grid justify-items-end">
-                                                <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded addRoomTypeBtn" onclick="addRoomType()">Thêm</button>
+                                                <button type="button" class="px-8 py-2 mx-4 my-2 border-2 rounded addRoomTypeBtn" onclick="addRoomType(this)">Thêm</button>
                                             </div>
                                         </form>
 
@@ -509,8 +509,31 @@
                                                             });
         </script>
         <script>
-            function addRoomType() {
+            function deleteRoomType(element) {
+
+                const deleteRoomTypeContent = document.querySelector(".deleteRoomTypeContent");
+                const deleteRoomTypeId = document.querySelector("input[name='roomTypeId']");
+                const deleteRoomTypeBtn = document.querySelector(".deleteRoomTypeBtn");
+
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'deleteRoomTypeId': deleteRoomTypeId.value
+                    },
+                    url: '/sakura/landlord/delete-roomtype',
+                    success: function (response) {
+                        deleteRoomTypeContent.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+        </script>
+        <script>
+            function addRoomType(element) {
                 console.log("da vao add roomtype");
+                console.log(element);
                 const name = document.querySelector("input[name='name']");
                 const price = document.querySelector("input[name='price']");
                 const area = document.querySelector("input[name='area']");
@@ -528,6 +551,47 @@
                         'hostelId': hostelId.value
                     },
                     url: '/sakura/landlord/add-roomtype',
+                    success: function (response) {
+                        name.value = "";
+                        price.value = "";
+                        area.value = "";
+                        maxNumberOfResidents.value = "";
+                        description.value = "";
+                        messageElement.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+            
+            function updateRoomType() {
+                console.log("----- da vao update roomtype ------------");
+                
+                const name = document.querySelector("input[name='updateName']");
+                const price = document.querySelector("input[name='updatePrice']");
+                const area = document.querySelector("input[name='updateArea']");
+                const maxNumberOfResidents = document.querySelector("input[name='updateMaxNumberOfResidents']");
+                const description = document.querySelector("textarea[name='updateDescription']");
+                const messageElement = document.querySelector(".updateMessage");
+                const roomTypeId = document.querySelector("input[name='roomTypeId']");
+                console.log("Name: ", name.value);
+                console.log("Price: ",price.value);
+                console.log("area: ",area.value);
+                console.log("maxNumberOfResidents: ",maxNumberOfResidents.value);
+                console.log("description ",description.value);
+                console.log("roomTypeId", roomTypeId.value);
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'name': name.value,
+                        'price': price.value,
+                        'area': area.value,
+                        'maxNumberOfResidents': maxNumberOfResidents.value,
+                        'description': description.value,
+                        'roomTypeId': roomTypeId.value
+                    },
+                    url: '/sakura/landlord/update-roomtype',
                     success: function (response) {
                         name.value = "";
                         price.value = "";
@@ -591,9 +655,36 @@
                             }
                         } else {
                             addRoomTypeBtn.onclick = () => addRoomType();
-
                         }
-
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+            
+            function checkValidUpdateRoomType(element) {
+                const validUpdateRoomTypeMessage = document.querySelector(".validUpdateRoomTypeMessage");
+                const hostelId = document.querySelector("input[name='hostelId']");
+                const updateRoomTypeBtn = document.querySelector(".updateRoomTypeBtn");
+                const currentName = document.querySelector("input[name='currentName']");
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'roomTypeName': element.value,
+                        'hostelId': hostelId.value,
+                        'currentName': currentName.value
+                    },
+                    url: '/sakura/landlord/check-update-roomtype-valid',
+                    success: function (response) {
+                        validUpdateRoomTypeMessage.innerHTML = response;
+                        if (response) {
+                            updateRoomTypeBtn.onclick = (e) => {
+                                e.preventDefault();
+                            }
+                        } else {
+                            updateRoomTypeBtn.onclick = () => updateRoomType();
+                        }
                     },
                     error: function () {
                     },

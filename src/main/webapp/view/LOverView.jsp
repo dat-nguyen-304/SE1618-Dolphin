@@ -173,16 +173,24 @@
                                     </div>
 
                                     <div class="p-4">
+                                        <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
                                         <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
                                         <div class="my-2">
-                                            <label class="w-[160px] inline-block" for="">Tên nhà trọ mới</label>
-                                            <input type="text" name="updateName" class="text-sm p-1" onkeyup="checkValidHostel(this)"/>
+                                            <label class="w-[160px] inline-block" for="">Tên nhà trọ</label>
+                                            <input type="hidden" name="currentName" value="${sessionScope.currentHostel.hostelName}"/>
+                                            <input type="text" name="updateName" value="${sessionScope.currentHostel.hostelName}" class="text-sm p-1" onkeyup="checkValidUpdateHostel(this)"/>
+                                            <span class="text-xs validUpdateHostelMessage"></span>
                                         </div>
                                         <div class="my-2">
                                             <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
                                             <select id="updateProvince" class="w-[200px] p-1" name="updateProvinceId" onchange="renderDistrictSimple(this)">
                                                 <c:forEach items="${requestScope.provinceList}" var="province">
-                                                    <option value="${province.provinceID}">${province.provinceName}</option>
+                                                    <c:if test="${province.provinceID == sessionScope.currentHostel.district.province.provinceID}">
+                                                        <option selected value="${province.provinceID}">${province.provinceName}</option>
+                                                    </c:if>
+                                                    <c:if test="${province.provinceID != sessionScope.currentHostel.district.province.provinceID}">
+                                                        <option value="${province.provinceID}">${province.provinceName}</option>
+                                                    </c:if>
                                                 </c:forEach>
                                             </select>
                                         </div>
@@ -190,18 +198,23 @@
                                             <label class="w-[160px] inline-block" for="">Chọn huyện</label>
                                             <select id="updateDistrict" name="updateDistrictId" class="w-[200px] p-1">
                                                 <c:forEach items="${requestScope.districtList}" var="district">
-                                                    <option value="${district.districtID}">${district.districtName}</option>
+                                                    <c:if test="${district.districtID == sessionScope.currentHostel.district.districtID}">
+                                                        <option selected value="${district.districtID}">${district.districtName}</option>
+                                                    </c:if>
+                                                    <c:if test="${district.districtID != sessionScope.currentHostel.district.districtID}">
+                                                        <option value="${district.districtID}">${district.districtName}</option>
+                                                    </c:if>
                                                 </c:forEach>
                                             </select> 
                                         </div>
                                         <div class="my-2">
                                             <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
-                                            <input type="text" name="updateStreetAddress" class="w-[400px] text-sm p-1">
+                                            <input type="text" name="updateStreetAddress" value="${sessionScope.currentHostel.streetAddress}" class="w-[400px] text-sm p-1">
                                             <p class="ml-[200px] text-xs">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
                                         </div>
                                         <div class="my-2">
                                             <label class="relative top-[-24px] w-[160px] inline-block" for="">Mô tả</label>
-                                            <textarea class="text-sm p-1" name="updateDescription" id="" cols="48" rows="2">abcxyz</textarea>
+                                            <textarea class="text-sm p-1" name="updateDescription" id="" cols="48" rows="2">${sessionScope.currentHostel.description}</textarea>
                                         </div>
                                         <div class="my-2">
                                             <label class="w-[160px] inline-block" for="">Thêm Hình ảnh</label>
@@ -725,11 +738,86 @@
         </script>
 
         <script>
+            function checkValidUpdateHostel(element) {
+                console.log("Da vao check update hostel");
+                const validUpdateHostelMessage = document.querySelector(".validUpdateHostelMessage");
+                const landlordId = document.querySelector("input[name='landlordId']");
+                const updateHostelBtn = document.querySelector(".updateHostelBtn");
+                const currentName = document.querySelector("input[name='currentName']");
+                console.log("validUpdateHostelMessage: ", validUpdateHostelMessage);
+                console.log("landlordId: ", landlordId.value);
+                console.log("updateHostelBtn: ", updateHostelBtn);
+                console.log("currentName: ", currentName.value);
+                console.log("updateName: ", element.value);
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'updateName': element.value,
+                        'landlordId': landlordId.value,
+                        'currentName': currentName.value
+                    },
+                    url: '/sakura/landlord/check-update-hostel-valid',
+                    success: function (response) {
+                        validUpdateHostelMessage.innerHTML = response;
+                        if (response) {
+                            updateHostelBtn.onclick = (e) => {
+                                e.preventDefault();
+                            }
+                        } else {
+                            updateHostelBtn.onclick = () => updateHostel();
+                        }
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+
+            function updateHostel() {
+                console.log("----- da vao update hostel ------------");
+
+                const name = document.querySelector("input[name='updateName']");
+                const updateDistrictId = document.querySelector("select[name='updateDistrictId']");
+                const updateStreetAddress = document.querySelector("input[name='updateStreetAddress']");
+                const description = document.querySelector("textarea[name='updateDescription']");
+                const messageElement = document.querySelector(".updateHostelMessage");
+                const hostelId = document.querySelector("input[name='hostelId']");
+                console.log("Name: ", name.value);
+                console.log("updateDistrictId ", updateDistrictId.value);
+                console.log("updateStreetAddress ", updateStreetAddress.value);
+                console.log("description ", description.value);
+                console.log("hostelId ", hostelId.value);
+                
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'name': name.value,
+                        'updateDistrictId': updateDistrictId.value,
+                        'updateStreetAddress': updateStreetAddress.value,
+                        'description': description.value,
+                        'hostelId': hostelId.value
+                    },
+                    url: '/sakura/landlord/update-hostel',
+                    success: function (response) {
+                        messageElement.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+        </script>
+
+        <script>
 
             function renderDistrictSimple(element) {
                 console.log("da vao render district")
                 var provinceID = element.value;
-                var districtElemet = document.querySelector('#district');
+                const provinElement = document.querySelector('#province');
+                var districtElemet = null;
+                if (provinElement === element) 
+                    districtElemet = document.querySelector('#district');
+                else districtElemet = document.querySelector('#updateDistrict');
                 jQuery.ajax({
                     type: 'POST',
                     data: {'provinceID': provinceID

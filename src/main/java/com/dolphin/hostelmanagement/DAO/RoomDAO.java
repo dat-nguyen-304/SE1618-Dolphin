@@ -73,7 +73,7 @@ public class RoomDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select * from Room where roomTypeID = ?";
+                String sql = "select * from Room where roomTypeID = ? AND activate = 1";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, roomTypeID);
                 ResultSet rs = pst.executeQuery();
@@ -111,7 +111,7 @@ public class RoomDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select * from Room";
+                String sql = "select * from Room WHERE activate = 1";
                 PreparedStatement pst = cn.prepareCall(sql);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
@@ -236,7 +236,7 @@ public class RoomDAO {
             if (cn != null) {
                 String sql = "SELECT R.roomID FROM Room R INNER JOIN RoomType RP ON R.roomTypeID = RP.roomTypeID \n"
                         + "INNER JOIN Hostel H  ON RP.hostelID = H.hostelID\n"
-                        + " where H.hostelID = ? AND R.roomNumber = ?";
+                        + " where H.hostelID = ? AND R.roomNumber = ? AND R.activate = 1";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 pst.setString(2, roomNumber);
@@ -274,7 +274,7 @@ public class RoomDAO {
         }
         return false;
     }
-    
+
     public static List<Room> findRoomsNeedInvoice(int hostelID) {
         List<Room> list = null;
         Connection cn = null;
@@ -348,6 +348,52 @@ public class RoomDAO {
             }
         }
         return null;
+    }
+
+    public static boolean updateRoom(int roomId, int updateRoomTypeId, String updateroomNumber) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Room\n"
+                        + "SET roomTypeID = ?, roomNumber = ? \n"
+                        + "WHERE roomID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, updateRoomTypeId);
+                pst.setString(2, updateroomNumber);
+                pst.setInt(3, roomId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static boolean deleteById(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Room SET activate = 0 WHERE roomID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static void main(String args[]) {

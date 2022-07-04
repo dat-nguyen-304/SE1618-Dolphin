@@ -290,6 +290,7 @@
                                                     <h3 class="text-xl font-semibold text-gray-900">
                                                         Chỉnh sửa cho phòng ${requestScope.currentRoom.roomNumber}
                                                     </h3>
+                                                    <p class="text-xs updateRoomMessage"></p>
                                                     <button type="button"
                                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
                                                             data-modal-toggle="editRoom">
@@ -305,19 +306,28 @@
                                                 <div class="p-4">
                                                     <div class="my-2">
                                                         <label class="w-[160px] inline-block" for="">Loại phòng</label>
-                                                        <select name="roomType" id="" class="w-[180px] p-1">
+                                                        <select name="updateRoomType" id="" class="w-[180px] p-1">
                                                             <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
-                                                                <option>${roomtype.roomTypeName}</option>
+                                                                <c:if test="${requestScope.currentRoom.roomType.roomTypeID == roomtype.roomTypeID}">
+                                                                    <option selected value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
+                                                                </c:if>
+                                                                <c:if test="${requestScope.currentRoom.roomType.roomTypeID != roomtype.roomTypeID}">
+                                                                    <option value="${roomtype.roomTypeID}">${roomtype.roomTypeName}</option>
+                                                                </c:if>
                                                             </c:forEach>
                                                         </select>
                                                     </div>
                                                     <div class="my-2">
+                                                        <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
+                                                        <input type="hidden" name="roomId" value="${requestScope.currentRoom.roomID}"/>
+                                                        <input type="hidden" name="roomNumber" value="${requestScope.currentRoom.roomNumber}"/>
+                                                        <p class="text-xs validRoomMessage"></p>
                                                         <label class="w-[160px] inline-block" for="">Tên phòng</label>
-                                                        <input type="text" name="roomNumber" value="${requestScope.currentRoom.roomNumber}" class="text-sm p-1">
+                                                        <input type="text" name="updateRoomNumber" value="${requestScope.currentRoom.roomNumber}" onkeyup="checkValidRoom(this)" class="text-sm p-1">
                                                         <span class="ml-2 text-xs">VD: 101, 102, 510 ...</span>
                                                     </div>
                                                     <div class="grid justify-items-end">
-                                                        <button class=" px-8 py-2 mx-4 my-2 border-2 rounded">Xác nhận</button>
+                                                        <button type="button" class=" px-8 py-2 mx-4 my-2 border-2 rounded updateRoom" onclick="updateRoom()">Xác nhận</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -335,10 +345,12 @@
                                                 <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="deleteRoom">
                                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                                                 </button>
+
                                                 <div class="p-6 text-center">
+                                                    <p class="text-xs deleteRoomContent"></p>
                                                     <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                     <h3 class="mb-5 text-lg font-normal text-gray-500">Phòng hiện đang có 4 người ở. Dữ liệu sẽ bị mất nếu như bạn xóa. <p>Bạn có chắc chắn muốn xóa?</p></h3>
-                                                    <button data-modal-toggle="deleteRoom" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                    <button data-modal-toggle="deleteRoom" onclick="deleteRoom(this)" type="button" class="deleteRoomBtn text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                         Tôi chắc chắn
                                                     </button>
                                                     <button data-modal-toggle="deleteRoom" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Hủy bỏ</button>
@@ -430,35 +442,113 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <script>
-            $(function () {
-                var duplicates = 0,
-                        $original = $('.room-resident').clone(true);
+                                                        $(function () {
+                                                            var duplicates = 0,
+                                                                    $original = $('.room-resident').clone(true);
+                                                            function DuplicateForm() {
+                                                                var newForm;
+                                                                duplicates++;
+                                                                newForm = $original.clone(true).insertBefore($('h1'));
+                                                                $.each($('input', newForm), function (i, item) {
+                                                                    $(item).attr('name', $(item).attr('name') + duplicates);
+                                                                });
+                                                                $('<h2>Thành viên ' + (duplicates + 1) + '</h2>').insertBefore(newForm);
+                                                            }
 
-                function DuplicateForm() {
-                    var newForm;
+                                                            $('a[href="add-new-form"]').on('click', function (e) {
+                                                                e.preventDefault();
+                                                                console.log(count);
+                                                                DuplicateForm();
+                                                                var count = $('form .room-resident ').length;
+                                                                if (count == 5) {
+                                                                    $('a[href="add-new-form"]').removeAttr("style").hide();
+                                                                    return;
+                                                                }
+                                                            });
+                                                        });
+        </script>
+        <script>
+            function checkValidRoom(element) {
+                const hostelId = document.querySelector("input[name='hostelId']");
+                const validRoomMessage = document.querySelector(".validRoomMessage");
+                const updateRoomBtn = document.querySelector(".updateRoom");
+                const roomNumber = document.querySelector("input[name='roomNumber']");
+                if (roomNumber.value.trim() !== element.value.trim()) {
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {
+                            'roomNumber': element.value,
+                            'hostelId': hostelId.value
+                        },
+                        url: '/sakura/landlord/check-room-valid',
+                        success: function (response) {
+                            validRoomMessage.innerHTML = response;
+                            if (response) {
+                                updateRoomBtn.onclick = (e) => {
+                                    e.preventDefault();
+                                }
+                            } else {
+                                updateRoomBtn.onclick = () => updateRoom();
+                            }
+                        },
 
-                    duplicates++;
-
-                    newForm = $original.clone(true).insertBefore($('h1'));
-
-                    $.each($('input', newForm), function (i, item) {
-                        $(item).attr('name', $(item).attr('name') + duplicates);
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
                     });
-
-                    $('<h2>Thành viên ' + (duplicates + 1) + '</h2>').insertBefore(newForm);
                 }
+            }
 
-                $('a[href="add-new-form"]').on('click', function (e) {
-                    e.preventDefault();
-                    console.log(count);
-                    DuplicateForm();
-                    var count = $('form .room-resident ').length;
-                    if (count == 5) {
-                        $('a[href="add-new-form"]').removeAttr("style").hide();
-                        return;
+
+
+            function updateRoom() {
+                console.log("----- da vao update room ------------");
+                const roomId = document.querySelector("input[name='roomId']");
+                const updateRoomNumber = document.querySelector("input[name='updateRoomNumber']");
+                const updateRoomType = document.querySelector("select[name='updateRoomType']");
+                const messageElement = document.querySelector(".updateRoomMessage");
+                console.log("roomId ", roomId.value);
+                console.log("updateRoomNumber ", updateRoomNumber.value);
+                console.log("updateRoomType ", updateRoomType.value);
+                jQuery.ajax({
+                    type: 'GET',
+                    data: {'roomId': roomId.value,
+                        'updateRoomNumber': updateRoomNumber.value,
+                        'updateRoomType': updateRoomType.value
+                    },
+                    url: '/sakura/landlord/update-room',
+                    success: function (response) {
+                        messageElement.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
                     }
                 });
-            });
+            }
+        </script>
+        <script>
+            function deleteRoom(element) {
+
+                const deleteRoomContent = document.querySelector(".deleteRoomContent");
+                const deleteRoomId = document.querySelector("input[name='roomId']");
+                const deleteRoomBtn = document.querySelector(".deleteRoomBtn");
+
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'deleteRoomId': deleteRoomId.value
+                    },
+                    url: '/sakura/landlord/delete-room',
+                    success: function (response) {
+                        deleteRoomContent.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
         </script>
     </body>
 
