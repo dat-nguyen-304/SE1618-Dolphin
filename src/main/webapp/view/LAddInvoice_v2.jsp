@@ -43,8 +43,8 @@
     </head>
 
     <body>
-        <%@include file="../view/headerLandlordDashboard.jsp" %>
-        <%@include file="../view/navbarLandlordDashboard.jsp" %>
+        <%@include file="../view/LControllBar.jsp" %>
+
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -94,7 +94,7 @@
                         <div class="">
                             <span>Chọn nhà trọ: </span>
                             <button
-                                class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
+                                class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 type="button" data-modal-toggle="hostelModal">
                                 <span id="hostelName">
                                     ${(requestScope.chosenHostel != null) ? requestScope.chosenHostel.hostelName : "Chọn nhà trọ"}
@@ -105,15 +105,15 @@
                                  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                                 <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                    <div class="relative bg-white rounded shadow">
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
 
                                         <div
-                                            class="flex justify-between items-start p-4 rounded-t border-b">
-                                            <h3 class="text-xl font-semibold text-gray-900">
+                                            class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                                 Chọn Nhà Trọ
                                             </h3>
                                             <button type="button"
-                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                     data-modal-toggle="hostelModal">
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                      xmlns="http://www.w3.org/2000/svg">
@@ -149,7 +149,7 @@
                                     <c:if test="${requestScope.chosenRoom != null}">
                                         <span>Phòng: </span>
                                         <button
-                                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
+                                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                             type="button">
                                             <span id="hostelName">
                                                 ${requestScope.chosenRoom.roomNumber}
@@ -161,7 +161,7 @@
                                                                          class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                                                                         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                                     
-                                                                            <div class="relative bg-white rounded shadow dark:bg-gray-700">
+                                                                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                     
                                                                                 <div
                                                                                     class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
@@ -171,7 +171,7 @@
                                     
                                                                                     </h3>
                                                                                     <button type="button"
-                                                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                                                                             data-modal-toggle="roomModal">
                                                                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                                                              xmlns="http://www.w3.org/2000/svg">
@@ -200,6 +200,13 @@
                                                class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                                placeholder="Chọn tháng...">
                                     </div>
+                                    <div class="flex items-center col-span-2 grid grid-cols-6">
+                                        <p class="col-span-5" id="monthError"></p>
+                                    </div>
+                                    <div class="flex items-center col-span-2 grid grid-cols-6">
+                                        <p class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Kỳ thanh toán gần nhất:</p>
+                                        <span class="col-span-3 bg-[#fff] text-gray-900 rounded p-[5px] text-[15px]" id="latestInvoiceMonth">${requestScope.chosenRoom.latestInvoiceMonth}</span>
+                                    </div>
                                     <!--                                <div class="flex items-center col-span-2 grid grid-cols-6">
                                                                         <label for="invoice-start-date "
                                                                                class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Hạn
@@ -215,7 +222,7 @@
                                         <label for="invoice-start-date"
                                                class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Ngày
                                             đầu:</label>
-                                        <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
+                                        <input datepicker datepicker-autohide datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
                                                type="text" id="invoice-start-date" name="startDate"
                                                class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                                placeholder="Chọn ngày...">
@@ -224,12 +231,14 @@
                                         <label for="invoice-end-date"
                                                class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Ngày
                                             cuối: </label>
-                                        <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
+                                        <input datepicker datepicker-autohide datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
                                                type="text" id="invoice-end-date" name="endDate"
                                                class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                                placeholder="Chọn ngày...">
                                     </div>
-
+                                    <div>
+                                        <p id="dateError"></p>
+                                    </div>
                                 </div>
 
 
@@ -351,17 +360,17 @@
 
                                         <div id="saveInvoice" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
                                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                                                <div class="relative bg-white rounded shadow">
-                                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="saveInvoice" id="toggleButton">
+                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="saveInvoice" id="toggleButton">
                                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                                                     </button>
                                                     <div class="p-6 text-center">
-                                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                        <h3 class="mb-5 text-lg font-normal text-gray-500"><p>Bạn có chắc chắn muốn đăng hóa đơn?</p></h3>
-                                                        <button id="confirmButton" data-modal-toggle="saveInvoice" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><p>Bạn có chắc chắn muốn đăng hóa đơn?</p></h3>
+                                                        <button id="confirmButton" data-modal-toggle="saveInvoice" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                             Tôi chắc chắn
                                                         </button>
-                                                        <button data-modal-toggle="saveInvoice" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Hủy bỏ</button>
+                                                        <button data-modal-toggle="saveInvoice" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Hủy bỏ</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -390,29 +399,19 @@
                     <div class="statistic flex justify-between">
                         <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
                             <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter"></input>
-                            <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                                <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Chọn phòng chưa có hóa đơn
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="roomList">
-                                    <c:if test="${requestScope.noInvoiceList != null}">
-                                        <c:forEach var="room" items="${requestScope.noInvoiceList}">
-                                            <tr>
-                                                <th>
-                                                    <form method="post" action="/sakura/invoice/new">
-                                                        <button class="roomNoInvoice ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center" name="roomID" value="${room.roomID}" type="submit">
-                                                            ${room.roomNumber}</button>
-                                                    </form>
-                                                </th>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:if>
-                                </tbody>
-                            </table>
+                            <div class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                Chọn phòng chưa có hóa đơn
+                            </div>
+                            <div id="roomList" class="grid grid-cols-5">
+                                <c:if test="${requestScope.noInvoiceList != null}">
+                                    <c:forEach var="room" items="${requestScope.noInvoiceList}">
+                                        <form method="post" action="/sakura/invoice/new" style="display: inline-block;">
+                                            <button class="roomNoInvoice ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="roomID" value="${room.roomID}" type="submit">
+                                                ${room.roomNumber}</button>
+                                        </form>
+                                    </c:forEach>
+                                </c:if>
+                            </div>
                         </div>
                     </div>
                     <!-- End table invoice list -->
@@ -460,26 +459,12 @@
 
         <!-- Breadcrumb -->
         <script src="js/breadcrumb.js"></script>
+
+        <script src="js/breadcrumb.js"></script>
+        <script src="../assets/javascript/moment.js"></script>
         <script>
                                             jQuery(document).ready(function ($) {
-
-                                                if (window.history && window.history.pushState) {
-
-                                                    $(window).on('popstate', function () {
-                                                        var hashLocation = location.hash;
-                                                        var hashSplit = hashLocation.split("#!/");
-                                                        var hashName = hashSplit[1];
-
-                                                        if (hashName !== '') {
-                                                            var hash = window.location.hash;
-                                                            if (hash === '') {
-                                                                alert('Back button was pressed.');
-                                                            }
-                                                        }
-                                                    });
-
-                                                    window.history.pushState('forward', null, './#forward');
-                                                }
+                                                $("#latestInvoiceMonth").html($("#latestInvoiceMonth").html().split('-').reverse().join('/'));
 
                                                 var allRateCells = $(".rate");
                                                 for (var i = 0; i < allRateCells.length; i++) {
@@ -487,6 +472,10 @@
                                                     var money = node.childNodes[0].nodeValue;
                                                     node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                                 }
+
+                                                $("#invoiceSum").html($("#rentalFee").html());
+                                                $("#invoiceSumHidden").val(parseInt($("#rentalFee").html().replace(/,/g, '')));
+                                                console.log($("#invoiceSumHidden").val());
 
                                             });
 
@@ -501,10 +490,14 @@
 
                                             $("#invoice-start-date").click(function () {
                                                 $("#invoice-start-date").css("border", "");
+                                                $("#invoice-end-date").css("border", "");
+                                                $("#dateError").html("");
                                             });
 
                                             $("#invoice-end-date").click(function () {
+                                                $("#invoice-start-date").css("border", "");
                                                 $("#invoice-end-date").css("border", "");
+                                                $("#dateError").html("");
                                             });
 
                                             $("#room-filter").on('input', function () {
@@ -512,7 +505,7 @@
                                                 var allRoomButtons = $(".roomNoInvoice");
                                                 for (var i = 0; i < allRoomButtons.length; i++) {
                                                     var node = allRoomButtons[i];
-                                                    if ($(node).children("a").html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
+                                                    if ($(node).html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
                                                         $(node).css("display", "none");
                                                     } else
                                                         $(node).css("display", "inline");
@@ -537,14 +530,13 @@
                                                     complete: function (result) {
                                                         console.log("Compelte");
                                                         var data = JSON.parse(result.responseText);
-                                                        //                                                        var strHTML = '<tr><th><form method="post" action="/sakura/invoice/new"><button class="roomNoInvoice ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit"><a href="/sakura/invoice/new?hostelID='
                                                         for (var i = 0; i < data.length; i++) {
-                                                            $("#roomList").append('<tr><th><form method="post" action="/sakura/invoice/new"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
-                                                                    + data[i].roomNumber + '</button></form></th></tr>');
+                                                            $("#roomList").append('<form method="post" action="/sakura/invoice/new" style="display: inline-block;"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
+                                                                    + data[i].roomNumber + '</button></form>');
                                                         }
-                                                        $(".roomNoInvoice").addClass("ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center");
+                                                        $(".roomNoInvoice").addClass("ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800");
                                                         if (data.length === 0) {
-                                                            $("#roomList").append('<tr><th><span style="color: red">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</span></th></tr>');
+                                                            $("#roomList").append('<p style="color: red" class="col-span-3">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</p>');
                                                         }
                                                     }
                                                 });
@@ -619,6 +611,16 @@
                                             }
 
                                             function validate() {
+                                                console.log($("#invoice-month").val());
+                                                console.log($("#latestInvoiceMonth").html());
+                                                var startParts = $("#invoice-start-date").val().split("/");
+                                                var startDate = new Date(parseInt(startParts[2], 10),
+                                                        parseInt(startParts[1], 10) - 1,
+                                                        parseInt(startParts[0], 10));
+                                                var endParts = $("#invoice-end-date").val().split("/");
+                                                var endDate = new Date(parseInt(endParts[2], 10),
+                                                        parseInt(endParts[1], 10) - 1,
+                                                        parseInt(endParts[0], 10));
                                                 var res = true;
                                                 if ($("#invoice-month").val() === "") {
                                                     $("#invoice-month").css("border", "1.5px solid red");
@@ -630,6 +632,21 @@
                                                 }
                                                 if ($("#invoice-end-date").val() === "") {
                                                     $("#invoice-end-date").css("border", "1.5px solid red");
+                                                    res = false;
+                                                }
+                                                if (startDate > endDate) {
+                                                    $("#invoice-start-date").css("border", "1.5px solid red");
+                                                    $("#invoice-end-date").css("border", "1.5px solid red");
+                                                    console.log("sai ngay");
+                                                    $("#dateError").html("Ngày kết thúc phải sau ngày bắt đầu!");
+                                                    $("#dateError").css("color", "red");
+                                                    res = false;
+                                                }
+                                                if ($("#invoice-month").val() <= $("#latestInvoiceMonth").html()) {
+//                                                    $("#latestInvoiceMonth").css("border", "1.5px solid red");
+                                                    $("#monthError").html("Người thuê đã thanh toán kì " + $("#invoice-month").val() + "!");
+                                                    $("#monthError").css("color", "red");
+                                                    $("#invoice-month").css("border", "1.5px solid red");
                                                     res = false;
                                                 }
                                                 if ($("#invoice-start-date").val() > $("#invoice-end-date").val()) {

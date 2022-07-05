@@ -24,6 +24,13 @@ public class ServiceDetail {
         this.service = service;
     }
 
+    public ServiceDetail(int startValue, int endValue, int quantity, Service service) {
+        this.startValue = startValue;
+        this.endValue = endValue;
+        this.quantity = quantity;
+        this.service = service;
+    }
+
     public int getServiceDetailID() {
         return serviceDetailID;
     }
@@ -71,6 +78,4 @@ public class ServiceDetail {
     public void setService(Service service) {
         this.service = service;
     }
-    
-    
 }

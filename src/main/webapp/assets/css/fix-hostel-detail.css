@@ -1,3 +1,10 @@
+body {
+    background: #feffff;
+    font-family: 'Mulish', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 .hostel-description {
     border-bottom: 1px solid #cacaca;
 }
@@ -34,4 +41,16 @@
 .send-feedback-btn {
     background-color: #17535B;
     color: #fff;
+}
+
+.slide-indicator {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.slide-control, .slide-indicator:hover, .slide-indicator.active {
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+input {
+    
 }

@@ -3,6 +3,13 @@
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 */
 
+body {
+    background: #feffff;
+    font-family: 'Mulish', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 #search-hostel {
     outline: none;
     height: 100%;

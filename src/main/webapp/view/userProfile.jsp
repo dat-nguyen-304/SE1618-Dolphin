@@ -14,10 +14,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>User profile</title>
 
-        <!-- Font -->
+       <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
 
         <!--Icon-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -135,8 +135,7 @@
                                             </div>
                                             <div class="detail-item">
                                                 <label for="email">Email</label>
-                                                <input type="tel" id="email" name="email" placeholder="${sessionScope.currentUser.account.email}" value="${sessionScope.currentUser.account.email}" onchange="checkEmail(this)">
-                                                <p class="error" id="emailError"></p>
+                                                <p id="email">${sessionScope.currentUser.account.email}</p>
                                             </div>
                                             <div class="detail-item">
                                                 <label for="facebook">Facebook</label>
@@ -197,7 +196,8 @@
             for (var i = 0; i < openmodal.length; i++) {
                 openmodal[i].addEventListener('click', function (event) {
                     event.preventDefault();
-                    if (validate()) toggleModal();
+                    if (validate())
+                        toggleModal();
                 });
             }
 
@@ -293,37 +293,6 @@
                 }
             }
 
-            function checkEmail(element) {
-                $("#emailError").html("");
-                $("#email").css("border-bottom", "");
-                var email = $("#email").val().trim();
-                if (email !== element.placeholder) {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: 'email=' + $("#email").val(),
-                        url: '/sakura/account/checkEmail',
-                        success: function (result) {
-                            if (result.length === 0 && email.length !== 0) {
-                                var re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-                                if (!re.test($("#email").val())) {
-                                    $("#emailError").html("Sai định dạng email!");
-                                    $("#emailError").css("color", "red");
-                                }
-                            } else {
-                                $("#emailError").html(result);
-                                $("#emailError").css("color", "red");
-                            }
-                        },
-                        error: function () {
-                            console.log('Error');
-                        },
-                        complete: function (result) {
-                            console.log('Complete');
-                        }
-                    });
-                }
-            }
-
             function checkUsername(element) {
                 $("#usernameError").html("");
                 $("#username").css("border-bottom", "");
@@ -375,7 +344,6 @@
             function validate() {
                 var fullname = $("#fullname").val().trim();
                 var username = $("#username").val().trim();
-                var email = $("#email").val().trim();
                 var phone = $("#phone").val().trim();
                 if (!fullname || $("#fullnameError").html() !== "") {
                     $("#fullname").css("border-bottom", "1.5px solid red");
@@ -390,10 +358,6 @@
                 } else if (!phone || $("#phoneError").html() !== "") {
                     $("#phone").css("border-bottom", "1.5px solid red");
                     $("#phone").focus();
-                    return false;
-                } else if (!email || $("#emailError").html() !== "") {
-                    $("#email").css("border-bottom", "1.5px solid red");
-                    $("#email").focus();
                     return false;
                 }
                 return true;

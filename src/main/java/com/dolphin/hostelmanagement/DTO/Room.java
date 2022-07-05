@@ -4,6 +4,7 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
+import java.time.YearMonth;
 import java.util.ArrayList;
 
 public class Room {
@@ -12,6 +13,7 @@ public class Room {
     private int currentNumberOfResidents;
     private int status;
     private RoomType roomType;
+    private YearMonth latestInvoiceMonth;
 
     public Room() {
     }
@@ -23,10 +25,12 @@ public class Room {
         this.status = status;
         this.roomType = roomType;
     }
-    
-    public Room(int roomID, String roomNumber) {
+
+    public Room(int roomID, String roomNumber, RoomType roomType, YearMonth latestInvoiceMonth) {
         this.roomID = roomID;
         this.roomNumber = roomNumber;
+        this.roomType = roomType;
+        this.latestInvoiceMonth = latestInvoiceMonth;
     }
 
     public int getRoomID() {
@@ -69,5 +73,11 @@ public class Room {
         this.roomType = roomType;
     }
 
-    
+    public YearMonth getLatestInvoiceMonth() {
+        return latestInvoiceMonth;
+    }
+
+    public void setLatestInvoiceMonth(YearMonth latestInvoiceMonth) {
+        this.latestInvoiceMonth = latestInvoiceMonth;
+    }
 }

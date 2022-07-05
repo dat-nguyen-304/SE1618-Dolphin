@@ -1,19 +1,41 @@
 :root {
-    --dark-primary-color  : #17535B;
+    --dark-primary-color: #17535B;
     --medium-primary-color: #288D87;
-    --light-primary-color : #0EAF72;
-    --text-color          : #333;
+    --light-primary-color: #0EAF72;
+    --text-color: #333;
 }
 
 * {
-    padding   : 0;
-    margin    : 0;
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
+}
+
+[multiple],
+[type=date],
+[type=datetime-local],
+[type=email],
+[type=month],
+[type=number],
+[type=password],
+[type=search],
+[type=tel],
+[type=text],
+[type=time],
+[type=url],
+[type=week],
+select,
+select:focus,
+select:active,
+textarea {
+    border: none;
+    outline: none;
+    background-image: none;
 }
 
 ul {
     padding: 0;
-    margin : 0;
+    margin: 0;
 }
 
 li {
@@ -22,7 +44,7 @@ li {
 
 a {
     text-decoration: none !important;
-    color          : #000;
+    color: #000;
 }
 
 a:hover {
@@ -30,46 +52,47 @@ a:hover {
 }
 
 footer {
-    height          : 100px;
+    height: 100px;
     background-color: var(--dark-primary-color);
-    position        : fixed;
-    left            : 0;
-    right           : 0;
-    z-index         : 100;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 100;
 }
 
 footer {
     position: static;
-    bottom  : 0;
+    bottom: 0;
 }
 
 .information-column {
     padding-left: 32px;
 
-    display        : flex;
-    flex-direction : column;
+    display: flex;
+    flex-direction: column;
     justify-content: space-around;
 }
 
 .carousel-item img {
     border-radius: 4px;
-    overflow     :hidden;
+    overflow: hidden;
     height: 450px;
     object-fit: cover;
 }
 
-.hostel-info {}
+.hostel-info {
+}
 
 .hostel-info-title {
-    display        : flex;
-    align-items    : center;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    font-size      : 24px;
+    font-size: 24px;
 }
 
 .hostel-name {
-    font-size  : 24px;
-    color      : var(--text-color);
+    font-size: 24px;
+    color: var(--text-color);
     font-weight: 500;
 }
 
@@ -81,159 +104,161 @@ footer {
     color: orange;
 }
 
-.hostel-rating-number {}
+.hostel-rating-number {
+}
 
 .hostel-cost {
     padding: 8px 0;
-    color  : var(--dark-primary-color);
+    color: var(--dark-primary-color);
 }
 
 .hostel-total-rom {
     padding: 8px 0;
-    color  : var(--dark-primary-color);
+    color: var(--dark-primary-color);
 }
 
 .hostel-available-room {
     padding: 8px 0;
-    color  : var(--dark-primary-color);
+    color: var(--dark-primary-color);
 
 }
 
 .hostel-address {
     padding: 8px 0;
-    color  : var(--dark-primary-color);
+    color: var(--dark-primary-color);
 }
 
 .btn-view-all-room {
-    margin          : 16px 0;
-    border          : none;
-    outline         : none;
+    margin: 16px 0;
+    border: none;
+    outline: none;
     background-color: var(--medium-primary-color);
-    padding         : 8px 16px;
-    border-radius   : 4px;
-    color           : #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: #fff;
 }
 
 .landlord-info-title {
-    color         : var(--dark-primary-color);
-    font-weight   : 500;
-    font-size     : 18px;
+    color: var(--dark-primary-color);
+    font-weight: 500;
+    font-size: 18px;
     padding-bottom: 12px;
 }
 
 
 .landlord-title {
-    display        : flex;
+    display: flex;
     justify-content: space-between;
-    align-items    : center;
+    align-items: center;
 }
 
 .landlord-content {
-    display    : flex;
+    display: flex;
     align-items: center;
 
 }
 
 .landlord-avatar img {
-    width        : 30px;
-    height       : 30px;
+    width: 30px;
+    height: 30px;
     border-radius: 100%;
-    object-fit   : cover;
+    object-fit: cover;
 }
 
 .landlord-name,
 .landlord-phone,
 .landlord-email {
-    color      : var(--dark-primary-color);
+    color: var(--dark-primary-color);
     font-weight: 500;
-    font-size  : 16px;
+    font-size: 16px;
 }
 
 .landlord-name span,
 .landlord-phone span,
 .landlord-email span {
-    font-size  : 16px;
-    color      : var(--text-color);
+    font-size: 16px;
+    color: var(--text-color);
     font-weight: 300;
     margin-left: 8px;
 }
 
 .landlord-messenger {
     font-size: 30px;
-    color    : #0083FF;
+    color: #0083FF;
 }
 
 .landlord-phone,
 .landlord-email {
-    padding    : 5px 0;
+    padding: 5px 0;
 }
 
 .hostel-overview,
 .hostel-room,
 .hostel-service {
     text-align: center;
-    color     : #fff;
+    color: #fff;
 }
 
 .hostel-overview-title,
 .hostel-service-title {
     background-color: var(--light-primary-color);
-    font-size       : 16px;
-    padding         : 12px 8px;
+    font-size: 16px;
+    padding: 12px 8px;
 }
 
 .hostel-room-title {
     background-color: var(--dark-primary-color);
-    font-size       : 16px;
-    padding         : 12px 8px;
+    font-size: 16px;
+    padding: 12px 8px;
 }
 
 .hostel-description {
-    color  : var(--text-color);
+    color: var(--text-color);
     padding: 12px 8px;
 }
 
 .hostel-policy-title {
-    color      : var(--dark-primary-color);
+    color: var(--dark-primary-color);
     font-weight: 500;
-    text-align : left;
-    font-size  : 18px;
-    margin     : 0;
+    text-align: left;
+    font-size: 18px;
+    margin: 0;
 }
 
 .hostel-policy {
     font-size: 16px;
-    color    : var(--text-color);
-    padding  : 8px 8px;
+    color: var(--text-color);
+    padding: 8px 8px;
 }
 
 .section {
     background-color: #fff;
-    border          : 2px solid #eee;
-    border-radius   : 10px;
-    padding         : 12px;
-    margin          : 12px -12px 24px;
-    padding         : 24px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 12px -12px 24px;
+    padding: 24px;
 }
 
 .section-title {
     text-transform: uppercase;
-    color         : var(--dark-primary-color);
-    margin-bottom : 24px;
-    font-size     : 24px;
+    color: var(--dark-primary-color);
+    margin-bottom: 24px;
+    font-size: 24px;
 }
 
 .feedback-header {
-    border-radius   : 4px;
-    border          : 1px solid var(--light-primary-color);
+    border-radius: 4px;
+    border: 1px solid var(--light-primary-color);
     background-color: #e8f2ee;
-    display         : flex;
-    align-items     : center;
-    justify-content : space-between;
-    padding         : 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
 }
 
-.feedback-average {}
+.feedback-average {
+}
 
 .feedback-average-title {
     color: var(--dark-primary-color);
@@ -244,7 +269,7 @@ footer {
 }
 
 .feedback-header-list {
-    display     : flex;
+    display: flex;
     margin-right: 40px;
 }
 
@@ -253,31 +278,32 @@ footer {
 }
 
 .feedback-header-item button {
-    border       : 1px solid var(--dark-primary-color);
-    padding      : 8px 24px;
-    margin       : 0 8px;
+    border: 1px solid var(--dark-primary-color);
+    padding: 8px 24px;
+    margin: 0 8px;
     border-radius: 4px;
 }
 
 .feedback-header-item button:hover,
 .feedback-header-item.active button {
     background-color: var(--light-primary-color);
-    color           : #fff;
+    color: #fff;
 }
 
-.feedback-list {}
+.feedback-list {
+}
 
 .feedback-item {
-    border-bottom : 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     padding-bottom: 12px;
 }
 
 
 
 .tenant-item-header {
-    display        : flex;
+    display: flex;
     justify-content: space-between;
-    padding        : 16px 32px 0;
+    padding: 16px 32px 0;
 }
 
 .tenant-info {
@@ -285,10 +311,10 @@ footer {
 }
 
 .tenant-avt img {
-    width        : 50px;
-    height       : 50px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
-    margin-right : 28px;
+    margin-right: 28px;
 }
 
 
@@ -302,82 +328,82 @@ footer {
 }
 
 .tenant-posting-date {
-    color     : var(--dark-primary-color);
+    color: var(--dark-primary-color);
     font-style: italic;
 }
 
 .tenant-item-content {
-    color     : var(--text-color);
+    color: var(--text-color);
     font-style: italic;
-    padding   : 12px 40px;
+    padding: 12px 40px;
 }
 
 .pagination {
     margin-top: 36px;
-    display   : block;
+    display: block;
 }
 
 .pagination__list {
     list-style-type: none;
-    padding        : 0;
-    margin         : 0;
-    display        : flex;
+    padding: 0;
+    margin: 0;
+    display: flex;
     justify-content: center;
-    align-items    : center;
+    align-items: center;
 }
 
 .pagination-item,
 .pagination-dot {
-    display  : inline-block;
+    display: inline-block;
     font-size: 20px;
-    margin   : 0 12px;
-    color    : #888;
+    margin: 0 12px;
+    color: #888;
 }
 
 .pagination-item button {
-    display         : block;
-    padding         : 4px 14px;
-    color           : currentColor;
+    display: block;
+    padding: 4px 14px;
+    color: currentColor;
     background-color: #fff;
-    text-decoration : none;
-    outline         : none;
-    border          : none;
+    text-decoration: none;
+    outline: none;
+    border: none;
 }
 
 .pagination-item--active button {
     background-color: var(--medium-primary-color);
-    color           : #fff;
+    color: #fff;
 }
 
 .pagination-previous,
 .pagination-next {
     font-size: 16px;
-    color    : red;
+    color: red;
 }
 
 .hostel-vip {
-    margin : 12px -12px 24px;
+    margin: 12px -12px 24px;
     padding: 24px;
 
 }
 
 .hostel-vip-item {
-    display      : block;
+    display: block;
     border-radius: 4px;
-    box-shadow   : 0 0 8px #ccc;
-    overflow     : hidden;
-    margin-top   : 20px;
-    border       : none;
-    text-align   : left;
+    box-shadow: 0 0 8px #ccc;
+    overflow: hidden;
+    margin-top: 20px;
+    border: none;
+    text-align: left;
 }
 
 .hostel-vip-item:hover {
-    outline  : 1px solid orange;
+    outline: 1px solid orange;
     transform: translateY(-2px);
 }
 
 .hostel-vip-img {
-    width : 100%;
+    width: 100%;
     height: 200px;
 }
 
@@ -387,32 +413,32 @@ footer {
 }
 
 .hostel-vip-name {
-    font-size  : 18px;
+    font-size: 18px;
     font-weight: 500;
-    color      : var(--text-color);
+    color: var(--text-color);
 }
 
 .hostel-vip-content-header {
-    display        : flex;
+    display: flex;
     justify-content: space-between;
-    align-items    : center;
-    padding-bottom : 12px;
+    align-items: center;
+    padding-bottom: 12px;
 }
 
 .hostel-vip-action {
-    align-items    : center;
-    display        : flex;
+    align-items: center;
+    display: flex;
     justify-content: space-between;
 }
 
 .hostel-vip-rating {
     font-size: 12px;
-    color    : orange;
+    color: orange;
 }
 
 .hostel-vip-favorite {
     font-size: 16px;
-    color    : #ccc;
+    color: #ccc;
 }
 
 .hostel-vip-favorite .active {
@@ -421,32 +447,32 @@ footer {
 
 
 .hostel-vip-address {
-    font-size         : 12px;
-    line-height       : 16px;
-    height            : 32px;
-    font-weight       : 400;
-    color             : #666;
-    display           : -webkit-box;
+    font-size: 12px;
+    line-height: 16px;
+    height: 32px;
+    font-weight: 400;
+    color: #666;
+    display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    overflow          : hidden;
+    overflow: hidden;
 }
 
 .hostel-vip-info {
-    display        : flex;
+    display: flex;
     justify-content: space-between;
-    align-items    : center;
-    padding-bottom : 8px;
-    border-bottom  : 1px solid #ccc;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ccc;
 }
 
 .hostel-vip-room-available {
-    font-size      : 10px;
-    display        : flex;
+    font-size: 10px;
+    display: flex;
     justify-content: end;
-    color          : red;
-    position       : relative;
-    bottom         : -4px;
+    color: red;
+    position: relative;
+    bottom: -4px;
 }
 
 .hostel-vip-area {
@@ -454,9 +480,9 @@ footer {
 }
 
 .hostel-vip-price {
-    text-align : right;
-    color      : #ff6532;
-    font-size  : 20px;
+    text-align: right;
+    color: #ff6532;
+    font-size: 20px;
     padding-top: 6px;
 }
 
@@ -474,12 +500,12 @@ footer {
 
 .carousel-control-next,
 .carousel-control-prev {
-    opacity  : 1;
+    opacity: 1;
     font-size: 20px;
 }
 
 .carousel-vip-item img {
-    height    : 180px;
+    height: 180px;
     object-fit: cover;
 }
 
@@ -488,48 +514,48 @@ footer {
 }
 
 .carousel-vip-indicators .active {
-    display         : block;
-    position        : relative;
+    display: block;
+    position: relative;
     -webkit-box-flex: 0;
-    -ms-flex        : 0 1 auto;
-    flex            : 0 1 auto;
-    width           : 16px;
-    height          : 3px;
-    margin-right    : 3px;
-    margin-left     : 3px;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 16px;
+    height: 3px;
+    margin-right: 3px;
+    margin-left: 3px;
     background-color: #fff;
 
     border-radius: 50px;
-    border       : 0px;
+    border: 0px;
 
 }
 
 .carousel-vip-indicators li {
-    position        : relative;
+    position: relative;
     -webkit-box-flex: 0;
-    -ms-flex        : 0 1 auto;
-    flex            : 0 1 auto;
-    width           : 5px;
-    height          : 5px;
-    margin-right    : 3px;
-    margin-left     : 3px;
-    text-indent     : -999px;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 5px;
+    height: 5px;
+    margin-right: 3px;
+    margin-left: 3px;
+    text-indent: -999px;
     background-color: #fff;
-    border-radius   : 50px;
-    border          : 0px;
-    transition      : width ease-in-out 0.4s;
+    border-radius: 50px;
+    border: 0px;
+    transition: width ease-in-out 0.4s;
 
 }
 
 .text-area {
-    padding      : 8px 12px;
+    padding: 8px 12px;
     outline-color: var(--light-primary-color);
 }
 
 .send-feedback {
-    display : inline-block;
+    display: inline-block;
     position: relative;
-    height  : 200px;
+    height: 200px;
 }
 
 .send-feedback-star-list {
@@ -538,61 +564,61 @@ footer {
 
 .send-feedback-star {
     display: inline-block;
-    cursor : pointer;
+    cursor: pointer;
 }
 
 .send-feedback-btn {
-    border          : none;
-    display         : block;
-    position        : absolute;
-    right           : 0;
-    padding         : 8px 12px;
+    border: none;
+    display: block;
+    position: absolute;
+    right: 0;
+    padding: 8px 12px;
     background-color: var(--medium-primary-color);
-    color           : #fff;
-    border-radius   : 4px;
+    color: #fff;
+    border-radius: 4px;
 }
 
 .update-feedback-btn {
-    border          : none;
-    display         : block;
-    position        : absolute;
-    right           : 0;
-    padding         : 8px 12px;
+    border: none;
+    display: block;
+    position: absolute;
+    right: 0;
+    padding: 8px 12px;
     background-color: var(--medium-primary-color);
-    color           : #fff;
-    border-radius   : 4px;
+    color: #fff;
+    border-radius: 4px;
 }
 
 .send-feedback-mess {
-    display     : none;
+    display: none;
     /* display  : inline-block; */
-    color       : red;
-    font-size   : 12px;
+    color: red;
+    font-size: 12px;
 }
 
 .modaL {
-    display         : flex;
-    justify-content : space-around;
-    align-items     : center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
-    position        : fixed;
-    z-index         : 100;
-    top             : 0;
-    bottom          : 0;
-    left            : 0;
-    right           : 0;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .modal-ticket {
-    position : relative;
-    width    : 500px;
+    position: relative;
+    width: 500px;
     max-width: calc(100% - 16px);
     animation: showModal .2s linear;
 }
 
 @keyframes showModal {
     from {
-        opacity  : 0.1;
+        opacity: 0.1;
         transform: translateY(-50%);
     }
 
@@ -603,33 +629,33 @@ footer {
 
 .modalHeader {
     text-align: center;
-    padding   : 8px 0;
+    padding: 8px 0;
     background: rgb(0, 150, 136);
-    color     : #fff;
+    color: #fff;
 }
 
 .modalHeader-title {
-    font-size  : 24px;
+    font-size: 24px;
     margin-left: 12px;
 }
 
 .modal-close-btn {
-    position : absolute;
-    right    : 0;
-    top      : 0;
-    display  : inline-block;
-    color    : #fff;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-block;
+    color: #fff;
     font-size: 24px;
-    padding  : 8px 12px;
+    padding: 8px 12px;
 }
 
 .modal-close-btn:hover {
-    color : #ccc;
+    color: #ccc;
     cursor: pointer;
 }
 
 .modal-content {
-    padding         : 12px 24px;
-    padding-bottom  : 36px;
+    padding: 12px 24px;
+    padding-bottom: 36px;
     background-color: #fff;
 }

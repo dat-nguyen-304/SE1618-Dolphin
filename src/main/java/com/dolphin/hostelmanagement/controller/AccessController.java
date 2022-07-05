@@ -72,6 +72,7 @@ public class AccessController extends HttpServlet {
                                 System.out.println("I logged in by username!");
                                 acc = AccountDAO.login(username, hashedPassword);
                             }
+
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
                                 if (acc.getRole() == 1) {

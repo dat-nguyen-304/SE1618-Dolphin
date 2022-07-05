@@ -20,8 +20,8 @@ import java.util.Properties;
 
 public class EmailService {
 
-    private String username = "nguyenmykhanhvy@gmail.com"; //base mail of our website
-    private String password = "jgjzcxlxpoaegckc";
+    private String username = "swp.sakurahms@gmail.com"; //base mail of our website
+    private String password = "hxntkmwuzptkulzw";
 
     private Properties prop;
 
@@ -104,10 +104,10 @@ public class EmailService {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress("from@gmail.com")); //mail LocND: LocNDSE160199@fpt.edu.vn, LocVH: locvhse160453@fpt.edu.vn
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
-        message.setSubject("Mail Subject");
+        message.setSubject("[SAKURA HMS] Activation code for registration");
 
-        String msg = "Xin chào " + toEmail + " ! Đây là mã xác nhận email của bạn: " + verificationCode
-                + ".Vui lòng quay lại trang web để nhập mã để kích hoạt tài khoản.";
+        String msg = "Xin chào " + toEmail + " ! Đây là mã xác nhận email của bạn: <b>" + verificationCode
+                + "</b>.<br/>Vui lòng quay lại trang web để nhập mã để kích hoạt tài khoản.";
 
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
         mimeBodyPart.setContent(msg, "text/html; charset=utf-8");

@@ -36,8 +36,12 @@
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
+        <%@include file="../view/headerLandlordDashboard.jsp" %>
+        <%@include file="../view/navbarLandlordDashboard.jsp" %>
 
+        <c:if test="${sessionScope.currentUser == null}">
+            <p>Bạn phải đăng nhập để xem trang này</p>
+        </c:if>
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -56,20 +60,21 @@
                                     d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
                                 </path>
                                 </svg>
-                                Phòng
+                                <c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
+                                Phòng 
                             </a>
                         </li>
-                        <!-- <li aria-current="page">
+                        <li aria-current="page">
                             <div class="flex items-center">
                                 <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd"></path>
+                                     xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                      clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 text-gray-400">Danh sách hoá đơn</span>
+                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 text-gray-400">Chi tiết hợp đồng</span>
                             </div>
-                        </li> -->
+                        </li>
                     </ol>
                 </nav>
                 <!-- End breadcrumb -->
@@ -91,7 +96,7 @@
                             <div class="col-span-2 text-xs text-right">Phòng cho thuê: 101</div>
                             <div class="col-span-2 text-xs">Tiền đặt cọc: <span class="money">${requestScope.contract.deposit}</span></div>
                             <div class="col-span-2 text-xs text-right">Giá hằng tháng: <span class="money">${requestScope.contract.rentalFeePerMonth}</span></div>
-                            <c:if test="${requestScope.contract.description != null}">
+                                <c:if test="${requestScope.contract.description != null}">
                                 <div class="col-span-4 text-xs">Nội dung: -${requestScope.contract.description}-
                                 </div>
                             </c:if>
@@ -115,9 +120,9 @@
                     <p class="mt-8">Danh sách hóa đơn:</p>
                     <div class="mt-[20px] col-span-2">
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table class="w-full text-sm text-left text-gray-500 ">
                                 <thead
-                                    class="text-center text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    class="text-center text-xs text-gray-700 uppercase bg-gray-50  ">
                                     <tr>
                                         <th scope="col" class="text-center px-6 py-3">
                                             Hóa đơn ID
@@ -141,9 +146,9 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.invoiceList}" var="invoice">
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <tr class="bg-white border-b ">
                                             <th scope="row"
-                                                class="text-center px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                                class="text-center px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
                                                 ${invoice.invoiceID}
                                             </th>
                                             <td class="text-center px-6 py-4">
@@ -161,7 +166,7 @@
                                                 </td>
                                                 <td class="text-center px-6 py-4 text-center">
                                                     <a href="#"
-                                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem
+                                                       class="font-medium text-blue-600 hover:underline">Xem
                                                         chi tiết</a>
                                                 </td>
                                             </tr>

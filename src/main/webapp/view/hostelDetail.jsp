@@ -19,7 +19,7 @@
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
 
         <!--Favicon-->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
@@ -27,11 +27,11 @@
         <!-- Icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+
+        <<link rel="stylesheet" href="../assets/css/flowbite.min.css"/>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link href="./css/sb-admin-2.min.css" rel="stylesheet">
-        <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../assets/css/hostel-detail.css">
         <c:choose>
             <c:when test="${sessionScope.currentUser != null}">
@@ -59,86 +59,96 @@
         </c:choose>
 
         <div class="w-[60%] mx-auto mt-[90px]">
-            <div class="row section">
-                <div class="col-12 col-sm-7">
-                    <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
-                        <ol class="carousel-indicators">
+            
+            <!--Breadcrumb-->
+            
+            <!--End Breadcrumb-->
+            <div></div>
+            
+            <div class="w-full main-content ">
+                <div class="w-full grid grid-cols-12 gap-[20px]">
+                    <div id="animation-carousel" class="col-span-8 relative" data-carousel="static"> <!--data-carousel=slide-->
+                        <!-- Carousel wrapper -->
+                        <div class="overflow-hidden relative h-[500px] rounded">
                             <c:if test="${requestScope.hostel.imgList.size() > 0}">
                                 <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
                                     <c:if test="${iterator == 0}">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
-                                        </li>
+                                        <div class="hidden duration-200 ease-in-out active" data-carousel-item>
+                                            <img class="w-full h-full object-cover" src="${hostel.imgList.get(iterator)}">
+                                        </div>
                                     </c:if>
                                     <c:if test="${iterator > 0}">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="${iterator}">
-                                        </li>
+                                        <div class="hidden duration-200 ease-in-out" data-carousel-item>
+                                            <img class="w-full h-full object-cover" src="${hostel.imgList.get(iterator)}">
+                                        </div>
                                     </c:if>
                                 </c:forEach>
                             </c:if>
-                        </ol>
-                        <div class="carousel-inner">
+                        </div>
+
+                        <!-- Slider indicators -->
+                        <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
                             <c:if test="${requestScope.hostel.imgList.size() > 0}">
                                 <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
                                     <c:if test="${iterator == 0}">
-                                        <div class="carousel-item active">
-                                        </c:if>
-                                        <c:if test="${iterator > 0}">
-                                            <div class="carousel-item">
-                                            </c:if>
-                                            <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
-                                        </div>
-                                    </c:forEach>
-                                </c:if>
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
+                                        <button type="button" class="slide-indicator w-6 h-[4px] rounded active text-[#fff] bg-[#fff]" aria-current="true" 
+                                                data-carousel-slide-to="0"></button>
+                                    </c:if>
+                                    <c:if test="${iterator > 0}">
+                                        <button type="button" class="slide-indicator w-6 h-[4px] rounded text-[#fff] bg-[#fff]" aria-current="true" aria-label="Slide 1"
+                                                data-carousel-slide-to="${iterator}"></button>
+                                    </c:if>
+                                </c:forEach>
+                            </c:if>
                         </div>
+
+                        <!-- Slider controls -->
+                        <button type="button"
+                                class="slide-control flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
+                                data-carousel-prev>
+                            <span
+                                class="inline-flex justify-center items-center w-8 h-8 group-focus:outline-none">
+                                <svg class="w-5 h-5 text-[#fff]" fill="none" stroke="currentColor"
+                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                                </path>
+                                </svg>
+                                <span class="hidden">Previous</span>
+                            </span>
+                        </button>
+                        <button type="button"
+                                class="slide-control flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
+                                data-carousel-next>
+                            <span
+                                class="inline-flex justify-center items-center w-8 h-8 group-focus:outline-none">
+                                <svg class="w-5 h-5 text-[#fff]" fill="none" stroke="currentColor"
+                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                                <span class="hidden">Next</span>
+                            </span>
+                        </button>
                     </div>
-                    <div class="col-12 col-sm-5 information-column">
+
+                    <div class="information-column col-span-4">
                         <div class="hostel-info">
                             <div class="hostel-info-title">
                                 <h3 class="hostel-name">${requestScope.hostel.hostelName}</h3>
                                 <c:if test="${sessionScope.currentUser != null}">
                                     <div class="hostel-favorite">
                                         <c:if test="${requestScope.isFavorite == true}">
-                                            <i class="fa-solid fa-heart" style="color: red;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
+                                            <i class="bi bi-heart-fill" style="color: red;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
                                         </c:if>
                                         <c:if test="${requestScope.isFavorite == false}">
-                                            <i class="fa-solid fa-heart" style="color: #ccc;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
+                                            <i class="bi bi-heart-fill" style="color: #ccc;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
                                         </c:if>
                                     </div>
                                 </c:if>
                             </div>
                             <div class="hostel-rating">
-                                <c:forEach begin="1" end="5" var="iterator">
-                                    <c:choose>
-                                        <c:when test="${iterator <= requestScope.hostel.rating}">
-                                            <i class="fa-solid fa-star"></i>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:choose>
-                                                <c:when test="${(iterator - requestScope.hostel.rating) > 0 && (iterator - requestScope.hostel.rating) <= 0.2}">
-                                                    <i class="fa-solid fa-star"></i>
-                                                </c:when>
-                                                <c:when test="${(iterator - requestScope.hostel.rating) > 0.2  && (iterator - requestScope.hostel.rating) <= 0.7}">
-                                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <i class="fa-solid fa-star" style="color: #ccc"></i>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                                <span style="margin-left: 16px" class="hostel-rating-number">${requestScope.hostel.rating}</span>
+                                <span class="hostel-rating-number">${requestScope.hostel.rating} <i class="bi bi-star-fill ml-[5px]"></i></span>
                             </div>
-                            <div class="hostel-cost">${requestScope.hostel.minPrice / 1000000} triệu - ${requestScope.hostel.maxPrice / 1000000} triệu VNÐ</div>
+                            <div class="hostel-cost">${requestScope.hostel.minPrice / 1000000} triệu - ${requestScope.hostel.maxPrice / 1000000} triệu / tháng</div>
                             <div class="hostel-total-rom">Có tất cả ${requestScope.hostel.totalRoom} phòng</div>
                             <div class="hostel-available-room">Hiện đang có ${requestScope.hostel.availableRoom} phòng trống</div>
                             <div class="hostel-address">${requestScope.hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
@@ -197,18 +207,18 @@
                                 <c:forEach begin="1" end="5" var="iterator">
                                     <c:choose>
                                         <c:when test="${iterator <= requestScope.hostel.rating}">
-                                            <i class="fa-solid fa-star"></i>
+                                            <i class="bi bi-star-fill"></i>
                                         </c:when>
                                         <c:otherwise>
                                             <c:choose>
                                                 <c:when test="${(iterator - requestScope.hostel.rating) > 0 && (iterator - requestScope.hostel.rating) <= 0.2}">
-                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="bi bi-star-fill"></i>
                                                 </c:when>
                                                 <c:when test="${(iterator - requestScope.hostel.rating) > 0.2  && (iterator - requestScope.hostel.rating) <= 0.7}">
-                                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                                    <i class="bi bi-star-fill"></i>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <i class="fa-solid fa-star" style="color: #ccc"></i>
+                                                    <i class="bi bi-star-fill" style="color: #ccc"></i>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:otherwise>
@@ -272,18 +282,18 @@
                                                 <c:forEach begin="1" end="5" var="iterator">
                                                     <c:choose>
                                                         <c:when test="${iterator <= feedback.rating}">
-                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="bi bi-star-fill"></i>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <c:choose>
                                                                 <c:when test="${(iterator - feedback.rating) > 0 && (iterator - feedback.rating) <= 0.2}">
-                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="bi bi-star-fill"></i>
                                                                 </c:when>
                                                                 <c:when test="${(iterator - feedback.rating) > 0.2  && (iterator - feedback.rating) <= 0.7}">
-                                                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                                                    <i class="bi bi-star-fill"></i>
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                    <i class="fa-solid fa-star" style="color: #ccc"></i>
+                                                                    <i class="bi bi-star-fill" style="color: #ccc"></i>
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </c:otherwise>
@@ -537,10 +547,10 @@
             <div class="modaL">
                 <div class="modal-ticket">
                     <div class="modalHeader">
-                        <i class="fas fa-suitcase"></i>
+                        <i class="bi bi-briefcase-fill"></i>
                         <span class="modalHeader-title">sakura</span>
                     </div>
-                    <div class="modal-close-btn"><i class="fas fa-times"></i></div>
+                    <div class="modal-close-btn"><i class="bi bi-x"></i></div>
                     <div class="modal-content">
                         <h5>${requestScope.message}</h5>
                     </div>
@@ -594,8 +604,10 @@
 
             function closeNoti() {
                 noti.style.transform = "translateX(150%)";
-         
+
             }
         </script>
+        <!-- flowbite -->
+        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
     </body>
 </html>

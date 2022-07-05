@@ -55,7 +55,7 @@ public class TenantController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
@@ -64,7 +64,6 @@ public class TenantController extends HttpServlet {
             List<Contract> contractList = ContractDAO.findByTenant(t);
 
             if (path.equals("/dashboard")) {
-
                 /*HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
                 for (Contract contract : contractList) {
                     invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract.getContractID()));
@@ -117,7 +116,7 @@ public class TenantController extends HttpServlet {
                     
                     //send accept notification to landlord
                     Notification landlordNoti = new Notification();
-                    
+
                     landlordNoti.setToAccount(contract.getLandlord().getAccount());
                     landlordNoti.setCreatedDate(new Date());
                     landlordNoti.setContent(t.getFullname() + " đã đồng ý hợp đồng thuê nhà ở phòng " + contract.getRoom().getRoomNumber()
@@ -126,10 +125,10 @@ public class TenantController extends HttpServlet {
                     landlordNoti.setStatus(0); //0 means unread
                     boolean check = NotificationDAO.saveNotification(landlordNoti);
                     //end send accept notification to landlord
-                    
+
                     //send accept notification to landlord
                     Notification tenantNoti = new Notification();
-                    
+
                     tenantNoti.setToAccount(t.getAccount());
                     tenantNoti.setCreatedDate(new Date());
                     tenantNoti.setContent("Bạn đã đồng ý hợp đồng thuê nhà ở phòng " + contract.getRoom().getRoomNumber()
@@ -144,6 +143,15 @@ public class TenantController extends HttpServlet {
 //                    ContractDAO.changeStatus(contractID, 0);
                     response.sendRedirect("/sakura/tenant/dashboard");
                 }
+            }
+
+            if (path.equals("/notifications")) {
+                List<Notification> notiList = NotificationDAO.getNotificationByToAccount(t.getAccount());
+                for (Notification notification : notiList) {
+                    System.out.println(notification);
+                }
+                request.setAttribute("notificationList", notiList);
+                request.getRequestDispatcher("/view/tenantPageNotiList.jsp").forward(request, response);
             }
         }
     }

@@ -5,12 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<<<<<<< Updated upstream
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-=======
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
->>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +16,7 @@
         <title>Quản lý phòng thuê - Chi tiết hoá đơn</title>
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="images/logo.png">
+        <link rel="shortcut icon" href="../assets/icons/logo.png">
 
         <!-- <link rel="stylesheet" href="app.css"> -->
         <!-- Font -->
@@ -46,7 +41,9 @@
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
+        <%@include file="../view/headerLandlordDashboard.jsp" %>
+        <%@include file="../view/navbarLandlordDashboard.jsp" %>
+
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -105,9 +102,8 @@
                         <div>Trạng thái: ${(invoice.status == 1) ? "Chưa thanh toán" : (invoice.status == 2) ? "Đã thanh toán" : "Quá hạn"}
                         </div>
                         <div>Phòng: ${invoice.contract.room.roomNumber}</div>
-                        <div>Kỳ thanh toán <strong>???</strong></div>
+                        <div>Kỳ thanh toán ${invoice.month}</div>
                         <div>Đến: <span class="date">${invoice.endDate}</span></div>
-                        <div>Hạn: <span class="date">${invoice.dueDate}</span></div>
                     </div>
                 </div>
                 <!-- End Search and filter -->

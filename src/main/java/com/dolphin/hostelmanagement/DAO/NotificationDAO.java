@@ -44,35 +44,29 @@ public class NotificationDAO {
         return false;
     }
 
-
-    public static ArrayList<Notification> getNotificationByToID(int toAccountID) {
+    public static ArrayList<Notification> getNotificationByToAccount(Account acc) {
         Connection cn = null;
 
         ArrayList<Notification> notiList = null;
-        
-        int cnt = 0;
-
         try {
             cn = DBUtils.makeConnection();
 
             String sql = "Select * from Notification where toAccountID = ?";
             PreparedStatement pst = cn.prepareCall(sql);
 
-            pst.setInt(1, toAccountID);
+            pst.setInt(1, acc.getAccountID());
 
             ResultSet rs = pst.executeQuery();
-            
+
             notiList = new ArrayList<>();
-            
+
             while (rs != null && rs.next()) {
                 int notiID = rs.getInt("notificationID");
-                Account toAccount = AccountDAO.findById(toAccountID);
                 Date createdDate = rs.getDate("createdDate");
                 String content = rs.getNString("content");
                 int status = rs.getInt("status");
-                notiList.add(new Notification(notiID, toAccount, createdDate, content, status));
+                notiList.add(new Notification(notiID, acc, createdDate, content, status));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,8 +74,5 @@ public class NotificationDAO {
     }
 
     public static void main(String args[]) {
-        for(Notification noti: getNotificationByToID(10)) {
-            System.out.println(noti.getContent());
-        }
     }
 }
