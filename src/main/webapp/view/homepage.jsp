@@ -16,7 +16,7 @@
      window.location.reload(); 
      }
      });*/
-</script> 
+</script>
 
 <%
     //response.setHeader("Cache-Control", "no-cache, no-store");
@@ -73,7 +73,7 @@
                 <c:choose>
                     <c:when test="${sessionScope.currentUser == null}">
                         <%@include file="../view/headerGuest.jsp"%>
-                    </c:when>    
+                    </c:when>
                     <c:otherwise>
                         <%@include file="../view/headerUser.jsp" %>
                     </c:otherwise>
@@ -155,7 +155,7 @@
                     <div data-aos="fade-up">
                         <div class="w-full h-[50px] flex justify-center items-center mb-[20px]">
                             <div class="w-10 h-10 flex justify-center items-center rounded-full bg-[#ECF4F4]">
-                                <svg class="w-5 h-5 text-[#17535B]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>                    
+                                <svg class="w-5 h-5 text-[#17535B]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
                             </div>
                         </div>
                         <h3 class="mb-2 text-[25px] font-bold">Dễ dàng đặt thuê và quản lý phòng trọ</h3>
@@ -312,7 +312,7 @@
                     </h2>
                     <div id="accordion-color-body-2" class="hidden" aria-labelledby="accordion-color-heading-2">
                         <div class="p-5 border border-b-0 border-gray-200">
-                            <p class="mb-2 text-[#17535B]">Đến với APLUS, bạn sẽ được đảm bảo toàn bộ về vấn đề nhà ở và các dịch vụ khác đi kèm.</p> 
+                            <p class="mb-2 text-[#17535B]">Đến với APLUS, bạn sẽ được đảm bảo toàn bộ về vấn đề nhà ở và các dịch vụ khác đi kèm.</p>
                             <p class="mb-2 text-[#17535B]">Giá thuê phòng, chi phí điện, nước, gửi xe, wifi,... sẽ được quy định rõ ràng, cụ thể trong hợp đồng giữa 2 bên. Phòng ốc đầy đủ nội thất, an ninh an toàn và sẽ luôn có dịch vụ vệ sinh hàng tuần. </p>
                             <p class="text-[#17535B]">Ban quản lý toà nhà sẽ luôn lắng nghe và giải quyết vấn đề của bạn 24/7.</p>
                         </div>
@@ -351,7 +351,7 @@
                 </div> <!-- end footer-bottom -->
             </div>
         </div>
-        <%@include file="footer.jsp" %>      
+        <%@include file="footer.jsp" %>
         <!--         <div id="preloader"><div id="loader"></div></div> -->
 
         <!-- Java Script
@@ -362,27 +362,27 @@
         <!--<script src="assets/javascript/homepage-main.js"></script>-->
 
         <script type="text/javascript">
-    window.addEventListener("scroll", function () {
-        var header = document.querySelector("#header-section");
-        header.classList.toggle("stick", window.scrollY > 0);
+            window.addEventListener("scroll", function () {
+                var header = document.querySelector("#header-section");
+                header.classList.toggle("stick", window.scrollY > 0);
 
-        // var img = document.querySelector("#logo-header");
-        // img.src = "../assets/images/homepage-icon/logo.png"; 
-    });
+                // var img = document.querySelector("#logo-header");
+                // img.src = "../assets/images/homepage-icon/logo.png";
+            });
 
-    var initialSrc = "assets/images/homepage-icon/logo_white.png";
-    var scrollSrc = "assets/images/homepage-icon/logo.png";
+            var initialSrc = "assets/images/homepage-icon/logo_white.png";
+            var scrollSrc = "assets/images/homepage-icon/logo.png";
 
-    $(window).scroll(function () {
-        var value = $(this).scrollTop();
-        if (value > 0) {
-            //$("#name-header").css("color", "#17535B");
-            $("#logo-header").attr("src", scrollSrc);
-        } else {
-            //$("#name-header").css("color", "#fff");
-            $("#logo-header").attr("src", initialSrc);
-        }
-    });
+            $(window).scroll(function () {
+                var value = $(this).scrollTop();
+                if (value > 0) {
+                    //$("#name-header").css("color", "#17535B");
+                    $("#logo-header").attr("src", scrollSrc);
+                } else {
+                    //$("#name-header").css("color", "#fff");
+                    $("#logo-header").attr("src", initialSrc);
+                }
+            });
         </script>
         <script>
             /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
@@ -406,27 +406,26 @@
         </script>
         <script type="text/javascript">
             $(document).ready(function () {
-                console.log('Line 69');
                 jQuery.ajax({
                     url: '/sakura/hostel/findDistrictProvince',
                     type: 'GET',
                     data: {param: "province"},
                     dataType: 'text',
-                    sucess: function (response) {
+                    success: function (response) {
                     },
                     error: function () {
-                        console.log('Error 78');
+                        console.log('Error');
                     },
                     complete: function (obj) {
-                        var data = JSON.parse(obj.responseText);
-                        for (var i = 0; i < data.length; i++) {
+                        let data = JSON.parse(obj.responseText);
+                        for (let i = 0; i < data.length; i++) {
                             $("#province").append($("<option/>", {
-                                value: data[i].provinceID,
-                                text: data[i].provinceName,
-                            }
+                                    value: data[i].provinceID,
+                                    text: data[i].provinceName,
+                                }
                             ));
                         }
-                        console.log('Complete 71');
+                        console.log('Complete');
                     }
                 });
             });
@@ -445,21 +444,21 @@
                     url: "/sakura/hostel/findDistrictProvince",
                     method: "GET",
                     data: data,
-                    sucess: function (response) {
+                    success: function (response) {
                     },
                     error: function () {
-                        console.log('Error 78');
+                        console.log('Error');
                     },
                     complete: function (obj) {
-                        var data = JSON.parse(obj.responseText);
-                        for (var i = 0; i < data.length; i++) {
+                        let data = JSON.parse(obj.responseText);
+                        for (let i = 0; i < data.length; i++) {
                             $("#district").append($("<option/>", {
-                                value: data[i].districtID,
-                                text: data[i].districtName,
-                            }
+                                    value: data[i].districtID,
+                                    text: data[i].districtName
+                                }
                             ));
                         }
-                        console.log('Complete 71');
+                        console.log('Complete');
                     }
                 });
             });

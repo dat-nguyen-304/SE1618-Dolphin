@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : addContract
     Created on : Jun 26, 2022, 7:56:48 PM
     Author     : Admin
@@ -57,48 +57,51 @@
                             <div class="mt-[40px] flex items-center">
                                 <div class="mr-[20px]">
                                     <label for="rentalFeePerMonth" class="block mb-2 text-sm font-medium text-gray-900">Giá thuê theo tháng</label>
-                                    <input type="number" name="rentalFeePerMonth" id="rentalFeePerMonth" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5 " placeholder="" required>
+                                    <input type="number" name="rentalFeePerMonth" oninput="validity.valid||(value='');" min="0" id="rentalFeePerMonth" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5 " placeholder="" required>
                                 </div>
                                 <div class="">
                                     <label for="deposit" class="block mb-2 text-sm font-medium text-gray-900">Tiền đặt cọc</label>
-                                    <input type="number" name="deposit" id="deposit" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5" placeholder="" required>
+                                    <input type="number" name="deposit" oninput="validity.valid||(value='');" min="0" id="deposit" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5" placeholder="" required>
                                 </div>
+                                <p class="text-sm font-medium" id="moneyError"></p>
                             </div>
 
                             <div class="mt-[20px]">
                                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Mô tả / Thông tin bổ sung</label>
-                                <textarea type ="text" id="description" name="description" rows="4" width="250" class="w-[520px] block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-[#17535B] focus:border-[#17535B]" placeholder=""></textarea>
+                                <textarea type ="text" id="description" name="description" maxlength="200" rows="4" width="250" class="w-[520px] block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-[#17535B] focus:border-[#17535B]" placeholder=""></textarea>
+                                <p>Số kí tự: <span id="count"></span>/200</p>
                             </div>
 
                             <div class="mt-[20px] flex items-center">
                                 <div class="mr-[20px]">
                                     <p class="block mb-2 text-sm font-medium text-gray-900">Ngày bắt đầu</p>
-                                    <input type ="date" name="startDate" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>
+                                    <input type ="date" name="startDate" id="start" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>
                                 </div>
                                 <div>
                                     <p class="block mb-2 text-sm font-medium text-gray-900">Ngày kết thúc</p>
-                                    <input type ="date" name="endDate" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>
+                                    <input type ="date" name="endDate" id="end" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>
                                 </div>
+                                <p class="text-sm font-medium" id="lengthError"></p>
                             </div>
                             <div class="mt-[20px]">
                                 <label for="deposit" class="block mb-2 text-sm font-medium text-gray-900">Số tháng ở (dự kiến)</label>
-                                <input type="number" name="duration" id="deposit" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5" placeholder="" required>
+                                <input type="number" name="duration" oninput="validity.valid||(value='');" min="1" id="length" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5" placeholder="" required>
                             </div>
 
-                            <button type ="submit" class="mt-[40px] w-full h-[50px] rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff] flex items-center justify-center">Thêm hợp đồng</button>
-                            
-<!--                            <input type ="number" name="rentalFeePerMonth" placeholder="Giá thuê theo tháng"/><br>
-                            <input type ="number" name="deposit" placeholder="Tiền đặt cọc"/><br>
-                            <input type ="text" name="description" height="20" width ="20" placeholder="Miêu tả"/><br>
-                            <p>Ngày bắt đầu</p>
-                            <input type ="date" name="startDate"/><br>
-                            <p>Ngày kết thúc</p>
-                            <input type ="date" name="endDate"/><br>
-                            <input type="number" name="duration" placeholder="Số tháng ở (dự kiến)"/><br>
-                            <input type="hidden" name="queryType" value="add"/>
-                            <input type="hidden" name="tenantID" value="${requestScope.bookingRequest.tenant.account.accountID}"/>
-                            <input type="hidden" name="bookingRequestID" value="${requestScope.bookingRequest.bookingRequestID}"/>
-                            <button type ="submit">Thêm hợp đồng</button>-->
+                            <button type ="button" id="submitButton" class="mt-[40px] w-full h-[50px] rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff] flex items-center justify-center">Thêm hợp đồng</button>
+
+                            <!--                            <input type ="number" name="rentalFeePerMonth" placeholder="Giá thuê theo tháng"/><br>
+                                                        <input type ="number" name="deposit" placeholder="Tiền đặt cọc"/><br>
+                                                        <input type ="text" name="description" height="20" width ="20" placeholder="Miêu tả"/><br>
+                                                        <p>Ngày bắt đầu</p>
+                                                        <input type ="date" name="startDate"/><br>
+                                                        <p>Ngày kết thúc</p>
+                                                        <input type ="date" name="endDate"/><br>
+                                                        <input type="number" name="duration" placeholder="Số tháng ở (dự kiến)"/><br>
+                                                        <input type="hidden" name="queryType" value="add"/>
+                                                        <input type="hidden" name="tenantID" value="${requestScope.bookingRequest.tenant.account.accountID}"/>
+                                                        <input type="hidden" name="bookingRequestID" value="${requestScope.bookingRequest.bookingRequestID}"/>
+                                                        <button type ="submit">Thêm hợp đồng</button>-->
                         </form>
                     </div>
                 </div>
@@ -132,6 +135,116 @@
 
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="../assets/javascript/moment.js"></script>
+        <script>
+            let start = $("#start");
+            let end = $("#end");
+            let deposit = $("#deposit");
+            let rentalFeePerMonth = $("#rentalFeePerMonth");
+            let lengthError = $("#lengthError");
+            let moneyError = $("#moneyError");
+            let description = $("#description");
+            let count = $("#count");
 
+            $(document).ready(function () {
+                count.html("0");
+            });
+
+            rentalFeePerMonth.change(function () {
+                rentalFeePerMonth.css("border", "");
+                checkMoney();
+            });
+
+            deposit.change(function () {
+                deposit.css("border", "");
+                checkMoney();
+            });
+
+            description.on("input", function () {
+                $("#count").html($(this).val().length);
+            });
+
+            start.change(function() {
+               checkDate();
+            });
+
+            end.change(function() {
+                checkDate();
+            });
+
+            function checkMoney() {
+                moneyError.html("");
+                let check = true;
+                if (rentalFeePerMonth.val()) {
+                    if (rentalFeePerMonth.val() == 0 || rentalFeePerMonth.val() % 1000 !== 0) {
+                        rentalFeePerMonth.css("border", "1.5px solid red");
+                        check = false;
+                    }
+                }
+                if (deposit.val()) {
+                    if (deposit.val() == 0 || deposit.val() % 1000 !== 0) {
+                        deposit.css("border", "1.5px solid red");
+                        check = false;
+                    }
+                }
+                if (!check) {
+                    moneyError.html("Tiền đặt cọc và giá thuê phòng chia hết cho 1000 và khác 0!");
+                    moneyError.css("color", "red");
+                }
+            }
+
+            function checkDate() {
+                if (end.val() !== "" && start.val() !== "") {
+                    let soonest = moment($(start).val()).add(30, 'days');
+//                    console.log(soonest.format('DD/MM/yyyy'));
+//                    console.log(moment($(start).val()).format('DD/MM/yyyy'));
+//                    console.log(moment($(end).val()).format('DD/MM/yyyy'));
+                    if (moment(start.val()) > moment(end.val())) {
+                        $(start).css("border", "1.5px solid red");
+                        $(end).css("border", "1.5px solid red");
+                        $(lengthError).html("Ngày bắt đầu phải trước ngày kết thúc!");
+                        $(lengthError).css("color", "red");
+                    } else if (moment($(end).val()) < soonest) {
+                        console.log("Too short");
+                        $(start).css("border", "1.5px solid red");
+                        $(end).css("border", "1.5px solid red");
+                        $(lengthError).html("Thời gian thuê ngắn nhất là 30 ngày!");
+                        $(lengthError).css("color", "red");
+                    } else {
+                        $(start).css("border", "");
+                        $(end).css("border", "");
+                        $(lengthError).html("");
+                    }
+                }
+            }
+
+            $("#submitButton").click(function () {
+                let check = true;
+                if (lengthError.html() !== "" || moneyError.html() !== "")
+                    check = false;
+                if (!rentalFeePerMonth.val()) {
+                    rentalFeePerMonth.css("border", "1.5px solid red");
+                    check = false;
+                }
+                if (!deposit.val()) {
+                    deposit.css("border", "1.5px solid red");
+                    check = false;
+                }
+                if (!start.val()) {
+                    start.css("border", "1.5px solid red");
+                    check = false;
+                }
+                if (!end.val()) {
+                    end.css("border", "1.5px solid red");
+                    check = false;
+                }
+//                if (!description.val()) {
+//                    description.css("border", "1.5px solid red");
+//                    check = false;
+//                }
+                if (!check)
+                    console.log("LOI");
+            });
+        </script>
     </body>
 </html>

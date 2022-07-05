@@ -94,7 +94,7 @@
                         <div class="">
                             <span>Chọn nhà trọ: </span>
                             <button
-                                class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
                                 type="button" data-modal-toggle="hostelModal">
                                 <span id="hostelName">
                                     ${(requestScope.chosenHostel != null) ? requestScope.chosenHostel.hostelName : "Chọn nhà trọ"}
@@ -149,9 +149,9 @@
                                     <c:if test="${requestScope.chosenRoom != null}">
                                         <span>Phòng: </span>
                                         <button
-                                            class="ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                            class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
                                             type="button">
-                                            <span id="hostelName">
+                                            <span id="roomNumber">
                                                 ${requestScope.chosenRoom.roomNumber}
                                             </span>
                                         </button>
@@ -366,7 +366,7 @@
                                                     </button>
                                                     <div class="p-6 text-center">
                                                         <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><p>Bạn có chắc chắn muốn đăng hóa đơn?</p></h3>
+                                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><span>Bạn có chắc chắn muốn đăng hóa đơn?</span></h3>
                                                         <button id="confirmButton" data-modal-toggle="saveInvoice" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                             Tôi chắc chắn
                                                         </button>
@@ -398,7 +398,7 @@
                     <!--table invoice list--> 
                     <div class="statistic flex justify-between">
                         <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
-                            <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter"></input>
+                            <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter">
                             <div class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                 Chọn phòng chưa có hóa đơn
                             </div>
@@ -406,7 +406,7 @@
                                 <c:if test="${requestScope.noInvoiceList != null}">
                                     <c:forEach var="room" items="${requestScope.noInvoiceList}">
                                         <form method="post" action="/sakura/invoice/new" style="display: inline-block;">
-                                            <button class="roomNoInvoice ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="roomID" value="${room.roomID}" type="submit">
+                                            <button class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center" name="roomID" value="${room.roomID}" type="submit">
                                                 ${room.roomNumber}</button>
                                         </form>
                                     </c:forEach>
@@ -463,201 +463,215 @@
         <script src="js/breadcrumb.js"></script>
         <script src="../assets/javascript/moment.js"></script>
         <script>
-                                            jQuery(document).ready(function ($) {
-                                                $("#latestInvoiceMonth").html($("#latestInvoiceMonth").html().split('-').reverse().join('/'));
-
-                                                var allRateCells = $(".rate");
-                                                for (var i = 0; i < allRateCells.length; i++) {
-                                                    var node = allRateCells[i];
-                                                    var money = node.childNodes[0].nodeValue;
-                                                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                }
-
-                                                $("#invoiceSum").html($("#rentalFee").html());
-                                                $("#invoiceSumHidden").val(parseInt($("#rentalFee").html().replace(/,/g, '')));
-                                                console.log($("#invoiceSumHidden").val());
-
-                                            });
-
-                                            $("#confirmButton").on('click', function () {
-                                                console.log("SUBMIT");
-                                                $("#invoice-form").submit();
-                                            });
-
-                                            $("#invoice-month").click(function () {
-                                                $("#invoice-month").css("border", "");
-                                            });
-
-                                            $("#invoice-start-date").click(function () {
-                                                $("#invoice-start-date").css("border", "");
-                                                $("#invoice-end-date").css("border", "");
-                                                $("#dateError").html("");
-                                            });
-
-                                            $("#invoice-end-date").click(function () {
-                                                $("#invoice-start-date").css("border", "");
-                                                $("#invoice-end-date").css("border", "");
-                                                $("#dateError").html("");
-                                            });
-
-                                            $("#room-filter").on('input', function () {
-                                                var text = $("#room-filter").val();
-                                                var allRoomButtons = $(".roomNoInvoice");
-                                                for (var i = 0; i < allRoomButtons.length; i++) {
-                                                    var node = allRoomButtons[i];
-                                                    if ($(node).html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
-                                                        $(node).css("display", "none");
-                                                    } else
-                                                        $(node).css("display", "inline");
-                                                }
-                                            });
-
-                                            function changeHostel(hostelID, hostelName) {
-                                                $("#hostelName").html(hostelName);
-                                                $("#roomNumber").html("Chọn phòng");
-                                                $("#roomList").empty();
-                                                $("#invoice-form").css("display", "none");
-
-                                                jQuery.ajax({
-                                                    url: '/sakura/room/roomsNeedInvoice',
-                                                    type: 'GET',
-                                                    data: {hostelID: hostelID},
-                                                    dataType: 'text',
-                                                    success: function (result) {
-                                                    },
-                                                    error: function () {
-                                                    },
-                                                    complete: function (result) {
-                                                        console.log("Compelte");
-                                                        var data = JSON.parse(result.responseText);
-                                                        for (var i = 0; i < data.length; i++) {
-                                                            $("#roomList").append('<form method="post" action="/sakura/invoice/new" style="display: inline-block;"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
-                                                                    + data[i].roomNumber + '</button></form>');
-                                                        }
-                                                        $(".roomNoInvoice").addClass("ml-[20px] inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800");
-                                                        if (data.length === 0) {
-                                                            $("#roomList").append('<p style="color: red" class="col-span-3">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</p>');
-                                                        }
-                                                    }
-                                                });
-                                            }
-
-                                            function enableInput(serviceID) {
-                                                $("#startInput" + serviceID).val("");
-                                                $("#endInput" + serviceID).val("");
-                                                $("#rowSum" + serviceID).html("");
-                                                if ($("#startInput" + serviceID).prop("disabled") === true) {
-                                                    $("#startInput" + serviceID).prop("disabled", false);
-                                                    $("#endInput" + serviceID).prop("disabled", false);
-                                                } else {
-                                                    $("#startInput" + serviceID).prop("disabled", true);
-                                                    $("#endInput" + serviceID).prop("disabled", true);
-                                                }
-                                            }
-
-                                            function updateSum(serviceID, type, element) {
-                                                $("#rowSum" + serviceID).html("");
-                                                var sum;
-                                                if (type === 1) {
-                                                    if ($(element).val() === "")
-                                                        sum = 0;
-                                                    else {
-                                                        if ($(element).attr('id').indexOf('startInput') >= 0) {
-                                                            if ($("#startInput" + serviceID).val() > $("#endInput" + serviceID).val()) {
-                                                                $("#endInput" + serviceID).val($("#startInput" + serviceID).val());
-                                                            }
-                                                        }
-
-                                                        if ($(element).attr('id').indexOf('endInput') >= 0) {
-                                                            if ($("#startInput" + serviceID).val() > $("#endInput" + serviceID).val()) {
-                                                                $("#startInput" + serviceID).val($("#endInput" + serviceID).val());
-                                                            }
-                                                        }
-                                                        sum = parseInt($("#endInput" + serviceID).val()) - parseInt($("#startInput" + serviceID).val());
-                                                    }
-                                                    $("#quantity" + serviceID).html(sum);
-                                                } else {
-                                                    if ($(element).val() === "")
-                                                        sum = 0;
-                                                    else
-                                                        sum = $("#quantity" + serviceID).val();
-                                                }
-                                                sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
-                                                $("#rowSum" + serviceID).html(parseInt(sum));
+            let invoiceMonth = $("#invoice-month");
+            let invoiceStartDate = $("#invoice-start-date");
+            let invoiceEndDate = $("#invoice-end-date");
+            let monthError = $("#monthError");
+            let rentalFee = $("#rentalFee");
+            let invoiceSumHidden = $("#invoiceSumHidden");
+            let invoiceSum = $("#invoiceSum");
+            let dateError = $("#dateError");
+            let bottomSum = $("#bottomSum");
+            let latestInvoiceMonth = $("#latestInvoiceMonth");
+            let allRowSum = $(".rowSum");
 
 
-                                                var allRowSum = $(".rowSum");
-                                                var sumService = 0;
-                                                for (var i = 0; i < allRowSum.length; i++) {
-                                                    var node = allRowSum[i];
-                                                    sumService += parseInt($(node).html().replace(/,/g, ''));
-                                                }
+            jQuery(document).ready(function ($) {
 
-                                                $("#serviceSum").html(sumService);
-                                                $("#invoiceSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
-                                                $("#invoiceSumHidden").val(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
-                                                console.log("hidden " + $("#invoiceSumHidden").val());
-                                                $("#invoiceSum").html($("#invoiceSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                let allRateCells = $(".rate");
+                for (let i = 0; i < allRateCells.length; i++) {
+                    let node = allRateCells[i];
+                    let money = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+                latestInvoiceMonth.html(latestInvoiceMonth.html().split('-').reverse().join('/'));
+                bottomSum.html(rentalFee.html() + " đồng");
+                invoiceSum.html(rentalFee.html());
+                invoiceSumHidden.html(rentalFee.html());
+                invoiceSumHidden.val(parseInt(rentalFee.html().replace(/,/g, '')));
+                console.log(invoiceSumHidden.val());
+            });
 
-                                                $("#bottomSum").html(sumService + parseInt($("#rentalFee").html().replace(/,/g, '')));
-                                                $("#bottomSum").html($("#bottomSum").html().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
+            $("#confirmButton").on('click', function () {
+                console.log("SUBMIT");
+                $("#invoice-form").submit();
+            });
 
-                                                var allSumCells = $(".rowSum");
-                                                for (var i = 0; i < allSumCells.length; i++) {
-                                                    var node = allSumCells[i];
-                                                    var money = node.childNodes[0].nodeValue;
-                                                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                }
-                                            }
+            invoiceMonth.click(function () {
+                $(this).css("border", "");
+            });
 
-                                            function validate() {
-                                                console.log($("#invoice-month").val());
-                                                console.log($("#latestInvoiceMonth").html());
-                                                var startParts = $("#invoice-start-date").val().split("/");
-                                                var startDate = new Date(parseInt(startParts[2], 10),
-                                                        parseInt(startParts[1], 10) - 1,
-                                                        parseInt(startParts[0], 10));
-                                                var endParts = $("#invoice-end-date").val().split("/");
-                                                var endDate = new Date(parseInt(endParts[2], 10),
-                                                        parseInt(endParts[1], 10) - 1,
-                                                        parseInt(endParts[0], 10));
-                                                var res = true;
-                                                if ($("#invoice-month").val() === "") {
-                                                    $("#invoice-month").css("border", "1.5px solid red");
-                                                    res = false;
-                                                }
-                                                if ($("#invoice-start-date").val() === "") {
-                                                    $("#invoice-start-date").css("border", "1.5px solid red");
-                                                    res = false;
-                                                }
-                                                if ($("#invoice-end-date").val() === "") {
-                                                    $("#invoice-end-date").css("border", "1.5px solid red");
-                                                    res = false;
-                                                }
-                                                if (startDate > endDate) {
-                                                    $("#invoice-start-date").css("border", "1.5px solid red");
-                                                    $("#invoice-end-date").css("border", "1.5px solid red");
-                                                    console.log("sai ngay");
-                                                    $("#dateError").html("Ngày kết thúc phải sau ngày bắt đầu!");
-                                                    $("#dateError").css("color", "red");
-                                                    res = false;
-                                                }
-                                                if ($("#invoice-month").val() <= $("#latestInvoiceMonth").html()) {
+            invoiceMonth.click(function () {
+                invoiceStartDate.css("border", "");
+                invoiceEndDate.css("border", "");
+                dateError.html("");
+            });
+
+            invoiceEndDate.click(function () {
+                invoiceStartDate.css("border", "");
+                invoiceEndDate.css("border", "");
+                dateError.html("");
+            });
+
+            $("#room-filter").on('input', function () {
+                let text = $("#room-filter").val();
+                let allRoomButtons = $(".roomNoInvoice");
+                for (let i = 0; i < allRoomButtons.length; i++) {
+                    let node = allRoomButtons[i];
+                    if ($(node).html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
+                        $(node).css("display", "none");
+                    } else
+                        $(node).css("display", "inline");
+                }
+            });
+
+            function changeHostel(hostelID, hostelName) {
+                $("#hostelName").html(hostelName);
+                $("#roomNumber").html("Chọn phòng");
+                $("#roomList").empty();
+                $("#invoice-form").css("display", "none");
+
+                jQuery.ajax({
+                    url: '/sakura/room/roomsNeedInvoice',
+                    type: 'GET',
+                    data: {hostelID: hostelID},
+                    dataType: 'text',
+                    success: function (result) {
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                        console.log("Compelte");
+                        let data = JSON.parse(result.responseText);
+                        for (let i = 0; i < data.length; i++) {
+                            $("#roomList").append('<form method="post" action="/sakura/invoice/new" style="display: inline-block;"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
+                                    + data[i].roomNumber + '</button></form>');
+                        }
+                        $(".roomNoInvoice").addClass("ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center");
+                        if (data.length === 0) {
+                            $("#roomList").append('<p style="color: red" class="col-span-3">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</p>');
+                        }
+                    }
+                });
+            }
+
+            /*function enableInput(serviceID) {
+                $("#startInput" + serviceID).val("");
+                $("#endInput" + serviceID).val("");
+                $("#rowSum" + serviceID).html("");
+                if ($("#startInput" + serviceID).prop("disabled") === true) {
+                    $("#startInput" + serviceID).prop("disabled", false);
+                    $("#endInput" + serviceID).prop("disabled", false);
+                } else {
+                    $("#startInput" + serviceID).prop("disabled", true);
+                    $("#endInput" + serviceID).prop("disabled", true);
+                }
+            }*/
+
+            function updateSum(serviceID, type, element) {
+                let rowSum = $("#rowSum" + serviceID);
+                let startInput = $("#startInput" + serviceID);
+                let endInput = $("#endInput" + serviceID);
+                rowSum.html("");
+                let sum;
+                if (type === 1) {
+                    if ($(element).val() === "")
+                        sum = 0;
+                    else {
+                        if ($(element).attr('id').indexOf('startInput') >= 0) {
+                            if (startInput.val() > endInput.val()) {
+                                endInput.val(startInput.val());
+                            }
+                        }
+
+                        if ($(element).attr('id').indexOf('endInput') >= 0) {
+                            if (startInput.val() > endInput.val()) {
+                                startInput.val(endInput.val());
+                            }
+                        }
+                        sum = parseInt(endInput.val()) - parseInt(startInput.val());
+                    }
+                    $("#quantity" + serviceID).html(sum);
+                } else {
+                    if ($(element).val() === "")
+                        sum = 0;
+                    else
+                        sum = $("#quantity" + serviceID).val();
+                }
+                sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
+                rowSum.html(parseInt(sum));
+
+
+                let sumService = 0;
+                for (let i = 0; i < allRowSum.length; i++) {
+                    let node = allRowSum[i];
+                    sumService += parseInt($(node).html().replace(/,/g, ''));
+                }
+
+                $("#serviceSum").html(sumService);
+                invoiceSum.html(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
+                invoiceSumHidden.val(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
+                console.log("hidden " + invoiceSumHidden.val());
+                invoiceSum.html(invoiceSum.html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                bottomSum.html(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
+                bottomSum.html(bottomSum.html().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
+
+                for (let i = 0; i < allRowSum.length; i++) {
+                    let node = allRowSum[i];
+                    let money = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+            }
+
+            function validate() {
+                console.log(invoiceMonth.val());
+                console.log(latestInvoiceMonth.html());
+                let startParts = invoiceStartDate.val().split("/");
+                let startDate = new Date(parseInt(startParts[2], 10),
+                        parseInt(startParts[1], 10) - 1,
+                        parseInt(startParts[0], 10));
+                let endParts = invoiceEndDate.val().split("/");
+                let endDate = new Date(parseInt(endParts[2], 10),
+                        parseInt(endParts[1], 10) - 1,
+                        parseInt(endParts[0], 10));
+                let res = true;
+                if (invoiceMonth.val() === "") {
+                    invoiceMonth.css("border", "1.5px solid red");
+                    res = false;
+                }
+                if (invoiceStartDate.val() === "") {
+                    invoiceStartDate.css("border", "1.5px solid red");
+                    res = false;
+                }
+                if (invoiceEndDate.val() === "") {
+                    invoiceEndDate.css("border", "1.5px solid red");
+                    res = false;
+                }
+                if (startDate > endDate) {
+                    invoiceStartDate.css("border", "1.5px solid red");
+                    invoiceEndDate.css("border", "1.5px solid red");
+                    console.log("sai ngay");
+                    dateError.html("Ngày kết thúc phải sau ngày bắt đầu!");
+                    dateError.css("color", "red");
+                    res = false;
+                }
+                if (invoiceMonth.val() !== "" && invoiceMonth.val() <= latestInvoiceMonth.html()) {
 //                                                    $("#latestInvoiceMonth").css("border", "1.5px solid red");
-                                                    $("#monthError").html("Người thuê đã thanh toán kì " + $("#invoice-month").val() + "!");
-                                                    $("#monthError").css("color", "red");
-                                                    $("#invoice-month").css("border", "1.5px solid red");
-                                                    res = false;
-                                                }
-                                                if ($("#invoice-start-date").val() > $("#invoice-end-date").val()) {
-                                                    console.log($("#invoice-start-date").val() > $("#invoice-end-date").val());
-                                                    res = false;
-                                                }
-                                                if (res) {
-                                                    console.log("OK");
-                                                    $("#toggleButton").click();
-                                                }
-                                            }
+                    monthError.html("Người thuê đã thanh toán kì " + invoiceMonth.val() + "!");
+                    monthError.css("color", "red");
+                    invoiceMonth.css("border", "1.5px solid red");
+                    res = false;
+                }
+                if (invoiceStartDate.val() > invoiceEndDate.val()) {
+                    console.log(invoiceStartDate.val() > invoiceEndDate.val());
+                    res = false;
+                }
+                if (res) {
+                    console.log("OK");
+                    $("#toggleButton").click();
+                }
+            }
         </script>
     </body>
 </html>
