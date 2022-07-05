@@ -26,7 +26,7 @@ public class RoomTypeDAO {
         try {
             cn = DBUtils.makeConnection();
 
-            String sql = "Select * from RoomType where hostelID = ? ORDER BY advertisedPrice";
+            String sql = "Select * from RoomType where hostelID = ? AND activate = 1 ORDER BY advertisedPrice";
 
             PreparedStatement pst = cn.prepareCall(sql);
 
@@ -137,7 +137,7 @@ public class RoomTypeDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select top 1 * from RoomType where hostelID = ? order by roomTypeID desc";
+                String sql = "select top 1 * from RoomType where hostelID = ? AND activate = 1 order by roomTypeID desc";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 ResultSet rs = pst.executeQuery();
@@ -165,7 +165,7 @@ public class RoomTypeDAO {
         try {
             cn = DBUtils.makeConnection();
             String sql = "SELECT H.hostelID FROM Hostel H INNER JOIN RoomType RT ON H.hostelID = RT.hostelID\n"
-                    + "WHERE H.hostelID = ? AND RT.roomTypeName = ?";
+                    + "WHERE H.hostelID = ? AND RT.roomTypeName = ? AND RT.activate = 1";
             PreparedStatement pst = cn.prepareStatement(sql);
             pst.setInt(1, hostelId);
             pst.setString(2, roomTypeName);
@@ -181,9 +181,55 @@ public class RoomTypeDAO {
         return false;
     }
 
+    public static boolean updateRoomTypeById(int roomTypeId, String name, int price, int area, int maxNumberOfResidents, String description) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "update RoomType \n"
+                    + "SET roomTypeName = ?, roomTypeArea = ?, description = ?, maxNumberOfResidents = ?, advertisedPrice = ?\n"
+                    + "WHERE roomTypeID = ?";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, name);
+            pst.setInt(2, area);
+            pst.setString(3, description);
+            pst.setInt(4, maxNumberOfResidents);
+            pst.setInt(5, price);
+            pst.setInt(6, roomTypeId);
+            int rows = pst.executeUpdate();
+            if (rows > 0) {
+                cn.close();
+                return true;
+            }
+            cn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static boolean deleteById(int roomTypeId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomType SET activate = 0 WHERE roomTypeID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomTypeId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String args[]) {
-        
-        
+
     }
 
 }

@@ -504,9 +504,36 @@ public class HostelDAO {
         return false;
     }
 
+    public static boolean updateHostelById(int hostelId, String name, int districtId, String streetAddress, String description) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Hostel \n"
+                        + "SET hostelName = ?, districtID = ?, streetAddress = ?,  description = ?\n"
+                        + "WHERE hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, name);
+                pst.setInt(2, districtId);
+                pst.setString(3, streetAddress);
+                pst.setString(4, description);
+                pst.setInt(5, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
-        String hostelName = "Huyền Thiết";
-       boolean b = isExistHostel(hostelName, 44);
-        System.out.println(b);
+        boolean b = updateHostelById(17, "ABC", 3, "123 LVV", "AHJIH");
+        if (b) System.out.println("YES");
+        else System.out.println("NO");
     }
 }

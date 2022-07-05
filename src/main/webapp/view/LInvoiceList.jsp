@@ -157,7 +157,9 @@
                                             <!-- Modal body -->
                                             <div class="p-6 space-y-6">
                                                 <input class="block" type="text" placeholder="Tìm phòng" value="" />
-                                                <button type="submit" name="roomId" value="0" class="px-4 py-2 mx-2 rounded border-2">Tất cả</button>
+                                                <form action="/sakura/landlord/invoice-list" class="inline-block">
+                                                    <button type="submit" name="roomId" value="0" class="px-4 py-2 mx-2 rounded border-2">Tất cả</button>
+                                                </form>
                                                 <c:forEach items="${requestScope.roomList}" var="room">
                                                     <form action="/sakura/landlord/invoice-list" class="inline-block">
                                                         <button type="submit" name="roomId" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>

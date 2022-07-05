@@ -375,7 +375,7 @@ public class ContractDAO {
     }
 
     public static void main(String[] args) {
-        Contract contract = findActiveContractByRoomID(4);
-        System.out.println(contract);
+        List<Contract> contracts = findByRoom(2);
+        System.out.println(contracts.size());
     }
 }
