@@ -52,6 +52,7 @@
             </div>
             <div class="profile-menu">
                 <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
+                <p class="text-[#929CA5] font-normal text-[15px] w-full text-center mb-[10px]">${sessionScope.currentUser.account.role == 1 ? 'Người thuê' : (sessionScope.currentUser.account.role == 2 ?  'Chủ nhà' : 'Admin')}</p>
                 <ul>
                     <form action = "/sakura/access/login" method = "post">
                         <a href="/sakura/account/profile">
@@ -60,7 +61,7 @@
                         <a href="/sakura/account/changePassword">
                             <li><span><i class="bi bi-file-earmark-lock2-fill"></i>Đổi mật khẩu</span></li>
                         </a>
-                        <a href="#">
+                        <a href="/sakura/tenant/dashboard">
                             <li><span><i class="bi bi-house-fill"></i>Phòng thuê</span></li>
                         </a>
                         <button type ="submit" name ="logout" value="true">

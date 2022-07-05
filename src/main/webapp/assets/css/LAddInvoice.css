@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Mulish', sans-serif;
+}
+
+.menu-item.active,
+.menu-item.active svg {
+    color: #17535B;
+    background-color: #F3F3F3;
+}
+
+.parent-active span,
+.parent-active svg {
+    color: #17535B;
+}
+
+.card {
+    border-radius: 4px;
+    box-shadow: rgba(60, 64, 67, 0.08) 0px 1px 2px 0px, rgba(60, 64, 67, 0.03) 0px 2px 6px 2px;
+}
+
+.dropdown-shadow {
+    top: 0;
+    right: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.breadcrumb {
+    margin: 0;
+}
+
+.table-paging .current {
+    color: #fff;
+    background-color: #17535B;
+}
+
+.table-paging .current:hover {
+    color: #fff;
+    background-color: #256f79;
+}
+
+[type=search]:focus,
+[type=search]:active,
+[type=text]:focus,
+[type=text]:active,
+.in-edit,
+.in-edit:focus,
+.in-edit:active,
+#start-date:focus,
+#start-date:active,
+#end-date:focus,
+#end-date:active {
+    outline: none;
+    border: none;
+}
+
+#search-invoice-id:focus,
+#search-invoice-id:active,
+#start-date:focus,
+#start-date:active,
+#end-date:focus,
+#end-date:active {
+    outline: none !important;
+    border: 1px solid #17535B !important;
+}
+
+.grid-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+}
+
+.datepicker-picker {
+    background: #fff !important;
+}
+
+.datepicker-controls button {
+    background: #fff !important;
+    color: rgb(107 114 128) !important;
+}
+
+.datepicker-cell {
+    background: #fff !important;
+    color: rgb(107 114 128) !important;
+}
+
+.datepicker-cell:hover {
+    background: rgb(243 244 246) !important;
+}
+
+.datepicker-cell.focused, .datepicker-cell.selected {
+background: #17535B !important;
+    color: #fff !important;
+}
+
+
+[multiple],
+[type=date],
+[type=datetime-local],
+[type=email],
+[type=month],
+[type=number],
+[type=password],
+[type=search],
+[type=tel],
+[type=text],
+[type=time],
+[type=url],
+[type=week],
+select,
+select:focus,
+select:active,
+textarea {
+    outline: none;
+  
+}
+
+[multiple]:focus,
+[type=date]:focus,
+[type=datetime-local]:focus,
+[type=email]:focus,
+[type=month]:focus,
+[type=number]:focus,
+[type=password]:focus,
+[type=search]:focus,
+[type=tel]:focus,
+[type=text]:focus,
+[type=time]:focus,
+[type=url]:focus,
+[type=week]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    --tw-ring-shadow: none;
+    border: none;
+    border: solid 1px #17535B;
+}

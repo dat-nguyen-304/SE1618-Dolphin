@@ -8,19 +8,26 @@ public class ServiceDetail {
     private int serviceDetailID;
     private int startValue;
     private int endValue;
-    private boolean usage;
+    private int quantity;
     private Invoice invoice;
     private Service service;
 
     public ServiceDetail() {
     }
 
-    public ServiceDetail(int serviceDetailID, int startValue, int endValue, boolean usage, Invoice invoice, Service service) {
+    public ServiceDetail(int serviceDetailID, int startValue, int endValue, int quantity, Invoice invoice, Service service) {
         this.serviceDetailID = serviceDetailID;
         this.startValue = startValue;
         this.endValue = endValue;
-        this.usage = usage;
+        this.quantity = quantity;
         this.invoice = invoice;
+        this.service = service;
+    }
+
+    public ServiceDetail(int startValue, int endValue, int quantity, Service service) {
+        this.startValue = startValue;
+        this.endValue = endValue;
+        this.quantity = quantity;
         this.service = service;
     }
 
@@ -48,14 +55,14 @@ public class ServiceDetail {
         this.endValue = endValue;
     }
 
-    public boolean isUsage() {
-        return usage;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setUsage(boolean usage) {
-        this.usage = usage;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-
+    
     public Invoice getInvoice() {
         return invoice;
     }
@@ -71,6 +78,4 @@ public class ServiceDetail {
     public void setService(Service service) {
         this.service = service;
     }
-    
-    
 }

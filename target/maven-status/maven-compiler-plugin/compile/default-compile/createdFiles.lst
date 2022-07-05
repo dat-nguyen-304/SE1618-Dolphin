@@ -6,6 +6,7 @@ com\dolphin\hostelmanagement\controller\HostelController$5.class
 com\dolphin\hostelmanagement\controller\LoginController.class
 com\dolphin\hostelmanagement\utils\EmailService$1.class
 com\dolphin\hostelmanagement\DAO\DistrictDAO.class
+com\dolphin\hostelmanagement\DTO\GooglePojo.class
 com\dolphin\hostelmanagement\DAO\NotificationDAO.class
 com\dolphin\hostelmanagement\DAO\FeedbackDAO.class
 com\dolphin\hostelmanagement\DTO\Contract.class
@@ -26,6 +27,7 @@ com\dolphin\hostelmanagement\DTO\District.class
 com\dolphin\hostelmanagement\controller\RoomController.class
 com\dolphin\hostelmanagement\DTO\Notification.class
 com\dolphin\hostelmanagement\filter\CharacterEncodingFilter.class
+com\dolphin\hostelmanagement\utils\GoogleUtils.class
 com\dolphin\hostelmanagement\DAO\RoomDAO.class
 com\dolphin\hostelmanagement\DAO\ServiceDAO.class
 com\dolphin\hostelmanagement\DAO\ProvinceDAO.class
@@ -36,11 +38,13 @@ com\dolphin\hostelmanagement\DAO\HostelDAO.class
 com\dolphin\hostelmanagement\controller\InvoiceController.class
 com\dolphin\hostelmanagement\controller\HostelController$3.class
 com\dolphin\hostelmanagement\DAO\BookingRequestDAO.class
+com\dolphin\hostelmanagement\DAO\RoomResidentDAO.class
 com\dolphin\hostelmanagement\DAO\InvoiceDAO.class
 com\dolphin\hostelmanagement\DTO\ServiceDetail.class
 com\dolphin\hostelmanagement\controller\AdminController.class
 com\dolphin\hostelmanagement\DAO\AccountDAO.class
 com\dolphin\hostelmanagement\DTO\Hostel.class
+com\dolphin\hostelmanagement\utils\EmailService$2.class
 com\dolphin\hostelmanagement\DTO\Invoice.class
 com\dolphin\hostelmanagement\controller\HostelController$6.class
 com\dolphin\hostelmanagement\DTO\RoomType.class
@@ -49,5 +53,6 @@ com\dolphin\hostelmanagement\DTO\Room.class
 com\dolphin\hostelmanagement\controller\LandlordController.class
 com\dolphin\hostelmanagement\utils\EmailService.class
 com\dolphin\hostelmanagement\controller\HostelController$2.class
+com\dolphin\hostelmanagement\controller\ContractController.class
 com\dolphin\hostelmanagement\controller\HomeController.class
 com\dolphin\hostelmanagement\DAO\ContractDAO.class

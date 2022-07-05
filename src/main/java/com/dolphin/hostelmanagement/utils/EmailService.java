@@ -20,8 +20,8 @@ import java.util.Properties;
 
 public class EmailService {
 
-    private String username = "nguyenmykhanhvy@gmail.com"; //base mail of our website
-    private String password = "jgjzcxlxpoaegckc";
+    private String username = "swp.sakurahms@gmail.com"; //base mail of our website
+    private String password = "hxntkmwuzptkulzw";
 
     private Properties prop;
 
@@ -39,7 +39,7 @@ public class EmailService {
     /*public static void main(String... args) {
         try {
             new EmailService("smtp.gmail.com", 587, "nguyenmykhanhvy@gmail.com", "jgjzcxlxpoaegckc")
-              .sendMail();
+              .sendResetPasswordEmail();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class EmailService {
         prop.put("mail.smtp.ssl.trust", gmailHost);
     }
 
-    public void sendMail(String toEmail, String pwd) throws Exception {
+    public void sendResetPasswordEmail(String toEmail, String pwd) throws Exception {
         init();
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
@@ -87,6 +87,43 @@ public class EmailService {
         //multipart.addBodyPart(mimeBodyPartWithStyledText);
         //multipart.addBodyPart(attachmentBodyPart);
         System.out.println("????");
+        message.setContent(multipart);
+
+        Transport.send(message);
+    }
+    
+    public void sendVerificationEmail(String toEmail, String verificationCode) throws Exception {
+        init();
+        Session session = Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("from@gmail.com")); //mail LocND: LocNDSE160199@fpt.edu.vn, LocVH: locvhse160453@fpt.edu.vn
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+        message.setSubject("[SAKURA HMS] Activation code for registration");
+
+        String msg = "Xin chào " + toEmail + " ! Đây là mã xác nhận email của bạn: <b>" + verificationCode
+                + "</b>.<br/>Vui lòng quay lại trang web để nhập mã để kích hoạt tài khoản.";
+
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
+
+        //String msgStyled = "This is my <b style='color:red;'>bold-red email</b> using JavaMailer";
+        //MimeBodyPart mimeBodyPartWithStyledText = new MimeBodyPart();
+        //mimeBodyPartWithStyledText.setContent(msgStyled, "text/html; charset=utf-8");
+
+        //MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+
+        //attachmentBodyPart.attachFile(getFile());
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
+        //multipart.addBodyPart(mimeBodyPartWithStyledText);
+        //multipart.addBodyPart(attachmentBodyPart);
         message.setContent(multipart);
 
         Transport.send(message);

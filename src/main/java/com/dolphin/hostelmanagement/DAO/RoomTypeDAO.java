@@ -17,23 +17,24 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class RoomTypeDAO {
+
     public static ArrayList<RoomType> findByHostelID(int hostelID) {
         Connection cn = null;
-        
+
         ArrayList<RoomType> roomTypeList = new ArrayList<>();
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
-            String sql = "Select * from RoomType where hostelID = ?";
-            
+
+            String sql = "Select * from RoomType where hostelID = ? AND activate = 1 ORDER BY advertisedPrice";
+
             PreparedStatement pst = cn.prepareCall(sql);
-            
+
             pst.setInt(1, hostelID);
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            while(rs != null && rs.next()) {
+
+            while (rs != null && rs.next()) {
                 int roomTypeID = rs.getInt("roomTypeID");
                 String roomTypeName = rs.getNString("roomTypeName");
                 int roomTypeArea = rs.getInt("roomTypeArea");
@@ -42,17 +43,17 @@ public class RoomTypeDAO {
                 int advertisedPrice = rs.getInt("advertisedPrice");
                 Hostel hostel = HostelDAO.findById(hostelID);
                 ArrayList<String> imgList = getAllImagesById(roomTypeID);
-                
+
                 roomTypeList.add(new RoomType(roomTypeID, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList));
             }
-            
-        }catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return roomTypeList;
     }
-    
+
     public static ArrayList<String> getAllImagesById(int id) {
         ArrayList<String> list = null;
         Connection cn = null;
@@ -77,21 +78,19 @@ public class RoomTypeDAO {
         }
         return list;
     }
-    
+
     public static RoomType findByID(int roomTypeID) { //find a roomType by ID
         Connection cn = null;
-        
         RoomType rt = null;
-        
         try {
             cn = DBUtils.makeConnection();
             String sql = "Select * from RoomType where roomTypeID = ?";
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setInt(1, roomTypeID);
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            if(rs != null && rs.next()) {
+
+            if (rs != null && rs.next()) {
                 String roomTypeName = rs.getNString("roomTypeName");
                 int roomTypeArea = rs.getInt("roomTypeArea");
                 String description = rs.getNString("description");
@@ -100,24 +99,137 @@ public class RoomTypeDAO {
                 int hostelID = rs.getInt("hostelID");
                 Hostel hostel = HostelDAO.findById(hostelID);
                 ArrayList<String> imgList = getAllImagesById(roomTypeID);
-                
                 rt = new RoomType(roomTypeID, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList);
-            
             }
-            
-        }catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
         return rt;
-    }   
-    
-    public static void main(String args[]) {
-        for(RoomType rt: findByHostelID(1)) {
-            System.out.println(rt.getDescription());
+    }
+
+    public static boolean save(String name, int price, int area, int maxNumberOfResidents, String description, int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO RoomType(roomTypeName, roomTypeArea, description, maxNumberOfResidents, advertisedPrice, hostelID) VALUES(?, ?, ?, ?, ?, ?)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, name);
+                pst.setInt(2, area);
+                pst.setString(3, description);
+                pst.setInt(4, maxNumberOfResidents);
+                pst.setInt(5, price);
+                pst.setInt(6, hostelId);
+                int addSuccess = pst.executeUpdate();
+                if (addSuccess > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        //System.out.println(findByID(1).getDescription());
+        return false;
+    }
+
+    public static RoomType findLastRoomTypeByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select top 1 * from RoomType where hostelID = ? AND activate = 1 order by roomTypeID desc";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    int roomTypeId = rs.getInt("roomTypeID");
+                    String roomTypeName = rs.getString("roomTypeName");
+                    int roomTypeArea = rs.getInt("roomTypeArea");
+                    String description = rs.getString("description");
+                    int maxNumberOfResidents = rs.getInt("maxNumberOfResidents");
+                    int advertisedPrice = rs.getInt("advertisedPrice");
+                    Hostel hostel = HostelDAO.findById(hostelId);
+                    ArrayList<String> imgList = getAllImagesById(roomTypeId);
+                    cn.close();
+                    return new RoomType(roomTypeId, roomTypeName, roomTypeArea, advertisedPrice, maxNumberOfResidents, description, hostel, imgList);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean isExistRoomType(String roomTypeName, int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "SELECT H.hostelID FROM Hostel H INNER JOIN RoomType RT ON H.hostelID = RT.hostelID\n"
+                    + "WHERE H.hostelID = ? AND RT.roomTypeName = ? AND RT.activate = 1";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, hostelId);
+            pst.setString(2, roomTypeName);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                cn.close();
+                return true;
+            }
+            cn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean updateRoomTypeById(int roomTypeId, String name, int price, int area, int maxNumberOfResidents, String description) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "update RoomType \n"
+                    + "SET roomTypeName = ?, roomTypeArea = ?, description = ?, maxNumberOfResidents = ?, advertisedPrice = ?\n"
+                    + "WHERE roomTypeID = ?";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, name);
+            pst.setInt(2, area);
+            pst.setString(3, description);
+            pst.setInt(4, maxNumberOfResidents);
+            pst.setInt(5, price);
+            pst.setInt(6, roomTypeId);
+            int rows = pst.executeUpdate();
+            if (rows > 0) {
+                cn.close();
+                return true;
+            }
+            cn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static boolean deleteById(int roomTypeId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomType SET activate = 0 WHERE roomTypeID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomTypeId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void main(String args[]) {
+
     }
 
 }

@@ -155,7 +155,7 @@ public class AccountController extends HttpServlet {
                     }
                     t.setFullname(fullname);
                     t.setPhone(phone);
-                    t.getAccount().setEmail(email);
+//                    t.getAccount().setEmail(email);
 
                     acc = t.getAccount();
                     System.out.println("AccountID: " + t.getAccount());
@@ -174,7 +174,7 @@ public class AccountController extends HttpServlet {
                     }
                     l.setFullname(fullname);
                     l.setPhone(phone);
-                    l.getAccount().setEmail(email);
+//                    l.getAccount().setEmail(email);
 
                     acc = l.getAccount();
 
@@ -233,13 +233,11 @@ public class AccountController extends HttpServlet {
                 Landlord l = (Landlord) session.getAttribute("currentUser");
                 acc = l.getAccount();
             }
+            
+            ArrayList<Notification> notiList = NotificationDAO.getNotificationByToAccount(acc);
 
-//            ArrayList<Notification> notiList = NotificationDAO.getNotificationByToID(acc.getAccountID());
-//            for(Notification noti: notiList) {
-//                System.out.println(noti.getContent());
-//            }
-//            request.setAttribute("notiList", notiList);
-//            request.getRequestDispatcher("/view/myNotification.jsp").forward(request, response);
+            request.setAttribute("notiList", notiList);
+            request.getRequestDispatcher("/view/myNotification.jsp").forward(request, response);
         }
     }
 

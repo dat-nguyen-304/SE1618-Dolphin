@@ -60,7 +60,7 @@
                     <ul class="item-list list-none p-0 w-[52%]">
                         <!--User name-->
                         <li class="item block relative z-0 w-full mt-5">
-                            <input type="text" id="username" name="username" placeholder="" value="${requestScope.username}" required onchange="checkUsername()"
+                            <input type="text" id="username" name="username" placeholder=" " value="${requestScope.username}" required onchange="checkUsername()"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none  focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
                             <label for="username" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Tên đăng nhập <span class="font-extralight"></span></label>
                         </li>
@@ -85,7 +85,7 @@
                         <li class="mt-2">
                             <p class="text-center text-sm font-light">hoặc tiếp tục với</p>
                             <div class="social flex justify-between my-5">
-                                <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-transform" href="#">
+                                <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-transform" href="https://accounts.google.com/o/oauth2/auth?scope=email+profile&redirect_uri=http://localhost:8080/sakura/access/googleAccess&response_type=code&client_id=730896390786-dleufk3i61p0pk8f6lavcrubmbucp5jq.apps.googleusercontent.com&approval_prompt=force">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
                                         <object class="inline" data="../assets/icons/google.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Google</span>

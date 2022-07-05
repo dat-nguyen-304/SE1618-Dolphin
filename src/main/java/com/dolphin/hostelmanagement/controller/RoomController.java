@@ -4,12 +4,17 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DTO.Room;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -29,17 +34,30 @@ public class RoomController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RoomController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RoomController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try (PrintWriter out = response.getWriter()) {
+            String path = request.getPathInfo();
+            if (path.equals("/roomsNeedInvoice")) {
+                String hostelID = request.getParameter("hostelID");
+                int id = 0;
+                if (hostelID != null) {
+                    id = Integer.parseInt(hostelID);
+                    List<Room> roomList = RoomDAO.findRoomsNeedInvoice(id);
+
+                    JSONArray list = new JSONArray();
+                    for (Room room : roomList) {
+                        System.out.println(room);
+                        JSONObject obj = new JSONObject();
+                        String roomID = Integer.toString(room.getRoomID());
+                        String roomNumber = room.getRoomNumber();
+                        obj.put("roomID", roomID);
+                        obj.put("roomNumber", roomNumber);
+                        list.add(obj);
+                    }
+                    System.out.println(list);
+                    out.write(list.toJSONString());
+                    out.close();
+                }
+            }
         }
     }
 
