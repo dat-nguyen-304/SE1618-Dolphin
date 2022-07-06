@@ -1,5 +1,5 @@
 /* 
-    Created on : Jun 21, 2022, 7:54:30 AM
+    Created on : Jul 3, 2022, 10:28:19 AM
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 */
 * {
@@ -21,10 +21,6 @@
 .card {
     border-radius: 4px;
     box-shadow: rgba(60, 64, 67, 0.08) 0px 1px 2px 0px, rgba(60, 64, 67, 0.03) 0px 2px 6px 2px;
-}
-
-.hostel-rating i {
-    transform: translateY(-3px);
 }
 
 .dropdown-shadow {
@@ -50,9 +46,4 @@
 [type=search]:focus, [type=search]:active, [type=text]:focus, [type=text]:active, .in-edit, .in-edit:focus, .in-edit:active, #start-date:focus, #start-date:active, #end-date:focus, #end-date:active  {
     outline: none;
     border: none;
-}
-
-#search-invoice-id:focus, #search-invoice-id:active, #start-date:focus, #start-date:active, #end-date:focus, #end-date:active {
-    outline: none !important;
-    border: 1px solid #17535B !important;
 }
