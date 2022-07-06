@@ -370,7 +370,27 @@ public class ContractDAO {
         }catch(Exception e) {
             e.printStackTrace();
         }
+        return false;
+    }
 
+    public static boolean endContractById(int contractId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Contract SET status = 0 WHERE contractID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, contractId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

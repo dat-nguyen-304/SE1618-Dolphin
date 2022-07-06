@@ -192,8 +192,7 @@ public class RoomDAO {
                         String fullname = rs.getString("fullname");
                         String phone = rs.getString("phone");
                         Date dob = rs.getDate("dob");
-                        boolean isRoomLead = rs.getBoolean("isRoomLead");
-                        list.add(new RoomResident(roomResidentID, room, fullname, phone, dob, isRoomLead));
+                        list.add(new RoomResident(roomResidentID, room, fullname, phone, dob));
                     }
                 }
             }
@@ -314,7 +313,7 @@ public class RoomDAO {
         }
         return list;
     }
-    
+
     public static Room findRoomNewInvoice(int roomIDInput) {
         Connection cn = null;
         try {
@@ -374,7 +373,7 @@ public class RoomDAO {
         }
         return false;
     }
-    
+
     public static boolean deleteById(int roomId) {
         Connection cn = null;
         try {
@@ -390,13 +389,35 @@ public class RoomDAO {
                 }
                 cn.close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean setCurrentNumberOfResidents(int roomId, int quantity) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Room SET currentNoResidents = ? WHERE roomID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, quantity);
+                pst.setInt(2, roomId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
     public static void main(String args[]) {
-        System.out.println(RoomDAO.findRoomNewInvoice(2));
+        System.out.println(setCurrentNumberOfResidents(5, 3));
     }
 }

@@ -89,6 +89,16 @@ public class ContractController extends HttpServlet {
                     request.getRequestDispatcher("/view/addContract.jsp").forward(request, response);
                 }
             }
+            
+            if (path.equals("/end-contract")) {
+                int endContractId = Integer.parseInt(request.getParameter("endContractId"));
+                boolean endContractSuccess = ContractDAO.endContractById(endContractId);
+                if (endContractSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("Cập nhật thất bại");
+                }
+            }
         }
     }
 

@@ -12,18 +12,16 @@ public class RoomResident {
     private String fullname;
     private String phone;
     private Date dob;
-    private boolean isRoomLead;
 
     public RoomResident() {
     }
 
-    public RoomResident(int roomResidentID, Room room, String fullname, String phone, Date dob, boolean isRoomLead) {
+    public RoomResident(int roomResidentID, Room room, String fullname, String phone, Date dob) {
         this.roomResidentID = roomResidentID;
         this.room = room;
         this.fullname = fullname;
         this.phone = phone;
         this.dob = dob;
-        this.isRoomLead = isRoomLead;
     }
 
     public int getRoomResidentID() {
@@ -64,13 +62,5 @@ public class RoomResident {
 
     public void setDob(Date dob) {
         this.dob = dob;
-    }
-
-    public boolean isIsRoomLead() {
-        return isRoomLead;
-    }
-
-    public void setIsRoomLead(boolean isRoomLead) {
-        this.isRoomLead = isRoomLead;
     }
 }

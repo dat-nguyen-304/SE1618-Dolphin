@@ -4,6 +4,9 @@
     Author     : Admin
 --%>
 
+<%@page import="com.dolphin.hostelmanagement.DTO.Contract"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -79,19 +82,33 @@
                 </nav>
                 <!-- End breadcrumb -->
 
-
+                <%
+                    Contract contract = (Contract) request.getAttribute("contract");
+                    Date createdTime = contract.getCreatedDate();
+                    Date startTime = contract.getStartDate();
+                    Date endTime = contract.getEndDate();
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    String createdDate = formatter.format(createdTime);
+                    String startDate = formatter.format(startTime);
+                    String endDate = formatter.format(endTime);
+                %>
 
                 <div class="grid grid-cols-2 gap-x-8 mt-4 border-2 rounded p-4">
                     <div class="">
                         <div class="images border-2 p-4 rounded mt-[12px] grid grid-cols-4 gap-4">
                             <div class="col-span-2">Hợp đồng ID: ${requestScope.contract.contractID}</div>
-                            <div class="col-span-2 text-xs italic text-right">Ngày tạo: 1/1/2022</div>
-                            <div class="col-span-2 text-xs">Thời gian: ${requestScope.contract.startDate} - ${requestScope.contract.endDate}</div>
-                            <div class="col-span-2 text-xs italic text-right">Trạng thái: 
-                                <c:if test="${requestScope.contract.status == 0}">Đã kết thúc</c:if>
-                                <c:if test="${requestScope.contract.status == 1}">Còn hiệu lực</c:if>
-                                </div>
-                                <div class="col-span-4 text-xs">Người cho thuê: ${requestScope.contract.landlord.fullname}</div>
+                            <div class="col-span-2 text-xs italic text-right">Ngày tạo: <%=createdDate%></div>
+                            <div class="col-span-2 text-xs">Thời gian: <%=startDate%> - <%=endDate%></div>
+                            <div class="col-span-2 text-xs italic text-right contractStatus">
+                                <c:if test="${requestScope.contract.status == 0}">Trạng thái: Đã kết thúc</c:if>
+                                <c:if test="${requestScope.contract.status == 1}">
+                                    <button class="border-2 p-1 mr-2" id="endContract-1" type="submit" name="action" value="Save">
+                                        Kết thúc hợp đồng này
+                                    </button>
+                                    Trạng thái: Còn hiệu lực
+                                </c:if>
+                            </div>
+                            <div class="col-span-4 text-xs">Người cho thuê: ${requestScope.contract.landlord.fullname}</div>
                             <div class="col-span-2 text-xs">Người thuê: ${requestScope.contract.tenant.fullname}</div>
                             <div class="col-span-2 text-xs text-right">Phòng cho thuê: 101</div>
                             <div class="col-span-2 text-xs">Tiền đặt cọc: <span class="money">${requestScope.contract.deposit}</span></div>
@@ -100,7 +117,7 @@
                                 <div class="col-span-4 text-xs">Nội dung: -${requestScope.contract.description}-
                                 </div>
                             </c:if>
-                            <button class="col-span-4 text-right">Đã ký tên</button>
+                            <p class="col-span-4 text-right">Đã thỏa thuận</p>
                         </div>
                     </div>
                     <div class="mt-4 border-2 rounded p-4">
@@ -165,17 +182,116 @@
                                                 <c:if test="${invoice.status == 1}">Đã thanh toán</c:if>
                                                 </td>
                                                 <td class="text-center px-6 py-4 text-center">
-                                                    <a href="#"
-                                                       class="font-medium text-blue-600 hover:underline">Xem
-                                                        chi tiết</a>
-                                                </td>
-                                            </tr>
+                                                    <form action="/sakura/landlord/contract-detail">
+                                                        <button type="submit" name="invoiceId" value="${invoice.invoiceID}"
+                                                            class="font-medium text-blue-600 hover:underline">
+                                                        Xem chi tiết
+                                                        </butotn>
+                                                </form>
+                                            </td>
+                                        </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+
+
+                <!-- ---------------------------------------------------------------------------------- -->
+                <div class="bg-[#f7f7fa]">
+                    <div class="bg-[#fff] rounded shadow">
+                        <!--Modal-->
+                        <div
+                            class="endContractmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                            <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                            <div
+                                class="modal-container bg-white w-3/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                <div
+                                    class="endContractmodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                    <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                         viewBox="0 0 18 18">
+                                    <path
+                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                    </path>
+                                    </svg>
+                                    <span class="text-sm">(Esc)</span>
+                                </div>
+                                <div class="modal-content">
+                                    <!--Title-->
+                                    <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                        <p class="text-2xl font-bold">Xóa nhà trọ</p>
+                                        <div
+                                            class="endContractmodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                            <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                 height="18" viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <!--Body-->
+                                    <div class="p-4">
+                                        <input type="hidden" name="endContractId" value="${requestScope.contract.contractID}"/>
+                                        Bạn có chắc muốn kết thúc hợp đồng này ngay lúc này.
+                                    </div>
+                                    <!--Footer-->
+                                    <div class="flex justify-end p-[20px]">
+                                        <button
+                                            class="endContractmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                        <button id="endContract-2" onclick="endContract()"
+                                                class="endContractBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Chắc chắn</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Modal 2-->
+                        <div
+                            class="endContractmodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                            <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                            <div
+                                class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                <div
+                                    class="endContractmodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                    <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                         viewBox="0 0 18 18">
+                                    <path
+                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                    </path>
+                                    </svg>
+                                    <span class="text-sm">(Esc)</span>
+                                </div>
+                                <div class="modal-content">
+                                    <!--Title-->
+                                    <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                        <p class="text-2xl font-bold">Xác nhận</p>
+                                        <div
+                                            class="endContractmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                            <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                 height="18" viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <!--Body-->
+                                    <div class="p-[20px]">
+                                        <p class="endContractContent"></p>
+                                    </div>
+                                    <!--Footer-->
+                                    <div class="flex justify-end p-[20px]">
+                                        <button 
+                                            class="endContractmodal2-close px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">OK
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ---------------------------------------------------------------------------------- -->
             </div>
 
             <!-- Footer -->
@@ -212,20 +328,106 @@
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script>
-            var formatMoney = function (n) {
-                var s = '' + (Math.floor(n)), i = s.length, r = '';
-                while ((i -= 3) > 0) {
-                    r = '.' + s.substr(i, 3) + r;
+                                            var formatMoney = function (n) {
+                                                var s = '' + (Math.floor(n)), i = s.length, r = '';
+                                                while ((i -= 3) > 0) {
+                                                    r = '.' + s.substr(i, 3) + r;
+                                                }
+                                                return s.substr(0, i + 3) + r + " VNÐ";
+                                            };
+                                            const moneyElements = document.querySelectorAll('.money');
+                                            moneyElements.forEach(money => {
+                                                const originMoney = money.innerHTML;
+                                                console.log(originMoney);
+                                                money.innerHTML = formatMoney(originMoney);
+                                            })
+        </script>
+
+        <script>
+            function endContract() {
+
+                const endContractContent = document.querySelector(".endContractContent");
+                const endContractId = document.querySelector("input[name='endContractId']");
+                const endContractBtn = document.querySelector(".endContractBtn");
+                const contractStatus = document.querySelector(".contractStatus");
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'endContractId': endContractId.value
+                    },
+                    url: '/sakura/contract/end-contract',
+                    success: function (response) {
+                        endContractContent.innerHTML = response;
+                        if (response === "Cập nhật thành công")
+                            contractStatus.innerHTML = "Trạng thái: Đã kết thúc";
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+        </script>
+
+        <script>
+            var open_modal_1 = document.querySelector('#endContract-1');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.endContractmodal1');
+            });
+
+            var open_modal_2 = document.querySelector('#endContract-2');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.endContractmodal2');
+            });
+
+            // Bấm ngoài modal thì đóng modal
+            // const overlay = document.querySelector('.modal .modal-overlay');
+            // overlay.addEventListener('click', toggleModal('.modal'));
+
+            var close_modal_1 = document.querySelectorAll('.endContractmodal1 .endContractmodal1-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.endContractmodal1');
+                    console.log('close 1');
+                });
+            }
+
+            var close_modal_2 = document.querySelectorAll('.endContractmodal2 .endContractmodal2-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.endContractmodal2');
+                    console.log('close 2');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
                 }
-                return s.substr(0, i + 3) + r + " VNÐ";
+                const modal_1 = document.querySelector('.endContractmodal1');
+                const modal_2 = document.querySelector('.endContractmodal2');
+                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
+                    toggleModal('.endContractmodal1');
+                }
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.endContractmodal2');
+                }
             };
-            const moneyElements = document.querySelectorAll('.money');
-            moneyElements.forEach(money => {
-                const originMoney = money.innerHTML;
-                console.log(originMoney);
-                money.innerHTML = formatMoney(originMoney);
-            })
+
+            function toggleModal(modal_item) {
+                const modal = document.querySelector(modal_item);
+                modal.classList.toggle('active-modal')
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+            }
+
         </script>
     </body>
 

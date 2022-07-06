@@ -93,7 +93,7 @@
                                     <h3 class="text-sm font-medium text-gray-400 mr-[10px]">Chọn nhà trọ: </h3>
                                     <button type="button" data-modal-toggle="hostelModal"
                                             class="rounded w-fit h-[30px] px-[20px] bg-[#288D87] hover:bg-[#248781] flex flex justify-between items-center">
-                                        <p class="font-medium text-[15px] text-[#fff]">${sessionScope.currentHostel.hostelName}</h3>
+                                        <p class="font-medium text-[15px] text-[#fff]">${sessionScope.currentHostel.hostelName}</p>
                                     </button>
                                 </div>
                                 <button id="editHostel-1" type="submit" name="action" value="Save"
@@ -341,7 +341,7 @@
                                                 <div class="my-2">
                                                     <label class="w-[160px] inline-block" for="">Chọn huyện</label>
                                                     <select id="updateDistrict" name="updateDistrictId" class="w-[200px] p-1">
-                                                        <c:forEach items="${requestScope.districtList}" var="district">
+                                                        <c:forEach items="${requestScope.currentDistrictList}" var="district">
                                                             <c:if test="${district.districtID == sessionScope.currentHostel.district.districtID}">
                                                                 <option selected value="${district.districtID}">${district.districtName}</option>
                                                             </c:if>
@@ -871,27 +871,42 @@
                                                         const description = document.querySelector("textarea[name='description']");
                                                         const landlordId = document.querySelector("input[name='landlordId']");
                                                         const addHostelMessage = document.querySelector(".addHostelMessage");
-                                                        console.log("addHostelMessage", addHostelMessage);
-                                                        jQuery.ajax({
-                                                            type: 'POST',
-                                                            data: {'name': name.value,
-                                                                'districtId': districtId.value,
-                                                                'streetAddress': streetAddress.value,
-                                                                'description': description.value,
-                                                                'landlordId': landlordId.value
-                                                            },
-                                                            url: '/sakura/landlord/add-hostel',
-                                                            success: function (response) {
-                                                                name.value = "";
-                                                                streetAddress.value = "";
-                                                                description.value = "";
-                                                                addHostelMessage.innerHTML = response;
-                                                            },
-                                                            error: function () {
-                                                            },
-                                                            complete: function (result) {
+                                                        if (!name.value || !streetAddress.value || !description.value) {
+                                                            let message = "";
+                                                            if (!name.value) {
+                                                                message += "Tên nhà trọ - ";
                                                             }
-                                                        });
+                                                            if (!streetAddress.value) {
+                                                                message += "Địa chỉ chi tiết - ";
+                                                            }
+                                                            if (!description.value) {
+                                                                message += "Mô tả ";
+                                                            }
+                                                            message += "không được trống";
+
+                                                            addHostelMessage.innerHTML = message;
+                                                        } else {
+                                                            jQuery.ajax({
+                                                                type: 'POST',
+                                                                data: {'name': name.value,
+                                                                    'districtId': districtId.value,
+                                                                    'streetAddress': streetAddress.value,
+                                                                    'description': description.value,
+                                                                    'landlordId': landlordId.value
+                                                                },
+                                                                url: '/sakura/landlord/add-hostel',
+                                                                success: function (response) {
+                                                                    name.value = "";
+                                                                    streetAddress.value = "";
+                                                                    description.value = "";
+                                                                    addHostelMessage.innerHTML = response;
+                                                                },
+                                                                error: function () {
+                                                                },
+                                                                complete: function (result) {
+                                                                }
+                                                            });
+                                                        }
                                                     }
         </script>
         <script>
@@ -899,6 +914,7 @@
                 const validHostelMessage = document.querySelector(".validHostelMessage");
                 const landlordId = document.querySelector("input[name='landlordId']");
                 const adddHostelBtn = document.querySelector(".addHostelBtn");
+                const addHostelMessage = document.querySelector(".addHostelMessage");
                 console.log("da vao checkvalidhostel");
                 console.log(element.value);
                 console.log(landlordId.value);
@@ -912,8 +928,8 @@
                         validHostelMessage.innerHTML = response;
                         if (response) {
                             adddHostelBtn.onclick = (e) => {
+                                addHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp";
                                 e.preventDefault();
-                                console.log("da dong nut xac nhan");
                             }
                         } else {
                             adddHostelBtn.onclick = () => addHostel();
@@ -957,11 +973,7 @@
                 const landlordId = document.querySelector("input[name='landlordId']");
                 const updateHostelBtn = document.querySelector(".updateHostelBtn");
                 const currentName = document.querySelector("input[name='currentName']");
-                console.log("validUpdateHostelMessage: ", validUpdateHostelMessage);
-                console.log("landlordId: ", landlordId.value);
-                console.log("updateHostelBtn: ", updateHostelBtn);
-                console.log("currentName: ", currentName.value);
-                console.log("updateName: ", element.value);
+                const updateHostelMessage = document.querySelector(".updateHostelMessage");
                 jQuery.ajax({
                     type: 'POST',
                     data: {'updateName': element.value,
@@ -974,6 +986,7 @@
                         if (response) {
                             updateHostelBtn.onclick = (e) => {
                                 e.preventDefault();
+                                updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
                             }
                         } else {
                             updateHostelBtn.onclick = () => updateHostel();
@@ -987,7 +1000,6 @@
             }
 
             function updateHostel() {
-                console.log("----- da vao update hostel ------------");
 
                 const name = document.querySelector("input[name='updateName']");
                 const updateDistrictId = document.querySelector("select[name='updateDistrictId']");
@@ -995,29 +1007,39 @@
                 const description = document.querySelector("textarea[name='updateDescription']");
                 const messageElement = document.querySelector(".updateHostelMessage");
                 const hostelId = document.querySelector("input[name='hostelId']");
-                console.log("Name: ", name.value);
-                console.log("updateDistrictId ", updateDistrictId.value);
-                console.log("updateStreetAddress ", updateStreetAddress.value);
-                console.log("description ", description.value);
-                console.log("hostelId ", hostelId.value);
-
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'name': name.value,
-                        'updateDistrictId': updateDistrictId.value,
-                        'updateStreetAddress': updateStreetAddress.value,
-                        'description': description.value,
-                        'hostelId': hostelId.value
-                    },
-                    url: '/sakura/landlord/update-hostel',
-                    success: function (response) {
-                        messageElement.innerHTML = response;
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                if (!name.value || !streetAddress.value || !description.value) {
+                    let message = "";
+                    if (!name.value) {
+                        message += "Tên nhà trọ - ";
                     }
-                });
+                    if (!streetAddress.value) {
+                        message += "Địa chỉ chi tiết - ";
+                    }
+                    if (!description.value) {
+                        message += "Mô tả ";
+                    }
+                    message += "không được trống";
+
+                    messageElement.innerHTML = message;
+                } else {
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'name': name.value,
+                            'updateDistrictId': updateDistrictId.value,
+                            'updateStreetAddress': updateStreetAddress.value,
+                            'description': description.value,
+                            'hostelId': hostelId.value
+                        },
+                        url: '/sakura/landlord/update-hostel',
+                        success: function (response) {
+                            messageElement.innerHTML = response;
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
+                }
             }
         </script>
 
@@ -1060,10 +1082,6 @@
                 event.preventDefault();
                 toggleModal('.addHostelmodal2');
             });
-
-            // Bấm ngoài modal thì đóng modal
-            // const overlay = document.querySelector('.modal .modal-overlay');
-            // overlay.addEventListener('click', toggleModal('.modal'));
 
             var close_modal_1 = document.querySelectorAll('.addHostelmodal1 .addHostelmodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
@@ -1121,10 +1139,6 @@
                 toggleModal('.editHostelmodal2');
             });
 
-            // Bấm ngoài modal thì đóng modal
-            // const overlay = document.querySelector('.modal .modal-overlay');
-            // overlay.addEventListener('click', toggleModal('.modal'));
-
             var close_modal_1 = document.querySelectorAll('.editHostelmodal1 .editHostelmodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
                 close_modal_1[i].addEventListener('click', () => {
@@ -1173,10 +1187,6 @@
                 event.preventDefault();
                 toggleModal('.deleteHostelmodal2');
             });
-
-            // Bấm ngoài modal thì đóng modal
-            // const overlay = document.querySelector('.modal .modal-overlay');
-            // overlay.addEventListener('click', toggleModal('.modal'));
 
             var close_modal_1 = document.querySelectorAll('.deleteHostelmodal1 .deleteHostelmodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {

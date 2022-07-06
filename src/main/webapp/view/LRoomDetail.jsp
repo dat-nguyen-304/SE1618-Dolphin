@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="com.dolphin.hostelmanagement.DTO.RoomResident"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -176,7 +177,6 @@
                     <div class="grid grid-cols-12 gap-x-8">
                         <div class="col-span-5 border-4 p-4 border-2 rounded mt-[24px]">
                             <div id="default-carousel" class="relative" data-carousel="static">
-                                Carousel wrapper 
                                 <div class="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96">
                                     Item 1 
                                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
@@ -203,7 +203,6 @@
                                              alt="...">
                                     </div>
                                 </div>
-                                Slider indicators 
                                 <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
                                     <button type="button" class="w-3 h-3 rounded-full" aria-current="false"
                                             aria-label="Slide 1" data-carousel-slide-to="0"></button>
@@ -212,7 +211,6 @@
                                     <button type="button" class="w-3 h-3 rounded-full" aria-current="false"
                                             aria-label="Slide 3" data-carousel-slide-to="2"></button>
                                 </div>
-                                Slider controls 
                                 <button type="button"
                                         class="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
                                         data-carousel-prev>
@@ -402,7 +400,7 @@
                                         </div>
                                     </div>
                                     <!-- ---------------------------------------------------------------------------------- -->
-                                    
+
                                     <!-- ---------------------------------------------------------------------------------- -->
                                     <div class="bg-[#f7f7fa]">
                                         <div class="bg-[#fff] rounded shadow">
@@ -521,35 +519,218 @@
                             <div class="border-2 rounded p-4 text-sm">
                                 Mô tả: ${requestScope.currentRoom.roomType.description}
                             </div>
-                            <div class="mt-5 w-96 shadow-lg rounded text-center p-2 bg-red-300">Số
-                                người hiện
-                                tại: 4
+                            <div class="mt-5 w-96 shadow-lg rounded text-center p-2 bg-red-300">
+                                Số người hiện tại: <span class="residentQuantity">${requestScope.residentList.size()}</span>
                             </div>
-                            <div class="mt-[20px]">
-                                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                    <form action="" class="w-full">
-                                        <h2 class="text-[22px] font-medium text-[#40576C]">Thành viên 1</h2>
-                                        <div class="room-resident text-[18px] font-normal text-[#17535B] w-full grid grid-cols-3 gap-[20px] mt-[10px] mb-[20px]">
-                                            <input type="text" name="name" placeholder="Họ tên"
-                                                   class=" px-[10px] py-[5px] outline-none rounded duration-100 border border-gray-300 focus:border-[#17535B]" />
-                                            <input type="phone" name="phone" placeholder="Số điện thoại"
-                                                   class=" px-[10px] py-[5px] outline-none rounded duration-100 border border-gray-300 focus:border-[#17535B]" />
-                                            <div class="relative w-full">
-                                                <div class="absolute inset-y-0 left-0 flex items-center pl-[5px] pointer-events-none ">
-                                                    <svg class="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd"
-                                                          d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                                          clip-rule="evenodd"></path>
+                            <!-- ---------------------------------------------------------------------------------- -->
+                            <div class="addMemberElement">
+                                <c:if test="${requestScope.residentList.size() < requestScope.currentRoom.roomType.maxNumberOfResidents}">
+                                    <div class="bg-[#f7f7fa]">
+                                        <div class="bg-[#fff] rounded shadow">
+                                            <!-- Modal toggle -->
+                                            <button id="addMember-1" type="submit" name="action" value="Save"
+                                                    class="w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded">
+                                                Thêm người ở mới
+                                            </button>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <!--Modal-->
+                                <div
+                                    class="addMembermodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                    <div
+                                        class="modal-container bg-white w-5/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                        <div
+                                            class="addMembermodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                 viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                            <span class="text-sm">(Esc)</span>
+                                        </div>
+                                        <div class="modal-content">
+                                            <!--Title-->
+                                            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                <p class="text-2xl font-bold">Thêm người ở mới</p>
+                                                <div
+                                                    class="addMembermodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                         height="18" viewBox="0 0 18 18">
+                                                    <path
+                                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                    </path>
                                                     </svg>
                                                 </div>
-                                                <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" type="text" name="dob"
-                                                       class="pl-[40px] pr-[10px] py-[5px] w-full h-full text-[18px] font-normal text-[#17535B] outline-none rounded duration-100 border border-gray-300 focus:border-[#17535B]"
-                                                       placeholder="Ngày sinh">
+                                            </div>
+                                            <!--Body-->
+                                            <div class="p-4">
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Tên người ở</label>
+                                                    <input type="text" name="memberName" required class="w-[400px] text-sm p-1">
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Số điện thoại</label>
+                                                    <input type="text" name="memberPhone" required class="w-[400px] text-sm p-1">
+                                                    <p class="ml-[200px] text-xs">Số điện thoại gồm 10 chữ số</p>
+                                                </div>
+                                                <div class="my-2">
+                                                    <label class="w-[160px] inline-block" for="">Ngày sinh</label>
+                                                    <input type="date" name="memberDob" required class="w-[400px] text-sm p-1">
+                                                </div>
+                                            </div>
+                                            <!--Footer-->
+                                            <div class="flex justify-end p-[20px]">
+                                                <button
+                                                    class="addMembermodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                                                <button id="addMember-2" onclick="addMember()"
+                                                        class="addMemberBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
                                             </div>
                                         </div>
-                                        <h1><a href="add-new-form" class="w-full py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-[#fff] flex items-center justify-center focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F]">Thêm thành viên +</a></h1>
-                                    </form>
+                                    </div>
+                                </div>
+                                <!--Modal 2-->
+                                <div
+                                    class="addMembermodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                                    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+                                    <div
+                                        class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                                        <div
+                                            class="addMembermodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                 viewBox="0 0 18 18">
+                                            <path
+                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                            </path>
+                                            </svg>
+                                            <span class="text-sm">(Esc)</span>
+                                        </div>
+                                        <div class="modal-content">
+                                            <!--Title-->
+                                            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                                                <p class="text-2xl font-bold">Xác nhận</p>
+                                                <div
+                                                    class="addMembermodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
+                                                         height="18" viewBox="0 0 18 18">
+                                                    <path
+                                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                                    </path>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <!--Body-->
+                                            <div class="p-[20px]">
+                                                <p class="addMemberMessage"></p>
+                                            </div>
+                                            <!--Footer-->
+                                            <div class="flex justify-end p-[20px]">
+                                                <button type="button"
+                                                        class="addMembermodal2-close px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">OK
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <c:if test="${requestScope.residentList.size() >= requestScope.currentRoom.roomType.maxNumberOfResidents}">
+                                    <button class="inline-block w-[120px] h-[45px] bg-[#ccc] text-[#f6fafc] rounded">
+                                        Thêm người ở mới
+                                    </button>
+                                    <span class="text-xs h-[45px] leading-[45px]">Số người của phòng này đã đạt tối đa</span>
+                                </c:if>
+                            </div>
+                            <!-- ---------------------------------------------------------------------------------- -->
+                            <div class="mt-[20px]">
+                                <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
+                                    <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                                        <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-3 py-3 text-center">
+                                                    Mã số
+                                                </th>
+                                                <th scope="col" class="px-3 py-3 text-center">
+                                                    Tên
+                                                </th>
+                                                <th scope="col" class="px-3 py-3 text-center">
+                                                    SÐT
+                                                </th>
+                                                <th scope="col" class="px-3 py-3 text-center">
+                                                    Ngày sinh
+                                                </th>
+                                                <th scope="col" class="px-3 py-3 text-center">
+                                                    <span class="sr-only">Update</span>
+                                                </th>
+                                                <th scope="col" class="px-3 py-3 text-center">
+                                                    <span class="sr-only">Remove</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="member-list">
+                                        <input type="hidden" name="residentQuantity" value="${requestScope.residentList.size()}"/>
+                                        <c:set var="iterator" value="${0}"/>
+                                        <c:forEach items="${requestScope.residentList}" var="resident">
+                                            <c:set var="iterator" value="${iterator + 1}"/>
+                                            <tr class="member-${iterator} bg-white border-b hover:bg-gray-50">
+                                                <td class="px-3 py-4 text-center">
+                                                    ${resident.roomResidentID}
+                                                </td>
+                                                <td class="px-3 py-4 text-center">
+                                                    <input name="updateFullName" type="text" class="text-xs" value="${resident.fullname}"/>
+
+                                                </td>
+                                                <td class="px-3 py-4 text-center">
+                                                    <input name="updatePhone" type="text" class="text-xs" value="${resident.phone}"/>
+                                                </td>
+                                                <td class="px-3 py-4 text-center">
+                                                    <input name="updateDob" type="date" value="${resident.dob}"/>
+                                                </td>
+                                                <td class="px-3 py-4 text-right text-center">
+                                                    <button onclick="updateMember(this)" type="submit" value="${resident.roomResidentID}" class="font-medium text-[#17535B]" data-modal-toggle="updateMemberModal">Lưu thay đổi</button>
+                                                </td>
+                                                <td class="px-3 py-4 text-right text-center">
+                                                    <button onclick="deleteMember(this)" type="submit" value="${resident.roomResidentID}" class="font-medium text-[#17535B]">Xóa</button>
+                                                </td>
+                                            </tr>
+
+                                        </c:forEach>
+                                        <tbody>
+                                    </table>
+                                    <div id="updateMemberModal" tabindex="-1" aria-hidden="true"
+                                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+                                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+
+                                            <div class="relative bg-white rounded shadow">
+
+                                                <div
+                                                    class="flex justify-between items-start p-4 rounded-t border-b">
+                                                    <h3 class="text-xl font-semibold text-gray-900">
+                                                        Lưu thay đổi
+                                                    </h3>
+                                                    <button type="button"
+                                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
+                                                            data-modal-toggle="updateMemberModal">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd"
+                                                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                              clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+
+                                                <div class="updateMemberMessage p-6 space-y-6">
+
+                                                </div>
+                                                <div class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                                                    <button data-modal-toggle="updateMemberModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">OK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!------------------------------------------------ -->
+
                                 </div>
                             </div>
                         </div>
@@ -592,97 +773,70 @@
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
         <script>
-                                                                $(function () {
-                                                                    var duplicates = 0,
-                                                                            $original = $('.room-resident').clone(true);
-                                                                    function DuplicateForm() {
-                                                                        var newForm;
-                                                                        duplicates++;
-                                                                        newForm = $original.clone(true).insertBefore($('h1'));
-                                                                        $.each($('input', newForm), function (i, item) {
-                                                                            $(item).attr('name', $(item).attr('name') + duplicates);
-                                                                        });
-                                                                        $('<h2>Thành viên ' + (duplicates + 1) + '</h2>').insertBefore(newForm);
-                                                                    }
-
-                                                                    $('a[href="add-new-form"]').on('click', function (e) {
-                                                                        e.preventDefault();
-                                                                        console.log(count);
-                                                                        DuplicateForm();
-                                                                        var count = $('form .room-resident ').length;
-                                                                        if (count == 5) {
-                                                                            $('a[href="add-new-form"]').removeAttr("style").hide();
-                                                                            return;
+                                                        function checkValidRoom(element) {
+                                                            const hostelId = document.querySelector("input[name='hostelId']");
+                                                            const validRoomMessage = document.querySelector(".validRoomMessage");
+                                                            const updateRoomBtn = document.querySelector(".updateRoom");
+                                                            const roomNumber = document.querySelector("input[name='roomNumber']");
+                                                            console.log("current: ", roomNumber.value.trim());
+                                                            console.log("new: ", element.value.trim());
+                                                            if (roomNumber.value.trim() !== element.value.trim()) {
+                                                                jQuery.ajax({
+                                                                    type: 'POST',
+                                                                    data: {
+                                                                        'roomNumber': element.value,
+                                                                        'hostelId': hostelId.value
+                                                                    },
+                                                                    url: '/sakura/landlord/check-room-valid',
+                                                                    success: function (response) {
+                                                                        validRoomMessage.innerHTML = response;
+                                                                        if (response) {
+                                                                            updateRoomBtn.onclick = (e) => {
+                                                                                e.preventDefault();
+                                                                            }
+                                                                        } else {
+                                                                            updateRoomBtn.onclick = () => updateRoom();
                                                                         }
-                                                                    });
+                                                                    },
+
+                                                                    error: function () {
+                                                                    },
+                                                                    complete: function (result) {
+                                                                    }
                                                                 });
-        </script>
-        <script>
-            function checkValidRoom(element) {
-                const hostelId = document.querySelector("input[name='hostelId']");
-                const validRoomMessage = document.querySelector(".validRoomMessage");
-                const updateRoomBtn = document.querySelector(".updateRoom");
-                const roomNumber = document.querySelector("input[name='roomNumber']");
-                console.log("current: ", roomNumber.value.trim());
-                console.log("new: ", element.value.trim());
-                if (roomNumber.value.trim() !== element.value.trim()) {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {
-                            'roomNumber': element.value,
-                            'hostelId': hostelId.value
-                        },
-                        url: '/sakura/landlord/check-room-valid',
-                        success: function (response) {
-                            validRoomMessage.innerHTML = response;
-                            if (response) {
-                                updateRoomBtn.onclick = (e) => {
-                                    e.preventDefault();
-                                }
-                            } else {
-                                updateRoomBtn.onclick = () => updateRoom();
-                            }
-                        },
-
-                        error: function () {
-                        },
-                        complete: function (result) {
-                        }
-                    });
-                } else {
-                    validRoomMessage.innerHTML = "";
-                }
-            }
+                                                            } else {
+                                                                validRoomMessage.innerHTML = "";
+                                                            }
+                                                        }
 
 
 
-            function updateRoom() {
-                console.log("----- da vao update room ------------");
-                const roomId = document.querySelector("input[name='roomId']");
-                const updateRoomNumber = document.querySelector("input[name='updateRoomNumber']");
-                const updateRoomType = document.querySelector("select[name='updateRoomType']");
-                const messageElement = document.querySelector(".updateRoomMessage");
-                console.log("roomId ", roomId.value);
-                console.log("updateRoomNumber ", updateRoomNumber.value);
-                console.log("updateRoomType ", updateRoomType.value);
-                jQuery.ajax({
-                    type: 'GET',
-                    data: {'roomId': roomId.value,
-                        'updateRoomNumber': updateRoomNumber.value,
-                        'updateRoomType': updateRoomType.value
-                    },
-                    url: '/sakura/landlord/update-room',
-                    success: function (response) {
-                        messageElement.innerHTML = response;
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
-                    }
-                });
-            }
+                                                        function updateRoom() {
+                                                            console.log("----- da vao update room ------------");
+                                                            const roomId = document.querySelector("input[name='roomId']");
+                                                            const updateRoomNumber = document.querySelector("input[name='updateRoomNumber']");
+                                                            const updateRoomType = document.querySelector("select[name='updateRoomType']");
+                                                            const messageElement = document.querySelector(".updateRoomMessage");
+                                                            console.log("roomId ", roomId.value);
+                                                            console.log("updateRoomNumber ", updateRoomNumber.value);
+                                                            console.log("updateRoomType ", updateRoomType.value);
+                                                            jQuery.ajax({
+                                                                type: 'GET',
+                                                                data: {'roomId': roomId.value,
+                                                                    'updateRoomNumber': updateRoomNumber.value,
+                                                                    'updateRoomType': updateRoomType.value
+                                                                },
+                                                                url: '/sakura/landlord/update-room',
+                                                                success: function (response) {
+                                                                    messageElement.innerHTML = response;
+                                                                },
+                                                                error: function () {
+                                                                },
+                                                                complete: function (result) {
+                                                                }
+                                                            });
+                                                        }
         </script>
         <script>
             function deleteRoom(element) {
@@ -708,6 +862,166 @@
         </script>
 
         <script>
+            function updateMember(element) {
+                const memberElement = element.parentElement.parentElement;
+                const residentId = element;
+                const updateFullName = memberElement.querySelector("input[name='updateFullName']");
+                const updatePhone = memberElement.querySelector("input[name='updatePhone']");
+                const updateDob = memberElement.querySelector("input[name='updateDob']");
+                const updateMemberMessage = document.querySelector(".updateMemberMessage");
+                if (!updateFullName.value || !updatePhone.value || !updateDob.value) {
+                    let message = "";
+                    if (!updateFullName.value) {
+                        message += "Tên người ở - ";
+                    }
+                    if (!updatePhone.value) {
+                        message += "SÐT - ";
+                    }
+                    if (!updateDob.value) {
+                        message += "Ngày sinh ";
+                    }
+                    message += "không được trống!";
+
+                    updateMemberMessage.innerHTML = message;
+                } else {
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'residentId': residentId.value,
+                            'updateFullName': updateFullName.value,
+                            'updatePhone': updatePhone.value,
+                            'updateDob': updateDob.value
+                        },
+                        url: '/sakura/room/update-member',
+                        success: function (response) {
+                            updateMemberMessage.innerHTML = response;
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
+                }
+            }
+        </script>
+
+        <script>
+            const disabledAddMemberBtn = "<button class='inline-block w-[120px] h-[45px] bg-[#ccc] text-[#f6fafc] rounded'>Thêm người ở mới</button><span class='text-xs h-[45px] leading-[45px]'>Số người của phòng này đã đạt tối đa</span>";
+            const activeAddMemberBtn = "<div class='bg-[#f7f7fa]'><div class='bg-[#fff] rounded shadow'><!-- Modal toggle --><button id='addMember-1' type='submit' name='action' value='Save' class='w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded'>Thêm người ở mới</button></div></div>";
+        </script>
+
+        <script>
+                    function deleteMember(element) {
+                        const memberElement = element.parentElement.parentElement;
+                        const residentQuantityElement = document.querySelector(".residentQuantity");
+                        const residentQuantity = Number(residentQuantityElement.innerHTML);
+                        const residentId = element;
+                        console.log("Da vao delete member")
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'residentId': residentId.value
+                            },
+                            url: '/sakura/room/delete-member',
+                            success: function (response) {
+                                memberElement.remove();
+                                residentQuantityElement.innerHTML = residentQuantity - 1;
+                                updateCurrentResident(residentQuantity - 1);
+                                if (${requestScope.currentRoom.roomType.maxNumberOfResidents} > residentQuantity - 1) {
+                                    const addMemberElement = document.querySelector(".addMemberElement");
+                                    addMemberElement.innerHTML = activeAddMemberBtn;
+                                }
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+
+
+                    }
+        </script>
+
+        <script>
+            function addMember() {
+                const roomId = document.querySelector("input[name='roomId']");
+                const memberName = document.querySelector("input[name='memberName']");
+                const memberPhone = document.querySelector("input[name='memberPhone']");
+                const memberDob = document.querySelector("input[name='memberDob']");
+                const addMemberMessage = document.querySelector(".addMemberMessage");
+                const memberList = document.querySelector(".member-list");
+                const residentQuantityElement = document.querySelector(".residentQuantity");
+                const residentQuantity = Number(residentQuantityElement.innerHTML);
+
+                if (!memberName.value || !memberPhone.value || !memberDob.value) {
+                    let message = "";
+                    if (!memberName.value) {
+                        message += "Tên người ở - ";
+                    }
+                    if (!memberPhone.value) {
+                        message += "SÐT - ";
+                    }
+                    if (!memberDob.value) {
+                        message += "Ngày sinh ";
+                    }
+                    message += "không được trống!";
+
+                    addMemberMessage.innerHTML = message;
+                } else {
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'memberName': memberName.value,
+                            'memberPhone': memberPhone.value,
+                            'memberDob': memberDob.value,
+                            'roomId': roomId.value
+                        },
+                        url: '/sakura/room/add-member',
+                        success: function (response) {
+                            memberName.value = "";
+                            memberPhone.value = "";
+                            memberDob.value = "";
+                            const res = response.toString();
+                            if (res.includes("px-3 py-4 text-center")) {
+                                memberList.innerHTML += response;
+                                residentQuantityElement.innerHTML = residentQuantity + 1;
+                                addMemberMessage.innerHTML = "Thêm thành công";
+                                updateCurrentResident(residentQuantity + 1);
+                                if (${requestScope.currentRoom.roomType.maxNumberOfResidents} >= residentQuantity + 1) {
+                                    const addMemberElement = document.querySelector(".addMemberElement");
+                                    addMemberElement.innerHTML = disabledAddMemberBtn;
+                                }
+                            } else {
+                                addMemberMessage.innerHTML = response;
+                            }
+
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
+                }
+            }
+        </script>
+
+        <script>
+            function updateCurrentResident(quantity) {
+                const updateResidentRoomId = document.querySelector("input[name='roomId']");
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'roomId': updateResidentRoomId.value,
+                        'currentResidentQuantity': quantity
+                    },
+                    url: '/sakura/room/update-current-resident-number',
+                    success: function (response) {
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+        </script>
+
+        <script>
             var open_modal_1 = document.querySelector('#updateRoom-1');
             open_modal_1.addEventListener('click', function (event) {
                 event.preventDefault();
@@ -719,10 +1033,6 @@
                 event.preventDefault();
                 toggleModal('.updateRoommodal2');
             });
-
-            // Bấm ngoài modal thì đóng modal
-            // const overlay = document.querySelector('.modal .modal-overlay');
-            // overlay.addEventListener('click', toggleModal('.modal'));
 
             var close_modal_1 = document.querySelectorAll('.updateRoommodal1 .updateRoommodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
@@ -764,7 +1074,7 @@
                 modal.classList.toggle('pointer-events-none');
             }
         </script>
-        
+
         <script>
             var open_modal_1 = document.querySelector('#deleteRoom-1');
             open_modal_1.addEventListener('click', function (event) {
@@ -777,10 +1087,6 @@
                 event.preventDefault();
                 toggleModal('.deleteRoommodal2');
             });
-
-            // Bấm ngoài modal thì đóng modal
-            // const overlay = document.querySelector('.modal .modal-overlay');
-            // overlay.addEventListener('click', toggleModal('.modal'));
 
             var close_modal_1 = document.querySelectorAll('.deleteRoommodal1 .deleteRoommodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
@@ -822,6 +1128,57 @@
                 modal.classList.toggle('pointer-events-none');
             }
         </script>
+
+        <script>
+            var open_modal_1 = document.querySelector('#addMember-1');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.addMembermodal1');
+            });
+
+            var open_modal_2 = document.querySelector('#addMember-2');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.addMembermodal2');
+            });
+
+            var close_modal_1 = document.querySelectorAll('.addMembermodal1 .addMembermodal1-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.addMembermodal1');
+                    console.log('close 1');
+                });
+            }
+
+            var close_modal_2 = document.querySelectorAll('.addMembermodal2 .addMembermodal2-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.addMembermodal2');
+                    console.log('close 2');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.addMembermodal1');
+                const modal_2 = document.querySelector('.addMembermodal2');
+                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
+                    toggleModal('.addMembermodal1');
+                }
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.addMembermodal2');
+                }
+            };
+
+        </script>
+
+
     </body>
 
 </html>

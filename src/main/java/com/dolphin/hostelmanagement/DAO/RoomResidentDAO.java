@@ -10,52 +10,147 @@ import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author Admin
  */
 public class RoomResidentDAO {
+
     public static ArrayList<RoomResident> findByRoom(Room r) {
         Connection cn = null;
-        
+
         ArrayList<RoomResident> arr = new ArrayList<>();
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
-            String sql = "Select * from RoomResident where roomID = ?";
+
+            String sql = "Select * from RoomResident where roomID = ? AND activate = 1";
             PreparedStatement pst = cn.prepareCall(sql);
-            
+
             pst.setInt(1, r.getRoomID());
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            while(rs != null && rs.next()) {
+
+            while (rs != null && rs.next()) {
                 int roomResidentID = rs.getInt("roomResidentID");
                 String fullname = rs.getNString("fullname");
                 String phone = rs.getString("phone");
                 Date dob = rs.getDate("dob");
-                boolean isRoomLead = rs.getBoolean("isRoomLead");
-                
-                arr.add(new RoomResident(roomResidentID, r, fullname, phone, dob, isRoomLead));
+
+                arr.add(new RoomResident(roomResidentID, r, fullname, phone, dob));
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return arr;
     }
-    
-    public static void main(String args[]) {
-        Room r = new Room();
-        r.setRoomID(2);
-        
-        for(RoomResident rr: findByRoom(r)) {
-            System.out.println(rr.getFullname());
+
+    public static boolean save(int roomId, String memberName, String memberPhone, String memberDob) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO RoomResident(roomID, fullname, phone, dob)\n"
+                        + "VALUES (?, ?, ?, ?)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomId);
+                pst.setString(2, memberName);
+                pst.setString(3, memberPhone);
+                pst.setString(4, memberDob);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
+    }
+
+    public static RoomResident findLastRoomResidentByRoomId(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "SELECT TOP 1 * FROM RoomResident WHERE roomID = ? AND activate = 1 ORDER BY roomResidentID DESC";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomId);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    int roomResidentId = rs.getInt("roomResidentID");
+                    String fullname = rs.getString("fullname");
+                    String phone = rs.getString("phone");
+                    Date dob = rs.getDate("dob");
+                    Room room = RoomDAO.findByID(roomId);
+                    cn.close();
+                    return new RoomResident(roomResidentId, room, fullname, phone, dob);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean update(int residentId, String updateFullName, String updatePhone, String updateDob) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomResident SET fullname = ?, phone = ?, dob = ?\n"
+                        + "WHERE roomResidentID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, updateFullName);
+                pst.setString(2, updatePhone);
+                pst.setString(3, updateDob);
+                pst.setInt(4, residentId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean delete(int residentId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomResident SET activate = 0 WHERE roomResidentID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, residentId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                } 
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void main(String args[]) {
+        boolean b = update(8, "alexendar", "0987654322", "2000-12-12");
+        boolean c = save(5, "YL", "0987654323", "2000-12-12");
+        System.out.println(b);
     }
 }
