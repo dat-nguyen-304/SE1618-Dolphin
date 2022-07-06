@@ -410,10 +410,30 @@ public class AccountDAO {
         
         return null;
     }
+    
+    public static boolean changeStatus(int accountID, boolean status) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Update Account set activate = ? where accountID = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setBoolean(1, status);
+            pst.setInt(2, accountID);
+            
+            return pst.executeUpdate() != 0;
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         //saveGoogleAccount(3, "hiohiahha");
         System.out.println(findGoogleToken(10));
+        changeStatus(3, false);
     }
 
 }

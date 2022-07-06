@@ -530,10 +530,31 @@ public class HostelDAO {
         }
         return false;
     }
+    
+    public static void updateStatus(int hostelID, boolean activate) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Update Hostel set activate = ? where hostelID = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setBoolean(1, activate);
+            pst.setInt(2, hostelID);
+            
+            pst.executeUpdate();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
-        boolean b = updateHostelById(17, "ABC", 3, "123 LVV", "AHJIH");
-        if (b) System.out.println("YES");
-        else System.out.println("NO");
+//        boolean b = updateHostelById(17, "ABC", 3, "123 LVV", "AHJIH");
+//        if (b) System.out.println("YES");
+//        else System.out.println("NO");
+        updateStatus(1, false);
     }
 }

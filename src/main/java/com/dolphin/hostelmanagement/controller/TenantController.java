@@ -11,6 +11,7 @@ import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
 import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
+import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Hostel;
@@ -63,14 +64,24 @@ public class TenantController extends HttpServlet {
             List<Contract> contractList = ContractDAO.findByTenant(t);
 
             if (path.equals("/dashboard")) {
-//                Contract currentContract = ContractDAO.findCurrentContractByTenantID(t.getAccount().getAccountID());
-//                ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
-//                Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
+                /*HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
+                for (Contract contract : contractList) {
+                    invoiceMap.put(contract, (ArrayList<Invoice>) InvoiceDAO.findByContract(contract.getContractID()));
+                }
+                TreeMap<Contract, ArrayList<Invoice>> sorted = new TreeMap<>();
+                sorted.putAll(invoiceMap);
+
+                request.setAttribute("contractList", contractList);
+                request.setAttribute("invoiceMap", sorted);*/
+                Contract currentContract = ContractDAO.findActiveContractByTenant(t);
+                ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
+                Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
 
                 //currentContract
-//                session.setAttribute("currentContract", currentContract);
-//                session.setAttribute("roomResidentList", roomResidentList);
-//                session.setAttribute("latestInvoice", latestInvoice);
+                session.setAttribute("currentContract", currentContract);
+                session.setAttribute("roomResidentList", roomResidentList);
+                session.setAttribute("latestInvoice", latestInvoice);
+
                 //currentContract.getHostel().getDistrict()
                 request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
             }
@@ -98,10 +109,11 @@ public class TenantController extends HttpServlet {
                 } else if (request.getParameter("queryType").equals("accept")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
-//                    ContractDAO.changeStatus(contractID, 1);
+                    ContractDAO.changeStatus(contractID, 1);
                     BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID());
                     RoomDAO.changeStatus(contract.getRoom().getRoomID(), 2);
-
+                    TenantDAO.changeStatus(t.getAccount().getAccountID(), true);
+                    
                     //send accept notification to landlord
                     Notification landlordNoti = new Notification();
 
