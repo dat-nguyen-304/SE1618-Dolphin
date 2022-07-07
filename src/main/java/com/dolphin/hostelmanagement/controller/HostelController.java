@@ -496,7 +496,7 @@ public class HostelController extends HttpServlet {
                         out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
                     }
                 }
-            }
+            } 
         }
     }
 

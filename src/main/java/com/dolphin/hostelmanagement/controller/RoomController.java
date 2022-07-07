@@ -71,7 +71,7 @@ public class RoomController extends HttpServlet {
                 boolean updateSuccess = RoomResidentDAO.save(roomId, memberName, memberPhone, memberDob);
                 RoomResident roomResident = RoomResidentDAO.findLastRoomResidentByRoomId(roomId);
                 if (updateSuccess) {
-                    out.print("<tr class=\"member-${iterator} bg-white border-b hover:bg-gray-50\">\n"
+                    out.print("<tr class=\"bg-white border-b hover:bg-gray-50\">\n"
                             + "                                                <td class=\"px-3 py-4 text-center\">\n"
                             + "                                                    " + roomResident.getRoomResidentID() + "\n"
                             + "                                                </td>\n"
@@ -101,25 +101,14 @@ public class RoomController extends HttpServlet {
                 String updateFullName = request.getParameter("updateFullName");
                 String updatePhone = request.getParameter("updatePhone");
                 String updateDob = request.getParameter("updateDob");
-                if (updateFullName.isEmpty() || updatePhone.isEmpty() || updateDob.isEmpty()) {
-                    if (updateFullName.isEmpty()) {
-                        out.print("Tên người ở - ");
-                    }
-                    if (updatePhone.isEmpty()) {
-                        out.print("SÐT - ");
-                    }
-                    if (updateDob.isEmpty()) {
-                        out.print("Ngày sinh ");
-                    }
-                    out.print("không được trống");
+
+                boolean updateSuccess = RoomResidentDAO.update(residentId, updateFullName, updatePhone, updateDob);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
                 } else {
-                    boolean updateSuccess = RoomResidentDAO.update(residentId, updateFullName, updatePhone, updateDob);
-                    if (updateSuccess) {
-                        out.print("Cập nhật thành công");
-                    } else {
-                        out.print("Cập nhật thất bại. Vui lòng kiểm tra lại thông tin");
-                    }
+                    out.print("Cập nhật thất bại. Vui lòng kiểm tra lại thông tin");
                 }
+
             } else if (path.equals("/delete-member")) {
                 int residentId = Integer.parseInt(request.getParameter("residentId"));
                 boolean deleteSuccess = RoomResidentDAO.delete(residentId);

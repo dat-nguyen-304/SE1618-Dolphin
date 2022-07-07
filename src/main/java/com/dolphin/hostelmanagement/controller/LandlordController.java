@@ -107,7 +107,6 @@ public class LandlordController extends HttpServlet {
                 session.setAttribute("currentHostel", null);
                 session.setAttribute("hostelList", null);
             }
-            session.setAttribute("needReload", false);
 
             if (path.equals("/overview")) {
                 if (request.getParameter("hostelId") != null) {
@@ -295,6 +294,25 @@ public class LandlordController extends HttpServlet {
                 request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
             } else if (path.equals("/notification")) {
                 request.getRequestDispatcher("/view/LNotification.jsp").forward(request, response);
+            } else if (path.equals("/add-service")) {
+                List<Service> list = ServiceDAO.findHostelActiveServices(currentHostel);
+                List<Service> serviceList = new ArrayList<>();
+                Service eletricService = null;
+                Service waterService = null;
+                for (Service service : list) {
+                    if (service.getType() == 0) {
+                        serviceList.add(service);
+                    } else if (service.getType() == 1) {
+                        eletricService = service;
+                    } else if (service.getType() == 2) {
+                        waterService = service;
+                    }
+                }
+                request.setAttribute("serviceList", serviceList);
+                request.setAttribute("eletricService", eletricService);
+                request.setAttribute("waterService", waterService);
+                request.getRequestDispatcher("/view/LAddService.jsp").forward(request, response);
+
             }
 
             if (path.equals("/rentalRequestList")) { //get by hostel ID
@@ -356,10 +374,8 @@ public class LandlordController extends HttpServlet {
                     out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
                     out.println("<input type=\"submit\" value=\"tại đây\">");
                     out.println("</form></span>");
-                    session.setAttribute("needReload", true);
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                    session.setAttribute("needReload", false);
                 }
 
             }
@@ -382,30 +398,19 @@ public class LandlordController extends HttpServlet {
                 int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
                 String description = request.getParameter("description");
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-                if (name.isEmpty() || description.isEmpty()) {
-                    if (name.isEmpty()) {
-                        out.print("Tên nhà trọ - ");
-                    }
-                    if (description.isEmpty()) {
-                        out.print("Mô tả ");
-                    }
-                    out.print("không được trống");
-                    session.setAttribute("needReload", false);
+
+                boolean addSuccess = RoomTypeDAO.save(name, price, area, maxNumberOfResidents, description, hostelId);
+                RoomType newRoomType = RoomTypeDAO.findLastRoomTypeByHostelId(hostelId);
+                if (addSuccess) {
+                    out.println("<span class=\"inline-block text-green-600\">Thêm loại phòng " + newRoomType.getRoomTypeName() + " thành công! Xem");
+                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\">");
+                    out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
+                    out.println("<input type=\"submit\" value=\"tại đây\">");
+                    out.println("</form></span>");
                 } else {
-                    boolean addSuccess = RoomTypeDAO.save(name, price, area, maxNumberOfResidents, description, hostelId);
-                    RoomType newRoomType = RoomTypeDAO.findLastRoomTypeByHostelId(hostelId);
-                    if (addSuccess) {
-                        out.println("<span class=\"inline-block text-green-600\">Thêm loại phòng " + newRoomType.getRoomTypeName() + " thành công! Xem");
-                        out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\">");
-                        out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
-                        out.println("<input type=\"submit\" value=\"tại đây\">");
-                        out.println("</form></span>");
-                        session.setAttribute("needReload", true);
-                    } else {
-                        out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                        session.setAttribute("needReload", false);
-                    }
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
+
             }
 
             if (path.equals("/update-hostel")) {
@@ -418,10 +423,8 @@ public class LandlordController extends HttpServlet {
                 boolean updateSuccess = HostelDAO.updateHostelById(hostelId, name, updateDistrictId, updateStreetAddress, description);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
-                    session.setAttribute("needReload", true);
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                    session.setAttribute("needReload", false);
                 }
 
             }
@@ -433,25 +436,14 @@ public class LandlordController extends HttpServlet {
                 int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
                 String description = request.getParameter("description");
                 int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
-                if (name.isEmpty() || description.isEmpty()) {
-                    if (name.isEmpty()) {
-                        out.print("Tên nhà trọ - ");
-                    }
-                    if (description.isEmpty()) {
-                        out.print("Mô tả ");
-                    }
-                    out.print("không được trống");
-                    session.setAttribute("needReload", false);
+
+                boolean updateSuccess = RoomTypeDAO.updateRoomTypeById(roomTypeId, name, price, area, maxNumberOfResidents, description);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
                 } else {
-                    boolean updateSuccess = RoomTypeDAO.updateRoomTypeById(roomTypeId, name, price, area, maxNumberOfResidents, description);
-                    if (updateSuccess) {
-                        out.print("Cập nhật thành công");
-                        session.setAttribute("needReload", true);
-                    } else {
-                        out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                        session.setAttribute("needReload", false);
-                    }
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
+
             }
 
             if (path.equals("/update-room")) {
@@ -461,10 +453,8 @@ public class LandlordController extends HttpServlet {
                 boolean updateSuccess = RoomDAO.updateRoom(roomId, updateRoomType, updateRoomNumber);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
-                    session.setAttribute("needReload", true);
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                    session.setAttribute("needReload", false);
                 }
             }
 
@@ -525,10 +515,8 @@ public class LandlordController extends HttpServlet {
                 boolean deleteSuccess = HostelDAO.deleteById(hostelId);
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
-                    session.setAttribute("needReload", true);
                 } else {
                     out.print("Xóa không thành công");
-                    session.setAttribute("needReload", false);
                 }
             }
 
@@ -537,10 +525,8 @@ public class LandlordController extends HttpServlet {
                 boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
-                    session.setAttribute("needReload", true);
                 } else {
                     out.print("Xóa không thành công");
-                    session.setAttribute("needReload", false);
                 }
             }
 
@@ -549,10 +535,68 @@ public class LandlordController extends HttpServlet {
                 boolean deleteSuccess = RoomDAO.deleteById(roomId);
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
-                    session.setAttribute("needReload", true);
                 } else {
                     out.print("Xóa không thành công");
-                    session.setAttribute("needReload", false);
+                }
+            }
+
+            if (path.equals("/add-service-ajax")) {
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                String serviceName = request.getParameter("serviceName");
+                int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
+                String serviceUnit = request.getParameter("serviceUnit");
+                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit);
+                Service service = ServiceDAO.findLastServiceByHostelId(hostelId);
+                if (addSuccess) {
+                    out.print("<tr class=\"bg-white border-b hover:bg-gray-50\">\n"
+                            + "                                        <td class=\"px-3 py-4 text-center\">\n"
+                            + "                                            <input name=\"updateName\" type=\"text\" class=\"text-xs\" value=\"" + service.getServiceName() + "\"/>\n"
+                            + "                                        </td>\n"
+                            + "                                        <td class=\"px-3 py-4 text-center\">\n"
+                            + "                                            <input name=\"updateFee\" type=\"text\" class=\"text-xs\" value=\"" + service.getServiceFee() + "\"/>\n"
+                            + "                                        </td>\n"
+                            + "                                        <td class=\"px-3 py-4 text-center\">\n"
+                            + "                                            <input name=\"updateUnit\" type=\"text\" class=\"text-xs\" value=\"" + service.getUnit() + "\"/>\n"
+                            + "                                        </td>\n"
+                            + "                                        <td class=\"px-3 py-4 text-center\">\n"
+                            + "                                            " + service.getMonthApplied() + "\n"
+                            + "                                        </td>\n"
+                            + "                                        <td class=\"px-3 py-4 text-right text-center\">\n"
+                            + "                                            <button onclick=\"updateService(this)\" type=\"submit\" value=\"" + service.getServiceID() + "\" class=\"font-medium text-[#17535B]\">Lưu thay đổi</button>\n"
+                            + "                                        </td>\n"
+                            + "                                        <td class=\"px-3 py-4 text-right text-center\">\n"
+                            + "                                            <button onclick=\"deleteService(this)\" type=\"submit\" value=\"" + service.getServiceID() + "\" class=\"font-medium text-[#17535B]\">Xóa</button>\n"
+                            + "                                        </td>\n"
+                            + "                                    </tr>");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+            }
+
+            if (path.equals("/edit-service")) {
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+                String serviceName = request.getParameter("serviceName");
+                int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
+                String serviceUnit = request.getParameter("serviceUnit");
+                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit);
+                boolean deleteSuccess = ServiceDAO.delete(serviceId);
+                if (addSuccess && deleteSuccess) {
+                    out.print("<h1>Cập nhật dịch vụ " + serviceName + " thành công</h1>");
+
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+            }
+
+            if (path.equals("/delete-service")) {
+                int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+                String serviceName = request.getParameter("serviceName");
+                boolean deleteSuccess = ServiceDAO.delete(serviceId);
+                if (deleteSuccess) {
+                    out.print("<h1>Xóa dịch vụ " + serviceName + " thành công</h1>");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
             }
         }

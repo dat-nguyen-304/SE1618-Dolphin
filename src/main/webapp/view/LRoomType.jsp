@@ -263,13 +263,11 @@
                                                     <div class="flex justify-end p-[20px]">
                                                         <button
                                                             class="deleteRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                                                        <c:if test="${sessionScope.needReload == true}">
-                                                            <form action="/sakura/landlord/room-type">
-                                                                <button type="submit"
-                                                                        class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                                                                </button>
-                                                            </form>
-                                                        </c:if>
+                                                        <form action="/sakura/landlord/room-type">
+                                                            <button type="submit"
+                                                                    class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -398,13 +396,11 @@
                                                     <div class="flex justify-end p-[20px]">
                                                         <button
                                                             class="updateRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                                                        <c:if test="${sessionScope.needReload == true}">
-                                                            <form action="/sakura/landlord/room-type">
-                                                                <button type="submit"
-                                                                        class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                                                                </button>
-                                                            </form>
-                                                        </c:if>
+                                                        <form action="/sakura/landlord/room-type">
+                                                            <button type="submit"
+                                                                    class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -535,13 +531,11 @@
                                                 <div class="flex justify-end p-[20px]">
                                                     <button
                                                         class="addRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                                                    <c:if test="${sessionScope.needReload == true}">
-                                                        <form action="/sakura/landlord/room-type">
-                                                            <button type="submit"
-                                                                    class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                                                            </button>
-                                                        </form>
-                                                    </c:if>
+                                                    <form action="/sakura/landlord/room-type">
+                                                        <button type="submit"
+                                                                class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -728,7 +722,6 @@
         <script>
             function addRoomType(element) {
                 console.log("da vao add roomtype");
-                console.log(element);
                 const name = document.querySelector("input[name='name']");
                 const price = document.querySelector("input[name='price']");
                 const area = document.querySelector("input[name='area']");
@@ -736,29 +729,52 @@
                 const description = document.querySelector("textarea[name='description']");
                 const hostelId = document.querySelector("input[name='hostelId']");
                 const messageElement = document.querySelector(".addRoomMessage");
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'name': name.value,
-                        'price': price.value,
-                        'area': area.value,
-                        'maxNumberOfResidents': maxNumberOfResidents.value,
-                        'description': description.value,
-                        'hostelId': hostelId.value
-                    },
-                    url: '/sakura/landlord/add-roomtype',
-                    success: function (response) {
-                        name.value = "";
-                        price.value = "";
-                        area.value = "";
-                        maxNumberOfResidents.value = "";
-                        description.value = "";
-                        messageElement.innerHTML = response;
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                console.log("Name: ", name.value);
+                if (!name.value || !price.value || !area.value || !maxNumberOfResidents.value || !description.value) {
+                    let message = "";
+                    if (!name.value) {
+                        message += "Tên loại phòng - ";
                     }
-                });
+                    if (!price.value) {
+                        message += "Giá tiền - ";
+                    }
+                    if (!area.value) {
+                        message += "Diện tích - ";
+                    }
+                    if (!maxNumberOfResidents.value) {
+                        message += "Số người tối đa - ";
+                    }
+                    if (!description.value) {
+                        message += "Mô tả ";
+                    }
+                    message += "không được trống";
+
+                    messageElement.innerHTML = message;
+                } else
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'name': name.value,
+                            'price': price.value,
+                            'area': area.value,
+                            'maxNumberOfResidents': maxNumberOfResidents.value,
+                            'description': description.value,
+                            'hostelId': hostelId.value
+                        },
+                        url: '/sakura/landlord/add-roomtype',
+                        success: function (response) {
+                            console.log(response);
+                            name.value = "";
+                            price.value = "";
+                            area.value = "";
+                            maxNumberOfResidents.value = "";
+                            description.value = "";
+                            messageElement.innerHTML = response;
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
             }
 
             function updateRoomType() {
@@ -777,24 +793,45 @@
                 console.log("maxNumberOfResidents: ", maxNumberOfResidents.value);
                 console.log("description ", description.value);
                 console.log("roomTypeId", roomTypeId.value);
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'name': name.value,
-                        'price': price.value,
-                        'area': area.value,
-                        'maxNumberOfResidents': maxNumberOfResidents.value,
-                        'description': description.value,
-                        'roomTypeId': roomTypeId.value
-                    },
-                    url: '/sakura/landlord/update-roomtype',
-                    success: function (response) {
-                        messageElement.innerHTML = response;
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                if (!name.value || !price.value || !area.value || !maxNumberOfResidents.value || !description.value) {
+                    let message = "";
+                    if (!name.value) {
+                        message += "Tên loại phòng - ";
                     }
-                });
+                    if (!price.value) {
+                        message += "Giá tiền - ";
+                    }
+                    if (!area.value) {
+                        message += "Diện tích - ";
+                    }
+                    if (!maxNumberOfResidents.value) {
+                        message += "Số người tối đa - ";
+                    }
+                    if (!description.value) {
+                        message += "Mô tả ";
+                    }
+                    message += "không được trống";
+
+                    messageElement.innerHTML = message;
+                } else
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'name': name.value,
+                            'price': price.value,
+                            'area': area.value,
+                            'maxNumberOfResidents': maxNumberOfResidents.value,
+                            'description': description.value,
+                            'roomTypeId': roomTypeId.value
+                        },
+                        url: '/sakura/landlord/update-roomtype',
+                        success: function (response) {
+                            messageElement.innerHTML = response;
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
             }
 
             function checkValidRoom(element) {

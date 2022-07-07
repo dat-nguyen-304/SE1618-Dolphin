@@ -133,9 +133,114 @@ public class ServiceDAO {
         return list;
     }
 
-    public static void main(String[] args) {
-        for (Service service : findHostelActiveServices(HostelDAO.findById(1))) {
-            System.out.println(service);
+//    public static List<Service> findByHostelId(int hostelId) {
+//        Connection cn = null;
+//        List<Service> list = null;
+//        try {
+//            cn = DBUtils.makeConnection();
+//            if (cn != null) {
+//                list = new ArrayList<>();
+//                String sql = "SELECT * FROM Service WHERE hostelID = ? AND active = 1";
+//                PreparedStatement pst = cn.prepareStatement(sql);
+//                pst.setInt(1, hostelId);
+//                ResultSet rs = pst.executeQuery();
+//                if (rs != null) {
+//                    while (rs.next()) {
+//                        int serviceID = rs.getInt("serviceID");
+//                        String serviceName = rs.getString("serviceName");
+//                        String monthAppliedString = rs.getString("monthApplied");
+//                        YearMonth monthApplied = YearMonth.parse(monthAppliedString);
+//                        Hostel hostel = HostelDAO.findById(hostelId);
+//                        int serviceFee = rs.getInt("serviceFee");
+//                        String unit = rs.getString("unit");
+//                        int type = rs.getInt("type");
+//                        list.add(new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit, type));
+//                    }
+//                }
+//                cn.close();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }
+    public static boolean save(int hostelId, String name, int fee, String unit) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO Service(hostelID, serviceName, serviceFee, unit) VALUES (?, ?, ?, ?)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                pst.setString(2, name);
+                pst.setInt(3, fee);
+                pst.setString(4, unit);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
+    }
+
+    public static Service findLastServiceByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select TOP 1 type, serviceID, serviceName, CONCAT(YEAR(monthApplied), '-', RIGHT(CONCAT('00', MONTH(monthApplied)), 2)) as monthApplied, serviceFee, unit FROM Service WHERE hostelID = ? AND active = 1 ORDER BY serviceID DESC";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    int serviceID = rs.getInt("serviceID");
+                    String serviceName = rs.getString("serviceName");
+                    String monthAppliedString = rs.getString("monthApplied");
+                    YearMonth monthApplied = YearMonth.parse(monthAppliedString);
+                    int serviceFee = rs.getInt("serviceFee");
+                    String unit = rs.getString("unit");
+                    int type = rs.getInt("type");
+                    Hostel hostel = HostelDAO.findById(hostelId);
+                    return new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit, type);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public static boolean delete(int serviceId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Service SET active = 0 WHERE serviceID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, serviceId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+//       boolean b = save(1, "Hoa", 1000, "unit");
+//        System.out.println(b);
+        Service service = findLastServiceByHostelId(1);
+        System.out.println(service.getServiceName());
     }
 }
