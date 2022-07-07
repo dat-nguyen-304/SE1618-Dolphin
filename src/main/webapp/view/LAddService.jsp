@@ -303,7 +303,7 @@
                                                 'serviceUnit': serviceUnit.value,
                                                 'hostelId': ${sessionScope.currentHostel.hostelID}
                                             },
-                                            url: '/sakura/landlord/add-service-ajax',
+                                            url: '/sakura/service/add-service',
                                             success: function (response) {
                                                 serviceName.value = "";
                                                 serviceFee.value = "";
@@ -364,7 +364,7 @@
                                 'hostelId': ${sessionScope.currentHostel.hostelID},
                                 'serviceId': serviceId.value
                             },
-                            url: '/sakura/landlord/edit-service',
+                            url: '/sakura/service/edit-service',
                             success: function (response) {
                                 updateMessage.innerHTML = response;
                             },
@@ -389,7 +389,7 @@
                     data: {'serviceId': serviceId.value,
                         'serviceName': serviceName.value
                     },
-                    url: '/sakura/landlord/delete-service',
+                    url: '/sakura/service/delete-service',
                     success: function (response) {
                         serviceElement.remove();
                         updateMessage.innerHTML = response;

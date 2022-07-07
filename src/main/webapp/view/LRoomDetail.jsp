@@ -804,7 +804,7 @@
                                                                         'roomNumber': element.value,
                                                                         'hostelId': hostelId.value
                                                                     },
-                                                                    url: '/sakura/landlord/check-room-valid',
+                                                                    url: '/sakura/room/check-room-valid',
                                                                     success: function (response) {
                                                                         validRoomMessage.innerHTML = response;
                                                                         if (response) {
@@ -843,7 +843,7 @@
                                                                     'updateRoomNumber': updateRoomNumber.value,
                                                                     'updateRoomType': updateRoomType.value
                                                                 },
-                                                                url: '/sakura/landlord/update-room',
+                                                                url: '/sakura/room/update-room',
                                                                 success: function (response) {
                                                                     messageElement.innerHTML = response;
                                                                 },
@@ -865,7 +865,7 @@
                     type: 'POST',
                     data: {'deleteRoomId': deleteRoomId.value
                     },
-                    url: '/sakura/landlord/delete-room',
+                    url: '/sakura/room/delete-room',
                     success: function (response) {
                         deleteRoomContent.innerHTML = response;
                     },

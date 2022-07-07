@@ -708,7 +708,7 @@
                     type: 'POST',
                     data: {'deleteRoomTypeId': deleteRoomTypeId.value
                     },
-                    url: '/sakura/landlord/delete-roomtype',
+                    url: '/sakura/room/delete-roomtype',
                     success: function (response) {
                         deleteRoomTypeContent.innerHTML = response;
                     },
@@ -760,7 +760,7 @@
                             'description': description.value,
                             'hostelId': hostelId.value
                         },
-                        url: '/sakura/landlord/add-roomtype',
+                        url: '/sakura/room/add-roomtype',
                         success: function (response) {
                             console.log(response);
                             name.value = "";
@@ -823,7 +823,7 @@
                             'description': description.value,
                             'roomTypeId': roomTypeId.value
                         },
-                        url: '/sakura/landlord/update-roomtype',
+                        url: '/sakura/room/update-roomtype',
                         success: function (response) {
                             messageElement.innerHTML = response;
                         },
@@ -873,7 +873,7 @@
                     data: {'roomTypeName': element.value,
                         'hostelId': hostelId.value
                     },
-                    url: '/sakura/landlord/check-roomtype-valid',
+                    url: '/sakura/room/check-roomtype-valid',
                     success: function (response) {
                         validRoomTypeMessage.innerHTML = response;
                         if (response) {
@@ -902,7 +902,7 @@
                         'hostelId': hostelId.value,
                         'currentName': currentName.value
                     },
-                    url: '/sakura/landlord/check-update-roomtype-valid',
+                    url: '/sakura/room/check-update-roomtype-valid',
                     success: function (response) {
                         validUpdateRoomTypeMessage.innerHTML = response;
                         if (response) {

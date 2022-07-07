@@ -889,7 +889,7 @@
                                                                     'description': description.value,
                                                                     'landlordId': landlordId.value
                                                                 },
-                                                                url: '/sakura/landlord/add-hostel',
+                                                                url: '/sakura/hostel/add-hostel',
                                                                 success: function (response) {
                                                                     name.value = "";
                                                                     streetAddress.value = "";
@@ -918,7 +918,7 @@
                     data: {'hostelName': element.value,
                         'landlordId': landlordId.value
                     },
-                    url: '/sakura/landlord/check-hostel-valid',
+                    url: '/sakura/hostel/check-hostel-valid',
                     success: function (response) {
                         validHostelMessage.innerHTML = response;
                         if (response) {
@@ -949,7 +949,7 @@
                     type: 'POST',
                     data: {'deleteHostelId': deleteHostelId.value
                     },
-                    url: '/sakura/landlord/delete-hostel',
+                    url: '/sakura/hostel/delete-hostel',
                     success: function (response) {
                         deleteHostelContent.innerHTML = response;
                     },
@@ -975,7 +975,7 @@
                         'landlordId': landlordId.value,
                         'currentName': currentName.value
                     },
-                    url: '/sakura/landlord/check-update-hostel-valid',
+                    url: '/sakura/hostel/check-update-hostel-valid',
                     success: function (response) {
                         validUpdateHostelMessage.innerHTML = response;
                         if (response) {
@@ -1025,7 +1025,7 @@
                             'description': description.value,
                             'hostelId': hostelId.value
                         },
-                        url: '/sakura/landlord/update-hostel',
+                        url: '/sakura/hostel/update-hostel',
                         success: function (response) {
                             messageElement.innerHTML = response;
                         },

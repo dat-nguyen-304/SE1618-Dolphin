@@ -6,8 +6,10 @@ package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
+import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.RoomResident;
+import com.dolphin.hostelmanagement.DTO.RoomType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -126,8 +128,100 @@ public class RoomController extends HttpServlet {
                 } else {
                     out.print("Fail");
                 }
-            }
+            } else if (path.equals("/add-roomtype")) {
+                String name = request.getParameter("name");
+                int price = Integer.parseInt(request.getParameter("price"));
+                int area = Integer.parseInt(request.getParameter("area"));
+                int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
+                String description = request.getParameter("description");
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
 
+                boolean addSuccess = RoomTypeDAO.save(name, price, area, maxNumberOfResidents, description, hostelId);
+                RoomType newRoomType = RoomTypeDAO.findLastRoomTypeByHostelId(hostelId);
+                if (addSuccess) {
+                    out.println("<span class=\"inline-block text-green-600\">Thêm loại phòng " + newRoomType.getRoomTypeName() + " thành công! Xem");
+                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\">");
+                    out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
+                    out.println("<input type=\"submit\" value=\"tại đây\">");
+                    out.println("</form></span>");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+
+            } else if (path.equals("/update-roomtype")) {
+                String name = request.getParameter("name");
+                int price = Integer.parseInt(request.getParameter("price"));
+                int area = Integer.parseInt(request.getParameter("area"));
+                int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
+                String description = request.getParameter("description");
+                int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+
+                boolean updateSuccess = RoomTypeDAO.updateRoomTypeById(roomTypeId, name, price, area, maxNumberOfResidents, description);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+
+            } else if (path.equals("/update-room")) {
+                int roomId = Integer.parseInt(request.getParameter("roomId"));
+                String updateRoomNumber = request.getParameter("updateRoomNumber");
+                int updateRoomType = Integer.parseInt(request.getParameter("updateRoomType"));
+                boolean updateSuccess = RoomDAO.updateRoom(roomId, updateRoomType, updateRoomNumber);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+            } else if (path.equals("/check-roomtype-valid")) {
+                String roomTypeName = request.getParameter("roomTypeName").trim();
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
+                if (isExistRoomType) {
+                    out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                } else {
+                    out.print("");
+                }
+            } else if (path.equals("/check-update-roomtype-valid")) {
+                String roomTypeName = request.getParameter("roomTypeName").trim();
+                String currentName = request.getParameter("currentName").trim();
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                if (!roomTypeName.equals(currentName)) {
+                    boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
+                    if (isExistRoomType) {
+                        out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                    } else {
+                        out.print("");
+                    }
+                } else {
+                    out.print("");
+                }
+            } else if (path.equals("/check-room-valid")) {
+                String roomNumber = request.getParameter("roomNumber").trim();
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                boolean isExistRoomNumber = RoomDAO.isExistRoomNumber(roomNumber, hostelId);
+                if (isExistRoomNumber) {
+                    out.print("Tên phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                } else {
+                    out.print("");
+                }
+            } else if (path.equals("/delete-roomtype")) {
+                int roomTypeId = Integer.parseInt(request.getParameter("deleteRoomTypeId"));
+                boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
+                if (deleteSuccess) {
+                    out.print("Xóa thành công");
+                } else {
+                    out.print("Xóa không thành công");
+                }
+            } else if (path.equals("/delete-room")) {
+                int roomId = Integer.parseInt(request.getParameter("deleteRoomId"));
+                boolean deleteSuccess = RoomDAO.deleteById(roomId);
+                if (deleteSuccess) {
+                    out.print("Xóa thành công");
+                } else {
+                    out.print("Xóa không thành công");
+                }
+            }
             if (path.equals("/roomsByHostel")) {
                 System.out.println("called");
                 String hostelID = request.getParameter("hostelID");
