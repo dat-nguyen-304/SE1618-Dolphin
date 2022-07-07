@@ -51,7 +51,6 @@ public class RoomController extends HttpServlet {
 
                     JSONArray list = new JSONArray();
                     for (Room room : roomList) {
-                        System.out.println(room);
                         JSONObject obj = new JSONObject();
                         String roomID = Integer.toString(room.getRoomID());
                         String roomNumber = room.getRoomNumber();
@@ -59,7 +58,6 @@ public class RoomController extends HttpServlet {
                         obj.put("roomNumber", roomNumber);
                         list.add(obj);
                     }
-                    System.out.println(list);
                     out.write(list.toJSONString());
                     out.close();
                 }
@@ -138,6 +136,29 @@ public class RoomController extends HttpServlet {
                     out.print("Success");
                 } else {
                     out.print("Fail");
+                }
+            }
+
+            if (path.equals("/roomsByHostel")) {
+                System.out.println("called");
+                String hostelID = request.getParameter("hostelID");
+                int id = 0;
+                if (hostelID != null) {
+                    id = Integer.parseInt(hostelID);
+                    List<Room> roomList = RoomDAO.findByHostelID(id);
+
+                    JSONArray list = new JSONArray();
+                    for (Room room : roomList) {
+                        System.out.println(room);
+                        JSONObject obj = new JSONObject();
+                        String roomID = Integer.toString(room.getRoomID());
+                        String roomNumber = room.getRoomNumber();
+                        obj.put("roomID", roomID);
+                        obj.put("roomNumber", roomNumber);
+                        list.add(obj);
+                    }
+                    out.write(list.toJSONString());
+                    out.close();
                 }
             }
         }
