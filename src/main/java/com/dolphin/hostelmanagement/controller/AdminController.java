@@ -49,6 +49,11 @@ public class AdminController extends HttpServlet {
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
             HttpSession session = request.getSession(true);
+            
+            if(path.equals("/dashboard")) {
+                
+                request.getRequestDispatcher("/view/adminOverview.jsp").forward(request, response);
+            }
 
             if (path.equals("/tenant-management")) {
                 ArrayList<Tenant> tenantList = (ArrayList<Tenant>) TenantDAO.findAll();
