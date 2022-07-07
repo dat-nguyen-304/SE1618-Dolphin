@@ -290,7 +290,7 @@
         <section id="faq" class="w-full bg-[#fff] overflow-hidden pt-[80px] ">
             <div class="top-divider relative w-[65%] mx-auto mt-[120px] pb-[80px]">
                 <div class="flex justify-center">
-                    <h1 class="intro-header mx-auto text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Những đều cần lưu ý</h1>
+                    <h1 class="intro-header mx-auto text-[40px] font-bold text-[#17535B] relative pb-[15px]" data-aos="fade-up">Những điều cần lưu ý</h1>
                 </div>
                 <div id="accordion-color" data-accordion="collapse" data-active-classes="bg-[#F5FDFA]">
                     <h2 id="accordion-color-heading-1">

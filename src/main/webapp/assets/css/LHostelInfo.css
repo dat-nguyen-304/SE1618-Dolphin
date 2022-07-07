@@ -1,0 +1,248 @@
+/* 
+    Created on : Jul 5, 2022, 4:53:38 PM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Mulish', sans-serif;
+}
+
+.menu-item.active,
+.menu-item.active svg {
+    color: #17535B;
+    background-color: #F3F3F3;
+}
+
+.parent-active span,
+.parent-active svg {
+    color: #17535B;
+}
+
+.card {
+    border-radius: 4px;
+    box-shadow: rgba(60, 64, 67, 0.08) 0px 1px 2px 0px, rgba(60, 64, 67, 0.03) 0px 2px 6px 2px;
+}
+
+.dropdown-shadow {
+    top: 0;
+    right: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.breadcrumb {
+    margin: 0;
+}
+
+.table-paging .current {
+    color: #fff;
+    background-color: #17535B;
+}
+
+.table-paging .current:hover {
+    color: #fff;
+    background-color: #256f79;
+}
+
+[type=search]:focus,
+[type=search]:active,
+[type=text]:focus,
+[type=text]:active,
+.in-edit,
+.in-edit:focus,
+.in-edit:active,
+#start-date:focus,
+#start-date:active,
+#end-date:focus,
+#end-date:active {
+    outline: none;
+    border: none;
+}
+
+#search-invoice-id:focus,
+#search-invoice-id:active,
+#start-date:focus,
+#start-date:active,
+#end-date:focus,
+#end-date:active {
+    outline: none !important;
+    border: 1px solid #17535B !important;
+}
+
+.grid-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+}
+
+.thumbnails {
+    overflow-x: auto !important;
+}
+.splide__slide {
+    width: 100%;
+    height: fit-content;
+    max-width: 100%;
+    max-height: 600px;
+}
+
+.splide__arrow svg {
+    fill: #fff;
+}
+
+.thumbnail {
+    min-width: 70px;
+    min-height: 70px;
+    max-width: 70px;
+    max-height: 70px;
+    list-style: none;
+    margin: 0 2px;
+    cursor: pointer;
+    display: block;
+}
+
+.splide__slide img, .thumbnail img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+.thumbnail {
+    opacity: 0.4;
+    transition: all 0.075s ease-in-out;
+}
+
+.thumbnail.is-active {
+    opacity: 1;
+    border: 3px solid #4ff0d5;
+}
+
+.grid-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+}
+
+.dropzone .dz-preview .dz-error-message {
+    background: #17535B;
+}
+
+.dropzone .dz-preview .dz-error-message:after {
+    border-bottom: 6px solid #17535B;
+}
+
+.dropzone .dz-preview .dz-remove {
+    z-index: 10000;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    display: block;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+.dropzone .dz-preview .dz-remove i {
+    cursor: pointer;
+}
+
+.dropzone .dz-preview .dz-image {
+    border-radius: 8px;
+}
+.dz-preview .dz-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+.dropzone .dz-preview {
+    margin: 0 20px 20px 0;
+}
+
+.checked-box label .checkbox:after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.checkbox:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 11px;
+    height: 11px;
+    background-color: #fff;
+    border-radius: 3px;
+    transition: 0.1s;
+}
+.image-item-container.selected {
+    opacity: 1;
+}
+.image-item-container.selected .image-overlay {
+    opacity: 0.4;
+}
+
+[data-donutty],
+[dnt] {
+    display: grid;
+    margin-right: 10px;
+    vertical-align: middle;
+    justify-items: center;
+    align-items: center;
+}
+
+.donut-text,
+svg {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.donut-text {
+    font-size: 20px;
+    color: #17535B;
+    font-weight: 800;
+}
+
+#toast-container>.toast-error {
+    background-color: #b32929;
+}
+
+#toast-container>.toast-success {
+    background-color: #0e9c72;
+}
+#toast-container>.toast-info {
+    background-color: #0f66d0;
+}
+
+#toast-container>div {
+    opacity: 1;
+    box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+}
+
+#toast-container>div:hover {
+    opacity: 1;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 25px 50px -12px;
+}
+
+.toast-progress {
+    background-color: #fff;
+}
+
+.toast-close-button {
+    color: #fff;
+}
+
+.toast-close-button:focus,
+.toast-close-button:hover {
+    color: #fff;
+}
+
+.toast-success .toast-message {
+    font-weight: 800;
+    color: #fff;
+}
+
+
+/*
+.toast-top-right {
+    top: 50px;
+}*/

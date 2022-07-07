@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin - Quản lý người thuê</title>
+        <title>Admin - Quản lý nhà trọ</title>
 
         <!--Favicon-->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
@@ -23,10 +23,9 @@
         <!--CSS-->
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="../assets/css/admin-page.css">
 
         <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
@@ -39,6 +38,8 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+
+        <link rel="stylesheet" href="../assets/css/admin-tenant-magement.css">
     </head>
     <body>
         <%@include file="../view/headerAdminDashboard.jsp" %>
@@ -71,92 +72,105 @@
                         </ol>
                     </nav>
                 </div>
-            </div>
-            <div>
-                <table id="hostel-table" class="w-full text-sm text-left text-gray-500">
-                    <thead>
-                        <tr class="text-center text-xs text-gray-700 uppercase bg-gray-50">
-                            <th scope="col" class="text-center px-6 py-3">ID Nhà trọ</th>
-                            <th scope="col" class="text-center px-6 py-3">Tên nhà trọ</th>
-                            <th scope="col" class="text-center px-6 py-3">Quận/huyện</th>
-                            <th scope="col" class="text-center px-6 py-3">Tỉnh/thành phố</th>
-                            <th scope="col" class="text-center px-6 py-3">Ngày đăng kí</th>
-                            <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
-                            <th scope="col" class="text-center px-6 py-3">Mở/khóa nhà trọ</th>
-                            <th scope="col" class="text-center px-6 py-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items = "${requestScope.hostelList}" var = "hostel">
-                            <tr class="bg-white border-b">
-                                <td scope="row"
-                                    class="text-left px-6 py-4 font-medium text-gray-900">
-                                    ${hostel.hostelID}
-                                </td>
-                                <td class="text-left px-6 py-4">
-                                    ${hostel.hostelName}
-                                </td>
-                                <td class="text-left px-6 py-4">
-                                    ${hostel.district.districtName}
-                                </td>
-                                <td class="text-left px-6 py-4">
-                                    ${hostel.district.province.provinceName}
-                                </td>
-                                <td class="text-left px-6 py-4">
-                                    ${hostel.registeredDate}
-                                </td>
-                                <td class="text-left px-6 py-4">
-                                    <c:if test="${hostel.activate == false}">Khóa</c:if>
-                                    <c:if test="${hostel.activate == true}">Mở</c:if>
-                                    </td>
-
-                                    <td class="text-left px-6 py-4">
-                                        <form method = "post" action = "/sakura/admin/hostelStatus">
-                                            <input type ="hidden" name ="hostelID" value ="${hostel.hostelID}"/>
-                                        <c:if test="${hostel.activate == false}">
-                                            <button type = "submit" value="activate" name = "query" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                Mở nhà trọ</button>
+                <div class="card bg-[#fff] p-[20px] mt-[20px] h-[calc(100vh-220px)]">
+                    <div class="mt-[20px] overflow-x-auto">
+                        <table id="hostel-table" class="w-full text-[15px] text-left text-gray-500 border-gray-100">
+                            <thead>
+                                <tr class="text-center text-[13px] text-gray-700 uppercase bg-gray-50">
+                                    <th scope="col" class="text-center px-6 py-[10px]">ID nhà trọ</th>
+                                    <th scope="col" class="text-center px-6 py-[10px]">Tên nhà trọ</th>
+                                    <th scope="col" class="text-center px-6 py-[10px]">Quận/huyện</th>
+                                    <th scope="col" class="text-center px-6 py-[10px]">Tỉnh/thành phố</th>
+                                    <th scope="col" class="text-center px-6 py-[10px]">Ngày đăng kí</th>
+                                    <th scope="col" class="text-center px-6 py-[10px]">Trạng thái</th>
+                                    <th scope="col" class="text-center px-6 py-[10px]"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items = "${requestScope.hostelList}" var = "hostel">
+                                    <tr class="bg-white text-[15px] hover:bg-gray-50">
+                                        <td scope="row" class="text-left px-6 py-4 font-medium text-gray-900">${hostel.hostelID}</td>
+                                        <td class="text-left px-6 py-[5px]">${hostel.hostelName}</td>
+                                        <td class="text-left px-6 py-[5px]">${hostel.district.districtName}</td>
+                                        <td class="text-left px-6 py-[5px]">${hostel.district.province.provinceName}</td>
+                                        <td class="text-left px-6 py-[5px]">${hostel.registeredDate}</td>
+                                        <td class="text-left px-6 py-[5px]">
+                                            <c:if test="${hostel.activate == false}">
+                                                <span class="bg-[#e5e5e5] text-[#40576C] text-[14px] font-normal px-2.5 py-0.5 rounded">Khóa</span>
                                             </c:if>
                                             <c:if test="${hostel.activate == true}">
-                                            <button type = "submit" value="deactivate" name = "query" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                Khóa nhà trọ</button>
+                                                <span class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Hoạt động</span>
                                             </c:if>
-                                    </form>
-                                </td>
-                                <td class="text-left px-6 py-4 text-center">
-                                    <form action="/sakura/admin/hostel-detail">
-                                        <button name="hostelID" value="${hostel.hostelID}"
-                                                class="font-medium text-blue-600">Chi tiết</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                                        </td>
+
+                                        <td class="text-left px-6 py-[5px] flex items-center justify-around">
+                                            <form method = "post" action = "/sakura/admin/hostelStatus">
+                                                <input type ="hidden" name ="hostelID" value ="${hostel.hostelID}"/>
+                                                <c:if test="${hostel.activate == false}">
+                                                    <button type = "submit" value="activate" name = "query" class="w-[120px] text-center bg-[#ebf0fa] hover:bg-[#e8f0ff] text-[#0448c7] font-medium py-[5px] rounded">
+                                                        Mở nhà trọ
+                                                    </button>
+                                                </c:if>
+                                                <c:if test="${hostel.activate == true}">
+                                                    <button type = "submit" value="deactivate" name = "query" class="w-[120px] text-center bg-[#ffdbdb] hover:bg-[#fcd2d2] text-[#db0000] font-medium py-[5px] rounded">
+                                                        Khóa nhà trọ
+                                                    </button>
+                                                </c:if>
+                                            </form>
+                                            <form action="/sakura/admin/hostel-detail">
+                                                <button name="hostelID" value="${hostel.hostelID}" class="w-[120px] text-center bg-[#fff] border border-gray-300 hover:border-[#17535B] text-gray-500 py-[5px] font-medium rounded">
+                                                    <i class="bi bi-box-arrow-up-right mr-[5px] translate-y-[-5px]"></i>Chi tiết
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+            <%@include file="../view/footerDashboard.jsp" %>
+
         </div>
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
     </body>
     <script>
         $(document).ready(function () {
-
             $('#hostel-table').DataTable({
                 dom: 'Bfrtip',
+                language: {
+                    "emptyTable": "Không có dữ liệu!",
+                    "zeroRecords": "Không có kết quả phù hợp!",
+                    "infoEmpty": "Hiển thị 0 kết quả",
+                    "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
+                    "infoFiltered": "",
+                    search: "Tìm kiếm",
+                    paginate: {
+                        previous: '<i class="bi bi-caret-left-fill"></i>',
+                        next: '<i class="bi bi-caret-right-fill"></i>'
+                    },
+                    aria: {
+                        paginate: {
+                            previous: 'Trước',
+                            next: 'Sau'
+                        }
+                    }
+                },
                 buttons: [
                     {
                         extend: 'excelHtml5',
+                        text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5]
+                            columns: [0, 1, 2, 3, 4]
                         }
                     }
                 ],
-                "pageLength": 8, //so luong item per page
-                info: false
+
+                "pageLength": 10, // items per page
+                info: true
             });
         });
-
-
-
     </script>
 </html>

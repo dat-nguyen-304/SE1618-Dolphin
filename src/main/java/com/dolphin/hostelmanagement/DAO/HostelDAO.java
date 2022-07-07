@@ -530,25 +530,88 @@ public class HostelDAO {
         }
         return false;
     }
-    
+
     public static void updateStatus(int hostelID, boolean activate) {
         Connection cn = null;
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
+
             String sql = "Update Hostel set activate = ? where hostelID = ?";
-            
+
             PreparedStatement pst = cn.prepareCall(sql);
-            
+
             pst.setBoolean(1, activate);
             pst.setInt(2, hostelID);
-            
+
             pst.executeUpdate();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean saveHostelImg(int hostelId, String imgUrl) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO ImageHostel(hostelId, imgLink) VALUES(?, ?)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                pst.setString(2, imgUrl);
+                int rowEffect = pst.executeUpdate();
+                if (rowEffect > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean removeHostelImg(int hostelId, String imgURL) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "DELETE FROM ImageHostel WHERE hostelId = ? AND imgLink = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                pst.setString(2, imgURL);
+                int rowEffect = pst.executeUpdate();
+                if (rowEffect > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static int getCurrentIdentImageHostel() {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "SELECT IDENT_CURRENT('ImageHostel') AS 'CurImgID'";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    int curImgId = rs.getInt("CurImgID");
+                    return curImgId;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public static void main(String[] args) {

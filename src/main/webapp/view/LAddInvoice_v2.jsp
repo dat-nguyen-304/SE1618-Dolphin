@@ -13,18 +13,17 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Quản lý phòng thuê - Chi tiết hoá đơn</title>
+        <title>Trang chủ nhà - Thêm hoá đơn</title>
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="images/logo.png">
+        <link rel="shortcut icon" href="../assets/icons/logo.png">
 
         <!-- <link rel="stylesheet" href="app.css"> -->
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-            rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+              rel="stylesheet">
 
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
@@ -33,18 +32,16 @@
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
 
-
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
-
+        <%@include file="../view/headerLandlordDashboard.jsp" %>
+        <%@include file="../view/navbarLandlordDashboard.jsp" %>
+        
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -105,15 +102,15 @@
                                  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
                                 <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
 
-                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <div class="relative bg-white rounded-lg shadow">
 
                                         <div
-                                            class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                            class="flex justify-between items-start p-4 rounded-t border-b">
+                                            <h3 class="text-xl font-semibold text-gray-900">
                                                 Chọn Nhà Trọ
                                             </h3>
                                             <button type="button"
-                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                                                     data-modal-toggle="hostelModal">
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                      xmlns="http://www.w3.org/2000/svg">
@@ -247,27 +244,13 @@
                                 <table class="mt-[20px] w-full text-sm text-left text-gray-500">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                Dịch vụ
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Đơn vị tính
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Giá trị đầu
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Giá trị cuối
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Số lượng
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Đơn giá
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Thành tiền
-                                            </th>
+                                            <th scope="col" class="px-6 py-3">Dịch vụ</th>
+                                            <th scope="col" class="px-6 py-3">Đơn vị tính</th>
+                                            <th scope="col" class="px-6 py-3">Giá trị đầu</th>
+                                            <th scope="col" class="px-6 py-3">Giá trị cuối</th>
+                                            <th scope="col" class="px-6 py-3">Số lượng</th>
+                                            <th scope="col" class="px-6 py-3">Đơn giá</th>
+                                            <th scope="col" class="px-6 py-3">Thành tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -300,17 +283,12 @@
                                     </c:forEach>
 
                                     <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                        <td class="px-6 py-4">
-                                            Phí thuê phòng
+                                        <td class="px-6 py-4">Phí thuê phòng
                                         </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
+                                        <td class="px-6 py-4"></td>
+                                        <td class="px-6 py-4"></td>
+                                        <td class="px-6 py-4"></td>
+                                        <td class="px-6 py-4"></td>
                                         <td class="px-6 py-4 rate">
                                             ${requestScope.contract.rentalFeePerMonth}
                                         </td>
@@ -360,17 +338,17 @@
 
                                         <div id="saveInvoice" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
                                             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="saveInvoice" id="toggleButton">
+                                                <div class="relative bg-white rounded-lg shadow">
+                                                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="saveInvoice" id="toggleButton">
                                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                                                     </button>
                                                     <div class="p-6 text-center">
-                                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><span>Bạn có chắc chắn muốn đăng hóa đơn?</span></h3>
-                                                        <button id="confirmButton" data-modal-toggle="saveInvoice" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                                        <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                        <h3 class="mb-5 text-lg font-normal text-gray-500"><span>Bạn có chắc chắn muốn đăng hóa đơn?</span></h3>
+                                                        <button id="confirmButton" data-modal-toggle="saveInvoice" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                             Tôi chắc chắn
                                                         </button>
-                                                        <button data-modal-toggle="saveInvoice" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Hủy bỏ</button>
+                                                        <button data-modal-toggle="saveInvoice" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Hủy bỏ</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -463,215 +441,215 @@
         <script src="js/breadcrumb.js"></script>
         <script src="../assets/javascript/moment.js"></script>
         <script>
-            let invoiceMonth = $("#invoice-month");
-            let invoiceStartDate = $("#invoice-start-date");
-            let invoiceEndDate = $("#invoice-end-date");
-            let monthError = $("#monthError");
-            let rentalFee = $("#rentalFee");
-            let invoiceSumHidden = $("#invoiceSumHidden");
-            let invoiceSum = $("#invoiceSum");
-            let dateError = $("#dateError");
-            let bottomSum = $("#bottomSum");
-            let latestInvoiceMonth = $("#latestInvoiceMonth");
-            let allRowSum = $(".rowSum");
+                                            let invoiceMonth = $("#invoice-month");
+                                            let invoiceStartDate = $("#invoice-start-date");
+                                            let invoiceEndDate = $("#invoice-end-date");
+                                            let monthError = $("#monthError");
+                                            let rentalFee = $("#rentalFee");
+                                            let invoiceSumHidden = $("#invoiceSumHidden");
+                                            let invoiceSum = $("#invoiceSum");
+                                            let dateError = $("#dateError");
+                                            let bottomSum = $("#bottomSum");
+                                            let latestInvoiceMonth = $("#latestInvoiceMonth");
+                                            let allRowSum = $(".rowSum");
 
 
-            jQuery(document).ready(function ($) {
+                                            jQuery(document).ready(function ($) {
 
-                let allRateCells = $(".rate");
-                for (let i = 0; i < allRateCells.length; i++) {
-                    let node = allRateCells[i];
-                    let money = node.childNodes[0].nodeValue;
-                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-                latestInvoiceMonth.html(latestInvoiceMonth.html().split('-').reverse().join('/'));
-                bottomSum.html(rentalFee.html() + " đồng");
-                invoiceSum.html(rentalFee.html());
-                invoiceSumHidden.html(rentalFee.html());
-                invoiceSumHidden.val(parseInt(rentalFee.html().replace(/,/g, '')));
-                console.log(invoiceSumHidden.val());
-            });
+                                                let allRateCells = $(".rate");
+                                                for (let i = 0; i < allRateCells.length; i++) {
+                                                    let node = allRateCells[i];
+                                                    let money = node.childNodes[0].nodeValue;
+                                                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                }
+                                                latestInvoiceMonth.html(latestInvoiceMonth.html().split('-').reverse().join('/'));
+                                                bottomSum.html(rentalFee.html() + " đồng");
+                                                invoiceSum.html(rentalFee.html());
+                                                invoiceSumHidden.html(rentalFee.html());
+                                                invoiceSumHidden.val(parseInt(rentalFee.html().replace(/,/g, '')));
+                                                console.log(invoiceSumHidden.val());
+                                            });
 
-            $("#confirmButton").on('click', function () {
-                console.log("SUBMIT");
-                $("#invoice-form").submit();
-            });
+                                            $("#confirmButton").on('click', function () {
+                                                console.log("SUBMIT");
+                                                $("#invoice-form").submit();
+                                            });
 
-            invoiceMonth.click(function () {
-                $(this).css("border", "");
-            });
+                                            invoiceMonth.click(function () {
+                                                $(this).css("border", "");
+                                            });
 
-            invoiceMonth.click(function () {
-                invoiceStartDate.css("border", "");
-                invoiceEndDate.css("border", "");
-                dateError.html("");
-            });
+                                            invoiceMonth.click(function () {
+                                                invoiceStartDate.css("border", "");
+                                                invoiceEndDate.css("border", "");
+                                                dateError.html("");
+                                            });
 
-            invoiceEndDate.click(function () {
-                invoiceStartDate.css("border", "");
-                invoiceEndDate.css("border", "");
-                dateError.html("");
-            });
+                                            invoiceEndDate.click(function () {
+                                                invoiceStartDate.css("border", "");
+                                                invoiceEndDate.css("border", "");
+                                                dateError.html("");
+                                            });
 
-            $("#room-filter").on('input', function () {
-                let text = $("#room-filter").val();
-                let allRoomButtons = $(".roomNoInvoice");
-                for (let i = 0; i < allRoomButtons.length; i++) {
-                    let node = allRoomButtons[i];
-                    if ($(node).html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
-                        $(node).css("display", "none");
-                    } else
-                        $(node).css("display", "inline");
-                }
-            });
+                                            $("#room-filter").on('input', function () {
+                                                let text = $("#room-filter").val();
+                                                let allRoomButtons = $(".roomNoInvoice");
+                                                for (let i = 0; i < allRoomButtons.length; i++) {
+                                                    let node = allRoomButtons[i];
+                                                    if ($(node).html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
+                                                        $(node).css("display", "none");
+                                                    } else
+                                                        $(node).css("display", "inline");
+                                                }
+                                            });
 
-            function changeHostel(hostelID, hostelName) {
-                $("#hostelName").html(hostelName);
-                $("#roomNumber").html("Chọn phòng");
-                $("#roomList").empty();
-                $("#invoice-form").css("display", "none");
+                                            function changeHostel(hostelID, hostelName) {
+                                                $("#hostelName").html(hostelName);
+                                                $("#roomNumber").html("Chọn phòng");
+                                                $("#roomList").empty();
+                                                $("#invoice-form").css("display", "none");
 
-                jQuery.ajax({
-                    url: '/sakura/room/roomsNeedInvoice',
-                    type: 'GET',
-                    data: {hostelID: hostelID},
-                    dataType: 'text',
-                    success: function (result) {
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
-                        console.log("Compelte");
-                        let data = JSON.parse(result.responseText);
-                        for (let i = 0; i < data.length; i++) {
-                            $("#roomList").append('<form method="post" action="/sakura/invoice/new" style="display: inline-block;"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
-                                    + data[i].roomNumber + '</button></form>');
-                        }
-                        $(".roomNoInvoice").addClass("ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center");
-                        if (data.length === 0) {
-                            $("#roomList").append('<p style="color: red" class="col-span-3">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</p>');
-                        }
-                    }
-                });
-            }
+                                                jQuery.ajax({
+                                                    url: '/sakura/room/roomsNeedInvoice',
+                                                    type: 'GET',
+                                                    data: {hostelID: hostelID},
+                                                    dataType: 'text',
+                                                    success: function (result) {
+                                                    },
+                                                    error: function () {
+                                                    },
+                                                    complete: function (result) {
+                                                        console.log("Compelte");
+                                                        let data = JSON.parse(result.responseText);
+                                                        for (let i = 0; i < data.length; i++) {
+                                                            $("#roomList").append('<form method="post" action="/sakura/invoice/new" style="display: inline-block;"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
+                                                                    + data[i].roomNumber + '</button></form>');
+                                                        }
+                                                        $(".roomNoInvoice").addClass("ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center");
+                                                        if (data.length === 0) {
+                                                            $("#roomList").append('<p style="color: red" class="col-span-3">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</p>');
+                                                        }
+                                                    }
+                                                });
+                                            }
 
-            /*function enableInput(serviceID) {
-                $("#startInput" + serviceID).val("");
-                $("#endInput" + serviceID).val("");
-                $("#rowSum" + serviceID).html("");
-                if ($("#startInput" + serviceID).prop("disabled") === true) {
-                    $("#startInput" + serviceID).prop("disabled", false);
-                    $("#endInput" + serviceID).prop("disabled", false);
-                } else {
-                    $("#startInput" + serviceID).prop("disabled", true);
-                    $("#endInput" + serviceID).prop("disabled", true);
-                }
-            }*/
+                                            /*function enableInput(serviceID) {
+                                             $("#startInput" + serviceID).val("");
+                                             $("#endInput" + serviceID).val("");
+                                             $("#rowSum" + serviceID).html("");
+                                             if ($("#startInput" + serviceID).prop("disabled") === true) {
+                                             $("#startInput" + serviceID).prop("disabled", false);
+                                             $("#endInput" + serviceID).prop("disabled", false);
+                                             } else {
+                                             $("#startInput" + serviceID).prop("disabled", true);
+                                             $("#endInput" + serviceID).prop("disabled", true);
+                                             }
+                                             }*/
 
-            function updateSum(serviceID, type, element) {
-                let rowSum = $("#rowSum" + serviceID);
-                let startInput = $("#startInput" + serviceID);
-                let endInput = $("#endInput" + serviceID);
-                rowSum.html("");
-                let sum;
-                if (type === 1) {
-                    if ($(element).val() === "")
-                        sum = 0;
-                    else {
-                        if ($(element).attr('id').indexOf('startInput') >= 0) {
-                            if (startInput.val() > endInput.val()) {
-                                endInput.val(startInput.val());
-                            }
-                        }
+                                            function updateSum(serviceID, type, element) {
+                                                let rowSum = $("#rowSum" + serviceID);
+                                                let startInput = $("#startInput" + serviceID);
+                                                let endInput = $("#endInput" + serviceID);
+                                                rowSum.html("");
+                                                let sum;
+                                                if (type === 1) {
+                                                    if ($(element).val() === "")
+                                                        sum = 0;
+                                                    else {
+                                                        if ($(element).attr('id').indexOf('startInput') >= 0) {
+                                                            if (startInput.val() > endInput.val()) {
+                                                                endInput.val(startInput.val());
+                                                            }
+                                                        }
 
-                        if ($(element).attr('id').indexOf('endInput') >= 0) {
-                            if (startInput.val() > endInput.val()) {
-                                startInput.val(endInput.val());
-                            }
-                        }
-                        sum = parseInt(endInput.val()) - parseInt(startInput.val());
-                    }
-                    $("#quantity" + serviceID).html(sum);
-                } else {
-                    if ($(element).val() === "")
-                        sum = 0;
-                    else
-                        sum = $("#quantity" + serviceID).val();
-                }
-                sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
-                rowSum.html(parseInt(sum));
+                                                        if ($(element).attr('id').indexOf('endInput') >= 0) {
+                                                            if (startInput.val() > endInput.val()) {
+                                                                startInput.val(endInput.val());
+                                                            }
+                                                        }
+                                                        sum = parseInt(endInput.val()) - parseInt(startInput.val());
+                                                    }
+                                                    $("#quantity" + serviceID).html(sum);
+                                                } else {
+                                                    if ($(element).val() === "")
+                                                        sum = 0;
+                                                    else
+                                                        sum = $("#quantity" + serviceID).val();
+                                                }
+                                                sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
+                                                rowSum.html(parseInt(sum));
 
 
-                let sumService = 0;
-                for (let i = 0; i < allRowSum.length; i++) {
-                    let node = allRowSum[i];
-                    sumService += parseInt($(node).html().replace(/,/g, ''));
-                }
+                                                let sumService = 0;
+                                                for (let i = 0; i < allRowSum.length; i++) {
+                                                    let node = allRowSum[i];
+                                                    sumService += parseInt($(node).html().replace(/,/g, ''));
+                                                }
 
-                $("#serviceSum").html(sumService);
-                invoiceSum.html(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
-                invoiceSumHidden.val(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
-                console.log("hidden " + invoiceSumHidden.val());
-                invoiceSum.html(invoiceSum.html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                                $("#serviceSum").html(sumService);
+                                                invoiceSum.html(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
+                                                invoiceSumHidden.val(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
+                                                console.log("hidden " + invoiceSumHidden.val());
+                                                invoiceSum.html(invoiceSum.html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
-                bottomSum.html(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
-                bottomSum.html(bottomSum.html().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
+                                                bottomSum.html(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
+                                                bottomSum.html(bottomSum.html().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
 
-                for (let i = 0; i < allRowSum.length; i++) {
-                    let node = allRowSum[i];
-                    let money = node.childNodes[0].nodeValue;
-                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-            }
+                                                for (let i = 0; i < allRowSum.length; i++) {
+                                                    let node = allRowSum[i];
+                                                    let money = node.childNodes[0].nodeValue;
+                                                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                }
+                                            }
 
-            function validate() {
-                console.log(invoiceMonth.val());
-                console.log(latestInvoiceMonth.html());
-                let startParts = invoiceStartDate.val().split("/");
-                let startDate = new Date(parseInt(startParts[2], 10),
-                        parseInt(startParts[1], 10) - 1,
-                        parseInt(startParts[0], 10));
-                let endParts = invoiceEndDate.val().split("/");
-                let endDate = new Date(parseInt(endParts[2], 10),
-                        parseInt(endParts[1], 10) - 1,
-                        parseInt(endParts[0], 10));
-                let res = true;
-                if (invoiceMonth.val() === "") {
-                    invoiceMonth.css("border", "1.5px solid red");
-                    res = false;
-                }
-                if (invoiceStartDate.val() === "") {
-                    invoiceStartDate.css("border", "1.5px solid red");
-                    res = false;
-                }
-                if (invoiceEndDate.val() === "") {
-                    invoiceEndDate.css("border", "1.5px solid red");
-                    res = false;
-                }
-                if (startDate > endDate) {
-                    invoiceStartDate.css("border", "1.5px solid red");
-                    invoiceEndDate.css("border", "1.5px solid red");
-                    console.log("sai ngay");
-                    dateError.html("Ngày kết thúc phải sau ngày bắt đầu!");
-                    dateError.css("color", "red");
-                    res = false;
-                }
-                if (invoiceMonth.val() !== "" && invoiceMonth.val() <= latestInvoiceMonth.html()) {
+                                            function validate() {
+                                                console.log(invoiceMonth.val());
+                                                console.log(latestInvoiceMonth.html());
+                                                let startParts = invoiceStartDate.val().split("/");
+                                                let startDate = new Date(parseInt(startParts[2], 10),
+                                                        parseInt(startParts[1], 10) - 1,
+                                                        parseInt(startParts[0], 10));
+                                                let endParts = invoiceEndDate.val().split("/");
+                                                let endDate = new Date(parseInt(endParts[2], 10),
+                                                        parseInt(endParts[1], 10) - 1,
+                                                        parseInt(endParts[0], 10));
+                                                let res = true;
+                                                if (invoiceMonth.val() === "") {
+                                                    invoiceMonth.css("border", "1.5px solid red");
+                                                    res = false;
+                                                }
+                                                if (invoiceStartDate.val() === "") {
+                                                    invoiceStartDate.css("border", "1.5px solid red");
+                                                    res = false;
+                                                }
+                                                if (invoiceEndDate.val() === "") {
+                                                    invoiceEndDate.css("border", "1.5px solid red");
+                                                    res = false;
+                                                }
+                                                if (startDate > endDate) {
+                                                    invoiceStartDate.css("border", "1.5px solid red");
+                                                    invoiceEndDate.css("border", "1.5px solid red");
+                                                    console.log("sai ngay");
+                                                    dateError.html("Ngày kết thúc phải sau ngày bắt đầu!");
+                                                    dateError.css("color", "red");
+                                                    res = false;
+                                                }
+                                                if (invoiceMonth.val() !== "" && invoiceMonth.val() <= latestInvoiceMonth.html()) {
 //                                                    $("#latestInvoiceMonth").css("border", "1.5px solid red");
-                    monthError.html("Người thuê đã thanh toán kì " + invoiceMonth.val() + "!");
-                    monthError.css("color", "red");
-                    invoiceMonth.css("border", "1.5px solid red");
-                    res = false;
-                }
-                if (invoiceStartDate.val() > invoiceEndDate.val()) {
-                    console.log(invoiceStartDate.val() > invoiceEndDate.val());
-                    res = false;
-                }
-                if (res) {
-                    console.log("OK");
-                    $("#toggleButton").click();
-                }
-            }
+                                                    monthError.html("Người thuê đã thanh toán kì " + invoiceMonth.val() + "!");
+                                                    monthError.css("color", "red");
+                                                    invoiceMonth.css("border", "1.5px solid red");
+                                                    res = false;
+                                                }
+                                                if (invoiceStartDate.val() > invoiceEndDate.val()) {
+                                                    console.log(invoiceStartDate.val() > invoiceEndDate.val());
+                                                    res = false;
+                                                }
+                                                if (res) {
+                                                    console.log("OK");
+                                                    $("#toggleButton").click();
+                                                }
+                                            }
         </script>
     </body>
 </html>

@@ -52,3 +52,55 @@
     outline: none !important;
     border: 1px solid #17535B !important;
 }
+
+[type=text]:hover,
+[type=text]:focus,
+[type=text]:active,
+.in-edit,
+.in-edit:focus,
+.in-edit:active {
+    border: 1px solid #4B5563 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.datepicker-controls button {
+    background-color: #fff;
+    border-radius: 4px;
+    color: #4B5563;
+}
+
+.datepicker-controls button:hover {
+    background-color: #eaedf1;
+    color: #17535B;
+}
+
+.datepicker-picker {
+    background-color: #fff !important;
+    color: #4B5563 !important;
+}
+
+.datepicker-cell {
+    color: #4B5563 !important;
+}
+
+.datepicker-cell.selected {
+    background-color: #17535B !important;
+    color: #fff !important;
+}
+
+.datepicker-cell:hover {
+    background-color: #17535B !important;
+    color: #fff !important;
+}
+
+.datepicker-cell.range {
+    background-color: #cdd8da !important;
+    color: #17535B !important;
+}
+
+.datepicker-cell.range-start,
+.datepicker-cell.range-end {
+    background-color: #17535B !important;
+    color: #fff !important;
+}

@@ -7,6 +7,7 @@ package com.dolphin.hostelmanagement.controller;
 import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.DistrictDAO;
+import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
 import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
@@ -17,6 +18,7 @@ import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.District;
+import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.Landlord;
@@ -39,16 +41,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
  * @author Admin
  */
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class LandlordController extends HttpServlet {
 
     /**
@@ -351,10 +359,10 @@ public class LandlordController extends HttpServlet {
                 boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
                 Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
                 if (addSuccess) {
-                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
-                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
+                    out.println("<span class=\"inline-block text-[#1C2C3A]\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
+                    out.println("<form class=\"inline-block \" action=\"/sakura/landlord/overview\">");
                     out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
-                    out.println("<input type=\"submit\" value=\"tại đây\">");
+                    out.println("<input type=\"submit\"  id=\"view-new-hostel\" class=\"text-[#288D87] cursor-pointer hover:underline\" value=\"tại đây\">");
                     out.println("</form></span>");
                     session.setAttribute("needReload", true);
                 } else {
@@ -555,6 +563,118 @@ public class LandlordController extends HttpServlet {
                     session.setAttribute("needReload", false);
                 }
             }
+
+            if (path.equals("/hostel-info")) {
+                currentHostel = null;
+                if (session.getAttribute("currentHostel") != null) {
+                    currentHostel = (Hostel) session.getAttribute("currentHostel");
+                }
+                ArrayList<Feedback> feedbackList = (ArrayList<Feedback>) FeedbackDAO.findByHostelId(currentHostel.getHostelID());
+                double avgRating = 0;
+                for (Feedback feedback : feedbackList) {
+                    avgRating += feedback.getRating();
+                    System.out.println(feedback.toString());
+                }
+                avgRating /= feedbackList.size();
+                request.setAttribute("avgRating", avgRating);
+                request.setAttribute("feedbacks", feedbackList);
+                request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
+            }
+
+            if (path.equals("/add-hostel-image")) {
+                //request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
+                int hostelID = Integer.parseInt(request.getParameter("hostelId"));
+                int maxImgID = HostelDAO.getCurrentIdentImageHostel();
+                System.out.println("IDENT: " + maxImgID);
+                try {
+                    for (Part part : request.getParts()) {
+                        if (extractFileName(part).length() > 0) {
+                            maxImgID++;
+                            String fileName = "img" + maxImgID + ".jpg";
+                            String savePath = "/sakura/assets/images/hostel-list-images/";
+                            System.out.println("FILENAME: " + fileName);
+                            boolean res = HostelDAO.saveHostelImg(hostelID, savePath + fileName);
+                            String src = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + fileName;
+                            String dest = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
+                            part.write(src);
+                            copy(src, dest);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (path.equals("/remove-image")) {
+                String filePath = request.getParameter("path");
+                String name = filePath.substring(filePath.lastIndexOf('/') + 1);
+                System.out.println("\nName: " + name);
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                try {
+                    boolean res = HostelDAO.removeHostelImg(hostelId, filePath);
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));;
+                    String srcPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + name;
+                    File fSrc = new File(srcPath);
+                    System.out.println("Remove: " + srcPath);
+                    fSrc.delete();
+                    String targetPath = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + name;
+                    File fTarget = new File(targetPath);
+                    System.out.println("Remove: " + targetPath);
+                    fTarget.delete();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                response.sendRedirect("/view/LHostelInfo.jsp");
+            }
+
+            if (path.equals("/remove-multiple-images")) {
+                try {
+                    String[] toDelete = request.getParameterValues("toDelete[]");
+                    // for (String s : toDelete) System.out.println(s);
+                    int[] toBeDeleted = new int[toDelete.length];
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    System.out.println("HOSTEL ID: " + hostelId);
+                    //System.out.println("Before: " + HostelDAO.getAllImagesById(hostelId));
+                    for (String imagePath : toDelete) {
+                        //System.out.println("IMG PATH: " + imagePath);
+                        boolean res = HostelDAO.removeHostelImg(hostelId, imagePath);
+                        String name = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+                        //System.out.println("Name: " + name);
+                        String srcPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + name;
+                        File fSrc = new File(srcPath);
+                        //System.out.println("Remove: " + srcPath);
+                        fSrc.delete();
+                        String targetPath = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + name;
+                        File fTarget = new File(targetPath);
+                        //System.out.println("Remove: " + targetPath);
+                        fTarget.delete();
+                    }
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
+                    //System.out.println("After : " + HostelDAO.getAllImagesById(hostelId));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (path.equals("/update-image")) {
+                String hostelId = request.getParameter("hostelId");
+                int id = 0;
+                if (hostelId != null) {
+                    id = Integer.parseInt(hostelId);
+                    ArrayList<String> images = HostelDAO.getAllImagesById(id);
+                    session.setAttribute("currentHostel", HostelDAO.findById(id));
+                    JSONArray list = new JSONArray();
+                    for (String imgLink : images) {
+                        System.out.println("Link: " + imgLink);
+                        JSONObject obj = new JSONObject();
+                        obj.put("imgLink", imgLink);
+                        list.add(obj);
+                    }
+                    System.out.println("LIST: " + list);
+                    out.write(list.toJSONString());
+                    out.close();
+                }
+            }
         }
     }
 
@@ -592,8 +712,7 @@ public class LandlordController extends HttpServlet {
         String path = request.getServletContext().getRealPath("/").replace("\\", "/");
         File target = new File(path);
         File par = new File(target.getParent());
-        File folderUpload = new File(par.getParent() + "/src/main/webapp/assets/images/user-avatars");
-
+        File folderUpload = new File(par.getParent() + "/src/main/webapp/assets/images/hostel-list-images");
 //        File folderUpload = new File(request.getServletContext().getRealPath("/") + "assets/images/user-avatars/");
         // System.out.println(folderUpload);
         if (!folderUpload.exists()) {
@@ -603,8 +722,8 @@ public class LandlordController extends HttpServlet {
     }
 
     public File getRuntimeFolder(HttpServletRequest request) throws URISyntaxException {
-        File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/user-avatars");
-        System.out.println("Runtime folder: " + folderUpload);
+        File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/hostel-list-images");
+        //System.out.println("Runtime folder: " + folderUpload);
         if (!folderUpload.exists()) {
             folderUpload.mkdirs();
         }

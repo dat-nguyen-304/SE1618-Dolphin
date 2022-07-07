@@ -55,19 +55,19 @@
 
                     <div class="form-header w-full h-auto text-center m-0 py-2 relative">
                         <h2 class="text-3xl text-[#FF6532] font-medium mb-5">Đăng nhập</h2>
-                        <p id="error" class="warning text-base font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
+                        <p id="error" class="warning text-[15px] font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
                     </div>
                     <ul class="item-list list-none p-0 w-[52%]">
                         <!--User name-->
                         <li class="item block relative z-0 w-full mt-5">
-                            <input type="text" id="username" name="username" placeholder=" " value="${requestScope.username}" required onchange="checkUsername()"
+                            <input type="text" id="username" name="username" placeholder=" " value="${requestScope.username}" required
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none  focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
                             <label for="username" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Tên đăng nhập <span class="font-extralight"></span></label>
                         </li>
 
                         <!--Password-->
                         <li class="item block relative z-0 w-full mt-7 mb-0">
-                            <input type="password" id="password" name="password" placeholder=" " required onchange="checkPassword()"
+                            <input type="password" id="password" name="password" placeholder=" " required
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
                             <label for="password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Mật khẩu <span class="font-extralight"></span></label>
                             <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-password"></i>
@@ -115,27 +115,6 @@
 
         </div>
         <script src="../assets/javascript/jquery.js"></script>
-        <script type="text/javascript">
-            window.addEventListener("scroll", function () {
-                var header = document.querySelector(".header");
-                header.classList.toggle("sticky", window.scrollY > 0);
-
-                // var img = document.querySelector("#logo-header");
-                // img.src = "./icon/logo.png"; 
-            });
-
-            var initialSrc = "../aseets/icon/logo_white.png";
-            var scrollSrc = "../aseets/icon/logo.png";
-
-            $(window).scroll(function () {
-                var value = $(this).scrollTop();
-                if (value > 0) {
-                    $("#logo-header").attr("src", scrollSrc);
-                } else {
-                    $("#logo-header").attr("src", initialSrc);
-                }
-            });
-        </script>
         <script>
             // Toggle password 
             const togglePassword = document.querySelector("#toggle-password");

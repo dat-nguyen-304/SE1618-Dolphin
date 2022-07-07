@@ -40,11 +40,36 @@
     color: #fff;
     background-color: #256f79;
 }
+[multiple],
+[type=date],
+[type=datetime-local],
+[type=email],
+[type=month],
+[type=number],
+[type=password],
+[type=search],
+[type=tel],
+[type=text],
+[type=time],
+[type=url],
+[type=week],
+select,
+textarea {
+    outline: none;
+    border: none;
+}
 
-[type=search]:focus,
-[type=search]:active,
-[type=text]:focus,
-[type=text]:active,
+[type=text], select, textarea {
+    border: 1px solid #C5C7C9;
+}
+
+[type=text]:hover, [type=text]:focus, [type=text]:active,
+select:hover, select:focus, select:active, 
+textarea:hover, textarea:focus, textarea:active {
+    border: 1px solid #288D87;
+    box-shadow: none;
+}
+
 .in-edit,
 .in-edit:focus,
 .in-edit:active,
@@ -68,4 +93,12 @@
 
 .grid-16 {
     grid-template-columns: repeat(16, minmax(0, 1fr));
+}
+
+#view-new-hostel {
+    cursor: pointer;
+}
+
+#view-new-hostel:hover {
+    text-decoration: underline;
 }

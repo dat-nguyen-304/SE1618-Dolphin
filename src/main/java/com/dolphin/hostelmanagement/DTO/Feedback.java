@@ -7,6 +7,7 @@ package com.dolphin.hostelmanagement.DTO;
 import java.util.Date;
 
 public class Feedback {
+
     private int feedbackID;
     private Tenant tenant;
     private Hostel hostel;
@@ -16,7 +17,7 @@ public class Feedback {
 
     public Feedback() {
     }
-    
+
     public Feedback(int feedbackID, Tenant tenant, Hostel hostel, String content, int rating, Date date) {
         this.feedbackID = feedbackID;
         this.tenant = tenant;
@@ -73,6 +74,10 @@ public class Feedback {
     public void setRating(int rating) {
         this.rating = rating;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Feedback{" + "feedbackID=" + feedbackID + ", tenant=" + tenant + ", hostel=" + hostel + ", content=" + content + ", rating=" + rating + ", date=" + date + '}';
+    }
+
 }
