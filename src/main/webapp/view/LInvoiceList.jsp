@@ -164,7 +164,7 @@
                                             </div>
                                             <!-- Modal body -->
                                             <div class="p-6 space-y-6">
-                                                <input class="block" type="text" placeholder="Tìm phòng" value="" />
+                                                <input class="block" type="text" placeholder="Tìm phòng" value="" id="search-room"/>
                                                 <form action="/sakura/invoice/list" class="inline-block">
                                                     <input hidden id="hostelID" name="hostelID" value="${requestScope.chosenHostel.hostelID}">
                                                     <button type="submit" name="roomID" value="0" class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center">Tất cả</button>
@@ -172,7 +172,8 @@
                                                 <div id="roomList">
                                                     <c:forEach items="${requestScope.roomList}" var="room">
                                                         <form action="/sakura/invoice/list" class="inline-block">
-                                                            <button type="submit" name="roomID" value="${room.roomID}" class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center">${room.roomNumber}</button>
+                                                            <button type="submit" name="roomID" value="${room.roomID}" class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center room-button">
+                                                                ${room.roomNumber}</button>
                                                         </form>
                                                     </c:forEach>
                                                 </div>
@@ -385,12 +386,12 @@
                                                         <span class="money">${invoice.totalPrice}</span> đ
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    <c:if test="${invoice.status == 1}">
+                                                    <c:if test="${invoice.status == 0}">
                                                 <span
                                                         class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán
                                                 </span>
                                                     </c:if>
-                                                    <c:if test="${invoice.status == 2}">
+                                                    <c:if test="${invoice.status == 1}">
                                                 <span
                                                         class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã thanh toán
                                                 </span>
@@ -398,8 +399,8 @@
 
                                                 </td>
                                                 <td class="px-6 py-4 text-right">
-                                                    <form action="/sakura/landlord/invoice-detail">
-                                                        <button name="invoiceId" value="${invoice.invoiceID}" class="font-medium text-[#17535B]">Xem chi tiết</button>
+                                                    <form action="/sakura/invoice/detail">
+                                                        <button name="invoiceID" value="${invoice.invoiceID}" class="font-medium text-[#17535B]">Xem chi tiết</button>
                                                     </form>
 
                                                 </td>
@@ -553,6 +554,7 @@
                 $("#invoiceList").empty();
                 $("#filter-form").css("display", "none");
 
+
                 jQuery.ajax({
                     url: '/sakura/room/roomsByHostel',
                     type: 'GET',
@@ -576,6 +578,23 @@
                     }
                 });
             }
+
+            $("#search-room").on("input", function() {
+                let rooms = $(".room");
+                let text = $("#search-room").val();
+                console.log(text);
+                // console.log(rooms.length);
+                for (let i = 0; i < rooms.length; i++) {
+                    let node = rooms[i];
+                    if ($(node).html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
+                        // console.log($(node).html());
+                        $(node).css("display", "none");
+                    } else {
+                        // $("#roomList").append(node);
+                        $(node).css("display", "inline-block");
+                    }
+                }
+            });
         </script>
     </body>
 
