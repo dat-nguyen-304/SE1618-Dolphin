@@ -78,6 +78,7 @@
 .thumbnails {
     overflow-x: auto !important;
 }
+
 .splide__slide {
     width: 100%;
     height: fit-content;
@@ -114,10 +115,6 @@
 .thumbnail.is-active {
     opacity: 1;
     border: 3px solid #4ff0d5;
-}
-
-.grid-16 {
-    grid-template-columns: repeat(16, minmax(0, 1fr));
 }
 
 .dropzone .dz-preview .dz-error-message {
@@ -240,7 +237,6 @@ svg {
     font-weight: 800;
     color: #fff;
 }
-
 
 /*
 .toast-top-right {

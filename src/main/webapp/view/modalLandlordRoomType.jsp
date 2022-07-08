@@ -376,3 +376,124 @@
     </div>
 </div>
 <!--End modal add room-->
+
+<!--Modal remove an image-->
+<div class="modal remove-an-image opacity-0 duration-100 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[10000]">
+    <div class="modal-overlay absolute w-full h-full bg-[#0c1112] opacity-80"></div>
+    <div class="modal-container bg-white w-[500px] h-fit mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-[20px]">
+            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+            <span class="text-sm">(Esc)</span>
+        </div>
+        <div class="modal-content h-full flex flex-col">
+            <!--Title-->
+            <div class="flex justify-between items-center px-[20px] py-[10px] border-b">
+                <p class="text-[20px] font-bold text-[#17535B]">Xác nhận</p>
+                <div class="modal-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                    <svg class="fill-current text-[#17535B]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                    </svg>
+                </div>
+            </div>
+            <!--Body-->
+            <p class="p-[20px] font-normal text-[18px]">Bạn chắc chắn muốn xoá hình ảnh này khỏi hệ thống?</p>
+            <!--Footer-->
+            <div class="flex justify-end p-[20px]">
+                <button class="modal-close px-5 py-2 text-[#7e7e7e] text-[18px] font-medium rounded hover:text-[#FF6532]">Huỷ</button>
+                <button type="button" id="remove-an-image-btn" class="px-5 py-2 bg-[#f53b3b] hover:bg-[#e84343] text-[#fff] text-[18px] font-medium rounded">Xoá</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End modal remove an image-->
+
+<!--Modal remove multiple images-->
+<div class="modal remove-image opacity-0 duration-100 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[10000]">
+    <div class="modal-overlay absolute w-full h-full bg-[#0c1112] opacity-80"></div>
+    <div class="modal-container bg-white w-[500px] h-fit mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-[20px]">
+            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+            <span class="text-sm">(Esc)</span>
+        </div>
+        <div class="modal-content h-full flex flex-col">
+            <!--Title-->
+            <div class="flex justify-between items-center px-[20px] py-[10px] border-b">
+                <p class="text-[20px] font-bold text-[#17535B]">Xác nhận</p>
+                <div class="modal-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                    <svg class="fill-current text-[#17535B]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                    </svg>
+                </div>
+            </div>
+            <!--Body-->
+            <p class="p-[20px] font-normal text-[18px]">Bạn chắc chắn muốn xoá những hình ảnh này khỏi hệ thống?</p>
+            <!--Footer-->
+            <div class="flex justify-end p-[20px]">
+                <button class="modal-close px-5 py-2 text-[#7e7e7e] text-[18px] font-medium rounded hover:text-[#FF6532]">Huỷ</button>
+                <button type="button" onclick="confirmRemoveMultipleFile()" id="remove-image-btn" class="px-5 py-2 bg-[#f53b3b] hover:bg-[#e84343] text-[#fff] text-[18px] font-medium rounded">Xoá</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End modal remove multiple images-->
+
+<!--Modal add image-->
+<div class="modal add-image opacity-0 duration-100 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[10000]">
+    <div class="modal-overlay absolute w-full h-full bg-[#0c1112] opacity-80"></div>
+    <div class="modal-container bg-white w-[43%] h-[65%] mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-[20px]">
+            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+            <span class="text-sm">(Esc)</span>
+        </div>
+        <div class="modal-content h-full flex flex-col">
+            <!--Title-->
+            <div class="flex-none flex justify-between items-center px-[20px] py-[10px] border-b">
+                <p class="text-[20px] font-bold text-[#17535B]">Tải lên hình nhà trọ</p>
+                <div class="modal-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                    <svg class="fill-current text-[#17535B]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                    </svg>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="grow p-[20px]">
+                <p class="mb-[10px] text-[18px] font-normal">Có thể đăng tối đa 10 ảnh!</p>
+                <form method="post" action="/sakura/landlord/add-rt-image" enctype="multipart/form-data"
+                      class="dropzone border border-dashed overflow-y-auto w-full h-[85%] relative p-[20px]"
+                      id="my-dropzone">
+                    <div class="fallback">
+                        <input name="file" type="file" multiple="multiple" />
+                    </div>
+                    <div class="dz-message needsclick flex flex-col justify-center items-center text-[#929CA5] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full">
+                        <div class="mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 font-normal text-[#929CA5]" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                        </div>
+                        <h4 class="text-[15px] font-normal text-[#929CA5]">Kéo thả hoặc ấn vào đây để tải ảnh lên.</h4>
+                    </div>
+                </form>
+                <p id="error-file-qty-message" class="dz-max-files-reached hidden text-[14px] font-light italic text-[#ff4747]">
+                    Tối đa 10 ảnh</p>
+                <p id="error-file-size-message" class="dz-max-files-reached hidden text-[14px] font-light italic text-[#ff4747]">
+                    Ảnh tải lên quá lớn (trên 5MB) sẽ không được tải lên.</p>
+                <p id="success-upload-message" class="hidden text-[20px] font-medium text-center text-[#0e9c72]">
+                    Tải lên thành công!</p>
+            </div>
+            <!--Footer-->
+            <div class="flex-none flex justify-end p-[20px]">
+                <button class="modal-close px-5 text-[#7e7e7e] text-[20px] font-medium py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                <button type="button" id="upload-file" class="px-5 py-2 bg-[#17535B] hover:bg-[#11444b] text-[#fff] text-[20px] font-medium rounded">Tải lên</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End modal add image-->

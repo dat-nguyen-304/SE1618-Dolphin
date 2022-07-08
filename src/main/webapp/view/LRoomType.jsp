@@ -27,11 +27,18 @@
 
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="../assets/css/LRoomType.css">
+
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
+        <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/js/splide.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/css/splide.min.css">
+
+        <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../assets/css/LRoomType.css">
     </head>
 
     <body>
@@ -75,8 +82,8 @@
                 </c:if>
                 <c:if test="${sessionScope.hostelList != null}">
                     <%@include file="../view/modalLandlordRoomType.jsp" %>
-                    <div class="mt-[20px]">
-                        <div class="mb-[20px] flex items-center ">
+                    <div class="mt-[20px] flex">
+                        <div class="flex items-center mr-[20px] pr-[20px] border-r border-gray-300">
                             <span>Chọn nhà trọ: </span>
                             <button class="ml-[10px] inline-block rounded w-fit h-fit py-[5px] px-[20px] bg-[#17535B] hover:bg-[#13484F] flex flex justify-between items-center" type="button" data-modal-toggle="hostelModal">
                                 <p class="font-medium text-[16px] text-[#fff]">${sessionScope.currentHostel.hostelName}</p>
@@ -84,23 +91,21 @@
                         </div>
 
                         <c:if test="${requestScope.currentRoomType !=null}">
-                            <div class="flex items-center">
-                                <div class="mr-[20px] flex items-center">    
-                                    <span>Chọn loại phòng: </span>
-                                    <button class="ml-[10px] inline-block rounded w-fit h-fit py-[5px] px-[20px] bg-[#288D87] hover:bg-[#248781] flex flex justify-between items-center" type="button" data-modal-toggle="roomModal">
-                                        <p class="font-medium text-[16px] text-[#fff]">${requestScope.currentRoomType.roomTypeName}</p>
-                                    </button>
-                                </div>
-                                <button id="deleteRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                    <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-trash-fill mr-[5px]"></i>Xóa</p>
-                                </button>
-                                <button id="updateRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                    <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-pencil-fill mr-[5px]"></i>Chỉnh sửa</p>
-                                </button>
-                                <button id="addRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                    <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm</p>
+                            <div class="mr-[20px] flex items-center">    
+                                <span>Chọn loại phòng: </span>
+                                <button class="ml-[10px] inline-block rounded w-fit h-fit py-[5px] px-[20px] bg-[#288D87] hover:bg-[#248781] flex flex justify-between items-center" type="button" data-modal-toggle="roomModal">
+                                    <p class="font-medium text-[16px] text-[#fff]">${requestScope.currentRoomType.roomTypeName}</p>
                                 </button>
                             </div>
+                            <button id="deleteRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
+                                <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-trash-fill mr-[5px]"></i>Xóa</p>
+                            </button>
+                            <button id="updateRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
+                                <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-pencil-fill mr-[5px]"></i>Chỉnh sửa</p>
+                            </button>
+                            <button id="addRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
+                                <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm loại phòng</p>
+                            </button>
                         </c:if>
                     </div>
                 </c:if>
@@ -165,14 +170,77 @@
 
                     <!--Right-->
                     <div class="card bg-[#fff] p-5 flex flex-col col-span-3">
+                        <!--Hostel image-->
+                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
+                            <p>Hình ảnh </p>
+                            <div class="flex ">
+                                <span id="cnt-images" class="font-light text-[18px] mr-[10px]"></span>
+                                <button onclick="unselectAllImages()" class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#17535B] hover:bg-[#13484F] text-[#fff]" id="unselect-all-images" >
+                                    <p><i class="bi bi-slash-circle mr-[5px]"></i>Bỏ chọn tất cả</p>
+                                </button>
+                                <!-- Modal remove image toggle -->
+                                <button class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#17535B] hover:bg-[#13484F] text-[#fff]" id="delete-images" >
+                                    <p><i class="bi bi-trash3-fill mr-[5px]"></i>Xoá hình đã chọn</p>
+                                </button>
+                                <!-- Modal add image toggle -->
+                                <button class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center border border-gray-400" id="add-images" >
+                                    <p><i class="bi bi-plus-lg mr-[5px]"></i>Thêm hình ảnh</p>
+                                </button>    
+                            </div>
+                        </div>
+                        <div class="w-full h-fit mx-auto z-0 " id="display-image">
+                            <c:choose>
+                                <c:when test="${empty requestScope.currentRoomType.imgList}">
+                                    <div class="h-[600px] flex flex-col items-center justify-around" id="empty-image-list">
+                                        <h4 class="w-[60%] mx-auto text-center text-[47px] font-bold tracking-wide text-[#c9c9c9]">Loại phòng này chưa có hình ảnh!</h4>
+                                        <p class="text-gray-700 font-semibold text-[18px]">Cập nhật hình ảnh để thông tin nhà trọ đáng tin cậy hơn.</p>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <section id="main-carousel" class="splide w-full" aria-label="">
+                                        <div class="splide__track w-full">
+                                            <ul class="splide__list">
+                                                <c:forEach items="${requestScope.currentRoomType.imgList}" var="imgRoomType">
+                                                    <li class="splide__slide image-item-container overflow-hidden relative group cursor-pointer" > 
+                                                        <img class="z-[1] mx-auto" alt="" src="${imgRoomType}" size="" id="${imgRoomType}">
+                                                        <div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]">
+                                                            <a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile('${imgRoomType}', event);"> 
+                                                                <i class="bi bi-x"></i>
+                                                            </a>
+                                                            <input type="checkbox" name="select-image" value="${imgRoomType}" class="checkbox-input hidden" id="ip_${imgRoomType}" onchange="toggleSelectImage(event)">
+                                                            <label for="ip_${imgRoomType}">
+                                                                <span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </section>
+                                    <ul id="thumbnails" class="thumbnails w-full min-w-0 flex mt-[10px] p-0">
+                                        <c:forEach items="${requestScope.currentRoomType.imgList}" var="imgRoomType">
+                                            <li class="thumbnail image-item-container mr-[2px] overflow-hidden relative group cursor-pointer" id="tb_${imgRoomType}"> 
+                                                <div class="image-overlay w-full h-full bg-[#000] opacity-0 absolute top-0 left-0 z-[2] duration-150"></div>
+                                                <img class="z-[1] w-full h-full object-cover group-hover:blur-sm duration-150" alt="" src="${imgRoomType}" size="">
+                                                <div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]">
+                                                    <a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile('${imgRoomType}', event);"> 
+                                                        <i class="bi bi-x"></i>
+                                                    </a>
+                                                    <input type="checkbox" name="select-image" value="${imgRoomType}" class="checkbox-input hidden" id="tb_ip_${imgRoomType}" onchange="toggleSelectThumbnail(event)">
+                                                    <label for="tb_ip_${imgRoomType}">
+                                                        <span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                        <!--End hostel image-->
                     </div>
                 </div>
                 <!-- General information -->
-
-
-
-
-
             </div>
 
             <%@include file="footerDashboard.jsp" %>
@@ -180,7 +248,309 @@
 
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script>
+                                                        function showToast(type, msg) {
+                                                            toastr.options.positionClass = 'toast-bottom-right';
+                                                            toastr.options.extendedTimeOut = 0; //1000;
+                                                            toastr.options.timeOut = 3000;
+                                                            toastr.options.hideDuration = 250;
+                                                            toastr.options.showDuration = 250;
+                                                            toastr.options.hideMethod = 'slideUp';
+                                                            toastr.options.showMethod = 'slideDown';
+                                                            toastr.options.preventDuplicates = true;
+                                                            toastr.options.closeButton = true;
+                                                            toastr.options.progressBar = true;
+                                                            toastr[type](msg);
+                                                        }
+        </script>
+        <script>
 
+            if (${not empty requestScope.currentRoomType.imgList}) {
+                var splide = new Splide('#main-carousel', {
+                    pagination: false,
+                    rewind: true
+                });
+
+                var thumbnails = document.getElementsByClassName('thumbnail');
+                var current;
+                for (var i = 0; i < thumbnails.length; i++) {
+                    initThumbnail(thumbnails[i], i);
+                }
+
+                function initThumbnail(thumbnail, index) {
+                    thumbnail.addEventListener('click', function () {
+                        splide.go(index);
+                    });
+                }
+
+                splide.on('mounted move', function () {
+                    var thumbnail = thumbnails[splide.index];
+                    if (thumbnail) {
+                        if (current) {
+                            current.classList.remove('is-active');
+                        }
+                        thumbnail.classList.add('is-active');
+                        current = thumbnail;
+                    }
+                });
+
+                splide.mount();
+            }
+
+            // MODAL 
+            var open_modal_1 = document.querySelector('#add-images');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.modal.add-image');
+            });
+            var close_modal_1 = document.querySelectorAll('.modal.add-image .modal-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.modal.add-image');
+                });
+            }
+            var open_modal_2 = document.querySelector('#delete-images');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                if (checkSelectImage() === false)
+                    return;
+                toggleModal('.modal.remove-image');
+            });
+
+            var close_modal_2 = document.querySelectorAll('.modal.remove-image .modal-close');
+            for (let i = 0; i < close_modal_2.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.modal.remove-image');
+                });
+            }
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.modal.add-image');
+                if (isEscape && modal_1.classList.contains('active-modal')) {
+                    toggleModal('.modal.add-image');
+                }
+                const modal_2 = document.querySelector('.modal.remove-image');
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.modal.remove-image');
+                }
+            };
+            function toggleModal(modal_item) {
+                const modal = document.querySelector(modal_item);
+                modal.classList.toggle('active-modal');
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+            }
+
+            function checkSelectImage() {
+                if (document.querySelectorAll('input[type="checkbox"]:checked').length === 0) {
+                    if (${empty requestScope.currentRoomType.imgList})
+                        showToast('error', 'Loại phòng chưa có ảnh!');
+                    else
+                        showToast('error', 'Chưa chọn ảnh nào!');
+                    return false;
+                }
+                return true;
+            }
+
+            function confirmRemoveMultipleFile() {
+                removeMultipleFile();
+                toggleModal('.modal.remove-image');
+                showToast('info', 'Đang xoá, vui lòng đợi...');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 3000);
+            }
+
+            function removeMultipleFile() {
+                let checkboxes = document.querySelectorAll('.thumbnails .checkbox-input');
+                let selected = new Array();
+                for (let i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        selected.push(checkboxes[i].value);
+                    }
+                }
+                console.log(selected);
+                jQuery.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    data: {toDelete: selected, roomTypeId: ${sessionScope.currentHostel.hostelID}},
+                    url: "/sakura/landlord/remove-multiple-rt-images",
+                    success: function () {
+                    },
+                    complete: function () {
+                        countSelectedImage();
+                        //window.location.reload();
+                        //updateImageList();
+                        /*for (let i = 0; i < selected.length; i++) {
+                         console.log(selected[i]);
+                         document.getElementById(selected[i]).parentElement.style.display = 'none';
+                         let thumbnailID = "tb_" + selected[i];
+                         document.getElementById(thumbnailID).style.display = 'none';
+                         }*/
+                    }
+                });
+            }
+            function removeFile(filePath, event) {
+                toggleModal('.modal.remove-an-image');
+                let cfBtn = document.getElementById('remove-an-image-btn');
+                cfBtn.addEventListener('click', () => {
+                    console.log(filePath);
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {path: filePath, roomTypeId: ${sessionScope.currentHostel.hostelID}},
+                        url: '/sakura/landlord/remove-rt-image',
+                        complete: function () {
+                            toggleModal('.modal.remove-an-image');
+                            showToast('info', 'Đang xoá, vui lòng đợi...');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 3000);
+                            //showToast('success', 'Xoá ảnh thành công!');
+                            //setTimeout(function () {
+                            //    window.location.reload();
+                            //}, 3000);
+                        }
+                    });
+                });
+                //document.getElementById(filename).style.display = 'none';
+            }
+
+            // DROPZONE JS
+            Dropzone.options.myDropzone = {// camelized version of the 'id'\\
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                parallelUploads: 10,
+                //paramName: "file", // The name that will be used to transfer the file
+                addRemoveLinks: true,
+                maxFiles: 10, // Số ảnh tối đa
+                dictMaxFilesExceeded: "Tối đa 10 ảnh!",
+                dictRemoveFile: "<i class='bi bi-x-circle-fill'></i>",
+                dictCancelUpload: "",
+                dictCancelUploadConfirmation: null, // "Xác nhận dừng tải ảnh lên?",
+                // dictResponseError: "",
+                maxFilesize: 5,
+                dictFileTooBig: "File quá lớn ({{filesize}}MB). Kích thước tối đa: {{maxFilesize}}MB.",
+
+                init: function () {
+                    let submitButton = document.querySelector("#upload-file");
+                    upload = this;
+                    submitButton.addEventListener("click", function () {
+                        let formUpload = document.querySelector("#my-dropzone");
+                        console.log('submit');
+                        upload.processQueue();
+                    });
+                    this.on("sending", function (file, xhr, formData) {
+                        formData.append("roomTypeId", ${requestScope.currentRoomType.roomTypeID});
+                    });
+                    this.on("successmultiple", function () {
+                        let msg = document.querySelector("#success-upload-message");
+                        msg.classList.toggle("hidden");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    });
+                    this.on("maxfilesexceeded", function (file, message) {
+                        let form = document.querySelector("#my-dropzone");
+                        form.classList.remove('dz-max-files-reached');
+                        let msg = document.querySelector("#error-file-qty-message");
+                        msg.classList.remove("hidden");
+                        msg.classList.add("block");
+                        this.removeFile(file);
+                    });
+                    this.on("error", function (file, message) {
+                        if (message.startsWith('File quá lớn')) {
+                            console.log(message);
+                            let msg = document.querySelector("#error-file-size-message");
+                            msg.classList.remove("hidden");
+                            msg.classList.add("block");
+                            this.removeFile(file);
+                        }
+                    });
+                    this.on("removedfile", function (file) {
+                        console.log(file.name);
+//                                                                jQuery.ajax({
+//                                                                    type: 'POST',
+//                                                                    data: 'name=' + file.name,
+//                                                                    url: 'RemoveFileServlet'
+//                                                                });
+                    });
+                }
+            };
+
+            function toggleSelectImage(event) {
+                let par = event.currentTarget.parentElement;
+                let imgEl = par.parentElement;
+                par.classList.toggle('checked-box');
+                //imgEl.classList.toggle('selected');
+
+                let id = event.currentTarget.value;
+                id1 = "tb_" + id;
+                let thumbnail = document.getElementById(id1);
+                thumbnail.classList.toggle('selected');
+                thumbnail.children[2].classList.toggle('checked-box');
+
+                id2 = "tb_ip_" + id;
+                let inputEl = document.getElementById(id2);
+                inputEl.checked = !inputEl.checked;
+
+                countSelectedImage();
+            }
+
+            function toggleSelectThumbnail(event) {
+                let par = event.currentTarget.parentElement;
+                let imgEl = par.parentElement;
+                par.classList.toggle('checked-box');
+                imgEl.classList.toggle('selected');
+
+                let id = event.currentTarget.value;
+                id1 = "ip_" + id;
+                let inputEl = document.getElementById(id1);
+                //console.log(inputEl);
+                inputEl.checked = !inputEl.checked;
+                inputEl.parentElement.classList.toggle('checked-box');
+                countSelectedImage();
+            }
+
+            function countSelectedImage() {
+                let images = document.querySelectorAll('.thumbnail.selected');
+                //console.log(images.length);
+                let msg = document.querySelector('#cnt-images');
+                console.log(images);
+                if (images === null)
+                    msg.innerHTML = "";
+                if (images.length !== 0)
+                    msg.innerHTML = "(Đã chọn: " + images.length + ")";
+                else
+                    msg.innerHTML = "";
+            }
+
+            function unselectAllImages() {
+                let images = document.querySelectorAll('.checkbox-input');
+                console.log(images);
+                images.forEach(e => {
+                    console.log(e.checked);
+                    let par = e.parentElement;
+                    let imgEl = par.parentElement;
+                    if (e.checked === true) {
+                        par.classList.toggle('checked-box');
+                        imgEl.classList.toggle('selected');
+                        e.checked = false;
+                    }
+                });
+                images.forEach(e => {
+                    console.log(e.checked);
+                });
+                countSelectedImage();
+            }
+        </script>
         <script>
             const hasResident = document.querySelectorAll('input[name="status"]');
             const inputResident = document.querySelector('.inputResident');

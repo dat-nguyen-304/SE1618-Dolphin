@@ -675,6 +675,80 @@ public class LandlordController extends HttpServlet {
                     out.close();
                 }
             }
+
+            if (path.equals("/add-rt-image")) {
+                int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                int maxImgID = RoomTypeDAO.getCurrentIdentImageRoomType();
+                System.out.println("IDENT: " + maxImgID);
+                try {
+                    for (Part part : request.getParts()) {
+                        if (extractFileName(part).length() > 0) {
+                            maxImgID++;
+                            String fileName = "img" + maxImgID + ".jpg";
+                            String savePath = "/sakura/assets/images/room-type-images/";
+                            System.out.println("FILENAME: " + fileName);
+                            boolean res = RoomTypeDAO.saveRoomTypeImg(roomTypeId, savePath + fileName);
+                            String src = this.getRuntimeFolderRT(request).getAbsolutePath() + File.separator + fileName;
+                            String dest = this.getFolderUploadRT(request).getAbsolutePath() + File.separator + fileName;
+                            part.write(src);
+                            copy(src, dest);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (path.equals("/remove-rt-image")) {
+                String filePath = request.getParameter("path");
+                String name = filePath.substring(filePath.lastIndexOf('/') + 1);
+                System.out.println("\nName: " + name);
+                int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                try {
+                    boolean res = RoomTypeDAO.removeRoomTypeImg(roomTypeId, filePath);
+                    session.setAttribute("currentRoomType", RoomTypeDAO.findByID(roomTypeId));;
+                    String srcPath = this.getFolderUploadRT(request).getAbsolutePath() + File.separator + name;
+                    File fSrc = new File(srcPath);
+                    System.out.println("Remove: " + srcPath);
+                    fSrc.delete();
+                    String targetPath = this.getRuntimeFolderRT(request).getAbsolutePath() + File.separator + name;
+                    File fTarget = new File(targetPath);
+                    System.out.println("Remove: " + targetPath);
+                    fTarget.delete();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                response.sendRedirect("/view/LRoomType.jsp");
+            }
+
+            if (path.equals("/remove-multiple-rt-images")) {
+                try {
+                    String[] toDelete = request.getParameterValues("toDelete[]");
+                    // for (String s : toDelete) System.out.println(s);
+                    int[] toBeDeleted = new int[toDelete.length];
+                    int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                    System.out.println("HOSTEL ID: " + roomTypeId);
+                    //System.out.println("Before: " + HostelDAO.getAllImagesById(hostelId));
+                    for (String imagePath : toDelete) {
+                        //System.out.println("IMG PATH: " + imagePath);
+                        boolean res = RoomTypeDAO.removeRoomTypeImg(roomTypeId, imagePath);
+                        String name = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+                        //System.out.println("Name: " + name);
+                        String srcPath = this.getFolderUploadRT(request).getAbsolutePath() + File.separator + name;
+                        File fSrc = new File(srcPath);
+                        //System.out.println("Remove: " + srcPath);
+                        fSrc.delete();
+                        String targetPath = this.getRuntimeFolderRT(request).getAbsolutePath() + File.separator + name;
+                        File fTarget = new File(targetPath);
+                        //System.out.println("Remove: " + targetPath);
+                        fTarget.delete();
+                    }
+                    session.setAttribute("currentRoomType", RoomTypeDAO.findByID(roomTypeId));;
+                    //System.out.println("After : " + HostelDAO.getAllImagesById(hostelId));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -723,6 +797,28 @@ public class LandlordController extends HttpServlet {
 
     public File getRuntimeFolder(HttpServletRequest request) throws URISyntaxException {
         File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/hostel-list-images");
+        //System.out.println("Runtime folder: " + folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
+
+    public File getFolderUploadRT(HttpServletRequest request) throws URISyntaxException {
+        String path = request.getServletContext().getRealPath("/").replace("\\", "/");
+        File target = new File(path);
+        File par = new File(target.getParent());
+        File folderUpload = new File(par.getParent() + "/src/main/webapp/assets/images/room-type-images");
+//        File folderUpload = new File(request.getServletContext().getRealPath("/") + "assets/images/user-avatars/");
+        // System.out.println(folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
+
+    public File getRuntimeFolderRT(HttpServletRequest request) throws URISyntaxException {
+        File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/room-type-images");
         //System.out.println("Runtime folder: " + folderUpload);
         if (!folderUpload.exists()) {
             folderUpload.mkdirs();
