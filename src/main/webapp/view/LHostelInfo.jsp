@@ -496,7 +496,7 @@
 
                                                             function confirmRemoveMultipleFile() {
                                                                 removeMultipleFile();
-                                                                toggleModal('.modal.remove-image');
+                                                                //toggleModal('.modal.remove-image');
                                                                 showToast('info', 'Đang xoá, đợi vài giây!');
                                                                 setTimeout(function () {
                                                                     window.location.reload();
