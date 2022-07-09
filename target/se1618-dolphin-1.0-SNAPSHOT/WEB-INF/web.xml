@@ -58,6 +58,10 @@
         <servlet-name>ContractController</servlet-name>
         <servlet-class>com.dolphin.hostelmanagement.controller.ContractController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServiceController</servlet-name>
+        <servlet-class>com.dolphin.hostelmanagement.controller.ServiceController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccessController</servlet-name>
         <url-pattern>/access/*</url-pattern>
@@ -101,6 +105,10 @@
     <servlet-mapping>
         <servlet-name>ContractController</servlet-name>
         <url-pattern>/contract/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServiceController</servlet-name>
+        <url-pattern>/service/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -20,6 +20,7 @@ com\dolphin\hostelmanagement\DAO\TenantDAO.class
 com\dolphin\hostelmanagement\DTO\Province.class
 com\dolphin\hostelmanagement\controller\HostelController$1.class
 com\dolphin\hostelmanagement\DTO\BookingRequest.class
+com\dolphin\hostelmanagement\controller\ServiceController.class
 com\dolphin\hostelmanagement\DTO\Service.class
 com\dolphin\hostelmanagement\utils\PasswordHash.class
 com\dolphin\hostelmanagement\DTO\RoomResident.class

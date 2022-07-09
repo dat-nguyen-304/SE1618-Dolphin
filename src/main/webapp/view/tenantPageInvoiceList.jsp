@@ -95,10 +95,11 @@
                                    class="mb-2 text-[14px] font-[14px] text-gray-900 sr-only">Search</label>
                             <div class="relative h-full">
                                 <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24"
                                          xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                     </svg>
                                 </div>
                                 <input type="search" id="search-invoice-id"
@@ -115,79 +116,92 @@
                                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                                  clip-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                        <input name="start" type="text" id="start-date" <c:if test="${param.start != null}">value="${param.start}"</c:if>
-                                               class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10 datepicker-input"
-                                               placeholder="Ngày đầu">
-                                        </div>
-                                        <span class="mx-4 text-gray-500">đến</span>
-                                        <div class="relative">
-                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
-                                                     xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd"
                                                       d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
                                                       clip-rule="evenodd"></path>
-                                                </svg>
-                                            </div>
-                                            <input name="end" type="text" id="end-date" <c:if test="${param.end != null}">value="${param.end}"</c:if>
-                                                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10 datepicker-input"
-                                                   placeholder="Ngày cuối">
+                                            </svg>
                                         </div>
+                                        <input name="start" type="text" id="start-date"
+                                               <c:if test="${param.start != null}">value="${param.start}"</c:if>
+                                               class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10 datepicker-input"
+                                               placeholder="Ngày đầu">
                                     </div>
-                                </div>
-
-                                <!-- Filter by status -->
-                                <!--                                <div class="dropdown-status mr-[20px]">
-                                                                    <button id="dropdownDefault" data-dropdown-toggle="dropdown-status"
-                                                                            class="text-[#17535B] bg-[#fff] hover:bg-[#F6F8FA] font-[14px] rounded text-sm px-4 py-2.5 text-center inline-flex items-center border border-[#17535B]"
-                                                                            type="button">Trạng thái <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
-                                                                                                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                              d="M19 9l-7 7-7-7">
-                                                                        </path>
-                                                                        </svg>
-                                                                    </button>
-                                                                    <div id="dropdown-status" class="z-10 hidden bg-white rounded shadow"
-                                                                         data-popper-placement="bottom-start"
-                                                                         style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(592px, 681px);">
-                                                                        <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
-                                                                            <li>
-                                                                                <a href="/sakura/invoice/list?sortByStatus=1" class="block px-4 py-2 hover:bg-gray-100">Chưa thanh toán</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="/sakura/invoice/list?sortByStatus=2" class="block px-4 py-2 hover:bg-gray-100">Đã thanh toán</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="/sakura/invoice/list?sortByStatus=3" class="block px-4 py-2 hover:bg-gray-100">Quá hạn</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>-->
-                                <div>
-                                    <select name="sortByStatus">
-                                        <option value="0">Trạng thái</option>
-                                        <option value="1" <c:if test="${param.sortByStatus != null && param.sortByStatus == 1}">selected</c:if>>Chưa thanh toán</option>
-                                        <option value="2" <c:if test="${param.sortByStatus != null && param.sortByStatus == 2}">selected</c:if>>Đã thanh toán</option>
-                                        <option value="3" <c:if test="${param.sortByStatus != null && param.sortByStatus == 3}">selected</c:if>>Qúa hạn</option>
-                                    </select>
+                                    <span class="mx-4 text-gray-500">đến</span>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <input name="end" type="text" id="end-date"
+                                               <c:if test="${param.end != null}">value="${param.end}"</c:if>
+                                               class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-full pl-10 datepicker-input"
+                                               placeholder="Ngày cuối">
+                                    </div>
                                 </div>
                             </div>
 
-                            <!--Reset filter button-->
-                            <button type="submit" name="resetButton" value="true"
-                                    class="py-2.5 px-5 text-[14px] font-[14px] text-[#fff] focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F] focus:z-10">Hủy tất cả</button>
+                            <!-- Filter by status -->
+                            <!--                                <div class="dropdown-status mr-[20px]">
+                                                                <button id="dropdownDefault" data-dropdown-toggle="dropdown-status"
+                                                                        class="text-[#17535B] bg-[#fff] hover:bg-[#F6F8FA] font-[14px] rounded text-sm px-4 py-2.5 text-center inline-flex items-center border border-[#17535B]"
+                                                                        type="button">Trạng thái <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor"
+                                                                                              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                          d="M19 9l-7 7-7-7">
+                                                                    </path>
+                                                                    </svg>
+                                                                </button>
+                                                                <div id="dropdown-status" class="z-10 hidden bg-white rounded shadow"
+                                                                     data-popper-placement="bottom-start"
+                                                                     style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(592px, 681px);">
+                                                                    <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownDefault">
+                                                                        <li>
+                                                                            <a href="/sakura/invoice/list?sortByStatus=1" class="block px-4 py-2 hover:bg-gray-100">Chưa thanh toán</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="/sakura/invoice/list?sortByStatus=2" class="block px-4 py-2 hover:bg-gray-100">Đã thanh toán</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="/sakura/invoice/list?sortByStatus=3" class="block px-4 py-2 hover:bg-gray-100">Quá hạn</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>-->
+                            <div>
+                                <select name="sortByStatus">
+                                    <option value="0">Trạng thái</option>
+                                    <option value="1"
+                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 1}">selected</c:if>>
+                                        Chưa thanh toán
+                                    </option>
+                                    <option value="2"
+                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 2}">selected</c:if>>
+                                        Đã thanh toán
+                                    </option>
+                                    <option value="3"
+                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 3}">selected</c:if>>
+                                        Qúa hạn
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--Reset filter button-->
+                        <button type="submit" name="resetButton" value="true"
+                                class="py-2.5 px-5 text-[14px] font-[14px] text-[#fff] focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F] focus:z-10">
+                            Hủy tất cả
+                        </button>
 
 
-                            <!-- Submit button -->
-                            <button type="submit"
-                                    class="py-2.5 px-5 text-[14px] font-[14px] text-[#fff] focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F] focus:z-10">Lọc</button>
-                    </div>
-
+                        <!-- Submit button -->
+                        <button type="submit"
+                                class="py-2.5 px-5 text-[14px] font-[14px] text-[#fff] focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F] focus:z-10">
+                            Lọc
+                        </button>
                     </form>
                 </div>
                 <!-- End Search and filter -->

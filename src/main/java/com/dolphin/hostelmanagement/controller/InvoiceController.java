@@ -4,21 +4,9 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
-import com.dolphin.hostelmanagement.DAO.ContractDAO;
-import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
-import com.dolphin.hostelmanagement.DAO.ServiceDAO;
-import com.dolphin.hostelmanagement.DTO.Contract;
-import com.dolphin.hostelmanagement.DTO.Hostel;
-import com.dolphin.hostelmanagement.DTO.Invoice;
-import com.dolphin.hostelmanagement.DTO.Landlord;
-import com.dolphin.hostelmanagement.DAO.HostelDAO;
-import com.dolphin.hostelmanagement.DAO.NotificationDAO;
-import com.dolphin.hostelmanagement.DAO.RoomDAO;
-import com.dolphin.hostelmanagement.DTO.Notification;
-import com.dolphin.hostelmanagement.DTO.Room;
-import com.dolphin.hostelmanagement.DTO.Service;
-import com.dolphin.hostelmanagement.DTO.ServiceDetail;
-import com.dolphin.hostelmanagement.DTO.Tenant;
+import com.dolphin.hostelmanagement.DAO.*;
+import com.dolphin.hostelmanagement.DTO.*;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -36,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
  * @author Admin
  */
 public class InvoiceController extends HttpServlet {
@@ -57,7 +44,7 @@ public class InvoiceController extends HttpServlet {
         switch (status) {
             case 1:
                 System.out.println("1");
-                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
+                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
                     Invoice next = iterator.next();
                     if (next.getStatus() != 1) {
                         iterator.remove();
@@ -67,7 +54,7 @@ public class InvoiceController extends HttpServlet {
             case 2:
                 System.out.println("2");
 
-                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
+                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
                     Invoice next = iterator.next();
                     if (next.getStatus() != 2) {
                         iterator.remove();
@@ -77,7 +64,7 @@ public class InvoiceController extends HttpServlet {
             default:
                 System.out.println("3");
 
-                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
+                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
                     Invoice next = iterator.next();
                     if (next.getStatus() != 3) {
                         iterator.remove();
@@ -91,7 +78,7 @@ public class InvoiceController extends HttpServlet {
         if (start != null) {
             System.out.println("start");
             System.out.println(start);
-            for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
+            for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
                 Invoice next = iterator.next();
                 if (next.getStartDate().before(start)) {
                     iterator.remove();
@@ -101,7 +88,7 @@ public class InvoiceController extends HttpServlet {
         if (end != null) {
             System.out.println("end");
             System.out.println(end);
-            for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
+            for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
                 Invoice next = iterator.next();
                 if (next.getEndDate().after(end)) {
                     iterator.remove();
@@ -187,21 +174,31 @@ public class InvoiceController extends HttpServlet {
             } else {
 
                 Landlord l = (Landlord) session.getAttribute("currentUser");
-                List<Contract> contractList = ContractDAO.findByLandlord(l);
 
                 if (path.equals("/list")) {
-                    List<Invoice> invoiceList = new ArrayList();
-                    for (Contract contract : contractList) {
-                        invoiceList.addAll(InvoiceDAO.findByContract(contract.getContractID()));
+                    List<Hostel> hostelList = HostelDAO.findByLandlordObject(l);
+                    request.setAttribute("hostelList", hostelList);
+                    Room chosenRoom = null;
+                    Hostel chosenHostel = null;
+                    List<Invoice> invoiceList = null;
+                    if (request.getParameter("roomID") != null) {
+                        int roomID = Integer.parseInt(request.getParameter("roomID"));
+                        if (roomID != 0) {
+                            chosenRoom = RoomDAO.findByID(roomID);
+                            chosenHostel = chosenRoom.getRoomType().getHostel();
+                            invoiceList = InvoiceDAO.findByRoomID(chosenRoom.getRoomID());
+                            request.setAttribute("chosenRoom", chosenRoom);
+                        } else {
+                            int hostelID = Integer.parseInt(request.getParameter("hostelID"));
+                            chosenHostel = HostelDAO.findById(hostelID);
+                            invoiceList = InvoiceDAO.findByHostelID(chosenHostel.getHostelID());
+                            request.setAttribute("chosenRoom", new Room());
+                        }
+                        request.setAttribute("chosenHostel", chosenHostel);
+                        request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
                     }
-
-                    if (request.getParameter("resetButton") != null) {
-                        System.out.println("Hellos");
-                    } else {
-                        sortFilters(request, invoiceList);
-                    }
-
                     request.setAttribute("invoiceList", invoiceList);
+                    request.setAttribute("hostelList", hostelList);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
                 }
 
@@ -212,7 +209,7 @@ public class InvoiceController extends HttpServlet {
                         request.setAttribute("invoice", invoice);
                         List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
                         request.setAttribute("detailList", detailList);
-                        url = "/view/LInvoiceDetail.jsp";
+                        url = "/view/LInvoiceDetail_v2.jsp";
                     } else {
                         url = "/invoice/list"; //Neu bam vao page ma` khong qua con mat' thi cho no ve list :D
                     }
@@ -299,6 +296,34 @@ public class InvoiceController extends HttpServlet {
                     response.sendRedirect(url);
                 }
 
+                if (path.equals("/search")) {
+                    String hostelID = request.getParameter("hostelID");
+                    String roomID = request.getParameter("roomID");
+                    Room chosenRoom = null;
+                    Hostel chosenHostel = null;
+                    List<Invoice> invoiceList;
+                    if (!roomID.equals("0")) {
+                        invoiceList = InvoiceDAO.findByRoomID(Integer.parseInt(roomID));
+                        chosenRoom = RoomDAO.findByID(Integer.parseInt(roomID));
+                        chosenHostel = chosenRoom.getRoomType().getHostel();
+                        request.setAttribute("chosenRoom", chosenRoom);
+                    } else {
+                        invoiceList = InvoiceDAO.findByHostelID(Integer.parseInt(hostelID));
+                        chosenHostel = HostelDAO.findById(Integer.parseInt(hostelID));
+                        request.setAttribute("chosenRoom", new Room());
+                    }
+                    if (request.getParameter("resetButton") != null) {
+                        System.out.println("Reset!");
+                        request.setAttribute("reset", true);
+                        System.out.println("100");
+                    } else {
+                        sortFilters(request, invoiceList);
+                    }
+                    request.setAttribute("chosenHostel", chosenHostel);
+                    request.setAttribute("invoiceList", invoiceList);
+                    request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
+                }
+
                 if (path.equals("/success")) {
                     request.getRequestDispatcher("/view/success.jsp").forward(request, response);
                 }
@@ -310,13 +335,14 @@ public class InvoiceController extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -331,10 +357,10 @@ public class InvoiceController extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

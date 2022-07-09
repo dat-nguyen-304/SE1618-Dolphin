@@ -231,13 +231,11 @@
                                             <div class="flex justify-end p-[20px]">
                                                 <button
                                                     class="addHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                                                <c:if test="${sessionScope.needReload == true}">
-                                                    <form action="/sakura/landlord/overview">
-                                                        <button type="submit"
-                                                                class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                                                        </button>
-                                                    </form>
-                                                </c:if>
+                                                <form action="/sakura/landlord/overview">
+                                                    <button type="submit"
+                                                            class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -413,14 +411,12 @@
                                             <div class="flex justify-end p-[20px]">
                                                 <button
                                                     class="editHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                                                <c:if test="${sessionScope.needReload == true}">
-                                                    <form action="/sakura/landlord/overview">
-                                                        <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
-                                                        <button type="submit"
-                                                                class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                                                        </button>
-                                                    </form>
-                                                </c:if>
+                                                <form action="/sakura/landlord/overview">
+                                                    <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
+                                                    <button type="submit"
+                                                            class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -861,7 +857,6 @@
         <script src="js/breadcrumb.js"></script>
         <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
-
         <script>
                                                     function addHostel() {
                                                         console.log("da vao add hostel");
@@ -894,7 +889,7 @@
                                                                     'description': description.value,
                                                                     'landlordId': landlordId.value
                                                                 },
-                                                                url: '/sakura/landlord/add-hostel',
+                                                                url: '/sakura/hostel/add-hostel',
                                                                 success: function (response) {
                                                                     name.value = "";
                                                                     streetAddress.value = "";
@@ -923,7 +918,7 @@
                     data: {'hostelName': element.value,
                         'landlordId': landlordId.value
                     },
-                    url: '/sakura/landlord/check-hostel-valid',
+                    url: '/sakura/hostel/check-hostel-valid',
                     success: function (response) {
                         validHostelMessage.innerHTML = response;
                         if (response) {
@@ -954,7 +949,7 @@
                     type: 'POST',
                     data: {'deleteHostelId': deleteHostelId.value
                     },
-                    url: '/sakura/landlord/delete-hostel',
+                    url: '/sakura/hostel/delete-hostel',
                     success: function (response) {
                         deleteHostelContent.innerHTML = response;
                     },
@@ -980,7 +975,7 @@
                         'landlordId': landlordId.value,
                         'currentName': currentName.value
                     },
-                    url: '/sakura/landlord/check-update-hostel-valid',
+                    url: '/sakura/hostel/check-update-hostel-valid',
                     success: function (response) {
                         validUpdateHostelMessage.innerHTML = response;
                         if (response) {
@@ -1007,7 +1002,7 @@
                 const description = document.querySelector("textarea[name='updateDescription']");
                 const messageElement = document.querySelector(".updateHostelMessage");
                 const hostelId = document.querySelector("input[name='hostelId']");
-                if (!name.value || !streetAddress.value || !description.value) {
+                if (!name.value || !updateStreetAddress.value || !description.value) {
                     let message = "";
                     if (!name.value) {
                         message += "Tên nhà trọ - ";
@@ -1030,7 +1025,7 @@
                             'description': description.value,
                             'hostelId': hostelId.value
                         },
-                        url: '/sakura/landlord/update-hostel',
+                        url: '/sakura/hostel/update-hostel',
                         success: function (response) {
                             messageElement.innerHTML = response;
                         },

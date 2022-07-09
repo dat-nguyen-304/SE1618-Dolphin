@@ -107,7 +107,6 @@ public class LandlordController extends HttpServlet {
                 session.setAttribute("currentHostel", null);
                 session.setAttribute("hostelList", null);
             }
-            session.setAttribute("needReload", false);
 
             if (path.equals("/overview")) {
                 if (request.getParameter("hostelId") != null) {
@@ -295,6 +294,25 @@ public class LandlordController extends HttpServlet {
                 request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
             } else if (path.equals("/notification")) {
                 request.getRequestDispatcher("/view/LNotification.jsp").forward(request, response);
+            } else if (path.equals("/service")) {
+                List<Service> list = ServiceDAO.findHostelActiveServices(currentHostel);
+                List<Service> serviceList = new ArrayList<>();
+                Service eletricService = null;
+                Service waterService = null;
+                for (Service service : list) {
+                    if (service.getType() == 0) {
+                        serviceList.add(service);
+                    } else if (service.getType() == 1) {
+                        eletricService = service;
+                    } else if (service.getType() == 2) {
+                        waterService = service;
+                    }
+                }
+                request.setAttribute("serviceList", serviceList);
+                request.setAttribute("eletricService", eletricService);
+                request.setAttribute("waterService", waterService);
+                request.getRequestDispatcher("/view/LAddService.jsp").forward(request, response);
+
             }
 
             if (path.equals("/rentalRequestList")) { //get by hostel ID
@@ -341,275 +359,10 @@ public class LandlordController extends HttpServlet {
 
                 request.getRequestDispatcher("/view/landlordRentalRequestPage.jsp").forward(request, response);
             }
-            if (path.equals("/add-hostel")) {
-                String name = request.getParameter("name");
-                int districtId = Integer.parseInt(request.getParameter("districtId"));
-                String streetAddress = request.getParameter("streetAddress");
-                String description = request.getParameter("description");
-                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
-
-                boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
-                Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
-                if (addSuccess) {
-                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
-                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
-                    out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
-                    out.println("<input type=\"submit\" value=\"tại đây\">");
-                    out.println("</form></span>");
-                    session.setAttribute("needReload", true);
-                } else {
-                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                    session.setAttribute("needReload", false);
-                }
-
-            }
-
-            if (path.equals("/check-hostel-valid")) {
-                String hostelName = request.getParameter("hostelName").trim();
-                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
-                boolean isExistHostel = HostelDAO.isExistHostel(hostelName, landlordId);
-                if (isExistHostel) {
-                    out.print("Tên nhà trọ đã tồn tại. Vui lòng kiểm tra lại!");
-                } else {
-                    out.print("");
-                }
-            }
-
-            if (path.equals("/add-roomtype")) {
-                String name = request.getParameter("name");
-                int price = Integer.parseInt(request.getParameter("price"));
-                int area = Integer.parseInt(request.getParameter("area"));
-                int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
-                String description = request.getParameter("description");
-                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-                if (name.isEmpty() || description.isEmpty()) {
-                    if (name.isEmpty()) {
-                        out.print("Tên nhà trọ - ");
-                    }
-                    if (description.isEmpty()) {
-                        out.print("Mô tả ");
-                    }
-                    out.print("không được trống");
-                    session.setAttribute("needReload", false);
-                } else {
-                    boolean addSuccess = RoomTypeDAO.save(name, price, area, maxNumberOfResidents, description, hostelId);
-                    RoomType newRoomType = RoomTypeDAO.findLastRoomTypeByHostelId(hostelId);
-                    if (addSuccess) {
-                        out.println("<span class=\"inline-block text-green-600\">Thêm loại phòng " + newRoomType.getRoomTypeName() + " thành công! Xem");
-                        out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\">");
-                        out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
-                        out.println("<input type=\"submit\" value=\"tại đây\">");
-                        out.println("</form></span>");
-                        session.setAttribute("needReload", true);
-                    } else {
-                        out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                        session.setAttribute("needReload", false);
-                    }
-                }
-            }
-
-            if (path.equals("/update-hostel")) {
-                String name = request.getParameter("name");
-                int updateDistrictId = Integer.parseInt(request.getParameter("updateDistrictId"));
-                String updateStreetAddress = request.getParameter("updateStreetAddress");
-                String description = request.getParameter("description");
-                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-
-                boolean updateSuccess = HostelDAO.updateHostelById(hostelId, name, updateDistrictId, updateStreetAddress, description);
-                if (updateSuccess) {
-                    out.print("Cập nhật thành công");
-                    session.setAttribute("needReload", true);
-                } else {
-                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                    session.setAttribute("needReload", false);
-                }
-
-            }
-
-            if (path.equals("/update-roomtype")) {
-                String name = request.getParameter("name");
-                int price = Integer.parseInt(request.getParameter("price"));
-                int area = Integer.parseInt(request.getParameter("area"));
-                int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
-                String description = request.getParameter("description");
-                int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
-                if (name.isEmpty() || description.isEmpty()) {
-                    if (name.isEmpty()) {
-                        out.print("Tên nhà trọ - ");
-                    }
-                    if (description.isEmpty()) {
-                        out.print("Mô tả ");
-                    }
-                    out.print("không được trống");
-                    session.setAttribute("needReload", false);
-                } else {
-                    boolean updateSuccess = RoomTypeDAO.updateRoomTypeById(roomTypeId, name, price, area, maxNumberOfResidents, description);
-                    if (updateSuccess) {
-                        out.print("Cập nhật thành công");
-                        session.setAttribute("needReload", true);
-                    } else {
-                        out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                        session.setAttribute("needReload", false);
-                    }
-                }
-            }
-
-            if (path.equals("/update-room")) {
-                int roomId = Integer.parseInt(request.getParameter("roomId"));
-                String updateRoomNumber = request.getParameter("updateRoomNumber");
-                int updateRoomType = Integer.parseInt(request.getParameter("updateRoomType"));
-                boolean updateSuccess = RoomDAO.updateRoom(roomId, updateRoomType, updateRoomNumber);
-                if (updateSuccess) {
-                    out.print("Cập nhật thành công");
-                    session.setAttribute("needReload", true);
-                } else {
-                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
-                    session.setAttribute("needReload", false);
-                }
-            }
-
-            if (path.equals("/check-roomtype-valid")) {
-                String roomTypeName = request.getParameter("roomTypeName").trim();
-                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-                boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
-                if (isExistRoomType) {
-                    out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
-                } else {
-                    out.print("");
-                }
-            }
-
-            if (path.equals("/check-update-hostel-valid")) {
-                String updateName = request.getParameter("updateName");
-                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
-                String currentName = request.getParameter("currentName");
-                if (!updateName.equals(currentName)) {
-                    boolean isExistHostel = HostelDAO.isExistHostel(updateName, landlordId);
-                    if (isExistHostel) {
-                        out.print("Tên nhà trọ đã tồn tại. Vui lòng kiểm tra lại!");
-                    } else {
-                        out.print("");
-                    }
-                }
-            }
-
-            if (path.equals("/check-update-roomtype-valid")) {
-                String roomTypeName = request.getParameter("roomTypeName").trim();
-                String currentName = request.getParameter("currentName").trim();
-                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-                if (!roomTypeName.equals(currentName)) {
-                    boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
-                    if (isExistRoomType) {
-                        out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
-                    } else {
-                        out.print("");
-                    }
-                } else {
-                    out.print("");
-                }
-            }
-
-            if (path.equals("/check-room-valid")) {
-                String roomNumber = request.getParameter("roomNumber").trim();
-                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-                boolean isExistRoomNumber = RoomDAO.isExistRoomNumber(roomNumber, hostelId);
-                if (isExistRoomNumber) {
-                    out.print("Tên phòng đã tồn tại. Vui lòng kiểm tra lại!");
-                } else {
-                    out.print("");
-                }
-            }
-
-            if (path.equals("/delete-hostel")) {
-                int hostelId = Integer.parseInt(request.getParameter("deleteHostelId"));
-                boolean deleteSuccess = HostelDAO.deleteById(hostelId);
-                if (deleteSuccess) {
-                    out.print("Xóa thành công");
-                    session.setAttribute("needReload", true);
-                } else {
-                    out.print("Xóa không thành công");
-                    session.setAttribute("needReload", false);
-                }
-            }
-
-            if (path.equals("/delete-roomtype")) {
-                int roomTypeId = Integer.parseInt(request.getParameter("deleteRoomTypeId"));
-                boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
-                if (deleteSuccess) {
-                    out.print("Xóa thành công");
-                    session.setAttribute("needReload", true);
-                } else {
-                    out.print("Xóa không thành công");
-                    session.setAttribute("needReload", false);
-                }
-            }
-
-            if (path.equals("/delete-room")) {
-                int roomId = Integer.parseInt(request.getParameter("deleteRoomId"));
-                boolean deleteSuccess = RoomDAO.deleteById(roomId);
-                if (deleteSuccess) {
-                    out.print("Xóa thành công");
-                    session.setAttribute("needReload", true);
-                } else {
-                    out.print("Xóa không thành công");
-                    session.setAttribute("needReload", false);
-                }
-            }
         }
     }
 
-    private void copy(String src, String dest) throws IOException {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(src);
-            os = new FileOutputStream(dest);
-            // buffer size 1K
-            byte[] buf = new byte[1024];
-
-            int bytesRead;
-            while ((bytesRead = is.read(buf)) > 0) {
-                os.write(buf, 0, bytesRead);
-            }
-        } finally {
-            is.close();
-            os.close();
-        }
-    }
-
-    private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] items = contentDisp.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length() - 1);
-            }
-        }
-        return "";
-    }
-
-    public File getFolderUpload(HttpServletRequest request) throws URISyntaxException {
-        String path = request.getServletContext().getRealPath("/").replace("\\", "/");
-        File target = new File(path);
-        File par = new File(target.getParent());
-        File folderUpload = new File(par.getParent() + "/src/main/webapp/assets/images/user-avatars");
-
-//        File folderUpload = new File(request.getServletContext().getRealPath("/") + "assets/images/user-avatars/");
-        // System.out.println(folderUpload);
-        if (!folderUpload.exists()) {
-            folderUpload.mkdirs();
-        }
-        return folderUpload;
-    }
-
-    public File getRuntimeFolder(HttpServletRequest request) throws URISyntaxException {
-        File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/user-avatars");
-        System.out.println("Runtime folder: " + folderUpload);
-        if (!folderUpload.exists()) {
-            folderUpload.mkdirs();
-        }
-        return folderUpload;
-    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

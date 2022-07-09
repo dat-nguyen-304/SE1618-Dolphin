@@ -9,6 +9,7 @@ import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.LandlordDAO;
 import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.TenantDAO;
+import com.dolphin.hostelmanagement.DTO.Account;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.Notification;
@@ -152,6 +153,7 @@ public class AdminController extends HttpServlet {
 
             if (path.equals("/accountStatus")) {
                 int accountID = Integer.parseInt(request.getParameter("accountID"));
+                Account acc = AccountDAO.findById(accountID);
                 String query = request.getParameter("query");
 
                 if (query.equals("activate")) {
@@ -161,8 +163,10 @@ public class AdminController extends HttpServlet {
                 }
                 
                 //sau nay hen xui co the gui mail khoa tai khoan/ mo tai khoan cho account do :D
-                    
-                response.sendRedirect("/sakura/admin/tenant-management");
+                if(acc.getRole() == 1)
+                    response.sendRedirect("/sakura/admin/tenant-management");
+                else 
+                    response.sendRedirect("/sakura/admin/landlord-management");
             }
             
             if(path.equals("/tenant-detail")) {

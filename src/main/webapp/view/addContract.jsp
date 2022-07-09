@@ -31,6 +31,7 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
     </head>
     <body>
         <%@include file="../view/headerLandlordDashboard.jsp" %>
@@ -72,17 +73,38 @@
                                 <p>Số kí tự: <span id="count"></span>/200</p>
                             </div>
 
-                            <div class="mt-[20px] flex items-center">
-                                <div class="mr-[20px]">
-                                    <p class="block mb-2 text-sm font-medium text-gray-900">Ngày bắt đầu</p>
-                                    <input type ="date" name="startDate" id="start" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>
+<%--                            <div class="mt-[20px] flex items-center">--%>
+<%--                                <div class="mr-[20px]">--%>
+<%--                                    <p class="block mb-2 text-sm font-medium text-gray-900">Ngày bắt đầu</p>--%>
+<%--                                    <input type ="date" name="startDate" id="start" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>--%>
+<%--                                </div>--%>
+<%--                                <div>--%>
+<%--                                    <p class="block mb-2 text-sm font-medium text-gray-900">Ngày kết thúc</p>--%>
+<%--                                    <input type ="date" name="endDate" id="end" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>--%>
+<%--                                </div>--%>
+<%--                                <p class="text-sm font-medium" id="lengthError"></p>--%>
+<%--                            </div>--%>
+
+                            <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] grid grid-cols-6">
+                                <div class="start-date flex items-center col-span-2 grid grid-cols-6">
+                                    <label for="start"
+                                           class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày bắt đầu:</label>
+                                    <input type="text" id="start" name="startDate"
+                                           class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
+                                           placeholder="Chọn ngày...">
+                                </div>
+                                <div class="end-date flex items-center col-span-2 grid grid-cols-6">
+                                    <label for="end"
+                                           class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày kết thúc</label>
+                                    <input type="text" id="end" name="endDate"
+                                           class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
+                                           placeholder="Chọn ngày...">
                                 </div>
                                 <div>
-                                    <p class="block mb-2 text-sm font-medium text-gray-900">Ngày kết thúc</p>
-                                    <input type ="date" name="endDate" id="end" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>
+                                    <p class="text-sm font-medium" id="lengthError"></p>
                                 </div>
-                                <p class="text-sm font-medium" id="lengthError"></p>
                             </div>
+
                             <div class="mt-[20px]">
                                 <label for="deposit" class="block mb-2 text-sm font-medium text-gray-900">Số tháng ở (dự kiến)</label>
                                 <input type="number" name="duration" oninput="validity.valid||(value='');" min="1" id="length" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5" placeholder="" required>
@@ -137,6 +159,7 @@
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="../assets/javascript/moment.js"></script>
         <script>
+            let room = $("#rooms");
             let start = $("#start");
             let end = $("#end");
             let deposit = $("#deposit");
@@ -195,16 +218,14 @@
 
             function checkDate() {
                 if (end.val() !== "" && start.val() !== "") {
-                    let soonest = moment($(start).val()).add(30, 'days');
-//                    console.log(soonest.format('DD/MM/yyyy'));
-//                    console.log(moment($(start).val()).format('DD/MM/yyyy'));
-//                    console.log(moment($(end).val()).format('DD/MM/yyyy'));
-                    if (moment(start.val()) > moment(end.val())) {
-                        $(start).css("border", "1.5px solid red");
-                        $(end).css("border", "1.5px solid red");
-                        $(lengthError).html("Ngày bắt đầu phải trước ngày kết thúc!");
-                        $(lengthError).css("color", "red");
-                    } else if (moment($(end).val()) < soonest) {
+                    let soonest = moment($(start).val(), "DD/MM/YYYY").add(30, 'days');
+//                     if (moment(start.val()) > moment(end.val())) {
+//                         $(start).css("border", "1.5px solid red");
+//                         $(end).css("border", "1.5px solid red");
+//                         $(lengthError).html("Ngày bắt đầu phải trước ngày kết thúc!");
+//                         $(lengthError).css("color", "red");
+//                     }
+                    if (moment($(end).val(), "DD/MM/YYYY") < soonest) {
                         console.log("Too short");
                         $(start).css("border", "1.5px solid red");
                         $(end).css("border", "1.5px solid red");
@@ -218,8 +239,14 @@
                 }
             }
 
+            let interval = setInterval(checkDate, 5000);
+
             $("#submitButton").click(function () {
                 let check = true;
+                if (!room.val()) {
+                    room.css("border", "1.5px solid red");
+                    check = false;
+                }
                 if (lengthError.html() !== "" || moneyError.html() !== "")
                     check = false;
                 if (!rentalFeePerMonth.val()) {
@@ -238,10 +265,10 @@
                     end.css("border", "1.5px solid red");
                     check = false;
                 }
-//                if (!description.val()) {
-//                    description.css("border", "1.5px solid red");
-//                    check = false;
-//                }
+               if (!description.val()) {
+                   description.css("border", "1.5px solid red");
+                   check = false;
+               }
                 if (!check)
                     console.log("LOI");
             });

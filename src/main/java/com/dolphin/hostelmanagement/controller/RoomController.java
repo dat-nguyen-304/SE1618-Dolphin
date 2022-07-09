@@ -6,8 +6,10 @@ package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
+import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.RoomResident;
+import com.dolphin.hostelmanagement.DTO.RoomType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -51,7 +53,6 @@ public class RoomController extends HttpServlet {
 
                     JSONArray list = new JSONArray();
                     for (Room room : roomList) {
-                        System.out.println(room);
                         JSONObject obj = new JSONObject();
                         String roomID = Integer.toString(room.getRoomID());
                         String roomNumber = room.getRoomNumber();
@@ -59,7 +60,6 @@ public class RoomController extends HttpServlet {
                         obj.put("roomNumber", roomNumber);
                         list.add(obj);
                     }
-                    System.out.println(list);
                     out.write(list.toJSONString());
                     out.close();
                 }
@@ -73,7 +73,7 @@ public class RoomController extends HttpServlet {
                 boolean updateSuccess = RoomResidentDAO.save(roomId, memberName, memberPhone, memberDob);
                 RoomResident roomResident = RoomResidentDAO.findLastRoomResidentByRoomId(roomId);
                 if (updateSuccess) {
-                    out.print("<tr class=\"member-${iterator} bg-white border-b hover:bg-gray-50\">\n"
+                    out.print("<tr class=\"bg-white border-b hover:bg-gray-50\">\n"
                             + "                                                <td class=\"px-3 py-4 text-center\">\n"
                             + "                                                    " + roomResident.getRoomResidentID() + "\n"
                             + "                                                </td>\n"
@@ -103,25 +103,14 @@ public class RoomController extends HttpServlet {
                 String updateFullName = request.getParameter("updateFullName");
                 String updatePhone = request.getParameter("updatePhone");
                 String updateDob = request.getParameter("updateDob");
-                if (updateFullName.isEmpty() || updatePhone.isEmpty() || updateDob.isEmpty()) {
-                    if (updateFullName.isEmpty()) {
-                        out.print("Tên người ở - ");
-                    }
-                    if (updatePhone.isEmpty()) {
-                        out.print("SÐT - ");
-                    }
-                    if (updateDob.isEmpty()) {
-                        out.print("Ngày sinh ");
-                    }
-                    out.print("không được trống");
+
+                boolean updateSuccess = RoomResidentDAO.update(residentId, updateFullName, updatePhone, updateDob);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
                 } else {
-                    boolean updateSuccess = RoomResidentDAO.update(residentId, updateFullName, updatePhone, updateDob);
-                    if (updateSuccess) {
-                        out.print("Cập nhật thành công");
-                    } else {
-                        out.print("Cập nhật thất bại. Vui lòng kiểm tra lại thông tin");
-                    }
+                    out.print("Cập nhật thất bại. Vui lòng kiểm tra lại thông tin");
                 }
+
             } else if (path.equals("/delete-member")) {
                 int residentId = Integer.parseInt(request.getParameter("residentId"));
                 boolean deleteSuccess = RoomResidentDAO.delete(residentId);
@@ -138,6 +127,121 @@ public class RoomController extends HttpServlet {
                     out.print("Success");
                 } else {
                     out.print("Fail");
+                }
+            } else if (path.equals("/add-roomtype")) {
+                String name = request.getParameter("name");
+                int price = Integer.parseInt(request.getParameter("price"));
+                int area = Integer.parseInt(request.getParameter("area"));
+                int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
+                String description = request.getParameter("description");
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+
+                boolean addSuccess = RoomTypeDAO.save(name, price, area, maxNumberOfResidents, description, hostelId);
+                RoomType newRoomType = RoomTypeDAO.findLastRoomTypeByHostelId(hostelId);
+                if (addSuccess) {
+                    out.println("<span class=\"inline-block text-green-600\">Thêm loại phòng " + newRoomType.getRoomTypeName() + " thành công! Xem");
+                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\">");
+                    out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
+                    out.println("<input type=\"submit\" value=\"tại đây\">");
+                    out.println("</form></span>");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+
+            } else if (path.equals("/update-roomtype")) {
+                String name = request.getParameter("name");
+                int price = Integer.parseInt(request.getParameter("price"));
+                int area = Integer.parseInt(request.getParameter("area"));
+                int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
+                String description = request.getParameter("description");
+                int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+
+                boolean updateSuccess = RoomTypeDAO.updateRoomTypeById(roomTypeId, name, price, area, maxNumberOfResidents, description);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+
+            } else if (path.equals("/update-room")) {
+                int roomId = Integer.parseInt(request.getParameter("roomId"));
+                String updateRoomNumber = request.getParameter("updateRoomNumber");
+                int updateRoomType = Integer.parseInt(request.getParameter("updateRoomType"));
+                boolean updateSuccess = RoomDAO.updateRoom(roomId, updateRoomType, updateRoomNumber);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+            } else if (path.equals("/check-roomtype-valid")) {
+                String roomTypeName = request.getParameter("roomTypeName").trim();
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
+                if (isExistRoomType) {
+                    out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                } else {
+                    out.print("");
+                }
+            } else if (path.equals("/check-update-roomtype-valid")) {
+                String roomTypeName = request.getParameter("roomTypeName").trim();
+                String currentName = request.getParameter("currentName").trim();
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                if (!roomTypeName.equals(currentName)) {
+                    boolean isExistRoomType = RoomTypeDAO.isExistRoomType(roomTypeName, hostelId);
+                    if (isExistRoomType) {
+                        out.print("Tên loại phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                    } else {
+                        out.print("");
+                    }
+                } else {
+                    out.print("");
+                }
+            } else if (path.equals("/check-room-valid")) {
+                String roomNumber = request.getParameter("roomNumber").trim();
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                boolean isExistRoomNumber = RoomDAO.isExistRoomNumber(roomNumber, hostelId);
+                if (isExistRoomNumber) {
+                    out.print("Tên phòng đã tồn tại. Vui lòng kiểm tra lại!");
+                } else {
+                    out.print("");
+                }
+            } else if (path.equals("/delete-roomtype")) {
+                int roomTypeId = Integer.parseInt(request.getParameter("deleteRoomTypeId"));
+                boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
+                if (deleteSuccess) {
+                    out.print("Xóa thành công");
+                } else {
+                    out.print("Xóa không thành công");
+                }
+            } else if (path.equals("/delete-room")) {
+                int roomId = Integer.parseInt(request.getParameter("deleteRoomId"));
+                boolean deleteSuccess = RoomDAO.deleteById(roomId);
+                if (deleteSuccess) {
+                    out.print("Xóa thành công");
+                } else {
+                    out.print("Xóa không thành công");
+                }
+            }
+            if (path.equals("/roomsByHostel")) {
+                System.out.println("called");
+                String hostelID = request.getParameter("hostelID");
+                int id = 0;
+                if (hostelID != null) {
+                    id = Integer.parseInt(hostelID);
+                    List<Room> roomList = RoomDAO.findByHostelID(id);
+
+                    JSONArray list = new JSONArray();
+                    for (Room room : roomList) {
+                        System.out.println(room);
+                        JSONObject obj = new JSONObject();
+                        String roomID = Integer.toString(room.getRoomID());
+                        String roomNumber = room.getRoomNumber();
+                        obj.put("roomID", roomID);
+                        obj.put("roomNumber", roomNumber);
+                        list.add(obj);
+                    }
+                    out.write(list.toJSONString());
+                    out.close();
                 }
             }
         }
