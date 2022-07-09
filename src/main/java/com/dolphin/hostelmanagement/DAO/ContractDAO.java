@@ -393,6 +393,41 @@ public class ContractDAO {
         }
         return false;
     }
+    
+    public static boolean updateContract(Contract c) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            
+            String sql = "Update Contract set roomID = ?, startDate = ?, endDate = ?, rentalFeePerMonth = ?, deposit = ?, description = ?, duration = ? "
+                    + "where contractID = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, c.getRoom().getRoomID());
+            
+            java.sql.Date sqlStartDate = new java.sql.Date(c.getStartDate().getTime());
+            pst.setDate(2, sqlStartDate);
+
+            java.sql.Date sqlEndDate = new java.sql.Date(c.getEndDate().getTime());
+            pst.setDate(3, sqlEndDate);
+            
+            pst.setInt(4, c.getRentalFeePerMonth());
+            pst.setInt(5, c.getDeposit());
+            pst.setNString(6, c.getDescription());
+            pst.setInt(7, c.getDuration());
+            
+            pst.setInt(8, c.getContractID());
+            
+            return pst.executeUpdate() > 0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
 
     public static void main(String[] args) {
         List<Contract> contracts = findByRoom(2);

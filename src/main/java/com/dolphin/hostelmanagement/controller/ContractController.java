@@ -39,57 +39,77 @@ public class ContractController extends HttpServlet {
             System.out.println("Path: " + path);
 
             if (path.equals("/add-contract")) {
-                if (request.getParameter("queryType") != null) {
-                    
-                    int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
-                    int rentalFeePerMonth = Integer.parseInt(request.getParameter("rentalFeePerMonth"));
-                    int deposit = Integer.parseInt(request.getParameter("deposit"));
-                    Tenant t = TenantDAO.findById(Integer.parseInt(request.getParameter("tenantID")));
-                    Room r = RoomDAO.findByID(Integer.parseInt(request.getParameter("roomID")));
-                    
-                    String description = request.getParameter("description");
-                    
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    
-                    System.out.println(request.getParameter("startDate"));
-                    Date startDate = null;
-                    Date endDate = null;
-                    try {
-                        startDate = format.parse(request.getParameter("startDate"));
-                        endDate = format.parse(request.getParameter("endDate"));
-                    }
-                    catch(Exception e) {
-                        e.printStackTrace();
-                    }
-                    int duration = Integer.parseInt(request.getParameter("duration"));
-                    Date createdDate = new Date();
-                    Contract c = new Contract(bookingRequestID, r, t, null, null, startDate, endDate, 
-                            deposit, 2, rentalFeePerMonth, description, duration, createdDate);
-                    ContractDAO.save(c);
-//                    
-                    //change booking request status
-                    //BookingRequestDAO.disableByRoomID(c.getRoom().getRoomID()); //reject all booking request
-                    System.out.println("Booking: " + bookingRequestID);
-                    BookingRequestDAO.changeStatus(bookingRequestID, 2); //then accept this request only
-                    BookingRequestDAO.changeCreatedDate(bookingRequestID, new Date());
-                    
-                    //disable all booking request of this room
-                    //end disable
-                    //redirect
-                    
-                    int hostelID = r.getRoomType().getHostel().getHostelID();
-                    response.sendRedirect("/sakura/landlord/rentalRequestList?hostelID=" + hostelID);
-                    
-                } else {
+                if (request.getParameter("queryType") == null) {
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
                     BookingRequest br = BookingRequestDAO.getBookingRequestByID(bookingRequestID);
                     request.setAttribute("bookingRequest", br);
                     ArrayList<Room> roomList = RoomDAO.findByRoomTypeID(br.getRoomType().getRoomTypeID());
                     request.setAttribute("roomList", roomList);
                     request.getRequestDispatcher("/view/addContract.jsp").forward(request, response);
+                } else if (request.getParameter("queryType").equals("add")) {
+                    int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
+                    int rentalFeePerMonth = Integer.parseInt(request.getParameter("rentalFeePerMonth"));
+                    int deposit = Integer.parseInt(request.getParameter("deposit"));
+                    Tenant t = TenantDAO.findById(Integer.parseInt(request.getParameter("tenantID")));
+                    Room r = RoomDAO.findByID(Integer.parseInt(request.getParameter("roomID")));
+
+                    String description = request.getParameter("description");
+
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                    System.out.println(request.getParameter("startDate"));
+                    Date startDate = null;
+                    Date endDate = null;
+                    try {
+                        startDate = format.parse(request.getParameter("startDate"));
+                        endDate = format.parse(request.getParameter("endDate"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    int duration = Integer.parseInt(request.getParameter("duration"));
+                    Date createdDate = new Date();
+                    Contract c = new Contract(bookingRequestID, r, t, null, null, startDate, endDate,
+                            deposit, 2, rentalFeePerMonth, description, duration, createdDate);
+                    if(ContractDAO.findByID(bookingRequestID) == null)
+                        ContractDAO.save(c);
+                    else ContractDAO.updateContract(c);
+//                    
+                    //change booking request status
+                    //BookingRequestDAO.disableByRoomID(c.getRoom().getRoomID()); //reject all booking request
+                    System.out.println("Booking: " + bookingRequestID);
+                    BookingRequestDAO.changeStatus(bookingRequestID, 2); //then accept this request only
+                    BookingRequestDAO.changeCreatedDate(bookingRequestID, new Date());
+
+                    //disable all booking request of this room
+                    //end disable
+                    //redirect
+                    int hostelID = r.getRoomType().getHostel().getHostelID();
+                    response.sendRedirect("/sakura/landlord/rentalRequestList?hostelID=" + hostelID);
+
+                } else if (request.getParameter("queryType").equals("edit")) {
+                    System.out.println("????");
+                    int contractID = Integer.parseInt(request.getParameter("contractID"));
+
+                    BookingRequest br = BookingRequestDAO.getBookingRequestByID(contractID);
+                    request.setAttribute("bookingRequest", br);
+                    ArrayList<Room> roomList = RoomDAO.findByRoomTypeID(br.getRoomType().getRoomTypeID());
+                    request.setAttribute("roomList", roomList);
+                    
+                    
+                    Contract c = ContractDAO.findByID(contractID);
+                    
+                    SimpleDateFormat ymdFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String startDate = ymdFormat.format(c.getStartDate());
+                    String endDate = ymdFormat.format(c.getEndDate());
+                    
+                    request.setAttribute("editContract", c);
+                    request.setAttribute("startDate", startDate);
+                    request.setAttribute("endDate", endDate);
+
+                    request.getRequestDispatcher("/view/addContract.jsp").forward(request, response);
                 }
             }
-            
+
             if (path.equals("/end-contract")) {
                 int endContractId = Integer.parseInt(request.getParameter("endContractId"));
                 boolean endContractSuccess = ContractDAO.endContractById(endContractId);

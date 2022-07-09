@@ -55,7 +55,7 @@ public class TenantController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
@@ -74,14 +74,15 @@ public class TenantController extends HttpServlet {
                 request.setAttribute("contractList", contractList);
                 request.setAttribute("invoiceMap", sorted);*/
                 Contract currentContract = ContractDAO.findActiveContractByTenant(t);
-                ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
-                Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
+                if (currentContract != null) {
+                    ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
+                    Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
 
-                //currentContract
-                session.setAttribute("currentContract", currentContract);
-                session.setAttribute("roomResidentList", roomResidentList);
-                session.setAttribute("latestInvoice", latestInvoice);
-
+                    //currentContract
+                    session.setAttribute("currentContract", currentContract);
+                    session.setAttribute("roomResidentList", roomResidentList);
+                    session.setAttribute("latestInvoice", latestInvoice);
+                }
                 //currentContract.getHostel().getDistrict()
                 request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
             }
@@ -113,7 +114,7 @@ public class TenantController extends HttpServlet {
                     BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID());
                     RoomDAO.changeStatus(contract.getRoom().getRoomID(), 2);
                     TenantDAO.changeStatus(t.getAccount().getAccountID(), true);
-                    
+
                     //send accept notification to landlord
                     Notification landlordNoti = new Notification();
 
@@ -152,6 +153,15 @@ public class TenantController extends HttpServlet {
                 }
                 request.setAttribute("notificationList", notiList);
                 request.getRequestDispatcher("/view/tenantPageNotiList.jsp").forward(request, response);
+            }
+            
+            if(path.equals("/contract-detail")) {
+                int contractID = Integer.parseInt(request.getParameter("contractID"));
+                Contract c = ContractDAO.findByID(contractID);
+                
+                request.setAttribute("contract", c);
+                
+                request.getRequestDispatcher("/view/TContractDetail.jsp").forward(request, response);
             }
         }
     }

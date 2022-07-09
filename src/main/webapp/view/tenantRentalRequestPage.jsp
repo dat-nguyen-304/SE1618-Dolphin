@@ -145,20 +145,16 @@
                                         <c:forEach items = "${requestScope.invitationList}" var="invitation">
                                             <tr class="bg-white border-b hover:bg-gray-50">
                                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    1${invitation.roomType.hostel.hostelName}
+                                                    ${invitation.roomType.hostel.hostelName}
                                                 </td>
                                                 <td class="px-6 py-4 ">
-                                                    1${invitation.roomType.roomTypeName}
+                                                    ${invitation.roomType.roomTypeName}
                                                 </td>
                                                 <td class="px-6 py-4 ">
-                                                    1${invitation.createdDate}
+                                                    ${invitation.createdDate}
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     <form method = "post" action = "/sakura/tenant/rentalRequestList">
-                                                        <input type ="hidden" name ="contractID" value ="${invitation.roomType.roomTypeID}">
-                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
-                                                            Xem hợp đồng
-                                                        </button>
                                                         <input type ="hidden" name ="queryType" value ="accept">
                                                         <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
                                                         <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
@@ -170,6 +166,13 @@
                                                             Từ chối
                                                         </button>
                                                     </form>
+                                                </td>
+                                                <td class="px-6 py-4 ">
+                                                    <form method = "post" action = "/sakura/tenant/contract-detail">
+                                                    <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                    <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                        Xem hợp đồng
+                                                    </button></form>
                                                 </td>
 
                                             </tr>
