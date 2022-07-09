@@ -322,6 +322,26 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("waterService", waterService);
                 request.getRequestDispatcher("/view/LAddService.jsp").forward(request, response);
 
+            } else if (path.equals("/resident")) {
+                List<RoomResident> residentList = null;
+                if (request.getParameter("hostelId") != null) {
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    currentHostel = HostelDAO.findById(hostelId);
+                    session.setAttribute("currentHostel", currentHostel);
+                    residentList = RoomResidentDAO.findByHostelID(currentHostel.getHostelID());
+                } else if( request.getParameter("roomID") != null) {
+                    int roomId = Integer.parseInt(request.getParameter("roomID"));
+                    Room currentRoom = RoomDAO.findByID(roomId);
+                    request.setAttribute("currentRoom", currentRoom);
+                    residentList = RoomResidentDAO.findByRoom(currentRoom);
+                } else {
+                    residentList = RoomResidentDAO.findByHostelID(currentHostel.getHostelID());
+                } 
+                 
+                List<Room> roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());                
+                request.setAttribute("residentList", residentList);
+                request.setAttribute("roomList", roomList);
+                request.getRequestDispatcher("/view/LResidentList.jsp").forward(request, response);
             }
 
             if (path.equals("/rentalRequestList")) { //get by hostel ID

@@ -200,7 +200,7 @@
                                 </div>
                                 <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
                                     <p class="text-[#929ca5] font-normal">Các dịch vụ khác</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.totalAll - requestScope.totalElectric - requestScope.totalWater}</span></p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.totalAll - requestScope.totalElectric - requestScope.totalWater - requestScope.contract.rentalFeePerMonth * requestScope.invoiceList.size()}</span></p>
                                 </div>
                                 <div class="col-span-6 grid grid-rows-2 gap-[1px] mb-[5px]">
                                     <p class="text-[#929ca5] font-normal">Tổng cộng</p>
@@ -244,8 +244,8 @@
                                         </c:if>
                                     </td>
                                     <td class="text-center px-6 py-4 text-center">
-                                        <form action="/sakura/landlord/contract-detail">
-                                            <button type="submit" name="invoiceId" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</butotn>
+                                        <form action="/sakura/invoice/detail">
+                                            <button type="submit" name="invoiceID" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</butotn>
                                         </form>
                                     </td>
                                 </tr>

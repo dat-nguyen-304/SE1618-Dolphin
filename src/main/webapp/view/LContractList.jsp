@@ -132,7 +132,7 @@
                                         </td>
                                         <td class="text-center px-6 py-4 text-center">
                                             <form action="/sakura/landlord/contract-detail">
-                                                <button name="contractId" value="${contract.contractID}"
+                                                <button name="contractID" value="${contract.contractID}"
                                                         class="font-medium text-[#288D87] hover:underline">Xem chi tiết</button>
                                             </form>
                                         </td>

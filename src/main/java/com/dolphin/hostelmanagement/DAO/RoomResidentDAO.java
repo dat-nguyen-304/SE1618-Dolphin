@@ -139,7 +139,7 @@ public class RoomResidentDAO {
                 if (rows > 0) {
                     cn.close();
                     return true;
-                } 
+                }
                 cn.close();
             }
         } catch (Exception e) {
@@ -148,9 +148,61 @@ public class RoomResidentDAO {
         return false;
     }
 
+    public static boolean deleteByRoomId(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomResident SET activate = 0 WHERE roomID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static List<RoomResident> findByHostelID(int hostelId) {
+        Connection cn = null;
+
+        List<RoomResident> list = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList<>();
+                String sql = "SELECT RR.roomResidentID, RR.roomID, RR.fullname, RR.phone, RR.dob \n"
+                        + "FROM RoomResident RR INNER JOIN Room R ON RR.roomID = R.roomID \n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID\n"
+                        + "WHERE H.hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                ResultSet rs = pst.executeQuery();
+                while (rs != null && rs.next()) {
+                    int roomResidentID = rs.getInt("roomResidentID");
+                    String fullname = rs.getNString("fullname");
+                    String phone = rs.getString("phone");
+                    int roomID = rs.getInt("roomID");
+                    Room r = RoomDAO.findByID(roomID);
+                    Date dob = rs.getDate("dob");
+                    list.add(new RoomResident(roomResidentID, r, fullname, phone, dob));
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static void main(String args[]) {
-        boolean b = update(8, "alexendar", "0987654322", "2000-12-12");
-        boolean c = save(5, "YL", "0987654323", "2000-12-12");
-        System.out.println(b);
+        System.out.println(findByHostelID(1).size());
     }
 }

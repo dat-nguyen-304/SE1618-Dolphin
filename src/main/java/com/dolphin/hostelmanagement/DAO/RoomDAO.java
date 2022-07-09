@@ -394,6 +394,27 @@ public class RoomDAO {
         }
         return false;
     }
+    
+    public static boolean deleteByRoomTypeId(int roomTypeId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Room SET activate = 0 WHERE roomTypeID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomTypeId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static boolean setCurrentNumberOfResidents(int roomId, int quantity) {
         Connection cn = null;

@@ -208,6 +208,7 @@ public class RoomController extends HttpServlet {
             } else if (path.equals("/delete-roomtype")) {
                 int roomTypeId = Integer.parseInt(request.getParameter("deleteRoomTypeId"));
                 boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
+                RoomDAO.deleteByRoomTypeId(roomTypeId);
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
                 } else {
@@ -216,6 +217,7 @@ public class RoomController extends HttpServlet {
             } else if (path.equals("/delete-room")) {
                 int roomId = Integer.parseInt(request.getParameter("deleteRoomId"));
                 boolean deleteSuccess = RoomDAO.deleteById(roomId);
+                RoomResidentDAO.deleteByRoomId(roomId);
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
                 } else {
