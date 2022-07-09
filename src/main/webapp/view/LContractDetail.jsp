@@ -110,12 +110,18 @@
                             </div>
                             <div class="col-span-4 text-xs">Người cho thuê: ${requestScope.contract.landlord.fullname}</div>
                             <div class="col-span-2 text-xs">Người thuê: ${requestScope.contract.tenant.fullname}</div>
-                            <div class="col-span-2 text-xs text-right">Phòng cho thuê: 101</div>
+                            <div class="col-span-2 text-xs text-right">Phòng cho thuê: ${requestScope.contract.room.roomNumber}</div>
                             <div class="col-span-2 text-xs">Tiền đặt cọc: <span class="money">${requestScope.contract.deposit}</span></div>
                             <div class="col-span-2 text-xs text-right">Giá hằng tháng: <span class="money">${requestScope.contract.rentalFeePerMonth}</span></div>
-                                <c:if test="${requestScope.contract.description != null}">
+                            <c:if test="${requestScope.contract.description != null}">
                                 <div class="col-span-4 text-xs">Nội dung: -${requestScope.contract.description}-
                                 </div>
+                            </c:if>
+                            <c:if test = "${requestScope.contract.status == 1}">
+                            <form action = "/sakura/contract/replace-contract" method = "post">
+                                <input type ="hidden" name ="contractID" value ="${requestScope.contract.contractID}"/>
+                                <button type = "submit">Thay hợp đồng mới</button>
+                            </form>
                             </c:if>
                             <p class="col-span-4 text-right">Đã thỏa thuận</p>
                         </div>
@@ -342,7 +348,7 @@
                                                 const originMoney = money.innerHTML;
                                                 console.log(originMoney);
                                                 money.innerHTML = formatMoney(originMoney);
-                                            })
+                                            });
         </script>
 
         <script>
@@ -423,7 +429,7 @@
 
             function toggleModal(modal_item) {
                 const modal = document.querySelector(modal_item);
-                modal.classList.toggle('active-modal')
+                modal.classList.toggle('active-modal');
                 modal.classList.toggle('opacity-0');
                 modal.classList.toggle('pointer-events-none');
             }

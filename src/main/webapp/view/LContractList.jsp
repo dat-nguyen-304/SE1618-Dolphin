@@ -217,10 +217,11 @@
                                                 <td class="text-center px-6 py-4">
                                                     <c:if test="${contract.status == 0}">Đã kết thúc</c:if>
                                                     <c:if test="${contract.status == 1}">Còn hiệu lực</c:if>
+                                                    <c:if test="${contract.status == 2}">Đang chờ</c:if>
                                                     </td>
                                                     <td class="text-center px-6 py-4 text-center">
                                                         <form action="/sakura/landlord/contract-detail">
-                                                            <button name="contractId" value="${contract.contractID}"
+                                                            <button name="contractID" value="${contract.contractID}"
                                                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Xem
                                                             chi tiết</button>
                                                     </form>

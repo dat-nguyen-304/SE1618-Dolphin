@@ -474,8 +474,10 @@ public class HostelController extends HttpServlet {
                 //end notification for landlord
 
                 //this is booking request adding function
-                BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), room.getRoomType().getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
+                int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), room.getRoomType().getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
 
+                System.out.println("MY TEST ID: " + testID);
+                
                 //end booking request adding function
                 //this will show notification after returning back to hostel detail page!
                 response.sendRedirect("/sakura/hostel/detail?successBookingMessage=true&filterStar=0&hostelId=" + hostelID);
