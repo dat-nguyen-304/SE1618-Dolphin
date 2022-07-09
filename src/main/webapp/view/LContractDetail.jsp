@@ -151,6 +151,12 @@
                                     <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.description}</p>
                                 </div>
                             </c:if>
+                            <c:if test = "${requestScope.contract.status == 1}">
+                            <form action = "/sakura/contract/replace-contract" method = "post">
+                                <input type ="hidden" name ="contractID" value ="${requestScope.contract.contractID}"/>
+                                <button type = "submit">Thay hợp đồng mới</button>
+                            </form>
+                            </c:if>
                             <p class="col-span-4 text-right">Đã thỏa thuận</p>
                         </div>
                     </div>
@@ -392,7 +398,7 @@
 
             function toggleModal(modal_item) {
                 const modal = document.querySelector(modal_item);
-                modal.classList.toggle('active-modal')
+                modal.classList.toggle('active-modal');
                 modal.classList.toggle('opacity-0');
                 modal.classList.toggle('pointer-events-none');
             }

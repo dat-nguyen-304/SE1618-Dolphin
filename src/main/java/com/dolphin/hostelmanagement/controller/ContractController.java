@@ -7,6 +7,7 @@ package com.dolphin.hostelmanagement.controller;
 import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
@@ -70,9 +71,11 @@ public class ContractController extends HttpServlet {
                     Date createdDate = new Date();
                     Contract c = new Contract(bookingRequestID, r, t, null, null, startDate, endDate,
                             deposit, 2, rentalFeePerMonth, description, duration, createdDate);
-                    if(ContractDAO.findByID(bookingRequestID) == null)
+                    if (ContractDAO.findByID(bookingRequestID) == null) {
                         ContractDAO.save(c);
-                    else ContractDAO.updateContract(c);
+                    } else {
+                        ContractDAO.updateContract(c);
+                    }
 //                    
                     //change booking request status
                     //BookingRequestDAO.disableByRoomID(c.getRoom().getRoomID()); //reject all booking request
@@ -94,14 +97,13 @@ public class ContractController extends HttpServlet {
                     request.setAttribute("bookingRequest", br);
                     ArrayList<Room> roomList = RoomDAO.findByRoomTypeID(br.getRoomType().getRoomTypeID());
                     request.setAttribute("roomList", roomList);
-                    
-                    
+
                     Contract c = ContractDAO.findByID(contractID);
-                    
+
                     SimpleDateFormat ymdFormat = new SimpleDateFormat("dd/MM/yyyy");
                     String startDate = ymdFormat.format(c.getStartDate());
                     String endDate = ymdFormat.format(c.getEndDate());
-                    
+
                     request.setAttribute("editContract", c);
                     request.setAttribute("startDate", startDate);
                     request.setAttribute("endDate", endDate);
@@ -112,11 +114,69 @@ public class ContractController extends HttpServlet {
 
             if (path.equals("/end-contract")) {
                 int endContractId = Integer.parseInt(request.getParameter("endContractId"));
+                Contract c = ContractDAO.findByID(endContractId);
+                TenantDAO.changeStatus(c.getTenant().getAccount().getAccountID(), false);
+                RoomDAO.changeStatus(c.getRoom().getRoomID(), 1);
                 boolean endContractSuccess = ContractDAO.endContractById(endContractId);
                 if (endContractSuccess) {
                     out.print("Cập nhật thành công");
                 } else {
                     out.print("Cập nhật thất bại");
+                }
+            }
+
+            if (path.equals("/replace-contract")) {
+                if (request.getParameter("queryType") == null) {
+                    int contractID = Integer.parseInt(request.getParameter("contractID"));
+
+                    Contract c = ContractDAO.findByID(contractID);
+                    
+                    request.setAttribute("oldContract", c);
+                    
+                    SimpleDateFormat ymdFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String startDate = ymdFormat.format(c.getStartDate());
+                    String endDate = ymdFormat.format(c.getEndDate());
+                    
+                    request.setAttribute("startDate", startDate);
+                    request.setAttribute("endDate", endDate);
+                    
+                    request.getRequestDispatcher("/view/replace-contract.jsp").forward(request, response);
+                }
+                else if(request.getParameter("queryType").equals("replace")) {
+                    int oldContractID = Integer.parseInt(request.getParameter("contractID"));
+                    Contract oldContract = ContractDAO.findByID(oldContractID);
+                    
+                    int rentalFeePerMonth = Integer.parseInt(request.getParameter("rentalFeePerMonth"));
+                    int deposit = Integer.parseInt(request.getParameter("deposit"));
+                    Tenant t = TenantDAO.findById(Integer.parseInt(request.getParameter("tenantID")));
+                    Room r = oldContract.getRoom();
+
+                    String description = request.getParameter("description");
+
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                    System.out.println(request.getParameter("startDate"));
+                    Date startDate = null;
+                    Date endDate = null;
+                    try {
+                        startDate = format.parse(request.getParameter("startDate"));
+                        endDate = format.parse(request.getParameter("endDate"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    int duration = Integer.parseInt(request.getParameter("duration"));
+                    Date createdDate = new Date();
+                    
+                    int contractID = BookingRequestDAO.saveBookingRequest(oldContract.getTenant().getAccount().getAccountID(), 
+                            oldContract.getRoom().getRoomType().getRoomTypeID(), createdDate, 0);
+                    
+                    Contract c = new Contract(contractID, r, t, null, null, startDate, endDate,
+                            deposit, 1, rentalFeePerMonth, description, duration, createdDate);
+                    
+                    ContractDAO.save(c);
+                    ContractDAO.endContractById(oldContractID); //end old contract
+                    
+                    response.sendRedirect("/sakura/landlord/contract-detail?contractID=" + contractID);
                 }
             }
         }

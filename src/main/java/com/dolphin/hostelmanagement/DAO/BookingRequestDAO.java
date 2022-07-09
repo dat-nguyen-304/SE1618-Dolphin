@@ -10,6 +10,7 @@ import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,14 +28,18 @@ public class BookingRequestDAO {
             java.sql.Date createdDate = new java.sql.Date(date.getTime());
             String sql = "Insert into BookingRequest (tenantID, roomTypeID, createdDate, status) values (?, ?, ?, ?)";
 
-            PreparedStatement pst = cn.prepareCall(sql);
+            PreparedStatement pst = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setInt(1, tenantID);
             pst.setInt(2, roomTypeID);
             pst.setDate(3, (java.sql.Date) createdDate);
             pst.setInt(4, status);
 
-            int check = pst.executeUpdate();
-            return check;
+            pst.executeUpdate();
+            
+            ResultSet rs = pst.getGeneratedKeys();
+            
+            if(rs.next())
+                return rs.getInt(1);
 
         } catch (Exception e) {
             e.printStackTrace();
