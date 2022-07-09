@@ -416,32 +416,27 @@
         <script src="../assets/javascript/jquery.js"></script>
         <script>
             $(document).ready(function () {
-                var allDateCells = $(".date");
-                var allMoneyCells = $(".money");
-                var allRowSum = $(".rowSum");
-                var sum = 0;
-                for (var i = 0; i < allRowSum.length; i++) {
-                    var node = allRowSum[i];
+                let allDateCells = $(".date");
+                let allMoneyCells = $(".money");
+                let allRowSum = $(".rowSum");
+                let sum = 0;
+                for (let i = 0; i < allRowSum.length; i++) {
+                    let node = allRowSum[i];
                     sum += parseInt(node.childNodes[0].nodeValue);
                 }
-//                console.log(sum);
                 $("#invoiceSum").html(sum);
                 $("#bottomSum").html(sum + " đồng");
 
 
-                for (var i = 0; i < allDateCells.length; i++) {
-                    var node = allDateCells[i];
-                    var isoDate = node.childNodes[0].nodeValue;
-//                    var date = moment().toString();
-//                    console.log(date);
-//                    console.log(date.format("dd/MM/YYYY"));
-//                var vnDate = new Moment(isoDate);
-                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join(' / ');
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
                 }
 
-                for (var i = 0; i < allMoneyCells.length; i++) {
-                    var node = allMoneyCells[i];
-                    var money = node.childNodes[0].nodeValue;
+                for (let i = 0; i < allMoneyCells.length; i++) {
+                    let node = allMoneyCells[i];
+                    let money = node.childNodes[0].nodeValue;
                     node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
             });

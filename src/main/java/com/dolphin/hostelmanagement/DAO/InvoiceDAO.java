@@ -8,6 +8,8 @@ import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.ServiceDetail;
 import com.dolphin.hostelmanagement.utils.DBUtils;
+
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -228,7 +230,7 @@ public class InvoiceDAO {
     }
 
     public static boolean save(String startDate, String endDate, int totalPrice,
-            int contractID, String month, java.util.Date createdDate, int electricPrice, int waterPrice, List<ServiceDetail> detailList, int roomID) {
+            int contractID, String month, String invoiceMonth, int electricPrice, int waterPrice, List<ServiceDetail> detailList, int roomID) {
         boolean check = false;
         Connection cn = null;
         try {
@@ -238,7 +240,7 @@ public class InvoiceDAO {
                 cn.setAutoCommit(false);
                 String sql = "insert into Invoice(startDate, endDate, status, "
                         + "totalPrice, contractID, month, createdDate, electricPrice, waterPrice) "
-                        + "values(?, ?, 1, ?, ?, ?, ?, ?, ?)";
+                        + "values(?, ?, 0, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setDate(1, new java.sql.Date(df.parse(startDate).getTime()));
                 pst.setDate(2, new java.sql.Date(df.parse(endDate).getTime()));
@@ -250,11 +252,11 @@ public class InvoiceDAO {
                 pst.setInt(8, waterPrice);
                 pst.executeUpdate();
 
-                // update room latestInvoiceMonth OR UPDATE WHEN INVOICE CHANGE STATUS TO 'PAID'??
-//                sql = "update Room set latestInvoiceMonth = GETDATE() where roomID = ?";
-//                pst = cn.prepareCall(sql);
-//                pst.setInt(1, roomID);
-//                pst.executeUpdate();
+                sql = "update Room set latestInvoiceMonth = ? where roomID = ?";
+                pst = cn.prepareCall(sql);
+                pst.setDate(1, new java.sql.Date(df.parse(invoiceMonth).getTime()));
+                pst.setInt(2, roomID);
+                pst.executeUpdate();
 
                 // get Invoice ID that is latest
                 sql = "select top 1 invoiceID from invoice order by invoiceID desc";
@@ -294,6 +296,58 @@ public class InvoiceDAO {
             try {
                 if (cn != null) {
                     cn.setAutoCommit(true);
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return check;
+    }
+
+    public static boolean edit(String startDate, String endDate, int status, int totalPrice,
+                               int electricPrice, int waterPrice, List<ServiceDetail> detailList, int invoiceID) {
+        boolean check = false;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "update Invoice set startDate = ?, endDate = ?, status = ?, "
+                        + "totalPrice = ?, electricPrice = ?, waterPrice = ? where invoiceID = ?";
+                PreparedStatement pst = cn.prepareCall(sql);
+                System.out.println("IN DAO");
+                pst.setDate(1, new java.sql.Date(df.parse(startDate).getTime()));
+                pst.setDate(2, new java.sql.Date(df.parse(endDate).getTime()));
+                pst.setInt(3, status);
+                System.out.println("status " + status);
+                pst.setInt(4, totalPrice);
+                System.out.println("ttlPrice" + totalPrice);
+                pst.setInt(5, electricPrice);
+                System.out.println("Ele " + electricPrice);
+                pst.setInt(6, waterPrice);
+                System.out.println("WATER " + waterPrice);
+                pst.setInt(7, invoiceID);
+                pst.executeUpdate();
+
+                // update service detail
+                for (ServiceDetail serviceDetail : detailList) {
+                    sql = "update ServiceDetail set startValue = ?, endValue = ?, quantity = ? where serviceDetailID = ?";
+                    pst = cn.prepareStatement(sql);
+                    pst.setInt(1, serviceDetail.getStartValue());
+                    pst.setInt(2, serviceDetail.getEndValue());
+                    pst.setInt(3, serviceDetail.getQuantity());
+                    pst.setInt(4, serviceDetail.getServiceDetailID());
+                    pst.executeUpdate();
+                }
+                return true;
+            } else {
+                System.out.println("CANNOT EDIT INVOICE!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
                     cn.close();
                 }
             } catch (Exception e) {

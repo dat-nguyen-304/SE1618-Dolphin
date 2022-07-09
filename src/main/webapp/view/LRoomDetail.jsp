@@ -262,7 +262,7 @@
                                         </thead>
                                         <tbody class="member-list">
                                         <input type="hidden" name="residentQuantity" value="${requestScope.residentList.size()}"/>
-                                        <c:set var="iterator" value="${0}"/>
+
                                         <c:forEach items="${requestScope.residentList}" var="resident">
                                             <c:set var="iterator" value="${iterator + 1}"/>
                                             <tr class="member-${iterator} py-[10px] text-[16px] bg-white border-b hover:bg-gray-50 grid grid-cols-12 gap-[10px]">
@@ -340,7 +340,7 @@
                                                                         'roomNumber': element.value,
                                                                         'hostelId': hostelId.value
                                                                     },
-                                                                    url: '/sakura/landlord/check-room-valid',
+                                                                    url: '/sakura/room/check-room-valid',
                                                                     success: function (response) {
                                                                         validRoomMessage.innerHTML = response;
                                                                         if (response) {
@@ -379,7 +379,7 @@
                                                                     'updateRoomNumber': updateRoomNumber.value,
                                                                     'updateRoomType': updateRoomType.value
                                                                 },
-                                                                url: '/sakura/landlord/update-room',
+                                                                url: '/sakura/room/update-room',
                                                                 success: function (response) {
                                                                     messageElement.innerHTML = response;
                                                                 },
@@ -401,7 +401,7 @@
                     type: 'POST',
                     data: {'deleteRoomId': deleteRoomId.value
                     },
-                    url: '/sakura/landlord/delete-room',
+                    url: '/sakura/room/delete-room',
                     success: function (response) {
                         deleteRoomContent.innerHTML = response;
                     },
@@ -415,12 +415,15 @@
 
         <script>
             function updateMember(element) {
+                console.log("da vao update member");
                 const memberElement = element.parentElement.parentElement;
                 const residentId = element;
                 const updateFullName = memberElement.querySelector("input[name='updateFullName']");
                 const updatePhone = memberElement.querySelector("input[name='updatePhone']");
                 const updateDob = memberElement.querySelector("input[name='updateDob']");
                 const updateMemberMessage = document.querySelector(".updateMemberMessage");
+                console.log("updateFullName: ", updateFullName.value);
+                console.log("updatePhone: ", updatePhone.value);
                 if (!updateFullName.value || !updatePhone.value || !updateDob.value) {
                     let message = "";
                     if (!updateFullName.value) {
@@ -433,32 +436,44 @@
                         message += "Ngày sinh ";
                     }
                     message += "không được trống!";
-
                     updateMemberMessage.innerHTML = message;
                 } else {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'residentId': residentId.value,
-                            'updateFullName': updateFullName.value,
-                            'updatePhone': updatePhone.value,
-                            'updateDob': updateDob.value
-                        },
-                        url: '/sakura/room/update-member',
-                        success: function (response) {
-                            updateMemberMessage.innerHTML = response;
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
+                    let goAjax = true;
+                    let message = "";
+                    if (updatePhone.value.length !== 10) {
+                        message += "Số điện thoại phải có 10 chữ số";
+                        goAjax = false;
+                        updateMemberMessage.innerHTML = message;
+                    } else
+                        for (let i = 0; i < updatePhone.value.length; i++) {
+                            if (updatePhone.value.charAt(i) < '0' || updatePhone.value.charAt(i) > '9') {
+                                message += "Số điện thoại gồm 10 chữ số!";
+                                goAjax = false;
+                                updateMemberMessage.innerHTML = message;
+                                break;
+                            }
                         }
-                    });
+
+                    if (goAjax === true) {
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'residentId': residentId.value,
+                                'updateFullName': updateFullName.value,
+                                'updatePhone': updatePhone.value,
+                                'updateDob': updateDob.value
+                            },
+                            url: '/sakura/room/update-member',
+                            success: function (response) {
+                                updateMemberMessage.innerHTML = response;
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                    }
                 }
             }
-        </script>
-
-        <script>
-            const disabledAddMemberBtn = "<button class='inline-block w-[120px] h-[45px] bg-[#ccc] text-[#f6fafc] rounded'>Thêm người ở mới</button><span class='text-xs h-[45px] leading-[45px]'>Số người của phòng này đã đạt tối đa</span>";
-            const activeAddMemberBtn = "<div class='bg-[#f7f7fa]'><div class='bg-[#fff] rounded shadow'><!-- Modal toggle --><button id='addMember-1' type='submit' name='action' value='Save' class='w-[120px] h-[45px] bg-[#17535B] text-[#f6fafc] rounded'>Thêm người ở mới</button></div></div>";
         </script>
 
         <script>
@@ -478,8 +493,10 @@
                         residentQuantityElement.innerHTML = residentQuantity - 1;
                         updateCurrentResident(residentQuantity - 1);
                         if (${requestScope.currentRoom.roomType.maxNumberOfResidents} > residentQuantity - 1) {
-                            const addMemberElement = document.querySelector(".addMemberElement");
-                            addMemberElement.innerHTML = activeAddMemberBtn;
+                            const actBtn = document.querySelector(".actBtn");
+                            const disBtn = document.querySelector(".disBtn");
+                            actBtn.style.display = "inline-block";
+                            disBtn.style.display = "none";
                         }
                     },
                     error: function () {
@@ -494,6 +511,7 @@
 
         <script>
             function addMember() {
+                console.log("da vao add member");
                 const roomId = document.querySelector("input[name='roomId']");
                 const memberName = document.querySelector("input[name='memberName']");
                 const memberPhone = document.querySelector("input[name='memberPhone']");
@@ -515,41 +533,59 @@
                         message += "Ngày sinh ";
                     }
                     message += "không được trống!";
-
                     addMemberMessage.innerHTML = message;
                 } else {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'memberName': memberName.value,
-                            'memberPhone': memberPhone.value,
-                            'memberDob': memberDob.value,
-                            'roomId': roomId.value
-                        },
-                        url: '/sakura/room/add-member',
-                        success: function (response) {
-                            memberName.value = "";
-                            memberPhone.value = "";
-                            memberDob.value = "";
-                            const res = response.toString();
-                            if (res.includes("px-3 py-4 text-center")) {
-                                memberList.innerHTML += response;
-                                residentQuantityElement.innerHTML = residentQuantity + 1;
-                                addMemberMessage.innerHTML = "Thêm thành công";
-                                updateCurrentResident(residentQuantity + 1);
-                                if (${requestScope.currentRoom.roomType.maxNumberOfResidents} >= residentQuantity + 1) {
-                                    const addMemberElement = document.querySelector(".addMemberElement");
-                                    addMemberElement.innerHTML = disabledAddMemberBtn;
-                                }
-                            } else {
-                                addMemberMessage.innerHTML = response;
+                    let goAjax = true;
+                    let message = "";
+                    if (memberPhone.value.length !== 10) {
+                        message += "Số điện thoại phải có 10 chữ số";
+                        goAjax = false;
+                        addMemberMessage.innerHTML = message;
+                    } else
+                        for (let i = 0; i < memberPhone.value.length; i++) {
+                            if (memberPhone.value.charAt(i) < '0' || memberPhone.value.charAt(i) > '9') {
+                                message += "Số điện thoại gồm 10 chữ số!";
+                                goAjax = false;
+                                addMemberMessage.innerHTML = message;
+                                break;
                             }
-
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
                         }
-                    });
+                    if (goAjax === true) {
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'memberName': memberName.value,
+                                'memberPhone': memberPhone.value,
+                                'memberDob': memberDob.value,
+                                'roomId': roomId.value
+                            },
+                            url: '/sakura/room/add-member',
+                            success: function (response) {
+                                memberName.value = "";
+                                memberPhone.value = "";
+                                memberDob.value = "";
+                                const res = response.toString();
+                                if (res.includes("px-3 py-4 text-center")) {
+                                    memberList.innerHTML += response;
+                                    residentQuantityElement.innerHTML = residentQuantity + 1;
+                                    addMemberMessage.innerHTML = "Thêm thành công";
+                                    if (${requestScope.currentRoom.roomType.maxNumberOfResidents} <= residentQuantity + 1) {
+                                        const actBtn = document.querySelector(".actBtn");
+                                        const disBtn = document.querySelector(".disBtn");
+                                        actBtn.style.display = "none";
+                                        disBtn.style.display = "block";
+                                    }
+                                    updateCurrentResident(residentQuantity + 1);
+                                } else {
+                                    addMemberMessage.innerHTML = response;
+                                }
+
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                    }
                 }
             }
         </script>
@@ -683,6 +719,7 @@
 
         <script>
             var open_modal_1 = document.querySelector('#addMember-1');
+            console.log(open_modal_1);
             open_modal_1.addEventListener('click', function (event) {
                 event.preventDefault();
                 toggleModal('.addMembermodal1');

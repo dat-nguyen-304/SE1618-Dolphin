@@ -1,58 +1,7 @@
-* {
-    box-sizing : border-box;
-    margin     : 0;
-    padding    : 0;
-    font-family: 'Mulish', sans-serif;
-}
-
-.card {
-    border-radius: 4px;
-    box-shadow: rgba(60, 64, 67, 0.08) 0px 1px 2px 0px, rgba(60, 64, 67, 0.03) 0px 2px 6px 2px;
-}
-
-.hostel-date {
-    font-style: italic;
-}
-
-.hostel-label {
-    width: 70px;
-}
-
-.hostel-number {
-    width      : 100px;
-    margin-left: 12px;
-}
-
-.select-hostel {
-    padding      : 6px 50px;
-    border-radius: 4px;
-}
-
-.img-item {
-    position: relative;
-}
-
-.img-item:hover button {
-    opacity: 1;
-    padding: 4px 12px;
-}
-
-.img-item button {
-    font-size       : 16px;
-    font-weight     : 500;
-    opacity         : 0;
-    position        : absolute;
-    top             : 0;
-    right           : 0;
-    background-color: pink;
-    padding         : 4px 8px;
-    transition      : all 0.1s linear;
-}
-
-.hasResident:checked .inputResident {
-    display: inline-block !important;
-}
-
+/* 
+    Created on : Jul 9, 2022, 1:05:28 AM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
 .dt-button{
     background-color: #fff !important;
     background: transparent !important;
@@ -128,20 +77,4 @@
 
 .paginate_button.disabled:hover {
     background-color: transparent !important;
-}
-
-#room-list-table tbody tr {
-    border-bottom: 1px solid #d1d1d1 !important;
-}
-
-table.dataTable.no-footer {
-    border: none !important;
-}
-table.dataTable thead th {
-    border: none !important;
-    text-align: center !important;
-}
-
-table.dataTable {
-    border-collapse: collapse;
 }

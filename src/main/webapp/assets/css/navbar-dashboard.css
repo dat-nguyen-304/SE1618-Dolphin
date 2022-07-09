@@ -1,0 +1,14 @@
+/* 
+    Created on : Jul 8, 2022, 11:58:54 PM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
+.menu-item.active,
+.menu-item.active svg {
+    color: #f1f5f9;
+    background-color: #17535B;
+}
+
+.parent-active span,
+.parent-active svg {
+    color: #f1f5f9;
+}

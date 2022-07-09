@@ -27,7 +27,8 @@
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LOverView.css">
-
+        <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
+        
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
@@ -79,7 +80,6 @@
                                         class="mr-[20px] rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
                                     <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Xóa nhà trọ này</p>
                                 </button>
-
                             </div>
 
                             <!-- Modal toggle -->
@@ -411,7 +411,6 @@
         <script src="js/breadcrumb.js"></script>
         <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
-        
         <script>
             function addHostel() {
                 console.log("da vao add hostel");
@@ -421,7 +420,6 @@
                 const description = document.querySelector("textarea[name='description']");
                 const landlordId = document.querySelector("input[name='landlordId']");
                 const addHostelMessage = document.querySelector(".addHostelMessage");
-                const addHostelMessageTitle = document.querySelector(".addHostelMessageTitle");
                 if (!name.value || !streetAddress.value || !description.value) {
                     let message = "";
                     if (!name.value) {
@@ -433,10 +431,9 @@
                     if (!description.value) {
                         message += "Mô tả ";
                     }
-                    let icon = '<p class="text-[#c81e25] text-center text-[50px] mb-[10px]"><i class="bi bi-exclamation-triangle"></i></p>';
-                    message += "không được để trống!";
-                    addHostelMessageTitle.style.display = 'none';
-                    addHostelMessage.innerHTML = icon + message;
+                    message += "không được trống";
+
+                    addHostelMessage.innerHTML = message;
                 } else {
                     jQuery.ajax({
                         type: 'POST',
@@ -446,7 +443,7 @@
                             'description': description.value,
                             'landlordId': landlordId.value
                         },
-                        url: '/sakura/landlord/add-hostel',
+                        url: '/sakura/hostel/add-hostel',
                         success: function (response) {
                             name.value = "";
                             streetAddress.value = "";
@@ -475,7 +472,7 @@
                     data: {'hostelName': element.value,
                         'landlordId': landlordId.value
                     },
-                    url: '/sakura/landlord/check-hostel-valid',
+                    url: '/sakura/hostel/check-hostel-valid',
                     success: function (response) {
                         validHostelMessage.innerHTML = response;
                         if (response) {
@@ -504,8 +501,9 @@
 
                 jQuery.ajax({
                     type: 'POST',
-                    data: {'deleteHostelId': deleteHostelId.value},
-                    url: '/sakura/landlord/delete-hostel',
+                    data: {'deleteHostelId': deleteHostelId.value
+                    },
+                    url: '/sakura/hostel/delete-hostel',
                     success: function (response) {
                         let icon = '<p class="text-[#0e9c72] text-center text-[50px] mb-[10px]"><i class="bi bi-check-circle"></i></p>';
                         deleteHostelContent.innerHTML = icon + response;
@@ -532,14 +530,14 @@
                         'landlordId': landlordId.value,
                         'currentName': currentName.value
                     },
-                    url: '/sakura/landlord/check-update-hostel-valid',
+                    url: '/sakura/hostel/check-update-hostel-valid',
                     success: function (response) {
                         validUpdateHostelMessage.innerHTML = response;
                         if (response) {
                             updateHostelBtn.onclick = (e) => {
                                 e.preventDefault();
                                 updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
-                            }
+                            };
                         } else {
                             updateHostelBtn.onclick = () => updateHostel();
                         }
@@ -559,7 +557,7 @@
                 const description = document.querySelector("textarea[name='updateDescription']");
                 const messageElement = document.querySelector(".updateHostelMessage");
                 const hostelId = document.querySelector("input[name='hostelId']");
-                if (!name.value || !streetAddress.value || !description.value) {
+                if (!name.value || !updateStreetAddress.value || !description.value) {
                     let message = "";
                     if (!name.value) {
                         message += "Tên nhà trọ - ";
@@ -582,7 +580,7 @@
                             'description': description.value,
                             'hostelId': hostelId.value
                         },
-                        url: '/sakura/landlord/update-hostel',
+                        url: '/sakura/hostel/update-hostel',
                         success: function (response) {
                             messageElement.innerHTML = response;
                         },

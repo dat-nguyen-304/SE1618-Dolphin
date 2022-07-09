@@ -41,6 +41,7 @@
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
         <link rel="stylesheet" href="../assets/css/LRoomList.css">
+        <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
     </head>
 
     <body>

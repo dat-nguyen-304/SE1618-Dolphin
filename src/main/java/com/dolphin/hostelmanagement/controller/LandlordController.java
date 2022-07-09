@@ -115,7 +115,6 @@ public class LandlordController extends HttpServlet {
                 session.setAttribute("currentHostel", null);
                 session.setAttribute("hostelList", null);
             }
-            session.setAttribute("needReload", false);
 
             if (path.equals("/overview")) {
                 if (request.getParameter("hostelId") != null) {
@@ -303,6 +302,25 @@ public class LandlordController extends HttpServlet {
                 request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
             } else if (path.equals("/notification")) {
                 request.getRequestDispatcher("/view/LNotification.jsp").forward(request, response);
+            } else if (path.equals("/service")) {
+                List<Service> list = ServiceDAO.findHostelActiveServices(currentHostel);
+                List<Service> serviceList = new ArrayList<>();
+                Service eletricService = null;
+                Service waterService = null;
+                for (Service service : list) {
+                    if (service.getType() == 0) {
+                        serviceList.add(service);
+                    } else if (service.getType() == 1) {
+                        eletricService = service;
+                    } else if (service.getType() == 2) {
+                        waterService = service;
+                    }
+                }
+                request.setAttribute("serviceList", serviceList);
+                request.setAttribute("eletricService", eletricService);
+                request.setAttribute("waterService", waterService);
+                request.getRequestDispatcher("/view/LAddService.jsp").forward(request, response);
+
             }
 
             if (path.equals("/rentalRequestList")) { //get by hostel ID

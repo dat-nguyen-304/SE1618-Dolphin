@@ -42,7 +42,7 @@
 
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LHostelInfo.css">
-
+        <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
     </head>
     <body>
         <%@include file="../view/headerLandlordDashboard.jsp" %>

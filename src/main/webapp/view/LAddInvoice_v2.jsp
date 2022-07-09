@@ -18,7 +18,6 @@
         <!-- Favicon -->
         <link rel="shortcut icon" href="../assets/icons/logo.png">
 
-        <!-- <link rel="stylesheet" href="app.css"> -->
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,13 +34,14 @@
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
-
+        
+        <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
     </head>
 
     <body>
         <%@include file="../view/headerLandlordDashboard.jsp" %>
         <%@include file="../view/navbarLandlordDashboard.jsp" %>
-        
+
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
@@ -128,8 +128,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
 
@@ -139,7 +137,6 @@
 
                                 <input type="hidden" name="chosenRoomID" value="${requestScope.chosenRoom.roomID}">
                                 <input type="hidden" name="contractID" value="${requestScope.contract.contractID}">
-                                <input type="hidden" id="refreshed" value="no">
 
                                 <div class="invoice-detail-info mt-[20px] grid grid-cols-6">
 
@@ -189,20 +186,22 @@
                                 <div class="invoice-time-info mt-[30px] grid grid-cols-6">
                                     <div class="flex items-center col-span-2 grid grid-cols-6">
                                         <label for="invoice-month"
-                                               class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Kỳ thanh
+                                               class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Kỳ thanh
                                             toán: </label>
                                         <!-- <input type="month" name="invoice-month" id="invoice-month"> -->
-                                        <input datepicker datepicker-format="mm/yyyy" datepicker-orientation="bottom"
-                                               type="text" name="invoice-month" id="invoice-month"
-                                               class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
-                                               placeholder="Chọn tháng...">
+                                        <input type="hidden" name="invoice-month" id="invoice-month" value="">
+                                        <span id="invoice-month-dipsplay">${(requestScope.chosenRoom.latestInvoiceMonth != null) ? chosenRoom.latestInvoiceMonth : requestScope.startMonth}</span>
+                                        <%--                                        <input datepicker datepicker-format="mm/yyyy" datepicker-orientation="bottom"--%>
+                                        <%--                                               type="text" name="invoice-month" id="invoice-month"--%>
+                                        <%--                                               class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"--%>
+                                        <%--                                               placeholder="Chọn tháng...">--%>
                                     </div>
                                     <div class="flex items-center col-span-2 grid grid-cols-6">
                                         <p class="col-span-5" id="monthError"></p>
                                     </div>
                                     <div class="flex items-center col-span-2 grid grid-cols-6">
-                                        <p class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Kỳ thanh toán gần nhất:</p>
-                                        <span class="col-span-3 bg-[#fff] text-gray-900 rounded p-[5px] text-[15px]" id="latestInvoiceMonth">${requestScope.chosenRoom.latestInvoiceMonth}</span>
+                                        <p class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Kỳ gần nhất có hóa đơn:</p>
+                                        <span class="col-span-3 bg-[#fff] text-gray-900 rounded p-[5px] text-[15px]" id="latestInvoiceMonth">${(requestScope.chosenRoom.latestInvoiceMonth != null) ? requestScope.chosenRoom.latestInvoiceMonth : "Hợp đồng này chưa có hóa đơn"}</span>
                                     </div>
                                     <!--                                <div class="flex items-center col-span-2 grid grid-cols-6">
                                                                         <label for="invoice-start-date "
@@ -214,22 +213,21 @@
                                                                                placeholder="Chọn ngày...">
                                                                     </div>-->
                                 </div>
-                                <div class="invoice-time-range mt-[30px] grid grid-cols-6">
+
+                                <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] grid grid-cols-6">
                                     <div class="start-date flex items-center col-span-2 grid grid-cols-6">
                                         <label for="invoice-start-date"
-                                               class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Ngày
+                                               class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày
                                             đầu:</label>
-                                        <input datepicker datepicker-autohide datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
-                                               type="text" id="invoice-start-date" name="startDate"
+                                        <input type="text" id="invoice-start-date" name="startDate"
                                                class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                                placeholder="Chọn ngày...">
                                     </div>
                                     <div class="end-date flex items-center col-span-2 grid grid-cols-6">
                                         <label for="invoice-end-date"
-                                               class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Ngày
+                                               class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày
                                             cuối: </label>
-                                        <input datepicker datepicker-autohide datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
-                                               type="text" id="invoice-end-date" name="endDate"
+                                        <input type="text" id="invoice-end-date" name="endDate"
                                                class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                                placeholder="Chọn ngày...">
                                     </div>
@@ -237,7 +235,6 @@
                                         <p id="dateError"></p>
                                     </div>
                                 </div>
-
 
                                 <h3 class="mt-[20px]">Chi tiết hoá đơn</h3>
                                 <!-- invoice table -->
@@ -293,7 +290,7 @@
                                             ${requestScope.contract.rentalFeePerMonth}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <span id="rentalFee" class="rate">${contract.rentalFeePerMonth}</span>
+                                            <span id="rentalFee" class="rate rowSum">${contract.rentalFeePerMonth}</span>
                                         </td>
                                     </tr>
                                     <tr class="bg-white border-b hover:bg-gray-50">
@@ -373,7 +370,7 @@
                         </c:if>
                     </div>
 
-                    <!--table invoice list--> 
+                    <!--table invoice list-->
                     <div class="statistic flex justify-between">
                         <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
                             <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter">
@@ -384,7 +381,7 @@
                                 <c:if test="${requestScope.noInvoiceList != null}">
                                     <c:forEach var="room" items="${requestScope.noInvoiceList}">
                                         <form method="post" action="/sakura/invoice/new" style="display: inline-block;">
-                                            <button class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center" name="roomID" value="${room.roomID}" type="submit">
+                                            <button class="roomNoInvoice ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center" name="roomID" value="${room.roomID}" type="submit">
                                                 ${room.roomNumber}</button>
                                         </form>
                                     </c:forEach>
@@ -442,6 +439,7 @@
         <script src="../assets/javascript/moment.js"></script>
         <script>
                                             let invoiceMonth = $("#invoice-month");
+                                            let invoiceMonthDisplay = $("#invoice-month-dipsplay");
                                             let invoiceStartDate = $("#invoice-start-date");
                                             let invoiceEndDate = $("#invoice-end-date");
                                             let monthError = $("#monthError");
@@ -453,7 +451,6 @@
                                             let latestInvoiceMonth = $("#latestInvoiceMonth");
                                             let allRowSum = $(".rowSum");
 
-
                                             jQuery(document).ready(function ($) {
 
                                                 let allRateCells = $(".rate");
@@ -462,12 +459,14 @@
                                                     let money = node.childNodes[0].nodeValue;
                                                     node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                                 }
+                                                const month = moment(invoiceMonthDisplay.html()).add(1, "M");
+                                                invoiceMonth.val(month.format('MM/YYYY').toString());
+                                                invoiceMonthDisplay.html(month.format('MM/YYYY').toString());
                                                 latestInvoiceMonth.html(latestInvoiceMonth.html().split('-').reverse().join('/'));
                                                 bottomSum.html(rentalFee.html() + " đồng");
                                                 invoiceSum.html(rentalFee.html());
                                                 invoiceSumHidden.html(rentalFee.html());
                                                 invoiceSumHidden.val(parseInt(rentalFee.html().replace(/,/g, '')));
-                                                console.log(invoiceSumHidden.val());
                                             });
 
                                             $("#confirmButton").on('click', function () {
@@ -477,9 +476,10 @@
 
                                             invoiceMonth.click(function () {
                                                 $(this).css("border", "");
+                                                monthError.html("");
                                             });
 
-                                            invoiceMonth.click(function () {
+                                            invoiceStartDate.click(function () {
                                                 invoiceStartDate.css("border", "");
                                                 invoiceEndDate.css("border", "");
                                                 dateError.html("");
@@ -492,6 +492,7 @@
                                             });
 
                                             $("#room-filter").on('input', function () {
+                                                console.log("HI");
                                                 let text = $("#room-filter").val();
                                                 let allRoomButtons = $(".roomNoInvoice");
                                                 for (let i = 0; i < allRoomButtons.length; i++) {
@@ -533,52 +534,38 @@
                                                 });
                                             }
 
-                                            /*function enableInput(serviceID) {
-                                             $("#startInput" + serviceID).val("");
-                                             $("#endInput" + serviceID).val("");
-                                             $("#rowSum" + serviceID).html("");
-                                             if ($("#startInput" + serviceID).prop("disabled") === true) {
-                                             $("#startInput" + serviceID).prop("disabled", false);
-                                             $("#endInput" + serviceID).prop("disabled", false);
-                                             } else {
-                                             $("#startInput" + serviceID).prop("disabled", true);
-                                             $("#endInput" + serviceID).prop("disabled", true);
-                                             }
-                                             }*/
-
                                             function updateSum(serviceID, type, element) {
                                                 let rowSum = $("#rowSum" + serviceID);
-                                                let startInput = $("#startInput" + serviceID);
-                                                let endInput = $("#endInput" + serviceID);
                                                 rowSum.html("");
                                                 let sum;
                                                 if (type === 1) {
-                                                    if ($(element).val() === "")
-                                                        sum = 0;
-                                                    else {
-                                                        if ($(element).attr('id').indexOf('startInput') >= 0) {
-                                                            if (startInput.val() > endInput.val()) {
-                                                                endInput.val(startInput.val());
-                                                            }
-                                                        }
-
-                                                        if ($(element).attr('id').indexOf('endInput') >= 0) {
-                                                            if (startInput.val() > endInput.val()) {
-                                                                startInput.val(endInput.val());
-                                                            }
-                                                        }
-                                                        sum = parseInt(endInput.val()) - parseInt(startInput.val());
+                                                    if ($(element).val() === "") {
+                                                        $(element).val(0);
                                                     }
+
+                                                    let startInput = $("#startInput" + serviceID);
+                                                    let endInput = $("#endInput" + serviceID);
+                                                    if ($(element).attr('id').indexOf('startInput') >= 0) {
+                                                        if (parseInt(startInput.val()) > parseInt(endInput.val())) {
+                                                            endInput.val(startInput.val());
+                                                        }
+                                                    }
+                                                    if ($(element).attr('id').indexOf('endInput') >= 0) {
+                                                        if (parseInt(startInput.val()) > parseInt(endInput.val())) {
+                                                            startInput.val(endInput.val());
+                                                        }
+                                                    }
+                                                    sum = parseInt(endInput.val()) - parseInt(startInput.val());
                                                     $("#quantity" + serviceID).html(sum);
                                                 } else {
-                                                    if ($(element).val() === "")
+                                                    if ($(element).val() === "") {
+                                                        $(element).val(0);
                                                         sum = 0;
-                                                    else
-                                                        sum = $("#quantity" + serviceID).val();
+                                                    } else
+                                                        sum = $("#quantity" + serviceID).val()
                                                 }
                                                 sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
-                                                rowSum.html(parseInt(sum));
-
+                                                rowSum.html(parseInt(sum).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
                                                 let sumService = 0;
                                                 for (let i = 0; i < allRowSum.length; i++) {
@@ -586,33 +573,22 @@
                                                     sumService += parseInt($(node).html().replace(/,/g, ''));
                                                 }
 
-                                                $("#serviceSum").html(sumService);
-                                                invoiceSum.html(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
-                                                invoiceSumHidden.val(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
-                                                console.log("hidden " + invoiceSumHidden.val());
-                                                invoiceSum.html(invoiceSum.html().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-
-                                                bottomSum.html(sumService + parseInt(rentalFee.html().replace(/,/g, '')));
-                                                bottomSum.html(bottomSum.html().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
-
-                                                for (let i = 0; i < allRowSum.length; i++) {
-                                                    let node = allRowSum[i];
-                                                    let money = node.childNodes[0].nodeValue;
-                                                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                }
+                                                invoiceSum.html(sumService.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                                                invoiceSumHidden.val(sumService);
+                                                bottomSum.html(sumService.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đồng");
                                             }
 
                                             function validate() {
-                                                console.log(invoiceMonth.val());
-                                                console.log(latestInvoiceMonth.html());
-                                                let startParts = invoiceStartDate.val().split("/");
-                                                let startDate = new Date(parseInt(startParts[2], 10),
-                                                        parseInt(startParts[1], 10) - 1,
-                                                        parseInt(startParts[0], 10));
-                                                let endParts = invoiceEndDate.val().split("/");
-                                                let endDate = new Date(parseInt(endParts[2], 10),
-                                                        parseInt(endParts[1], 10) - 1,
-                                                        parseInt(endParts[0], 10));
+                                                // console.log(invoiceMonth.val());
+                                                // console.log(latestInvoiceMonth.html());
+                                                // let startParts = invoiceStartDate.val().split("/");
+                                                // let startDate = new Date(parseInt(startParts[2], 10),
+                                                //         parseInt(startParts[1], 10) - 1,
+                                                //         parseInt(startParts[0], 10));
+                                                // let endParts = invoiceEndDate.val().split("/");
+                                                // let endDate = new Date(parseInt(endParts[2], 10),
+                                                //         parseInt(endParts[1], 10) - 1,
+                                                //         parseInt(endParts[0], 10));
                                                 let res = true;
                                                 if (invoiceMonth.val() === "") {
                                                     invoiceMonth.css("border", "1.5px solid red");
@@ -626,25 +602,24 @@
                                                     invoiceEndDate.css("border", "1.5px solid red");
                                                     res = false;
                                                 }
-                                                if (startDate > endDate) {
-                                                    invoiceStartDate.css("border", "1.5px solid red");
-                                                    invoiceEndDate.css("border", "1.5px solid red");
-                                                    console.log("sai ngay");
-                                                    dateError.html("Ngày kết thúc phải sau ngày bắt đầu!");
-                                                    dateError.css("color", "red");
-                                                    res = false;
-                                                }
+                                                // if (startDate > endDate) {
+                                                //     invoiceStartDate.css("border", "1.5px solid red");
+                                                //     invoiceEndDate.css("border", "1.5px solid red");
+                                                //     console.log("sai ngay");
+                                                //     dateError.html("Ngày kết thúc phải sau ngày bắt đầu!");
+                                                //     dateError.css("color", "red");
+                                                //     res = false;
+                                                // }
                                                 if (invoiceMonth.val() !== "" && invoiceMonth.val() <= latestInvoiceMonth.html()) {
-//                                                    $("#latestInvoiceMonth").css("border", "1.5px solid red");
+                                                    // $("#latestInvoiceMonth").css("border", "1.5px solid red");
                                                     monthError.html("Người thuê đã thanh toán kì " + invoiceMonth.val() + "!");
                                                     monthError.css("color", "red");
                                                     invoiceMonth.css("border", "1.5px solid red");
                                                     res = false;
                                                 }
-                                                if (invoiceStartDate.val() > invoiceEndDate.val()) {
-                                                    console.log(invoiceStartDate.val() > invoiceEndDate.val());
-                                                    res = false;
-                                                }
+                                                // if (invoiceStartDate.val() > invoiceEndDate.val()) {
+                                                //     res = false;
+                                                // }
                                                 if (res) {
                                                     console.log("OK");
                                                     $("#toggleButton").click();

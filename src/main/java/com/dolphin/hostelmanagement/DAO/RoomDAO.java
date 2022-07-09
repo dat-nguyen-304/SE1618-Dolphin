@@ -293,8 +293,8 @@ public class RoomDAO {
                         int status = rs.getInt("status");
                         RoomType roomType = findByID(roomID).getRoomType();
                         String latestMonthString = rs.getString("latestInvoiceMonth");
-                        YearMonth latestInvoiceMonth = YearMonth.parse(latestMonthString);
-                        if (roomType.getHostel().getHostelID() == hostelID && status == 1 && latestInvoiceMonth.isBefore(thisMonth)) {
+                        YearMonth latestInvoiceMonth = (!latestMonthString.equals("-00")) ? YearMonth.parse(latestMonthString) : null;
+                        if (roomType.getHostel().getHostelID() == hostelID && status == 1 && (latestInvoiceMonth == null || latestInvoiceMonth.isBefore(thisMonth))) {
                             list.add(new Room(roomID, roomNumber, roomType, latestInvoiceMonth));
                         }
                     }
@@ -330,7 +330,7 @@ public class RoomDAO {
                         String roomNumber = rs.getString("roomNumber");
                         RoomType roomType = findByID(roomID).getRoomType();
                         String latestMonthString = rs.getString("latestInvoiceMonth");
-                        YearMonth latestInvoiceMonth = YearMonth.parse(latestMonthString);
+                        YearMonth latestInvoiceMonth = (!latestMonthString.equals("-00")) ? YearMonth.parse(latestMonthString) : null;
                         return new Room(roomID, roomNumber, roomType, latestInvoiceMonth);
                     }
                 }
@@ -418,6 +418,10 @@ public class RoomDAO {
     }
 
     public static void main(String args[]) {
-        System.out.println(setCurrentNumberOfResidents(5, 3));
+        for (Room r:
+             findRoomsNeedInvoice(1)) {
+            System.out.println(r);
+        }
+//        System.out.println(setCurrentNumberOfResidents(5, 3));
     }
 }

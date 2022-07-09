@@ -74,6 +74,9 @@ public class TenantController extends HttpServlet {
                 request.setAttribute("contractList", contractList);
                 request.setAttribute("invoiceMap", sorted);*/
                 Contract currentContract = ContractDAO.findActiveContractByTenant(t);
+                if (currentContract == null) {
+                    request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
+                }
                 ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
                 Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
 

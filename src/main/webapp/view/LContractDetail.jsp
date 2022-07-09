@@ -9,6 +9,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,25 +17,36 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Trang người thuê</title>
+        <title>Trang chủ nhà - Chi tiết hợp đồng</title>
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="images/logo.png">
+        <link rel="shortcut icon" href="../assets/icons/logo.png">
 
-        <!-- <link rel="stylesheet" href="app.css"> -->
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-            rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LContractDetail.css">
+        <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+
+        <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+
+        <link rel="stylesheet" href="../assets/css/datatables.css">
 
     </head>
 
@@ -55,27 +67,19 @@
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
                         <li class="inline-flex items-center">
-                            <a href="#"
-                               class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900 ">
-                                <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-                                </path>
+                            <p class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900 ">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                                 </svg>
-                                <c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
-                                Phòng 
-                            </a>
+                                Danh sách hợp đồng nhà trọ ${sessionScope.currentHostel.hostelName}
+                            </p>
                         </li>
                         <li aria-current="page">
                             <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                      clip-rule="evenodd"></path>
+                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"> 
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 text-gray-400">Chi tiết hợp đồng</span>
+                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 text-gray-400">Chi tiết hợp đồng ${requestScope.contract.contractID} - phòng ${requestScope.contract.room.roomNumber}</span>
                             </div>
                         </li>
                     </ol>
@@ -93,256 +97,221 @@
                     String endDate = formatter.format(endTime);
                 %>
 
-                <div class="grid grid-cols-2 gap-x-8 mt-4 border-2 rounded p-4">
-                    <div class="">
-                        <div class="images border-2 p-4 rounded mt-[12px] grid grid-cols-4 gap-4">
-                            <div class="col-span-2">Hợp đồng ID: ${requestScope.contract.contractID}</div>
-                            <div class="col-span-2 text-xs italic text-right">Ngày tạo: <%=createdDate%></div>
-                            <div class="col-span-2 text-xs">Thời gian: <%=startDate%> - <%=endDate%></div>
-                            <div class="col-span-2 text-xs italic text-right contractStatus">
-                                <c:if test="${requestScope.contract.status == 0}">Trạng thái: Đã kết thúc</c:if>
-                                <c:if test="${requestScope.contract.status == 1}">
-                                    <button class="border-2 p-1 mr-2" id="endContract-1" type="submit" name="action" value="Save">
-                                        Kết thúc hợp đồng này
-                                    </button>
-                                    Trạng thái: Còn hiệu lực
-                                </c:if>
+                <div class="grid grid-cols-2 gap-[20px]">
+                    <div class="card bg-[#fff] p-[20px]">
+                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
+                            Mã hợp đồng: <fmt:formatNumber value = "${requestScope.contract.contractID}" groupingUsed="false" type = "number" minIntegerDigits="5"/>
+                        </div>
+                        <div class="w-full h-fit mx-auto">
+                            <div class="grid grid-cols-6 gap-[8px]">
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Ngày tạo</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><%=createdDate%></p>
+                                </div>
+                                <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Thời gian</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><%=startDate%> - <%=endDate%></p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Người cho thuê</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.landlord.fullname}</p>
+                                </div>
+                                <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Người thuê</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.tenant.fullname}</p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Phòng thuê</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.room.roomNumber}</p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Tiền đặt cọc</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.contract.deposit}</span></p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Giá hằng tháng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.contract.rentalFeePerMonth}</span></p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Trạng thái</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold contractStatus">
+                                        <c:if test="${requestScope.contract.status == 0}">Đã kết thúc</c:if>
+                                        <c:if test="${requestScope.contract.status == 1}">
+                                            Còn hiệu lực
+                                            <button class="" id="endContract-1" type="submit" name="action" value="Save">
+                                                Kết thúc hợp đồng này
+                                            </button>
+                                        </c:if>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-span-4 text-xs">Người cho thuê: ${requestScope.contract.landlord.fullname}</div>
-                            <div class="col-span-2 text-xs">Người thuê: ${requestScope.contract.tenant.fullname}</div>
-                            <div class="col-span-2 text-xs text-right">Phòng cho thuê: 101</div>
-                            <div class="col-span-2 text-xs">Tiền đặt cọc: <span class="money">${requestScope.contract.deposit}</span></div>
-                            <div class="col-span-2 text-xs text-right">Giá hằng tháng: <span class="money">${requestScope.contract.rentalFeePerMonth}</span></div>
-                                <c:if test="${requestScope.contract.description != null}">
-                                <div class="col-span-4 text-xs">Nội dung: -${requestScope.contract.description}-
+                            <c:if test="${requestScope.contract.description != null}">
+                                <div class="mt-[20px]">
+                                    <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Nội dung</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.description}</p>
                                 </div>
                             </c:if>
                             <p class="col-span-4 text-right">Đã thỏa thuận</p>
                         </div>
                     </div>
-                    <div class="mt-4 border-2 rounded p-4">
-                        <div class="grid grid-cols-6 gap-4">
-                            <div class="text-sm col-span-3">Thời hạn: ${requestScope.contract.duration} Tháng</div>
-                            <div class="text-sm col-span-3">Tổng tiền nhà: <span class="money">${requestScope.contract.rentalFeePerMonth * requestScope.invoiceList.size()}</span></div>
-                            <div class="text-sm col-span-2">Số điện: ${requestScope.startElectrict} - ${requestScope.endElectrict}</div>
-                            <div class="text-sm col-span-2">Số lượng: ${requestScope.endElectrict - requestScope.startElectrict}</div>
-                            <div class="text-sm col-span-2">Tổng: <span class="money">${requestScope.totalElectric}</span></div>
-                            <div class="text-sm col-span-2">Số nước: ${requestScope.startWater} - ${requestScope.endWater}</div>
-                            <div class="text-sm col-span-2">Số lượng: ${requestScope.endWater - requestScope.startWater}</div>
-                            <div class="text-sm col-span-2">Tổng: <span class="money">${requestScope.totalWater}</span></div>
-                            <div class="text-sm col-span-6">Các dịch vụ khác: <span class="money">${requestScope.totalAll - requestScope.totalElectric - requestScope.totalWater}</span></div>
-                            <div class="text-md col-span-6">Tổng cộng: <span class="money">${requestScope.totalAll}</span></div>
+                    <div class="card bg-[#fff] p-[20px]">
+                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
+                            Thống kê chi phí
                         </div>
-                    </div>
-                    <p class="mt-8">Danh sách hóa đơn:</p>
-                    <div class="mt-[20px] col-span-2">
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left text-gray-500 ">
-                                <thead
-                                    class="text-center text-xs text-gray-700 uppercase bg-gray-50  ">
-                                    <tr>
-                                        <th scope="col" class="text-center px-6 py-3">
-                                            Hóa đơn ID
-                                        </th>
-                                        <th scope="col" class="text-center px-6 py-3">
-                                            Tên Phòng
-                                        </th>
-                                        <th scope="col" class="text-center px-6 py-3">
-                                            Thời gian
-                                        </th>
-                                        <th scope="col" class="text-center px-6 py-3">
-                                            Tổng tiền
-                                        </th>
-                                        <th scope="col" class="text-center px-6 py-3">
-                                            Trạng thái
-                                        </th>
-                                        <th scope="col" class="text-center px-6 py-3">
-                                            <span class="sr-only">Xem chi tiết</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${requestScope.invoiceList}" var="invoice">
-                                        <tr class="bg-white border-b ">
-                                            <th scope="row"
-                                                class="text-center px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
-                                                ${invoice.invoiceID}
-                                            </th>
-                                            <td class="text-center px-6 py-4">
-                                                ${requestScope.contract.room.roomNumber}
-                                            </td>
-                                            <td class="text-center px-6 py-4">
-                                                ${invoice.month}
-                                            </td>
-                                            <td class="text-center px-6 py-4 money">
-                                                ${invoice.totalPrice}
-                                            </td>
-                                            <td class="text-center px-6 py-4">
-                                                <c:if test="${invoice.status == 0}">Chưa thanh toán</c:if>
-                                                <c:if test="${invoice.status == 1}">Đã thanh toán</c:if>
-                                                </td>
-                                                <td class="text-center px-6 py-4 text-center">
-                                                    <form action="/sakura/landlord/contract-detail">
-                                                        <button type="submit" name="invoiceId" value="${invoice.invoiceID}"
-                                                            class="font-medium text-blue-600 hover:underline">
-                                                        Xem chi tiết
-                                                        </butotn>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- ---------------------------------------------------------------------------------- -->
-                <div class="bg-[#f7f7fa]">
-                    <div class="bg-[#fff] rounded shadow">
-                        <!--Modal-->
-                        <div
-                            class="endContractmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-                            <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-                            <div
-                                class="modal-container bg-white w-3/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
-                                <div
-                                    class="endContractmodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
-                                    <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                         viewBox="0 0 18 18">
-                                    <path
-                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                                    </path>
-                                    </svg>
-                                    <span class="text-sm">(Esc)</span>
+                        <div class="w-full h-fit mx-auto">
+                            <div class="grid grid-cols-6 gap-[8px]">
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Thời hạn</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.duration} tháng</p>
                                 </div>
-                                <div class="modal-content">
-                                    <!--Title-->
-                                    <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
-                                        <p class="text-2xl font-bold">Xóa nhà trọ</p>
-                                        <div
-                                            class="endContractmodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                                            <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
-                                                 height="18" viewBox="0 0 18 18">
-                                            <path
-                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                                            </path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <!--Body-->
-                                    <div class="p-4">
-                                        <input type="hidden" name="endContractId" value="${requestScope.contract.contractID}"/>
-                                        Bạn có chắc muốn kết thúc hợp đồng này ngay lúc này.
-                                    </div>
-                                    <!--Footer-->
-                                    <div class="flex justify-end p-[20px]">
-                                        <button
-                                            class="endContractmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                                        <button id="endContract-2" onclick="endContract()"
-                                                class="endContractBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Chắc chắn</button>
-                                    </div>
+                                <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Tổng tiền nhà</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.contract.rentalFeePerMonth * requestScope.invoiceList.size()}</span></p>
                                 </div>
-                            </div>
-                        </div>
-                        <!--Modal 2-->
-                        <div
-                            class="endContractmodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-                            <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-                            <div
-                                class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-                                <div
-                                    class="endContractmodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
-                                    <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                         viewBox="0 0 18 18">
-                                    <path
-                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                                    </path>
-                                    </svg>
-                                    <span class="text-sm">(Esc)</span>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Số điện (kWh)</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.startElectrict} - ${requestScope.endElectrict}</p>
                                 </div>
-                                <div class="modal-content">
-                                    <!--Title-->
-                                    <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
-                                        <p class="text-2xl font-bold">Xác nhận</p>
-                                        <div
-                                            class="endContractmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                                            <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18"
-                                                 height="18" viewBox="0 0 18 18">
-                                            <path
-                                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                                            </path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <!--Body-->
-                                    <div class="p-[20px]">
-                                        <p class="endContractContent"></p>
-                                    </div>
-                                    <!--Footer-->
-                                    <div class="flex justify-end p-[20px]">
-                                        <button 
-                                            class="endContractmodal2-close px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">OK
-                                        </button>
-                                    </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Số lượng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.endElectrict - requestScope.startElectrict}</p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Tổng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.totalElectric}</span></p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Số nước (m<sup>3</sup>)</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.startWater} - ${requestScope.endWater}</p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Số lượng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.endWater - requestScope.startWater}</p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Tổng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.totalWater}</span></p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Các dịch vụ khác</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.totalAll - requestScope.totalElectric - requestScope.totalWater}</span></p>
+                                </div>
+                                <div class="col-span-6 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Tổng cộng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.totalAll}</span></p>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <!-- ---------------------------------------------------------------------------------- -->
+                <div class="card bg-[#fff] p-[20px] mt-[20px]">
+                    <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
+                        Danh sách hóa đơn
+                    </div>
+                    <table id="invoice-table" class="w-full text-sm text-left text-gray-500 ">
+                        <thead>
+                            <tr class="text-center text-xs text-gray-700 uppercase bg-gray-50  ">
+                                <th scope="col" class="text-center px-6 py-3">Mã hoá đơn</th>
+                                <th scope="col" class="text-center px-6 py-3">Tên Phòng</th>
+                                <th scope="col" class="text-center px-6 py-3">Thời gian</th>
+                                <th scope="col" class="text-center px-6 py-3">Tổng tiền</th>
+                                <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
+                                <th scope="col" class="text-center px-6 py-3">
+                                    <span class="sr-only">Xem chi tiết</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${requestScope.invoiceList}" var="invoice">
+                                <tr class="bg-white border-b ">
+                                    <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900  whitespace-nowrap">${invoice.invoiceID}</th>
+                                    <td class="text-center px-6 py-4">${requestScope.contract.room.roomNumber}</td>
+                                    <td class="text-center px-6 py-4">${invoice.month}</td>
+                                    <td class="text-center px-6 py-4 money">${invoice.totalPrice}</td>
+                                    <td class="text-center px-6 py-4">
+                                        <c:if test="${invoice.status == 0}">
+                                            Chưa thanh toán
+                                        </c:if>
+                                        <c:if test="${invoice.status == 1}">
+                                            Đã thanh toán
+                                        </c:if>
+                                    </td>
+                                    <td class="text-center px-6 py-4 text-center">
+                                        <form action="/sakura/landlord/contract-detail">
+                                            <button type="submit" name="invoiceId" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</butotn>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                <%@include file="../view/modalLandlordContractDetail.jsp" %>
             </div>
 
-            <!-- Footer -->
-
-            <footer class="w-full px-[20px] pb-[20px]">
-                <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
-                    <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
-                                                                                 class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
-                    </span>
-                    <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6 ">Về Sakura</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">Chính sách bảo mật</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-[#17535B]">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </footer>
-
-            <!-- End footer -->
+            <%@include file="../view/footerDashboard.jsp" %>
 
         </div>
 
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-
-        <!-- chartJS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script>
-                                            var formatMoney = function (n) {
-                                                var s = '' + (Math.floor(n)), i = s.length, r = '';
-                                                while ((i -= 3) > 0) {
-                                                    r = '.' + s.substr(i, 3) + r;
-                                                }
-                                                return s.substr(0, i + 3) + r + " VNÐ";
-                                            };
-                                            const moneyElements = document.querySelectorAll('.money');
-                                            moneyElements.forEach(money => {
-                                                const originMoney = money.innerHTML;
-                                                console.log(originMoney);
-                                                money.innerHTML = formatMoney(originMoney);
-                                            })
+            $(document).ready(function () {
+                $('#invoice-table').DataTable({
+                    dom: 'Bfrtip',
+                    "fnDrawCallback": function (oSettings) {
+                        if ($('#room-list-table tr').length < 10) {
+                            $('.dataTables_paginate').hide();
+                        }
+                    },
+                    language: {
+                        "emptyTable": "Không có dữ liệu!",
+                        "zeroRecords": "Không có kết quả phù hợp!",
+                        "infoEmpty": "Hiển thị 0 kết quả",
+                        "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
+                        "infoFiltered": "",
+                        search: "Tìm kiếm",
+                        paginate: {
+                            previous: '<i class="bi bi-caret-left-fill"></i>',
+                            next: '<i class="bi bi-caret-right-fill"></i>'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: 'Trước',
+                                next: 'Sau'
+                            }
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        }
+                    ],
+
+                    "pageLength": 10, // items per page
+                    info: true
+                });
+            });
+        </script>
+        <script>
+            var formatMoney = function (n) {
+                var s = '' + (Math.floor(n)), i = s.length, r = '';
+                while ((i -= 3) > 0) {
+                    r = '.' + s.substr(i, 3) + r;
+                }
+                return s.substr(0, i + 3) + r + " VNÐ";
+            };
+            const moneyElements = document.querySelectorAll('.money');
+            moneyElements.forEach(money => {
+                const originMoney = money.innerHTML;
+                console.log(originMoney);
+                money.innerHTML = formatMoney(originMoney);
+            });
         </script>
 
         <script>

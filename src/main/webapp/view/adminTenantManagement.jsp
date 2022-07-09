@@ -133,6 +133,11 @@
         $(document).ready(function () {
             $('#tenant-table').DataTable({
                 dom: 'Bfrtip',
+                "fnDrawCallback": function (oSettings) {
+                    if ($('#room-list-table tr').length < 10) {
+                        $('.dataTables_paginate').hide();
+                    }
+                },
                 language: {
                     "emptyTable": "Không có dữ liệu!",
                     "zeroRecords": "Không có kết quả phù hợp!",
@@ -165,6 +170,5 @@
                 info: true
             });
         });
-
     </script>
 </html>

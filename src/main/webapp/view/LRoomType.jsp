@@ -39,6 +39,7 @@
         <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LRoomType.css">
+        <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
     </head>
 
     <body>
@@ -574,7 +575,7 @@
                     type: 'POST',
                     data: {'deleteRoomTypeId': deleteRoomTypeId.value
                     },
-                    url: '/sakura/landlord/delete-roomtype',
+                    url: '/sakura/room/delete-roomtype',
                     success: function (response) {
                         deleteRoomTypeContent.innerHTML = response;
                     },
@@ -588,7 +589,6 @@
         <script>
             function addRoomType(element) {
                 console.log("da vao add roomtype");
-                console.log(element);
                 const name = document.querySelector("input[name='name']");
                 const price = document.querySelector("input[name='price']");
                 const area = document.querySelector("input[name='area']");
@@ -596,29 +596,52 @@
                 const description = document.querySelector("textarea[name='description']");
                 const hostelId = document.querySelector("input[name='hostelId']");
                 const messageElement = document.querySelector(".addRoomMessage");
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'name': name.value,
-                        'price': price.value,
-                        'area': area.value,
-                        'maxNumberOfResidents': maxNumberOfResidents.value,
-                        'description': description.value,
-                        'hostelId': hostelId.value
-                    },
-                    url: '/sakura/landlord/add-roomtype',
-                    success: function (response) {
-                        name.value = "";
-                        price.value = "";
-                        area.value = "";
-                        maxNumberOfResidents.value = "";
-                        description.value = "";
-                        messageElement.innerHTML = response;
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                console.log("Name: ", name.value);
+                if (!name.value || !price.value || !area.value || !maxNumberOfResidents.value || !description.value) {
+                    let message = "";
+                    if (!name.value) {
+                        message += "Tên loại phòng - ";
                     }
-                });
+                    if (!price.value) {
+                        message += "Giá tiền - ";
+                    }
+                    if (!area.value) {
+                        message += "Diện tích - ";
+                    }
+                    if (!maxNumberOfResidents.value) {
+                        message += "Số người tối đa - ";
+                    }
+                    if (!description.value) {
+                        message += "Mô tả ";
+                    }
+                    message += "không được trống";
+
+                    messageElement.innerHTML = message;
+                } else
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'name': name.value,
+                            'price': price.value,
+                            'area': area.value,
+                            'maxNumberOfResidents': maxNumberOfResidents.value,
+                            'description': description.value,
+                            'hostelId': hostelId.value
+                        },
+                        url: '/sakura/room/add-roomtype',
+                        success: function (response) {
+                            console.log(response);
+                            name.value = "";
+                            price.value = "";
+                            area.value = "";
+                            maxNumberOfResidents.value = "";
+                            description.value = "";
+                            messageElement.innerHTML = response;
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
             }
 
             function updateRoomType() {
@@ -637,24 +660,45 @@
                 console.log("maxNumberOfResidents: ", maxNumberOfResidents.value);
                 console.log("description ", description.value);
                 console.log("roomTypeId", roomTypeId.value);
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'name': name.value,
-                        'price': price.value,
-                        'area': area.value,
-                        'maxNumberOfResidents': maxNumberOfResidents.value,
-                        'description': description.value,
-                        'roomTypeId': roomTypeId.value
-                    },
-                    url: '/sakura/landlord/update-roomtype',
-                    success: function (response) {
-                        messageElement.innerHTML = response;
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                if (!name.value || !price.value || !area.value || !maxNumberOfResidents.value || !description.value) {
+                    let message = "";
+                    if (!name.value) {
+                        message += "Tên loại phòng - ";
                     }
-                });
+                    if (!price.value) {
+                        message += "Giá tiền - ";
+                    }
+                    if (!area.value) {
+                        message += "Diện tích - ";
+                    }
+                    if (!maxNumberOfResidents.value) {
+                        message += "Số người tối đa - ";
+                    }
+                    if (!description.value) {
+                        message += "Mô tả ";
+                    }
+                    message += "không được trống";
+
+                    messageElement.innerHTML = message;
+                } else
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'name': name.value,
+                            'price': price.value,
+                            'area': area.value,
+                            'maxNumberOfResidents': maxNumberOfResidents.value,
+                            'description': description.value,
+                            'roomTypeId': roomTypeId.value
+                        },
+                        url: '/sakura/room/update-roomtype',
+                        success: function (response) {
+                            messageElement.innerHTML = response;
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
             }
 
             function checkValidRoom(element) {
@@ -696,7 +740,7 @@
                     data: {'roomTypeName': element.value,
                         'hostelId': hostelId.value
                     },
-                    url: '/sakura/landlord/check-roomtype-valid',
+                    url: '/sakura/room/check-roomtype-valid',
                     success: function (response) {
                         validRoomTypeMessage.innerHTML = response;
                         if (response) {
@@ -725,7 +769,7 @@
                         'hostelId': hostelId.value,
                         'currentName': currentName.value
                     },
-                    url: '/sakura/landlord/check-update-roomtype-valid',
+                    url: '/sakura/room/check-update-roomtype-valid',
                     success: function (response) {
                         validUpdateRoomTypeMessage.innerHTML = response;
                         if (response) {

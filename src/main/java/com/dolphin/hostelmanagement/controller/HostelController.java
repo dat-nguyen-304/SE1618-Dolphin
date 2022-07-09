@@ -296,7 +296,7 @@ public class HostelController extends HttpServlet {
                         int rating = Integer.parseInt(request.getParameter("rating"));
                         int feedbackQuantity = feedbackList.size();
                         float currentHostelRating = hostel.getRating();
-                        float newHostelRating = (float)(currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1);
+                        float newHostelRating = (float) (currentHostelRating * feedbackQuantity + rating) / (feedbackQuantity + 1);
                         hostel.setRating(newHostelRating);
                         HostelDAO.updateRating(hostelId, newHostelRating);
                         FeedbackDAO.add(t.getAccount().getAccountID(), hostelId, feedbackContent, rating);
@@ -309,7 +309,7 @@ public class HostelController extends HttpServlet {
                         int oldRating = Integer.parseInt(request.getParameter("oldRating"));
                         int feedbackQuantity = feedbackList.size();
                         float currentHostelRating = hostel.getRating();
-                        float newHostelRating = (float)(currentHostelRating * feedbackQuantity - oldRating + rating) / feedbackQuantity;
+                        float newHostelRating = (float) (currentHostelRating * feedbackQuantity - oldRating + rating) / feedbackQuantity;
                         hostel.setRating(newHostelRating);
                         HostelDAO.updateRating(hostelId, newHostelRating);
                         LocalDateTime current = LocalDateTime.now();
@@ -445,38 +445,42 @@ public class HostelController extends HttpServlet {
                 rentalNoti.setToAccount(AccountDAO.findById(landlordID));
                 rentalNoti.setCreatedDate(new Date());
                 rentalNoti.setContent("Người thuê nhà " + t.getFullname() + " muốn xem phòng " + room.getRoomNumber() + ", loại phòng " + room.getRoomType().getRoomTypeName()
- + " ở nhà trọ " + hostel.getHostelName() + "!");
+                        + " ở nhà trọ " + hostel.getHostelName() + "!");
                 rentalNoti.setStatus(0); //0 means unread
-                
+
                 boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
-                if(!check) System.out.println("Something wrong in save rental notification function!");
-                else System.out.println("Successfully save rental notification!");
-                
+                if (!check) {
+                    System.out.println("Something wrong in save rental notification function!");
+                } else {
+                    System.out.println("Successfully save rental notification!");
+                }
+
                 //end notification for landlord
                 //this is notification for tenant about successfully booking request from system
-                
                 Notification successNoti = new Notification();
-                
+
                 successNoti.setToAccount(t.getAccount());
                 successNoti.setCreatedDate(new Date());
                 successNoti.setContent("Bạn đã đăng kí xem phòng " + room.getRoomNumber() + ", loại phòng " + room.getRoomType().getRoomTypeName()
                         + ", ở nhà trọ " + hostel.getHostelName() + " thành công!");
-                
+
                 successNoti.setStatus(0); //0 means unread
                 check = NotificationDAO.saveNotification(successNoti);
-                if(!check) System.out.println("Something wrong in save success notification function!");
-                else System.out.println("Successflly save success notification function");
+                if (!check) {
+                    System.out.println("Something wrong in save success notification function!");
+                } else {
+                    System.out.println("Successflly save success notification function");
+                }
                 //end notification for landlord
-                
+
                 //this is booking request adding function
                 BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), room.getRoomType().getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
 
                 //end booking request adding function
                 //this will show notification after returning back to hostel detail page!
-
                 response.sendRedirect("/sakura/hostel/detail?successBookingMessage=true&filterStar=0&hostelId=" + hostelID);
                 return;
-                
+
                 //end function
             } else if (path.equals("/address")) {
                 int provinceID = Integer.parseInt(request.getParameter("provinceID"));
@@ -495,6 +499,67 @@ public class HostelController extends HttpServlet {
                     for (District district : districtList) {
                         out.println("<option value='" + district.getDistrictID() + "'>" + district.getDistrictName() + "</option>");
                     }
+                }
+            } else if (path.equals("/add-hostel")) {
+                String name = request.getParameter("name");
+                int districtId = Integer.parseInt(request.getParameter("districtId"));
+                String streetAddress = request.getParameter("streetAddress");
+                String description = request.getParameter("description");
+                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
+
+                boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
+                Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
+                if (addSuccess) {
+                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
+                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
+                    out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
+                    out.println("<input type=\"submit\" value=\"tại đây\">");
+                    out.println("</form></span>");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+            } else if (path.equals("/check-hostel-valid")) {
+                String hostelName = request.getParameter("hostelName").trim();
+                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
+                boolean isExistHostel = HostelDAO.isExistHostel(hostelName, landlordId);
+                if (isExistHostel) {
+                    out.print("Tên nhà trọ đã tồn tại. Vui lòng kiểm tra lại!");
+                } else {
+                    out.print("");
+                }
+            } else if (path.equals("/update-hostel")) {
+                String name = request.getParameter("name");
+                int updateDistrictId = Integer.parseInt(request.getParameter("updateDistrictId"));
+                String updateStreetAddress = request.getParameter("updateStreetAddress");
+                String description = request.getParameter("description");
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+
+                boolean updateSuccess = HostelDAO.updateHostelById(hostelId, name, updateDistrictId, updateStreetAddress, description);
+                if (updateSuccess) {
+                    out.print("Cập nhật thành công");
+                } else {
+                    out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                }
+
+            } else if (path.equals("/check-update-hostel-valid")) {
+                String updateName = request.getParameter("updateName");
+                int landlordId = Integer.parseInt(request.getParameter("landlordId"));
+                String currentName = request.getParameter("currentName");
+                if (!updateName.equals(currentName)) {
+                    boolean isExistHostel = HostelDAO.isExistHostel(updateName, landlordId);
+                    if (isExistHostel) {
+                        out.print("Tên nhà trọ đã tồn tại. Vui lòng kiểm tra lại!");
+                    } else {
+                        out.print("");
+                    }
+                }
+            } else if (path.equals("/delete-hostel")) {
+                int hostelId = Integer.parseInt(request.getParameter("deleteHostelId"));
+                boolean deleteSuccess = HostelDAO.deleteById(hostelId);
+                if (deleteSuccess) {
+                    out.print("Xóa thành công");
+                } else {
+                    out.print("Xóa không thành công");
                 }
             }
         }
