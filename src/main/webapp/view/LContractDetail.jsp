@@ -59,7 +59,7 @@
         </c:if>
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
-
+        
             <!-- CONTENT -->
             <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
 

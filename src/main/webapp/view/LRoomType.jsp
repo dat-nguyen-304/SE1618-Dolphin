@@ -710,7 +710,7 @@
                     data: {'roomNumber': element.value,
                         'hostelId': hostelId
                     },
-                    url: '/sakura/landlord/check-room-valid',
+                    url: '/sakura/room/check-room-valid',
                     success: function (response) {
                         validRoomMessage.innerHTML = response;
                         if (response) {

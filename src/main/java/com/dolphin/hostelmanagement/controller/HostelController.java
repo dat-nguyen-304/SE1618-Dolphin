@@ -15,6 +15,7 @@ import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DTO.Province;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
+import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Notification;
@@ -477,7 +478,7 @@ public class HostelController extends HttpServlet {
                 int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), room.getRoomType().getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
 
                 System.out.println("MY TEST ID: " + testID);
-                
+
                 //end booking request adding function
                 //this will show notification after returning back to hostel detail page!
                 response.sendRedirect("/sakura/hostel/detail?successBookingMessage=true&filterStar=0&hostelId=" + hostelID);
@@ -508,9 +509,9 @@ public class HostelController extends HttpServlet {
                 String streetAddress = request.getParameter("streetAddress");
                 String description = request.getParameter("description");
                 int landlordId = Integer.parseInt(request.getParameter("landlordId"));
-
                 boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
                 Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
+//                ServiceDAO.saveDefaultService(newHostel.getHostelID());
                 if (addSuccess) {
                     out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");

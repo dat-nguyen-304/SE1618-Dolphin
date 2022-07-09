@@ -107,16 +107,22 @@
                         <div class="w-full mb-[20px] flex items-center justify-between">
                             <p class="text-[20px] font-bold text-[#2A3C46">Hợp đồng gần nhất</p>
                             <div>
-                                <form action="/sakura/landlord/contract-detail" class="inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
-                                    <button type="submit" name="contractId" value="${requestScope.contract.contractID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
-                                        Xem hóa đơn
-                                    </button>
-                                </form>
-                                <form action="/sakura/contract-list" class="ml-[10px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
-                                    <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
-                                        Xem lịch hợp đồng
-                                    </button>
-                                </form>
+                                <c:if test="${requestScope.contract != null}">
+                                    <form action="/sakura/landlord/contract-detail" class="inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                                        <button type="submit" name="contractId" value="${requestScope.contract.contractID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
+                                            Xem hóa đơn
+                                        </button>
+                                    </form>
+                                    <form action="/sakura/contract-list" class="ml-[10px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                                        <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
+                                            Xem tất cả hợp đồng
+                                        </button>
+                                    </form>
+                                </c:if>
+                                <c:if test="${requestScope.contract == null}">
+                                    Phòng chưa có hợp đồng nào
+                                </c:if>
+
                             </div>
                         </div>
                         <div class="grid grid-cols-6 gap-[8px]">
@@ -126,7 +132,7 @@
                             </div>
                             <div class="col-span-4 grid grid-rows-2 gap-0 mb-[10px] mb-[10px]">
                                 <p class="text-[#929ca5] font-normal text-[15px]">Ngày tạo</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.createdDate}11</p>
+                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.createdDate}</p>
                             </div>
 
                             <div class="col-span-2 grid grid-rows-2 gap-0 mb-[10px]">
@@ -178,11 +184,13 @@
                             <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Nội dung</p>
                             <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.description}</p>
                         </div>
-                        <div class="col-span-6 relative">
-                            <div class="float-right bg-[#2bc497] px-[10px] py-[5px] text-[18px] font-semibold text-center text-[#fff]">
-                                <p><i class="bi bi-check2-all mr-[5px]"></i>Đã xác nhận</p>
+                        <c:if test="${requestScope.contract != null}" >
+                            <div class="col-span-6 relative">
+                                <div class="float-right bg-[#2bc497] px-[10px] py-[5px] text-[18px] font-semibold text-center text-[#fff]">
+                                    <p><i class="bi bi-check2-all mr-[5px]"></i>Đã xác nhận</p>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
                     </div>
 
                     <!--RIGHT-->
@@ -210,7 +218,12 @@
                                 <p class="text-[#929ca5] font-normal text-[15px]">Giá thuê</p>
                                 <p class="text-[18px] text-[#2A3C46] font-semibold">
                                     <span class="money">
-                                        <fmt:formatNumber value = "${requestScope.contract.rentalFeePerMonth}" type = "number" pattern="###,###,###VNĐ"/>
+                                        <c:if test="${requestScope.contract != null}">
+                                            <fmt:formatNumber value = "${requestScope.contract.rentalFeePerMonth}" type = "number" pattern="###,###,### VNĐ"/>
+                                        </c:if>
+                                        <c:if test="${requestScope.contract == null}">
+                                            <fmt:formatNumber value = "${requestScope.currentRoom.roomType.advertisedPrice}" type = "number" pattern="###,###,### VNĐ"/> (Giá giới thiệu)
+                                        </c:if>
                                     </span>
                                 </p>
                             </div>
@@ -238,7 +251,7 @@
                         </div>
                         <div class="mt-[30px]">
                             <div class="addMemberElement mb-[20px]">
-                                <c:if test="${requestScope.residentList.size() < requestScope.currentRoom.roomType.maxNumberOfResidents}">
+                                <c:if test="${requestScope.residentList.size() < requestScope.currentRoom.roomType.maxNumberOfResidents && requestScope.contract != null}">
                                     <!-- Modal toggle -->
                                     <button id="addMember-1" type="submit" name="action" value="Save" class="mb-[20px] bg-[#17535B] text-[#f6fafc] rounded px-[10px] py-[5px] float-right">
                                         Thêm thành viên
