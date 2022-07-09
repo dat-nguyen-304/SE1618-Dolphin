@@ -111,7 +111,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <form class="card cancel-rent w-[15%] h-[120px]">
                             <button type="button"
                                     class="w-full h-full bg-[#F3F8FA] p-5 flex justify-center items-center text-[#17535B] font-medium text-[22px] hover:bg-[#DCE8E9]">Huỷ
@@ -137,6 +136,7 @@
                                     <c:if test="${empty sessionScope.roomResidentList}">
                                         <p class="text-gray-200 font-bold text-[22px] w-fit absolute left-1/2 top-1/2 translate-y-[-70%] translate-x-[-50%]">Chưa có thêm thành viên</p>
                                     </c:if>                               
+
                                     <table class="w-full text-sm text-left text-gray-500">
                                         <tbody>
                                             <c:forEach items = "${sessionScope.roomResidentList}" var = "roomResident">

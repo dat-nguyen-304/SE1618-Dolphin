@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,14 +25,29 @@
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/tenant-page-invoice-list.css">
-        <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+
+        <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+
+        <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
+        <link rel="stylesheet" href="../assets/css/datatables.css">
     </head>
     <body>
         <%@include file="../view/headerTenantDashboard.jsp" %>
@@ -132,7 +148,7 @@
                                 </div>
                                 <!--Reset filter button-->
                                 <button type="submit" name="resetButton" value="true" class="mr-[20px] px-[10px] py-[5px] text-[15px] font-medium text-[#fff] focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F] focus:z-10">
-                                    Hủy tất cả
+                                    Hủy bộ lọc
                                 </button>
 
                                 <!-- Submit button -->
@@ -147,24 +163,14 @@
                     <!-- table invoice list -->
                     <div class="statistic flex justify-between mt-[20px] w-full">
                         <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
-                            <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                            <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                                 <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Mã hoá đơn
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Ngày đầu
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Ngày cuối
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Giá tiền
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Trạng thái
-                                        </th>
+                                        <th scope="col" class="px-6 py-3">Mã hoá đơn</th>
+                                        <th scope="col" class="px-6 py-3">Ngày đầu</th>
+                                        <th scope="col" class="px-6 py-3">Ngày cuối</th>
+                                        <th scope="col" class="px-6 py-3">Giá tiền</th>
+                                        <th scope="col" class="px-6 py-3">Trạng thái</th>
                                         <th scope="col" class="px-6 py-3">
                                             <span class="sr-only">Edit</span>
                                         </th>
@@ -172,141 +178,45 @@
                                 </thead>
                                 <tbody id="invoice-list">
                                 <c:forEach var="invoice" items="${requestScope.invoiceList}">
-                                    <tr class="bg-white border-b hover:bg-gray-50 invoice-row">
-                                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap invoice-id">
-                                            <a href="#" class="hover:text-[#288D87] hover:underline">${invoice.invoiceID}</a>
+                                    <tr class="bg-white text-[15px] border-b hover:bg-gray-50 invoice-row py-[10px]">
+                                        <td scope="row" class="px-6 py-[10px] font-medium text-gray-900 whitespace-nowrap invoice-id">
+                                            <fmt:formatNumber type = "number" groupingUsed="false" minIntegerDigits = "5" value = "${invoice.invoiceID}" />
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-[10px]">
                                             <p class="date startDate">${invoice.startDate}</p>
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-[10px]">
                                             <p class="date endDate">${invoice.endDate}</p>
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-[10px]">
                                             <p class="money">${invoice.totalPrice} đ</p>
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <span
-                                                class="bg-blue-100 text-blue-800 text-[14px] font-normal px-2.5 py-0.5 rounded">
+                                        <td class="px-6 py-[10px]">
+                                            <span class="bg-blue-100 text-blue-800 text-[14px] font-normal px-2.5 py-0.5 rounded">
                                                 ${(invoice.status == 1) ? "Chưa thanh toán" : (invoice.status == 2) ? "Đã thanh toán" : "Quá hạn"}
                                             </span>
-
                                         </td>
-                                        <td class="px-6 py-4 text-right">
+                                        <td class="px-6 py-[10px] text-center">
                                             <form action="/sakura/invoice/detail" method="post">
                                                 <input type="hidden" name="invoiceID" value="${invoice.invoiceID}">
-                                                <button type="submit"><i class="bi bi-eye-fill"></i></button>
+                                                <button type="submit" class="font-medium text-[#288D87] hover:underline">
+                                                    Xem chi tiết
+                                                </button>
                                             </form>
-                                            <!--                                            <a href="#" class="font-medium text-[#17535B]">
-                                                                                            <i class="bi bi-eye-fill"></i>
-                                                                                        </a>-->
-                                            <a href="#" class="font-medium text-[#17535B]">
-                                                <i class="bi bi-file-earmark-spreadsheet"></i>
-                                            </a>
                                         </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
 
-                        <!-- Pagination + Export excel -->
-                        <div class="table-extend flex justify-between">
-
-                            <!-- Pagination -->
-                            <c:if test="${requestScope.invoiceList.size() > 5}">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="table-paging inline-flex items-center -space-x-px">
-                                        <li>
-                                            <a href="#"
-                                               class="block py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                                                <span class="sr-only">Previous</span>
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                                      clip-rule="evenodd"></path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" aria-current="page"
-                                               class="current py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                               class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">2</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                               class="z-10 py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">3</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                               class="block py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                                                <span class="sr-only">Next</span>
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                                      clip-rule="evenodd"></path>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </c:if>
-                            <!-- End Pagination -->
-
-                            <!-- Export excel button -->
-                            <button type="button"
-                                    class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">Xuất
-                                file excel
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                     class="w-4 h-4 ml-[5px] text-[#288D87] group-hover:text-[#288D87]">
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path
-                                    d="M2.859 2.877l12.57-1.795a.5.5 0 0 1 .571.495v20.846a.5.5 0 0 1-.57.495L2.858 21.123a1 1 0 0 1-.859-.99V3.867a1 1 0 0 1 .859-.99zM17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4V3zm-6.8 9L13 8h-2.4L9 10.286 7.4 8H5l2.8 4L5 16h2.4L9 13.714 10.6 16H13l-2.8-4z" />
-                                </svg>
-
-                            </button>
-                        </div>
-                        <!-- End Pagination + Export excel -->
-
-
                     </div>
 
                 </div>
 
-
                 <!-- End table invoice list -->
             </div>
 
-            <!-- Footer -->
-
-            <footer class="w-full px-[20px] pb-[20px]">
-                <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
-                    <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
-                                                                                 class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
-                    </span>
-                    <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6 ">Về Sakura</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">Chính sách bảo mật</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-[#17535B]">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </footer>
-
-            <!-- End footer -->
+            <%@include file="../view/footerDashboard.jsp" %>
 
         </div>
 
@@ -314,10 +224,47 @@
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
 
-        <!-- chartJS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="../assets/javascript/chart-tenant-page.js"></script>
-        <script src="../assets/javascript/jquery.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#invoice-table').DataTable({
+                    dom: 'Bfrtip',
+                    "fnDrawCallback": function (oSettings) {
+                        if ($('#room-list-table tr').length < 10) {
+                            $('.dataTables_paginate').hide();
+                        }
+                    },
+                    language: {
+                        "emptyTable": "Không có dữ liệu!",
+                        "zeroRecords": "Không có kết quả phù hợp!",
+                        "infoEmpty": "Hiển thị 0 kết quả",
+                        "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
+                        "infoFiltered": "",
+                        search: "Tìm kiếm",
+                        paginate: {
+                            previous: '<i class="bi bi-caret-left-fill"></i>',
+                            next: '<i class="bi bi-caret-right-fill"></i>'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: 'Trước',
+                                next: 'Sau'
+                            }
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        }
+                    ],
+                    "pageLength": 10, // items per page
+                    info: true
+                });
+            });
+        </script>
         <script>
             let invoiceRows = $(".invoice-row");
 

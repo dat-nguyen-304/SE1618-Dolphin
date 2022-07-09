@@ -85,14 +85,13 @@ public class AccessController extends HttpServlet {
                                     if (tenant.isRentStatus()) {
                                         response.sendRedirect("/sakura/tenant/dashboard");
                                     }
-
-                                }  else if (acc.getRole() == 2) {
+                                } else if (acc.getRole() == 2) {
                                     session.setAttribute("role", 2);
                                     System.out.println("role 2");
                                     Landlord landlord = LandlordDAO.findByAccount(acc);
                                     session.setAttribute("currentUser", landlord);
                                     response.sendRedirect("/sakura/landlord/overview");
-                                }  else {
+                                } else {
                                     session.setAttribute("currentUser", acc);
                                     session.setAttribute("role", 0); //admin
                                     response.sendRedirect("/sakura/admin/dashboard");
@@ -250,10 +249,16 @@ public class AccessController extends HttpServlet {
                             if (t.isRentStatus()) {
                                 response.sendRedirect("/sakura/tenant/dashboard");
                             }
-                        } else {
+                        } else if (acc.getRole() == 2) {
                             Landlord l = LandlordDAO.findByAccount(acc);
                             session.setAttribute("currentUser", l);
                             session.setAttribute("role", 2);
+                            response.sendRedirect("/sakura/landlord/overview");
+                        } else {
+                            session.setAttribute("currentUser", acc);
+                            session.setAttribute("role", 0); //admin
+
+                            response.sendRedirect("/sakura/admin/dashboard");
                         }
 
                         response.sendRedirect("/sakura/home");

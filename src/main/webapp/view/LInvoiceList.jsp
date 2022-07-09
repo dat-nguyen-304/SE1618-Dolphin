@@ -33,6 +33,9 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+
         <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -243,12 +246,6 @@
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
         <script src="js/monthpicker.js"></script>
 
-        <!-- chartJS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="js/chart.js"></script>
-
-        <!-- Breadcrumb -->
-        <script src="js/breadcrumb.js"></script>
         <script>
             $(document).ready(function () {
                 $('#invoice-table').DataTable({
@@ -285,16 +282,13 @@
                             }
                         }
                     ],
-
                     "pageLength": 10, // items per page
                     info: true
                 });
             });
-
             $(document).ready(function () {
                 let allDateCells = $(".date");
                 let allMoneyCells = $(".money");
-
                 for (let i = 0; i < allDateCells.length; i++) {
                     let node = allDateCells[i];
                     let isoDate = node.childNodes[0].nodeValue;
@@ -307,7 +301,6 @@
                     node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
             });
-
             function changeHostel(hostelID, hostelName) {
                 $("#hostelName").html(hostelName);
                 $("#roomNumber").html("Chọn phòng");
@@ -317,8 +310,6 @@
                 console.log($("#hostelID").val());
                 $("#invoiceList").empty();
                 $("#filter-form").css("display", "none");
-
-
                 jQuery.ajax({
                     url: '/sakura/room/roomsByHostel',
                     type: 'GET',
@@ -342,7 +333,8 @@
                     }
                 });
             }
-
+        </script>
+        <script>
             $("#search-room").on("input", function () {
                 let rooms = $(".room");
                 let text = $("#search-room").val();
@@ -358,6 +350,7 @@
                         $(node).css("display", "inline-block");
                     }
                 }
+
             });
         </script>
     </body>

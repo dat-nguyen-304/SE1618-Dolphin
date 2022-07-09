@@ -68,8 +68,8 @@ public class EmailService {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
         message.setSubject("Mail Subject");
 
-        String msg = "Hello " + toEmail + "! This is a reset password message sent from Sakura Hostel Management system. "
-                + "This is your new password: " + pwd + "<br>If you think this is a mistake, ignore the mail!";
+        String msg = "Hello <b>" + toEmail + "</b>! This is a reset password message sent from Sakura Hostel Management system. "
+                + "This is your new password: <b>" + pwd + "</b><br>If you think this is a mistake, ignore the mail!";
 
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
         mimeBodyPart.setContent(msg, "text/html; charset=utf-8");

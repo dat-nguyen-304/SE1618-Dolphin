@@ -56,7 +56,7 @@
             <!-- form -->
             <div class="w-3/5 h-full pt-[5%] pb-[8%] px-[6%]">
 
-                <form class="reset-pwd-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/forgot-password" method="post" id="form" name="reset-pwd-form" novalidate>
+                <form class="reset-pwd-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/forgotPassword" method="post" id="form" name="reset-pwd-form" novalidate>
                     <!--form header-->
                     <div class="form-header w-full h-18 mb-3 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Lấy lại mật khẩu</h2>
@@ -119,7 +119,7 @@
             const btn = document.getElementById("submit-btn");
             btn.addEventListener("click", rippleEffect);
 
-            function checkEmail(submit) {
+            function checkEmail(submit, callback) {
                 $("#emailError").html("");
                 $("#email").css("border-bottom", "");
                 var email = $("#email").val().trim();
@@ -133,10 +133,12 @@
                         return false;
                     }
                     var res = false;
+                    
                     jQuery.ajax({
                         type: 'POST',
                         data: 'email=' + $("#email").val(),
                         url: '/sakura/account/checkEmail',
+                        async: false,
                         success: function (result) {
                             console.log(result);
                             if (result === "Email đã được dùng!") {
@@ -150,7 +152,7 @@
                             }
                         }
                     });
-                    console.log(res);
+                    console.log("what the fuck: " + res);
                     return res;
                 } else
                     return false;
@@ -168,13 +170,11 @@
                     // return false;
                 } else {
                     var tmp = checkEmail(1);
-                    console.log("Email: " + tmp);
+                    console.log("Email here: " + tmp);
                     if (tmp === false) {
                         res = false;
                         return false;
                     }
-
-
                 }
                 console.log("Res: " + res);
                 return res;

@@ -194,6 +194,15 @@
                                                         </button>
                                                     </form>
                                                 </td>
+                                                <td class="px-6 py-4">
+                                                    <form method = "post" action="/sakura/contract/add-contract">
+                                                        <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                        <input type ="hidden" name ="queryType" value ="edit"/>
+                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            Sửa hợp đồng
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>

@@ -10,7 +10,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Quản lý phòng thuê - Chi tiết hoá đơn</title>
+        <title>Trang người thuê - Chi tiết hoá đơn</title>
+
         <!--Favicon-->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
 
@@ -23,12 +24,11 @@
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/tenant-page.css">
+        <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
         <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     </head>
     <body>
@@ -50,23 +50,17 @@
                         <li class="inline-flex items-center">
                             <a href="#"
                                class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 w-4 h-4" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                                <path fill-rule="evenodd"
-                                      d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                                      clip-rule="evenodd" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /> 
+                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
                                 </svg>
                                 Hoá đơn
                             </a>
                         </li>
                         <li aria-current="page">
                             <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                      clip-rule="evenodd"></path>
+                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Chi tiết hoá đơn</span>
                             </div>
@@ -105,26 +99,8 @@
                         <form class="w-full flex justify-between items-center">
                             <input hidden type=text" name=tenantID" value="101" />
                             <input hidden type="text" name=roomID" value="101" />
-
-                            <!--                            <div class="left-part">
-                                                             Search invoice by id 
-                                                            <label for="default-search"
-                                                                   class="mb-2 text-[14px] font-[14px] text-gray-900 sr-only">Search</label>
-                                                            <div class="relative h-full">
-                                                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                                                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
-                                                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                                                    </svg>
-                                                                </div>
-                                                                <input type="search" id="search-invoice-id"
-                                                                       class="block pl-10 w-full text-[14px] text-gray-900 bg-gray-50 rounded-[4px] border border-gray-300 focus:ring-0 focus:border-[#17535B]"
-                                                                       placeholder="Tìm theo mã hoá đơn..." required="">
-                                                            </div>
-                                                        </div>-->
                         </form>
-                        <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                        <table id="invoice-detail" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                             <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
@@ -179,164 +155,47 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
-                                <!--                                <tr class="bg-white border-b hover:bg-gray-50">
-                                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                                        <a href="#" class="hover:text-[#288D87] hover:underline">Điện</a>
-                                                                    </th>
-                                                                    <td class="px-6 py-4">
-                                                                        2223
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        2288
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        kWh
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        65
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ12.000
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ780.000
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="bg-white border-b hover:bg-gray-50">
-                                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                                        <a href="#" class="hover:text-[#288D87] hover:underline">Nước</a>
-                                                                    </th>
-                                                                    <td class="px-6 py-4">
-                                                                        132
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        143
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        m<sup>3</sup>
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        9
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ7.000
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ63.000
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="bg-white border-b hover:bg-gray-50">
-                                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                                        <a href="#" class="hover:text-[#288D87] hover:underline">Internet</a>
-                                                                    </th>
-                                                                    <td class="px-6 py-4">
-                                
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        0
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        0
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ90.000
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ0
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="bg-white border-b hover:bg-gray-50">
-                                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                                        <a href="#" class="hover:text-[#288D87] hover:underline">Gửi xe</a>
-                                                                    </th>
-                                                                    <td class="px-6 py-4">
-                                                                        cái
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        2
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ100.000
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ200.000
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="bg-white border-b hover:bg-gray-50">
-                                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                                        <a href="#" class="hover:text-[#288D87] hover:underline">Xử lý rác</a>
-                                                                    </th>
-                                                                    <td class="px-6 py-4">
-                                
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        1
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ50.000
-                                                                    </td>
-                                                                    </td>
-                                                                    <td class="px-6 py-4">
-                                                                        đ50.000
-                                                                    </td>
-                                                                </tr>
-                                -->                                                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline">Phí thuê phòng</a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        phòng
-                                    </td>
-                                    <td class="px-6 py-4">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                <a href="#" class="hover:text-[#288D87] hover:underline">Phí thuê phòng</a>
+                            </th>
+                            <td class="px-6 py-4">
+                                phòng
+                            </td>
+                            <td class="px-6 py-4">
 
-                                    </td>
-                                    <td class="px-6 py-4">
+                            </td>
+                            <td class="px-6 py-4">
 
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        1
-                                    </td>
-                                    <td class="px-6 py-4 money">
-                                        ${invoice.contract.rentalFeePerMonth}
-                                    </td>
-                                    <td class="px-6 py-4 money rowSum">
-                                        ${invoice.contract.rentalFeePerMonth}
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="#" class="hover:text-[#288D87] hover:underline"></a>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                    </td>
-                                    <td class="px-6 py-4">
-                                    </td>
-                                    <td class="px-6 py-4">
-                                    </td>
-                                    <td class="px-6 py-4">
-                                    </td>
-                                    <td class="px-6 py-4 text-[17px] text-[#17535B] font-medium">
-                                        Tổng tiền
-                                    </td>
-                                    <td class="px-6 py-4 text-[17px] text-[#17535B] font-bold">
-                                        <span id="invoiceSum" class="money"></span>
-                                    </td>
-                                </tr>
+                            </td>
+                            <td class="px-6 py-4">
+                                1
+                            </td>
+                            <td class="px-6 py-4 money">
+                                ${invoice.contract.rentalFeePerMonth}
+                            </td>
+                            <td class="px-6 py-4 money rowSum">
+                                ${invoice.contract.rentalFeePerMonth}
+                            </td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-gray-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="#" class="hover:text-[#288D87] hover:underline"></a>
+                                </th>
+                                <td class="px-6 py-4">
+                                </td>
+                                <td class="px-6 py-4">
+                                </td>
+                                <td class="px-6 py-4">
+                                </td>
+                                <td class="px-6 py-4">
+                                </td>
+                                <td class="px-6 py-4 text-[17px] text-[#17535B] font-medium">
+                                    Tổng tiền
+                                </td>
+                                <td class="px-6 py-4 text-[17px] text-[#17535B] font-bold">
+                                    <span id="invoiceSum" class="money"></span>
+                                </td>
+                            </tr>
 
                             </tbody>
                         </table>
@@ -348,23 +207,13 @@
                             <div class="summary grid grid-cols-5 grid-rows-2 w-[50%]">
                                 <div class="col-span-1 text-[20px] text-[#17535B] font-bold">Thành tiền</div>
                                 <div class="col-span-4 text-[20px] text-[#17535B] "><span id="bottomSum" class="money"></span></div>
-                                <!--                                <div class="col-span-1">bằng chữ</div>
-                                                                <div class="col-span-4"><em>Năm triệu không trăm chín mươi ba nghìn đồng</em></div>-->
                             </div>
                             <!-- End Summation -->
 
                             <!-- Export excel button -->
-                            <button type="button"
-                                    class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">Xuất
-                                file excel
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                     class="w-4 h-4 ml-[5px] text-[#288D87] group-hover:text-[#288D87]">
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path
-                                    d="M2.859 2.877l12.57-1.795a.5.5 0 0 1 .571.495v20.846a.5.5 0 0 1-.57.495L2.858 21.123a1 1 0 0 1-.859-.99V3.867a1 1 0 0 1 .859-.99zM17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4V3zm-6.8 9L13 8h-2.4L9 10.286 7.4 8H5l2.8 4L5 16h2.4L9 13.714 10.6 16H13l-2.8-4z" />
-                                </svg>
-
-                            </button>
+                            <a class="cursor-pointer py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">
+                                Xuất file pdf <i class="bi bi-file-earmark-pdf ml-[5px]"></i>
+                            </a>
                         </div>
                         <!-- End Pagination + Export excel -->
 
@@ -410,10 +259,6 @@
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
 
-        <!-- chartJS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="../assets/javascript/chart-tenant-page.js"></script>
-        <script src="../assets/javascript/jquery.js"></script>
         <script>
             $(document).ready(function () {
                 let allDateCells = $(".date");
