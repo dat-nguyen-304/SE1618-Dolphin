@@ -94,40 +94,71 @@
                     </ol>
                 </nav>
                 <!-- End breadcrumb -->
-            </div>
-            <form action="#" id="invoice-form" method="post">
-                <input type="hidden" value="${invoice.invoiceID}" name="invoiceID">
-                <div class="card p-5 mt-[20px]">
-                    <div class="grid grid-cols-5 grid-rows-2 ">
-                        <div>
-                            Mã hoá đơn: ${invoice.invoiceID}
-                        </div>
-                        <div>
-                            Người thuê: ${invoice.contract.tenant.fullname}
-                        </div>
-                        <div>Mã hợp đồng: ${invoice.contract.contractID}</div>
-                        <div>Kỳ thanh toán: ${invoice.month}</div>
+                </div>
+                <form action="/sakura/invoice/edit" id="invoice-form" method="post">
+                    <input type="hidden" value="${invoice.invoiceID}" name="invoiceID">
+                    <div class="card p-5 mt-[20px]">
+                        <div class="grid grid-cols-5 grid-rows-2 ">
+                            <div>
+                                Mã hoá đơn: ${invoice.invoiceID}
+                            </div>
+                            <div>
+                                Người thuê: ${invoice.contract.tenant.fullname}
+                            </div>
+                            <div>Mã hợp đồng: ${invoice.contract.contractID}</div>
+                            <div>Kỳ thanh toán: ${invoice.month}</div>
 
-                        <div>Ngày xuất hoá đơn: <span class="date">${invoice.createdDate}</span></div>
-                        <div><label for="status">Trạng thái</label>
-                        </div>
-                        <div>
-                            <c:choose>
-                                <c:when test="${invoice.status == 1}">
-                                    <select name="" id="status">
-                                        <option value="1" <c:if test="${invoice.status == 1}">selected</c:if>>Chưa thanh
+                            <div>Ngày xuất hoá đơn: <span class="date">${invoice.createdDate}</span></div>
+                            <div>Trạng thái
+                                <c:choose>
+                                    <c:when test="${invoice.status == 0}">
+                                        <select name="newStatus" id="status">
+                                            <option value="0" <c:if test="${invoice.status == 0}">selected</c:if>>Chưa thanh
                                                 toán
                                             </option>
-                                            <option value="2" id="paid" <c:if test="${invoice.status == 2}">selected</c:if>>
+                                            <option value="1" id="paid" <c:if test="${invoice.status == 1}">selected</c:if>>
                                                 Đã thanh
                                                 toán
                                             </option>
-                                            <option value="3" <c:if test="${invoice.status == 3}">selected</c:if>>Quá hạn
+                                            <option value="2" <c:if test="${invoice.status == 2}">selected</c:if>>Quá hạn
                                             </option>
                                         </select>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span>${(invoice.status == 1) ? "Đã thanh toán" : "Quá hạn"}</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div>Phòng: ${invoice.contract.room.roomNumber}</div>
+                            <c:choose>
+                                <c:when test="${invoice.status == 0}">
+                                    <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom"
+                                         class="invoice-time-range col-span-2 grid grid-cols-2">
+                                        <div class="start-date flex items-center grid grid-cols-6">
+                                            <label for="start"
+                                                   class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày
+                                                bắt đầu</label>
+                                            <input type="text" id="start" name="startDate" value="${invoice.startDate}"
+                                                   class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
+                                                   placeholder="Chọn ngày...">
+                                        </div>
+
+                                        <div class="end-date flex items-center grid grid-cols-6">
+                                            <label for="end"
+                                                   class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày
+                                                kết thúc</label>
+                                            <input type="text" id="end" name="endDate" value="${invoice.endDate}"
+                                                   class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
+                                                   placeholder="Chọn ngày...">
+                                        </div>
+                                            <%--                            <div>--%>
+                                            <%--                                <p class="text-sm font-medium" id="lengthError"></p>--%>
+                                            <%--                            </div>--%>
+                                    </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <span>${(invoice.status == 2) ? "Đã thanh toán" : "Quá hạn"}</span>
+                                    <div>Từ: <span class="date">${invoice.startDate}</span></div>
+                                    <div>Đến: <span class="date">${invoice.endDate}</span></div>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -295,8 +326,35 @@
                                 <div class="col-span-4 text-[20px] text-[#17535B] "><span id="bottomSum"
                                                                                           class="money"></span>
                                 </div>
-                                <!--                                <div class="col-span-1">bằng chữ</div>
-                                                                <div class="col-span-4"><em>Năm triệu không trăm chín mươi ba nghìn đồng</em></div>-->
+                                <!-- End Summation -->
+
+                                <c:if test="${invoice.status == 0}">
+                                    <button type="button" id="saveButton"
+                                            class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-[#fff] flex items-center justify-center focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F]">
+                                        Lưu thay đổi
+                                        <%--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                             class="w-4 h-4 ml-[5px] text-[#288D87] group-hover:text-[#288D87]">
+                                            <path fill="none" d="M0 0h24v24H0z" />
+                                            <path
+                                                    d="M2.859 2.877l12.57-1.795a.5.5 0 0 1 .571.495v20.846a.5.5 0 0 1-.57.495L2.858 21.123a1 1 0 0 1-.859-.99V3.867a1 1 0 0 1 .859-.99zM17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4V3zm-6.8 9L13 8h-2.4L9 10.286 7.4 8H5l2.8 4L5 16h2.4L9 13.714 10.6 16H13l-2.8-4z" />
+                                        </svg>--%>
+
+                                    </button>
+                                </c:if>
+
+                                <!-- Export excel button -->
+                                <button type="button"
+                                        class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">
+                                    Xuất
+                                    file excel
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         class="w-4 h-4 ml-[5px] text-[#288D87] group-hover:text-[#288D87]">
+                                        <path fill="none" d="M0 0h24v24H0z"/>
+                                        <path
+                                                d="M2.859 2.877l12.57-1.795a.5.5 0 0 1 .571.495v20.846a.5.5 0 0 1-.57.495L2.858 21.123a1 1 0 0 1-.859-.99V3.867a1 1 0 0 1 .859-.99zM17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4V3zm-6.8 9L13 8h-2.4L9 10.286 7.4 8H5l2.8 4L5 16h2.4L9 13.714 10.6 16H13l-2.8-4z"/>
+                                    </svg>
+
+                                </button>
                             </div>
                             <!-- End Summation -->
 
@@ -439,6 +497,7 @@
 
         <!-- End footer -->
 
+
     </div>
 
     <!-- flowbite -->
@@ -472,7 +531,6 @@
                                                        }
                                                        $("#invoiceSum").html(sum);
                                                        $("#bottomSum").html(sum + " đồng");
-
 
                                                        for (let i = 0; i < allDateCells.length; i++) {
                                                            let node = allDateCells[i];

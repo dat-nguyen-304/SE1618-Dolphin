@@ -173,17 +173,17 @@
                                                             </div>-->
                             <div>
                                 <select name="sortByStatus">
-                                    <option value="0">Trạng thái</option>
+                                    <option value="-1">Trạng thái</option>
                                     <option value="1"
-                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 1}">selected</c:if>>
+                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 0}">selected</c:if>>
                                         Chưa thanh toán
                                     </option>
                                     <option value="2"
-                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 2}">selected</c:if>>
+                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 1}">selected</c:if>>
                                         Đã thanh toán
                                     </option>
                                     <option value="3"
-                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 3}">selected</c:if>>
+                                            <c:if test="${param.sortByStatus != null && param.sortByStatus == 2}">selected</c:if>>
                                         Qúa hạn
                                     </option>
                                 </select>
@@ -381,30 +381,30 @@
     <script src="../assets/javascript/chart-tenant-page.js"></script>
     <script src="../assets/javascript/jquery.js"></script>
     <script>
-        var invoiceRows = $(".invoice-row");
+        let invoiceRows = $(".invoice-row");
 
         $(document).ready(function () {
-            var allDateCells = $(".date");
-            var allMoneyCells = $(".money");
+            let allDateCells = $(".date");
+            let allMoneyCells = $(".money");
 
-            for (var i = 0; i < allDateCells.length; i++) {
-                var node = allDateCells[i];
-                var isoDate = node.childNodes[0].nodeValue;
+            for (let i = 0; i < allDateCells.length; i++) {
+                let node = allDateCells[i];
+                let isoDate = node.childNodes[0].nodeValue;
                 node.childNodes[0].nodeValue = isoDate.split('-').reverse().join(' / ');
             }
 
-            for (var i = 0; i < allMoneyCells.length; i++) {
-                var node = allMoneyCells[i];
-                var money = node.childNodes[0].nodeValue;
+            for (let i = 0; i < allMoneyCells.length; i++) {
+                let node = allMoneyCells[i];
+                let money = node.childNodes[0].nodeValue;
                 node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
         });
 
         $("#search-invoice-id").on("input", function () {
-            var text = $("#search-invoice-id").val();
+            let text = $("#search-invoice-id").val();
             console.log(text);
-            for (var i = 0; i < invoiceRows.length; i++) {
-                var node = invoiceRows[i];
+            for (let i = 0; i < invoiceRows.length; i++) {
+                let node = invoiceRows[i];
                 if ($(node).find(".invoice-id a").html().indexOf(text) < 0) {
                     $(node).remove();
                 } else {

@@ -38,189 +38,193 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+            <c:if test = "${sessionScope.currentContract != null}">
+                <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
 
-                <!-- Breadcrumb -->
-                <!-- <div class="bc-container">
-                    <div class="bc"><a href="#">Quản lý phòng thuê </a></div>
-                </div> -->
-                <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                        <li class="inline-flex items-center">
-                            <a href="#"
-                               class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900">
-                                <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-                                </path>
-                                </svg>
-                                Tổng quan
-                            </a>
-                        </li>
-                        <!-- <li aria-current="page">
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Danh sách
-                                    hoá đơn</span>
-                            </div>
-                        </li> -->
-                    </ol>
-                </nav>
-                <!-- End breadcrumb -->
+                    <!-- Breadcrumb -->
+                    <!-- <div class="bc-container">
+                        <div class="bc"><a href="#">Quản lý phòng thuê </a></div>
+                    </div> -->
+                    <nav class="flex" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                            <li class="inline-flex items-center">
+                                <a href="#"
+                                   class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900">
+                                    <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                    </path>
+                                    </svg>
+                                    Tổng quan
+                                </a>
+                            </li>
+                            <!-- <li aria-current="page">
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Danh sách
+                                        hoá đơn</span>
+                                </div>
+                            </li> -->
+                        </ol>
+                    </nav>
+                    <!-- End breadcrumb -->
 
-                <!-- General information -->
-                <div class="general-info flex justify-between mt-[20px]">
-                    <div class="card hostel-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
-                        <div class="hostel-info-head flex justify-between items-baseline">
-                            <div class="hostel-name text-[20px] font-bold text-[#2A3C46]">
-                                <h3>Nhà trọ ${sessionScope.currentContract.hostel.hostelName}</h3>
+                    <!-- General information -->
+                    <div class="general-info flex justify-between mt-[20px]">
+                        <div class="card hostel-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
+                            <div class="hostel-info-head flex justify-between items-baseline">
+                                <div class="hostel-name text-[20px] font-bold text-[#2A3C46]">
+                                    <h3>Nhà trọ ${sessionScope.currentContract.hostel.hostelName}</h3>
+                                </div>
+                                <div class="hostel-rating text-[18px] font-semibold text-[#FFB31F] flex items-center">
+                                    <h3 class="rating mr-[3px]">${sessionScope.currentContract.hostel.rating}/5</h3>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
                             </div>
-                            <div class="hostel-rating text-[18px] font-semibold text-[#FFB31F] flex items-center">
-                                <h3 class="rating mr-[3px]">${sessionScope.currentContract.hostel.rating}/5</h3>
-                                <i class="bi bi-star-fill"></i>
+                            <div class="hostel-address text-[14px] font-normal text-[#597187] bottom-0 self-end">
+                                <p class="">${sessionScope.currentContract.hostel.streetAddress}, ${sessionScope.currentContract.hostel.district.districtName}
+                                    , ${sessionScope.currentContract.hostel.district.province.provinceName}</p>
                             </div>
                         </div>
-                        <div class="hostel-address text-[14px] font-normal text-[#597187] bottom-0 self-end">
-                            <p class="">${sessionScope.currentContract.hostel.streetAddress}, ${sessionScope.currentContract.hostel.district.districtName}
-                                , ${sessionScope.currentContract.hostel.district.province.provinceName}</p>
+
+                        <div class="card landlord-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
+                            <div class="landlord-name text-[20px] font-bold text-[#2A3C46]">
+                                <h3>${sessionScope.currentContract.landlord.fullname}</h3>
+                            </div>
+
+                            <div class="landlord-contact text-[14px] font-normal text-[#597187]">
+                                <p class=""><i class="bi bi-telephone-fill mr-[10px]"></i> ${sessionScope.currentContract.landlord.phone}</p>
+                                <p class=""><i class="bi bi-envelope-fill mr-[10px]"></i> ${sessionScope.currentContract.landlord.account.email}</p>
+                            </div>
                         </div>
+
+                        <div class="card room-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
+                            <div class="room-code text-[20px] font-bold text-[#2A3C46]">
+                                <h3>Phòng ${currentContract.room.roomNumber}</h3>
+                            </div>
+
+                            <div class="room-type text-[14px] font-normal text-[#597187]">
+                                <div class="grid grid-cols-3 w-[65%]">
+                                    <p class="">Diện tích</p>
+                                    <p class="col-span-2 font-medium">${currentContract.room.roomType.area}m<sup>2</sup></p>
+                                </div>
+                                <div class="grid grid-cols-3 w-[65%]">
+                                    <p class="">Giá phòng</p>
+                                    <p class="col-span-2 font-medium">${currentContract.rentalFeePerMonth}đ/tháng</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form class="card cancel-rent w-[15%] h-[120px]">
+                            <button type="button"
+                                    class="w-full h-full bg-[#F3F8FA] p-5 flex justify-center items-center text-[#17535B] font-medium text-[22px] hover:bg-[#DCE8E9]">Huỷ
+                                thuê phòng</button>
+                        </form>
                     </div>
+                    <!-- End general information -->
 
-                    <div class="card landlord-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
-                        <div class="landlord-name text-[20px] font-bold text-[#2A3C46]">
-                            <h3>${sessionScope.currentContract.landlord.fullname}</h3>
-                        </div>
-
-                        <div class="landlord-contact text-[14px] font-normal text-[#597187]">
-                            <p class=""><i class="bi bi-telephone-fill mr-[10px]"></i> ${sessionScope.currentContract.landlord.phone}</p>
-                            <p class=""><i class="bi bi-envelope-fill mr-[10px]"></i> ${sessionScope.currentContract.landlord.account.email}</p>
-                        </div>
-                    </div>
-
-                    <div class="card room-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
-                        <div class="room-code text-[20px] font-bold text-[#2A3C46]">
-                            <h3>Phòng ${currentContract.room.roomNumber}</h3>
-                        </div>
-
-                        <div class="room-type text-[14px] font-normal text-[#597187]">
-                            <div class="grid grid-cols-3 w-[65%]">
-                                <p class="">Diện tích</p>
-                                <p class="col-span-2 font-medium">${currentContract.room.roomType.area}m<sup>2</sup></p>
+                    <!-- Statistics -->
+                    <div class="statistic flex justify-between mt-[20px] grid grid-cols-4 grid-rows-2 gap-5">
+                        <div class="card chart bg-[#fff] p-5 flex flex-col col-span-3 row-span-2">
+                            <div class="text-[20px] font-bold text-[#2A3C46] self-center pb-[20px]">Thống kê chi phí dịch vụ
                             </div>
-                            <div class="grid grid-cols-3 w-[65%]">
-                                <p class="">Giá phòng</p>
-                                <p class="col-span-2 font-medium">${currentContract.rentalFeePerMonth}đ/tháng</p>
+                            <div class="w-[90%] h-[90%] mx-auto">
+                                <canvas id="myChart"></canvas>
                             </div>
                         </div>
-                    </div>
 
-                    <form class="card cancel-rent w-[15%] h-[120px]">
-                        <button type="button"
-                                class="w-full h-full bg-[#F3F8FA] p-5 flex justify-center items-center text-[#17535B] font-medium text-[22px] hover:bg-[#DCE8E9]">Huỷ
-                            thuê phòng</button>
-                    </form>
-                </div>
-                <!-- End general information -->
-
-                <!-- Statistics -->
-                <div class="statistic flex justify-between mt-[20px] grid grid-cols-4 grid-rows-2 gap-5">
-                    <div class="card chart bg-[#fff] p-5 flex flex-col col-span-3 row-span-2">
-                        <div class="text-[20px] font-bold text-[#2A3C46] self-center pb-[20px]">Thống kê chi phí dịch vụ
-                        </div>
-                        <div class="w-[90%] h-[90%] mx-auto">
-                            <canvas id="myChart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-rows-2 row-span-2">
-                        <div class="card room-member bg-[#fff] p-5 flex flex-col">
-                            <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thành viên phòng
+                        <div class="grid grid-rows-2 row-span-2">
+                            <div class="card room-member bg-[#fff] p-5 flex flex-col">
+                                <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thành viên phòng
+                                </div>
+                                <div class="relative overflow-x-auto">
+                                    <table class="w-full text-sm text-left text-gray-500">
+                                        <tbody>
+                                            <c:forEach items = "${sessionScope.roomResidentList}" var = "roomResident">
+                                                <tr class="bg-white border-b hover:bg-gray-50">
+                                                    <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                        ${roomResident.fullname}
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        ${roomResident.phone}
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right">
+                                                        <a href="#" class="font-medium text-[#288D87] hover:underline"><i
+                                                                class="bi bi-pencil-fill"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="relative overflow-x-auto">
-                                <table class="w-full text-sm text-left text-gray-500">
-                                    <tbody>
-                                        <c:forEach items = "${sessionScope.roomResidentList}" var = "roomResident">
+
+                            <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
+                                <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
+                                    <p>Hoá đơn mới nhất</p>
+                                    <a href="#" class="text-[15px] font-light flex items-baseline">
+                                        <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
+                                        <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
+                                    </a>
+                                </div>
+                                <div class="relative overflow-x-auto">
+                                    <table class="w-full text-sm text-left text-gray-500">
+                                        <tbody>
                                             <tr class="bg-white border-b hover:bg-gray-50">
                                                 <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    ${roomResident.fullname}
+                                                    Mã hoá đơn
                                                 </th>
                                                 <td class="px-6 py-4">
-                                                    ${roomResident.phone}
-                                                </td>
-                                                <td class="px-6 py-4 text-right">
-                                                    <a href="#" class="font-medium text-[#288D87] hover:underline"><i
-                                                            class="bi bi-pencil-fill"></i></a>
+                                                    ${sessionScope.latestInvoice.invoiceID}
                                                 </td>
                                             </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                                            <tr class="bg-white border-b hover:bg-gray-50">
+                                                <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Kỳ thanh toán
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    ${sessionScope.latestInvoice.startDate.month}/${sessionScope.latestInvoice.startDate.year + 1900}
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-white  border-b hover:bg-gray-50">
+                                                <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Giá tiền
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    ${sessionScope.latestInvoice.totalPrice}đ
+                                                </td>
+                                            </tr>
+                                            <tr class="bg-white hover:bg-gray-50">
+                                                <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Trạng thái
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    <c:choose>
+                                                        <c:when test = "${sessionScope.latestInvoice.status == 0}">Quá hạn thanh toán</c:when>
+                                                        <c:when test = "${sessionScope.latestInvoice.status == 1}">Chờ thanh toán</c:when>
+                                                        <c:when test = "${sessionScope.latestInvoice.status == 2}">Ðã thanh toán</c:when>
+                                                    </c:choose>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
-                            <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
-                                <p>Hoá đơn mới nhất</p>
-                                <a href="#" class="text-[15px] font-light flex items-baseline">
-                                    <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
-                                    <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
-                                </a>
-                            </div>
-                            <div class="relative overflow-x-auto">
-                                <table class="w-full text-sm text-left text-gray-500">
-                                    <tbody>
-                                        <tr class="bg-white border-b hover:bg-gray-50">
-                                            <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                Mã hoá đơn
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                ${sessionScope.latestInvoice.invoiceID}
-                                            </td>
-                                        </tr>
-                                        <tr class="bg-white border-b hover:bg-gray-50">
-                                            <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                Kỳ thanh toán
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                ${sessionScope.latestInvoice.startDate.month}/${sessionScope.latestInvoice.startDate.year + 1900}
-                                            </td>
-                                        </tr>
-                                        <tr class="bg-white  border-b hover:bg-gray-50">
-                                            <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                Giá tiền
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                ${sessionScope.latestInvoice.totalPrice}đ
-                                            </td>
-                                        </tr>
-                                        <tr class="bg-white hover:bg-gray-50">
-                                            <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                Trạng thái
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                <c:choose>
-                                                    <c:when test = "${sessionScope.latestInvoice.status == 0}">Quá hạn thanh toán</c:when>
-                                                    <c:when test = "${sessionScope.latestInvoice.status == 1}">Chờ thanh toán</c:when>
-                                                    <c:when test = "${sessionScope.latestInvoice.status == 2}">Ðã thanh toán</c:when>
-                                                </c:choose>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                     </div>
-
+                    <!-- End Statistics -->
                 </div>
-                <!-- End Statistics -->
-            </div>
-
+            </c:if>
+            <c:if test = "${sessionScope.currentContract == null}">
+                <p>Hiện tại bạn chưa thuê phòng nào!</p>
+            </c:if>
             <!-- Footer -->
 
             <footer class="w-full px-[20px] pb-[20px]">

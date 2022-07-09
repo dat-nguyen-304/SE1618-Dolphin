@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -224,7 +221,6 @@ public class InvoiceController extends HttpServlet {
                     String chosenRoomID = request.getParameter("roomID");
                     if (chosenRoomID != null) {
                         Room chosenRoom = RoomDAO.findRoomNewInvoice(Integer.parseInt(chosenRoomID));
-                        System.out.println("230 " + chosenRoom.getLatestInvoiceMonth());
                         Hostel hostel = chosenRoom.getRoomType().getHostel();
                         request.setAttribute("chosenHostel", hostel);
                         request.setAttribute("chosenRoom", chosenRoom);
@@ -235,8 +231,12 @@ public class InvoiceController extends HttpServlet {
                         }
 
                         Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
+                        if (chosenRoom.getLatestInvoiceMonth() == null) {
+                            String startMonth = contract.getStartDate().toString();
+                            startMonth = startMonth.substring(0, startMonth.lastIndexOf('-'));
+                            request.setAttribute("startMonth", startMonth);
+                        }
                         request.setAttribute("contract", contract);
-
                         request.setAttribute("activeServices", activeServices);
                     }
                     request.getRequestDispatcher("/view/LAddInvoice_v2.jsp").forward(request, response);
@@ -247,6 +247,7 @@ public class InvoiceController extends HttpServlet {
                     String startDate = request.getParameter("startDate");
                     String endDate = request.getParameter("endDate");
                     String month = request.getParameter("invoice-month");
+                    String invoiceMonth = "01/" + month;
                     int totalPrice = Integer.parseInt(request.getParameter("invoiceSum"));
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract c = ContractDAO.findByID(contractID);
@@ -279,7 +280,7 @@ public class InvoiceController extends HttpServlet {
                     }
 
                     // Save invoice
-                    if (InvoiceDAO.save(startDate, endDate, totalPrice, contractID, month, new Date(), electricitySum, waterSum, detailList, roomID)) {
+                    if (InvoiceDAO.save(startDate, endDate, totalPrice, contractID, month, invoiceMonth, electricitySum, waterSum, detailList, roomID)) {
                         System.out.println("!! SAVED INVOICE !!");
                         url = "/sakura/view/success.jsp";
 
@@ -329,6 +330,64 @@ public class InvoiceController extends HttpServlet {
                 }
                 if (path.equals("/failure")) {
                     request.getRequestDispatcher("/view/failure.jsp").forward(request, response);
+                }
+
+                if (path.equals("/edit")) {
+                    int invoiceID = Integer.parseInt(request.getParameter("invoiceID"));
+                    Invoice invoice = InvoiceDAO.findByID(invoiceID);
+                    String startDate = request.getParameter("startDate");
+                    String endDate = request.getParameter("endDate");
+                    int status = Integer.parseInt(request.getParameter("newStatus"));
+                    System.out.println("status " + status);
+                    int totalPrice = Integer.parseInt(request.getParameter("invoiceSum"));
+                    Contract c = invoice.getContract();
+                    Tenant t = c.getTenant();
+
+                    int electricitySum = 0;
+                    int waterSum = 0;
+
+                    Room room = invoice.getContract().getRoom();
+
+                    List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
+                    for (ServiceDetail detail: detailList) {
+                        if (detail.getService().getType() == 1) {
+                            int startValue = Integer.parseInt(request.getParameter("startInput" + detail.getService().getServiceID()));
+                            int endValue = Integer.parseInt(request.getParameter("endInput" + detail.getService().getServiceID()));
+                            int quantity = endValue - startValue;
+                            detail.setStartValue(startValue);
+                            detail.setEndValue(endValue);
+                            detail.setQuantity(quantity);
+
+                            if (detail.getService().getServiceName().equalsIgnoreCase("điện")) {
+                                electricitySum = quantity * detail.getService().getServiceFee();
+                            }
+
+                            if (detail.getService().getServiceName().equalsIgnoreCase("nước")) {
+                                waterSum = quantity * detail.getService().getServiceFee();
+                            }
+                        } else {
+                            int quantity = Integer.parseInt(request.getParameter("quantity" + detail.getService().getServiceID()));
+                            detail.setStartValue(0);
+                            detail.setEndValue(quantity);
+                            detail.setQuantity(quantity);
+                        }
+                    }
+
+                    if (InvoiceDAO.edit(startDate, endDate, status, totalPrice, electricitySum, waterSum, detailList, invoiceID)) {
+                        System.out.println("!! EDITED INVOICE !!");
+                        url = "/sakura/view/success.jsp";
+
+                        // send notification to tenant
+                        Notification noti = new Notification();
+                        noti.setToAccount(t.getAccount());
+                        noti.setContent("Hóa đơn cho phòng " + room.getRoomNumber() + " kỳ " + invoice.getMonth() +  " được cập nhật!");
+                        noti.setCreatedDate(new Date());
+                        noti.setStatus(0);
+                        NotificationDAO.saveNotification(noti);
+                    } else {
+                        url = "/sakura/view/failure.jsp";
+                    }
+                    response.sendRedirect(url);
                 }
             }
         }

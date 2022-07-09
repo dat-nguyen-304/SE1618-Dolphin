@@ -148,8 +148,9 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("contractList", contractList);
                 request.getRequestDispatcher("/view/LContractList.jsp").forward(request, response);
             } else if (path.equals("/contract-detail")) {
-                int contractId = Integer.parseInt(request.getParameter("contractId"));
-                Contract contract = ContractDAO.findByID(contractId);
+                int contractID = Integer.parseInt(request.getParameter("contractID"));
+                System.out.println("contractID: " + contractID);
+                Contract contract = ContractDAO.findByID(contractID);
 
                 List<Invoice> invoiceList = InvoiceDAO.findByContract(contract.getContractID());
                 int startElectrict = 0;

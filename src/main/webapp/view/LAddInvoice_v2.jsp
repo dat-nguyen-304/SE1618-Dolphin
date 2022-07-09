@@ -43,7 +43,8 @@
     </head>
 
     <body>
-        <%@include file="../view/LControllBar.jsp" %>
+    <%@include file="../view/headerLandlordDashboard.jsp" %>
+    <%@include file="../view/navbarLandlordDashboard.jsp" %>
 
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
@@ -189,20 +190,22 @@
                                 <div class="invoice-time-info mt-[30px] grid grid-cols-6">
                                     <div class="flex items-center col-span-2 grid grid-cols-6">
                                         <label for="invoice-month"
-                                               class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Kỳ thanh
+                                               class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Kỳ thanh
                                             toán: </label>
                                         <!-- <input type="month" name="invoice-month" id="invoice-month"> -->
-                                        <input datepicker datepicker-format="mm/yyyy" datepicker-orientation="bottom"
-                                               type="text" name="invoice-month" id="invoice-month"
-                                               class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
-                                               placeholder="Chọn tháng...">
+                                        <input type="hidden" name="invoice-month" id="invoice-month" value="">
+                                        <span id="invoice-month-dipsplay">${(requestScope.chosenRoom.latestInvoiceMonth != null) ? chosenRoom.latestInvoiceMonth : requestScope.startMonth}</span>
+<%--                                        <input datepicker datepicker-format="mm/yyyy" datepicker-orientation="bottom"--%>
+<%--                                               type="text" name="invoice-month" id="invoice-month"--%>
+<%--                                               class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"--%>
+<%--                                               placeholder="Chọn tháng...">--%>
                                     </div>
                                     <div class="flex items-center col-span-2 grid grid-cols-6">
                                         <p class="col-span-5" id="monthError"></p>
                                     </div>
                                     <div class="flex items-center col-span-2 grid grid-cols-6">
-                                        <p class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Kỳ thanh toán gần nhất:</p>
-                                        <span class="col-span-3 bg-[#fff] text-gray-900 rounded p-[5px] text-[15px]" id="latestInvoiceMonth">${requestScope.chosenRoom.latestInvoiceMonth}</span>
+                                        <p class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Kỳ gần nhất có hóa đơn:</p>
+                                        <span class="col-span-3 bg-[#fff] text-gray-900 rounded p-[5px] text-[15px]" id="latestInvoiceMonth">${(requestScope.chosenRoom.latestInvoiceMonth != null) ? requestScope.chosenRoom.latestInvoiceMonth : "Hợp đồng này chưa có hóa đơn"}</span>
                                     </div>
                                     <!--                                <div class="flex items-center col-span-2 grid grid-cols-6">
                                                                         <label for="invoice-start-date "
@@ -218,7 +221,7 @@
                                 <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] grid grid-cols-6">
                                     <div class="start-date flex items-center col-span-2 grid grid-cols-6">
                                         <label for="invoice-start-date"
-                                               class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Ngày
+                                               class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày
                                             đầu:</label>
                                         <input type="text" id="invoice-start-date" name="startDate"
                                                class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
@@ -226,7 +229,7 @@
                                     </div>
                                     <div class="end-date flex items-center col-span-2 grid grid-cols-6">
                                         <label for="invoice-end-date"
-                                               class="col-span-2 text-[15px] text-[#929CA5] font-normal flex items-center">Ngày
+                                               class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày
                                             cuối: </label>
                                         <input type="text" id="invoice-end-date" name="endDate"
                                                class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
@@ -459,6 +462,7 @@
         <script src="../assets/javascript/moment.js"></script>
         <script>
             let invoiceMonth = $("#invoice-month");
+            let invoiceMonthDisplay = $("#invoice-month-dipsplay");
             let invoiceStartDate = $("#invoice-start-date");
             let invoiceEndDate = $("#invoice-end-date");
             let monthError = $("#monthError");
@@ -470,7 +474,6 @@
             let latestInvoiceMonth = $("#latestInvoiceMonth");
             let allRowSum = $(".rowSum");
 
-
             jQuery(document).ready(function ($) {
 
                 let allRateCells = $(".rate");
@@ -479,12 +482,14 @@
                     let money = node.childNodes[0].nodeValue;
                     node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
+                const month = moment(invoiceMonthDisplay.html()).add(1, "M");
+                invoiceMonth.val(month.format('MM/YYYY').toString());
+                invoiceMonthDisplay.html(month.format('MM/YYYY').toString());
                 latestInvoiceMonth.html(latestInvoiceMonth.html().split('-').reverse().join('/'));
                 bottomSum.html(rentalFee.html() + " đồng");
                 invoiceSum.html(rentalFee.html());
                 invoiceSumHidden.html(rentalFee.html());
                 invoiceSumHidden.val(parseInt(rentalFee.html().replace(/,/g, '')));
-                console.log(invoiceSumHidden.val());
             });
 
             $("#confirmButton").on('click', function () {
