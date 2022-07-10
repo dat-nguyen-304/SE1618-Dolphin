@@ -106,14 +106,20 @@ public class LandlordController extends HttpServlet {
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
             Landlord landlord = (Landlord) session.getAttribute("currentUser");
-            List<Hostel> hostelList = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
-            Hostel currentHostel = hostelList.get(0);
-            if (hostelList.size() > 0) {
-                session.setAttribute("currentHostel", currentHostel);
-                session.setAttribute("hostelList", hostelList);
+            Hostel currentHostel = null;
+            if (session.getAttribute("currentHostel") == null) {
+                List<Hostel> hostelList = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
+                if (hostelList.size() > 0) {
+                    currentHostel = hostelList.get(0);
+                    session.setAttribute("currentHostel", currentHostel);
+                    session.setAttribute("hostelList", hostelList);
+                } else {
+                    session.setAttribute("currentHostel", null);
+                    session.setAttribute("hostelList", null);
+                }
+
             } else {
-                session.setAttribute("currentHostel", null);
-                session.setAttribute("hostelList", null);
+                currentHostel = (Hostel)session.getAttribute("currentHostel");
             }
 
             if (path.equals("/overview")) {
@@ -216,7 +222,11 @@ public class LandlordController extends HttpServlet {
                     currentHostel = HostelDAO.findById(hostelId);
                     session.setAttribute("currentHostel", currentHostel);
                     roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
-                    currentRoomType = roomTypeList.get(0);
+                    if (roomTypeList.size() > 0) {
+                        currentRoomType = roomTypeList.get(0);
+                    } else {
+                        currentRoomType = null;
+                    }
                 } else if (session.getAttribute("currentHostel") != null) {
                     roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
                     if (roomTypeList.size() > 0) {
@@ -328,17 +338,32 @@ public class LandlordController extends HttpServlet {
                     int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                     currentHostel = HostelDAO.findById(hostelId);
                     session.setAttribute("currentHostel", currentHostel);
-                    residentList = RoomResidentDAO.findByHostelID(currentHostel.getHostelID());
-                } else if( request.getParameter("roomID") != null) {
+                    if (request.getParameter("searchName") == null) {
+                        residentList = RoomResidentDAO.findByHostelID(hostelId);
+                    } else {
+                        String name = request.getParameter("searchName");
+                        residentList = RoomResidentDAO.findByHostelAndName(hostelId, name);
+                    }
+                } else if (request.getParameter("roomID") != null) {
                     int roomId = Integer.parseInt(request.getParameter("roomID"));
                     Room currentRoom = RoomDAO.findByID(roomId);
                     request.setAttribute("currentRoom", currentRoom);
-                    residentList = RoomResidentDAO.findByRoom(currentRoom);
+                    if (request.getParameter("searchName") == null) {
+                        residentList = RoomResidentDAO.findByRoom(currentRoom);
+                    } else {
+                        String name = request.getParameter("searchName");
+                        residentList = RoomResidentDAO.findByRoomAndName(currentRoom, name);
+                    }
                 } else {
-                    residentList = RoomResidentDAO.findByHostelID(currentHostel.getHostelID());
-                } 
-                 
-                List<Room> roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());                
+                    if (request.getParameter("searchName") == null) {
+                        residentList = RoomResidentDAO.findByHostelID(currentHostel.getHostelID());
+                    } else {
+                        String name = request.getParameter("searchName");
+                        residentList = RoomResidentDAO.findByHostelAndName(currentHostel.getHostelID(), name);
+                    }
+                }
+
+                List<Room> roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());
                 request.setAttribute("residentList", residentList);
                 request.setAttribute("roomList", roomList);
                 request.getRequestDispatcher("/view/LResidentList.jsp").forward(request, response);
@@ -388,7 +413,7 @@ public class LandlordController extends HttpServlet {
 
                 request.getRequestDispatcher("/view/landlordRentalRequestPage.jsp").forward(request, response);
             }
-            
+
             if (path.equals("/hostel-info")) {
                 currentHostel = null;
                 if (session.getAttribute("currentHostel") != null) {

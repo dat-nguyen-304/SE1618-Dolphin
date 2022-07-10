@@ -99,12 +99,10 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="addHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Đóng</button>
-                <c:if test="${sessionScope.needReload == true}">
-                    <form action="/sakura/landlord/overview">
-                        <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                        </button>
-                    </form>
-                </c:if>
+                <form action="/sakura/landlord/overview">
+                    <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -307,15 +305,15 @@
         </div>
         <div class="modal-content">
             <!--Title-->
-<!--            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
-                <p class="text-2xl font-bold">Thông báo</p>
-                <div class="deleteHostelmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                        </path>
-                    </svg>
-                </div>
-            </div>-->
+            <!--            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                            <p class="text-2xl font-bold">Thông báo</p>
+                            <div class="deleteHostelmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                                <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>-->
             <!--Body-->
             <div class="p-[20px]">
                 <p class="deleteHostelContent text-[20px] font-normal text-gray-800 text-center"></p>

@@ -104,8 +104,8 @@ public class RoomDAO {
         return list;
     }
 
-    public static ArrayList<Room> findByHostelID(int hostelID) {
-        ArrayList<Room> list = null;
+    public static List<Room> findByHostelID(int hostelID) {
+        List<Room> list = null;
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
@@ -124,6 +124,44 @@ public class RoomDAO {
                         if (roomType.getHostel().getHostelID() == hostelID) {
                             list.add(new Room(roomID, roomNumber, currentNoResidents, status, roomType));
                         }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<Room> findByHostelAndKeyword(int hostelID, String keyword) {
+        List<Room> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "SELECT R.* FROM Room R INNER JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID\n"
+                        + "INNER JOIN Hostel H ON RT.hostelID = H.hostelID WHERE H.hostelID = ? AND R.roomNumber like ? AND R.activate = 1";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelID);
+                pst.setString(2, "%" + keyword + "%");
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int roomID = rs.getInt("roomID");
+                        String roomNumber = rs.getString("roomNumber");
+                        int currentNoResidents = rs.getInt("currentNoResidents");
+                        int status = rs.getInt("status");
+                        RoomType roomType = findByID(roomID).getRoomType();
+                        list.add(new Room(roomID, roomNumber, currentNoResidents, status, roomType));
                     }
                 }
             }
@@ -394,7 +432,7 @@ public class RoomDAO {
         }
         return false;
     }
-    
+
     public static boolean deleteByRoomTypeId(int roomTypeId) {
         Connection cn = null;
         try {
@@ -403,6 +441,30 @@ public class RoomDAO {
                 String sql = "UPDATE Room SET activate = 0 WHERE roomTypeID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, roomTypeId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean deleteByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Room SET activate = 0\n"
+                        + "FROM Room R INNER JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID\n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID\n"
+                        + "WHERE H.hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
                 int rows = pst.executeUpdate();
                 if (rows > 0) {
                     cn.close();
@@ -439,10 +501,6 @@ public class RoomDAO {
     }
 
     public static void main(String args[]) {
-        for (Room r:
-             findRoomsNeedInvoice(1)) {
-            System.out.println(r);
-        }
-//        System.out.println(setCurrentNumberOfResidents(5, 3));
+        System.out.println(findByHostelAndKeyword(1, "A").size());
     }
 }

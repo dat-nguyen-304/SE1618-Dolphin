@@ -21,7 +21,7 @@
             </div>
             <div class="p-6 space-y-6">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                    <form action="/sakura/landlord/overview" class="inline-block">
+                    <form action="/sakura/landlord/room-type" class="inline-block">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>
@@ -123,12 +123,10 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="deleteRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <c:if test="${sessionScope.needReload == true}">
-                    <form action="/sakura/landlord/room-type">
-                        <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                        </button>
-                    </form>
-                </c:if>
+                <form action="/sakura/landlord/room-type">
+                    <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -225,12 +223,10 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="updateRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <c:if test="${sessionScope.needReload == true}">
-                    <form action="/sakura/landlord/room-type">
-                        <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                        </button>
-                    </form>
-                </c:if>
+                <form action="/sakura/landlord/room-type">
+                    <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -335,12 +331,10 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="addRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <c:if test="${sessionScope.needReload == true}">
-                    <form action="/sakura/landlord/room-type">
-                        <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                        </button>
-                    </form>
-                </c:if>
+                <form action="/sakura/landlord/room-type">
+                    <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
+                    </button>
+                </form>
             </div>
         </div>
     </div>

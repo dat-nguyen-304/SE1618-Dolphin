@@ -50,7 +50,7 @@ public class RoomController extends HttpServlet {
                 if (hostelID != null) {
                     id = Integer.parseInt(hostelID);
                     List<Room> roomList = RoomDAO.findRoomsNeedInvoice(id);
-
+                    
                     JSONArray list = new JSONArray();
                     for (Room room : roomList) {
                         JSONObject obj = new JSONObject();
@@ -64,7 +64,7 @@ public class RoomController extends HttpServlet {
                     out.close();
                 }
             }
-
+            
             if (path.equals("/add-member")) {
                 int roomId = Integer.parseInt(request.getParameter("roomId"));
                 String memberName = request.getParameter("memberName");
@@ -73,44 +73,41 @@ public class RoomController extends HttpServlet {
                 boolean updateSuccess = RoomResidentDAO.save(roomId, memberName, memberPhone, memberDob);
                 RoomResident roomResident = RoomResidentDAO.findLastRoomResidentByRoomId(roomId);
                 if (updateSuccess) {
-                    out.print("<tr class=\"bg-white border-b hover:bg-gray-50\">\n"
-                            + "                                                <td class=\"px-3 py-4 text-center\">\n"
-                            + "                                                    " + roomResident.getRoomResidentID() + "\n"
+                    out.print("<tr class=\"py-[10px] text-[16px] bg-white border-b hover:bg-gray-50 grid grid-cols-12 gap-[10px]\">\n"
+                            + "                                                <td class=\"col-span-2 text-center\">\n"
+                            + "                                                    <p class=\"p-2\">" + roomResident.getRoomResidentID() + "</p>\n"
                             + "                                                </td>\n"
-                            + "                                                <td class=\"px-3 py-4 text-center\">\n"
-                            + "                                                    <input name=\"updateFullName\" type=\"text\" class=\"text-xs\" value=\"" + roomResident.getFullname() + "\"/>\n"
-                            + "\n"
+                            + "                                                <td class=\"col-span-3\">\n"
+                            + "                                                    <input name=\"updateFullName\" type=\"text\" class=\"w-full p-2\" value=\"" + roomResident.getFullname() + "\"/>\n"
                             + "                                                </td>\n"
-                            + "                                                <td class=\"px-3 py-4 text-center\">\n"
-                            + "                                                    <input name=\"updatePhone\" type=\"text\" class=\"text-xs\" value=\"" + roomResident.getPhone() + "\"/>\n"
+                            + "                                                <td class=\"col-span-2\">\n"
+                            + "                                                    <input name=\"updatePhone\" type=\"text\" class=\"w-full p-2\" value=\"" + roomResident.getPhone() + "\"/>\n"
                             + "                                                </td>\n"
-                            + "                                                <td class=\"px-3 py-4 text-center\">\n"
-                            + "                                                    <input name=\"updateDob\" type=\"date\" value=\"" + roomResident.getDob() + "\"/>\n"
+                            + "                                                <td class=\"col-span-2\">\n"
+                            + "                                                    <input name=\"updateDob\" type=\"date\" class=\"w-full p-2\"  value=\"" + roomResident.getDob() + "\"/>\n"
                             + "                                                </td>\n"
-                            + "                                                <td class=\"px-3 py-4 text-right text-center\">\n"
-                            + "                                                    <button onclick=\"updateMember(this)\" type=\"submit\" value=\"" + roomResident.getRoomResidentID() + "\" class=\"font-medium text-[#17535B]\" data-modal-toggle=\"updateMemberModal\">Lưu thay đổi</button>\n"
-                            + "                                                </td>\n"
-                            + "                                                <td class=\"px-3 py-4 text-right text-center\">\n"
-                            + "                                                    <button onclick=\"deleteMember(this)\" type=\"submit\" value=\"" + roomResident.getRoomResidentID() + "\" class=\"font-medium text-[#17535B]\">Xóa</button>\n"
+                            + "                                                <td class=\"col-span-3 flex justify-around items-center\">\n"
+                            + "                                                    <button onclick=\"updateMember(this)\" type=\"submit\" value=\"" + roomResident.getRoomResidentID() + "\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Lưu thay đổi</button>\n"
+                            + "                                                    <button onclick=\"deleteMember(this)\" type=\"submit\" value=\"" + roomResident.getRoomResidentID() + "\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Xóa</button>\n"
                             + "                                                </td>\n"
                             + "                                            </tr>");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
-
+                
             } else if (path.equals("/update-member")) {
                 int residentId = Integer.parseInt(request.getParameter("residentId"));
                 String updateFullName = request.getParameter("updateFullName");
                 String updatePhone = request.getParameter("updatePhone");
                 String updateDob = request.getParameter("updateDob");
-
+                
                 boolean updateSuccess = RoomResidentDAO.update(residentId, updateFullName, updatePhone, updateDob);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
                 } else {
                     out.print("Cập nhật thất bại. Vui lòng kiểm tra lại thông tin");
                 }
-
+                
             } else if (path.equals("/delete-member")) {
                 int residentId = Integer.parseInt(request.getParameter("residentId"));
                 boolean deleteSuccess = RoomResidentDAO.delete(residentId);
@@ -135,7 +132,7 @@ public class RoomController extends HttpServlet {
                 int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
                 String description = request.getParameter("description");
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-
+                
                 boolean addSuccess = RoomTypeDAO.save(name, price, area, maxNumberOfResidents, description, hostelId);
                 RoomType newRoomType = RoomTypeDAO.findLastRoomTypeByHostelId(hostelId);
                 if (addSuccess) {
@@ -147,7 +144,7 @@ public class RoomController extends HttpServlet {
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
-
+                
             } else if (path.equals("/update-roomtype")) {
                 String name = request.getParameter("name");
                 int price = Integer.parseInt(request.getParameter("price"));
@@ -155,14 +152,14 @@ public class RoomController extends HttpServlet {
                 int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
                 String description = request.getParameter("description");
                 int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
-
+                
                 boolean updateSuccess = RoomTypeDAO.updateRoomTypeById(roomTypeId, name, price, area, maxNumberOfResidents, description);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
-
+                
             } else if (path.equals("/update-room")) {
                 int roomId = Integer.parseInt(request.getParameter("roomId"));
                 String updateRoomNumber = request.getParameter("updateRoomNumber");
@@ -209,6 +206,7 @@ public class RoomController extends HttpServlet {
                 int roomTypeId = Integer.parseInt(request.getParameter("deleteRoomTypeId"));
                 boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
                 RoomDAO.deleteByRoomTypeId(roomTypeId);
+                RoomResidentDAO.deleteByRoomTypeId(roomTypeId);
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
                 } else {
@@ -231,7 +229,7 @@ public class RoomController extends HttpServlet {
                 if (hostelID != null) {
                     id = Integer.parseInt(hostelID);
                     List<Room> roomList = RoomDAO.findByHostelID(id);
-
+                    
                     JSONArray list = new JSONArray();
                     for (Room room : roomList) {
                         System.out.println(room);
@@ -244,6 +242,15 @@ public class RoomController extends HttpServlet {
                     }
                     out.write(list.toJSONString());
                     out.close();
+                }
+            } else if (path.equals("/search-room-on-modal")) {
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                String keyword = request.getParameter("keyword");
+                List<Room> roomList = RoomDAO.findByHostelAndKeyword(hostelId, keyword);
+                for (Room room : roomList) {
+                    out.print("<form action=\"/sakura/landlord/resident\" class=\"inline-block\">\n"
+                            + "                                            <button type=\"submit\" name=\"roomID\" value=\"" + room.getRoomID() + "\" class=\"px-4 py-2 m-2 rounded border-2\">" + room.getRoomNumber() + "</button>\n"
+                            + "                                        </form>");
                 }
             }
         }

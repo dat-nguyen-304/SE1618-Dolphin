@@ -14,6 +14,7 @@ import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
 import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DTO.Province;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
 import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.Feedback;
@@ -559,6 +560,15 @@ public class HostelController extends HttpServlet {
             } else if (path.equals("/delete-hostel")) {
                 int hostelId = Integer.parseInt(request.getParameter("deleteHostelId"));
                 boolean deleteSuccess = HostelDAO.deleteById(hostelId);
+//                if (deleteSuccess) {
+//                    deleteSuccess = RoomTypeDAO.deleteByHostelId(hostelId);
+//                }
+//                if (deleteSuccess) {
+//                    deleteSuccess = RoomDAO.deleteByHostelId(hostelId);
+//                }
+//                if (deleteSuccess) {
+//                    deleteSuccess = RoomResidentDAO.deleteByHostelId(hostelId);
+//                }
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
                 } else {

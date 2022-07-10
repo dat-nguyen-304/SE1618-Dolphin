@@ -29,6 +29,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LRoomDetail.css">
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -113,7 +114,7 @@
                                             Xem hóa đơn
                                         </button>
                                     </form>
-                                    <form action="/sakura/contract-list" class="ml-[10px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                                    <form action="/sakura/landlord/contract-list" class="ml-[10px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
                                         <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
                                             Xem tất cả hợp đồng
                                         </button>
@@ -253,12 +254,16 @@
                             <div class="addMemberElement mb-[20px]">
                                 <c:if test="${requestScope.residentList.size() < requestScope.currentRoom.roomType.maxNumberOfResidents && requestScope.contract != null}">
                                     <!-- Modal toggle -->
-                                    <button id="addMember-1" type="submit" name="action" value="Save" class="mb-[20px] bg-[#17535B] text-[#f6fafc] rounded px-[10px] py-[5px] float-right">
+                                    <button id="addMember-1" type="submit" name="action" value="Save" class="actBtn mb-[20px] bg-[#17535B] text-[#f6fafc] rounded px-[10px] py-[5px] float-right">
                                         Thêm thành viên
                                     </button>
+                                    <span class="disBtn hidden text-xs h-[45px] leading-[45px]">Số người của phòng này đã đạt tối đa</span>
                                 </c:if>
                                 <c:if test="${requestScope.residentList.size() >= requestScope.currentRoom.roomType.maxNumberOfResidents}">
-                                    <span class="text-xs h-[45px] leading-[45px]">Số người của phòng này đã đạt tối đa</span>
+                                    <span class="disBtn text-xs h-[45px] leading-[45px]">Số người của phòng này đã đạt tối đa</span>
+                                    <button id="addMember-1" type="submit" name="action" value="Save" class="actBtn hidden mb-[20px] bg-[#17535B] text-[#f6fafc] rounded px-[10px] py-[5px] float-right">
+                                        Thêm thành viên
+                                    </button>
                                 </c:if>
                             </div>
                             <c:if test="${not empty requestScope.residentList}">
@@ -277,8 +282,7 @@
                                         <input type="hidden" name="residentQuantity" value="${requestScope.residentList.size()}"/>
 
                                         <c:forEach items="${requestScope.residentList}" var="resident">
-                                            <c:set var="iterator" value="${iterator + 1}"/>
-                                            <tr class="member-${iterator} py-[10px] text-[16px] bg-white border-b hover:bg-gray-50 grid grid-cols-12 gap-[10px]">
+                                            <tr class="py-[10px] text-[16px] bg-white border-b hover:bg-gray-50 grid grid-cols-12 gap-[10px]">
                                                 <td class="col-span-2 text-center">
                                                     <p class="p-2">${resident.roomResidentID}</p>
                                                 </td>
@@ -292,34 +296,13 @@
                                                     <input name="updateDob" type="date" class="w-full p-2"  value="${resident.dob}"/>
                                                 </td>
                                                 <td class="col-span-3 flex justify-around items-center">
-                                                    <button onclick="updateMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline" data-modal-toggle="updateMemberModal">Lưu thay đổi</button>
+                                                    <button onclick="updateMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline">Lưu thay đổi</button>
                                                     <button onclick="deleteMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline">Xóa</button>
                                                 </td>
                                             </tr>
                                         </c:forEach>
                                         <tbody>
                                     </table>
-
-                                    <div id="updateMemberModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
-                                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                                            <div class="relative bg-white rounded shadow">
-                                                <div class="flex justify-between items-start p-4 rounded-t border-b">
-                                                    <h3 class="text-xl font-semibold text-gray-900">Thông báo</h3>
-                                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="updateMemberModal">
-                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-
-                                                <div class="updateMemberMessage p-6 space-y-6 border-0"></div>
-
-                                                <div class="flex flex-row-reverse items-center p-6 space-x-2 rounded-b border-t border-gray-200">
-                                                    <button data-modal-toggle="updateMemberModal" type="button" class="text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-sm px-5 py-2.5 text-center">OK</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </c:if>
                         </div>
@@ -338,7 +321,21 @@
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script>
+                                                        function showToast(type, msg) {
+                                                            toastr.options.positionClass = 'toast-bottom-right';
+                                                            toastr.options.extendedTimeOut = 0; //1000;
+                                                            toastr.options.timeOut = 3000;
+                                                            toastr.options.hideDuration = 250;
+                                                            toastr.options.showDuration = 250;
+                                                            toastr.options.hideMethod = 'slideUp';
+                                                            toastr.options.showMethod = 'slideDown';
+                                                            toastr.options.preventDuplicates = true;
+                                                            toastr.options.closeButton = true;
+                                                            toastr.options.progressBar = true;
+                                                            toastr[type](msg);
+                                                        }
                                                         function checkValidRoom(element) {
                                                             const hostelId = document.querySelector("input[name='hostelId']");
                                                             const validRoomMessage = document.querySelector(".validRoomMessage");
@@ -449,20 +446,20 @@
                         message += "Ngày sinh ";
                     }
                     message += "không được trống!";
-                    updateMemberMessage.innerHTML = message;
+                    showToast('error', message);
                 } else {
                     let goAjax = true;
                     let message = "";
                     if (updatePhone.value.length !== 10) {
                         message += "Số điện thoại phải có 10 chữ số";
                         goAjax = false;
-                        updateMemberMessage.innerHTML = message;
+                        showToast('error', message);
                     } else
                         for (let i = 0; i < updatePhone.value.length; i++) {
                             if (updatePhone.value.charAt(i) < '0' || updatePhone.value.charAt(i) > '9') {
                                 message += "Số điện thoại gồm 10 chữ số!";
                                 goAjax = false;
-                                updateMemberMessage.innerHTML = message;
+                                showToast('error', message);
                                 break;
                             }
                         }
@@ -477,7 +474,7 @@
                             },
                             url: '/sakura/room/update-member',
                             success: function (response) {
-                                updateMemberMessage.innerHTML = response;
+                                showToast('info', response.toString());
                             },
                             error: function () {
                             },
@@ -502,6 +499,7 @@
                     },
                     url: '/sakura/room/delete-member',
                     success: function (response) {
+                        showToast('info', response.toString());
                         memberElement.remove();
                         residentQuantityElement.innerHTML = residentQuantity - 1;
                         updateCurrentResident(residentQuantity - 1);
@@ -577,7 +575,7 @@
                                 memberPhone.value = "";
                                 memberDob.value = "";
                                 const res = response.toString();
-                                if (res.includes("px-3 py-4 text-center")) {
+                                if (res.includes("py-[10px] text-[16px]")) {
                                     memberList.innerHTML += response;
                                     residentQuantityElement.innerHTML = residentQuantity + 1;
                                     addMemberMessage.innerHTML = "Thêm thành công";

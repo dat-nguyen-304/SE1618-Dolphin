@@ -97,6 +97,7 @@
                                         </svg>
                                     </button>
                                 </div>
+
                                 <div class="p-6 space-y-6">
                                     <c:forEach items="${sessionScope.hostelList}" var="hostel">
                                         <form action="/sakura/landlord/resident" class="inline-block">
@@ -111,7 +112,7 @@
 
                     <!--Modal select room-->
                     <div id="roomModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
-                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                        <div class="relative p-4 w-full max-w-4xl h-full md:h-auto">
                             <div class="relative bg-white rounded shadow">
                                 <div class="flex justify-between items-start p-4 rounded-t border-b">
                                     <h3 class="text-xl font-semibold text-gray-900">Chọn phòng</h3>
@@ -124,14 +125,21 @@
                                 </div>
 
                                 <div class="p-6 space-y-6">
+                                    <div>
+                                        <label>Tìm Phòng</label> 
+                                        <input type="text" name="searchRoom"/>
+                                        <button class="ml-[20px] border-2 py-2 px-4" onclick="searchRoomOnModal()">Tìm kiếm</button>
+                                    </div>
                                     <form action="/sakura/landlord/resident" class="inline-block">
                                         <button type="submit" name="" value="" class="px-4 py-2 mx-2 rounded border-2">Tất cả</button>
                                     </form>
-                                    <c:forEach items="${requestScope.roomList}" var="room">
-                                        <form action="/sakura/landlord/resident" class="inline-block">
-                                            <button type="submit" name="roomID" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>
-                                        </form>
-                                    </c:forEach>
+                                    <div class="room-list-modal">
+                                        <c:forEach items="${requestScope.roomList}" var="room">
+                                            <form action="/sakura/landlord/resident" class="inline-block">
+                                                <button type="submit" name="roomID" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>
+                                            </form>
+                                        </c:forEach>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +157,7 @@
                             <span>Chọn phòng: </span>
                             <button class="ml-[10px] inline-block rounded w-fit h-fit py-[5px] px-[20px] bg-[#288D87] hover:bg-[#248781] flex flex justify-between items-center" type="button" data-modal-toggle="roomModal">
                                 <c:if test="${requestScope.currentRoom == null}">
-                                <p class="font-medium text-[16px] text-[#fff]">Tất cả</p>
+                                    <p class="font-medium text-[16px] text-[#fff]">Tất cả</p>
                                 </c:if>
                                 <c:if test="${requestScope.currentRoom != null}">
                                     <p class="font-medium text-[16px] text-[#fff]">${requestScope.currentRoom.roomNumber}</p>
@@ -157,45 +165,53 @@
                             </button>
                         </div>
                     </div>
+                    <form action="/sakura/landlord/resident">
+                        <c:if test="${requestScope.currentRoom != null}">
+                            <input type="hidden" name="roomID" value="${requestScope.currentRoom.roomID}"/>
+                        </c:if>
+                        <input name="searchName" placeholder="Tìm kiếm theo tên người ở"/>
+                        <button class="ml-[20px] border-2 py-2 px-4">Tìm kiếm</button>
+                    </form>
                 </c:if>
             </div>
 
+
+
             <div class="statistic flex justify-between mt-[20px] w-full">
                 <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
-                    <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                        <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Mã</th>
-                                <th scope="col" class="px-6 py-3">Phòng</th>
-                                <th scope="col" class="px-6 py-3">Tên</th>
-                                <th scope="col" class="px-6 py-3">SÐT</th>
-                                <th scope="col" class="px-6 py-3">Ngày sinh</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:choose>
-                                <c:when test="${requestScope.residentList.size() != 0}">
-                                    <c:forEach items="${requestScope.residentList}" var="resident">
-                                        <tr class="bg-white border-b hover:bg-gray-50">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                <a href="#" class="hover:text-[#288D87] hover:underline">${resident.roomResidentID}</a>
-                                            </th>
-                                            <td class="px-6 py-4">${resident.room.roomNumber}</td>
-                                            <td class="px-6 py-4">${resident.fullname}</td>
-                                            <td class="px-6 py-4 date">${resident.phone}</td>
-                                            <td class="px-6 py-4 date">${resident.dob}</td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <tr>
-                                        <td><p style="color: red;">Không có người ở</p></td>
-                                    </tr>
-                                </c:otherwise>
-                            </c:choose>
-                        </tbody>
-                    </table>
+                    <c:if test="${requestScope.residentList.size() != 0}">
+                        <h1>Có ${requestScope.residentList.size()} kết quả tìm thấy</h1>
+                        <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                            <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Mã</th>
+                                    <th scope="col" class="px-6 py-3">Phòng</th>
+                                    <th scope="col" class="px-6 py-3">Tên</th>
+                                    <th scope="col" class="px-6 py-3">SÐT</th>  
+                                    <th scope="col" class="px-6 py-3">Ngày sinh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
+                                <c:forEach items="${requestScope.residentList}" var="resident">
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4">${resident.roomResidentID}</td>
+                                        <td class="px-6 py-4">
+                                            <form action="/sakura/landlord/room-detail">
+                                                <button type="submit" name="roomId" value="${resident.room.roomID}">${resident.room.roomNumber}</button>
+                                            </form>
+                                        </td>
+                                        <td class="px-6 py-4">${resident.fullname}</td>
+                                        <td class="px-6 py-4 date">${resident.phone}</td>
+                                        <td class="px-6 py-4 date">${resident.dob}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:if>
+                    <c:if test="${requestScope.residentList == null || requestScope.residentList.size() == 0}">
+                        <h1>Không có dữ liệu</h1>
+                    </c:if>
                 </div>
             </div>
 
@@ -207,18 +223,39 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script>
-            function showToast(type, msg) {
-                toastr.options.positionClass = 'toast-bottom-right';
-                toastr.options.extendedTimeOut = 0; //1000;
-                toastr.options.timeOut = 3000;
-                toastr.options.hideDuration = 250;
-                toastr.options.showDuration = 250;
-                toastr.options.hideMethod = 'slideUp';
-                toastr.options.showMethod = 'slideDown';
-                toastr.options.preventDuplicates = true;
-                toastr.options.closeButton = true;
-                toastr.options.progressBar = true;
-                toastr[type](msg);
+                                            function showToast(type, msg) {
+                                                toastr.options.positionClass = 'toast-bottom-right';
+                                                toastr.options.extendedTimeOut = 0; //1000;
+                                                toastr.options.timeOut = 3000;
+                                                toastr.options.hideDuration = 250;
+                                                toastr.options.showDuration = 250;
+                                                toastr.options.hideMethod = 'slideUp';
+                                                toastr.options.showMethod = 'slideDown';
+                                                toastr.options.preventDuplicates = true;
+                                                toastr.options.closeButton = true;
+                                                toastr.options.progressBar = true;
+                                                toastr[type](msg);
+                                            }
+        </script>
+        <script>
+            function searchRoomOnModal() {
+                const hostelId = ${sessionScope.currentHostel.hostelID};
+                const keyword = document.querySelector('input[name="searchRoom"]').value;
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'hostelId': hostelId,
+                        'keyword': keyword
+                    },
+                    url: '/sakura/room/search-room-on-modal',
+                    success: function (response) {
+                        const roomListModal = document.querySelector(".room-list-modal");
+                        roomListModal.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
             }
         </script>
     </body>

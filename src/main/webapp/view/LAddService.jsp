@@ -27,7 +27,7 @@
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link href="../assets/css/toastr.css" rel="stylesheet" />
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
-        
+
     </head>
 
     <body>
@@ -65,10 +65,12 @@
                 <c:if test="${sessionScope.currentHostel != null}">
                     <div class="general-info flex justify-between mt-[20px]">
                         <div class="">
-                            <span>Chọn nhà trọ: </span>
-                            <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[16px] px-[10px] py-[5px] text-center " type="button" data-modal-toggle="hostelModal">
-                                ${sessionScope.currentHostel.hostelName}
-                            </button>
+                            <div class="pr-[20px] mr-[20px] border-r border-gray-300">
+                                <span>Nhà trọ: </span>
+                                <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
+                                    ${sessionScope.currentHostel.hostelName}
+                                </button>
+                            </div>
 
                             <!--Modal select hostel-->
                             <div id="hostelModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center z-[1000]">
@@ -84,7 +86,7 @@
                                         </div>
                                         <div class="p-6 space-y-6">
                                             <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                                                <form action="/sakura/landlord/room-detail" class="inline-block">
+                                                <form action="/sakura/landlord/service" class="inline-block">
                                                     <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
                                                 </form>
                                             </c:forEach>
@@ -121,58 +123,66 @@
                                 </thead>
                                 <tbody class="service-list">
                                     <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
-                                        <td class="px-3 py-4">Điện</td>
-                                        <td class="px-3 py-4 text-center">
-                                            <input name="updateFee" type="text" class="text-[15px]" value="${requestScope.eletricService.serviceFee}"/>
-                                        </td>
-                                        <td class="px-3 py-4 text-center">kWh</td>
-                                        <td class="px-3 py-4 text-center">
-                                            ${requestScope.eletricService.monthApplied}
-                                        </td>
-                                        <td class="px-3 py-4 text-right text-center">
-                                            <button onclick="updateMember(this)" type="submit" value="${eletricService.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
-                                        </td>
-                                        <td class="px-3 py-4 text-right text-center">
-                                        </td>
-                                    </tr>
+                                <input name="updateName" type="hidden" class="text-[15px]" value="Điện"/>
+                                <input name="updateType" type="hidden" class="text-[15px]" value="1"/>
+                                <td class="px-3 py-4">Điện</td>
+                                <td class="px-3 py-4 text-center">
+                                    <input name="updateFee" type="text" class="text-[15px]" value="${requestScope.eletricService.serviceFee}"/>
+                                </td>
+                                <input name="updateUnit" type="hidden" class="text-[15px]" value="kWh"/>
+                                <td class="px-3 py-4 text-center">kWh</td>
+                                <td class="px-3 py-4 text-center">
+                                    ${requestScope.eletricService.monthApplied}
+                                </td>
+                                <td class="px-3 py-4 text-center">
+                                    <button onclick="updateService(this)" type="submit" value="${requestScope.eletricService.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
+                                </td>
+                                <td class="px-3 py-4 text-right text-center">
+                                </td>
+                                </tr>
+                                <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
+                                <input name="updateName" type="hidden" class="text-[15px]" value="Nước"/>
+                                <input name="updateType" type="hidden" class="text-[15px]" value="2"/>
+                                <td class="px-3 py-4 ">Nước</td>
+                                <td class="px-3 py-4 text-center">
+                                    <input name="updateFee" type="text" class="text-[15px]" value="${requestScope.waterService.serviceFee}"/>
+                                </td>
+                                <input name="updateUnit" type="hidden" class="text-[15px]" value="m3"/>
+                                <td class="px-3 py-4 text-center">
+                                    m<sup>3</sup>
+                                </td>
+                                <td class="px-3 py-4 text-center">
+                                    ${requestScope.waterService.monthApplied}
+                                </td>
+                                <td class="px-3 py-4 text-center">
+                                    <button onclick="updateService(this)" type="submit" value="${requestScope.waterService.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
+                                </td>
+                                <td class="px-3 py-4">
+                                </td>
+                                </tr>
+                                <c:forEach items="${requestScope.serviceList}" var="service">
                                     <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
-                                        <td class="px-3 py-4 ">Nước</td>
-                                        <td class="px-3 py-4 text-center">
-                                            <input name="updateFee" type="text" class="text-[15px]" value="${requestScope.waterService.serviceFee}"/>
-                                        </td>
-                                        <td class="px-3 py-4 text-center">m<sup>3</sup>
-                                        </td>
-                                        <td class="px-3 py-4 text-center">
-                                            ${requestScope.waterService.monthApplied}
-                                        </td>
-                                        <td class="px-3 py-4 text-center">
-                                            <button onclick="updateMember(this)" type="submit" value="${waterService.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
-                                        </td>
+                                        <input name="updateType" type="hidden" class="text-[15px]" value="0"/>
                                         <td class="px-3 py-4">
+                                            <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            <input name="updateFee" type="text" class="text-[15px]" value="${service.serviceFee}"/>
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            <input name="updateUnit" type="text" class="text-[15px]" value="${service.unit}"/>
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            ${service.monthApplied}
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            <button onclick="updateService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            <button onclick="deleteService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Xóa</button>
                                         </td>
                                     </tr>
-                                    <c:forEach items="${requestScope.serviceList}" var="service">
-                                        <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
-                                            <td class="px-3 py-4">
-                                                <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
-                                            </td>
-                                            <td class="px-3 py-4 text-center">
-                                                <input name="updateFee" type="text" class="text-[15px]" value="${service.serviceFee}"/>
-                                            </td>
-                                            <td class="px-3 py-4 text-center">
-                                                <input name="updateUnit" type="text" class="text-[15px]" value="${service.unit}"/>
-                                            </td>
-                                            <td class="px-3 py-4 text-center">
-                                                ${service.monthApplied}
-                                            </td>
-                                            <td class="px-3 py-4 text-center">
-                                                <button onclick="updateService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
-                                            </td>
-                                            <td class="px-3 py-4 text-center">
-                                                <button onclick="deleteService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Xóa</button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -235,7 +245,7 @@
                 const serviceUnit = document.querySelector("input[name='addServiceUnit']");
                 const addServiceMessage = document.querySelector(".addServiceMessage");
                 const serviceList = document.querySelector(".service-list");
-
+                
                 if (!serviceName.value || !serviceFee.value || !serviceUnit.value) {
                     let message = "";
                     if (!serviceName.value) {
@@ -296,13 +306,19 @@
 
         <script>
             function updateService(element) {
-                console.log("da vao update member");
+                console.log("da vao update service");
                 const serviceElement = element.parentElement.parentElement;
                 const serviceId = element;
                 const serviceName = serviceElement.querySelector("input[name='updateName']");
                 const serviceFee = serviceElement.querySelector("input[name='updateFee']");
                 const serviceUnit = serviceElement.querySelector("input[name='updateUnit']");
+                const serviceType = serviceElement.querySelector("input[name='updateType']");
                 const updateMessage = document.querySelector(".updateMessage");
+                console.log("serviceId: ", serviceId.value);
+                console.log("serviceName: ", serviceName.value);
+                console.log("serviceFee ", serviceFee.value);
+                console.log("serviceUnit ", serviceUnit.value);
+                console.log("serviceType ", serviceType.value);
                 if (!serviceName.value || !serviceFee.value || !serviceUnit.value) {
                     let message = "";
                     if (!serviceName.value) {
@@ -328,6 +344,7 @@
                                 'serviceFee': serviceFee.value,
                                 'serviceUnit': serviceUnit.value,
                                 'hostelId': ${sessionScope.currentHostel.hostelID},
+                                'serviceType': serviceType.value,
                                 'serviceId': serviceId.value
                             },
                             url: '/sakura/service/edit-service',

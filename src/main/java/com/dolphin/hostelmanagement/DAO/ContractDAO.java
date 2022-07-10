@@ -433,6 +433,80 @@ public class ContractDAO {
         return false;
     }
     
+    
+
+    public static boolean endContractByRoomId(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Contract SET status = 0 WHERE roomID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean endContractByRoomTypeId(int roomTypeId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Contract\n"
+                        + "SET status = 0 FROM Contract C\n"
+                        + "INNER JOIN Room R ON C.roomID = R.roomID\n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + " WHERE RT.roomTypeID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomTypeId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean endContractByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Contract\n"
+                        + "SET status = 0 FROM Contract C\n"
+                        + "INNER JOIN Room R ON C.roomID = R.roomID\n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID\n"
+                        + "WHERE H.hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static boolean updateContract(Contract c) {
         Connection cn = null;
         

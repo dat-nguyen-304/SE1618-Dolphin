@@ -40,7 +40,8 @@ public class ServiceController extends HttpServlet {
                 String serviceName = request.getParameter("serviceName");
                 int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
                 String serviceUnit = request.getParameter("serviceUnit");
-                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit);
+                
+                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit, 0);
                 Service service = ServiceDAO.findLastServiceByHostelId(hostelId);
                 if (addSuccess) {
                     out.print("<tr class=\"bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800\">\n"
@@ -74,7 +75,9 @@ public class ServiceController extends HttpServlet {
                 String serviceName = request.getParameter("serviceName");
                 int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
                 String serviceUnit = request.getParameter("serviceUnit");
-                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit);
+                int serviceType = Integer.parseInt(request.getParameter("serviceType"));
+                
+                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit, serviceType);
                 boolean deleteSuccess = ServiceDAO.delete(serviceId);
                 if (addSuccess && deleteSuccess) {
                     out.print("<h1>Cập nhật dịch vụ " + serviceName + " thành công</h1>");

@@ -227,6 +227,27 @@ public class RoomTypeDAO {
         }
         return false;
     }
+    
+    public static boolean deleteByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomType SET activate = 0 WHERE hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static int getCurrentIdentImageRoomType() {
         Connection cn = null;

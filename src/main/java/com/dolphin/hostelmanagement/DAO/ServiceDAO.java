@@ -164,17 +164,18 @@ public class ServiceDAO {
 //        }
 //        return list;
 //    }
-    public static boolean save(int hostelId, String name, int fee, String unit) {
+     public static boolean save(int hostelId, String name, int fee, String unit, int serviceType) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "INSERT INTO Service(hostelID, serviceName, serviceFee, unit) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO Service(hostelID, serviceName, serviceFee, unit, type) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 pst.setString(2, name);
                 pst.setInt(3, fee);
                 pst.setString(4, unit);
+                pst.setInt(5, serviceType);
                 int rows = pst.executeUpdate();
                 if (rows > 0) {
                     cn.close();
@@ -262,6 +263,10 @@ public class ServiceDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(saveDefaultService(35));
+        List<Service> list = findHostelActiveServices(HostelDAO.findById(1));
+        for (Service service : list) {
+            System.out.println(service.getType());
+        }
+                
     }
 }
