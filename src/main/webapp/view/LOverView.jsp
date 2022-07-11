@@ -27,13 +27,15 @@
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LOverView.css">
+        <link rel="stylesheet" href="../assets/css/toastr.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
+        
         
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     </head>
 
     <body>
@@ -72,10 +74,7 @@
                                         <p class="font-medium text-[15px] text-[#fff]">${sessionScope.currentHostel.hostelName}</p>
                                     </button>
                                 </div>
-                                <button id="editHostel-1" type="submit" name="action" value="Save"
-                                        class="mr-[20px] rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                    <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Chỉnh sửa nhà trọ</p>
-                                </button>
+                               
                                 <button id="deleteHostel-1" type="submit" name="action" value="Save"
                                         class="mr-[20px] rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
                                     <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Xóa nhà trọ này</p>
@@ -88,8 +87,6 @@
                             </button>
                         </div>
                     </c:if>
-
-
                     <!-- End breadcrumb -->
                 </div>
                 <!-- Modal list-->
@@ -372,32 +369,7 @@
                 </c:if>
             </div>
 
-            <!-- Footer -->
 
-            <footer class="w-full px-[20px] pb-[20px]">
-                <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
-                    <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
-                                                                                 class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
-                    </span>
-                    <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6 ">Về Sakura</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">Chính sách bảo mật</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-[#17535B]">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </footer>
-
-            <!-- End footer -->
 
         </div>
 
@@ -407,10 +379,26 @@
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="js/chart.js"></script>
-        <!-- Breadcrumb -->
-        <script src="js/breadcrumb.js"></script>
+
         <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script>
+            function showToast(type, msg) {
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.options.extendedTimeOut = 0; //1000;
+                toastr.options.timeOut = 3000;
+                toastr.options.hideDuration = 250;
+                toastr.options.showDuration = 250;
+                toastr.options.hideMethod = 'slideUp';
+                toastr.options.showMethod = 'slideDown';
+                toastr.options.preventDuplicates = true;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                toastr[type](msg);
+            }
+        </script>
         <script>
             function addHostel() {
                 console.log("da vao add hostel");
@@ -562,7 +550,7 @@
                     if (!name.value) {
                         message += "Tên nhà trọ - ";
                     }
-                    if (!streetAddress.value) {
+                    if (!updateStreetAddress.value) {
                         message += "Địa chỉ chi tiết - ";
                     }
                     if (!description.value) {
@@ -582,7 +570,8 @@
                         },
                         url: '/sakura/hostel/update-hostel',
                         success: function (response) {
-                            messageElement.innerHTML = response;
+                            //messageElement.innerHTML = response;
+                            showToast("success", "Chỉnh sửa thông tin thành công!");
                         },
                         error: function () {
                         },
@@ -594,9 +583,8 @@
         </script>
 
         <script>
-
             function renderDistrictSimple(element) {
-                console.log("da vao render district")
+                console.log("da vao render district");
                 var provinceID = element.value;
                 const provinElement = document.querySelector('#province');
                 var districtElemet = null;
@@ -683,25 +671,11 @@
                 toggleModal('.editHostelmodal1');
             });
 
-            var open_modal_2 = document.querySelector('#editHostel-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.editHostelmodal2');
-            });
-
             var close_modal_1 = document.querySelectorAll('.editHostelmodal1 .editHostelmodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
                 close_modal_1[i].addEventListener('click', () => {
                     toggleModal('.editHostelmodal1');
                     console.log('close 1');
-                });
-            }
-
-            var close_modal_2 = document.querySelectorAll('.editHostelmodal2 .editHostelmodal2-close');
-            for (let i = 0; i < close_modal_1.length; ++i) {
-                close_modal_2[i].addEventListener('click', () => {
-                    toggleModal('.editHostelmodal2');
-                    console.log('close 2');
                 });
             }
 
@@ -714,12 +688,8 @@
                     isEscape = (evt.keyCode === 27);
                 }
                 const modal_1 = document.querySelector('.editHostelmodal1');
-                const modal_2 = document.querySelector('.editHostelmodal2');
-                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
+                if (isEscape && modal_1.classList.contains('active-modal')) {
                     toggleModal('.editHostelmodal1');
-                }
-                if (isEscape && modal_2.classList.contains('active-modal')) {
-                    toggleModal('.editHostelmodal2');
                 }
             };
 

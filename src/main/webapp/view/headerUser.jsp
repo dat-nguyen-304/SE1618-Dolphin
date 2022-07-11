@@ -4,6 +4,7 @@
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <nav class="header">
     <a class="logo" href="/sakura/home">
         <img id="logo-header" src="/sakura/assets/icons/logo.png" alt="">
@@ -21,7 +22,11 @@
             <img id="profile-btn" src="${empty sessionScope.currentUser.account.avatar ? "/sakura/assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="/sakura/assets/images/user-avatars/no_ava.jpg">
         </div>
         <div class="profile-menu">
-            <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span><br></h3>
+            <c:set var = "fullname" value = "${sessionScope.currentUser.fullname}"/>
+            <c:set var="part" value="${fn:split(fullname, ' ')}" />
+            <c:set var="sz" value="${fn:length(part)}" />
+            <c:set var="firstName" value="${part[sz-1]}" />
+            <h3>Xin chào, ${firstName}!<br><span>${sessionScope.currentUser.account.username}</span><br></h3>
             <p class="text-[#929CA5] font-normal text-[15px] w-full text-center mb-[10px]">${sessionScope.currentUser.account.role == 1 ? 'Người thuê' : (sessionScope.currentUser.account.role == 2 ?  'Chủ nhà' : 'Admin')}</p>
             <ul>
                 <form action = "/sakura/access/login" method = "post">

@@ -541,10 +541,11 @@ public class HostelController extends HttpServlet {
                 boolean updateSuccess = HostelDAO.updateHostelById(hostelId, name, updateDistrictId, updateStreetAddress, description);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
+                    System.out.println("success");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                    System.out.println("failed");
                 }
-
             } else if (path.equals("/check-update-hostel-valid")) {
                 String updateName = request.getParameter("updateName");
                 int landlordId = Integer.parseInt(request.getParameter("landlordId"));

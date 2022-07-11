@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -54,9 +54,6 @@
             <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
                 <div class="head-control flex justify-between">
                     <!-- Breadcrumb -->
-                    <!-- <div class="bc-container">
-                    <div class="bc"><a href="#">Quản lý phòng thuê </a></div>
-                    </div> -->
                     <nav class="flex" aria-label="Breadcrumb">
                         <ol class="inline-flex items-center space-x-1 md:space-x-3">
                             <li class="inline-flex items-center">
@@ -80,15 +77,20 @@
                         </ol>
                     </nav>
                     <!-- End breadcrumb -->
-
                 </div>
 
                 <!-- General information -->
                 <div class="flex justify-between mt-[20px] grid grid-cols-5 gap-5">
-
+                    <%@include file="../view/modalLandlordHostelInfo.jsp" %>
                     <!--Hostel info-->
                     <div class="card bg-[#fff] p-5 flex flex-col col-span-2">
-                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thông tin cơ bản</div>
+                        <div class="flex justify-between">
+                            <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thông tin cơ bản</div>
+                            <button id="editHostel-1" type="submit" name="action" value="Save"
+                                    class="rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
+                                <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Chỉnh sửa thông tin</p>
+                            </button>
+                        </div>
                         <div class="w-full h-fit mx-auto">
                             <div class="grid grid-cols-6 gap-[8px]">
                                 <div class="col-span-2 grid grid-rows-2 gap-[3px]">
@@ -161,121 +163,7 @@
                                         <p><i class="bi bi-plus-lg mr-[5px]"></i>Thêm hình ảnh</p>
                                     </button>    
                                 </div>
-                                <!--Modal remove an image-->
-                                <div class="modal remove-an-image opacity-0 duration-100 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[10000]">
-                                    <div class="modal-overlay absolute w-full h-full bg-[#0c1112] opacity-80"></div>
-                                    <div class="modal-container bg-white w-[500px] h-fit mx-auto rounded shadow-lg z-50 overflow-y-auto">
-                                        <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-[20px]">
-                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                                            </svg>
-                                            <span class="text-sm">(Esc)</span>
-                                        </div>
-                                        <div class="modal-content h-full flex flex-col">
-                                            <!--Title-->
-                                            <div class="flex justify-between items-center px-[20px] py-[10px] border-b">
-                                                <p class="text-[20px] font-bold text-[#17535B]">Xác nhận</p>
-                                                <div class="modal-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                                                    <svg class="fill-current text-[#17535B]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                                                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <!--Body-->
-                                            <p class="p-[20px] font-normal text-[18px]">Bạn chắc chắn muốn xoá hình ảnh này khỏi hệ thống?</p>
-                                            <!--Footer-->
-                                            <div class="flex justify-end p-[20px]">
-                                                <button class="modal-close px-5 py-2 text-[#7e7e7e] text-[18px] font-medium rounded hover:text-[#FF6532]">Huỷ</button>
-                                                <button type="button" id="remove-an-image-btn" class="px-5 py-2 bg-[#f53b3b] hover:bg-[#e84343] text-[#fff] text-[18px] font-medium rounded">Xoá</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Modal remove image-->
-                                <div class="modal remove-image opacity-0 duration-100 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[10000]">
-                                    <div class="modal-overlay absolute w-full h-full bg-[#0c1112] opacity-80"></div>
-                                    <div class="modal-container bg-white w-[500px] h-fit mx-auto rounded shadow-lg z-50 overflow-y-auto">
-                                        <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-[20px]">
-                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                                            </svg>
-                                            <span class="text-sm">(Esc)</span>
-                                        </div>
-                                        <div class="modal-content h-full flex flex-col">
-                                            <!--Title-->
-                                            <div class="flex justify-between items-center px-[20px] py-[10px] border-b">
-                                                <p class="text-[20px] font-bold text-[#17535B]">Xác nhận</p>
-                                                <div class="modal-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                                                    <svg class="fill-current text-[#17535B]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                                                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <!--Body-->
-                                            <p class="p-[20px] font-normal text-[18px]">Bạn chắc chắn muốn xoá những hình ảnh này khỏi hệ thống?</p>
-                                            <!--Footer-->
-                                            <div class="flex justify-end p-[20px]">
-                                                <button class="modal-close px-5 py-2 text-[#7e7e7e] text-[18px] font-medium rounded hover:text-[#FF6532]">Huỷ</button>
-                                                <button type="button" onclick="confirmRemoveMultipleFile()" id="remove-image-btn" class="px-5 py-2 bg-[#f53b3b] hover:bg-[#e84343] text-[#fff] text-[18px] font-medium rounded">Xoá</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Modal add image-->
-                                <div class="modal add-image opacity-0 duration-100 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[10000]">
-                                    <div class="modal-overlay absolute w-full h-full bg-[#0c1112] opacity-80"></div>
-                                    <div class="modal-container bg-white w-[43%] h-[65%] mx-auto rounded shadow-lg z-50 overflow-y-auto">
-                                        <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-[20px]">
-                                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                                            </svg>
-                                            <span class="text-sm">(Esc)</span>
-                                        </div>
-                                        <div class="modal-content h-full flex flex-col">
-                                            <!--Title-->
-                                            <div class="flex-none flex justify-between items-center px-[20px] py-[10px] border-b">
-                                                <p class="text-[20px] font-bold text-[#17535B]">Tải lên hình nhà trọ</p>
-                                                <div class="modal-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                                                    <svg class="fill-current text-[#17535B]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                                                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <!--Body-->
-                                            <div class="grow p-[20px]">
-                                                <p class="mb-[10px] text-[18px] font-normal">Có thể đăng tối đa 10 ảnh!</p>
-                                                <form method="post" action="/sakura/landlord/add-hostel-image" enctype="multipart/form-data"
-                                                      class="dropzone border border-dashed overflow-y-auto w-full h-[85%] relative p-[20px]"
-                                                      id="my-dropzone">
-                                                    <div class="fallback">
-                                                        <input name="file" type="file" multiple="multiple" />
-                                                    </div>
-                                                    <div class="dz-message needsclick flex flex-col justify-center items-center text-[#929CA5] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full">
-                                                        <div class="mb-3">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 font-normal text-[#929CA5]" fill="none"
-                                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                                            </svg>
-                                                        </div>
-                                                        <h4 class="text-[15px] font-normal text-[#929CA5]">Kéo thả hoặc ấn vào đây để tải ảnh lên.</h4>
-                                                    </div>
-                                                </form>
-                                                <p id="error-file-qty-message" class="dz-max-files-reached hidden text-[14px] font-light italic text-[#ff4747]">
-                                                    Tối đa 10 ảnh</p>
-                                                <p id="error-file-size-message" class="dz-max-files-reached hidden text-[14px] font-light italic text-[#ff4747]">
-                                                    Ảnh tải lên quá lớn (trên 5MB) sẽ không được tải lên.</p>
-                                                <p id="success-upload-message" class="hidden text-[20px] font-medium text-center text-[#0e9c72]">
-                                                    Tải lên thành công!</p>
-                                            </div>
-                                            <!--Footer-->
-                                            <div class="flex-none flex justify-end p-[20px]">
-                                                <button class="modal-close px-5 text-[#7e7e7e] text-[20px] font-medium py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                                                <button type="button" id="upload-file" class="px-5 py-2 bg-[#17535B] hover:bg-[#11444b] text-[#fff] text-[20px] font-medium rounded">Tải lên</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="w-full h-fit mx-auto z-0 " id="display-image">
                                 <div class="hidden h-[600px] flex flex-col items-center justify-around" id="empty-image-list">
@@ -389,6 +277,8 @@
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="../assets/javascript/render-district.js"></script>
+
         <script type="text/javascript">
                                                             function showToast(type, msg) {
                                                                 toastr.options.positionClass = 'toast-bottom-right';
@@ -403,342 +293,500 @@
                                                                 toastr.options.progressBar = true;
                                                                 toastr[type](msg);
                                                             }
+        </script>
+        <script>
+            var open_modal_1 = document.querySelector('#editHostel-1');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.editHostelmodal1');
+            });
 
-                                                            if (${not empty sessionScope.currentHostel.imgList}) {
-                                                                var splide = new Splide('#main-carousel', {
-                                                                    pagination: false,
-                                                                    rewind: true
-                                                                });
+            var close_modal_1 = document.querySelectorAll('.editHostelmodal1 .editHostelmodal1-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.editHostelmodal1');
+                    console.log('close 1');
+                });
+            }
 
-                                                                var thumbnails = document.getElementsByClassName('thumbnail');
-                                                                var current;
-                                                                for (var i = 0; i < thumbnails.length; i++) {
-                                                                    initThumbnail(thumbnails[i], i);
-                                                                }
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.editHostelmodal1');
+                if (isEscape && modal_1.classList.contains('active-modal')) {
+                    toggleModal('.editHostelmodal1');
+                }
+            };
+        </script>
+        <script>
+            function checkValidUpdateHostel(element) {
+                console.log("Da vao check update hostel");
+                const validUpdateHostelMessage = document.querySelector(".validUpdateHostelMessage");
+                const landlordId = document.querySelector("input[name='landlordId']");
+                const updateHostelBtn = document.querySelector(".updateHostelBtn");
+                const currentName = document.querySelector("input[name='currentName']");
+                const updateHostelMessage = document.querySelector(".updateHostelMessage");
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'updateName': element.value,
+                        'landlordId': landlordId.value,
+                        'currentName': currentName.value
+                    },
+                    url: '/sakura/hostel/check-update-hostel-valid',
+                    success: function (response) {
+                        validUpdateHostelMessage.innerHTML = response;
+                        if (response) {
+                            updateHostelBtn.onclick = (e) => {
+                                e.preventDefault();
+                                updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
+                            };
+                        } else {
+                            updateHostelBtn.onclick = () => updateHostel();
+                        }
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
 
-                                                                function initThumbnail(thumbnail, index) {
-                                                                    thumbnail.addEventListener('click', function () {
-                                                                        splide.go(index);
-                                                                    });
-                                                                }
+            function updateHostel() {
 
-                                                                splide.on('mounted move', function () {
-                                                                    var thumbnail = thumbnails[splide.index];
-                                                                    if (thumbnail) {
-                                                                        if (current) {
-                                                                            current.classList.remove('is-active');
-                                                                        }
-                                                                        thumbnail.classList.add('is-active');
-                                                                        current = thumbnail;
-                                                                    }
-                                                                });
+                const name = document.querySelector("input[name='updateName']");
+                const updateDistrictId = document.querySelector("select[name='updateDistrictId']");
+                const updateStreetAddress = document.querySelector("input[name='updateStreetAddress']");
+                const description = document.querySelector("textarea[name='updateDescription']");
+                const messageElement = document.querySelector(".updateHostelMessage");
+                const hostelId = document.querySelector("input[name='hostelId']");
+                console.log(hostelId);
+                if (!name.value || !updateStreetAddress.value || !description.value) {
+                    let message = "";
+                    if (!name.value) {
+                        message += "Tên nhà trọ - ";
+                    }
+                    if (!updateStreetAddress.value) {
+                        message += "Địa chỉ chi tiết - ";
+                    }
+                    if (!description.value) {
+                        message += "Mô tả ";
+                    }
+                    message += "không được trống";
 
-                                                                splide.mount();
-                                                            }
+                    messageElement.innerHTML = message;
+                } else {
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'name': name.value,
+                            'updateDistrictId': updateDistrictId.value,
+                            'updateStreetAddress': updateStreetAddress.value,
+                            'description': description.value,
+                            'hostelId': hostelId.value
+                        },
+                        url: '/sakura/hostel/update-hostel',
+                        success: function (response) {
+                            //messageElement.innerHTML = response;
+                            toggleModal('.editHostelmodal1');
+                            showToast("success", "Chỉnh sửa thành công! Đang cập nhật lại trang.");
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 3000);
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
+                }
+            }
+        </script>
+        <script>
+            function renderDistrictSimple(element) {
+                console.log("da vao render district");
+                var provinceID = element.value;
+                const provinElement = document.querySelector('#province');
+                var districtElemet = null;
+                if (provinElement === element)
+                    districtElemet = document.querySelector('#district');
+                else
+                    districtElemet = document.querySelector('#updateDistrict');
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'provinceID': provinceID
+                    },
+                    url: '/sakura/hostel/address',
+                    success: function (response) {
+                        districtElemet.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+        </script>
+        <script>
+            if (${not empty sessionScope.currentHostel.imgList}) {
+                var splide = new Splide('#main-carousel', {
+                    pagination: false,
+                    rewind: true
+                });
 
-                                                            // MODAL 
-                                                            var open_modal_1 = document.querySelector('#add-images');
-                                                            open_modal_1.addEventListener('click', function (event) {
-                                                                event.preventDefault();
-                                                                toggleModal('.modal.add-image');
-                                                            });
-                                                            var close_modal_1 = document.querySelectorAll('.modal.add-image .modal-close');
-                                                            for (let i = 0; i < close_modal_1.length; ++i) {
-                                                                close_modal_1[i].addEventListener('click', () => {
-                                                                    toggleModal('.modal.add-image');
-                                                                });
-                                                            }
-                                                            var open_modal_2 = document.querySelector('#delete-images');
-                                                            open_modal_2.addEventListener('click', function (event) {
-                                                                event.preventDefault();
-                                                                if (checkSelectImage() === false)
-                                                                    return;
-                                                                toggleModal('.modal.remove-image');
-                                                            });
+                var thumbnails = document.getElementsByClassName('thumbnail');
+                var current;
+                for (var i = 0; i < thumbnails.length; i++) {
+                    initThumbnail(thumbnails[i], i);
+                }
 
-                                                            var close_modal_2 = document.querySelectorAll('.modal.remove-image .modal-close');
-                                                            for (let i = 0; i < close_modal_2.length; ++i) {
-                                                                close_modal_2[i].addEventListener('click', () => {
-                                                                    toggleModal('.modal.remove-image');
-                                                                });
-                                                            }
-                                                            document.onkeydown = function (evt) {
-                                                                evt = evt || window.event;
-                                                                var isEscape = false;
-                                                                if ("key" in evt) {
-                                                                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
-                                                                } else {
-                                                                    isEscape = (evt.keyCode === 27);
-                                                                }
-                                                                const modal_1 = document.querySelector('.modal.add-image');
-                                                                if (isEscape && modal_1.classList.contains('active-modal')) {
-                                                                    toggleModal('.modal.add-image');
-                                                                }
-                                                                const modal_2 = document.querySelector('.modal.remove-image');
-                                                                if (isEscape && modal_2.classList.contains('active-modal')) {
-                                                                    toggleModal('.modal.remove-image');
-                                                                }
-                                                            };
-                                                            function toggleModal(modal_item) {
-                                                                const modal = document.querySelector(modal_item);
-                                                                modal.classList.toggle('active-modal');
-                                                                modal.classList.toggle('opacity-0');
-                                                                modal.classList.toggle('pointer-events-none');
-                                                            }
+                function initThumbnail(thumbnail, index) {
+                    thumbnail.addEventListener('click', function () {
+                        splide.go(index);
+                    });
+                }
 
-                                                            function checkSelectImage() {
-                                                                if (document.querySelectorAll('input[type="checkbox"]:checked').length === 0) {
-                                                                    showToast('error', 'Chưa chọn ảnh nào!');
-                                                                    return false;
-                                                                }
-                                                                return true;
-                                                            }
+                splide.on('mounted move', function () {
+                    var thumbnail = thumbnails[splide.index];
+                    if (thumbnail) {
+                        if (current) {
+                            current.classList.remove('is-active');
+                        }
+                        thumbnail.classList.add('is-active');
+                        current = thumbnail;
+                    }
+                });
 
-                                                            function confirmRemoveMultipleFile() {
-                                                                removeMultipleFile();
-                                                                //toggleModal('.modal.remove-image');
-                                                                showToast('info', 'Đang xoá, đợi vài giây!');
-                                                                setTimeout(function () {
-                                                                    window.location.reload();
-                                                                }, 3000);
-                                                            }
+                splide.mount();
+            }
 
-                                                            function removeMultipleFile() {
-                                                                let checkboxes = document.querySelectorAll('.thumbnails .checkbox-input');
-                                                                let selected = new Array();
-                                                                for (let i = 0; i < checkboxes.length; i++) {
-                                                                    if (checkboxes[i].checked) {
-                                                                        selected.push(checkboxes[i].value);
-                                                                    }
-                                                                }
-                                                                console.log(selected);
-                                                                jQuery.ajax({
-                                                                    type: "POST",
-                                                                    dataType: 'json',
-                                                                    data: {toDelete: selected, hostelId: ${sessionScope.currentHostel.hostelID}},
-                                                                    url: "/sakura/landlord/remove-multiple-images",
-                                                                    success: function () {
-                                                                    },
-                                                                    complete: function () {
-                                                                        countSelectedImage();
-                                                                        //window.location.reload();
-                                                                        //updateImageList();
-                                                                        /*for (let i = 0; i < selected.length; i++) {
-                                                                         console.log(selected[i]);
-                                                                         document.getElementById(selected[i]).parentElement.style.display = 'none';
-                                                                         let thumbnailID = "tb_" + selected[i];
-                                                                         document.getElementById(thumbnailID).style.display = 'none';
-                                                                         }*/
-                                                                    }
-                                                                });
-                                                            }
+            // MODAL 
+            var open_modal_1 = document.querySelector('#add-images');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.modal.add-image');
+            });
+            var close_modal_1 = document.querySelectorAll('.modal.add-image .modal-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.modal.add-image');
+                });
+            }
+            var open_modal_2 = document.querySelector('#delete-images');
+            open_modal_2.addEventListener('click', function (event) {
+                event.preventDefault();
+                if (checkSelectImage() === false)
+                    return;
+                toggleModal('.modal.remove-image');
+            });
 
-                                                            function updateImageList() {
+            var close_modal_2 = document.querySelectorAll('.modal.remove-image .modal-close');
+            for (let i = 0; i < close_modal_2.length; ++i) {
+                close_modal_2[i].addEventListener('click', () => {
+                    toggleModal('.modal.remove-image');
+                });
+            }
 
-                                                                jQuery.ajax({
-                                                                    url: '/sakura/landlord/update-image',
-                                                                    type: 'GET',
-                                                                    data: {hostelId: ${sessionScope.currentHostel.hostelID}},
-                                                                    dataType: 'text',
-                                                                    complete: function (result) {
-                                                                        var data = JSON.parse(result.responseText);
-                                                                        console.log(data);
-                                                                        if (data.length === 0) {
-                                                                            // let container = document.getElementById('display-image');
-                                                                            $('#empty-image-list').toggleClass('hidden');
-                                                                        }
-                                                                        $(".splide__list").empty();
-                                                                        $("#thumbnails").empty();
+//            var open_modal_3 = document.querySelector('#delete-an-image');
+//            open_modal_3.addEventListener('click', function (event) {
+//                event.preventDefault();
+//                if (checkSelectImage() === false)
+//                    return;
+//                toggleModal('.modal.remove-an-image');
+//            });
 
-                                                                        for (let i = 0; i < data.length; ++i) {
-                                                                            $(".splide__list").append(`
-                                                                <li class="splide__slide image-item-container overflow-hidden relative group cursor-pointer">
-                                                                    <img class="z-[1] mx-auto" alt="" src="` + data[i].imgLink + `" id="` + data[i].imgLink + `">
-                                                                    <div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]">
-                                                                        <a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile('` + data[i].imgLink + `');">
-                                                                            <i class="bi bi-x"></i>
-                                                                        </a>
-                                                                        <input type="checkbox" name="select-image" value="` + data[i].imgLink + `" class="checkbox-input hidden" id="ip_` + data[i].imgLink + `" onchange="toggleSelectImage(event)">
-                                                                        <label for="ip_` + data[i].imgLink + `">
-                                                                            <span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span>
-                                                                        </label>
-                                                                    </div>
-                                                                </li>`);
-                                                                            $("#thumbnails").append('<li class="thumbnail image-item-container mr-[2px] overflow-hidden relative group cursor-pointer" id="tb_' + data[i].imgLink + '"><div class="image-overlay w-full h-full bg-[#000] opacity-0 absolute top-0 left-0 z-[2] duration-150"></div><img class="z-[1] w-full h-full object-cover group-hover:blur-sm duration-150" alt="" src="' + data[i].imgLink + '" size=""><div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]"><a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile(\'' + data[i].imgLink + '\');"><i class="bi bi-x"></i></a><input type="checkbox" name="select-image" value="' + data[i].imgLink + '" class="checkbox-input hidden" id="tb_ip_' + data[i].imgLink + '" onchange="toggleSelectThumbnail(event)"><label for="tb_ip_' + data[i].imgLink + '"><span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span></label></div></li>');
-                                                                        }
-                                                                        countSelectedImage();
-                                                                    }
-                                                                });
-                                                            }
+            var close_modal_3 = document.querySelectorAll('.modal.remove-an-image .modal-close');
+            for (let i = 0; i < close_modal_3.length; ++i) {
+                close_modal_3[i].addEventListener('click', () => {
+                    toggleModal('.modal.remove-an-image');
+                });
+            }
 
-                                                            function removeFile(filePath, event) {
-                                                                toggleModal('.modal.remove-an-image');
-                                                                let cfBtn = document.getElementById('remove-an-image-btn');
-                                                                cfBtn.addEventListener('click', () => {
-                                                                    console.log(filePath);
-                                                                    jQuery.ajax({
-                                                                        type: 'POST',
-                                                                        data: {path: filePath, hostelId: ${sessionScope.currentHostel.hostelID}},
-                                                                        url: '/sakura/landlord/remove-image',
-                                                                        complete: function () {
-                                                                            toggleModal('.modal.remove-an-image');
-                                                                            window.location.reload();
-                                                                            //showToast('success', 'Xoá ảnh thành công!');
-                                                                            //setTimeout(function () {
-                                                                            //    window.location.reload();
-                                                                            //}, 3000);
-                                                                        }
-                                                                    });
-                                                                });
-                                                                //document.getElementById(filename).style.display = 'none';
-                                                            }
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.modal.add-image');
+                if (isEscape && modal_1.classList.contains('active-modal')) {
+                    toggleModal('.modal.add-image');
+                }
+                const modal_2 = document.querySelector('.modal.remove-image');
+                if (isEscape && modal_2.classList.contains('active-modal')) {
+                    toggleModal('.modal.remove-image');
+                }
+                const modal_3 = document.querySelector('.modal.remove-an-image');
+                if (isEscape && modal_3.classList.contains('active-modal')) {
+                    toggleModal('.modal.remove-an-image');
+                }
+            };
 
-                                                            // DROPZONE JS
-                                                            Dropzone.options.myDropzone = {// camelized version of the 'id'\\
-                                                                autoProcessQueue: false,
-                                                                uploadMultiple: true,
-                                                                parallelUploads: 10,
-                                                                //paramName: "file", // The name that will be used to transfer the file
-                                                                addRemoveLinks: true,
-                                                                maxFiles: 10, // Số ảnh tối đa
-                                                                dictMaxFilesExceeded: "Tối đa 10 ảnh!",
-                                                                dictRemoveFile: "<i class='bi bi-x-circle-fill'></i>",
-                                                                dictCancelUpload: "",
-                                                                dictCancelUploadConfirmation: null, // "Xác nhận dừng tải ảnh lên?",
-                                                                // dictResponseError: "",
-                                                                maxFilesize: 5,
-                                                                dictFileTooBig: "File quá lớn ({{filesize}}MB). Kích thước tối đa: {{maxFilesize}}MB.",
+            function toggleModal(modal_item) {
+                const modal = document.querySelector(modal_item);
+                modal.classList.toggle('active-modal');
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+            }
 
-                                                                init: function () {
-                                                                    let submitButton = document.querySelector("#upload-file");
-                                                                    upload = this;
-                                                                    submitButton.addEventListener("click", function () {
-                                                                        let formUpload = document.querySelector("#my-dropzone");
-                                                                        console.log('submit');
-                                                                        upload.processQueue();
-                                                                    });
-                                                                    this.on("sending", function (file, xhr, formData) {
-                                                                        formData.append("hostelId", ${sessionScope.currentHostel.hostelID});
-                                                                    });
-                                                                    this.on("successmultiple", function () {
-                                                                        let msg = document.querySelector("#success-upload-message");
-                                                                        msg.classList.toggle("hidden");
-                                                                        setTimeout(function () {
-                                                                            window.location.reload();
-                                                                        }, 2000);
-                                                                    });
-                                                                    this.on("maxfilesexceeded", function (file, message) {
-                                                                        let form = document.querySelector("#my-dropzone");
-                                                                        form.classList.remove('dz-max-files-reached');
-                                                                        let msg = document.querySelector("#error-file-qty-message");
-                                                                        msg.classList.remove("hidden");
-                                                                        msg.classList.add("block");
-                                                                        this.removeFile(file);
-                                                                    });
-                                                                    this.on("error", function (file, message) {
-                                                                        if (message.startsWith('File quá lớn')) {
-                                                                            console.log(message);
-                                                                            let msg = document.querySelector("#error-file-size-message");
-                                                                            msg.classList.remove("hidden");
-                                                                            msg.classList.add("block");
-                                                                            this.removeFile(file);
-                                                                        }
-                                                                    });
-                                                                    this.on("removedfile", function (file) {
-                                                                        console.log(file.name);
-//                                                                jQuery.ajax({
-//                                                                    type: 'POST',
-//                                                                    data: 'name=' + file.name,
-//                                                                    url: 'RemoveFileServlet'
-//                                                                });
-                                                                    });
-                                                                }
-                                                            };
+            function checkSelectImage() {
+                if (document.querySelectorAll('input[type="checkbox"]:checked').length === 0) {
+                    showToast('error', 'Chưa chọn ảnh nào!');
+                    return false;
+                }
+                return true;
+            }
 
-                                                            function toggleSelectImage(event) {
-                                                                let par = event.currentTarget.parentElement;
-                                                                let imgEl = par.parentElement;
-                                                                par.classList.toggle('checked-box');
-                                                                //imgEl.classList.toggle('selected');
+            function confirmRemoveMultipleFile() {
+                removeMultipleFile();
+                //toggleModal('.modal.remove-image');
+                showToast('info', 'Đang xoá, đợi vài giây!');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 3000);
+            }
 
-                                                                let id = event.currentTarget.value;
-                                                                id1 = "tb_" + id;
-                                                                let thumbnail = document.getElementById(id1);
-                                                                thumbnail.classList.toggle('selected');
-                                                                thumbnail.children[2].classList.toggle('checked-box');
+            function removeMultipleFile() {
+                let checkboxes = document.querySelectorAll('.thumbnails .checkbox-input');
+                let selected = new Array();
+                for (let i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        selected.push(checkboxes[i].value);
+                    }
+                }
+                console.log(selected);
+                jQuery.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    data: {toDelete: selected, hostelId: ${sessionScope.currentHostel.hostelID}},
+                    url: "/sakura/landlord/remove-multiple-images",
+                    success: function () {
+                    },
+                    complete: function () {
+                        countSelectedImage();
+                        //window.location.reload();
+                        //updateImageList();
+                        /*for (let i = 0; i < selected.length; i++) {
+                         console.log(selected[i]);
+                         document.getElementById(selected[i]).parentElement.style.display = 'none';
+                         let thumbnailID = "tb_" + selected[i];
+                         document.getElementById(thumbnailID).style.display = 'none';
+                         }*/
+                    }
+                });
+            }
 
-                                                                id2 = "tb_ip_" + id;
-                                                                let inputEl = document.getElementById(id2);
-                                                                inputEl.checked = !inputEl.checked;
+            function updateImageList() {
 
-                                                                countSelectedImage();
-                                                            }
+                jQuery.ajax({
+                    url: '/sakura/landlord/update-image',
+                    type: 'GET',
+                    data: {hostelId: ${sessionScope.currentHostel.hostelID}},
+                    dataType: 'text',
+                    complete: function (result) {
+                        var data = JSON.parse(result.responseText);
+                        console.log(data);
+                        if (data.length === 0) {
+                            // let container = document.getElementById('display-image');
+                            $('#empty-image-list').toggleClass('hidden');
+                        }
+                        $(".splide__list").empty();
+                        $("#thumbnails").empty();
 
-                                                            function toggleSelectThumbnail(event) {
-                                                                let par = event.currentTarget.parentElement;
-                                                                let imgEl = par.parentElement;
-                                                                par.classList.toggle('checked-box');
-                                                                imgEl.classList.toggle('selected');
+                        for (let i = 0; i < data.length; ++i) {
+                            $(".splide__list").append(`
+                                                                        <li class="splide__slide image-item-container overflow-hidden relative group cursor-pointer">
+                                                                            <img class="z-[1] mx-auto" alt="" src="` + data[i].imgLink + `" id="` + data[i].imgLink + `">
+                                                                            <div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]">
+                                                                                <a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile('` + data[i].imgLink + `');">
+                                                                                    <i class="bi bi-x"></i>
+                                                                                </a>
+                                                                                <input type="checkbox" name="select-image" value="` + data[i].imgLink + `" class="checkbox-input hidden" id="ip_` + data[i].imgLink + `" onchange="toggleSelectImage(event)">
+                                                                                <label for="ip_` + data[i].imgLink + `">
+                                                                                    <span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </li>`);
+                            $("#thumbnails").append('<li class="thumbnail image-item-container mr-[2px] overflow-hidden relative group cursor-pointer" id="tb_' + data[i].imgLink + '"><div class="image-overlay w-full h-full bg-[#000] opacity-0 absolute top-0 left-0 z-[2] duration-150"></div><img class="z-[1] w-full h-full object-cover group-hover:blur-sm duration-150" alt="" src="' + data[i].imgLink + '" size=""><div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]"><a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile(\'' + data[i].imgLink + '\');"><i class="bi bi-x"></i></a><input type="checkbox" name="select-image" value="' + data[i].imgLink + '" class="checkbox-input hidden" id="tb_ip_' + data[i].imgLink + '" onchange="toggleSelectThumbnail(event)"><label for="tb_ip_' + data[i].imgLink + '"><span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span></label></div></li>');
+                        }
+                        countSelectedImage();
+                    }
+                });
+            }
 
-                                                                let id = event.currentTarget.value;
-                                                                id1 = "ip_" + id;
-                                                                let inputEl = document.getElementById(id1);
-                                                                //console.log(inputEl);
-                                                                inputEl.checked = !inputEl.checked;
-                                                                inputEl.parentElement.classList.toggle('checked-box');
-                                                                countSelectedImage();
-                                                            }
+            function removeFile(filePath, event) {
+                toggleModal('.modal.remove-an-image');
+                let cfBtn = document.getElementById('remove-an-image-btn');
+                cfBtn.addEventListener('click', () => {
+                    console.log(filePath);
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {path: filePath, hostelId: ${sessionScope.currentHostel.hostelID}},
+                        url: '/sakura/landlord/remove-image',
+                        complete: function () {
+                            toggleModal('.modal.remove-an-image');
+                            window.location.reload();
+                            //showToast('success', 'Xoá ảnh thành công!');
+                            //setTimeout(function () {
+                            //    window.location.reload();
+                            //}, 3000);
+                        }
+                    });
+                });
+                //document.getElementById(filename).style.display = 'none';
+            }
 
-                                                            function countSelectedImage() {
-                                                                let images = document.querySelectorAll('.thumbnail.selected');
-                                                                //console.log(images.length);
-                                                                let msg = document.querySelector('#cnt-images');
-                                                                console.log(images);
-                                                                if (images === null)
-                                                                    msg.innerHTML = "";
-                                                                if (images.length !== 0)
-                                                                    msg.innerHTML = "(Đã chọn: " + images.length + ")";
-                                                                else
-                                                                    msg.innerHTML = "";
-                                                            }
+            // DROPZONE JS
+            Dropzone.options.myDropzone = {// camelized version of the 'id'\\
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                parallelUploads: 10,
+                //paramName: "file", // The name that will be used to transfer the file
+                addRemoveLinks: true,
+                maxFiles: 10, // Số ảnh tối đa
+                dictMaxFilesExceeded: "Tối đa 10 ảnh!",
+                dictRemoveFile: "<i class='bi bi-x-circle-fill'></i>",
+                dictCancelUpload: "",
+                dictCancelUploadConfirmation: null, // "Xác nhận dừng tải ảnh lên?",
+                // dictResponseError: "",
+                maxFilesize: 5,
+                dictFileTooBig: "File quá lớn ({{filesize}}MB). Kích thước tối đa: {{maxFilesize}}MB.",
 
-                                                            function unselectAllImages() {
-                                                                let images = document.querySelectorAll('.checkbox-input');
-                                                                console.log(images);
-                                                                images.forEach(e => {
-                                                                    console.log(e.checked);
-                                                                    let par = e.parentElement;
-                                                                    let imgEl = par.parentElement;
-                                                                    if (e.checked === true) {
-                                                                        par.classList.toggle('checked-box');
-                                                                        imgEl.classList.toggle('selected');
-                                                                        e.checked = false;
-                                                                    }
-                                                                });
-                                                                images.forEach(e => {
-                                                                    console.log(e.checked);
-                                                                });
-                                                                countSelectedImage();
-                                                            }
+                init: function () {
+                    let submitButton = document.querySelector("#upload-file");
+                    upload = this;
+                    submitButton.addEventListener("click", function () {
+                        let formUpload = document.querySelector("#my-dropzone");
+                        console.log('submit');
+                        upload.processQueue();
+                    });
+                    this.on("sending", function (file, xhr, formData) {
+                        formData.append("hostelId", ${sessionScope.currentHostel.hostelID});
+                    });
+                    this.on("successmultiple", function () {
+                        let msg = document.querySelector("#success-upload-message");
+                        msg.classList.toggle("hidden");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    });
+                    this.on("maxfilesexceeded", function (file, message) {
+                        let form = document.querySelector("#my-dropzone");
+                        form.classList.remove('dz-max-files-reached');
+                        let msg = document.querySelector("#error-file-qty-message");
+                        msg.classList.remove("hidden");
+                        msg.classList.add("block");
+                        this.removeFile(file);
+                    });
+                    this.on("error", function (file, message) {
+                        if (message.startsWith('File quá lớn')) {
+                            console.log(message);
+                            let msg = document.querySelector("#error-file-size-message");
+                            msg.classList.remove("hidden");
+                            msg.classList.add("block");
+                            this.removeFile(file);
+                        }
+                    });
+                    this.on("removedfile", function (file) {
+                        console.log(file.name);
+                        //                                                                jQuery.ajax({
+                        //                                                                    type: 'POST',
+                        //                                                                    data: 'name=' + file.name,
+                        //                                                                    url: 'RemoveFileServlet'
+                        //                                                                });
+                    });
+                }
+            };
 
-                                                            let chart = new Donutty(document.getElementById('donut-chart'), {
-                                                                min: 0,
-                                                                max: 5,
-                                                                bg: '#e4ecf4',
-                                                                value: ${requestScope.avgRating},
-                                                                round: true,
-                                                                color: '#17535B',
-                                                                thickness: 4,
-                                                                circle: false,
-                                                                padding: 2,
-                                                                text: function (state) {
-                                                                    let label = state.value + " / 5";
-                                                                    //return (state.value / (state.max - state.min) * 100) + "%";
-                                                                    return label;
-                                                                    // return the percentage of the donut
-                                                                }
+            function toggleSelectImage(event) {
+                let par = event.currentTarget.parentElement;
+                let imgEl = par.parentElement;
+                par.classList.toggle('checked-box');
+                //imgEl.classList.toggle('selected');
 
-                                                            });
+                let id = event.currentTarget.value;
+                id1 = "tb_" + id;
+                let thumbnail = document.getElementById(id1);
+                thumbnail.classList.toggle('selected');
+                thumbnail.children[2].classList.toggle('checked-box');
+
+                id2 = "tb_ip_" + id;
+                let inputEl = document.getElementById(id2);
+                inputEl.checked = !inputEl.checked;
+
+                countSelectedImage();
+            }
+
+            function toggleSelectThumbnail(event) {
+                let par = event.currentTarget.parentElement;
+                let imgEl = par.parentElement;
+                par.classList.toggle('checked-box');
+                imgEl.classList.toggle('selected');
+
+                let id = event.currentTarget.value;
+                id1 = "ip_" + id;
+                let inputEl = document.getElementById(id1);
+                //console.log(inputEl);
+                inputEl.checked = !inputEl.checked;
+                inputEl.parentElement.classList.toggle('checked-box');
+                countSelectedImage();
+            }
+
+            function countSelectedImage() {
+                let images = document.querySelectorAll('.thumbnail.selected');
+                //console.log(images.length);
+                let msg = document.querySelector('#cnt-images');
+                console.log(images);
+                if (images === null)
+                    msg.innerHTML = "";
+                if (images.length !== 0)
+                    msg.innerHTML = "(Đã chọn: " + images.length + ")";
+                else
+                    msg.innerHTML = "";
+            }
+
+            function unselectAllImages() {
+                let images = document.querySelectorAll('.checkbox-input');
+                console.log(images);
+                images.forEach(e => {
+                    console.log(e.checked);
+                    let par = e.parentElement;
+                    let imgEl = par.parentElement;
+                    if (e.checked === true) {
+                        par.classList.toggle('checked-box');
+                        imgEl.classList.toggle('selected');
+                        e.checked = false;
+                    }
+                });
+                images.forEach(e => {
+                    console.log(e.checked);
+                });
+                countSelectedImage();
+            }
+
+            let chart = new Donutty(document.getElementById('donut-chart'), {
+                min: 0,
+                max: 5,
+                bg: '#e4ecf4',
+                value: ${requestScope.avgRating},
+                round: true,
+                color: '#17535B',
+                thickness: 4,
+                circle: false,
+                padding: 2,
+                text: function (state) {
+                    let label = state.value + " / 5";
+                    //return (state.value / (state.max - state.min) * 100) + "%";
+                    return label;
+                    // return the percentage of the donut
+                }
+
+            });
         </script>
     </body>
 </html>

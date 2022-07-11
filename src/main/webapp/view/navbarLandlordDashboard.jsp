@@ -140,23 +140,15 @@
                 </ul>
             </li>
             <li>
-                <a href="/sakura/landlord/notification"
-                   class="menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100"
-                         viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                              clip-rule="evenodd" />
+                <a href="/sakura/landlord/notification" class="${requestPath == '/sakura/landlord/notification' ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                     </svg>
                     <span class="flex-1 ml-3 whitespace-nowrap">Thông báo</span>
-                    <!-- <span
-                        class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full bg-gray-700 text-gray-300">Pro</span> -->
                 </a>
             </li>
             <li>
-                <a href="/sakura/landlord/rentalRequestList"
-                   class="${(pageContext.request.requestURI == '/sakura/view/landlordRentalRequestPage.jsp' || requestPath =='/sakura/contract/add-contract') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                <a href="/sakura/landlord/rentalRequestList" class="${(pageContext.request.requestURI == '/sakura/view/landlordRentalRequestPage.jsp' || requestPath =='/sakura/contract/add-contract') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                     </svg>
@@ -178,9 +170,9 @@
                 <a href="/sakura/landlord/resident"
                    class="${requestPath == '/sakura/landlord/resident' ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                     </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Người ở</span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Cư dân</span>
                 </a>
             </li>
         </ul>

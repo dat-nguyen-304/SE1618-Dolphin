@@ -13,7 +13,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -79,7 +79,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -133,85 +133,7 @@
 </div>
 <!-- End modal choose hostel-->
 
-<!--Modal edit hostel-->
-<div class="editHostelmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[1000]">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-white w-5/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div class="editHostelmodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
-            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                </path>
-            </svg>
-            <span class="text-sm">(Esc)</span>
-        </div>
-        <div class="modal-content">
-            <!--Title-->
-            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
-                <p class="text-2xl font-bold">Chỉnh sửa nhà trọ</p>
-                <div class="editHostelmodal1-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                        </path>
-                    </svg>
-                </div>
-            </div>
-            <!--Body-->
-            <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
-            <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
-            <div class="p-[20px] w-full">
-                <div class="mb-[20px]">
-                    <label class="w-[160px] inline-block" for="">Tên nhà trọ</label>
-                    <input type="hidden" required name="currentName" value="${sessionScope.currentHostel.hostelName}"/>
-                    <input type="text" name="updateName" value="${sessionScope.currentHostel.hostelName}" class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidUpdateHostel(this)"/>
-                    <span class="text-xs validUpdateHostelMessage"></span>
-                </div>
-                <div class="mb-[20px]">
-                    <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
-                    <select id="updateProvince" class="w-[250px] p-[10px] text-[18px]" name="updateProvinceId" onchange="renderDistrictSimple(this)">
-                        <c:forEach items="${requestScope.provinceList}" var="province">
-                            <c:if test="${province.provinceID == sessionScope.currentHostel.district.province.provinceID}">
-                                <option selected value="${province.provinceID}">${province.provinceName}</option>
-                            </c:if>
-                            <c:if test="${province.provinceID != sessionScope.currentHostel.district.province.provinceID}">
-                                <option value="${province.provinceID}">${province.provinceName}</option>
-                            </c:if>
-                        </c:forEach>
-                    </select>
-                </div>
-                <div class="mb-[20px]">
-                    <label class="w-[160px] inline-block" for="">Chọn huyện</label>
-                    <select id="updateDistrict" class="w-[250px] p-[10px] text-[18px]" name="updateDistrictId">
-                        <c:forEach items="${requestScope.currentDistrictList}" var="district">
-                            <c:if test="${district.districtID == sessionScope.currentHostel.district.districtID}">
-                                <option selected value="${district.districtID}">${district.districtName}</option>
-                            </c:if>
-                            <c:if test="${district.districtID != sessionScope.currentHostel.district.districtID}">
-                                <option value="${district.districtID}">${district.districtName}</option>
-                            </c:if>
-                        </c:forEach>
-                    </select> 
-                </div>
-                <div class="mb-[20px]">
-                    <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
-                    <input type="text" required name="updateStreetAddress" value="${sessionScope.currentHostel.streetAddress}" class="text-[18px] w-[500px] p-[10px]">
-                        <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú)</p>
-                </div>
-                <div class="mb-[20px] flex items-start">
-                    <label class="w-[160px] inline-block" for="">Mô tả</label>
-                    <textarea class="text-[18px] p-[10px] w-[500px] text-clip" required name="updateDescription" id="" rows="5">${sessionScope.currentHostel.description}</textarea>
-                </div>
-            </div>
-            <!--Footer-->
-            <div class="flex justify-end p-[20px]">
-                <button
-                    class="editHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <button id="editHostel-2" onclick="updateHostel()"
-                        class="updateHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--End modal edit hostel-->
+
 <!--Modal confirm edit hostel-->
 <div class="editHostelmodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[1000]">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -221,7 +143,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -263,7 +185,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -301,7 +223,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
