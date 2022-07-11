@@ -37,8 +37,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -119,7 +124,7 @@ public class LandlordController extends HttpServlet {
                 }
 
             } else {
-                currentHostel = (Hostel)session.getAttribute("currentHostel");
+                currentHostel = (Hostel) session.getAttribute("currentHostel");
             }
 
             if (path.equals("/overview")) {
@@ -128,6 +133,85 @@ public class LandlordController extends HttpServlet {
                     currentHostel = HostelDAO.findById(hostelId);
                     session.setAttribute("currentHostel", currentHostel);
                 }
+
+                currentHostel = (Hostel) session.getAttribute("currentHostel");
+                
+                //doanh thu
+
+                ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
+                
+                Collections.sort(invoiceList, new Comparator<Invoice>() {
+                    public int compare(Invoice i1, Invoice i2) {
+                        SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
+                        Date date1 = null, date2 = null;
+
+                        try {
+                            date1 = mmyy.parse(i1.getMonth());
+                            date2 = mmyy.parse(i2.getMonth());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return date2.compareTo(date1);
+                    }
+                });
+                
+                /*for (Invoice i : invoiceList) {
+                    System.out.println(i.getMonth());
+                }*/
+                ArrayList<String> revenueDate = new ArrayList<>();
+                ArrayList<Integer> revenueValue = new ArrayList<>();
+                
+                String currentDate = "";
+                int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                
+                long totalRevenue = 0;
+                long currentYearRevenue = 0;
+                
+                for(Invoice i: invoiceList) {
+                    if(!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {
+                        
+                        revenueDate.add(i.getMonth());
+                        currentDate = i.getMonth();
+                        revenueValue.add(0);
+                    }
+                    if(revenueDate.size() <= 5)
+                        revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
+                    
+                    totalRevenue += i.getTotalPrice();
+                }
+                
+                request.setAttribute("totalRevenue", totalRevenue);
+                request.setAttribute("currentYearRevenue", currentYearRevenue);
+                request.setAttribute("revenueDate", revenueDate);
+                request.setAttribute("revenueValue", revenueValue);
+                
+                if(revenueValue.size() == 1 || revenueValue.get(0) == revenueValue.get(1)) request.setAttribute("revenueChange", 0);
+                else if(revenueValue.get(0) < revenueValue.get(1)){
+                    double ratio = revenueValue.get(1) / revenueValue.get(0) * 100;
+                    ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
+                    
+                    request.setAttribute("revenueChange", -ratio);
+                }
+                else if(revenueValue.get(0) > revenueValue.get(1)){
+                    double ratio = (double)revenueValue.get(0) / revenueValue.get(1) * 100;
+                    ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
+                    
+                    request.setAttribute("revenueChange", ratio);
+                }
+                //end doanh thu
+                
+                //So luong cu dan
+                
+                /*for(RoomResident rr: RoomResidentDAO.findByHostelID(currentHostel.getHostelID())) {
+                    System.out.println(rr.getFullname());
+                }*/
+                
+                request.setAttribute("noResidents", RoomResidentDAO.findByHostelID(currentHostel.getHostelID()).size());
+                
+                //end so luong cu dan
+                
+                //dia chi 
+
                 int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
                 List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
 
@@ -136,6 +220,9 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("currentDistrictList", currentDistrictList);
                 request.setAttribute("provinceList", provinceList);
                 request.setAttribute("districtList", districtList);
+                
+                //end dia chi
+                
                 request.getRequestDispatcher("/view/LOverView.jsp").forward(request, response);
             } else if (path.equals("/contract-list")) {
                 List<Contract> contractList = null;
