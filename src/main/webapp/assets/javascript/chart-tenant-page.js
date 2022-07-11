@@ -3,12 +3,18 @@ const data = {
     datasets: [{
             label: 'Nước',
             data: [65, 59, 80, 81, 56, 55, 40],
+            barPercentage: 0.5,
+            barThickness: 10,
+            maxBarThickness: 12,
             backgroundColor: [
                 '#288D87'
             ]
         }, {
             label: 'Điện',
             data: [120, 104, 80, 106, 110, 96, 115],
+            barPercentage: 0.5,
+            barThickness: 10,
+            maxBarThickness: 12,
             backgroundColor: [
                 '#17535B'
             ]

@@ -34,7 +34,7 @@
         <script src="../assets/javascript/jquery.js"></script>
     </head>
     <body>
-        <header id="header-section" class="stick">
+        <header id="header-section" class="stick z-10">
             <%@include file="headerUser.jsp" %>
         </header>
 

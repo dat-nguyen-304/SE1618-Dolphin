@@ -7,8 +7,7 @@
 <!-- Footer -->
 <footer class="w-full px-[20px] pb-[20px]">
     <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
-        <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
-                                                                     class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
+        <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="../view/homepage.jsp" class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
         </span>
         <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
             <li>

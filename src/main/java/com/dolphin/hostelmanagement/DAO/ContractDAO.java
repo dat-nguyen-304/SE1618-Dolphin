@@ -136,7 +136,46 @@ public class ContractDAO {
         }
         return null;
     }
-
+    
+    public static Contract findLastContractByRoomID(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select TOP 1 * from Contract where roomID = ? order by contractID desc";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, roomId);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                int contractID = rs.getInt("contractID");
+                Room room = RoomDAO.findByID(roomId);
+                int tenantID = rs.getInt("tenantID");
+                Tenant tenant = TenantDAO.findById(tenantID);
+                Hostel hostel = room.getRoomType().getHostel();
+                Date startDate = rs.getDate("startDate");
+                Date endDate = rs.getDate("endDate");
+                int deposit = rs.getInt("deposit");
+                int status = rs.getInt("status");
+                int rentalFee = rs.getInt("rentalFeePerMonth");
+                Landlord landlord = room.getRoomType().getHostel().getLandlord();
+                String description = rs.getString("description");
+                int duration = rs.getInt("duration");
+                Date createdDate = rs.getDate("createdDate");
+                return new Contract(contractID, room, tenant, landlord, hostel, startDate, endDate, deposit, status, rentalFee, description, duration, createdDate);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    
     public static List<Contract> findByTenant(Tenant tenant) {
         List<Contract> list = new ArrayList();
         Connection cn = null;
@@ -394,6 +433,80 @@ public class ContractDAO {
         return false;
     }
     
+    
+
+    public static boolean endContractByRoomId(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Contract SET status = 0 WHERE roomID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean endContractByRoomTypeId(int roomTypeId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Contract\n"
+                        + "SET status = 0 FROM Contract C\n"
+                        + "INNER JOIN Room R ON C.roomID = R.roomID\n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + " WHERE RT.roomTypeID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomTypeId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean endContractByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Contract\n"
+                        + "SET status = 0 FROM Contract C\n"
+                        + "INNER JOIN Room R ON C.roomID = R.roomID\n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID\n"
+                        + "WHERE H.hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static boolean updateContract(Contract c) {
         Connection cn = null;
         
@@ -430,7 +543,7 @@ public class ContractDAO {
     }
 
     public static void main(String[] args) {
-        List<Contract> contracts = findByRoom(2);
-        System.out.println(contracts.size());
+        Contract contract = findLastContractByRoomID(2);
+        System.out.println(contract.getDuration());
     }
 }

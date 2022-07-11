@@ -77,7 +77,6 @@ public class TenantController extends HttpServlet {
                 if (currentContract != null) {
                     ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
                     Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
-
                     //currentContract
                     session.setAttribute("currentContract", currentContract);
                     session.setAttribute("roomResidentList", roomResidentList);
@@ -154,13 +153,13 @@ public class TenantController extends HttpServlet {
                 request.setAttribute("notificationList", notiList);
                 request.getRequestDispatcher("/view/tenantPageNotiList.jsp").forward(request, response);
             }
-            
-            if(path.equals("/contract-detail")) {
+
+            if (path.equals("/contract-detail")) {
                 int contractID = Integer.parseInt(request.getParameter("contractID"));
                 Contract c = ContractDAO.findByID(contractID);
-                
+
                 request.setAttribute("contract", c);
-                
+
                 request.getRequestDispatcher("/view/TContractDetail.jsp").forward(request, response);
             }
         }

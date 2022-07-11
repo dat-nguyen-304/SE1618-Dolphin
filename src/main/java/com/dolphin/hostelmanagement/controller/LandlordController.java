@@ -7,6 +7,7 @@ package com.dolphin.hostelmanagement.controller;
 import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.DistrictDAO;
+import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
 import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
@@ -17,6 +18,7 @@ import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.District;
+import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.Landlord;
@@ -39,16 +41,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
  * @author Admin
  */
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class LandlordController extends HttpServlet {
 
     /**
@@ -98,14 +106,20 @@ public class LandlordController extends HttpServlet {
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
             Landlord landlord = (Landlord) session.getAttribute("currentUser");
-            List<Hostel> hostelList = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
-            Hostel currentHostel = hostelList.get(0);
-            if (hostelList.size() > 0) {
-                session.setAttribute("currentHostel", currentHostel);
-                session.setAttribute("hostelList", hostelList);
+            Hostel currentHostel = null;
+            if (session.getAttribute("currentHostel") == null) {
+                List<Hostel> hostelList = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
+                if (hostelList.size() > 0) {
+                    currentHostel = hostelList.get(0);
+                    session.setAttribute("currentHostel", currentHostel);
+                    session.setAttribute("hostelList", hostelList);
+                } else {
+                    session.setAttribute("currentHostel", null);
+                    session.setAttribute("hostelList", null);
+                }
+
             } else {
-                session.setAttribute("currentHostel", null);
-                session.setAttribute("hostelList", null);
+                currentHostel = (Hostel) session.getAttribute("currentHostel");
             }
 
             if (path.equals("/overview")) {
@@ -208,7 +222,11 @@ public class LandlordController extends HttpServlet {
                     currentHostel = HostelDAO.findById(hostelId);
                     session.setAttribute("currentHostel", currentHostel);
                     roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
-                    currentRoomType = roomTypeList.get(0);
+                    if (roomTypeList.size() > 0) {
+                        currentRoomType = roomTypeList.get(0);
+                    } else {
+                        currentRoomType = null;
+                    }
                 } else if (session.getAttribute("currentHostel") != null) {
                     roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
                     if (roomTypeList.size() > 0) {
@@ -252,7 +270,7 @@ public class LandlordController extends HttpServlet {
                 List<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
                 List<Room> roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());
                 List<RoomResident> residentList = RoomResidentDAO.findByRoom(currentRoom);
-                Contract contract = ContractDAO.findActiveContractByRoomID(currentRoom.getRoomID());
+                Contract contract = ContractDAO.findLastContractByRoomID(currentRoom.getRoomID());
                 request.setAttribute("contract", contract);
                 request.setAttribute("roomTypeList", roomTypeList);
                 request.setAttribute("residentList", residentList);
@@ -314,6 +332,41 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("waterService", waterService);
                 request.getRequestDispatcher("/view/LAddService.jsp").forward(request, response);
 
+            } else if (path.equals("/resident")) {
+                List<RoomResident> residentList = null;
+                if (request.getParameter("hostelId") != null) {
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    currentHostel = HostelDAO.findById(hostelId);
+                    session.setAttribute("currentHostel", currentHostel);
+                    if (request.getParameter("searchName") == null) {
+                        residentList = RoomResidentDAO.findByHostelID(hostelId);
+                    } else {
+                        String name = request.getParameter("searchName");
+                        residentList = RoomResidentDAO.findByHostelAndName(hostelId, name);
+                    }
+                } else if (request.getParameter("roomID") != null) {
+                    int roomId = Integer.parseInt(request.getParameter("roomID"));
+                    Room currentRoom = RoomDAO.findByID(roomId);
+                    request.setAttribute("currentRoom", currentRoom);
+                    if (request.getParameter("searchName") == null) {
+                        residentList = RoomResidentDAO.findByRoom(currentRoom);
+                    } else {
+                        String name = request.getParameter("searchName");
+                        residentList = RoomResidentDAO.findByRoomAndName(currentRoom, name);
+                    }
+                } else {
+                    if (request.getParameter("searchName") == null) {
+                        residentList = RoomResidentDAO.findByHostelID(currentHostel.getHostelID());
+                    } else {
+                        String name = request.getParameter("searchName");
+                        residentList = RoomResidentDAO.findByHostelAndName(currentHostel.getHostelID(), name);
+                    }
+                }
+
+                List<Room> roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());
+                request.setAttribute("residentList", residentList);
+                request.setAttribute("roomList", roomList);
+                request.getRequestDispatcher("/view/LResidentList.jsp").forward(request, response);
             }
 
             if (path.equals("/rentalRequestList")) { //get by hostel ID
@@ -360,10 +413,277 @@ public class LandlordController extends HttpServlet {
 
                 request.getRequestDispatcher("/view/landlordRentalRequestPage.jsp").forward(request, response);
             }
+
+            if (path.equals("/hostel-info")) {
+                currentHostel = null;
+                if (session.getAttribute("currentHostel") != null) {
+                    currentHostel = (Hostel) session.getAttribute("currentHostel");
+                }
+                ArrayList<Feedback> feedbackList = (ArrayList<Feedback>) FeedbackDAO.findByHostelId(currentHostel.getHostelID());
+                double avgRating = 0;
+                for (Feedback feedback : feedbackList) {
+                    avgRating += feedback.getRating();
+                    //System.out.println(feedback.toString());
+                }
+                avgRating /= feedbackList.size();
+                request.setAttribute("avgRating", avgRating);
+                request.setAttribute("feedbacks", feedbackList);
+                int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
+                List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
+
+                List<Province> provinceList = ProvinceDAO.findAll();
+                List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
+                request.setAttribute("currentDistrictList", currentDistrictList);
+                request.setAttribute("provinceList", provinceList);
+                request.setAttribute("districtList", districtList);
+                request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
+            }
+
+            if (path.equals("/add-hostel-image")) {
+                //request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                int maxImgID = HostelDAO.getCurrentIdentImageHostel();
+                System.out.println("IDENT: " + maxImgID);
+                try {
+                    for (Part part : request.getParts()) {
+                        if (extractFileName(part).length() > 0) {
+                            maxImgID++;
+                            String fileName = "img" + maxImgID + ".jpg";
+                            String savePath = "/sakura/assets/images/hostel-list-images/";
+                            System.out.println("FILENAME: " + fileName);
+                            boolean res = HostelDAO.saveHostelImg(hostelId, savePath + fileName);
+                            String src = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + fileName;
+                            String dest = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
+                            part.write(src);
+                            copy(src, dest);
+                        }
+                    }
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (path.equals("/remove-image")) {
+                String filePath = request.getParameter("path");
+                String name = filePath.substring(filePath.lastIndexOf('/') + 1);
+                System.out.println("\nName: " + name);
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                try {
+                    boolean res = HostelDAO.removeHostelImg(hostelId, filePath);
+                    String srcPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + name;
+                    File fSrc = new File(srcPath);
+                    System.out.println("Remove: " + srcPath);
+                    fSrc.delete();
+                    String targetPath = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + name;
+                    File fTarget = new File(targetPath);
+                    System.out.println("Remove: " + targetPath);
+                    fTarget.delete();
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                response.sendRedirect("/view/LHostelInfo.jsp");
+            }
+
+            if (path.equals("/remove-multiple-images")) {
+                try {
+                    String[] toDelete = request.getParameterValues("toDelete[]");
+                    // for (String s : toDelete) System.out.println(s);
+                    int[] toBeDeleted = new int[toDelete.length];
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    System.out.println("HOSTEL ID: " + hostelId);
+                    //System.out.println("Before: " + HostelDAO.getAllImagesById(hostelId));
+                    for (String imagePath : toDelete) {
+                        //System.out.println("IMG PATH: " + imagePath);
+                        boolean res = HostelDAO.removeHostelImg(hostelId, imagePath);
+                        String name = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+                        //System.out.println("Name: " + name);
+                        String srcPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + name;
+                        File fSrc = new File(srcPath);
+                        //System.out.println("Remove: " + srcPath);
+                        fSrc.delete();
+                        String targetPath = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + name;
+                        File fTarget = new File(targetPath);
+                        //System.out.println("Remove: " + targetPath);
+                        fTarget.delete();
+                    }
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
+                    //System.out.println("After : " + HostelDAO.getAllImagesById(hostelId));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (path.equals("/update-image")) {
+                String hostelId = request.getParameter("hostelId");
+                int id = 0;
+                if (hostelId != null) {
+                    id = Integer.parseInt(hostelId);
+                    ArrayList<String> images = HostelDAO.getAllImagesById(id);
+                    session.setAttribute("currentHostel", HostelDAO.findById(id));
+                    JSONArray list = new JSONArray();
+                    for (String imgLink : images) {
+                        System.out.println("Link: " + imgLink);
+                        JSONObject obj = new JSONObject();
+                        obj.put("imgLink", imgLink);
+                        list.add(obj);
+                    }
+                    System.out.println("LIST: " + list);
+                    out.write(list.toJSONString());
+                    out.close();
+                }
+            }
+
+            if (path.equals("/add-rt-image")) {
+                int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                int maxImgID = RoomTypeDAO.getCurrentIdentImageRoomType();
+                System.out.println("IDENT: " + maxImgID);
+                try {
+                    for (Part part : request.getParts()) {
+                        if (extractFileName(part).length() > 0) {
+                            maxImgID++;
+                            String fileName = "img" + maxImgID + ".jpg";
+                            String savePath = "/sakura/assets/images/room-type-images/";
+                            System.out.println("FILENAME: " + fileName);
+                            boolean res = RoomTypeDAO.saveRoomTypeImg(roomTypeId, savePath + fileName);
+                            String src = this.getRuntimeFolderRT(request).getAbsolutePath() + File.separator + fileName;
+                            String dest = this.getFolderUploadRT(request).getAbsolutePath() + File.separator + fileName;
+                            part.write(src);
+                            copy(src, dest);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (path.equals("/remove-rt-image")) {
+                String filePath = request.getParameter("path");
+                String name = filePath.substring(filePath.lastIndexOf('/') + 1);
+                System.out.println("\nName: " + name);
+                int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                try {
+                    boolean res = RoomTypeDAO.removeRoomTypeImg(roomTypeId, filePath);
+                    session.setAttribute("currentRoomType", RoomTypeDAO.findByID(roomTypeId));;
+                    String srcPath = this.getFolderUploadRT(request).getAbsolutePath() + File.separator + name;
+                    File fSrc = new File(srcPath);
+                    System.out.println("Remove: " + srcPath);
+                    fSrc.delete();
+                    String targetPath = this.getRuntimeFolderRT(request).getAbsolutePath() + File.separator + name;
+                    File fTarget = new File(targetPath);
+                    System.out.println("Remove: " + targetPath);
+                    fTarget.delete();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                response.sendRedirect("/view/LRoomType.jsp");
+            }
+
+            if (path.equals("/remove-multiple-rt-images")) {
+                try {
+                    String[] toDelete = request.getParameterValues("toDelete[]");
+                    // for (String s : toDelete) System.out.println(s);
+                    int[] toBeDeleted = new int[toDelete.length];
+                    int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                    System.out.println("HOSTEL ID: " + roomTypeId);
+                    //System.out.println("Before: " + HostelDAO.getAllImagesById(hostelId));
+                    for (String imagePath : toDelete) {
+                        //System.out.println("IMG PATH: " + imagePath);
+                        boolean res = RoomTypeDAO.removeRoomTypeImg(roomTypeId, imagePath);
+                        String name = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+                        //System.out.println("Name: " + name);
+                        String srcPath = this.getFolderUploadRT(request).getAbsolutePath() + File.separator + name;
+                        File fSrc = new File(srcPath);
+                        //System.out.println("Remove: " + srcPath);
+                        fSrc.delete();
+                        String targetPath = this.getRuntimeFolderRT(request).getAbsolutePath() + File.separator + name;
+                        File fTarget = new File(targetPath);
+                        //System.out.println("Remove: " + targetPath);
+                        fTarget.delete();
+                    }
+                    session.setAttribute("currentRoomType", RoomTypeDAO.findByID(roomTypeId));;
+                    //System.out.println("After : " + HostelDAO.getAllImagesById(hostelId));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-    
+    private void copy(String src, String dest) throws IOException {
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(src);
+            os = new FileOutputStream(dest);
+            // buffer size 1K
+            byte[] buf = new byte[1024];
+
+            int bytesRead;
+            while ((bytesRead = is.read(buf)) > 0) {
+                os.write(buf, 0, bytesRead);
+            }
+        } finally {
+            is.close();
+            os.close();
+        }
+    }
+
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
+
+    public File getFolderUpload(HttpServletRequest request) throws URISyntaxException {
+        String path = request.getServletContext().getRealPath("/").replace("\\", "/");
+        File target = new File(path);
+        File par = new File(target.getParent());
+        File folderUpload = new File(par.getParent() + "/src/main/webapp/assets/images/hostel-list-images");
+//        File folderUpload = new File(request.getServletContext().getRealPath("/") + "assets/images/user-avatars/");
+        // System.out.println(folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
+
+    public File getRuntimeFolder(HttpServletRequest request) throws URISyntaxException {
+        File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/hostel-list-images");
+        //System.out.println("Runtime folder: " + folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
+
+    public File getFolderUploadRT(HttpServletRequest request) throws URISyntaxException {
+        String path = request.getServletContext().getRealPath("/").replace("\\", "/");
+        File target = new File(path);
+        File par = new File(target.getParent());
+        File folderUpload = new File(par.getParent() + "/src/main/webapp/assets/images/room-type-images");
+//        File folderUpload = new File(request.getServletContext().getRealPath("/") + "assets/images/user-avatars/");
+        // System.out.println(folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
+
+    public File getRuntimeFolderRT(HttpServletRequest request) throws URISyntaxException {
+        File folderUpload = new File(request.getServletContext().getRealPath("/") + "/assets/images/room-type-images");
+        //System.out.println("Runtime folder: " + folderUpload);
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

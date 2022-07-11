@@ -206,7 +206,7 @@ public class RoomTypeDAO {
         }
         return false;
     }
-    
+
     public static boolean deleteById(int roomTypeId) {
         Connection cn = null;
         try {
@@ -222,14 +222,99 @@ public class RoomTypeDAO {
                 }
                 cn.close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static boolean deleteByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomType SET activate = 0 WHERE hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    public static int getCurrentIdentImageRoomType() {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "SELECT IDENT_CURRENT('ImageRoomType') AS 'CurImgID'";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    int curImgId = rs.getInt("CurImgID");
+                    return curImgId;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static void main(String args[]) {
 
+    }
+
+    public static boolean removeRoomTypeImg(int roomTypeId, String filePath) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "DELETE FROM ImageRoomType WHERE roomTypeID = ? AND imgLink = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomTypeId);
+                pst.setString(2, filePath);
+                int rowEffect = pst.executeUpdate();
+                if (rowEffect > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean saveRoomTypeImg(int roomTypeId, String imgLink) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO ImageRoomType(roomTypeID, imgLink) VALUES(?, ?)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomTypeId);
+                pst.setString(2, imgLink);
+                int rowEffect = pst.executeUpdate();
+                if (rowEffect > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

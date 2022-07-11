@@ -51,6 +51,36 @@ public class RoomResidentDAO {
         return arr;
     }
 
+    public static ArrayList<RoomResident> findByRoomAndName(Room r, String keyword) {
+        Connection cn = null;
+
+        ArrayList<RoomResident> arr = new ArrayList<>();
+
+        try {
+            cn = DBUtils.makeConnection();
+
+            String sql = "Select * from RoomResident where roomID = ? AND activate = 1 AND fullname like ?";
+            PreparedStatement pst = cn.prepareCall(sql);
+
+            pst.setInt(1, r.getRoomID());
+            pst.setString(2, "%" + keyword + "%");
+            ResultSet rs = pst.executeQuery();
+
+            while (rs != null && rs.next()) {
+                int roomResidentID = rs.getInt("roomResidentID");
+                String fullname = rs.getNString("fullname");
+                String phone = rs.getString("phone");
+                Date dob = rs.getDate("dob");
+
+                arr.add(new RoomResident(roomResidentID, r, fullname, phone, dob));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return arr;
+    }
+
     public static boolean save(int roomId, String memberName, String memberPhone, String memberDob) {
         Connection cn = null;
         try {
@@ -139,7 +169,7 @@ public class RoomResidentDAO {
                 if (rows > 0) {
                     cn.close();
                     return true;
-                } 
+                }
                 cn.close();
             }
         } catch (Exception e) {
@@ -148,9 +178,146 @@ public class RoomResidentDAO {
         return false;
     }
 
+    public static boolean deleteByRoomId(int roomId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomResident SET activate = 0 WHERE roomID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean deleteByRoomTypeId(int roomTypeId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomResident\n"
+                        + "SET activate = 0 FROM RoomResident RR\n"
+                        + "INNER JOIN Room R ON RR.roomID = R.roomID\n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + " WHERE RT.roomTypeID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, roomTypeId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean deleteByHostelId(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE RoomResident\n"
+                        + "SET activate = 0 FROM RoomResident RR\n"
+                        + "INNER JOIN Room R ON RR.roomID = R.roomID\n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID\n"
+                        + "WHERE H.hostelID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static List<RoomResident> findByHostelID(int hostelId) {
+        Connection cn = null;
+
+        List<RoomResident> list = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList<>();
+                String sql = "SELECT RR.roomResidentID, RR.roomID, RR.fullname, RR.phone, RR.dob \n"
+                        + "FROM RoomResident RR INNER JOIN Room R ON RR.roomID = R.roomID \n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID\n"
+                        + "WHERE H.hostelID = ? AND RR.activate = 1";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                ResultSet rs = pst.executeQuery();
+                while (rs != null && rs.next()) {
+                    int roomResidentID = rs.getInt("roomResidentID");
+                    String fullname = rs.getNString("fullname");
+                    String phone = rs.getString("phone");
+                    int roomID = rs.getInt("roomID");
+                    Room r = RoomDAO.findByID(roomID);
+                    Date dob = rs.getDate("dob");
+                    list.add(new RoomResident(roomResidentID, r, fullname, phone, dob));
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static List<RoomResident> findByHostelAndName(int hostelId, String keyword) {
+        Connection cn = null;
+
+        List<RoomResident> list = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList<>();
+                String sql = "SELECT RR.roomResidentID, RR.roomID, RR.fullname, RR.phone, RR.dob \n"
+                        + "FROM RoomResident RR INNER JOIN Room R ON RR.roomID = R.roomID \n"
+                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID\n"
+                        + "WHERE H.hostelID = ? AND RR.activate = 1 AND RR.fullname like ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                pst.setString(2, "%" + keyword + "%");
+                ResultSet rs = pst.executeQuery();
+                while (rs != null && rs.next()) {
+                    int roomResidentID = rs.getInt("roomResidentID");
+                    String fullname = rs.getNString("fullname");
+                    String phone = rs.getString("phone");
+                    int roomID = rs.getInt("roomID");
+                    Room r = RoomDAO.findByID(roomID);
+                    Date dob = rs.getDate("dob");
+                    list.add(new RoomResident(roomResidentID, r, fullname, phone, dob));
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static void main(String args[]) {
-        boolean b = update(8, "alexendar", "0987654322", "2000-12-12");
-        boolean c = save(5, "YL", "0987654323", "2000-12-12");
-        System.out.println(b);
+        System.out.println(findByRoomAndName(RoomDAO.findByID(2), "a").size());
     }
 }

@@ -8,8 +8,6 @@ import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Invoice;
 import com.dolphin.hostelmanagement.DTO.ServiceDetail;
 import com.dolphin.hostelmanagement.utils.DBUtils;
-
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -230,7 +228,7 @@ public class InvoiceDAO {
     }
 
     public static boolean save(String startDate, String endDate, int totalPrice,
-            int contractID, String month, String invoiceMonth, int electricPrice, int waterPrice, List<ServiceDetail> detailList, int roomID) {
+                               int contractID, String month, String invoiceMonth, int electricPrice, int waterPrice, List<ServiceDetail> detailList, int roomID) {
         boolean check = false;
         Connection cn = null;
         try {
@@ -265,7 +263,7 @@ public class InvoiceDAO {
                 if (rs != null && rs.next()) {
                     invoiceID = rs.getInt("invoiceID");
                 }
-                
+
                 // insert service detail
                 for (ServiceDetail serviceDetail : detailList) {
                     sql = "insert into ServiceDetail(startValue, endValue, invoiceID, serviceID, quantity) values (?, ?, ?, ?, ?)";
@@ -356,11 +354,7 @@ public class InvoiceDAO {
         }
         return check;
     }
-    
+
     public static void main(String[] args) {
-       List<Invoice> invoiceList = findByRoomID(2);
-        for (Invoice invoice : invoiceList) {
-            System.out.println(invoice.getInvoiceID());
-        }
     }
 }

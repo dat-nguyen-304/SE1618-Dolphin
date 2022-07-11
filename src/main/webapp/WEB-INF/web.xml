@@ -99,7 +99,7 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AccountController</servlet-name>
+        <servlet-name>AccountController</servlet-name>  
         <url-pattern>/account/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

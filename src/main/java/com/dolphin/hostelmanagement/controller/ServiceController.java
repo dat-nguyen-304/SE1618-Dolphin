@@ -40,27 +40,28 @@ public class ServiceController extends HttpServlet {
                 String serviceName = request.getParameter("serviceName");
                 int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
                 String serviceUnit = request.getParameter("serviceUnit");
-                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit);
+                
+                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit, 0);
                 Service service = ServiceDAO.findLastServiceByHostelId(hostelId);
                 if (addSuccess) {
-                    out.print("<tr class=\"bg-white border-b hover:bg-gray-50\">\n"
-                            + "                                        <td class=\"px-3 py-4 text-center\">\n"
-                            + "                                            <input name=\"updateName\" type=\"text\" class=\"text-xs\" value=\"" + service.getServiceName() + "\"/>\n"
+                    out.print("<tr class=\"bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800\">\n"
+                            + "                                        <td class=\"px-3 py-4\">\n"
+                            + "                                            <input name=\"updateName\" type=\"text\" class=\"text-[15px]\" value=\"" + service.getServiceName() + "\"/>\n"
                             + "                                        </td>\n"
                             + "                                        <td class=\"px-3 py-4 text-center\">\n"
-                            + "                                            <input name=\"updateFee\" type=\"text\" class=\"text-xs\" value=\"" + service.getServiceFee() + "\"/>\n"
+                            + "                                            <input name=\"updateFee\" type=\"text\" class=\"text-[15px]\" value=\"" + service.getServiceFee() + "\"/>\n"
                             + "                                        </td>\n"
                             + "                                        <td class=\"px-3 py-4 text-center\">\n"
-                            + "                                            <input name=\"updateUnit\" type=\"text\" class=\"text-xs\" value=\"" + service.getUnit() + "\"/>\n"
+                            + "                                            <input name=\"updateUnit\" type=\"text\" class=\"text-[15px]\" value=\"" + service.getUnit() + "\"/>\n"
                             + "                                        </td>\n"
                             + "                                        <td class=\"px-3 py-4 text-center\">\n"
                             + "                                            " + service.getMonthApplied() + "\n"
                             + "                                        </td>\n"
-                            + "                                        <td class=\"px-3 py-4 text-right text-center\">\n"
-                            + "                                            <button onclick=\"updateService(this)\" type=\"submit\" value=\"" + service.getServiceID() + "\" class=\"font-medium text-[#17535B]\">Lưu thay đổi</button>\n"
+                            + "                                        <td class=\"px-3 py-4 text-center\">\n"
+                            + "                                            <button onclick=\"updateService(this)\" type=\"submit\" value=\"" + service.getServiceID() + "\" class=\"font-medium text-[#288D87] hover:underline\">Lưu thay đổi</button>\n"
                             + "                                        </td>\n"
-                            + "                                        <td class=\"px-3 py-4 text-right text-center\">\n"
-                            + "                                            <button onclick=\"deleteService(this)\" type=\"submit\" value=\"" + service.getServiceID() + "\" class=\"font-medium text-[#17535B]\">Xóa</button>\n"
+                            + "                                        <td class=\"px-3 py-4 text-center\">\n"
+                            + "                                            <button onclick=\"deleteService(this)\" type=\"submit\" value=\"" + service.getServiceID() + "\" class=\"font-medium text-[#288D87] hover:underline\">Xóa</button>\n"
                             + "                                        </td>\n"
                             + "                                    </tr>");
                 } else {
@@ -74,7 +75,9 @@ public class ServiceController extends HttpServlet {
                 String serviceName = request.getParameter("serviceName");
                 int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
                 String serviceUnit = request.getParameter("serviceUnit");
-                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit);
+                int serviceType = Integer.parseInt(request.getParameter("serviceType"));
+                
+                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit, serviceType);
                 boolean deleteSuccess = ServiceDAO.delete(serviceId);
                 if (addSuccess && deleteSuccess) {
                     out.print("<h1>Cập nhật dịch vụ " + serviceName + " thành công</h1>");

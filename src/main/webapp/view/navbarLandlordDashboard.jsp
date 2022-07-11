@@ -1,28 +1,35 @@
 <c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <aside class="w-[256px] top-[60px] h-[calc(100vh-60px)] fixed border-r border-[#e6e9e9]" aria-label="Sidebar">
-    <div class="navigation-bar overflow-y-auto h-full py-4 px-3 bg-[#ffffff]">
+    <div class="navigation-bar overflow-y-auto h-full py-4 px-3 bg-[#03353C]">
         <ul class="space-y-2">
             <li class="">
                 <a href="/sakura/landlord/overview"
-                   class="${(pageContext.request.requestURI == '/sakura/view/LOverView.jsp') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]"
-                         viewBox="0 0 20 20" fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                   class="${(pageContext.request.requestURI == '/sakura/view/LOverView.jsp') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
                     <span class="ml-3">Tổng quan</span>
                 </a>
             </li>
+            <li class="">
+                <a href="/sakura/landlord/hostel-info"
+                   class="${requestPath == '/sakura/landlord/hostel-info' ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd" />
+                        <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
+                    </svg>
+                    <span class="ml-3">Thông tin nhà trọ</span>
+                </a>
+            </li>
             <li class="menu-item">
                 <button type="button"
-                        class="${(pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' || pageContext.request.requestURI == '/sakura/view/LRoomList.jsp') ? 'parent-active' : ''} flex items-center p-2 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 group hover:bg-[#F3F3F3] hover:text-[#17535B]"
+                        class="${(pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' || pageContext.request.requestURI == '/sakura/view/LRoomList.jsp') ? 'parent-active' : ''} flex items-center p-2 w-full text-base font-normal text-slate-300 rounded transition duration-75 group hover:bg-[#17535B] hover:text-slate-100"
                         aria-controls="dropdown-room-list" data-collapse-toggle="dropdown-room-list">
                     <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-5 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]"
+                         class="w-6 h-5 text-slate-300 transition duration-75 group-hover:text-slate-100"
                          viewBox="0 0 20 20" fill="currentColor">
                         <path
-                            d="M18.991 2H9.01C7.899 2 7 2.899 7 4.01v5.637l-4.702 4.642A1 1 0 0 0 3 16v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4.009C21 2.899 20.102 2 18.991 2zm-8.069 13.111V20H5v-5.568l2.987-2.949 2.935 3.003v.625zM13 9h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z">
+                                d="M18.991 2H9.01C7.899 2 7 2.899 7 4.01v5.637l-4.702 4.642A1 1 0 0 0 3 16v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4.009C21 2.899 20.102 2 18.991 2zm-8.069 13.111V20H5v-5.568l2.987-2.949 2.935 3.003v.625zM13 9h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z">
                         </path>
                         <path d="M7 15h2v2H7z"></path>
                     </svg>
@@ -37,19 +44,19 @@
                 <ul id="dropdown-room-list" class="${(pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' || pageContext.request.requestURI == '/sakura/view/LRoomList.jsp') ? '' : 'hidden'} py-2 space-y-2">
                     <li>
                         <a href="/sakura/landlord/room-type"
-                           class="menu-item ${pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' ? 'active' : ''} flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Loại phòng</a>
+                           class="menu-item ${pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' ? 'active' : ''} flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Loại phòng</a>
                     </li>
                     <li>
                         <a href="/sakura/landlord/room-list"
-                           class="menu-item ${pageContext.request.requestURI == '/sakura/view/LRoomList.jsp' ? 'active' : ''} flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Danh sách phòng</a>
+                           class="menu-item ${pageContext.request.requestURI == '/sakura/view/LRoomList.jsp' ? 'active' : ''} flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Danh sách phòng</a>
                     </li>
                 </ul>
             </li>
             <!--            <li class="menu-item">
                             <a href="#"
-                               class="menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
+                               class="menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]"
+                                     class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100"
                                      viewBox="0 0 20 20" fill="currentColor">
                                     <path
                                         d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
@@ -64,8 +71,8 @@
                         </li>-->
             <li>
                 <a href="/sakura/landlord/contract-list"
-                   class="${(requestPath == '/sakura/landlord/contract-list' || requestPath == '/sakura/landlord/contract-detail') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]" viewBox="0 0 20 20" fill="currentColor">
+                   class="${(requestPath == '/sakura/landlord/contract-list' || requestPath == '/sakura/landlord/contract-detail') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                     </svg>
                     <span class="flex-1 ml-3 whitespace-nowrap">Hợp đồng</span>
@@ -75,10 +82,10 @@
             </li>
             <!--            <li class="menu-item">
                             <button type="button"
-                                    class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp' || pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? 'parent-active' : ''} flex items-center justify-between p-2 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 group hover:bg-[#F3F3F3] hover:text-[#17535B]"
+                                    class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp' || pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? 'parent-active' : ''} flex items-center justify-between p-2 w-full text-base font-normal text-slate-300 rounded transition duration-75 group hover:bg-[#17535B] hover:text-slate-100"
                                     aria-controls="dropdown-example" data-collapse-toggle="dropdown-contract">
                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-6 h-5 text-[#929CA5] transition duration-75 group-hover:text-[#17535B] m-0 p-0"
+                                     class="w-6 h-5 text-slate-300 transition duration-75 group-hover:text-slate-100 m-0 p-0"
                                      viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M2 3h20v4H2zm17 5H3v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8h-2zm-3 6H8v-2h8v2z"></path>
                                 </svg>
@@ -93,67 +100,55 @@
                             <ul id="dropdown-contract" class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp' || pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? '' : 'hidden'}  py-2 space-y-2">
                                 <li>
                                     <a href="/sakura/landlord/contract-list"
-                                       class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp') ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Danh
+                                       class="${(pageContext.request.requestURI == '/sakura/view/LContractList.jsp') ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Danh
                                         sách hợp đồng</a>
                                 </li>
                                 <li>
                                     <a href="/sakura/contract/add-contract"
-                                       class="${(pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? 'active' : ''}  menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Thêm hợp đồng</a>
+                                       class="${(pageContext.request.requestURI == '/sakura/view/addContract.jsp') ? 'active' : ''}  menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Thêm hợp đồng</a>
                                 </li>
                             </ul>
                         </li>-->
             <li class="menu-item">
                 <button type="button"
-                        class="${(pageContext.request.requestURI == '/sakura/view/LInvoiceList.jsp' || pageContext.request.requestURI == '/sakura/view/LAddInvoice.jsp') ? 'parent-active' : ''} flex items-center p-2 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 group hover:bg-[#F3F3F3] hover:text-[#17535B]"
+                        class="${(requestPath == '/sakura/invoice/list' || requestPath == '/sakura/landlord/invoice-list' || requestPath == '/sakura/invoice/new') ? 'parent-active' : ''} flex items-center p-2 w-full text-base font-normal text-slate-300 rounded transition duration-75 group hover:bg-[#17535B] hover:text-slate-100"
                         aria-controls="dropdown-example" data-collapse-toggle="dropdown-invoice">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]"
-                         viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                        <path fill-rule="evenodd"
-                              d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                              clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
                     </svg>
                     <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="">Hoá đơn</span>
                     <svg sidebar-toggle-item="" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                          xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                              clip-rule="evenodd"></path>
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <ul id="dropdown-invoice" class="${(pageContext.request.requestURI == '/sakura/view/LInvoiceList.jsp' || pageContext.request.requestURI == '/sakura/view/LAddInvoice.jsp') ? '' : 'hidden'}  py-2 space-y-2">
+                <ul id="dropdown-invoice" class="${(requestPath == '/sakura/invoice/list'|| requestPath == '/sakura/landlord/invoice-list' || requestPath == '/sakura/invoice/new') ? '' : 'hidden'}  py-2 space-y-2">
                     <li>
                         <a href="/sakura/invoice/list"
-                           class="${(pageContext.request.requestURI == '/sakura/view/LInvoiceList.jsp') ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]">Danh
-                            sách hoá đơn</a>
+                           class="${requestPath == '/sakura/invoice/list' ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">
+                            Danh sách hoá đơn
+                        </a>
                     </li>
                     <li>
-                        <a href="/sakura/invoice/new"
-                           class="${(pageContext.request.requestURI == '/sakura/view/LAddInvoice.jsp') ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-[#929CA5] rounded transition duration-75 hover:bg-[#F3F3F3] hover:text-[#17535B]"
-                           id="list-item">Thêm hóa đơn</a>
+                        <a href="/sakura/invoice/new" id="list-item"
+                           class="${requestPath == '/sakura/invoice/new' ? 'active' : ''}  menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">
+                            Thêm hóa đơn
+                        </a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="/sakura/landlord/notification"
-                   class="menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]"
-                         viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                              clip-rule="evenodd" />
+                <a href="/sakura/landlord/notification" class="${requestPath == '/sakura/landlord/notification' ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                     </svg>
                     <span class="flex-1 ml-3 whitespace-nowrap">Thông báo</span>
-                    <!-- <span
-                        class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full bg-gray-700 text-gray-300">Pro</span> -->
                 </a>
             </li>
             <li>
-                <a href="/sakura/landlord/rentalRequestList"
-                   class="${(pageContext.request.requestURI == '/sakura/view/landlordRentalRequestPage.jsp' || requestPath =='/sakura/contract/add-contract') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]" viewBox="0 0 20 20" fill="currentColor">
+                <a href="/sakura/landlord/rentalRequestList" class="${(pageContext.request.requestURI == '/sakura/view/landlordRentalRequestPage.jsp' || requestPath =='/sakura/contract/add-contract') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                     </svg>
                     <span class="flex-1 ml-3 whitespace-nowrap">Yêu cầu thuê phòng</span>
@@ -163,17 +158,20 @@
             </li>
             <li>
                 <a href="/sakura/landlord/service"
-                   class="menu-item flex items-center p-2 text-base font-normal text-[#929CA5] rounded hover:bg-[#F3F3F3] hover:text-[#17535B] group">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-6 text-[#929CA5] transition duration-75 group-hover:text-[#17535B]"
-                         viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                              clip-rule="evenodd" />
+                   class="${requestPath == '/sakura/landlord/service' ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
                     </svg>
                     <span class="flex-1 ml-3 whitespace-nowrap">Dịch vụ</span>
-                    <!-- <span
-                        class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full bg-gray-700 text-gray-300">Pro</span> -->
+                </a>
+            </li>
+            <li>
+                <a href="/sakura/landlord/resident"
+                   class="${requestPath == '/sakura/landlord/resident' ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Cư dân</span>
                 </a>
             </li>
         </ul>

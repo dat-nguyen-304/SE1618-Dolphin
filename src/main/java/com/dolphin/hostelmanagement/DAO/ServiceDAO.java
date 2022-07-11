@@ -164,17 +164,18 @@ public class ServiceDAO {
 //        }
 //        return list;
 //    }
-    public static boolean save(int hostelId, String name, int fee, String unit) {
+     public static boolean save(int hostelId, String name, int fee, String unit, int serviceType) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "INSERT INTO Service(hostelID, serviceName, serviceFee, unit) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO Service(hostelID, serviceName, serviceFee, unit, type) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 pst.setString(2, name);
                 pst.setInt(3, fee);
                 pst.setString(4, unit);
+                pst.setInt(5, serviceType);
                 int rows = pst.executeUpdate();
                 if (rows > 0) {
                     cn.close();
@@ -215,7 +216,7 @@ public class ServiceDAO {
         }
         return null;
     }
-    
+
     public static boolean delete(int serviceId) {
         Connection cn = null;
         try {
@@ -237,10 +238,35 @@ public class ServiceDAO {
         return false;
     }
 
+    public static boolean saveDefaultService(int hostelId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO Service([serviceName], [hostelID], [unit], [active], [type]) VALUES \n"
+                        + "(N'Điện', ?, N'kWh', 1, 1),\n"
+                        + "(N'Nước', ?, N'm3', 1, 2)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                pst.setInt(2, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows == 2) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
-//       boolean b = save(1, "Hoa", 1000, "unit");
-//        System.out.println(b);
-        Service service = findLastServiceByHostelId(1);
-        System.out.println(service.getServiceName());
+        List<Service> list = findHostelActiveServices(HostelDAO.findById(1));
+        for (Service service : list) {
+            System.out.println(service.getType());
+        }
+                
     }
 }

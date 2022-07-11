@@ -15,7 +15,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Quản lý phòng thuê</title>
+        <title>Trang người thuê - Yêu cầu thuê phòng</title>
 
         <!--Favicon-->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/tenant-page.css">
+        <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -38,11 +39,12 @@
     <body>
         <%@include file="../view/headerTenantDashboard.jsp" %>
         <%@include file="../view/navbarTenantDashboard.jsp" %>
+
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] ${requestScope.invitationList.size() < 10 ? 'h-[calc(100vh-80px)]' : ''}">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -65,57 +67,54 @@
 
 
                 <!-- Rental request list -->
-                <div class="statistic w-full mt-[20px]">
-                    <div class="card w-full room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
+                <div class="statistic w-full mt-[20px] grid grid-cols-2 gap-[20px]">
+                    <div class="card w-full room-member bg-[#fff] p-5 flex flex-col">
                         <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                             <p>Danh sách yêu cầu thuê phòng</p>
                         </div>
                         <div class="relative overflow-x-auto">
-                            <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                                <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Nhà trọ
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Loại phòng
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Thời gian gửi
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items = "${requestScope.bookingList}" var="booking">
-                                        <tr class="bg-white border-b hover:bg-gray-50">
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                ${booking.roomType.hostel.hostelName}
-                                            </td>
-                                            <td class="px-6 py-4 date">
-                                                ${booking.roomType.roomTypeName}
-                                            </td>
-                                            <td class="px-6 py-4 date">
-                                                ${booking.createdDate}
-                                            </td>
-                                            <td class="px-6 py-4 money">
-                                                <form method = "post" action="/sakura/hostel/detail">
-                                                    <input type ="hidden" name ="hostelId" value ="${booking.roomType.hostel.hostelID}">
-                                                    <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
-                                                        Xem nhà trọ
-                                                    </button>
-                                                </form>    
-                                            </td>
+                            <c:if test="${empty requestScope.bookingList}">
+                                Không có
+                            </c:if>
+                            <c:if test="${not empty requestScope.bookingList}">
+                                <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                                    <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">Nhà trọ</th>
+                                            <th scope="col" class="px-6 py-3">Loại phòng</th>
+                                            <th scope="col" class="px-6 py-3">Thời gian gửi</th>
+                                            <th scope="col" class="px-6 py-3">
+                                            </th>
                                         </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items = "${requestScope.bookingList}" var="booking">
+                                            <tr class="bg-white border-b hover:bg-gray-50">
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    ${booking.roomType.hostel.hostelName}
+                                                </td>
+                                                <td class="px-6 py-4 date">
+                                                    ${booking.roomType.roomTypeName}
+                                                </td>
+                                                <td class="px-6 py-4 date">
+                                                    ${booking.createdDate}
+                                                </td>
+                                                <td class="px-6 py-4 money">
+                                                    <form method = "post" action="/sakura/hostel/detail">
+                                                        <input type ="hidden" name ="hostelId" value ="${booking.roomType.hostel.hostelID}">
+                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            Xem nhà trọ
+                                                        </button>
+                                                    </form>    
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:if>
                         </div>
                     </div>
-                    <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
+                    <div class="card room-member bg-[#fff] p-5 flex flex-col">
                         <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                             <p>Lời mời thuê nhà</p>
                         </div>

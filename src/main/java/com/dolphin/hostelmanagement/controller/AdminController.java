@@ -50,12 +50,15 @@ public class AdminController extends HttpServlet {
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
             HttpSession session = request.getSession(true);
-            
-            if(path.equals("/dashboard")) {
-                
+
+            if (path.equals("/dashboard")) {
+
                 request.getRequestDispatcher("/view/adminOverview.jsp").forward(request, response);
             }
 
+            if (path.equals("/dashboard")) {
+                request.getRequestDispatcher("/view/adminOverview.jsp").forward(request, response);
+            }
             if (path.equals("/tenant-management")) {
                 ArrayList<Tenant> tenantList = (ArrayList<Tenant>) TenantDAO.findAll();
                 /*ArrayList<Tenant> tenantList = new ArrayList<>();
@@ -140,13 +143,13 @@ public class AdminController extends HttpServlet {
                 session.setAttribute("currentPage", currentPage);*/
 
                 request.setAttribute("tenantList", tenantList);
-                
+
                 request.getRequestDispatcher("/view/adminTenantManagement.jsp").forward(request, response);
             }
-            
-            if(path.equals("/landlord-management")) {
+
+            if (path.equals("/landlord-management")) {
                 ArrayList<Landlord> landlordList = (ArrayList<Landlord>) LandlordDAO.findAll();
-                
+
                 request.setAttribute("landlordList", landlordList);
                 request.getRequestDispatcher("/view/adminLandlordManagement.jsp").forward(request, response);
             }
@@ -161,68 +164,68 @@ public class AdminController extends HttpServlet {
                 } else if (query.equals("deactivate")) {
                     AccountDAO.changeStatus(accountID, false);
                 }
-                
+
                 //sau nay hen xui co the gui mail khoa tai khoan/ mo tai khoan cho account do :D
-                if(acc.getRole() == 1)
+                if (acc.getRole() == 1) {
                     response.sendRedirect("/sakura/admin/tenant-management");
-                else 
+                } else {
                     response.sendRedirect("/sakura/admin/landlord-management");
+                }
             }
-            
-            if(path.equals("/tenant-detail")) {
+
+            if (path.equals("/tenant-detail")) {
                 int accountID = Integer.parseInt(request.getParameter("accountID"));
-                
+
                 Tenant t = TenantDAO.findById(accountID);
-                
+
                 request.setAttribute("tenant", t);
-                
+
                 request.getRequestDispatcher("/view/adminTenantDetail.jsp").forward(request, response);
             }
-            
-            
-            if(path.equals("/landlord-detail")) {
+
+            if (path.equals("/landlord-detail")) {
                 int accountID = Integer.parseInt(request.getParameter("accountID"));
-                
+
                 Landlord l = LandlordDAO.findById(accountID);
-                
+
                 request.setAttribute("landlord", l);
-                
+
                 ArrayList<Hostel> hostelList = (ArrayList<Hostel>) HostelDAO.findByLandlord(accountID);
-                
+
                 request.setAttribute("hostelList", hostelList);
-                
+
                 request.getRequestDispatcher("/view/adminLandlordDetail.jsp").forward(request, response);
             }
-            
-            if(path.equals("/hostel-management")) {
+
+            if (path.equals("/hostel-management")) {
                 ArrayList<Hostel> hostelList = (ArrayList<Hostel>) HostelDAO.findAll();
-                
+
                 request.setAttribute("hostelList", hostelList);
-                
+
                 request.getRequestDispatcher("/view/adminHostelManagement.jsp").forward(request, response);
             }
-            
-            if(path.equals("/hostel-detail")) {
+
+            if (path.equals("/hostel-detail")) {
                 int hostelID = Integer.parseInt(request.getParameter("hostelID"));
-                
+
                 Hostel currentHostel = HostelDAO.findById(hostelID);
-                
+
                 ArrayList<Hostel> hostelList = (ArrayList<Hostel>) HostelDAO.findByLandlord(currentHostel.getLandlord().getAccount().getAccountID());
-                
+
                 request.setAttribute("currentHostel", currentHostel);
                 request.setAttribute("hostelList", hostelList);
-                
+
                 request.getRequestDispatcher("/view/adminHostelDetail.jsp").forward(request, response);
-                
+
             }
-            
+
             if (path.equals("/hostelStatus")) {
                 int hostelID = Integer.parseInt(request.getParameter("hostelID"));
                 Hostel hostel = HostelDAO.findById(hostelID);
                 String query = request.getParameter("query");
-                
+
                 Notification noti = new Notification();
-                
+
                 noti.setCreatedDate(new Date());
                 noti.setStatus(1);
                 noti.setToAccount(hostel.getLandlord().getAccount());
@@ -234,7 +237,7 @@ public class AdminController extends HttpServlet {
                     HostelDAO.updateStatus(hostelID, false);
                     noti.setContent("Nhà trọ " + hostel.getHostelName() + " của bạn đã bị khóa bởi admin!");
                 }
-                
+
                 NotificationDAO.saveNotification(noti);
 
                 response.sendRedirect("/sakura/admin/hostel-management");

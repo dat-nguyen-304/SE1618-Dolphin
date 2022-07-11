@@ -14,7 +14,9 @@ import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
 import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DTO.Province;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
+import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
 import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
+import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Notification;
@@ -477,7 +479,7 @@ public class HostelController extends HttpServlet {
                 int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), room.getRoomType().getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
 
                 System.out.println("MY TEST ID: " + testID);
-                
+
                 //end booking request adding function
                 //this will show notification after returning back to hostel detail page!
                 response.sendRedirect("/sakura/hostel/detail?successBookingMessage=true&filterStar=0&hostelId=" + hostelID);
@@ -508,15 +510,15 @@ public class HostelController extends HttpServlet {
                 String streetAddress = request.getParameter("streetAddress");
                 String description = request.getParameter("description");
                 int landlordId = Integer.parseInt(request.getParameter("landlordId"));
-
                 boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
                 Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
+//                ServiceDAO.saveDefaultService(newHostel.getHostelID());
                 if (addSuccess) {
-                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
+                    out.println("<p class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem <span id='view-new-hostel'><b>");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
                     out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
                     out.println("<input type=\"submit\" value=\"tại đây\">");
-                    out.println("</form></span>");
+                    out.println("</form></b></span></p>");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
@@ -535,14 +537,16 @@ public class HostelController extends HttpServlet {
                 String updateStreetAddress = request.getParameter("updateStreetAddress");
                 String description = request.getParameter("description");
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-
+                
                 boolean updateSuccess = HostelDAO.updateHostelById(hostelId, name, updateDistrictId, updateStreetAddress, description);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
+                    System.out.println("success");
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                    System.out.println("failed");
                 }
-
             } else if (path.equals("/check-update-hostel-valid")) {
                 String updateName = request.getParameter("updateName");
                 int landlordId = Integer.parseInt(request.getParameter("landlordId"));
@@ -558,6 +562,15 @@ public class HostelController extends HttpServlet {
             } else if (path.equals("/delete-hostel")) {
                 int hostelId = Integer.parseInt(request.getParameter("deleteHostelId"));
                 boolean deleteSuccess = HostelDAO.deleteById(hostelId);
+//                if (deleteSuccess) {
+//                    deleteSuccess = RoomTypeDAO.deleteByHostelId(hostelId);
+//                }
+//                if (deleteSuccess) {
+//                    deleteSuccess = RoomDAO.deleteByHostelId(hostelId);
+//                }
+//                if (deleteSuccess) {
+//                    deleteSuccess = RoomResidentDAO.deleteByHostelId(hostelId);
+//                }
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
                 } else {

@@ -85,7 +85,6 @@ public class AccessController extends HttpServlet {
                                     if (tenant.isRentStatus()) {
                                         response.sendRedirect("/sakura/tenant/dashboard");
                                     }
-
                                 } else if (acc.getRole() == 2) {
                                     session.setAttribute("role", 2);
                                     System.out.println("role 2");
@@ -95,7 +94,6 @@ public class AccessController extends HttpServlet {
                                 } else {
                                     session.setAttribute("currentUser", acc);
                                     session.setAttribute("role", 0); //admin
-
                                     response.sendRedirect("/sakura/admin/dashboard");
                                 }
                                 response.sendRedirect("/sakura/home");
