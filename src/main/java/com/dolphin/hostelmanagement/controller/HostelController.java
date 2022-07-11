@@ -514,11 +514,11 @@ public class HostelController extends HttpServlet {
                 Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
 //                ServiceDAO.saveDefaultService(newHostel.getHostelID());
                 if (addSuccess) {
-                    out.println("<span class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem");
+                    out.println("<p class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem <span id='view-new-hostel'><b>");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
                     out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
                     out.println("<input type=\"submit\" value=\"tại đây\">");
-                    out.println("</form></span>");
+                    out.println("</form></b></span></p>");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
@@ -537,14 +537,16 @@ public class HostelController extends HttpServlet {
                 String updateStreetAddress = request.getParameter("updateStreetAddress");
                 String description = request.getParameter("description");
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-
+                
                 boolean updateSuccess = HostelDAO.updateHostelById(hostelId, name, updateDistrictId, updateStreetAddress, description);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
+                    System.out.println("success");
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
+                    System.out.println("failed");
                 }
-
             } else if (path.equals("/check-update-hostel-valid")) {
                 String updateName = request.getParameter("updateName");
                 int landlordId = Integer.parseInt(request.getParameter("landlordId"));

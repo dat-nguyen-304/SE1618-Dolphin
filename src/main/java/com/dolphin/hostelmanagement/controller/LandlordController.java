@@ -178,6 +178,9 @@ public class LandlordController extends HttpServlet {
                         revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
                     
                     totalRevenue += i.getTotalPrice();
+                    String dateValue[] = i.getMonth().split("/");
+                    
+                    if(currentYear == Integer.parseInt(dateValue[1])) currentYearRevenue += i.getTotalPrice();
                 }
                 
                 request.setAttribute("totalRevenue", totalRevenue);
@@ -200,7 +203,17 @@ public class LandlordController extends HttpServlet {
                 }
                 //end doanh thu
                 
-                //So luong cu dan
+                //rating
+                
+                request.setAttribute("ratingCount", FeedbackDAO.findByHostelId(currentHostel.getHostelID()).size());
+                
+                //end rating
+                
+                //booking request
+                
+                ArrayList<BookingRequest> brList = BookingRequestDAO.getBookingRequestByHostelID(currentHostel.getHostelID(), 1);
+                
+                //end booking request
                 
                 /*for(RoomResident rr: RoomResidentDAO.findByHostelID(currentHostel.getHostelID())) {
                     System.out.println(rr.getFullname());
@@ -510,17 +523,25 @@ public class LandlordController extends HttpServlet {
                 double avgRating = 0;
                 for (Feedback feedback : feedbackList) {
                     avgRating += feedback.getRating();
-                    System.out.println(feedback.toString());
+                    //System.out.println(feedback.toString());
                 }
                 avgRating /= feedbackList.size();
                 request.setAttribute("avgRating", avgRating);
                 request.setAttribute("feedbacks", feedbackList);
+                int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
+                List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
+
+                List<Province> provinceList = ProvinceDAO.findAll();
+                List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
+                request.setAttribute("currentDistrictList", currentDistrictList);
+                request.setAttribute("provinceList", provinceList);
+                request.setAttribute("districtList", districtList);
                 request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
             }
 
             if (path.equals("/add-hostel-image")) {
                 //request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
-                int hostelID = Integer.parseInt(request.getParameter("hostelId"));
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 int maxImgID = HostelDAO.getCurrentIdentImageHostel();
                 System.out.println("IDENT: " + maxImgID);
                 try {
@@ -530,13 +551,14 @@ public class LandlordController extends HttpServlet {
                             String fileName = "img" + maxImgID + ".jpg";
                             String savePath = "/sakura/assets/images/hostel-list-images/";
                             System.out.println("FILENAME: " + fileName);
-                            boolean res = HostelDAO.saveHostelImg(hostelID, savePath + fileName);
+                            boolean res = HostelDAO.saveHostelImg(hostelId, savePath + fileName);
                             String src = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + fileName;
                             String dest = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
                             part.write(src);
                             copy(src, dest);
                         }
                     }
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -549,7 +571,6 @@ public class LandlordController extends HttpServlet {
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 try {
                     boolean res = HostelDAO.removeHostelImg(hostelId, filePath);
-                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));;
                     String srcPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + name;
                     File fSrc = new File(srcPath);
                     System.out.println("Remove: " + srcPath);
@@ -558,6 +579,7 @@ public class LandlordController extends HttpServlet {
                     File fTarget = new File(targetPath);
                     System.out.println("Remove: " + targetPath);
                     fTarget.delete();
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -685,6 +707,59 @@ public class LandlordController extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+            
+            if(path.equals("/revenue-list")) {
+                ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
+                
+                Collections.sort(invoiceList, new Comparator<Invoice>() {
+                    public int compare(Invoice i1, Invoice i2) {
+                        SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
+                        Date date1 = null, date2 = null;
+
+                        try {
+                            date1 = mmyy.parse(i1.getMonth());
+                            date2 = mmyy.parse(i2.getMonth());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return date2.compareTo(date1);
+                    }
+                });
+                
+                /*for (Invoice i : invoiceList) {
+                    System.out.println(i.getMonth());
+                }*/
+                ArrayList<String> revenueDate = new ArrayList<>();
+                ArrayList<Integer> revenueValue = new ArrayList<>();
+                
+                String currentDate = "";
+                
+                for(Invoice i: invoiceList) {
+                    if(!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {        
+                        revenueDate.add(i.getMonth());
+                        currentDate = i.getMonth();
+                        revenueValue.add(0);
+                    }
+                    if(revenueDate.size() <= 5)
+                        revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
+                }
+                
+                request.setAttribute("revenueDate", revenueDate);
+                request.setAttribute("revenueValue", revenueValue);
+                
+                request.getRequestDispatcher("/view/LRevenueList.jsp").forward(request, response);
+            }
+            
+            if(path.equals("/revenue-detail")) {
+                String revenueDate = request.getParameter("revenueDate");
+                
+                ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
+                
+                request.setAttribute("invoiceList", invoiceList);
+                request.setAttribute("revenueDate", revenueDate);
+                
+                request.getRequestDispatcher("/view/LRevenueDetail.jsp").forward(request, response);
             }
         }
     }

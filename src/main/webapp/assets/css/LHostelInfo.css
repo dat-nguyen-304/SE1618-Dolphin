@@ -60,6 +60,20 @@
     border: 1px solid #17535B !important;
 }
 
+select, [type=text], textarea {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+}
+
+select:focus, select:active,
+[type=text]:focus, [type=text]:active,
+textarea:focus, textarea:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #288D87;
+}
+
 .grid-16 {
     grid-template-columns: repeat(16, minmax(0, 1fr));
 }
