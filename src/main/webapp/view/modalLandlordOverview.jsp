@@ -48,12 +48,12 @@
                         <c:forEach items="${requestScope.districtList}" var="district">
                             <option value="${district.districtID}">${district.districtName}</option>
                         </c:forEach>
-                    </select> 
+                    </select>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
                     <input type="text" name="streetAddress" required class="w-[500px] text-[18px] p-[10px]">
-                        <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
+                    <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
                 </div>
                 <div class="mb-[20px] flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
@@ -63,7 +63,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button
-                    class="addHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                        class="addHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
                 <button id="addHostel-2" onclick="addHostel()"
                         class="addHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
             </div>
@@ -189,12 +189,12 @@
                                 <option value="${district.districtID}">${district.districtName}</option>
                             </c:if>
                         </c:forEach>
-                    </select> 
+                    </select>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
                     <input type="text" required name="updateStreetAddress" value="${sessionScope.currentHostel.streetAddress}" class="text-[18px] w-[500px] p-[10px]">
-                        <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú)</p>
+                    <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú)</p>
                 </div>
                 <div class="mb-[20px] flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
@@ -204,7 +204,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button
-                    class="editHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                        class="editHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
                 <button id="editHostel-2" onclick="updateHostel()"
                         class="updateHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
             </div>
@@ -242,7 +242,7 @@
             <div class="flex justify-end p-[20px]">
                 <button class="editHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
                 <c:if test="${sessionScope.needReload == true}">
-                    <form action="/sakura/landlord/overview">
+                    <form action="/sakura/landlord/overview" method="post">
                         <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
                         <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                         </button>

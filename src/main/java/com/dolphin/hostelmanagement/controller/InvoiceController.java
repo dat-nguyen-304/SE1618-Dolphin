@@ -35,35 +35,22 @@ public class InvoiceController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private static final String ERROR = "error.jsp";
-    private SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    private SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
     private void sortByStatus(List<Invoice> invoiceList, int status) {
         switch (status) {
+            case 0:
+                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
+                    Invoice next = iterator.next();
+                    if (next.getStatus() != 0) {
+                        iterator.remove();
+                    }
+                }
+                break;
             case 1:
-                System.out.println("1");
-                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
+                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
                     Invoice next = iterator.next();
                     if (next.getStatus() != 1) {
-                        iterator.remove();
-                    }
-                }
-                break;
-            case 2:
-                System.out.println("2");
-
-                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
-                    Invoice next = iterator.next();
-                    if (next.getStatus() != 2) {
-                        iterator.remove();
-                    }
-                }
-                break;
-            default:
-                System.out.println("3");
-
-                for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
-                    Invoice next = iterator.next();
-                    if (next.getStatus() != 3) {
                         iterator.remove();
                     }
                 }
@@ -73,9 +60,7 @@ public class InvoiceController extends HttpServlet {
 
     private void sortByDate(List<Invoice> invoiceList, Date start, Date end) {
         if (start != null) {
-            System.out.println("start");
-            System.out.println(start);
-            for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
+            for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
                 Invoice next = iterator.next();
                 if (next.getStartDate().before(start)) {
                     iterator.remove();
@@ -83,9 +68,7 @@ public class InvoiceController extends HttpServlet {
             }
         }
         if (end != null) {
-            System.out.println("end");
-            System.out.println(end);
-            for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext(); ) {
+            for (Iterator<Invoice> iterator = invoiceList.iterator(); iterator.hasNext();) {
                 Invoice next = iterator.next();
                 if (next.getEndDate().after(end)) {
                     iterator.remove();
@@ -97,8 +80,7 @@ public class InvoiceController extends HttpServlet {
     private void sortFilters(HttpServletRequest request, List<Invoice> invoiceList) throws ParseException {
         if (request.getParameter("sortByStatus") != null) {
             int status = Integer.parseInt(request.getParameter("sortByStatus"));
-            System.out.println("status" + status);
-            if (status != 0) {
+            if (status != -1) {
                 sortByStatus(invoiceList, status);
             }
         }
@@ -106,18 +88,15 @@ public class InvoiceController extends HttpServlet {
         if (request.getParameter("start") != null && !request.getParameter("start").equals("")) {
             String startDate = request.getParameter("start");
             Date start = df.parse(startDate);
-            System.out.println("start" + startDate);
             if (request.getParameter("end") != null && !request.getParameter("end").equals("")) {
                 String endDate = request.getParameter("end");
                 Date end = df.parse(endDate);
-                System.out.println("end" + endDate);
                 sortByDate(invoiceList, start, end);
             } else {
                 sortByDate(invoiceList, start, null);
             }
         } else if (request.getParameter("end") != null && !request.getParameter("end").equals("")) {
             String endDate = request.getParameter("end");
-            System.out.println("end" + endDate);
             Date end = df.parse(endDate);
             sortByDate(invoiceList, null, end);
         }
@@ -132,7 +111,6 @@ public class InvoiceController extends HttpServlet {
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
             int role = (int) session.getAttribute("role");
-            System.out.println("role " + role);
             if (role == 1) {
                 Tenant t = (Tenant) session.getAttribute("currentUser");
                 List<Contract> contractList = ContractDAO.findByTenant(t);
@@ -150,8 +128,8 @@ public class InvoiceController extends HttpServlet {
                         sortFilters(request, invoiceList);
 
                         request.setAttribute("invoiceList", invoiceList);
-                        request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
                     }
+                    request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
                 }
 
                 if (path.equals("/detail")) {
@@ -173,11 +151,12 @@ public class InvoiceController extends HttpServlet {
                 Landlord l = (Landlord) session.getAttribute("currentUser");
 
                 if (path.equals("/list")) {
-                    List<Hostel> hostelList = HostelDAO.findByLandlordObject(l);
-                    request.setAttribute("hostelList", hostelList);
                     Room chosenRoom = null;
                     Hostel chosenHostel = null;
                     List<Invoice> invoiceList = null;
+                    if (request.getParameter("hostelID") == null) {
+                        chosenHostel = (Hostel) session.getAttribute("currentHostel");
+                    }
                     if (request.getParameter("roomID") != null) {
                         int roomID = Integer.parseInt(request.getParameter("roomID"));
                         if (roomID != 0) {
@@ -191,11 +170,10 @@ public class InvoiceController extends HttpServlet {
                             invoiceList = InvoiceDAO.findByHostelID(chosenHostel.getHostelID());
                             request.setAttribute("chosenRoom", new Room());
                         }
-                        request.setAttribute("chosenHostel", chosenHostel);
-                        request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
                     }
+                    request.setAttribute("chosenHostel", chosenHostel);
+                    request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
                     request.setAttribute("invoiceList", invoiceList);
-                    request.setAttribute("hostelList", hostelList);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
                 }
 
@@ -214,31 +192,51 @@ public class InvoiceController extends HttpServlet {
                 }
 
                 if (path.equals("/new")) {
-                    List<Hostel> hostelList = HostelDAO.findByLandlordObject(l);
-                    request.setAttribute("hostelList", hostelList);
                     List<Service> activeServices = new ArrayList();
-//                    String chosenHostelID = request.getParameter("hostelID");
                     String chosenRoomID = request.getParameter("roomID");
+                    Hostel chosenHostel = null;
+                    if (request.getParameter("chosenHostel") == null && request.getParameter("chosenRoom") == null) {
+                        chosenHostel = (Hostel) session.getAttribute("currentHostel");
+                    }
                     if (chosenRoomID != null) {
+                        System.out.println("204 " + chosenRoomID);
                         Room chosenRoom = RoomDAO.findRoomNewInvoice(Integer.parseInt(chosenRoomID));
-                        Hostel hostel = chosenRoom.getRoomType().getHostel();
-                        request.setAttribute("chosenHostel", hostel);
+                        chosenHostel = chosenRoom.getRoomType().getHostel();
                         request.setAttribute("chosenRoom", chosenRoom);
-                        activeServices = ServiceDAO.findHostelActiveServices(hostel);
-                        List<Room> roomNoInvoiceList = RoomDAO.findRoomsNeedInvoice(hostel.getHostelID());
-                        if (roomNoInvoiceList != null) {
-                            request.setAttribute("noInvoiceList", roomNoInvoiceList);
-                        }
-
+                        activeServices = ServiceDAO.findHostelActiveServices(chosenHostel);
                         Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
                         if (chosenRoom.getLatestInvoiceMonth() == null) {
                             String startMonth = contract.getStartDate().toString();
                             startMonth = startMonth.substring(0, startMonth.lastIndexOf('-'));
                             request.setAttribute("startMonth", startMonth);
+                        } else {
+                            Invoice lastInvoice = InvoiceDAO.findLatestByContract(contract);
+                            System.out.println("216 " + lastInvoice);
+                            List<ServiceDetail> prevMonthDetails = ServiceDAO.findDetailsByInvoice(lastInvoice);
+//                            for (ServiceDetail prevMonthDetail : prevMonthDetails) {
+//                                System.out.println(prevMonthDetail.getService().getServiceID());
+//                            }
+                            List<Integer> lastMonthValues = new ArrayList();
+                            for (Service activeService : activeServices) {
+                                for (ServiceDetail prevMonthDetail : prevMonthDetails) {
+                                    if (prevMonthDetail.getService().getServiceID() == activeService.getServiceID()) {
+                                        lastMonthValues.add(prevMonthDetail.getEndValue());
+                                    }
+                                }
+                            }
+                            for (Integer lastMonthValue : lastMonthValues) {
+                                System.out.println(lastMonthValue);
+                            }
+                            request.setAttribute("prevMonthDetails", prevMonthDetails);
                         }
                         request.setAttribute("contract", contract);
                         request.setAttribute("activeServices", activeServices);
                     }
+                    List<Room> roomNoInvoiceList = RoomDAO.findRoomsNeedInvoice(chosenHostel.getHostelID());
+                    if (roomNoInvoiceList != null) {
+                        request.setAttribute("noInvoiceList", roomNoInvoiceList);
+                    }
+                    request.setAttribute("chosenHostel", chosenHostel);
                     request.getRequestDispatcher("/view/LAddInvoice_v2.jsp").forward(request, response);
                 }
 
@@ -261,15 +259,15 @@ public class InvoiceController extends HttpServlet {
                     List<Service> serviceList = ServiceDAO.findHostelActiveServices(room.getRoomType().getHostel());
                     List<ServiceDetail> detailList = new ArrayList();
                     for (Service service : serviceList) {
-                        if (service.getType() == 1) {
+                        if (service.getType() != 0) {
                             int startValue = Integer.parseInt(request.getParameter("startInput" + service.getServiceID()));
                             int endValue = Integer.parseInt(request.getParameter("endInput" + service.getServiceID()));
                             int quantity = endValue - startValue;
 
-                            if (service.getServiceName().equalsIgnoreCase("điện")) {
+                            if (service.getType() == 1) {
                                 electricitySum = quantity * service.getServiceFee();
                             }
-                            if (service.getServiceName().equalsIgnoreCase("nước")) {
+                            if (service.getType() == 2) {
                                 waterSum = quantity * service.getServiceFee();
                             }
                             detailList.add(new ServiceDetail(startValue, endValue, quantity, service));
@@ -316,10 +314,12 @@ public class InvoiceController extends HttpServlet {
                     if (request.getParameter("resetButton") != null) {
                         System.out.println("Reset!");
                         request.setAttribute("reset", true);
-                        System.out.println("100");
                     } else {
                         sortFilters(request, invoiceList);
                     }
+                    List<Hostel> hostelList = HostelDAO.findByLandlordObject(l);
+                    request.setAttribute("hostelList", hostelList);
+                    request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
                     request.setAttribute("chosenHostel", chosenHostel);
                     request.setAttribute("invoiceList", invoiceList);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
@@ -338,7 +338,6 @@ public class InvoiceController extends HttpServlet {
                     String startDate = request.getParameter("startDate");
                     String endDate = request.getParameter("endDate");
                     int status = Integer.parseInt(request.getParameter("newStatus"));
-                    System.out.println("status " + status);
                     int totalPrice = Integer.parseInt(request.getParameter("invoiceSum"));
                     Contract c = invoice.getContract();
                     Tenant t = c.getTenant();
@@ -349,8 +348,8 @@ public class InvoiceController extends HttpServlet {
                     Room room = invoice.getContract().getRoom();
 
                     List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
-                    for (ServiceDetail detail: detailList) {
-                        if (detail.getService().getType() == 1) {
+                    for (ServiceDetail detail : detailList) {
+                        if (detail.getService().getType() != 0) {
                             int startValue = Integer.parseInt(request.getParameter("startInput" + detail.getService().getServiceID()));
                             int endValue = Integer.parseInt(request.getParameter("endInput" + detail.getService().getServiceID()));
                             int quantity = endValue - startValue;
@@ -358,11 +357,11 @@ public class InvoiceController extends HttpServlet {
                             detail.setEndValue(endValue);
                             detail.setQuantity(quantity);
 
-                            if (detail.getService().getServiceName().equalsIgnoreCase("điện")) {
+                            if (detail.getService().getType() == 1) {
                                 electricitySum = quantity * detail.getService().getServiceFee();
                             }
 
-                            if (detail.getService().getServiceName().equalsIgnoreCase("nước")) {
+                            if (detail.getService().getType() == 2) {
                                 waterSum = quantity * detail.getService().getServiceFee();
                             }
                         } else {
@@ -380,7 +379,7 @@ public class InvoiceController extends HttpServlet {
                         // send notification to tenant
                         Notification noti = new Notification();
                         noti.setToAccount(t.getAccount());
-                        noti.setContent("Hóa đơn cho phòng " + room.getRoomNumber() + " kỳ " + invoice.getMonth() +  " được cập nhật!");
+                        noti.setContent("Hóa đơn cho phòng " + room.getRoomNumber() + " kỳ " + invoice.getMonth() + " được cập nhật!");
                         noti.setCreatedDate(new Date());
                         noti.setStatus(0);
                         NotificationDAO.saveNotification(noti);
@@ -394,14 +393,13 @@ public class InvoiceController extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -416,10 +414,10 @@ public class InvoiceController extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -29,7 +29,7 @@
                          class="w-6 h-5 text-slate-300 transition duration-75 group-hover:text-slate-100"
                          viewBox="0 0 20 20" fill="currentColor">
                         <path
-                            d="M18.991 2H9.01C7.899 2 7 2.899 7 4.01v5.637l-4.702 4.642A1 1 0 0 0 3 16v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4.009C21 2.899 20.102 2 18.991 2zm-8.069 13.111V20H5v-5.568l2.987-2.949 2.935 3.003v.625zM13 9h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z">
+                                d="M18.991 2H9.01C7.899 2 7 2.899 7 4.01v5.637l-4.702 4.642A1 1 0 0 0 3 16v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4.009C21 2.899 20.102 2 18.991 2zm-8.069 13.111V20H5v-5.568l2.987-2.949 2.935 3.003v.625zM13 9h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z">
                         </path>
                         <path d="M7 15h2v2H7z"></path>
                     </svg>
@@ -125,11 +125,10 @@
                 </button>
                 <ul id="dropdown-invoice" class="${(requestPath == '/sakura/invoice/list'|| requestPath == '/sakura/landlord/invoice-list' || requestPath == '/sakura/invoice/new') ? '' : 'hidden'}  py-2 space-y-2">
                     <li>
-                        <a href="/sakura/landlord/invoice-list"
-                           class="${requestPath == '/sakura/landlord/invoice-list' ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">
+                        <a href="/sakura/invoice/list"
+                           class="${requestPath == '/sakura/invoice/list' ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">
                             Danh sách hoá đơn
                         </a>
-
                     </li>
                     <li>
                         <a href="/sakura/invoice/new" id="list-item"
@@ -180,7 +179,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
                     </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Người ở</span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Cư dân</span>
                 </a>
             </li>
         </ul>
