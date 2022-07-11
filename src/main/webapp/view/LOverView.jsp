@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -29,7 +30,6 @@
         <link rel="stylesheet" href="../assets/css/LOverView.css">
         <link rel="stylesheet" href="../assets/css/toastr.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
-
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
@@ -98,9 +98,25 @@
                 <!-- General information -->
                 <c:if test="${sessionScope.currentHostel != null}">
                     <div class="general-info flex justify-between mt-[20px] grid grid-16 gap-[20px]">
+                        <a href="#" class="card col-span-3 overall-info h-[120px] bg-[#fff] p-5 flex flex-col items-center justify-between cursor-pointer hover:bg-[#FAFDFD] group">
+                            <div class="overall-info-head">
+                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Tổng doanh thu</h3>
+                            </div>
+                            <div class="overall-info-content ">
+                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${requestScope.totalRevenue}đ</p>
+                            </div>
+                        </a>
+                        <a href="#" class="card col-span-3 overall-info h-[120px] bg-[#fff] p-5 flex flex-col items-center justify-between cursor-pointer hover:bg-[#FAFDFD] group">
+                            <div class="overall-info-head">
+                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Doanh thu năm nay</h3>
+                            </div>
+                            <div class="overall-info-content ">
+                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${requestScope.currentYearRevenue}đ</p>
+                            </div>
+                        </a>
                         <a href="#" class="card col-span-2 overall-info h-[120px] bg-[#fff] p-5 flex flex-col items-center justify-between cursor-pointer hover:bg-[#FAFDFD] group">
                             <div class="overall-info-head">
-                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Số phòng trọ</h3>
+                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Tổng số phòng</h3>
                             </div>
                             <div class="overall-info-content ">
                                 <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${sessionScope.currentHostel.totalRoom}</p>
@@ -108,7 +124,7 @@
                         </a>
                         <a href="#" class="card col-span-2 overall-info h-[120px] bg-[#fff] p-5 flex flex-col items-center justify-between cursor-pointer hover:bg-[#FAFDFD] group">
                             <div class="overall-info-head">
-                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Số người thuê</h3>
+                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Đã cho thuê</h3>
                             </div>
                             <div class="overall-info-content ">
                                 <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${sessionScope.currentHostel.totalRoom - sessionScope.currentHostel.availableRoom}</p>
@@ -119,23 +135,7 @@
                                 <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Số cư dân</h3>
                             </div>
                             <div class="overall-info-content ">
-                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">46</p>
-                            </div>
-                        </a>
-                        <a href="#" class="card col-span-3 overall-info h-[120px] bg-[#fff] p-5 flex flex-col items-center justify-between cursor-pointer hover:bg-[#FAFDFD] group">
-                            <div class="overall-info-head">
-                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Doanh thu năm</h3>
-                            </div>
-                            <div class="overall-info-content ">
-                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">650.000.000</p>
-                            </div>
-                        </a>
-                        <a href="#" class="card col-span-3 overall-info h-[120px] bg-[#fff] p-5 flex flex-col items-center justify-between cursor-pointer hover:bg-[#FAFDFD] group">
-                            <div class="overall-info-head">
-                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Tổng doanh thu</h3>
-                            </div>
-                            <div class="overall-info-content ">
-                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">1.870.460.000</p>
+                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${requestScope.noResidents}</p>
                             </div>
                         </a>
                         <div href="#" class="card rounded col-span-4 overall-info h-[120px] bg-[#fff] group relative">
@@ -171,27 +171,29 @@
                                 <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                                     <p>Doanh thu</p>
                                     <!-- Hiển thị doanh thu 5 tháng gần đây nhất -->
-                                    <a href="#" class="text-[15px] font-light flex items-baseline">
+                                    <a href="/sakura/landlord/revenue-list" class="text-[15px] font-light flex items-baseline">
                                         <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
-                                        <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
+                                        <p class="translate-y-[3px] ml-[5px]">Xem tất cả</p>
                                     </a>
                                 </div>
                                 <div class="relative overflow-y-auto">
                                     <table class="w-full text-sm text-left text-gray-500">
                                         <tbody>
-                                            <tr class="bg-white border-b hover:bg-gray-50">
-                                                <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    06 / 2022
-                                                </th>
-                                                <td class="px-6 py-4">
-                                                    đ60.500.000
-                                                </td>
-                                                <td class="px-6 py-4 text-right">
-                                                    <a href="#" class="font-medium text-[#288D87] hover:underline"><i
-                                                            class="bi bi-eye-fill"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr class="bg-white border-b hover:bg-gray-50">
+                                            <c:forEach items="${requestScope.revenueDate}" var = "revDate" varStatus="ptr">
+                                                <tr class="bg-white border-b hover:bg-gray-50">
+                                                    <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                        ${revDate}
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        đ${requestScope.revenueValue[ptr.index]}
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right">
+                                                        <a href="#" class="font-medium text-[#288D87] hover:underline"><i
+                                                                class="bi bi-eye-fill"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            <!-- <tr class="bg-white border-b hover:bg-gray-50">
                                                 <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                     05 / 2022
                                                 </th>
@@ -214,7 +216,7 @@
                                                     <a href="#" class="font-medium text-[#288D87] hover:underline"><i
                                                             class="bi bi-eye-fill"></i></a>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -222,7 +224,7 @@
 
                             <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
                                 <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
-                                    <p>Tháng 6 / 2022</p>
+                                    <p>Tháng ${requestScope.revenueDate[0]}</p>
                                     <a href="#" class="text-[15px] font-light flex items-baseline">
                                         <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
                                         <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
@@ -239,22 +241,38 @@
                                                     0020354
                                                 </td>
                                             </tr>
-                                            <tr class="bg-white border-b hover:bg-gray-50">
-                                                <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    Thay đổi so với tháng trước
-                                                </th>
-                                                <td class="px-6 py-4 text-[#1CBA8B]">
-                                                    12% <i class="bi bi-arrow-up"></i>
-                                                </td>
-                                            </tr>
-                                            <tr class="bg-white border-b hover:bg-gray-50">
-                                                <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    Thay đổi so với tháng trước
-                                                </th>
-                                                <td class="px-6 py-4 text-[#FF5757]">
-                                                    4% <i class="bi bi-arrow-down"></i>
-                                                </td>
-                                            </tr>
+                                            <c:choose>
+                                                <c:when test="${requestScope.revenueChange eq 0}">
+                                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                                        <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                            Thay đổi so với tháng trước
+                                                        </th>
+                                                        <td class="px-6 py-4 text-[#000000]">
+                                                            0% <i class="bi bi-arrow-up"></i>
+                                                        </td>
+                                                    </tr>
+                                                </c:when>
+                                                <c:when test = "${requestScope.revenueChange > 0}">
+                                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                                        <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                            Thay đổi so với tháng trước
+                                                        </th>
+                                                        <td class="px-6 py-4 text-[#1CBA8B]">
+                                                            ${requestScope.revenueChange}% <i class="bi bi-arrow-up"></i>
+                                                        </td>
+                                                    </tr>
+                                                </c:when>
+                                                <c:when test = "${requestScope.revenueChange < 0}">
+                                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                                        <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                            Thay đổi so với tháng trước
+                                                        </th>
+                                                        <td class="px-6 py-4 text-[#FF5757]">
+                                                            ${requestScope.revenueChange}% <i class="bi bi-arrow-down"></i>
+                                                        </td>
+                                                    </tr>
+                                                </c:when>
+                                            </c:choose>
                                         </tbody>
                                     </table>
                                 </div>
@@ -345,13 +363,13 @@
                                         <tbody>
                                             <tr class="bg-white border-b hover:bg-gray-50">
                                                 <td class="px-6 py-4">
-                                                    An Khang
+                                                    ${sessionScope.hostel.hostelName}
                                                 </td>
                                                 <td class="px-6 py-4 text-[#FFB03A]">
-                                                    4.8 / 5 <i class="bi bi-star-fill"></i>
+                                                    ${sessionScope.hostel.rating} <i class="bi bi-star-fill"></i>
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    53 lượt
+                                                    ${requestScope.ratingCount}
                                                 </td>
                                             </tr>
 
