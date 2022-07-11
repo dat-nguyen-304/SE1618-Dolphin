@@ -91,3 +91,11 @@ textarea:hover, textarea:focus, textarea:active {
 #view-new-hostel:hover {
     text-decoration: underline;
 }
+
+#view-new-hostel {
+    cursor: pointer;
+}
+
+#view-new-hostel:hover {
+    text-decoration: underline;
+}

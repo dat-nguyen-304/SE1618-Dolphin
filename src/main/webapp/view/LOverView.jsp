@@ -29,8 +29,8 @@
         <link rel="stylesheet" href="../assets/css/LOverView.css">
         <link rel="stylesheet" href="../assets/css/toastr.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
-        
-        
+
+
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 
@@ -74,7 +74,7 @@
                                         <p class="font-medium text-[15px] text-[#fff]">${sessionScope.currentHostel.hostelName}</p>
                                     </button>
                                 </div>
-                               
+
                                 <button id="deleteHostel-1" type="submit" name="action" value="Save"
                                         class="mr-[20px] rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
                                     <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Xóa nhà trọ này</p>
@@ -419,9 +419,10 @@
                     if (!description.value) {
                         message += "Mô tả ";
                     }
-                    message += "không được trống";
+                    message += "không được trống!";
 
-                    addHostelMessage.innerHTML = message;
+                    //addHostelMessage.innerHTML = message;
+                    showToast("error", message);
                 } else {
                     jQuery.ajax({
                         type: 'POST',
@@ -437,6 +438,7 @@
                             streetAddress.value = "";
                             description.value = "";
                             addHostelMessage.innerHTML = response;
+                            toggleModal('.addHostelmodal2');
                         },
                         error: function () {
                         },
@@ -465,9 +467,11 @@
                         validHostelMessage.innerHTML = response;
                         if (response) {
                             adddHostelBtn.onclick = (e) => {
-                                addHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp";
+                                //addHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp";
+                                showToast("error", "Tên nhà trọ không được trùng lặp!");
                                 e.preventDefault();
-                            }
+                                //addHostelBtn.disabled = true;
+                            };
                         } else {
                             adddHostelBtn.onclick = () => addHostel();
                         }
@@ -615,11 +619,11 @@
                 toggleModal('.addHostelmodal1');
             });
 
-            var open_modal_2 = document.querySelector('#addHostel-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.addHostelmodal2');
-            });
+//            var open_modal_2 = document.querySelector('#addHostel-2');
+//            open_modal_2.addEventListener('click', function (event) {
+//                event.preventDefault();
+//                toggleModal('.addHostelmodal2');
+//            });
 
             var close_modal_1 = document.querySelectorAll('.addHostelmodal1 .addHostelmodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {

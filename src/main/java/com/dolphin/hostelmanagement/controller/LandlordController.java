@@ -436,13 +436,12 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("currentDistrictList", currentDistrictList);
                 request.setAttribute("provinceList", provinceList);
                 request.setAttribute("districtList", districtList);
-                session.setAttribute("currentHostel", currentHostel);
                 request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
             }
 
             if (path.equals("/add-hostel-image")) {
                 //request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
-                int hostelID = Integer.parseInt(request.getParameter("hostelId"));
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 int maxImgID = HostelDAO.getCurrentIdentImageHostel();
                 System.out.println("IDENT: " + maxImgID);
                 try {
@@ -452,13 +451,14 @@ public class LandlordController extends HttpServlet {
                             String fileName = "img" + maxImgID + ".jpg";
                             String savePath = "/sakura/assets/images/hostel-list-images/";
                             System.out.println("FILENAME: " + fileName);
-                            boolean res = HostelDAO.saveHostelImg(hostelID, savePath + fileName);
+                            boolean res = HostelDAO.saveHostelImg(hostelId, savePath + fileName);
                             String src = this.getRuntimeFolder(request).getAbsolutePath() + File.separator + fileName;
                             String dest = this.getFolderUpload(request).getAbsolutePath() + File.separator + fileName;
                             part.write(src);
                             copy(src, dest);
                         }
                     }
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -471,7 +471,6 @@ public class LandlordController extends HttpServlet {
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 try {
                     boolean res = HostelDAO.removeHostelImg(hostelId, filePath);
-                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));;
                     String srcPath = this.getFolderUpload(request).getAbsolutePath() + File.separator + name;
                     File fSrc = new File(srcPath);
                     System.out.println("Remove: " + srcPath);
@@ -480,6 +479,7 @@ public class LandlordController extends HttpServlet {
                     File fTarget = new File(targetPath);
                     System.out.println("Remove: " + targetPath);
                     fTarget.delete();
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -48,12 +48,12 @@
                         <c:forEach items="${requestScope.districtList}" var="district">
                             <option value="${district.districtID}">${district.districtName}</option>
                         </c:forEach>
-                    </select> 
+                    </select>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
                     <input type="text" name="streetAddress" required class="w-[500px] text-[18px] p-[10px]">
-                        <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
+                    <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
                 </div>
                 <div class="mb-[20px] flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
@@ -63,7 +63,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button
-                    class="addHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                        class="addHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
                 <button id="addHostel-2" onclick="addHostel()"
                         class="addHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
             </div>
@@ -73,7 +73,7 @@
 <!--Modal confirm add hostel-->
 <div class="addHostelmodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[2000]">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-white w-fit mx-auto rounded shadow z-50 overflow-y-auto">
+    <div class="modal-container bg-white w-1/3 mx-auto rounded shadow z-50 overflow-y-auto">
         <div class="addHostelmodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
             <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
@@ -82,16 +82,6 @@
             <span class="text-sm"></span>
         </div>
         <div class="modal-content">
-            <!--Title-->
-            <div class="flex justify-between items-center p-[20px] py-[10px] border-b addHostelMessageTitle">
-                <p class="text-2xl font-bold">Xác nhận</p>
-                <div class="addHostelmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                        </path>
-                    </svg>
-                </div>
-            </div>
             <!--Body-->
             <div class="p-[20px]">
                 <p class="addHostelMessage text-[20px] font-normal text-gray-800"></p>
@@ -133,7 +123,6 @@
 </div>
 <!-- End modal choose hostel-->
 
-
 <!--Modal confirm edit hostel-->
 <div class="editHostelmodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[1000]">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -164,7 +153,7 @@
             <div class="flex justify-end p-[20px]">
                 <button class="editHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
                 <c:if test="${sessionScope.needReload == true}">
-                    <form action="/sakura/landlord/overview">
+                    <form action="/sakura/landlord/overview" method="post">
                         <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
                         <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                         </button>

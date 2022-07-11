@@ -16,7 +16,7 @@
                 </button>
             </div>
             <div class="p-6 space-y-6">
-                <c:forEach var="hostel" items="${requestScope.hostelList}">
+                <c:forEach var="hostel" items="${sessionScope.hostelList}">
                     <button class="px-4 py-2 mx-2 rounded border-2" data-modal-toggle="hostelModal" onclick="changeHostel(${hostel.hostelID}, '${hostel.hostelName}')">${hostel.hostelName} </button>
                 </c:forEach>
             </div>
@@ -41,15 +41,19 @@
             <!-- Modal body -->
             <div class="p-6 space-y-6">
                 <input class="block" type="text" placeholder="Tìm phòng" value="" id="search-room"/>
-                <form action="/sakura/invoice/list" class="inline-block">
-                    <input hidden id="hostelID" name="hostelID" value="${requestScope.chosenHostel.hostelID}">
-                        <button type="submit" name="roomID" value="0" class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center">Tất cả</button>
-                </form>
+                <div id="allRoom">
+                    <c:if test="${requestScope.roomList.size() != 0}">
+                        <form action="/sakura/invoice/list" class="inline-block" method="post">
+                            <input hidden id="hostelID" name="hostelID" value="${requestScope.chosenHostel.hostelID}">
+                            <button type="submit" name="roomID" value="0" class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center">Tất cả</button>
+                        </form>
+                    </c:if>
+                </div>
                 <div id="roomList">
                     <c:forEach items="${requestScope.roomList}" var="room">
-                        <form action="/sakura/invoice/list" class="inline-block">
-                            <button type="submit" name="roomID" value="${room.roomID}" class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center room-button">
-                                ${room.roomNumber}
+                        <form action="/sakura/invoice/list" class="inline-block" method="post">
+                            <button type="submit" name="roomID" value="${room.roomID}" class="ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center room">
+                                    ${room.roomNumber}
                             </button>
                         </form>
                     </c:forEach>

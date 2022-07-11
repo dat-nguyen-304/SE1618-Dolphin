@@ -357,7 +357,6 @@
             }
 
             function updateHostel() {
-
                 const name = document.querySelector("input[name='updateName']");
                 const updateDistrictId = document.querySelector("select[name='updateDistrictId']");
                 const updateStreetAddress = document.querySelector("input[name='updateStreetAddress']");
