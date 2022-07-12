@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -30,7 +31,6 @@
         <link rel="stylesheet" href="../assets/css/LOverView.css">
         <link rel="stylesheet" href="../assets/css/toastr.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
-
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
@@ -213,7 +213,7 @@
 
                             <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
                                 <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
-                                    <p>Tháng 6 / 2022</p>
+                                    <p>Tháng ${requestScope.revenueDate[0]}</p>
                                     <a href="#" class="text-[15px] font-light flex items-baseline">
                                         <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
                                         <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
@@ -353,13 +353,13 @@
                                         <tbody>
                                             <tr class="bg-white border-b hover:bg-gray-50">
                                                 <td class="px-6 py-4">
-                                                    An Khang
+                                                    ${sessionScope.hostel.hostelName}
                                                 </td>
                                                 <td class="px-6 py-4 text-[#FFB03A]">
-                                                    4.8 / 5 <i class="bi bi-star-fill"></i>
+                                                    ${sessionScope.hostel.rating} <i class="bi bi-star-fill"></i>
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    53 lượt
+                                                    ${requestScope.ratingCount}
                                                 </td>
                                             </tr>
 
