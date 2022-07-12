@@ -326,9 +326,9 @@
                                         <td class="px-6 py-4"></td>
                                         <td class="px-6 py-4"></td>
                                         <td class="px-6 py-4">
-                                            <input type="checkbox" id="checkRental" checked=""
+<!--                                            <input type="checkbox" id="checkRental" checked=""
                                                    onclick="toggleRental(${service.serviceID})">
-                                            <label for="checkRental"><span>Có dùng </span></label>
+                                            <label for="checkRental"><span>Có dùng </span></label>-->
                                         </td>
                                         <td class="px-6 py-4">
                                             <span id="rentalRate" class="rate">${requestScope.contract.rentalFeePerMonth}</span>

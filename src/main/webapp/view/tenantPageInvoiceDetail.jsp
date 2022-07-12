@@ -168,7 +168,6 @@
 
                     </td>
                     <td class="px-6 py-4">
-                        1
                     </td>
                     <td class="px-6 py-4 money">
                         ${invoice.contract.rentalFeePerMonth}

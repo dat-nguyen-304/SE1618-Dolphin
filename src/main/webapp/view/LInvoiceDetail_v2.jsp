@@ -162,10 +162,10 @@
                                             Số lượng
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Đơn giá
+                                            Đơn giá (VNĐ)
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Thành tiền
+                                            Thành tiền (VNĐ)
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             <span class="sr-only">Edit</span>

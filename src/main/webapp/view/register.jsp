@@ -76,7 +76,7 @@
                         <li class="item block relative z-0 w-full mb-7">
                             <input type="text" id="username" name="username" placeholder=" " required onchange="checkUsername()"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none  focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
-                            <p id="usernameError" class="warning font-light absolute right-0"> <span class="font-extralight">(tối thiểu 6 kí tự gồm chữ, số hoặc kí tự '_', bắt đầu với chữ cái)</span></p>
+                            <p id="usernameError" class="warning font-light absolute right-0">(tối thiểu 6 kí tự gồm chữ, số hoặc kí tự '_', bắt đầu với chữ cái)</p>
                             <label for="username" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Tên đăng nhập</label>
                         </li>
 
@@ -104,8 +104,8 @@
                         <li class="item block relative z-0 w-full mb-7">
                             <input type="tel" id="phone" name="phone" placeholder=" " required onchange="checkPhone()"
                                    class="pt-3 pb-1 block w-full px-0 mt-2 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
-                            <p id="phoneError" class="warning font-light absolute right-0"><span class="font-extralight">Gồm 10 chữ số</span></p>
-                            <label for="phone" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Số điện thoại</label>
+                            <p id="phoneError" class="warning font-light absolute right-0"><span class="font-extralight"></span></p>
+                            <label for="phone" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Số điện thoại <span class="font-extralight"> (10 chữ số)</label>
                         </li>
 
                         <!--Password-->
@@ -113,7 +113,7 @@
                             <input type="password" id="password" name="password" placeholder=" " required onchange="checkPassword()"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
                             <p id="password-error" class="warning font-light absolute right-0">${requestScope.warning}</p>
-                            <label for="password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Mật khẩu <span class="font-extralight">(tối thiểu 8 kí tự)</span></label>
+                            <label for="password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Mật khẩu <span class="font-extralight">(8-15 kí tự, không khoảng trắng)</span></label>
                             <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-password"></i>
                         </li>
 
@@ -259,7 +259,7 @@
                             if (fullname.length !== 0) {
                                 var re = /^[a-zA-Z\s]{2,}$/g; // regex here
                                 if (!re.test(removeAscent(fullname)) && fullname.length !== 0) {
-                                    $("#fullnameError").html("Tên riêng chỉ gồm chữ cái!");
+                                    $("#fullnameError").html("Tên riêng chỉ gồm chữ cái, ít nhất 2 kí tự!");
                                     $("#fullnameError").css("color", "red");
                                     if (submit === 1)
                                         $("#fullname").focus();
@@ -275,7 +275,7 @@
                             $("#username").css("border-bottom", "");
                             var username = $("#username").val().trim();
                             if (username.length > 0 && username.length < 6) {
-                                $("#usernameError").html("Ít nhất 6 kí tự!");
+                                $("#usernameError").html("(tối thiểu 6 kí tự gồm chữ, số hoặc kí tự '_', bắt đầu với chữ cái)");
                                 $("#usernameError").css("color", "red");
                                 if (submit === 1)
                                     $("#username").focus();
@@ -289,7 +289,7 @@
                                         if (result.length === 0) {
                                             var re = /^[a-zA-Z]\w+$/;
                                             if (!re.test($("#username").val())) {
-                                                $("#usernameError").html("Bắt đầu bằng chữ cái, không chứa các kí tự đặc biệt trừ '_'");
+                                                $("#usernameError").html("(tối thiểu 6 kí tự gồm chữ, số hoặc kí tự '_', bắt đầu với chữ cái)");
                                                 $("#usernameError").css("color", "red");
                                                 if (submit === 1)
                                                     $("#username").focus();
@@ -314,6 +314,8 @@
                                 });
                                 return true;
                             }
+                            $("#usernameError").html("(tối thiểu 6 kí tự gồm chữ, số hoặc kí tự '_', bắt đầu với chữ cái)");
+                            $("#usernameError").css("color", "");
                             return false;
                         }
 
@@ -361,19 +363,11 @@
                         function checkPassword(submit) {
                             $("#password-error").html("");
                             $("#password").css("border", "");
-                            var re = /^\S*$/;
-                            var re = /^[a-zA-Z\s]{2,}$/g; // regex here
+                            var re = /^\S{8,15}$/; // regex here
                             console.log($("#password").val());
-                            if (re.test($("#password").val())) {
+                            if ($("#password").val().trim().length > 0 && !re.test($("#password").val().trim())) {
                                 console.log($("#password").val());
-                                $("#password-error").html("Không chứa khoảng trắng!");
-                                $("#password-error").css("color", "red");
-                                if (submit === 1)
-                                    $("#password").focus();
-                                return false;
-                            }
-                            if ($("#password").val().trim().length > 0 && $("#password").val().trim().length < 8) {
-                                $("#password-error").html("Ít nhất 8 kí tự!");
+                                $("#password-error").html("8-15 kí tự, không khoảng trắng");
                                 $("#password-error").css("color", "red");
                                 if (submit === 1)
                                     $("#password").focus();
@@ -401,12 +395,12 @@
                             var phone = $("#phone").val().trim();
                             if (phone.length !== 0) {
                                 var re = /^\d{10}$/;
-                                if (!re.test(phone)) {
+                                if ($("#phone").val().trim().length > 0 && !re.test(phone)) {
                                     $("#phoneError").html("SĐT gồm 10 chữ số!");
-                                    if (phone.length < 10)
-                                        $("#phoneError").html("SĐT phải gồm 10 chữ số!");
-                                    if (phone.length > 10)
-                                        $("#phoneError").html("SĐT chỉ gồm 10 chữ số!");
+//                                    if (phone.length < 10)
+//                                        $("#phoneError").html("SĐT phải gồm 10 chữ số!");
+//                                    if (phone.length > 10)
+//                                        $("#phoneError").html("SĐT chỉ gồm 10 chữ số!");
                                     $("#phoneError").css("color", "red");
                                     if (submit === 1)
                                         $("#phone").focus();
