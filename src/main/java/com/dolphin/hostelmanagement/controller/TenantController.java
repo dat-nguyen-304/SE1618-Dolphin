@@ -155,10 +155,15 @@ public class TenantController extends HttpServlet {
             }
 
             if (path.equals("/contract-detail")) {
-                int contractID = Integer.parseInt(request.getParameter("contractID"));
-                Contract c = ContractDAO.findByID(contractID);
+                Contract currentContract = null;
 
-                request.setAttribute("contract", c);
+                for (Contract c : contractList) {
+                    if (c.getStatus() == 1 || c.getStatus() == 2) {
+                        currentContract = c;
+                    }
+                }
+
+                request.setAttribute("contract", currentContract);
 
                 request.getRequestDispatcher("/view/TContractDetail.jsp").forward(request, response);
             }

@@ -14,7 +14,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Trang chủ nhà - Loại phòng</title>
+        <title>Trang chủ nhà - Cư dân</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="../assets/icons/logo.png">
@@ -22,8 +22,7 @@
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-              rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
@@ -40,6 +39,20 @@
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LRoomType.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+
+        <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+
+        <link href="../assets/css/datatables.css" rel="stylesheet" />
     </head>
 
     <body>
@@ -181,7 +194,7 @@
                 <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
                     <c:if test="${requestScope.residentList.size() != 0}">
                         <h1>Có ${requestScope.residentList.size()} kết quả tìm thấy</h1>
-                        <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                        <table id="resident-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                             <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">Mã</th>
@@ -257,6 +270,48 @@
                     }
                 });
             }
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#resident-table').DataTable({
+                    dom: 'Bfrtip',
+                    "fnDrawCallback": function (oSettings) {
+                        if ($('#room-list-table tr').length < 10) {
+                            $('.dataTables_paginate').hide();
+                        }
+                    },
+                    language: {
+                        "emptyTable": "Không có dữ liệu!",
+                        "zeroRecords": "Không có kết quả phù hợp!",
+                        "infoEmpty": "Hiển thị 0 kết quả",
+                        "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
+                        "infoFiltered": "",
+                        search: "Tìm kiếm",
+                        paginate: {
+                            previous: '<i class="bi bi-caret-left-fill"></i>',
+                            next: '<i class="bi bi-caret-right-fill"></i>'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: 'Trước',
+                                next: 'Sau'
+                            }
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        }
+                    ],
+
+                    "pageLength": 10, // items per page
+                    info: true
+                });
+            });
         </script>
     </body>
 

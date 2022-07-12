@@ -280,8 +280,9 @@ public class InvoiceController extends HttpServlet {
                     // Save invoice
                     if (InvoiceDAO.save(startDate, endDate, totalPrice, contractID, month, invoiceMonth, electricitySum, waterSum, detailList, roomID)) {
                         System.out.println("!! SAVED INVOICE !!");
-                        url = "/sakura/view/success.jsp";
+                        url = "/view/LInvoiceList.jsp";
 
+                        request.setAttribute("addInvoice", "Tạo hoá đơn thành công!");
                         // send notification to tenant
                         Notification noti = new Notification();
                         noti.setToAccount(t.getAccount());
@@ -292,7 +293,7 @@ public class InvoiceController extends HttpServlet {
                     } else {
                         url = "/sakura/view/failure.jsp";
                     }
-                    response.sendRedirect(url);
+                    request.getRequestDispatcher(url).forward(request, response);
                 }
 
                 if (path.equals("/search")) {

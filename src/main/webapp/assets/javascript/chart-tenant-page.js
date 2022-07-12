@@ -4,8 +4,7 @@ const data = {
             label: 'Nước',
             data: [65, 59, 80, 81, 56, 55, 40],
             barPercentage: 0.5,
-            barThickness: 10,
-            maxBarThickness: 12,
+            barThickness: 40,
             backgroundColor: [
                 '#288D87'
             ]
@@ -13,8 +12,7 @@ const data = {
             label: 'Điện',
             data: [120, 104, 80, 106, 110, 96, 115],
             barPercentage: 0.5,
-            barThickness: 10,
-            maxBarThickness: 12,
+            barThickness: 40,
             backgroundColor: [
                 '#17535B'
             ]

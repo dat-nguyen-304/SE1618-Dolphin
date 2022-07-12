@@ -6,13 +6,13 @@
 
 <!--Modal select hostel-->
 <div id="hostelModal" tabindex="-1" aria-hidden="true"
-     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center z-[1000]">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <div class="relative bg-white rounded shadow">
             <div class="flex justify-between items-start p-4 rounded-t border-b">
                 <h3 class="text-xl font-semibold text-gray-900">Chọn nhà trọ</h3>
                 <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded w-[250px] text-[18px] p-[10px].5 ml-auto inline-flex items-center"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-[18px] p-[5px] ml-auto inline-flex items-center"
                         data-modal-toggle="hostelModal">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -22,7 +22,7 @@
             <div class="p-6 space-y-6">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
                     <form action="/sakura/landlord/room-type" class="inline-block">
-                        <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
+                        <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2 border-gray-300 hover:border-[#288D87] hover:text-[#288D87] duration-150">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>
             </div>
@@ -37,7 +37,7 @@
         <div class="relative bg-white rounded shadow">
             <div class="flex justify-between items-start p-4 rounded-t border-b">
                 <h3 class="text-xl font-semibold text-gray-900">Chọn loại phòng</h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded w-[250px] text-[18px] p-[10px].5 ml-auto inline-flex items-center"
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-[18px] p-[5px] ml-auto inline-flex items-center"
                         data-modal-toggle="roomModal">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -48,7 +48,7 @@
             <div class="p-6 space-y-6">
                 <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
                     <form action="/sakura/landlord/room-type" class="inline-block">
-                        <button type="submit" name="roomTypeId" value="${roomtype.roomTypeID}" class="px-4 py-2 mx-2 rounded border-2">${roomtype.roomTypeName}</button>
+                        <button type="submit" name="roomTypeId" value="${roomtype.roomTypeID}" class="px-4 py-2 mx-2 rounded border-2 border-gray-300 hover:border-[#288D87] hover:text-[#288D87] duration-150">${roomtype.roomTypeName}</button>
                     </form>
                 </c:forEach>
             </div>
@@ -66,7 +66,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -103,7 +103,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -142,7 +142,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -195,7 +195,7 @@
 </div>
 <!--End modal update room type-->      
 <!--Modal confirm update room type-->
-<div class="updateRoomTypemodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+<div class="updateRoomTypemodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[10000]">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="updateRoomTypemodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
@@ -203,7 +203,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -242,7 +242,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -282,10 +282,6 @@
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
                     <textarea class="w-[500px] text-[16px] p-[10px]" name="description" id="" rows="5"></textarea>
                 </div>
-                <div class="mb-[20px]">
-                    <label class="w-[160px] inline-block flex items-start" for="">Thêm Hình ảnh</label>
-                    <input type="file" multiple rounded />
-                </div>
                 <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}" />
 
             </div>
@@ -302,7 +298,7 @@
 </div>
 <!--End modal add room type-->
 <!--Modal confirm add room type-->
-<div class="addRoomTypemodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+<div class="addRoomTypemodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[1000]">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="addRoomTypemodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
@@ -310,7 +306,7 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                 </path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content">
             <!--Title-->
@@ -343,12 +339,12 @@
 
 <!--Modal add room-->
 <div id="addRoom" tabindex="-1" aria-hidden="true"
-     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center z-[10000]">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <div class="relative bg-white rounded shadow">
             <div class="flex justify-between items-start p-4 rounded-t border-b">
                 <h3 class="text-xl font-semibold text-gray-900">Thêm Phòng mới</h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded w-[250px] text-[18px] p-[10px].5 ml-auto inline-flex items-center" data-modal-toggle="addRoom">
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-[18px] p-[5px] ml-auto inline-flex items-center" data-modal-toggle="addRoom">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                     </svg>
@@ -360,9 +356,9 @@
                     <label class="w-[160px] inline-block" for="">Tên phòng</label>
                     <input type="hidden" name="roomTypeId" value="${requestScope.currentRoomType.roomTypeID}"/>
                     <input type="text" name="addRoomNumber" class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidRoom(this)"/>
-                    <span class="ml-2 text-[16px]">VD: 101, 102, 510 ...</span>
+                    <p class="mt-[10px] ml-[165px] text-[14px] italic font-light text-gray-700 ">VD: A101, B102, S510 ...</span>
                     <div class="grid justify-items-end">
-                        <button type="submit" class="addRoom px-8 py-2 mx-4 my-2 border-2 rounded">Thêm</button>
+                        <button type="submit" class="addRoom px-8 py-2 mx-4 my-2 rounded text-white bg-[#17535B] hover:bg-[#13484F]">Thêm</button>
                     </div>
                 </form>
             </div>
@@ -379,7 +375,7 @@
             <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content h-full flex flex-col">
             <!--Title-->
@@ -411,7 +407,7 @@
             <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content h-full flex flex-col">
             <!--Title-->
@@ -443,7 +439,7 @@
             <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
             </svg>
-            <span class="text-sm">(Esc)</span>
+            <span class="text-sm"></span>
         </div>
         <div class="modal-content h-full flex flex-col">
             <!--Title-->

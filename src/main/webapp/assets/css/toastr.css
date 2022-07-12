@@ -17,7 +17,7 @@
 }
 
 #toast-container>div {
-    opacity: 1;
+    opacity: 1 !important;
     box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
 }
 
@@ -40,6 +40,16 @@
 }
 
 .toast-success .toast-message {
+    font-weight: 800;
+    color: #fff;
+}
+
+.toast-error .toast-message {
+    font-weight: 800;
+    color: #fff;
+}
+
+.toast-info .toast-message {
     font-weight: 800;
     color: #fff;
 }
