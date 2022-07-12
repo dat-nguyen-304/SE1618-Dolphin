@@ -116,7 +116,7 @@ public class ContractController extends HttpServlet {
                 int endContractId = Integer.parseInt(request.getParameter("endContractId"));
                 Contract c = ContractDAO.findByID(endContractId);
                 TenantDAO.changeStatus(c.getTenant().getAccount().getAccountID(), false);
-                RoomDAO.changeStatus(c.getRoom().getRoomID(), 1);
+                RoomDAO.changeStatus(c.getRoom().getRoomID(), 0);
                 boolean endContractSuccess = ContractDAO.endContractById(endContractId);
                 if (endContractSuccess) {
                     out.print("Cập nhật thành công");

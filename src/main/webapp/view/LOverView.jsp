@@ -6,6 +6,7 @@
 
 <%@page import="java.util.HashMap"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -185,10 +186,11 @@
                                                         ${revDate}
                                                     </th>
                                                     <td class="px-6 py-4">
-                                                        đ${requestScope.revenueValue[ptr.index]}
+                                                        <fmt:setLocale value = "vi_VN"/>
+                                                        <fmt:formatNumber value = "${requestScope.revenueValue[ptr.index]}" type = "number" pattern="đ###,###,###"/>
                                                     </td>
                                                     <td class="px-6 py-4 text-right">
-                                                        <a href="#" class="font-medium text-[#288D87] hover:underline"><i
+                                                        <a href="/sakura/landlord/revenue-detail?revenueDate=${revDate}" class="font-medium text-[#288D87] hover:underline"><i
                                                                 class="bi bi-eye-fill"></i></a>
                                                     </td>
                                                 </tr>
@@ -220,6 +222,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="mt-[20px] text-[15px] font-light text-[#929CA5]">
+                                    <em>(5 tháng gần đây)</em>
+                                </div>
                             </div>
 
                             <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
@@ -238,7 +243,7 @@
                                                     Doanh thu
                                                 </th>
                                                 <td class="px-6 py-4">
-                                                    0020354
+                                                    <fmt:formatNumber value = "${requestScope.revenueValue[0]}" type = "number" pattern="đ###,###,###"/>
                                                 </td>
                                             </tr>
                                             <c:choose>
