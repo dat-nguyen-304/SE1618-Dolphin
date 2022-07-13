@@ -31,6 +31,8 @@
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LRoomDetail.css">
+        <link rel="stylesheet" href="../assets/css/toastr.css">
+        
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
@@ -110,7 +112,7 @@
                             <div>
                                 <c:if test="${requestScope.contract != null}">
                                     <form action="/sakura/landlord/contract-detail" class="inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
-                                        <button type="submit" name="contractId" value="${requestScope.contract.contractID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
+                                        <button type="submit" name="contractID" value="${requestScope.contract.contractID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
                                             Xem hóa đơn
                                         </button>
                                     </form>
@@ -187,7 +189,7 @@
                         </div>
                         <c:if test="${requestScope.contract != null}" >
                             <div class="col-span-6 relative">
-                                <div class="float-right bg-[#2bc497] px-[10px] py-[5px] text-[18px] font-semibold text-center text-[#fff]">
+                                <div class="float-right text-[#2bc497] text-[18px] font-semibold text-center">
                                     <p><i class="bi bi-check2-all mr-[5px]"></i>Đã xác nhận</p>
                                 </div>
                             </div>
@@ -406,10 +408,11 @@
                 const deleteRoomContent = document.querySelector(".deleteRoomContent");
                 const deleteRoomId = document.querySelector("input[name='roomId']");
                 const deleteRoomBtn = document.querySelector(".deleteRoomBtn");
+                const hostelId = document.querySelector("input[name='hostelId']");
 
                 jQuery.ajax({
                     type: 'POST',
-                    data: {'deleteRoomId': deleteRoomId.value
+                    data: {'deleteRoomId': deleteRoomId.value, 'hostelId': hostelId.value
                     },
                     url: '/sakura/room/delete-room',
                     success: function (response) {
@@ -535,7 +538,7 @@
                 if (!memberName.value || !memberPhone.value || !memberDob.value) {
                     let message = "";
                     if (!memberName.value) {
-                        message += "Tên người ở - ";
+                        message += "Tên thành viên - ";
                     }
                     if (!memberPhone.value) {
                         message += "SÐT - ";
@@ -545,6 +548,7 @@
                     }
                     message += "không được trống!";
                     addMemberMessage.innerHTML = message;
+                    showToast('error', message);
                 } else {
                     let goAjax = true;
                     let message = "";
@@ -552,12 +556,14 @@
                         message += "Số điện thoại phải có 10 chữ số";
                         goAjax = false;
                         addMemberMessage.innerHTML = message;
+                        showToast('error', message);
                     } else
                         for (let i = 0; i < memberPhone.value.length; i++) {
                             if (memberPhone.value.charAt(i) < '0' || memberPhone.value.charAt(i) > '9') {
                                 message += "Số điện thoại gồm 10 chữ số!";
                                 goAjax = false;
                                 addMemberMessage.innerHTML = message;
+                                showToast('error', message);
                                 break;
                             }
                         }
@@ -585,9 +591,12 @@
                                         actBtn.style.display = "none";
                                         disBtn.style.display = "block";
                                     }
+                                    showToast('success', 'Thêm thành công!');
+                                    toggleModal('.addMembermodal1');
                                     updateCurrentResident(residentQuantity + 1);
                                 } else {
                                     addMemberMessage.innerHTML = response;
+                                    showToast('error', response);
                                 }
 
                             },
@@ -736,11 +745,11 @@
                 toggleModal('.addMembermodal1');
             });
 
-            var open_modal_2 = document.querySelector('#addMember-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.addMembermodal2');
-            });
+//            var open_modal_2 = document.querySelector('#addMember-2');
+//            open_modal_2.addEventListener('click', function (event) {
+//                event.preventDefault();
+//                toggleModal('.addMembermodal2');
+//            });
 
             var close_modal_1 = document.querySelectorAll('.addMembermodal1 .addMembermodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {

@@ -111,7 +111,7 @@
                                         <th scope="col" class="text-center px-6 py-3">Loại phòng</th>
                                         <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
                                         <th scope="col" class="text-center px-6 py-3">Số người hiện tại</th>
-                                        <th scope="col" class="text-center px-6 py-3">Hóa đơn gần nhất</th>
+                                        <!--<th scope="col" class="text-center px-6 py-3">Hóa đơn gần nhất</th>-->
                                         <th scope="col" class="text-center px-6 py-3"></th>
                                     </tr>
                                 </thead>
@@ -126,15 +126,15 @@
                                                 <c:if test="${room.status == 1}">Đã có người ở</c:if>
                                                 </td>
                                                 <td class="text-center px-6 py-[5px]">
-                                                <c:if test="${room.status == 0}">--</c:if>
+                                                <c:if test="${room.status == 0}">0</c:if>
                                                 <c:if test="${room.status == 1 && room.currentNumberOfResidents == 0}">Chưa cập nhật</c:if>
                                                 <c:if test="${room.status == 1 && room.currentNumberOfResidents != 0}">${room.currentNumberOfResidents}</c:if>
                                                 </td>
-                                                <td class="text-center px-6 py-[5px]">
-                                                    <span class="bg-green-100 text-green-800 text-[14px] font-medium px-2.5 py-0.5 rounded">Đã thanh toán</span>
-                                                    <!--<span class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Quá hạn</span>-->
-                                                    <!--<span class="bg-blue-100 text-blue-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán</span>-->
-                                                </td>
+                                                <!--                                                <td class="text-center px-6 py-[5px]">
+                                                                                                    <span class="bg-green-100 text-green-800 text-[14px] font-medium px-2.5 py-0.5 rounded">Đã thanh toán</span>
+                                                                                                    <span class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Quá hạn</span>
+                                                                                                    <span class="bg-blue-100 text-blue-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán</span>
+                                                                                                </td>-->
                                                 <td class="text-center px-6 py-[5px] text-right">
                                                     <form action="/sakura/landlord/room-detail">
                                                         <button class="rounded py-[5px] px-[10px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
@@ -155,6 +155,8 @@
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
 
+        <!-- flowbite -->
+        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script>
             function checkValidRoom(element) {
                 const hostelId = document.querySelector("input[name='hostelId']");

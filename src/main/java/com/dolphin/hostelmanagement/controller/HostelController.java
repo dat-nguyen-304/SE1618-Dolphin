@@ -148,7 +148,7 @@ public class HostelController extends HttpServlet {
                     }
                 } else {
 
-                    hostelList = (ArrayList<Hostel>) HostelDAO.findAll();
+                    hostelList = (ArrayList<Hostel>) HostelDAO.findAllActive();
 
                     if (request.getParameter("province") != null) {
                         if (!request.getParameter("province").equals("0")) {
@@ -514,11 +514,11 @@ public class HostelController extends HttpServlet {
                 Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
 //                ServiceDAO.saveDefaultService(newHostel.getHostelID());
                 if (addSuccess) {
-                    out.println("<p class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem <span id='view-new-hostel'><b>");
+                    out.println("<p class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem <span>");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
                     out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
-                    out.println("<input type=\"submit\" value=\"tại đây\">");
-                    out.println("</form></b></span></p>");
+                    out.println("<input type=\"submit\" class=\"ml-[4px] hover:underline text-green-800 cursor-pointer font-bold\" value=\"tại đây\">");
+                    out.println("</form></span></p>");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }

@@ -22,12 +22,10 @@
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-              rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
-
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
@@ -39,6 +37,8 @@
         <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LRoomType.css">
+        <link rel="stylesheet" href="../assets/css/toastr.css">
+
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
     </head>
 
@@ -159,12 +159,27 @@
                                         <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm phòng</p>
                                     </button>
                                 </div>
+                                <div class="w-1/2 grid grid-cols-2 gap-[10px]">
+                                    <p class="">Đã có người thuê</p>
+                                    <p class="w-[40px] h-[20px] bg-[#17535B] rounded"><p>
+                                </div>
+                                <div class="w-1/2 grid grid-cols-2 gap-[10px]">
+                                    <p class="">Phòng trống</p>
+                                    <p class="w-[40px] h-[20px] bg-white border-2 border-gray-200 rounded"><p>
+                                </div>
                                 <c:if test="${requestScope.currentRoomType !=null}">
-                                    <div class="grid grid-cols-8 gap-[10px]">
+                                    <div class="grid grid-cols-8 gap-[10px] mt-[20px]">
                                         <c:forEach items="${requestScope.roomList}" var="room">
-                                            <form action="/sakura/landlord/room-detail" class="border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150">
-                                                <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
-                                            </form>
+                                            <c:if test="${room.status == 0}"> <!--<!-- empty -->
+                                                <form action="/sakura/landlord/room-detail" class="border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150">
+                                                    <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
+                                                </form>
+                                            </c:if>
+                                            <c:if test="${room.status == 1}">
+                                                <form action="/sakura/landlord/room-detail" class="rounded text-center p-1 bg-[#17535B] text-white hover:bg-[#13484F] duration-150">
+                                                    <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
+                                                </form>
+                                            </c:if>
                                         </c:forEach>
                                     </div>
                                 </c:if>
@@ -258,19 +273,19 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script>
-                                                        function showToast(type, msg) {
-                                                            toastr.options.positionClass = 'toast-bottom-right';
-                                                            toastr.options.extendedTimeOut = 0; //1000;
-                                                            toastr.options.timeOut = 3000;
-                                                            toastr.options.hideDuration = 250;
-                                                            toastr.options.showDuration = 250;
-                                                            toastr.options.hideMethod = 'slideUp';
-                                                            toastr.options.showMethod = 'slideDown';
-                                                            toastr.options.preventDuplicates = true;
-                                                            toastr.options.closeButton = true;
-                                                            toastr.options.progressBar = true;
-                                                            toastr[type](msg);
-                                                        }
+                                                            function showToast(type, msg) {
+                                                                toastr.options.positionClass = 'toast-bottom-right';
+                                                                toastr.options.extendedTimeOut = 0; //1000;
+                                                                toastr.options.timeOut = 3000;
+                                                                toastr.options.hideDuration = 250;
+                                                                toastr.options.showDuration = 250;
+                                                                toastr.options.hideMethod = 'slideUp';
+                                                                toastr.options.showMethod = 'slideDown';
+                                                                toastr.options.preventDuplicates = true;
+                                                                toastr.options.closeButton = true;
+                                                                toastr.options.progressBar = true;
+                                                                toastr[type](msg);
+                                                            }
         </script>
         <script>
 
@@ -622,7 +637,8 @@
                     }
                     message += "không được trống";
 
-                    messageElement.innerHTML = message;
+                    //messageElement.innerHTML = message;
+                    showToast('error', message);
                 } else
                     jQuery.ajax({
                         type: 'POST',
@@ -642,6 +658,11 @@
                             maxNumberOfResidents.value = "";
                             description.value = "";
                             messageElement.innerHTML = response;
+                            toggleModal('.addRoomTypemodal2');
+//                            showToast('success', '')
+//                            setTimeout(function () {
+//                                window.location.reload();
+//                            }, 2000);
                         },
                         error: function () {
                         },
@@ -683,9 +704,10 @@
                     if (!description.value) {
                         message += "Mô tả ";
                     }
-                    message += "không được trống";
+                    message += "không được trống!";
 
                     messageElement.innerHTML = message;
+                    showToast("error", message);
                 } else
                     jQuery.ajax({
                         type: 'POST',
@@ -699,6 +721,11 @@
                         url: '/sakura/room/update-roomtype',
                         success: function (response) {
                             messageElement.innerHTML = response;
+                            toggleModal('.updateRoomTypemodal1');
+                            showToast('success', 'Cập nhật thành công! Đang cập nhật trang.');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 3000);
                         },
                         error: function () {
                         },
@@ -722,11 +749,11 @@
                         if (response) {
                             addRoomElement.onclick = (e) => {
                                 e.preventDefault();
-                            }
+                            };
                         } else {
                             addRoomElement.onclick = (e) => {
                                 e.returnValue = true;
-                            }
+                            };
                         }
                     },
                     error: function () {
@@ -753,6 +780,7 @@
                             addRoomTypeBtn.onclick = (e) => {
                                 e.preventDefault();
                             };
+                           // showToast('error', response);
                         } else {
                             addRoomTypeBtn.onclick = () => addRoomType();
                         }
@@ -782,6 +810,7 @@
                             updateRoomTypeBtn.onclick = (e) => {
                                 e.preventDefault();
                             };
+
                         } else {
                             updateRoomTypeBtn.onclick = () => updateRoomType();
                         }
@@ -801,11 +830,11 @@
                 toggleModal('.addRoomTypemodal1');
             });
 
-            var open_modal_2 = document.querySelector('#addRoomType-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.addRoomTypemodal2');
-            });
+//            var open_modal_2 = document.querySelector('#addRoomType-2');
+//            open_modal_2.addEventListener('click', function (event) {
+//                event.preventDefault();
+//                toggleModal('.addRoomTypemodal2');
+//            });
 
             // Bấm ngoài modal thì đóng modal
             // const overlay = document.querySelector('.modal .modal-overlay');
@@ -861,11 +890,11 @@
                 toggleModal('.updateRoomTypemodal1');
             });
 
-            var open_modal_2 = document.querySelector('#updateRoomType-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.updateRoomTypemodal2');
-            });
+//            var open_modal_2 = document.querySelector('#updateRoomType-2');
+//            open_modal_2.addEventListener('click', function (event) {
+//                event.preventDefault();
+//                toggleModal('.updateRoomTypemodal2');
+//            });
 
             var close_modal_1 = document.querySelectorAll('.updateRoomTypemodal1 .updateRoomTypemodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
@@ -914,10 +943,6 @@
                 event.preventDefault();
                 toggleModal('.deleteRoomTypemodal2');
             });
-
-            // Bấm ngoài modal thì đóng modal
-            // const overlay = document.querySelector('.modal .modal-overlay');
-            // overlay.addEventListener('click', toggleModal('.modal'));
 
             var close_modal_1 = document.querySelectorAll('.deleteRoomTypemodal1 .deleteRoomTypemodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {

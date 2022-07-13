@@ -40,7 +40,7 @@ public class ServiceController extends HttpServlet {
                 String serviceName = request.getParameter("serviceName");
                 int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
                 String serviceUnit = request.getParameter("serviceUnit");
-                
+
                 boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit, 0);
                 Service service = ServiceDAO.findLastServiceByHostelId(hostelId);
                 if (addSuccess) {
@@ -76,7 +76,7 @@ public class ServiceController extends HttpServlet {
                 int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
                 String serviceUnit = request.getParameter("serviceUnit");
                 int serviceType = Integer.parseInt(request.getParameter("serviceType"));
-                
+
                 boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit, serviceType);
                 boolean deleteSuccess = ServiceDAO.delete(serviceId);
                 if (addSuccess && deleteSuccess) {

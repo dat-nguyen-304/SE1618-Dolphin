@@ -155,12 +155,13 @@ public class TenantController extends HttpServlet {
             }
 
             if (path.equals("/contract-detail")) {
-                
                 Contract currentContract = null;
-                
-                for(Contract c: contractList)
-                    if(c.getStatus() == 1 || c.getStatus() == 2) currentContract = c;
-                
+
+                for (Contract c : contractList) {
+                    if (c.getStatus() == 1 || c.getStatus() == 2) {
+                        currentContract = c;
+                    }
+                }
                 request.setAttribute("contract", currentContract);
 
                 request.getRequestDispatcher("/view/TContractDetail.jsp").forward(request, response);

@@ -216,3 +216,17 @@ svg {
     font-weight: 800;
     color: #fff;
 }
+
+select, [type=text], textarea {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+}
+
+select:focus, select:active,
+[type=text]:focus, [type=text]:active,
+textarea:focus, textarea:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #288D87;
+}

@@ -4,9 +4,11 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
 import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
+import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.RoomResident;
 import com.dolphin.hostelmanagement.DTO.RoomType;
@@ -50,7 +52,7 @@ public class RoomController extends HttpServlet {
                 if (hostelID != null) {
                     id = Integer.parseInt(hostelID);
                     List<Room> roomList = RoomDAO.findRoomsNeedInvoice(id);
-                    
+
                     JSONArray list = new JSONArray();
                     for (Room room : roomList) {
                         JSONObject obj = new JSONObject();
@@ -64,7 +66,7 @@ public class RoomController extends HttpServlet {
                     out.close();
                 }
             }
-            
+
             if (path.equals("/add-member")) {
                 int roomId = Integer.parseInt(request.getParameter("roomId"));
                 String memberName = request.getParameter("memberName");
@@ -94,20 +96,20 @@ public class RoomController extends HttpServlet {
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
-                
+
             } else if (path.equals("/update-member")) {
                 int residentId = Integer.parseInt(request.getParameter("residentId"));
                 String updateFullName = request.getParameter("updateFullName");
                 String updatePhone = request.getParameter("updatePhone");
                 String updateDob = request.getParameter("updateDob");
-                
+
                 boolean updateSuccess = RoomResidentDAO.update(residentId, updateFullName, updatePhone, updateDob);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
                 } else {
                     out.print("Cập nhật thất bại. Vui lòng kiểm tra lại thông tin");
                 }
-                
+
             } else if (path.equals("/delete-member")) {
                 int residentId = Integer.parseInt(request.getParameter("residentId"));
                 boolean deleteSuccess = RoomResidentDAO.delete(residentId);
@@ -132,7 +134,28 @@ public class RoomController extends HttpServlet {
                 int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
                 String description = request.getParameter("description");
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-                
+                Hostel hostel = HostelDAO.findById(hostelId);
+                if (hostel.getMinArea() == 0) {
+                    HostelDAO.updateMinArea(hostelId, area);
+                    HostelDAO.updateMaxArea(hostelId, area);
+                } else {
+                    if (hostel.getMaxArea() < area) {
+                        HostelDAO.updateMaxArea(hostelId, area);
+                    } else if (hostel.getMinArea() > area) {
+                        HostelDAO.updateMinArea(hostelId, area);
+                    }
+                }
+                if (hostel.getMinPrice() == 0) {
+                    HostelDAO.updateMinPrice(hostelId, price);
+                    HostelDAO.updateMaxPrice(hostelId, price);
+                } else {
+                    if (hostel.getMaxArea() < area) {
+                        HostelDAO.updateMaxPrice(hostelId, price);
+                    } else if (hostel.getMinArea() > area) {
+                        HostelDAO.updateMinPrice(hostelId, price);
+                    }
+                }
+
                 boolean addSuccess = RoomTypeDAO.save(name, price, area, maxNumberOfResidents, description, hostelId);
                 RoomType newRoomType = RoomTypeDAO.findLastRoomTypeByHostelId(hostelId);
                 if (addSuccess) {
@@ -144,7 +167,7 @@ public class RoomController extends HttpServlet {
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
-                
+
             } else if (path.equals("/update-roomtype")) {
                 String name = request.getParameter("name");
                 int price = Integer.parseInt(request.getParameter("price"));
@@ -152,14 +175,14 @@ public class RoomController extends HttpServlet {
                 int maxNumberOfResidents = Integer.parseInt(request.getParameter("maxNumberOfResidents"));
                 String description = request.getParameter("description");
                 int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
-                
+
                 boolean updateSuccess = RoomTypeDAO.updateRoomTypeById(roomTypeId, name, price, area, maxNumberOfResidents, description);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
                 }
-                
+
             } else if (path.equals("/update-room")) {
                 int roomId = Integer.parseInt(request.getParameter("roomId"));
                 String updateRoomNumber = request.getParameter("updateRoomNumber");
@@ -214,8 +237,10 @@ public class RoomController extends HttpServlet {
                 }
             } else if (path.equals("/delete-room")) {
                 int roomId = Integer.parseInt(request.getParameter("deleteRoomId"));
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 boolean deleteSuccess = RoomDAO.deleteById(roomId);
                 RoomResidentDAO.deleteByRoomId(roomId);
+                HostelDAO.updateRoomQuantity(hostelId, -1);
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
                 } else {
@@ -229,7 +254,7 @@ public class RoomController extends HttpServlet {
                 if (hostelID != null) {
                     id = Integer.parseInt(hostelID);
                     List<Room> roomList = RoomDAO.findByHostelID(id);
-                    
+
                     JSONArray list = new JSONArray();
                     for (Room room : roomList) {
                         System.out.println(room);

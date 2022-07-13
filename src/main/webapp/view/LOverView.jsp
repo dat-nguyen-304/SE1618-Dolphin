@@ -8,6 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -104,15 +105,21 @@
                                 <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Tổng doanh thu</h3>
                             </div>
                             <div class="overall-info-content ">
-                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${requestScope.totalRevenue}đ</p>
+                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">
+                                    <fmt:setLocale value = "vi_VN"/>
+                                    <fmt:formatNumber value = "${requestScope.totalRevenue}" type = "number" pattern="###,###,###"/>
+                                </p>
                             </div>
                         </a>
                         <a href="#" class="card col-span-3 overall-info h-[120px] bg-[#fff] p-5 flex flex-col items-center justify-between cursor-pointer hover:bg-[#FAFDFD] group">
                             <div class="overall-info-head">
-                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Doanh thu năm nay</h3>
+                                <h3 class="text-[20px] text-center font-medium text-[#929CA5] group-hover:text-[#17535B]">Doanh thu năm</h3>
                             </div>
                             <div class="overall-info-content ">
-                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${requestScope.currentYearRevenue}đ</p>
+                                <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">
+                                    <fmt:setLocale value = "vi_VN"/>
+                                    <fmt:formatNumber value = "${requestScope.currentYearRevenue}" type = "number" pattern="###,###,###"/>
+                                </p>
                             </div>
                         </a>
                         <a href="#" class="card col-span-2 overall-info h-[120px] bg-[#fff] p-5 flex flex-col items-center justify-between cursor-pointer hover:bg-[#FAFDFD] group">
@@ -139,6 +146,8 @@
                                 <p class="text-[28px] font-bold text-[#17535B] bottom-0 self-center">${requestScope.noResidents}</p>
                             </div>
                         </a>
+
+
                         <div href="#" class="card rounded col-span-4 overall-info h-[120px] bg-[#fff] group relative">
                             <div class="overall-info-head h-[30%] bg-[#F5FDFA] flex flex-col justify-center items-end pr-[10px]">
                                 <p class="text-[14px] font-medium text-[#17535B]">Trang quản lý dành cho chủ nhà</p>
@@ -187,7 +196,7 @@
                                                     </th>
                                                     <td class="px-6 py-4">
                                                         <fmt:setLocale value = "vi_VN"/>
-                                                        <fmt:formatNumber value = "${requestScope.revenueValue[ptr.index]}" type = "number" pattern="đ###,###,###"/>
+                                                        <fmt:formatNumber value = "${requestScope.revenueValue[ptr.index]}" type = "number" pattern="###,###,###VNĐ"/>
                                                     </td>
                                                     <td class="px-6 py-4 text-right">
                                                         <a href="/sakura/landlord/revenue-detail?revenueDate=${revDate}" class="font-medium text-[#288D87] hover:underline"><i
@@ -195,35 +204,11 @@
                                                     </td>
                                                 </tr>
                                             </c:forEach>
-                                            <!-- <tr class="bg-white border-b hover:bg-gray-50">
-                                                <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    05 / 2022
-                                                </th>
-                                                <td class="px-6 py-4">
-                                                    đ85.900.000
-                                                </td>
-                                                <td class="px-6 py-4 text-right">
-                                                    <a href="#" class="font-medium text-[#288D87] hover:underline"><i
-                                                            class="bi bi-eye-fill"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr class="bg-white hover:bg-gray-50">
-                                                <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    04 / 2020
-                                                </th>
-                                                <td class="px-6 py-4">
-                                                    đ89.700.00
-                                                </td>
-                                                <td class="px-6 py-4 text-right">
-                                                    <a href="#" class="font-medium text-[#288D87] hover:underline"><i
-                                                            class="bi bi-eye-fill"></i></a>
-                                                </td>
-                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="mt-[20px] text-[15px] font-light text-[#929CA5]">
-                                    <em>(5 tháng gần đây)</em>
+                                    <em>(5 tháng gần đây nhất)</em>
                                 </div>
                             </div>
 
@@ -243,7 +228,8 @@
                                                     Doanh thu
                                                 </th>
                                                 <td class="px-6 py-4">
-                                                    <fmt:formatNumber value = "${requestScope.revenueValue[0]}" type = "number" pattern="đ###,###,###"/>
+                                                    <fmt:setLocale value = "vi_VN"/>
+                                                    <fmt:formatNumber value = "${requestScope.revenueValue[0]}" type = "number" pattern="###,###,###VNĐ"/>
                                                 </td>
                                             </tr>
                                             <c:choose>
@@ -401,9 +387,69 @@
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="js/chart.js"></script>
+        <script>
+            var revenueDates = new Array();
+            var revenueMValues = new Array();
+            <c:forEach items="${requestScope.revenueDate}" var="revDate">
+            revenueDates.push("${revDate}");
+            </c:forEach>
+            <c:forEach items="${requestScope.revenueValue}" var="revVal">
+            revenueMValues.push(${revVal});
+            </c:forEach>
+            console.log("Date: ");
+            console.log(revenueDates);
+            console.log("Val ");
+            console.log(revenueMValues);
+        </script>
+        <script>
+            const data = {
+                labels: revenueDates,
+                datasets: [{
+                        label: 'Doanh thu theo tháng',
+                        data: revenueMValues,
+                        barPercentage: 0.5,
+                        barThickness: 50,
+                        backgroundColor: [
+                            '#288D87'
+                        ]
+                    }]
+            };
 
-        <script src="../assets/javascript/jquery/jquery.min.js"></script>
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: ''
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#EEF0F1'
+                            },
+                            ticks: {
+                                color: '#40576C'
+                            }
+                        }
+                    }
+                }
+            };
+
+            // =================
+
+            var ctx = document.getElementById('myChart');
+            const myChart = new Chart(
+                    ctx,
+                    config
+                    );
+
+
+        </script>
+
+        <script src = "../assets/javascript/jquery/jquery.min.js" ></script>
         <script src="../assets/javascript/render-district.js"></script>
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -642,11 +688,11 @@
                 toggleModal('.addHostelmodal1');
             });
 
-//            var open_modal_2 = document.querySelector('#addHostel-2');
-//            open_modal_2.addEventListener('click', function (event) {
-//                event.preventDefault();
-//                toggleModal('.addHostelmodal2');
-//            });
+            //            var open_modal_2 = document.querySelector('#addHostel-2');
+            //            open_modal_2.addEventListener('click', function (event) {
+            //                event.preventDefault();
+            //                toggleModal('.addHostelmodal2');
+            //            });
 
             var close_modal_1 = document.querySelectorAll('.addHostelmodal1 .addHostelmodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {

@@ -137,7 +137,6 @@ public class LandlordController extends HttpServlet {
                 currentHostel = (Hostel) session.getAttribute("currentHostel");
                 
                 //doanh thu
-
                 ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
                 
                 Collections.sort(invoiceList, new Comparator<Invoice>() {
@@ -204,24 +203,16 @@ public class LandlordController extends HttpServlet {
                 //end doanh thu
                 
                 //rating
-                
                 request.setAttribute("ratingCount", FeedbackDAO.findByHostelId(currentHostel.getHostelID()).size());
-                
                 //end rating
                 
                 //booking request
-                
                 ArrayList<BookingRequest> brList = BookingRequestDAO.getBookingRequestByHostelID(currentHostel.getHostelID(), 1);
-                
                 //end booking request
                 
                 /*for(RoomResident rr: RoomResidentDAO.findByHostelID(currentHostel.getHostelID())) {
                     System.out.println(rr.getFullname());
                 }*/
-                
-                request.setAttribute("noResidents", RoomResidentDAO.findByHostelID(currentHostel.getHostelID()).size());
-                
-                //end so luong cu dan
                 
                 //dia chi 
 
@@ -234,8 +225,63 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("provinceList", provinceList);
                 request.setAttribute("districtList", districtList);
                 
-                //end dia chi
-                
+                request.setAttribute("noResidents", RoomResidentDAO.findByHostelID(currentHostel.getHostelID()).size());
+
+                //end so luong cu dan
+                //doanh thu
+                Collections.sort(invoiceList, new Comparator<Invoice>() {
+                    public int compare(Invoice i1, Invoice i2) {
+                        SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
+                        Date date1 = null, date2 = null;
+
+                        try {
+                            date1 = mmyy.parse(i1.getMonth());
+                            date2 = mmyy.parse(i2.getMonth());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return date2.compareTo(date1);
+                    }
+                });
+
+                /*for (Invoice i : invoiceList) {
+                    System.out.println(i.getMonth());
+                }*/
+
+                for (Invoice i : invoiceList) {
+                    if (!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {
+
+                        revenueDate.add(i.getMonth());
+                        currentDate = i.getMonth();
+                        revenueValue.add(0);
+                    }
+                    if (revenueDate.size() <= 5) {
+                        revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
+                    }
+
+                    totalRevenue += i.getTotalPrice();
+                    String dateValue[] = i.getMonth().split("/");
+
+                    if (currentYear == Integer.parseInt(dateValue[1])) {
+                        currentYearRevenue += i.getTotalPrice();
+                    }
+                }
+
+                request.setAttribute("totalRevenue", totalRevenue);
+                request.setAttribute("currentYearRevenue", currentYearRevenue);
+                request.setAttribute("revenueDate", revenueDate);
+                request.setAttribute("revenueValue", revenueValue);
+
+                if (revenueValue.size() == 1 || revenueValue.get(0) == revenueValue.get(1)) {
+                    request.setAttribute("revenueChange", 0);
+                } else {
+                    double ratio = ((double) revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(1) * 100;
+                    ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
+
+                    request.setAttribute("revenueChange", ratio);
+                }
+                //end doanh thu
+
                 request.getRequestDispatcher("/view/LOverView.jsp").forward(request, response);
             } else if (path.equals("/contract-list")) {
                 List<Contract> contractList = null;
@@ -247,6 +293,8 @@ public class LandlordController extends HttpServlet {
                 int roomId = 0;
                 if (request.getParameter("roomId") != null) {
                     roomId = Integer.parseInt(request.getParameter("roomId"));
+                    String roomNumber = request.getParameter("roomNumber");
+                    request.setAttribute("roomNumber", roomNumber);
                 }
                 if (request.getParameter("hostelId") != null) {
                     session.setAttribute("currentHostel", Integer.parseInt(request.getParameter("hostelId")));
@@ -308,6 +356,7 @@ public class LandlordController extends HttpServlet {
                     int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
                     RoomDAO.save(roomTypeId, roomNumber);
                     currentRoomType = RoomTypeDAO.findByID(roomTypeId);
+                    HostelDAO.updateRoomQuantity(currentHostel.getHostelID(), 1);
                     currentHostel = currentRoomType.getHostel();
                     session.setAttribute("currentHostel", currentHostel);
                     roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
@@ -708,6 +757,7 @@ public class LandlordController extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+
             
             if(path.equals("/revenue-list")) {
                 ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
@@ -726,12 +776,13 @@ public class LandlordController extends HttpServlet {
                         return date2.compareTo(date1);
                     }
                 });
-                
+
                 /*for (Invoice i : invoiceList) {
                     System.out.println(i.getMonth());
                 }*/
                 ArrayList<String> revenueDate = new ArrayList<>();
                 ArrayList<Integer> revenueValue = new ArrayList<>();
+
                 
                 String currentDate = "";
                 

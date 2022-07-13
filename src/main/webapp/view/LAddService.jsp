@@ -65,7 +65,7 @@
                 <c:if test="${sessionScope.currentHostel != null}">
                     <div class="general-info flex justify-between mt-[20px]">
                         <div class="">
-                            <div class="pr-[20px] mr-[20px]">
+                            <div class="pr-[20px] mr-[20px] border-r border-gray-300">
                                 <span>Nhà trọ: </span>
                                 <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
                                     ${sessionScope.currentHostel.hostelName}
@@ -162,25 +162,25 @@
                                 </tr>
                                 <c:forEach items="${requestScope.serviceList}" var="service">
                                     <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
-                                    <input name="updateType" type="hidden" class="text-[15px]" value="0"/>
-                                    <td class="px-3 py-4">
-                                        <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
-                                    </td>
-                                    <td class="px-3 py-4 text-center">
-                                        <input name="updateFee" type="text" class="text-[15px]" value="${service.serviceFee}"/>
-                                    </td>
-                                    <td class="px-3 py-4 text-center">
-                                        <input name="updateUnit" type="text" class="text-[15px]" value="${service.unit}"/>
-                                    </td>
-                                    <td class="px-3 py-4 text-center">
-                                        ${service.monthApplied}
-                                    </td>
-                                    <td class="px-3 py-4 text-center">
-                                        <button onclick="updateService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
-                                    </td>
-                                    <td class="px-3 py-4 text-center">
-                                        <button onclick="deleteService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Xóa</button>
-                                    </td>
+                                        <input name="updateType" type="hidden" class="text-[15px]" value="0"/>
+                                        <td class="px-3 py-4">
+                                            <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            <input name="updateFee" type="text" class="text-[15px]" value="${service.serviceFee}"/>
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            <input name="updateUnit" type="text" class="text-[15px]" value="${service.unit}"/>
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            ${service.monthApplied}
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            <button onclick="updateService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
+                                        </td>
+                                        <td class="px-3 py-4 text-center">
+                                            <button onclick="deleteService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Xóa</button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -220,9 +220,6 @@
 
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
-        
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
 
         <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -248,7 +245,7 @@
                 const serviceUnit = document.querySelector("input[name='addServiceUnit']");
                 const addServiceMessage = document.querySelector(".addServiceMessage");
                 const serviceList = document.querySelector(".service-list");
-
+                
                 if (!serviceName.value || !serviceFee.value || !serviceUnit.value) {
                     let message = "";
                     if (!serviceName.value) {
@@ -334,7 +331,8 @@
                         message += "Đơn vị ";
                     }
                     message += "không được trống!";
-                    updateMessage.innerHTML = message;
+                    //updateMessage.innerHTML = message;
+                    showToast('error', message);
                 } else {
                     let message = "";
                     if (!Number.isInteger(Number(serviceFee.value))) {

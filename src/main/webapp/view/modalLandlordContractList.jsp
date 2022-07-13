@@ -33,7 +33,7 @@
 
 <!--Modal select room-->
 <div id="roomModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center z-[1000]">
-    <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+    <div class="relative p-4 w-full max-w-4xl h-full md:h-auto">
         <div class="relative bg-white rounded shadow">
             <div class="flex justify-between items-start p-4 rounded-t border-b">
                 <h3 class="text-xl font-semibold text-gray-900">Chọn Phòng</h3>
@@ -47,10 +47,13 @@
             <div class="p-6 space-y-6">
                 <form action="/sakura/landlord/contract-list">
                     <button type="submit" name="roomId" value="0" class="px-4 py-2 mx-2 rounded border-2">Tất cả</button>
-                    <c:forEach items="${requestScope.roomList}" var="room">
-                        <button type="submit" name="roomId" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>
-                    </c:forEach>
                 </form>
+                <c:forEach items="${requestScope.roomList}" var="room">
+                    <form action="/sakura/landlord/contract-list" class="inline-block">
+                        <input type="hidden" name="roomNumber" value="${room.roomNumber}"/>
+                        <button type="submit" name="roomId" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>
+                    </form>
+                </c:forEach>
             </div>
         </div>
     </div>

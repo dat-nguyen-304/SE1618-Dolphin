@@ -255,10 +255,10 @@
                                 <li class="col-12 col-sm-6 col-md-4 col-lg-3">
                                     <form action="/sakura/hostel/detail">
                                         <input type="hidden" name="filterStar" value="0" />
-                                        <button name="hostelId" value="${hostel.hostelID}" class="hostel-item">
-                                            <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
-                                                <ol class="carousel-indicators">
-                                                    <c:if test="${hostel.imgList.size() > 0}">
+                                        <button name="hostelId" value="${hostel.hostelID}" class="hostel-item w-100">
+                                            <c:if test="${hostel.imgList.size() > 0}">
+                                                <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
+                                                    <ol class="carousel-indicators">
                                                         <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
                                                             <c:if test="${iterator == 0}">
                                                                 <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
@@ -269,23 +269,21 @@
                                                                 </li>
                                                             </c:if>
                                                         </c:forEach>
-                                                    </c:if>
-                                                </ol>
-                                                <div class="hostel-images">
-                                                    <div class="carousel-inner">
-
-                                                        <c:if test="${hostel.imgList.size() > 0}">
+                                                    </ol>
+                                                    <div class="hostel-images">
+                                                        <div class="carousel-inner">
                                                             <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
                                                                 <c:if test="${iterator == 0}">
                                                                     <div class="carousel-item active">
-                                                                    </c:if>
-                                                                    <c:if test="${iterator > 0}">
-                                                                        <div class="carousel-item">
-                                                                        </c:if>
                                                                         <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
                                                                     </div>
-                                                                </c:forEach>
-                                                            </c:if>
+                                                                </c:if>
+                                                                <c:if test="${iterator > 0}">
+                                                                    <div class="carousel-item">
+                                                                        <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
+                                                                    </div>
+                                                                </c:if>
+                                                            </c:forEach>
                                                         </div>
                                                     </div>
                                                     <div class="btn-prev-next">
@@ -301,59 +299,62 @@
                                                         </a>
                                                     </div>
                                                 </div>
+                                            </c:if>
+                                            <c:if test="${hostel.imgList.size() == 0}">
+                                                <img class="d-block w-100 h-[200px] object-cover" src="https://media.istockphoto.com/vectors/house-icon-black-minimalist-icon-isolated-on-white-background-vector-id858148582?k=20&m=858148582&s=612x612&w=0&h=SMaFJFzStgpcZkpVELQ2H9aoQZEMURVK1SCRafnZP8Q=" />
+                                            </c:if>
 
-                                                <div class="hostel-content btn-submit">
+                                            <div class="hostel-content btn-submit">
 
-                                                    <div class="hostel-name">${hostel.hostelName}</div>
-                                                    <div class="hostel-action">
-                                                        <div class="hostel-rating">
-                                                            <c:forEach begin="1" end="5" var="iterator">
-                                                                <c:choose>
-                                                                    <c:when test="${iterator <= hostel.rating}">
-                                                                        <i class="bi bi-star-fill"></i>
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <c:choose>
-                                                                            <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
-                                                                                <i class="bi bi-star-fill"></i>
-                                                                            </c:when>
-                                                                            <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
-                                                                                <i class="bi bi-star-half"></i>
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                <i class="bi bi-star"></i>
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </c:forEach>
-                                                            <span class="hostel-rating-number ml-[5px]">${hostel.rating}/5</span>
-                                                        </div>
-                                                        <c:if test="${sessionScope.currentUser != null}">
+                                                <div class="hostel-name">${hostel.hostelName}</div>
+                                                <div class="hostel-action">
+                                                    <div class="hostel-rating">
+                                                        <c:forEach begin="1" end="5" var="iterator">
                                                             <c:choose>
-                                                                <c:when test="${requestScope.toggleList.get(i) == true}">
-                                                                    <div class="hostel-favorite">
-                                                                        <i class="bi bi-heart-fill" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                                    </div>
+                                                                <c:when test="${iterator <= hostel.rating}">
+                                                                    <i class="bi bi-star-fill"></i>
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                    <div class="hostel-favorite">
-                                                                        <i class="bi bi-heart-fill" style="color: #DBDBDB;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
-                                                                    </div>
+                                                                    <c:choose>
+                                                                        <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
+                                                                            <i class="bi bi-star-fill"></i>
+                                                                        </c:when>
+                                                                        <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
+                                                                            <i class="bi bi-star-half"></i>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <i class="bi bi-star"></i>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </c:otherwise>
                                                             </c:choose>
-                                                        </c:if>
+                                                        </c:forEach>
+                                                        <span class="hostel-rating-number ml-[5px]">${hostel.rating}/5</span>
                                                     </div>
-                                                    <div class="hostel-address">${hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
+                                                    <c:if test="${sessionScope.currentUser != null}">
+                                                        <c:choose>
+                                                            <c:when test="${requestScope.toggleList.get(i) == true}">
+                                                                <div class="hostel-favorite">
+                                                                    <i class="bi bi-heart-fill" style="color: red;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="hostel-favorite">
+                                                                    <i class="bi bi-heart-fill" style="color: #DBDBDB;" onclick="toggleFavoriteHostel(${hostel.hostelID}, this)"></i>
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:if>
+                                                </div>
+                                                <div class="hostel-address">${hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
 
-                                                    <div class="hostel-info">
-                                                        <span class="hostel-room-available">${hostel.availableRoom} phòng trống</span>
-                                                        <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea}m<sup>2</sup></span>
-                                                    </div>
-
-                                                    <div class="hostel-price">${hostel.minPrice / 1000000} - ${hostel.maxPrice / 1000000} triệu</div>
+                                                <div class="hostel-info">
+                                                    <span class="hostel-room-available">${hostel.availableRoom} phòng trống</span>
+                                                    <span class="hostel-area">${hostel.minArea} - ${hostel.maxArea}m<sup>2</sup></span>
                                                 </div>
 
+                                                <div class="hostel-price">${hostel.minPrice / 1000000} - ${hostel.maxPrice / 1000000} triệu</div>
+                                            </div>
                                         </button>
                                     </form>
                                 </li>
@@ -363,29 +364,6 @@
                         <!--  PAGING-->
                         <div class="pagination">
                             <ul class="pagination__list">
-                                <li class="pagination-item pagination-previous pagination-previous--fast">
-                                    <form action="/sakura/hostel/list">
-                                        <c:if test="${requestScope.keyword != null}">
-                                            <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                        </c:if>
-                                        <c:if test="${requestScope.sortByMinPrice != null}">
-                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
-                                        </c:if>
-                                        <c:if test="${requestScope.sortByMaxPrice != null}">
-                                            <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
-                                        </c:if>
-                                        <c:if test="${requestScope.sortByRate != null}">
-                                            <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
-                                        </c:if>
-                                        <c:if test="${sessionScope.province != null}">
-                                            <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                        </c:if>
-                                        <c:if test="${sessionScope.district != null}">
-                                            <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                        </c:if>
-                                        <button type="submit" name="paging" value="1"><i class="bi bi-arrow-bar-left"></i></button>
-                                    </form>
-                                </li>
 
                                 <!--  PAGING-->
                                 <c:if test="${!(requestScope.beginPage == 1 && requestScope.endPage == 1 || requestScope.itemQuantity == 0)}">
@@ -446,29 +424,6 @@
                                                             <i class="bi bi-arrow-left"></i>
                                                         </button>
                                                     </c:if>
-                                                </form>
-                                            </li>
-                                            <li class="pagination-item pagination-next pagination-next--fast">
-                                                <form action="/sakura/hostel/list">
-                                                    <c:if test="${sessionScope.province != null}">
-                                                        <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.district != null}">
-                                                        <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.keyword != null}">
-                                                        <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.sortByMinPrice != null}">
-                                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.sortByMaxPrice != null}">
-                                                        <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
-                                                    </c:if>
-                                                    <c:if test="${requestScope.sortByRate != null}">
-                                                        <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
-                                                    </c:if>
-                                                    <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="bi bi-arrow-bar-right"></i></button>
                                                 </form>
                                             </li>
                                         </ul>
@@ -589,23 +544,23 @@
     <script src="../assets/javascript/keep-district.js"></script>
 
     <script>
-                                                                            let noti = document.getElementById("notification");
-                                                                            noti.style.transform = "translateX(0%);";
-                                                                            if (noti.classList.contains("show"))
-                                                                            {
-                                                                                noti.style.transform = "translateX(0%)";
-                                                                                setTimeout(function () {
-                                                                                    noti.style.transform = "translateX(150%)";
-                                                                                }, 5000);
-                                                                            }
-
-                                                                            if (noti.classList.contains("hide")) {
-                                                                                noti.style.display = "none";
-                                                                            }
-
-                                                                            function closeNoti() {
+                                                                        let noti = document.getElementById("notification");
+                                                                        noti.style.transform = "translateX(0%);";
+                                                                        if (noti.classList.contains("show"))
+                                                                        {
+                                                                            noti.style.transform = "translateX(0%)";
+                                                                            setTimeout(function () {
                                                                                 noti.style.transform = "translateX(150%)";
-                                                                            }
+                                                                            }, 5000);
+                                                                        }
+
+                                                                        if (noti.classList.contains("hide")) {
+                                                                            noti.style.display = "none";
+                                                                        }
+
+                                                                        function closeNoti() {
+                                                                            noti.style.transform = "translateX(150%)";
+                                                                        }
     </script>
 </body>
 </html>
