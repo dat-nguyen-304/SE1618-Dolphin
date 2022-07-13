@@ -23,49 +23,6 @@ import java.util.List;
  */
 public class RoomDAO {
 
-    public static List<Room> findAll() {
-        List<Room> list = null;
-        Connection cn = null;
-        try {
-            cn = DBUtils.makeConnection();
-            if (cn != null) {
-                list = new ArrayList();
-                String sql = "select * from Room";
-                PreparedStatement pst = cn.prepareCall(sql);
-                ResultSet rs = pst.executeQuery();
-                if (rs != null) {
-                    while (rs.next()) {
-                        int roomID = rs.getInt("roomId");
-                        int hostelID = rs.getInt("hostelId");
-                        Hostel hostel = HostelDAO.findById(hostelID);
-                        String roomNumber = rs.getString("roomNumber");
-                        int area = rs.getInt("area");
-                        ArrayList<String> images = null; //cho nay em chua biet lam sao :D
-                        String description = rs.getNString("description");
-                        int status = rs.getInt("status");
-                        int maxNumberOfResident = rs.getInt("maxNoResidents");
-                        int currentNumberOfResident = rs.getInt("currentNoResidents");
-                        int advertisedPrice = rs.getInt("advertisedPrice");
-
-//                        list.add(new Room(roomID, hostel, roomNumber, 
-//                                area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice));
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return list;
-    }
-
     public static ArrayList<Room> findByRoomTypeID(int roomTypeID) {
         ArrayList<Room> list = null;
         Connection cn = null;
@@ -111,8 +68,11 @@ public class RoomDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select * from Room WHERE activate = 1";
-                PreparedStatement pst = cn.prepareCall(sql);
+                String sql = "SELECT R.* FROM Room R INNER JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID \n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID \n"
+                        + "WHERE H.hostelID = ? AND R.activate = 1";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelID);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
@@ -121,9 +81,7 @@ public class RoomDAO {
                         int currentNoResidents = rs.getInt("currentNoResidents");
                         int status = rs.getInt("status");
                         RoomType roomType = findByID(roomID).getRoomType();
-                        if (roomType.getHostel().getHostelID() == hostelID) {
-                            list.add(new Room(roomID, roomNumber, currentNoResidents, status, roomType));
-                        }
+                        list.add(new Room(roomID, roomNumber, currentNoResidents, status, roomType));
                     }
                 }
             }
@@ -186,14 +144,10 @@ public class RoomDAO {
 
         try {
             cn = DBUtils.makeConnection();
-
             String sql = "Select * from Room where roomID = ?";
-
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setInt(1, inputRoomID);
-
             ResultSet rs = pst.executeQuery();
-
             if (rs != null && rs.next()) {
                 int roomID = rs.getInt("roomId");
                 String roomNumber = rs.getString("roomNumber");
@@ -201,10 +155,7 @@ public class RoomDAO {
                 int status = rs.getInt("status");
                 int roomTypeID = rs.getInt("roomTypeID");
                 RoomType roomType = RoomTypeDAO.findByID(roomTypeID);
-
                 room = new Room(roomID, roomNumber, currentNumberOfResident, status, roomType);
-
-//                room = new Room(roomID, hostel, roomNumber, area, images, description, status, maxNumberOfResident, currentNumberOfResident, advertisedPrice);
             }
         } catch (Exception e) {
             e.printStackTrace();

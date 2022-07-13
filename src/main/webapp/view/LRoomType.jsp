@@ -143,6 +143,14 @@
                                             <p class="text-[#929ca5] font-normal">Số người tối đa</p>
                                             <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.currentRoomType.maxNumberOfResidents} người</p>
                                         </div>
+                                        <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                            <p class="text-[#929ca5] font-normal">Số phòng trống</p>
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.currentRoomType.availableRoom} phòng</p>
+                                        </div>
+                                        <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                            <p class="text-[#929ca5] font-normal">Tổng phòng</p>
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.currentRoomType.totalRoom} phòng</p>
+                                        </div>
                                     </div>
                                     <div class="mt-[20px]">
                                         <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Mô tả</p>

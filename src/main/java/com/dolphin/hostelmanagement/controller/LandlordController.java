@@ -115,7 +115,7 @@ public class LandlordController extends HttpServlet {
                 response.sendRedirect("/sakura/view/login.jsp");
             }
             Hostel currentHostel = null;
-            
+
             if (session.getAttribute("currentHostel") == null) {
                 List<Hostel> hostelList = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
                 if (hostelList.size() > 0) {
@@ -315,13 +315,21 @@ public class LandlordController extends HttpServlet {
                 if (request.getParameter("addRoomNumber") != null) {
                     String roomNumber = request.getParameter("addRoomNumber").trim();
                     int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
-                    RoomDAO.save(roomTypeId, roomNumber);
-                    currentRoomType = RoomTypeDAO.findByID(roomTypeId);
-                    HostelDAO.updateAvailableRoom(currentHostel.getHostelID(), 1);
-                    HostelDAO.updateTotalRoom(currentHostel.getHostelID(), 1);
-                    currentHostel = HostelDAO.findById(currentRoomType.getHostel().getHostelID());
-                    session.setAttribute("currentHostel", currentHostel);
-                    roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
+                    boolean addSuccess = RoomDAO.save(roomTypeId, roomNumber);
+                    if (addSuccess) {
+                        currentRoomType = RoomTypeDAO.findByID(roomTypeId);
+                        HostelDAO.updateAvailableRoom(currentHostel.getHostelID(), 1);
+                        HostelDAO.updateTotalRoom(currentHostel.getHostelID(), 1);
+                        RoomTypeDAO.updateAvailableRoom(roomTypeId, 1);
+                        RoomTypeDAO.updateTotalRoom(roomTypeId, 1);
+                        currentHostel = HostelDAO.findById(currentRoomType.getHostel().getHostelID());
+                        session.setAttribute("currentHostel", currentHostel);
+                        roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
+                        request.setAttribute("addSuccess", "Thêm phòng " + roomNumber + " thành công!");
+                    } else {
+                        request.setAttribute("addFail", "Thêm phòng " + roomNumber + " thất bại!");
+                    }
+
                 } else if (request.getParameter("roomTypeId") != null) {
                     int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
                     currentRoomType = RoomTypeDAO.findByID(roomTypeId);

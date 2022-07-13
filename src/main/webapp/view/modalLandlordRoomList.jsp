@@ -21,7 +21,7 @@
             </div>
 
             <div class="p-[20px]">
-                <form action="/sakura/landlord/room-type">
+                <form action="/sakura/landlord/room-list">
                     <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}" />
                     <div class="mb-[20px]">
                         <label class="w-[160px] inline-block text-[18px]" for="">Loại phòng</label>
