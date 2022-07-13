@@ -65,8 +65,8 @@
                             </li>
                         </ol>
                     </nav>
-                    <c:if test="${sessionScope.currentHostel != null}">
-                        <div class="flex items-center">
+                    <div class="flex items-center">
+                        <c:if test="${sessionScope.currentHostel != null}">
                             <div class="flex items-center mr-[20px]">
                                 <div class="flex items-center mr-[20px]">
                                     <h3 class="text-sm font-medium text-gray-400 mr-[10px]">Chọn nhà trọ: </h3>
@@ -81,13 +81,13 @@
                                     <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Xóa nhà trọ này</p>
                                 </button>
                             </div>
+                        </c:if>
 
-                            <!-- Modal toggle -->
-                            <button id="addHostel-1" type="submit" name="action" value="Save" class="rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm nhà trọ</p>
-                            </button>
-                        </div>
-                    </c:if>
+                        <!-- Modal toggle -->
+                        <button id="addHostel-1" type="submit" name="action" value="Save" class="rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
+                            <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm nhà trọ</p>
+                        </button>
+                    </div>
                     <!-- End breadcrumb -->
                 </div>
                 <!-- Modal list-->
@@ -373,11 +373,11 @@
                 </c:if>
                 <!-- End Statistics -->
                 <c:if test="${sessionScope.currentHostel == null}">
-                    <h1>Bạn chưa có phòng trọ nào</h1>
+                    <h1>Bạn chưa có nhà trọ. Hãy thêm thông tin nhà trọ!</h1>
                 </c:if>
             </div>
 
-
+            <%@include file="../view/footerDashboard.jsp" %>
 
         </div>
 
