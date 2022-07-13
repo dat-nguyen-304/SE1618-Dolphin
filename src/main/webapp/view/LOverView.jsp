@@ -23,8 +23,7 @@
         <!-- <link rel="stylesheet" href="app.css"> -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-              rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
@@ -91,9 +90,7 @@
                     <!-- End breadcrumb -->
                 </div>
                 <!-- Modal list-->
-                <c:if test="${sessionScope.currentHostel != null}">
-                    <%@include file="../view/modalLandlordOverview.jsp" %>
-                </c:if>
+                <%@include file="../view/modalLandlordOverview.jsp" %>
                 <!-- End modal list-->
 
                 <!-- General information -->
@@ -275,7 +272,7 @@
 
                     <!-- Requests -->
                     <div class="statistic flex justify-between mt-[20px] grid grid-cols-2 gap-[20px]">
-                        <div class="card w-full bg-[#fff] p-5 flex flex-col">
+<!--                        <div class="card w-full bg-[#fff] p-5 flex flex-col">
                             <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Yêu cầu thuê phòng
                             </div>
                             <div class="w-full h-full mx-auto">
@@ -295,7 +292,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- Chưa xử lý -->
+                                             Chưa xử lý 
                                             <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
                                                 <td class="px-6 py-4">
                                                     16:04 - 05/05/2022
@@ -309,7 +306,7 @@
 
                                                 </td>
                                             </tr>
-                                            <!-- Đã xử lý -->
+                                             Đã xử lý 
                                             <tr class="bg-white border-b hover:bg-gray-50 text-[#929CA5]">
                                                 <td class="px-6 py-4">
                                                     16:04 - 05/05/2022
@@ -328,7 +325,7 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <!-- Rating -->
                         <div class="card w-full bg-[#fff] p-5 flex flex-col">
@@ -353,10 +350,10 @@
                                         <tbody>
                                             <tr class="bg-white border-b hover:bg-gray-50">
                                                 <td class="px-6 py-4">
-                                                    ${sessionScope.hostel.hostelName}
+                                                    ${sessionScope.currentHostel.hostelName}
                                                 </td>
                                                 <td class="px-6 py-4 text-[#FFB03A]">
-                                                    ${sessionScope.hostel.rating} <i class="bi bi-star-fill"></i>
+                                                    ${sessionScope.currentHostel.rating} <i class="bi bi-star-fill"></i>
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     ${requestScope.ratingCount}

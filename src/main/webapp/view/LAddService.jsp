@@ -121,7 +121,7 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="service-list">
+                                <tbody>
                                     <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
                                 <input name="updateName" type="hidden" class="text-[15px]" value="Điện"/>
                                 <input name="updateType" type="hidden" class="text-[15px]" value="1"/>
@@ -160,27 +160,32 @@
                                 <td class="px-3 py-4">
                                 </td>
                                 </tr>
-                                <c:forEach items="${requestScope.serviceList}" var="service">
-                                    <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
-                                        <input name="updateType" type="hidden" class="text-[15px]" value="0"/>
-                                        <td class="px-3 py-4">
-                                            <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
-                                        </td>
-                                        <td class="px-3 py-4 text-center">
-                                            <input name="updateFee" type="text" class="text-[15px]" value="${service.serviceFee}"/>
-                                        </td>
-                                        <td class="px-3 py-4 text-center">
-                                            <input name="updateUnit" type="text" class="text-[15px]" value="${service.unit}"/>
-                                        </td>
-                                        <td class="px-3 py-4 text-center">
-                                            ${service.monthApplied}
-                                        </td>
-                                        <td class="px-3 py-4 text-center">
-                                            <button onclick="updateService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
-                                        </td>
-                                        <td class="px-3 py-4 text-center">
-                                            <button onclick="deleteService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Xóa</button>
-                                        </td>
+                                </tbody>
+                            </table>
+                            <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                                <tbody class="service-list">
+
+                                    <c:forEach items="${requestScope.serviceList}" var="service">
+                                        <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
+                                    <input name="updateType" type="hidden" class="text-[15px]" value="0"/>
+                                    <td class="px-3 py-4">
+                                        <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
+                                    </td>
+                                    <td class="px-3 py-4 text-center">
+                                        <input name="updateFee" type="text" class="text-[15px]" value="${service.serviceFee}"/>
+                                    </td>
+                                    <td class="px-3 py-4 text-center">
+                                        <input name="updateUnit" type="text" class="text-[15px]" value="${service.unit}"/>
+                                    </td>
+                                    <td class="px-3 py-4 text-center">
+                                        ${service.monthApplied}
+                                    </td>
+                                    <td class="px-3 py-4 text-center">
+                                        <button onclick="updateService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
+                                    </td>
+                                    <td class="px-3 py-4 text-center">
+                                        <button onclick="deleteService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Xóa</button>
+                                    </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -223,6 +228,7 @@
 
         <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script>
                                 function showToast(type, msg, duplicate) {
                                     toastr.options.positionClass = 'toast-bottom-right';
@@ -245,7 +251,7 @@
                 const serviceUnit = document.querySelector("input[name='addServiceUnit']");
                 const addServiceMessage = document.querySelector(".addServiceMessage");
                 const serviceList = document.querySelector(".service-list");
-                
+
                 if (!serviceName.value || !serviceFee.value || !serviceUnit.value) {
                     let message = "";
                     if (!serviceName.value) {
@@ -280,8 +286,12 @@
                                 const res = response.toString();
                                 console.log(res);
                                 if (res.includes("px-3 py-4 text-center")) {
-                                    serviceList.innerHTML += response;
+                                    serviceList.innerHTML = response;
+                                    console.log(serviceList);
                                     showToast("success", "Thêm thành công", 0);
+//                                    setTimeout(function () {
+//                                        window.location.reload();
+//                                    }, 3000);
                                     //addServiceMessage.innerHTML = "Thêm thành công";
                                 } else {
                                     addServiceMessage.innerHTML = response;
@@ -350,6 +360,8 @@
                             },
                             url: '/sakura/service/edit-service',
                             success: function (response) {
+                                serviceFee.value = serviceFee.value;
+
                                 showToast("info", response, 1);
                                 //updateMessage.innerHTML = response;
                             },

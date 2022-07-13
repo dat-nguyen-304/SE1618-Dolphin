@@ -155,8 +155,8 @@ public class InvoiceController extends HttpServlet {
                     Hostel chosenHostel = null;
                     List<Invoice> invoiceList = null;
                     if (request.getParameter("hostelID") == null) {
-                        chosenHostel = (session.getAttribute("curentHostel") != null) ? (Hostel) session.getAttribute("currentHostel") : null;
-                    }
+                        chosenHostel = (session.getAttribute("currentHostel") != null) ? (Hostel) session.getAttribute("currentHostel") : null;
+                    } else chosenHostel = HostelDAO.findById(Integer.parseInt(request.getParameter("hostelID")) );
                     if (chosenHostel != null) {
                         if (request.getParameter("roomID") != null) {
                             int roomID = Integer.parseInt(request.getParameter("roomID"));
@@ -171,9 +171,9 @@ public class InvoiceController extends HttpServlet {
                                 invoiceList = InvoiceDAO.findByHostelID(chosenHostel.getHostelID());
                                 request.setAttribute("chosenRoom", new Room());
                             }
-                            request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
                             request.setAttribute("invoiceList", invoiceList);
                         }
+                        request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
                     }
                     request.setAttribute("chosenHostel", chosenHostel);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);

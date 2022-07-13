@@ -512,7 +512,9 @@ public class HostelController extends HttpServlet {
                 int landlordId = Integer.parseInt(request.getParameter("landlordId"));
                 boolean addSuccess = HostelDAO.save(name, districtId, streetAddress, description, landlordId);
                 Hostel newHostel = HostelDAO.findLastHostelByHostelId(landlordId);
-//                ServiceDAO.saveDefaultService(newHostel.getHostelID());
+                List<Hostel> hostelList = HostelDAO.findByLandlord(landlordId);
+                session.setAttribute("hostelList", hostelList);
+                ServiceDAO.saveDefaultService(newHostel.getHostelID());
                 if (addSuccess) {
                     out.println("<p class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem <span>");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview\">");
@@ -573,6 +575,7 @@ public class HostelController extends HttpServlet {
 //                }
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
+                    session.setAttribute("currentHostel", null);
                 } else {
                     out.print("Xóa không thành công");
                 }

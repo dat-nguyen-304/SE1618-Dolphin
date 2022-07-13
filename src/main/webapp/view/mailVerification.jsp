@@ -1,5 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<%
+    //response.setHeader("Cache-Control", "no-cache, no-store");
+%>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -52,6 +57,8 @@
 
                 <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/mailVerification" method="post" id="form" name="verification-form">
                     <!--form header-->
+                    <input type ="hidden" name ="email" value ="${param.email}"/>
+                    <input type ="hidden" name ="accountVerify" value ="true"/>
                     <div class="form-header w-full h-18 mb-3 text-center">
                         <h2 class="text-3xl text-[#FF6532] font-medium">Nhập mã xác minh</h2>
                         <p id="error" class="warning text-base font-light mt-4">Mã xác minh đã được gửi vào email của bạn!</p>

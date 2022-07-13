@@ -106,12 +106,16 @@ public class LandlordController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
             Landlord landlord = (Landlord) session.getAttribute("currentUser");
+            if (landlord == null) {
+                response.sendRedirect("/sakura/view/login.jsp");
+            }
             Hostel currentHostel = null;
+            
             if (session.getAttribute("currentHostel") == null) {
                 List<Hostel> hostelList = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
                 if (hostelList.size() > 0) {
@@ -134,10 +138,17 @@ public class LandlordController extends HttpServlet {
                     session.setAttribute("currentHostel", currentHostel);
                 }
 
-                //doanh thu
-                if (currentHostel != null) {
-                    ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
+                List<Province> provinceList = ProvinceDAO.findAll();
+                List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
+                request.setAttribute("provinceList", provinceList);
+                request.setAttribute("districtList", districtList);
 
+                if (currentHostel != null) {
+                    int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
+                    List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
+                    request.setAttribute("currentDistrictList", currentDistrictList);
+                    //doanh thu
+                    ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
                     Collections.sort(invoiceList, new Comparator<Invoice>() {
                         public int compare(Invoice i1, Invoice i2) {
                             SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
@@ -153,9 +164,6 @@ public class LandlordController extends HttpServlet {
                         }
                     });
 
-                    /*for (Invoice i : invoiceList) {
-                    System.out.println(i.getMonth());
-                }*/
                     ArrayList<String> revenueDate = new ArrayList<>();
                     ArrayList<Integer> revenueValue = new ArrayList<>();
 
@@ -189,18 +197,13 @@ public class LandlordController extends HttpServlet {
                     request.setAttribute("revenueDate", revenueDate);
                     request.setAttribute("revenueValue", revenueValue);
 
-                    if (revenueValue.size() == 1 || revenueValue.get(0) == revenueValue.get(1)) {
+                    if (revenueValue.size() <= 1 || revenueValue.get(0) == revenueValue.get(1)) {
                         request.setAttribute("revenueChange", 0);
-                    } else if (revenueValue.get(0) < revenueValue.get(1)) {
-                        double ratio = revenueValue.get(1) / revenueValue.get(0) * 100;
+                    } else {
+                        double ratio = ((double) revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(0) * 100;
                         ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
 
                         request.setAttribute("revenueChange", -ratio);
-                    } else if (revenueValue.get(0) > revenueValue.get(1)) {
-                        double ratio = (double) revenueValue.get(0) / revenueValue.get(1) * 100;
-                        ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
-
-                        request.setAttribute("revenueChange", ratio);
                     }
                     //end doanh thu
 
@@ -211,77 +214,8 @@ public class LandlordController extends HttpServlet {
                     //booking request
                     ArrayList<BookingRequest> brList = BookingRequestDAO.getBookingRequestByHostelID(currentHostel.getHostelID(), 1);
                     //end booking request
-
-                    /*for(RoomResident rr: RoomResidentDAO.findByHostelID(currentHostel.getHostelID())) {
-                    System.out.println(rr.getFullname());
-                }*/
-                    //dia chi 
-                    int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
-                    List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
-
-                    List<Province> provinceList = ProvinceDAO.findAll();
-                    List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
-                    request.setAttribute("currentDistrictList", currentDistrictList);
-                    request.setAttribute("provinceList", provinceList);
-                    request.setAttribute("districtList", districtList);
-
                     request.setAttribute("noResidents", RoomResidentDAO.findByHostelID(currentHostel.getHostelID()).size());
-
-                    //end so luong cu dan
-                    //doanh thu
-                    Collections.sort(invoiceList, new Comparator<Invoice>() {
-                        public int compare(Invoice i1, Invoice i2) {
-                            SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
-                            Date date1 = null, date2 = null;
-
-                            try {
-                                date1 = mmyy.parse(i1.getMonth());
-                                date2 = mmyy.parse(i2.getMonth());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            return date2.compareTo(date1);
-                        }
-                    });
-
-                    /*for (Invoice i : invoiceList) {
-                    System.out.println(i.getMonth());
-                }*/
-                    for (Invoice i : invoiceList) {
-                        if (!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {
-
-                            revenueDate.add(i.getMonth());
-                            currentDate = i.getMonth();
-                            revenueValue.add(0);
-                        }
-                        if (revenueDate.size() <= 5) {
-                            revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
-                        }
-
-                        totalRevenue += i.getTotalPrice();
-                        String dateValue[] = i.getMonth().split("/");
-
-                        if (currentYear == Integer.parseInt(dateValue[1])) {
-                            currentYearRevenue += i.getTotalPrice();
-                        }
-                    }
-
-                    request.setAttribute("totalRevenue", totalRevenue);
-                    request.setAttribute("currentYearRevenue", currentYearRevenue);
-                    request.setAttribute("revenueDate", revenueDate);
-                    request.setAttribute("revenueValue", revenueValue);
-
-                    if (revenueValue.size() == 1 || revenueValue.get(0) == revenueValue.get(1)) {
-                        request.setAttribute("revenueChange", 0);
-                    } else {
-                        double ratio = ((double) revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(1) * 100;
-                        ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
-
-                        request.setAttribute("revenueChange", ratio);
-                    }
-                    //end doanh thu
                 }
-
                 request.getRequestDispatcher("/view/LOverView.jsp").forward(request, response);
             } else if (path.equals("/contract-list")) {
                 List<Contract> contractList = null;
@@ -309,7 +243,34 @@ public class LandlordController extends HttpServlet {
                 request.setAttribute("roomList", roomList);
                 request.setAttribute("contractList", contractList);
                 request.getRequestDispatcher("/view/LContractList.jsp").forward(request, response);
+            } else if (path.equals("/contract-list")) {
+                List<Contract> contractList = null;
+                List<Room> roomList = null;
+                if (session.getAttribute("currentHostel") != null) {
+                    currentHostel = (Hostel) session.getAttribute("currentHostel");
+                    roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());
+                }
+                int roomId = 0;
+                if (request.getParameter("roomId") != null) {
+                    roomId = Integer.parseInt(request.getParameter("roomId"));
+                    String roomNumber = request.getParameter("roomNumber");
+                    request.setAttribute("roomNumber", roomNumber);
+                }
+                if (request.getParameter("hostelId") != null) {
+                    session.setAttribute("currentHostel", Integer.parseInt(request.getParameter("hostelId")));
+                }
+                if (session.getAttribute("currentHostel") != null) {
+                    currentHostel = (Hostel) session.getAttribute("currentHostel");
+                    contractList = ContractDAO.findByHostel(currentHostel.getHostelID());
+                    if (roomId != 0) {
+                        contractList = ContractDAO.findByRoom(roomId);
+                    }
+                }
+                request.setAttribute("roomList", roomList);
+                request.setAttribute("contractList", contractList);
+                request.getRequestDispatcher("/view/LContractList.jsp").forward(request, response);
             } else if (path.equals("/contract-detail")) {
+
                 int contractID = Integer.parseInt(request.getParameter("contractID"));
                 System.out.println("contractID: " + contractID);
                 Contract contract = ContractDAO.findByID(contractID);
@@ -356,8 +317,9 @@ public class LandlordController extends HttpServlet {
                     int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
                     RoomDAO.save(roomTypeId, roomNumber);
                     currentRoomType = RoomTypeDAO.findByID(roomTypeId);
-                    HostelDAO.updateRoomQuantity(currentHostel.getHostelID(), 1);
-                    currentHostel = currentRoomType.getHostel();
+                    HostelDAO.updateAvailableRoom(currentHostel.getHostelID(), 1);
+                    HostelDAO.updateTotalRoom(currentHostel.getHostelID(), 1);
+                    currentHostel = HostelDAO.findById(currentRoomType.getHostel().getHostelID());
                     session.setAttribute("currentHostel", currentHostel);
                     roomTypeList = RoomTypeDAO.findByHostelID(currentHostel.getHostelID());
                 } else if (request.getParameter("roomTypeId") != null) {

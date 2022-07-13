@@ -110,7 +110,7 @@ public class AccountController extends HttpServlet {
             try {
                 String servletResponse = "";
                 if (AccountDAO.checkUsername(username)) {
-                    servletResponse = "Username đã được dùng!";
+                    servletResponse = "Tên đăng nhập đã được dùng!";
                 }
                 response.setContentType("text/html");
                 response.setCharacterEncoding("UTF-8");

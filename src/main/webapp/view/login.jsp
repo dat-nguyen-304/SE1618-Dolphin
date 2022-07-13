@@ -60,14 +60,14 @@
                     <ul class="item-list list-none p-0 w-[52%]">
                         <!--User name-->
                         <li class="item block relative z-0 w-full mt-5">
-                            <input type="text" id="username" name="username" placeholder=" " value="${requestScope.username}" required
+                            <input type="text" id="username" name="username" placeholder=" " value="${requestScope.username}" required autocomplete="off"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none  focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200" />
                             <label for="username" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Tên đăng nhập <span class="font-extralight"></span></label>
                         </li>
 
                         <!--Password-->
                         <li class="item block relative z-0 w-full mt-7 mb-0">
-                            <input type="password" id="password" name="password" placeholder=" " required
+                            <input type="password" id="password" name="password" placeholder=" " required autocomplete="off"
                                    class="pt-3 pb-1 block w-full px-0 mt-0 bg-transparent border-0 border-b-[1.5px] appearance-none outline-none focus:outline-none focus:ring-0 focus:border-[#17535B] border-gray-200 pr-[36px]" />
                             <label for="password" class="absolute duration-300 top-3 -z-1 origin-0 text-gray-500">Mật khẩu <span class="font-extralight"></span></label>
                             <i class="bi bi-eye-slash absolute right-[10px] bottom-[6px] cursor-pointer" id="toggle-password"></i>

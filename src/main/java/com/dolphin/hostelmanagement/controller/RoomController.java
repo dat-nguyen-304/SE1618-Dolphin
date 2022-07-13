@@ -149,9 +149,9 @@ public class RoomController extends HttpServlet {
                     HostelDAO.updateMinPrice(hostelId, price);
                     HostelDAO.updateMaxPrice(hostelId, price);
                 } else {
-                    if (hostel.getMaxArea() < area) {
+                    if (hostel.getMaxArea() < price) {
                         HostelDAO.updateMaxPrice(hostelId, price);
-                    } else if (hostel.getMinArea() > area) {
+                    } else if (hostel.getMinPrice() > price) {
                         HostelDAO.updateMinPrice(hostelId, price);
                     }
                 }
@@ -227,10 +227,36 @@ public class RoomController extends HttpServlet {
                 }
             } else if (path.equals("/delete-roomtype")) {
                 int roomTypeId = Integer.parseInt(request.getParameter("deleteRoomTypeId"));
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                RoomType roomType = RoomTypeDAO.findByID(roomTypeId);
+                
                 boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
                 RoomDAO.deleteByRoomTypeId(roomTypeId);
                 RoomResidentDAO.deleteByRoomTypeId(roomTypeId);
                 if (deleteSuccess) {
+                    List<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostelId);
+                    if (roomTypeList.size() == 0) {
+                        HostelDAO.updateMinArea(hostelId, 0);
+                        HostelDAO.updateMaxArea(hostelId, 0);
+                        HostelDAO.updateMinPrice(hostelId, 0);
+                        HostelDAO.updateMaxPrice(hostelId, 0);
+                    } else  {
+                        int minPrice = Integer.MAX_VALUE;
+                        int maxPrice = -1;
+                        int minArea = Integer.MAX_VALUE;
+                        int maxArea = -1;
+                        for (RoomType roomtype : roomTypeList) {
+                            minPrice = Math.min(minPrice, roomtype.getAdvertisedPrice());
+                            maxPrice = Math.max(maxPrice, roomtype.getAdvertisedPrice());
+                            minArea = Math.min(minArea, roomtype.getArea());
+                            maxArea = Math.max(maxArea, roomtype.getArea());
+                        }
+                        HostelDAO.updateMinArea(hostelId, minArea);
+                        HostelDAO.updateMaxArea(hostelId, maxArea);
+                        HostelDAO.updateMinPrice(hostelId, minPrice);
+                        HostelDAO.updateMaxPrice(hostelId, maxPrice);
+                    }
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
                     out.print("Xóa thành công");
                 } else {
                     out.print("Xóa không thành công");
@@ -238,9 +264,13 @@ public class RoomController extends HttpServlet {
             } else if (path.equals("/delete-room")) {
                 int roomId = Integer.parseInt(request.getParameter("deleteRoomId"));
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                Room room = RoomDAO.findByID(roomId);
+                HostelDAO.updateTotalRoom(hostelId, -1);
+                if (room.getStatus() == 0) {
+                    HostelDAO.updateAvailableRoom(hostelId, -1);
+                }
                 boolean deleteSuccess = RoomDAO.deleteById(roomId);
                 RoomResidentDAO.deleteByRoomId(roomId);
-                HostelDAO.updateRoomQuantity(hostelId, -1);
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
                 } else {
