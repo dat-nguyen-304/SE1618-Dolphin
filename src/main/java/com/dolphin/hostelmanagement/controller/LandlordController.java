@@ -135,152 +135,116 @@ public class LandlordController extends HttpServlet {
                 }
 
                 currentHostel = (Hostel) session.getAttribute("currentHostel");
-                
-                //doanh thu
-                ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
-                
-                Collections.sort(invoiceList, new Comparator<Invoice>() {
-                    public int compare(Invoice i1, Invoice i2) {
-                        SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
-                        Date date1 = null, date2 = null;
 
-                        try {
-                            date1 = mmyy.parse(i1.getMonth());
-                            date2 = mmyy.parse(i2.getMonth());
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                if (currentHostel != null) {
+                    //doanh thu
+                    ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
+
+                    Collections.sort(invoiceList, new Comparator<Invoice>() {
+                        public int compare(Invoice i1, Invoice i2) {
+                            SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
+                            Date date1 = null, date2 = null;
+
+                            try {
+                                date1 = mmyy.parse(i1.getMonth());
+                                date2 = mmyy.parse(i2.getMonth());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            return date2.compareTo(date1);
                         }
-                        return date2.compareTo(date1);
-                    }
-                });
-                
-                /*for (Invoice i : invoiceList) {
+                    });
+
+                    /*for (Invoice i : invoiceList) {
                     System.out.println(i.getMonth());
                 }*/
-                ArrayList<String> revenueDate = new ArrayList<>();
-                ArrayList<Integer> revenueValue = new ArrayList<>();
-                
-                String currentDate = "";
-                int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                
-                long totalRevenue = 0;
-                long currentYearRevenue = 0;
-                
-                for(Invoice i: invoiceList) {
-                    if(!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {
-                        
-                        revenueDate.add(i.getMonth());
-                        currentDate = i.getMonth();
-                        revenueValue.add(0);
+                    ArrayList<String> revenueDate = new ArrayList<>();
+                    ArrayList<Integer> revenueValue = new ArrayList<>();
+
+                    String currentDate = "";
+                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+                    long totalRevenue = 0;
+                    long currentYearRevenue = 0;
+
+                    for (Invoice i : invoiceList) {
+                        if (!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {
+
+                            revenueDate.add(i.getMonth());
+                            currentDate = i.getMonth();
+                            revenueValue.add(0);
+                        }
+                        if (revenueDate.size() <= 5) {
+                            revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
+                        }
+
+                        totalRevenue += i.getTotalPrice();
+                        String dateValue[] = i.getMonth().split("/");
+
+                        if (currentYear == Integer.parseInt(dateValue[1])) {
+                            currentYearRevenue += i.getTotalPrice();
+                        }
                     }
-                    if(revenueDate.size() <= 5)
-                        revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
-                    
-                    totalRevenue += i.getTotalPrice();
-                    String dateValue[] = i.getMonth().split("/");
-                    
-                    if(currentYear == Integer.parseInt(dateValue[1])) currentYearRevenue += i.getTotalPrice();
-                }
-                
-                request.setAttribute("totalRevenue", totalRevenue);
-                request.setAttribute("currentYearRevenue", currentYearRevenue);
-                request.setAttribute("revenueDate", revenueDate);
-                request.setAttribute("revenueValue", revenueValue);
-                
-                if(revenueValue.size() == 1 || revenueValue.get(0) == revenueValue.get(1)) request.setAttribute("revenueChange", 0);
-                else if(revenueValue.get(0) < revenueValue.get(1)){
-                    double ratio = revenueValue.get(1) / revenueValue.get(0) * 100;
-                    ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
-                    
-                    request.setAttribute("revenueChange", -ratio);
-                }
-                else if(revenueValue.get(0) > revenueValue.get(1)){
-                    double ratio = (double)revenueValue.get(0) / revenueValue.get(1) * 100;
-                    ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
-                    
-                    request.setAttribute("revenueChange", ratio);
-                }
-                //end doanh thu
-                
-                //rating
-                request.setAttribute("ratingCount", FeedbackDAO.findByHostelId(currentHostel.getHostelID()).size());
-                //end rating
-                
-                //booking request
-                ArrayList<BookingRequest> brList = BookingRequestDAO.getBookingRequestByHostelID(currentHostel.getHostelID(), 1);
-                //end booking request
-                
-                /*for(RoomResident rr: RoomResidentDAO.findByHostelID(currentHostel.getHostelID())) {
+
+                    request.setAttribute("totalRevenue", totalRevenue);
+                    request.setAttribute("currentYearRevenue", currentYearRevenue);
+                    request.setAttribute("revenueDate", revenueDate);
+                    request.setAttribute("revenueValue", revenueValue);
+
+                    if (revenueValue.size() <= 1 || revenueValue.get(0) == revenueValue.get(1)) {
+                        request.setAttribute("revenueChange", 0);
+                    } else {
+                        double ratio = ((double)revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(0) * 100;
+                        ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
+
+                        request.setAttribute("revenueChange", -ratio);
+                    }
+                    //end doanh thu
+
+                    //rating
+                    request.setAttribute("ratingCount", FeedbackDAO.findByHostelId(currentHostel.getHostelID()).size());
+                    //end rating
+
+                    //booking request
+                    ArrayList<BookingRequest> brList = BookingRequestDAO.getBookingRequestByHostelID(currentHostel.getHostelID(), 1);
+                    //end booking request
+
+                    /*for(RoomResident rr: RoomResidentDAO.findByHostelID(currentHostel.getHostelID())) {
                     System.out.println(rr.getFullname());
                 }*/
-                
-                //dia chi 
+                    //dia chi 
+                    int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
+                    List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
 
-                int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
-                List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
+                    List<Province> provinceList = ProvinceDAO.findAll();
+                    List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
+                    request.setAttribute("currentDistrictList", currentDistrictList);
+                    request.setAttribute("provinceList", provinceList);
+                    request.setAttribute("districtList", districtList);
 
-                List<Province> provinceList = ProvinceDAO.findAll();
-                List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
-                request.setAttribute("currentDistrictList", currentDistrictList);
-                request.setAttribute("provinceList", provinceList);
-                request.setAttribute("districtList", districtList);
-                
-                request.setAttribute("noResidents", RoomResidentDAO.findByHostelID(currentHostel.getHostelID()).size());
+                    request.setAttribute("noResidents", RoomResidentDAO.findByHostelID(currentHostel.getHostelID()).size());
 
-                //end so luong cu dan
-                //doanh thu
-                Collections.sort(invoiceList, new Comparator<Invoice>() {
-                    public int compare(Invoice i1, Invoice i2) {
-                        SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
-                        Date date1 = null, date2 = null;
+                    //end so luong cu dan
+                    //doanh thu
+                    Collections.sort(invoiceList, new Comparator<Invoice>() {
+                        public int compare(Invoice i1, Invoice i2) {
+                            SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
+                            Date date1 = null, date2 = null;
 
-                        try {
-                            date1 = mmyy.parse(i1.getMonth());
-                            date2 = mmyy.parse(i2.getMonth());
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            try {
+                                date1 = mmyy.parse(i1.getMonth());
+                                date2 = mmyy.parse(i2.getMonth());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            return date2.compareTo(date1);
                         }
-                        return date2.compareTo(date1);
-                    }
-                });
+                    });
 
-                /*for (Invoice i : invoiceList) {
+                    /*for (Invoice i : invoiceList) {
                     System.out.println(i.getMonth());
                 }*/
-
-                for (Invoice i : invoiceList) {
-                    if (!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {
-
-                        revenueDate.add(i.getMonth());
-                        currentDate = i.getMonth();
-                        revenueValue.add(0);
-                    }
-                    if (revenueDate.size() <= 5) {
-                        revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
-                    }
-
-                    totalRevenue += i.getTotalPrice();
-                    String dateValue[] = i.getMonth().split("/");
-
-                    if (currentYear == Integer.parseInt(dateValue[1])) {
-                        currentYearRevenue += i.getTotalPrice();
-                    }
                 }
-
-                request.setAttribute("totalRevenue", totalRevenue);
-                request.setAttribute("currentYearRevenue", currentYearRevenue);
-                request.setAttribute("revenueDate", revenueDate);
-                request.setAttribute("revenueValue", revenueValue);
-
-                if (revenueValue.size() == 1 || revenueValue.get(0) == revenueValue.get(1)) {
-                    request.setAttribute("revenueChange", 0);
-                } else {
-                    double ratio = ((double) revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(1) * 100;
-                    ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
-
-                    request.setAttribute("revenueChange", ratio);
-                }
-                //end doanh thu
 
                 request.getRequestDispatcher("/view/LOverView.jsp").forward(request, response);
             } else if (path.equals("/contract-list")) {
@@ -758,10 +722,9 @@ public class LandlordController extends HttpServlet {
                 }
             }
 
-            
-            if(path.equals("/revenue-list")) {
+            if (path.equals("/revenue-list")) {
                 ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
-                
+
                 Collections.sort(invoiceList, new Comparator<Invoice>() {
                     public int compare(Invoice i1, Invoice i2) {
                         SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
@@ -783,33 +746,33 @@ public class LandlordController extends HttpServlet {
                 ArrayList<String> revenueDate = new ArrayList<>();
                 ArrayList<Integer> revenueValue = new ArrayList<>();
 
-                
                 String currentDate = "";
-                
-                for(Invoice i: invoiceList) {
-                    if(!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {        
+
+                for (Invoice i : invoiceList) {
+                    if (!currentDate.equals(i.getMonth()) && revenueDate.size() < 5) {
                         revenueDate.add(i.getMonth());
                         currentDate = i.getMonth();
                         revenueValue.add(0);
                     }
-                    if(revenueDate.size() <= 5)
+                    if (revenueDate.size() <= 5) {
                         revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
+                    }
                 }
-                
+
                 request.setAttribute("revenueDate", revenueDate);
                 request.setAttribute("revenueValue", revenueValue);
-                
+
                 request.getRequestDispatcher("/view/LRevenueList.jsp").forward(request, response);
             }
-            
-            if(path.equals("/revenue-detail")) {
+
+            if (path.equals("/revenue-detail")) {
                 String revenueDate = request.getParameter("revenueDate");
-                
+
                 ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
-                
+
                 request.setAttribute("invoiceList", invoiceList);
                 request.setAttribute("revenueDate", revenueDate);
-                
+
                 request.getRequestDispatcher("/view/LRevenueDetail.jsp").forward(request, response);
             }
         }

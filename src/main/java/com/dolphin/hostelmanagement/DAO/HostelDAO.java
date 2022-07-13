@@ -750,5 +750,9 @@ public class HostelDAO {
     }
 
     public static void main(String[] args) {
+        //save(String name, int districtId, String streetAddress, String description, int landlordId)
+        
+        save("Cô Đệ", 83, "A24 Cống Quỳnh", "Thiết kế đẹp thoáng mát, sang trọng "
+                + "với các căn hộ thiết kế 1 phòng khách + 2 phòng ngủ và phòng thông studio phù hợp với hộ gia đình, người đi làm.", 21);
     }
 }
