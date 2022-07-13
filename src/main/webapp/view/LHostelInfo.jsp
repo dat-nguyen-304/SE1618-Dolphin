@@ -80,194 +80,199 @@
                 </div>
 
                 <!-- General information -->
-                <div class="flex justify-between mt-[20px] grid grid-cols-5 gap-5">
-                    <%@include file="../view/modalLandlordHostelInfo.jsp" %>
-                    <!--Hostel info-->
-                    <div class="card bg-[#fff] p-5 flex flex-col col-span-2">
-                        <div class="flex justify-between">
-                            <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thông tin cơ bản</div>
-                            <button id="editHostel-1" type="submit" name="action" value="Save"
-                                    class="rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Chỉnh sửa thông tin</p>
-                            </button>
+                <c:if test="${sessionScope.currentHostel != null}">
+                    <div class="flex justify-between mt-[20px] grid grid-cols-5 gap-5">
+                        <%@include file="../view/modalLandlordHostelInfo.jsp" %>
+                        <!--Hostel info-->
+                        <div class="card bg-[#fff] p-5 flex flex-col col-span-2">
+                            <div class="flex justify-between">
+                                <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thông tin cơ bản</div>
+                                <button id="editHostel-1" type="submit" name="action" value="Save"
+                                        class="rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
+                                    <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Chỉnh sửa thông tin</p>
+                                </button>
+                            </div>
+                            <div class="w-full h-fit mx-auto">
+                                <div class="grid grid-cols-6 gap-[8px]">
+                                    <div class="col-span-2 grid grid-rows-2 gap-[3px]">
+                                        <p class="text-[#929ca5] font-normal">Mã nhà trọ</p>
+                                        <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.hostelID}</p>
+                                    </div>
+                                    <div class="col-span-4 grid grid-rows-2 gap-[3px]">
+                                        <p class="text-[#929ca5] font-normal">Tên nhà trọ</p>
+                                        <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.hostelName}</p>
+                                    </div>
+                                    <div class="col-span-2 grid grid-rows-2 gap-[0px]">
+                                        <p class="text-[#929ca5] font-normal">Trạng thái</p>
+                                        <c:if test="${sessionScope.currentHostel.activate == true}">
+                                            <p class="w-2/3 text-center px-2 py-[2px] bg-[#dcfce7] rounded text-[18px] text-[#17535B] font-semibold">Hoạt động</p>
+                                        </c:if>
+                                        <c:if test="${sessionScope.currentHostel.activate == false}">
+                                            <p class="w-1/2 text-center px-2 py-[2px] bg-[#f0f1f2] rounded text-[16px] text-[#616569] font-semibold">Đóng cửa</p>
+                                        </c:if>
+                                    </div>
+                                    <div class="col-span-4 grid grid-rows-2 gap-[0px]">
+                                        <p class="text-[#929ca5] font-normal">Ngày tạo</p>
+                                        <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.registeredDate}</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-[20px]">
+                                    <p class="text-[#929ca5] font-normal"><i class="bi bi-geo-alt-fill mr-[5px]"></i>Địa chỉ</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold mt-[5px]">${sessionScope.currentHostel.streetAddress}, ${sessionScope.currentHostel.district.districtName}, ${sessionScope.currentHostel.district.province.provinceName}</p>
+                                </div>
+
+                                <div class="grid grid-rows-2 grid-cols-6 gap-[5px] mt-[20px]">
+                                    <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-house-fill mr-[5px]"></i>Số phòng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.totalRoom}</p>
+                                    <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-house mr-[5px]"></i>Phòng trống</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.availableRoom}</p>
+                                </div>
+                                <div class="grid grid-rows-2 grid-cols-6 gap-[5px] mt-[20px]">
+                                    <fmt:setLocale value = "vi_VN"/>
+                                    <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-tags-fill mr-[5px]"></i>Giá thuê</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4"><fmt:formatNumber value = "${sessionScope.currentHostel.minPrice}" type = "number" pattern="###,###,###VNĐ"/> - <fmt:formatNumber value = "${sessionScope.currentHostel.maxPrice}" type = "number" pattern="###,###,###VNĐ"/></p>
+                                    <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-slash-square mr-[5px]"></i>Diện tích phòng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.minArea}m<sup>2</sup> - ${sessionScope.currentHostel.maxArea}m<sup>2</sup></p>
+                                </div>
+
+                                <div class="mt-[20px]">
+                                    <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Mô tả</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.description}</p>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="w-full h-fit mx-auto">
-                            <div class="grid grid-cols-6 gap-[8px]">
-                                <div class="col-span-2 grid grid-rows-2 gap-[3px]">
-                                    <p class="text-[#929ca5] font-normal">Mã nhà trọ</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.hostelID}</p>
-                                </div>
-                                <div class="col-span-4 grid grid-rows-2 gap-[3px]">
-                                    <p class="text-[#929ca5] font-normal">Tên nhà trọ</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.hostelName}</p>
-                                </div>
-                                <div class="col-span-2 grid grid-rows-2 gap-[0px]">
-                                    <p class="text-[#929ca5] font-normal">Trạng thái</p>
-                                    <c:if test="${sessionScope.currentHostel.activate == true}">
-                                        <p class="w-2/3 text-center px-2 py-[2px] bg-[#dcfce7] rounded text-[18px] text-[#17535B] font-semibold">Hoạt động</p>
-                                    </c:if>
-                                    <c:if test="${sessionScope.currentHostel.activate == false}">
-                                        <p class="w-1/2 text-center px-2 py-[2px] bg-[#f0f1f2] rounded text-[16px] text-[#616569] font-semibold">Đóng cửa</p>
-                                    </c:if>
-                                </div>
-                                <div class="col-span-4 grid grid-rows-2 gap-[0px]">
-                                    <p class="text-[#929ca5] font-normal">Ngày tạo</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.registeredDate}</p>
-                                </div>
-                            </div>
+                        <!--End hostel info-->
 
-                            <div class="mt-[20px]">
-                                <p class="text-[#929ca5] font-normal"><i class="bi bi-geo-alt-fill mr-[5px]"></i>Địa chỉ</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold mt-[5px]">${sessionScope.currentHostel.streetAddress}, ${sessionScope.currentHostel.district.districtName}, ${sessionScope.currentHostel.district.province.provinceName}</p>
-                            </div>
+                        <!--Hostel image-->
+                        <div class="col-span-3">
+                            <div class="card bg-[#fff] p-5 flex flex-col">
+                                <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
+                                    <p>Hình ảnh </p>
+                                    <div class="flex ">
+                                        <span id="cnt-images" class="font-light text-[18px] mr-[10px]"></span>
+                                        <button onclick="unselectAllImages()" class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#17535B] hover:bg-[#13484F] text-[#fff]" id="unselect-all-images" >
+                                            <p><i class="bi bi-slash-circle mr-[5px]"></i>Bỏ chọn tất cả</p>
+                                        </button>
+                                        <!-- Modal remove image toggle -->
+                                        <button class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#17535B] hover:bg-[#13484F] text-[#fff]" id="delete-images" >
+                                            <p><i class="bi bi-trash3-fill mr-[5px]"></i>Xoá hình đã chọn</p>
+                                        </button>
+                                        <!-- Modal add image toggle -->
+                                        <button class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center border border-gray-400" id="add-images" >
+                                            <p><i class="bi bi-plus-lg mr-[5px]"></i>Thêm hình ảnh</p>
+                                        </button>    
+                                    </div>
 
-                            <div class="grid grid-rows-2 grid-cols-6 gap-[5px] mt-[20px]">
-                                <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-house-fill mr-[5px]"></i>Số phòng</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.totalRoom}</p>
-                                <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-house mr-[5px]"></i>Phòng trống</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.availableRoom}</p>
-                            </div>
-                            <div class="grid grid-rows-2 grid-cols-6 gap-[5px] mt-[20px]">
-                                <fmt:setLocale value = "vi_VN"/>
-                                <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-tags-fill mr-[5px]"></i>Giá thuê</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4"><fmt:formatNumber value = "${sessionScope.currentHostel.minPrice}" type = "number" pattern="###,###,###VNĐ"/> - <fmt:formatNumber value = "${sessionScope.currentHostel.maxPrice}" type = "number" pattern="###,###,###VNĐ"/></p>
-                                <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-slash-square mr-[5px]"></i>Diện tích phòng</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.minArea}m<sup>2</sup> - ${sessionScope.currentHostel.maxArea}m<sup>2</sup></p>
-                            </div>
-
-                            <div class="mt-[20px]">
-                                <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Mô tả</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.description}</p>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!--End hostel info-->
-
-                    <!--Hostel image-->
-                    <div class="col-span-3">
-                        <div class="card bg-[#fff] p-5 flex flex-col">
-                            <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
-                                <p>Hình ảnh </p>
-                                <div class="flex ">
-                                    <span id="cnt-images" class="font-light text-[18px] mr-[10px]"></span>
-                                    <button onclick="unselectAllImages()" class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#17535B] hover:bg-[#13484F] text-[#fff]" id="unselect-all-images" >
-                                        <p><i class="bi bi-slash-circle mr-[5px]"></i>Bỏ chọn tất cả</p>
-                                    </button>
-                                    <!-- Modal remove image toggle -->
-                                    <button class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#17535B] hover:bg-[#13484F] text-[#fff]" id="delete-images" >
-                                        <p><i class="bi bi-trash3-fill mr-[5px]"></i>Xoá hình đã chọn</p>
-                                    </button>
-                                    <!-- Modal add image toggle -->
-                                    <button class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center border border-gray-400" id="add-images" >
-                                        <p><i class="bi bi-plus-lg mr-[5px]"></i>Thêm hình ảnh</p>
-                                    </button>    
                                 </div>
-
-                            </div>
-                            <div class="w-full h-fit mx-auto z-0 " id="display-image">
-                                <div class="hidden h-[600px] flex flex-col items-center justify-around" id="empty-image-list">
-                                    <h4 class="w-[60%] mx-auto text-center text-[47px] font-bold tracking-wide text-[#c9c9c9]">Chưa có hình ảnh nào cho nhà trọ này!</h4>
-                                    <p class="text-gray-700 font-semibold text-[18px]">Bạn cần cập nhật hình ảnh để thông tin nhà trọ của bạn đáng tin cậy hơn.</p>
-                                </div>
-                                <c:choose>
-                                    <c:when test="${empty sessionScope.currentHostel.imgList}">
-                                        <div class="h-[600px] flex flex-col items-center justify-around" id="empty-image-list">
-                                            <h4 class="w-[60%] mx-auto text-center text-[47px] font-bold tracking-wide text-[#c9c9c9]">Chưa có hình ảnh nào cho nhà trọ này!</h4>
-                                            <p class="text-gray-700 font-semibold text-[18px]">Bạn cần cập nhật hình ảnh để thông tin nhà trọ của bạn đáng tin cậy hơn.</p>
-                                        </div>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <section id="main-carousel" class="splide w-full" aria-label="">
-                                            <div class="splide__track w-full">
-                                                <ul class="splide__list">
-                                                    <c:forEach items="${sessionScope.currentHostel.imgList}" var="imgHostel">
-                                                        <li class="splide__slide image-item-container overflow-hidden relative group cursor-pointer" > 
-                                                            <img class="z-[1] mx-auto" alt="" src="${imgHostel}" size="" id="${imgHostel}">
-                                                            <div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]">
-                                                                <a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile('${imgHostel}', event);"> 
-                                                                    <i class="bi bi-x"></i>
-                                                                </a>
-                                                                <input type="checkbox" name="select-image" value="${imgHostel}" class="checkbox-input hidden" id="ip_${imgHostel}" onchange="toggleSelectImage(event)">
-                                                                <label for="ip_${imgHostel}">
-                                                                    <span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span>
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
+                                <div class="w-full h-fit mx-auto z-0 " id="display-image">
+                                    <div class="hidden h-[600px] flex flex-col items-center justify-around" id="empty-image-list">
+                                        <h4 class="w-[60%] mx-auto text-center text-[47px] font-bold tracking-wide text-[#c9c9c9]">Chưa có hình ảnh nào cho nhà trọ này!</h4>
+                                        <p class="text-gray-700 font-semibold text-[18px]">Bạn cần cập nhật hình ảnh để thông tin nhà trọ của bạn đáng tin cậy hơn.</p>
+                                    </div>
+                                    <c:choose>
+                                        <c:when test="${empty sessionScope.currentHostel.imgList}">
+                                            <div class="h-[600px] flex flex-col items-center justify-around" id="empty-image-list">
+                                                <h4 class="w-[60%] mx-auto text-center text-[47px] font-bold tracking-wide text-[#c9c9c9]">Chưa có hình ảnh nào cho nhà trọ này!</h4>
+                                                <p class="text-gray-700 font-semibold text-[18px]">Bạn cần cập nhật hình ảnh để thông tin nhà trọ của bạn đáng tin cậy hơn.</p>
                                             </div>
-                                        </section>
-                                        <ul id="thumbnails" class="thumbnails w-full min-w-0 flex mt-[10px] p-0">
-                                            <c:forEach items="${sessionScope.currentHostel.imgList}" var="imgHostel">
-                                                <li class="thumbnail image-item-container mr-[2px] overflow-hidden relative group cursor-pointer" id="tb_${imgHostel}"> 
-                                                    <div class="image-overlay w-full h-full bg-[#000] opacity-0 absolute top-0 left-0 z-[2] duration-150"></div>
-                                                    <img class="z-[1] w-full h-full object-cover group-hover:blur-sm duration-150" alt="" src="${imgHostel}" size="">
-                                                    <div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]">
-                                                        <a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile('${imgHostel}', event);"> 
-                                                            <i class="bi bi-x"></i>
-                                                        </a>
-                                                        <input type="checkbox" name="select-image" value="${imgHostel}" class="checkbox-input hidden" id="tb_ip_${imgHostel}" onchange="toggleSelectThumbnail(event)">
-                                                        <label for="tb_ip_${imgHostel}">
-                                                            <span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span>
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </c:forEach>
-                                        </ul>
-                                    </c:otherwise>
-                                </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <section id="main-carousel" class="splide w-full" aria-label="">
+                                                <div class="splide__track w-full">
+                                                    <ul class="splide__list">
+                                                        <c:forEach items="${sessionScope.currentHostel.imgList}" var="imgHostel">
+                                                            <li class="splide__slide image-item-container overflow-hidden relative group cursor-pointer" > 
+                                                                <img class="z-[1] mx-auto" alt="" src="${imgHostel}" size="" id="${imgHostel}">
+                                                                <div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]">
+                                                                    <a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile('${imgHostel}', event);"> 
+                                                                        <i class="bi bi-x"></i>
+                                                                    </a>
+                                                                    <input type="checkbox" name="select-image" value="${imgHostel}" class="checkbox-input hidden" id="ip_${imgHostel}" onchange="toggleSelectImage(event)">
+                                                                    <label for="ip_${imgHostel}">
+                                                                        <span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
+                                            </section>
+                                            <ul id="thumbnails" class="thumbnails w-full min-w-0 flex mt-[10px] p-0">
+                                                <c:forEach items="${sessionScope.currentHostel.imgList}" var="imgHostel">
+                                                    <li class="thumbnail image-item-container mr-[2px] overflow-hidden relative group cursor-pointer" id="tb_${imgHostel}"> 
+                                                        <div class="image-overlay w-full h-full bg-[#000] opacity-0 absolute top-0 left-0 z-[2] duration-150"></div>
+                                                        <img class="z-[1] w-full h-full object-cover group-hover:blur-sm duration-150" alt="" src="${imgHostel}" size="">
+                                                        <div class="image-control flex justify-between items-center z-[3] h-[20px] w-full text-[#fff] text-[20px] absolute top-[5px] px-[5px]">
+                                                            <a class="remove-image m-0 p-0 h-full flex items-center" onclick="removeFile('${imgHostel}', event);"> 
+                                                                <i class="bi bi-x"></i>
+                                                            </a>
+                                                            <input type="checkbox" name="select-image" value="${imgHostel}" class="checkbox-input hidden" id="tb_ip_${imgHostel}" onchange="toggleSelectThumbnail(event)">
+                                                            <label for="tb_ip_${imgHostel}">
+                                                                <span class="checkbox transparent border border-[#fff] rounded w-[16px] h-[16px] inline-block relative cursor-pointer"></span>
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </div>
                         </div>
+                        <!--End hostel image-->
                     </div>
-                    <!--End hostel image-->
-                </div>
-                <!--End general information-->
+                    <!--End general information-->
 
-                <!-- Feedback, review -->
-                <div class="feedback mt-[20px] grid grid-cols-5 gap-[20px]">
-                    <div class="card w-full h-fit bg-[#fff] p-[20px] flex flex-col">
-                        <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Đánh giá</div>
-                        <div class="w-full h-fit mx-auto">
-                            <div class="relative w-[80%] h-fit mx-auto mt-[20px]">
-                                <div id="donut-chart" dir="ltr" dnt></div>
-                                <div>Điểm đánh giá trung bình</div>
-                                <p class="text-center">${requestScope.feedbacks.size()} lượt đánh giá</p>
+                    <!-- Feedback, review -->
+                    <div class="feedback mt-[20px] grid grid-cols-5 gap-[20px]">
+                        <div class="card w-full h-fit bg-[#fff] p-[20px] flex flex-col">
+                            <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Đánh giá</div>
+                            <div class="w-full h-fit mx-auto">
+                                <div class="relative w-[80%] h-fit mx-auto mt-[20px]">
+                                    <div id="donut-chart" dir="ltr" dnt></div>
+                                    <div>Điểm đánh giá trung bình</div>
+                                    <p class="text-center">${requestScope.feedbacks.size()} lượt đánh giá</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Rating -->
-                    <div class="card col-span-4 w-full bg-[#fff] p-[20px]">
-                        <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Chi tiết đánh giá
-                        </div>
-                        <div class="w-full mx-auto overflow-y-auto">
-                            <table class="w-full text-[15px] text-left text-gray-500 ">
-                                <thead class="text-[15px] text-gray-700 uppercase bg-gray-50 ">
-                                    <tr class="grid grid-16 gap-[5px]">
-                                        <th scope="col" class="px-2 py-3 col-span-2">Thời gian</th>
-                                        <th scope="col" class="px-2 py-3 col-span-2">Người đánh giá</th>
-                                        <th scope="col" class="text-center px-1 py-3 col-span-2">Số điểm</th>
-                                        <th scope="col" class="px-1 py-3 col-span-10">Nội dung</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${requestScope.feedbacks}" var="feedback">
-                                        <tr class="bg-white border-b hover:bg-gray-50 grid grid-16 gap-[5px]">
-                                            <td class="px-2 py-4 col-span-2">${feedback.date}</td>
-                                            <td class="px-2 py-4 col-span-2">${feedback.tenant.fullname}</td>
-                                            <td class="text-center px-1 py-4 col-span-2">${feedback.rating}</td>
-                                            <td class="px-1 py-4 col-span-10">${feedback.content}</td>
+                        <!-- Rating -->
+                        <div class="card col-span-4 w-full bg-[#fff] p-[20px]">
+                            <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Chi tiết đánh giá
+                            </div>
+                            <div class="w-full mx-auto overflow-y-auto">
+                                <table class="w-full text-[15px] text-left text-gray-500 ">
+                                    <thead class="text-[15px] text-gray-700 uppercase bg-gray-50 ">
+                                        <tr class="grid grid-16 gap-[5px]">
+                                            <th scope="col" class="px-2 py-3 col-span-2">Thời gian</th>
+                                            <th scope="col" class="px-2 py-3 col-span-2">Người đánh giá</th>
+                                            <th scope="col" class="text-center px-1 py-3 col-span-2">Số điểm</th>
+                                            <th scope="col" class="px-1 py-3 col-span-10">Nội dung</th>
                                         </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${requestScope.feedbacks}" var="feedback">
+                                            <tr class="bg-white border-b hover:bg-gray-50 grid grid-16 gap-[5px]">
+                                                <td class="px-2 py-4 col-span-2">${feedback.date}</td>
+                                                <td class="px-2 py-4 col-span-2">${feedback.tenant.fullname}</td>
+                                                <td class="text-center px-1 py-4 col-span-2">${feedback.rating}</td>
+                                                <td class="px-1 py-4 col-span-10">${feedback.content}</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
+                    <!-- End Statistics -->
                 </div>
-                <!-- End Statistics -->
-            </div>
+            </c:if>
+            <c:if test="${sessionScope.currentHostel == null}">
+                Bạn chưa có nhà trọ. Quay về trang "Tổng quan" để thêm thông tin nhà trọ!
+            </c:if>
 
             <%@include file="../view/footerDashboard.jsp" %>
 
@@ -280,19 +285,19 @@
         <script src="../assets/javascript/render-district.js"></script>
 
         <script type="text/javascript">
-                                                            function showToast(type, msg) {
-                                                                toastr.options.positionClass = 'toast-bottom-right';
-                                                                toastr.options.extendedTimeOut = 0; //1000;
-                                                                toastr.options.timeOut = 3000;
-                                                                toastr.options.hideDuration = 250;
-                                                                toastr.options.showDuration = 250;
-                                                                toastr.options.hideMethod = 'slideUp';
-                                                                toastr.options.showMethod = 'slideDown';
-                                                                toastr.options.preventDuplicates = true;
-                                                                toastr.options.closeButton = true;
-                                                                toastr.options.progressBar = true;
-                                                                toastr[type](msg);
-                                                            }
+                                                                function showToast(type, msg) {
+                                                                    toastr.options.positionClass = 'toast-bottom-right';
+                                                                    toastr.options.extendedTimeOut = 0; //1000;
+                                                                    toastr.options.timeOut = 3000;
+                                                                    toastr.options.hideDuration = 250;
+                                                                    toastr.options.showDuration = 250;
+                                                                    toastr.options.hideMethod = 'slideUp';
+                                                                    toastr.options.showMethod = 'slideDown';
+                                                                    toastr.options.preventDuplicates = true;
+                                                                    toastr.options.closeButton = true;
+                                                                    toastr.options.progressBar = true;
+                                                                    toastr[type](msg);
+                                                                }
         </script>
         <script>
             var open_modal_1 = document.querySelector('#editHostel-1');

@@ -84,154 +84,161 @@
                 </nav>
                 <!-- End breadcrumb -->
 
-                <!-- Search and filter -->
-                <div class="general-info flex justify-between mt-[20px]">
-                    <div class="w-full flex justify-between items-center">
-                        <div class="left-part">
-                            <%@include file="../view/modalLandlordInvoiceList.jsp" %>
-                            <!-- Choose hostel -->
-                            <div class="flex items-center">
-                                <div class="pr-[20px] mr-[20px] border-r border-gray-300">
-                                    <span>Nhà trọ: </span>
-                                    <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
-                                        <span id="hostelName">
-                                            ${(requestScope.chosenHostel != null) ? requestScope.chosenHostel.hostelName : "Chọn nhà trọ"}
-                                        </span>
-                                    </button>
+                <c:choose>
+                    <c:when test="${requestScope.chosenHostel != null}">
+                        <!-- Search and filter -->
+                        <div class="general-info flex justify-between mt-[20px]">
+                            <div class="w-full flex justify-between items-center">
+                                <div class="left-part">
+                                    <%@include file="../view/modalLandlordInvoiceList.jsp" %>
+                                    <!-- Choose hostel -->
+                                    <div class="flex items-center">
+                                        <div class="pr-[20px] mr-[20px] border-r border-gray-300">
+                                            <span>Nhà trọ: </span>
+                                            <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
+                                                <span id="hostelName">
+                                                    ${(requestScope.chosenHostel != null) ? requestScope.chosenHostel.hostelName : "Chọn nhà trọ"}
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div id="chooseRoom">
+                                            <span>Phòng: </span>
+                                            <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="roomModal">
+                                                <span id="roomNumber">
+                                                    ${(requestScope.chosenRoom == null) ? "Chọn phòng" : requestScope.chosenRoom.roomID == 0 ? "Tất cả" : requestScope.chosenRoom.roomNumber}
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id="chooseRoom">
-                                    <span>Phòng: </span>
-                                    <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="roomModal">
-                                        <span id="roomNumber">
-                                            ${(requestScope.chosenRoom == null) ? "Chọn phòng" : requestScope.chosenRoom.roomID == 0 ? "Tất cả" : requestScope.chosenRoom.roomNumber}
-                                        </span>
-                                    </button>
-                                </div>
+
+                                <c:if test="${chosenRoom != null}">
+                                    <div class="right-part flex justify-between items-center">
+                                        <form id="filter-form" class="w-full flex justify-between items-center" action="/sakura/invoice/search" method="post">
+                                            <input type="hidden" value="${requestScope.chosenHostel.hostelID}" name="hostelID">
+                                            <input type="hidden" value="${requestScope.chosenRoom.roomID}" name="roomID">
+
+                                            <div class="right-part flex justify-between items-center">
+                                                <!-- Filter by date -->
+                                                <div class="date-picker mr-[20px]">
+                                                    <div class="flex items-center">
+                                                        <div class="relative">
+                                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom right" name="start" type="text" id="start-date" autocomplete="off" placeholder="Ngày đầu"
+                                                                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-[160px] pl-10 py-[5px] datepicker-input"
+                                                                   <c:if test="${!requestScope.reset}">value="${param.start}"</c:if>>
+                                                            </div>
+                                                            <span class="mx-4 text-gray-500">đến</span>
+                                                            <div class="relative">
+                                                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                    <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom right" name="end" type="text" id="end-date" autocomplete="off" placeholder="Ngày cuối"
+                                                                       class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-[160px] pl-10 py-[5px] datepicker-input"
+                                                                <c:if test="${!requestScope.reset}">value="${param.end}"</c:if>>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--Filter by status-->
+                                                    <div class="mr-[20px]">
+                                                        <select name="sortByStatus" class="box-border text-[#17535B] bg-[#fff] hover:bg-[#F6F8FA] font-medium rounded text-[15px] px-[10px] py-[5px] text-left border border-[#17535B]">
+                                                            <option value="-1">Trạng thái</option>
+                                                            <option value="0" <c:if test="${!requestScope.reset && param.sortByStatus == 0}">selected</c:if>>
+                                                                Chưa thanh toán
+                                                            </option>
+                                                            <option value="1" <c:if test="${!requestScope.reset && param.sortByStatus == 1}">selected</c:if>>
+                                                                Đã thanh toán
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <!--Reset filter button-->
+                                                    <button type="submit" name="resetButton" value="true" class="mr-[20px] px-[10px] py-[5px] text-[15px] font-medium text-[#fff] bg-[#17535B] rounded hover:bg-[#13484F]">
+                                                        Hủy tất cả
+                                                    </button>
+
+                                                    <!-- Submit button -->
+                                                    <button type="submit" class="mr-[20px] px-[10px] py-[5px] text-[15px] font-medium text-[#fff] bg-[#17535B] rounded hover:bg-[#13484F]">
+                                                        Lọc
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                </c:if>
+
+                            </div>
+                        </div>
+                        <!-- End Search and filter -->
+
+                        <!-- table invoice list -->
+                        <div class="statistic flex justify-between mt-[20px] w-full">
+                            <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
+                                <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                                    <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">Mã hoá đơn</th>
+                                            <th scope="col" class="px-6 py-3">Phòng</th>
+                                            <th scope="col" class="px-6 py-3">Hóa đơn tháng</th>
+                                            <th scope="col" class="px-6 py-3">Ngày bắt đầu</th>
+                                            <th scope="col" class="px-6 py-3">Ngày kết thúc</th>
+                                            <th scope="col" class="px-6 py-3">Giá tiền</th>
+                                            <th scope="col" class="px-6 py-3">Trạng thái</th>
+                                            <th scope="col" class="px-6 py-3">
+                                                <span class="sr-only">Edit</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="invoiceList">
+                                        <c:choose>
+                                            <c:when test="${requestScope.invoiceList.size() != 0}">
+                                                <c:forEach items="${requestScope.invoiceList}" var="invoice">
+                                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                            <a href="#" class="hover:text-[#288D87] hover:underline">${invoice.invoiceID}</a>
+                                                        </th>
+                                                        <td class="px-6 py-4">${invoice.contract.room.roomNumber}</td>
+                                                        <td class="px-6 py-4">${invoice.month}</td>
+                                                        <td class="px-6 py-4 date">${invoice.startDate}</td>
+                                                        <td class="px-6 py-4 date">${invoice.endDate}</td>
+                                                        <td class="px-6 py-4"><span class="money">${invoice.totalPrice}</span> đ
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <c:if test="${invoice.status == 0}">
+                                                                <span class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán</span>
+                                                            </c:if>
+                                                            <c:if test="${invoice.status == 1}">
+                                                                <span class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã thanh toán</span>
+                                                            </c:if>
+                                                        </td>
+                                                        <td class="px-6 py-4 text-center">
+                                                            <form action="/sakura/invoice/detail" method="post">
+                                                                <button name="invoiceID" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
 
-                        <c:if test="${chosenRoom != null}">
-                            <div class="right-part flex justify-between items-center">
-                                <form id="filter-form" class="w-full flex justify-between items-center" action="/sakura/invoice/search" method="post">
-                                    <input type="hidden" value="${requestScope.chosenHostel.hostelID}" name="hostelID">
-                                    <input type="hidden" value="${requestScope.chosenRoom.roomID}" name="roomID">
-
-                                    <div class="right-part flex justify-between items-center">
-                                        <!-- Filter by date -->
-                                        <div class="date-picker mr-[20px]">
-                                            <div class="flex items-center">
-                                                <div class="relative">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                                                        </svg>
-                                                    </div>
-                                                    <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom right" name="start" type="text" id="start-date" autocomplete="off" placeholder="Ngày đầu"
-                                                           class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-[160px] pl-10 py-[5px] datepicker-input"
-                                                           <c:if test="${!requestScope.reset}">value="${param.start}"</c:if>>
-                                                    </div>
-                                                    <span class="mx-4 text-gray-500">đến</span>
-                                                    <div class="relative">
-                                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                                                            </svg>
-                                                        </div>
-                                                        <input datepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom right" name="end" type="text" id="end-date" autocomplete="off" placeholder="Ngày cuối"
-                                                               class="bg-gray-50 border border-gray-300 text-gray-900 rounded block w-[160px] pl-10 py-[5px] datepicker-input"
-                                                        <c:if test="${!requestScope.reset}">value="${param.end}"</c:if>>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--Filter by status-->
-                                            <div class="mr-[20px]">
-                                                <select name="sortByStatus" class="box-border text-[#17535B] bg-[#fff] hover:bg-[#F6F8FA] font-medium rounded text-[15px] px-[10px] py-[5px] text-left border border-[#17535B]">
-                                                    <option value="-1">Trạng thái</option>
-                                                    <option value="0" <c:if test="${!requestScope.reset && param.sortByStatus == 0}">selected</c:if>>
-                                                        Chưa thanh toán
-                                                    </option>
-                                                    <option value="1" <c:if test="${!requestScope.reset && param.sortByStatus == 1}">selected</c:if>>
-                                                        Đã thanh toán
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <!--Reset filter button-->
-                                            <button type="submit" name="resetButton" value="true" class="mr-[20px] px-[10px] py-[5px] text-[15px] font-medium text-[#fff] bg-[#17535B] rounded hover:bg-[#13484F]">
-                                                Hủy tất cả
-                                            </button>
-
-                                            <!-- Submit button -->
-                                            <button type="submit" class="mr-[20px] px-[10px] py-[5px] text-[15px] font-medium text-[#fff] bg-[#17535B] rounded hover:bg-[#13484F]">
-                                                Lọc
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                        </c:if>
-
+                        <!-- End table invoice list -->
                     </div>
-                </div>
-                <!-- End Search and filter -->
-
-                <!-- table invoice list -->
-                <div class="statistic flex justify-between mt-[20px] w-full">
-                    <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
-                        <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                            <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">Mã hoá đơn</th>
-                                    <th scope="col" class="px-6 py-3">Phòng</th>
-                                    <th scope="col" class="px-6 py-3">Hóa đơn tháng</th>
-                                    <th scope="col" class="px-6 py-3">Ngày bắt đầu</th>
-                                    <th scope="col" class="px-6 py-3">Ngày kết thúc</th>
-                                    <th scope="col" class="px-6 py-3">Giá tiền</th>
-                                    <th scope="col" class="px-6 py-3">Trạng thái</th>
-                                    <th scope="col" class="px-6 py-3">
-                                        <span class="sr-only">Edit</span>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="invoiceList">
-                                <c:choose>
-                                    <c:when test="${requestScope.invoiceList.size() != 0}">
-                                        <c:forEach items="${requestScope.invoiceList}" var="invoice">
-                                            <tr class="bg-white border-b hover:bg-gray-50">
-                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    <a href="#" class="hover:text-[#288D87] hover:underline">${invoice.invoiceID}</a>
-                                                </th>
-                                                <td class="px-6 py-4">${invoice.contract.room.roomNumber}</td>
-                                                <td class="px-6 py-4">${invoice.month}</td>
-                                                <td class="px-6 py-4 date">${invoice.startDate}</td>
-                                                <td class="px-6 py-4 date">${invoice.endDate}</td>
-                                                <td class="px-6 py-4"><span class="money">${invoice.totalPrice}</span> đ
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <c:if test="${invoice.status == 0}">
-                                                        <span class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán</span>
-                                                    </c:if>
-                                                    <c:if test="${invoice.status == 1}">
-                                                        <span class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã thanh toán</span>
-                                                    </c:if>
-                                                </td>
-                                                <td class="px-6 py-4 text-center">
-                                                    <form action="/sakura/invoice/detail" method="post">
-                                                        <button name="invoiceID" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:when>
-                                    <c:otherwise>
-                                    </c:otherwise>
-                                </c:choose>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-
-                <!-- End table invoice list -->
-            </div>
+                </c:when>
+                <c:otherwise>
+                    Bạn chưa có nhà trọ. Quay về trang "Tổng quan" để thêm thông tin nhà trọ!
+                </c:otherwise>
+            </c:choose>
 
             <%@include file="../view/footerDashboard.jsp" %>
 

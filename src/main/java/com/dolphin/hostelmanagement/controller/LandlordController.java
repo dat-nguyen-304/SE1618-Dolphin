@@ -106,7 +106,7 @@ public class LandlordController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
             HttpSession session = request.getSession();
@@ -133,13 +133,11 @@ public class LandlordController extends HttpServlet {
                     currentHostel = HostelDAO.findById(hostelId);
                     session.setAttribute("currentHostel", currentHostel);
                 }
-
                 currentHostel = (Hostel) session.getAttribute("currentHostel");
 
                 if (currentHostel != null) {
                     //doanh thu
                     ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
-
                     Collections.sort(invoiceList, new Comparator<Invoice>() {
                         public int compare(Invoice i1, Invoice i2) {
                             SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
@@ -528,27 +526,29 @@ public class LandlordController extends HttpServlet {
             }
 
             if (path.equals("/hostel-info")) {
-                currentHostel = null;
-                if (session.getAttribute("currentHostel") != null) {
-                    currentHostel = (Hostel) session.getAttribute("currentHostel");
-                }
-                ArrayList<Feedback> feedbackList = (ArrayList<Feedback>) FeedbackDAO.findByHostelId(currentHostel.getHostelID());
-                double avgRating = 0;
-                for (Feedback feedback : feedbackList) {
-                    avgRating += feedback.getRating();
-                    //System.out.println(feedback.toString());
-                }
-                avgRating /= feedbackList.size();
-                request.setAttribute("avgRating", avgRating);
-                request.setAttribute("feedbacks", feedbackList);
-                int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
-                List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
+//                currentHostel = null;
+//                if (session.getAttribute("currentHostel") != null) {
+//                    currentHostel = (Hostel) session.getAttribute("currentHostel");
+//                }
+                if (currentHostel != null) {
+                    ArrayList<Feedback> feedbackList = (ArrayList<Feedback>) FeedbackDAO.findByHostelId(currentHostel.getHostelID());
+                    double avgRating = 0;
+                    for (Feedback feedback : feedbackList) {
+                        avgRating += feedback.getRating();
+                        //System.out.println(feedback.toString());
+                    }
+                    avgRating /= feedbackList.size();
+                    request.setAttribute("avgRating", avgRating);
+                    request.setAttribute("feedbacks", feedbackList);
+                    int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();
+                    List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
 
-                List<Province> provinceList = ProvinceDAO.findAll();
-                List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
-                request.setAttribute("currentDistrictList", currentDistrictList);
-                request.setAttribute("provinceList", provinceList);
-                request.setAttribute("districtList", districtList);
+                    List<Province> provinceList = ProvinceDAO.findAll();
+                    List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
+                    request.setAttribute("currentDistrictList", currentDistrictList);
+                    request.setAttribute("provinceList", provinceList);
+                    request.setAttribute("districtList", districtList);
+                }
                 request.getRequestDispatcher("/view/LHostelInfo.jsp").forward(request, response);
             }
 

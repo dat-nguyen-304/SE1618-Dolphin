@@ -155,25 +155,27 @@ public class InvoiceController extends HttpServlet {
                     Hostel chosenHostel = null;
                     List<Invoice> invoiceList = null;
                     if (request.getParameter("hostelID") == null) {
-                        chosenHostel = (Hostel) session.getAttribute("currentHostel");
+                        chosenHostel = (session.getAttribute("curentHostel") != null) ? (Hostel) session.getAttribute("currentHostel") : null;
                     }
-                    if (request.getParameter("roomID") != null) {
-                        int roomID = Integer.parseInt(request.getParameter("roomID"));
-                        if (roomID != 0) {
-                            chosenRoom = RoomDAO.findByID(roomID);
-                            chosenHostel = chosenRoom.getRoomType().getHostel();
-                            invoiceList = InvoiceDAO.findByRoomID(chosenRoom.getRoomID());
-                            request.setAttribute("chosenRoom", chosenRoom);
-                        } else {
-                            int hostelID = Integer.parseInt(request.getParameter("hostelID"));
-                            chosenHostel = HostelDAO.findById(hostelID);
-                            invoiceList = InvoiceDAO.findByHostelID(chosenHostel.getHostelID());
-                            request.setAttribute("chosenRoom", new Room());
+                    if (chosenHostel != null) {
+                        if (request.getParameter("roomID") != null) {
+                            int roomID = Integer.parseInt(request.getParameter("roomID"));
+                            if (roomID != 0) {
+                                chosenRoom = RoomDAO.findByID(roomID);
+                                chosenHostel = chosenRoom.getRoomType().getHostel();
+                                invoiceList = InvoiceDAO.findByRoomID(chosenRoom.getRoomID());
+                                request.setAttribute("chosenRoom", chosenRoom);
+                            } else {
+                                int hostelID = Integer.parseInt(request.getParameter("hostelID"));
+                                chosenHostel = HostelDAO.findById(hostelID);
+                                invoiceList = InvoiceDAO.findByHostelID(chosenHostel.getHostelID());
+                                request.setAttribute("chosenRoom", new Room());
+                            }
+                            request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
+                            request.setAttribute("invoiceList", invoiceList);
                         }
                     }
                     request.setAttribute("chosenHostel", chosenHostel);
-                    request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
-                    request.setAttribute("invoiceList", invoiceList);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
                 }
 
@@ -198,43 +200,43 @@ public class InvoiceController extends HttpServlet {
                     if (request.getParameter("chosenHostel") == null && request.getParameter("chosenRoom") == null) {
                         chosenHostel = (Hostel) session.getAttribute("currentHostel");
                     }
-                    if (chosenRoomID != null) {
-                        System.out.println("204 " + chosenRoomID);
-                        Room chosenRoom = RoomDAO.findRoomNewInvoice(Integer.parseInt(chosenRoomID));
-                        chosenHostel = chosenRoom.getRoomType().getHostel();
-                        request.setAttribute("chosenRoom", chosenRoom);
-                        activeServices = ServiceDAO.findHostelActiveServices(chosenHostel);
-                        Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
-                        if (chosenRoom.getLatestInvoiceMonth() == null) {
-                            String startMonth = contract.getStartDate().toString();
-                            startMonth = startMonth.substring(0, startMonth.lastIndexOf('-'));
-                            request.setAttribute("startMonth", startMonth);
-                        } else {
-                            Invoice lastInvoice = InvoiceDAO.findLatestByContract(contract);
-                            System.out.println("216 " + lastInvoice);
-                            List<ServiceDetail> prevMonthDetails = ServiceDAO.findDetailsByInvoice(lastInvoice);
+                    if (chosenHostel != null) {
+                        if (chosenRoomID != null) {
+                            Room chosenRoom = RoomDAO.findRoomNewInvoice(Integer.parseInt(chosenRoomID));
+                            chosenHostel = chosenRoom.getRoomType().getHostel();
+                            request.setAttribute("chosenRoom", chosenRoom);
+                            activeServices = ServiceDAO.findHostelActiveServices(chosenHostel);
+                            Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
+                            if (chosenRoom.getLatestInvoiceMonth() == null) {
+                                String startMonth = contract.getStartDate().toString();
+                                startMonth = startMonth.substring(0, startMonth.lastIndexOf('-'));
+                                request.setAttribute("startMonth", startMonth);
+                            } else {
+                                Invoice lastInvoice = InvoiceDAO.findLatestByContract(contract);
+                                List<ServiceDetail> prevMonthDetails = ServiceDAO.findDetailsByInvoice(lastInvoice);
 //                            for (ServiceDetail prevMonthDetail : prevMonthDetails) {
 //                                System.out.println(prevMonthDetail.getService().getServiceID());
 //                            }
-                            List<Integer> lastMonthValues = new ArrayList();
-                            for (Service activeService : activeServices) {
-                                for (ServiceDetail prevMonthDetail : prevMonthDetails) {
-                                    if (prevMonthDetail.getService().getServiceID() == activeService.getServiceID()) {
-                                        lastMonthValues.add(prevMonthDetail.getEndValue());
+                                List<Integer> lastMonthValues = new ArrayList();
+                                for (Service activeService : activeServices) {
+                                    for (ServiceDetail prevMonthDetail : prevMonthDetails) {
+                                        if (prevMonthDetail.getService().getServiceID() == activeService.getServiceID()) {
+                                            lastMonthValues.add(prevMonthDetail.getEndValue());
+                                        }
                                     }
                                 }
+                                for (Integer lastMonthValue : lastMonthValues) {
+                                    System.out.println(lastMonthValue);
+                                }
+                                request.setAttribute("prevMonthDetails", prevMonthDetails);
                             }
-                            for (Integer lastMonthValue : lastMonthValues) {
-                                System.out.println(lastMonthValue);
-                            }
-                            request.setAttribute("prevMonthDetails", prevMonthDetails);
+                            request.setAttribute("contract", contract);
+                            request.setAttribute("activeServices", activeServices);
                         }
-                        request.setAttribute("contract", contract);
-                        request.setAttribute("activeServices", activeServices);
-                    }
-                    List<Room> roomNoInvoiceList = RoomDAO.findRoomsNeedInvoice(chosenHostel.getHostelID());
-                    if (roomNoInvoiceList != null) {
-                        request.setAttribute("noInvoiceList", roomNoInvoiceList);
+                        List<Room> roomNoInvoiceList = RoomDAO.findRoomsNeedInvoice(chosenHostel.getHostelID());
+                        if (roomNoInvoiceList != null) {
+                            request.setAttribute("noInvoiceList", roomNoInvoiceList);
+                        }
                     }
                     request.setAttribute("chosenHostel", chosenHostel);
                     request.getRequestDispatcher("/view/LAddInvoice_v2.jsp").forward(request, response);
