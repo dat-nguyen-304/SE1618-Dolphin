@@ -75,29 +75,41 @@ public class AccessController extends HttpServlet {
 
                             if (acc != null) {
                                 HttpSession session = request.getSession(true);
-                                if (acc.getRole() == 1) {
-                                    session.setAttribute("role", 1);
-                                    Tenant tenant = TenantDAO.findByAccount(acc);
-                                    session.setAttribute("currentUser", tenant);
-                                    List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
-                                    session.setAttribute("favoriteHostelIds", favHostelIds);
+                                if (acc.isActivate()) {
+                                    if (acc.getRole() == 1) {
+                                        session.setAttribute("role", 1);
+                                        Tenant tenant = TenantDAO.findByAccount(acc);
+                                        session.setAttribute("currentUser", tenant);
+                                        List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
+                                        session.setAttribute("favoriteHostelIds", favHostelIds);
 
-                                    if (tenant.isRentStatus()) {
-                                        response.sendRedirect("/sakura/tenant/dashboard");
+                                        if (tenant.isRentStatus()) {
+                                            response.sendRedirect("/sakura/tenant/dashboard");
+                                        } else {
+                                            response.sendRedirect("/sakura/home");
+                                        }
+                                    } else if (acc.getRole() == 2) {
+                                        session.setAttribute("role", 2);
+                                        System.out.println("role 2");
+                                        Landlord landlord = LandlordDAO.findByAccount(acc);
+                                        session.setAttribute("currentUser", landlord);
+                                        response.sendRedirect("/sakura/landlord/overview");
+                                    } else {
+                                        session.setAttribute("currentUser", acc);
+                                        session.setAttribute("role", 0); //admin
+                                        response.sendRedirect("/sakura/admin/dashboard");
                                     }
-                                } else if (acc.getRole() == 2) {
-                                    session.setAttribute("role", 2);
-                                    System.out.println("role 2");
-                                    Landlord landlord = LandlordDAO.findByAccount(acc);
-                                    session.setAttribute("currentUser", landlord);
-                                    response.sendRedirect("/sakura/landlord/overview");
                                 } else {
-                                    session.setAttribute("currentUser", acc);
-                                    session.setAttribute("role", 0); //admin
-                                    response.sendRedirect("/sakura/admin/dashboard");
+                                    if (AccountDAO.getVerificationCode(acc.getEmail()) != null) {
+                                        url = "/sakura/access/mailVerification?email=" + acc.getEmail() + "&accountVerify=true";
+                                        response.sendRedirect(url);
+                                        return;
+                                    } else {
+                                        request.setAttribute("username", username);
+                                        request.setAttribute("error", "Tài khoản bị vô hiệu hóa!");
+                                        url = "/view/login.jsp";
+                                    }
                                 }
-                                response.sendRedirect("/sakura/home");
-                                return;
                             } else {
                                 request.setAttribute("username", username);
                                 request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
@@ -134,17 +146,17 @@ public class AccessController extends HttpServlet {
                         String phone = request.getParameter("phone");
                         Date regDate = new Date();
                         int role = Integer.parseInt(request.getParameter("role"));
-                        boolean status = true;
+                        boolean status = false;
                         Account acc = new Account(0, username, hashedPassword, email, regDate, role, status);
 
                         if (role == 1) {
                             Tenant t = new Tenant(acc, fullname, phone, false);
-                            session.setAttribute("tempUser", t);
-                            //check = TenantDAO.save(t);
+                            //session.setAttribute("tempUser", t);
+                            TenantDAO.save(t);
                         } else {
                             Landlord l = new Landlord(acc, fullname, phone);
-                            //check = LandlordDAO.save(l);
-                            session.setAttribute("tempUser", l);
+                            LandlordDAO.save(l);
+                            //session.setAttribute("tempUser", l);
                             //request.setAttribute("role", 2);
                         }
                         //request.setAttribute("successNotification", "Registered Successfully!");
@@ -196,11 +208,11 @@ public class AccessController extends HttpServlet {
                             EmailService sender = new EmailService();
                             sender.sendVerificationEmail(email, verificationCode);
 
-                            session.setAttribute("verificationCode", verificationCode);
-                            session.setAttribute("role", role);
-
+                            AccountDAO.updateVerificationCode(email, verificationCode);
                             //end send verification code
-                            url = "/access/mailVerification";
+                            url = "/sakura/access/mailVerification?email=" + email + "&accountVerify=true";
+                            response.sendRedirect(url);
+                            return;
                         }
                     } catch (Exception e) {
                         log("Error at SignUpServlet: " + e.toString());
@@ -303,42 +315,63 @@ public class AccessController extends HttpServlet {
                 request.getRequestDispatcher(url).forward(request, response);
             }
             if (path.equals("/mailVerification")) {
-                HttpSession session = request.getSession(true);
-                if (session.getAttribute("tempUser") == null) {
+                if (request.getParameter("accountVerify") == null) {
                     System.out.println("????inlogin");
                     url = "/sakura/access/login";
                     response.sendRedirect(url);
                 } else {
+                    String email = request.getParameter("email");
                     if (request.getParameter("code") != null) {
-                        String verificationCode = (String) session.getAttribute("verificationCode");
-                        int role = (int) session.getAttribute("role");
 
                         String inputCode = request.getParameter("code");
+                        String verificationCode = AccountDAO.getVerificationCode(email);
 
                         System.out.println("Code 1: " + verificationCode);
                         System.out.println("Code 2: " + inputCode);
                         if (inputCode.equals(verificationCode)) {
-                            if (role == 1) {
-                                Tenant t = (Tenant) session.getAttribute("tempUser");
-                                TenantDAO.save(t);
+                            AccountDAO.updateVerificationCode(email, null);
+                            Account acc = AccountDAO.findByEmail(email);
+                            AccountDAO.changeStatus(acc.getAccountID(), true);
+
+                            HttpSession session = request.getSession(true);
+
+                            if (acc.getRole() == 1) {
+                                session.setAttribute("role", 1);
+                                Tenant tenant = TenantDAO.findByAccount(acc);
+                                session.setAttribute("currentUser", tenant);
+                                List<Integer> favHostelIds = FavoriteHostelDAO.findFavHostelIds(tenant.getAccount().getAccountID());
+                                session.setAttribute("favoriteHostelIds", favHostelIds);
+
+                                if (tenant.isRentStatus()) {
+                                    response.sendRedirect("/sakura/tenant/dashboard");
+                                } else {
+                                    response.sendRedirect("/sakura/home");
+                                }
+                            } else if (acc.getRole() == 2) {
+                                session.setAttribute("role", 2);
+                                System.out.println("role 2");
+                                Landlord landlord = LandlordDAO.findByAccount(acc);
+                                session.setAttribute("currentUser", landlord);
+                                response.sendRedirect("/sakura/landlord/overview");
                             } else {
-                                Landlord l = (Landlord) session.getAttribute("tempUser");
-                                LandlordDAO.save(l);
+                                session.setAttribute("currentUser", acc);
+                                session.setAttribute("role", 0); //admin
+                                response.sendRedirect("/sakura/admin/dashboard");
                             }
 
-                            session.invalidate();
-
-                            response.sendRedirect("/sakura/access/login?register=success");
                         } else {
                             request.setAttribute("errorMessage", "Mã xác nhận sai! Mời bạn kiểm tra lại mã và nhập lại.");
-                            request.getRequestDispatcher("/view/mailVerification.jsp").forward(request, response);
+                            url = "/view/mailVerification.jsp?email=" + email + "&accountVerify=true";
+                            request.getRequestDispatcher(url).forward(request, response);
                         }
                     } else {
                         request.getRequestDispatcher("/view/mailVerification.jsp").forward(request, response);
                     }
                 }
             }
-            if (path.equals("/checkVerificationCode")) { //check if verification code is equal 
+
+            if (path.equals(
+                    "/checkVerificationCode")) { //check if verification code is equal 
                 String inputCode = request.getParameter("code").trim();
                 HttpSession session = request.getSession(true);
 
@@ -353,7 +386,7 @@ public class AccessController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

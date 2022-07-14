@@ -10,7 +10,6 @@ com\dolphin\hostelmanagement\DTO\GooglePojo.class
 com\dolphin\hostelmanagement\DAO\NotificationDAO.class
 com\dolphin\hostelmanagement\DAO\FeedbackDAO.class
 com\dolphin\hostelmanagement\DTO\Contract.class
-com\dolphin\hostelmanagement\controller\LandlordController$3.class
 com\dolphin\hostelmanagement\controller\AccessController.class
 com\dolphin\hostelmanagement\utils\StringUtils.class
 com\dolphin\hostelmanagement\controller\HostelController$4.class

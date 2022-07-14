@@ -179,7 +179,7 @@ public class AccountDAO {
             pst.setString(3, t.getEmail());
             pst.setDate(4, sqlRegDate);
             pst.setInt(5, t.getRole());
-            pst.setBoolean(6, true);
+            pst.setBoolean(6, t.isActivate());
             check = pst.executeUpdate() != 0;
             if (check) {
                 System.out.println("!!! SAVED account");
@@ -429,11 +429,53 @@ public class AccountDAO {
         }
         return false;
     }
+    
+    public static void updateVerificationCode(String email, String verificationCode) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Update Account set verificationCode = ? where email = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setString(1, verificationCode);
+            pst.setString(2, email);
+            
+            pst.executeUpdate();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static String getVerificationCode(String email) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Select verificationCode from Account where email = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setString(1, email);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs != null && rs.next())
+                return rs.getString("verificationCode");
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
 
     public static void main(String[] args) {
         //saveGoogleAccount(3, "hiohiahha");
-        System.out.println(findGoogleToken(10));
-        changeStatus(3, false);
+        updateVerificationCode("dasdassda@gmail.com", null);
     }
 
 }

@@ -223,22 +223,6 @@ public class LandlordController extends HttpServlet {
                     request.setAttribute("noResidents", RoomResidentDAO.findByHostelID(currentHostel.getHostelID()).size());
 
                     //end so luong cu dan
-                    //doanh thu
-                    Collections.sort(invoiceList, new Comparator<Invoice>() {
-                        public int compare(Invoice i1, Invoice i2) {
-                            SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
-                            Date date1 = null, date2 = null;
-
-                            try {
-                                date1 = mmyy.parse(i1.getMonth());
-                                date2 = mmyy.parse(i2.getMonth());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            return date2.compareTo(date1);
-                        }
-                    });
-
                     /*for (Invoice i : invoiceList) {
                     System.out.println(i.getMonth());
                 }*/
