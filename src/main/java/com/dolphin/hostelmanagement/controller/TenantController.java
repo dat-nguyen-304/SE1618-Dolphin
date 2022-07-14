@@ -11,6 +11,7 @@ import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
 import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
+import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DAO.TenantDAO;
 import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
@@ -61,8 +62,16 @@ public class TenantController extends HttpServlet {
             System.out.println("Path: " + path);
             HttpSession session = request.getSession(true);
             Tenant t = (Tenant) session.getAttribute("currentUser");
+            
+            if(t == null) {
+                response.sendRedirect("/sakura/view/login.jsp");
+                return;
+            }
+            
             List<Contract> contractList = ContractDAO.findByTenant(t);
 
+            
+            
             if (path.equals("/dashboard")) {
                 /*HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
                 for (Contract contract : contractList) {
@@ -109,10 +118,13 @@ public class TenantController extends HttpServlet {
                 } else if (request.getParameter("queryType").equals("accept")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
-                    ContractDAO.changeStatus(contractID, 1);
-                    BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID());
-                    RoomDAO.changeStatus(contract.getRoom().getRoomID(), 2);
-                    TenantDAO.changeStatus(t.getAccount().getAccountID(), true);
+                    ContractDAO.changeStatus(contractID, 1); //activate cai contract
+                    BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID()); // xoa het moi booking request
+                    RoomDAO.changeStatus(contract.getRoom().getRoomID(), 1); // thay trang thai cua phong
+                    TenantDAO.changeStatus(t.getAccount().getAccountID(), true); // thay trang thai tenant
+
+                    HostelDAO.updateTotalRoom(contract.getHostel().getHostelID(),  -1); //cap nhat so phong da co
+                    RoomTypeDAO.updateTotalRoom(contract.getRoom().getRoomType().getRoomTypeID(), -1); //cap nhat so phong da co
 
                     //send accept notification to landlord
                     Notification landlordNoti = new Notification();
@@ -140,7 +152,8 @@ public class TenantController extends HttpServlet {
                     response.sendRedirect("/sakura/tenant/dashboard");
                 } else if (request.getParameter("queryType").equals("refuse")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
-//                    ContractDAO.changeStatus(contractID, 0);
+                    ContractDAO.changeStatus(contractID, 0);
+                    BookingRequestDAO.changeStatus(contractID, 0);
                     response.sendRedirect("/sakura/tenant/dashboard");
                 }
             }
@@ -155,16 +168,18 @@ public class TenantController extends HttpServlet {
             }
 
             if (path.equals("/contract-detail")) {
-                Contract currentContract = null;
+                int contractID = Integer.parseInt(request.getParameter("contractID"));
+                Contract currentContract = ContractDAO.findByID(contractID);
 
-                for (Contract c : contractList) {
-                    if (c.getStatus() == 1 || c.getStatus() == 2) {
-                        currentContract = c;
-                    }
-                }
                 request.setAttribute("contract", currentContract);
 
                 request.getRequestDispatcher("/view/TContractDetail.jsp").forward(request, response);
+            }
+            
+            if(path.equals("/contract-list")) {
+                request.setAttribute("contractList", contractList);
+                
+                request.getRequestDispatcher("/view/TContractList.jsp").forward(request, response);
             }
         }
     }

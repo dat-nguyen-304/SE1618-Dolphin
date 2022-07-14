@@ -128,7 +128,9 @@ public class LandlordController extends HttpServlet {
                 }
 
             } else {
+                
                 currentHostel = (Hostel) session.getAttribute("currentHostel");
+                session.setAttribute("currentHostel", HostelDAO.findById(currentHostel.getHostelID()));
             }
 
             if (path.equals("/overview")) {
@@ -218,32 +220,6 @@ public class LandlordController extends HttpServlet {
                     request.setAttribute("noResidents", RoomResidentDAO.findByHostelID(currentHostel.getHostelID()).size());
                 }
                 request.getRequestDispatcher("/view/LOverView.jsp").forward(request, response);
-            } else if (path.equals("/contract-list")) {
-                List<Contract> contractList = null;
-                List<Room> roomList = null;
-                if (session.getAttribute("currentHostel") != null) {
-                    currentHostel = (Hostel) session.getAttribute("currentHostel");
-                    roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());
-                }
-                int roomId = 0;
-                if (request.getParameter("roomId") != null) {
-                    roomId = Integer.parseInt(request.getParameter("roomId"));
-                    String roomNumber = request.getParameter("roomNumber");
-                    request.setAttribute("roomNumber", roomNumber);
-                }
-                if (request.getParameter("hostelId") != null) {
-                    session.setAttribute("currentHostel", Integer.parseInt(request.getParameter("hostelId")));
-                }
-                if (session.getAttribute("currentHostel") != null) {
-                    currentHostel = (Hostel) session.getAttribute("currentHostel");
-                    contractList = ContractDAO.findByHostel(currentHostel.getHostelID());
-                    if (roomId != 0) {
-                        contractList = ContractDAO.findByRoom(roomId);
-                    }
-                }
-                request.setAttribute("roomList", roomList);
-                request.setAttribute("contractList", contractList);
-                request.getRequestDispatcher("/view/LContractList.jsp").forward(request, response);
             } else if (path.equals("/contract-list")) {
                 List<Contract> contractList = null;
                 List<Room> roomList = null;
