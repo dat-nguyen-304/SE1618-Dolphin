@@ -42,6 +42,8 @@
 
         <link rel="stylesheet" href="../assets/css/LRoomList.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../assets/css/toastr.css">
     </head>
 
     <body>
@@ -157,6 +159,32 @@
 
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script>
+            function showToast(type, msg) {
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.options.extendedTimeOut = 0; //1000;
+                toastr.options.timeOut = 3000;
+                toastr.options.hideDuration = 250;
+                toastr.options.showDuration = 250;
+                toastr.options.hideMethod = 'slideUp';
+                toastr.options.showMethod = 'slideDown';
+                toastr.options.preventDuplicates = true;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                toastr[type](msg);
+            }
+        </script>
+        <c:if test="${requestScope.addSuccess != null}">
+            <script>
+                showToast('success', '${requestScope.addSuccess}');
+            </script>
+        </c:if>
+        <c:if test="${requestScope.addFail != null}">
+            <script>
+                showToast('error', '${requestScope.addFail}');
+            </script>
+        </c:if>
         <script>
             function checkValidRoom(element) {
                 const hostelId = document.querySelector("input[name='hostelId']");
@@ -165,31 +193,44 @@
                 console.log("hostelID: ", hostelId.value);
                 console.log("number: ", element.value);
                 console.log("addRoomElement: ", addRoomElement);
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'roomNumber': element.value,
-                        'hostelId': hostelId.value
-                    },
-                    url: '/sakura/room/check-room-valid',
-                    success: function (response) {
-                        console.log("response: " , response);
-                        validRoomMessage.innerHTML = response;
-                        if (response) {
-                            addRoomElement.onclick = (e) => {
-                                e.preventDefault();
-                            }
-                        } else {
-                            addRoomElement.onclick = (e) => {
-                                e.returnValue = true;
-                            }
-                        }
-
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                let fault = false;
+                for (let i = 0; i < element.value.length; i++) {
+                    let c = element.value.charAt(i);
+                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ' || c == '.')) {
+                        fault = true;
+                        validRoomMessage.innerHTML = 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng "." và "-"';
+                        addRoomElement.onclick = (e) => {
+                            e.preventDefault();
+                        };
+                        break;
                     }
-                });
+                }
+                if (!fault)
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'roomNumber': element.value,
+                            'hostelId': hostelId.value
+                        },
+                        url: '/sakura/room/check-room-valid',
+                        success: function (response) {
+                            console.log("response: ", response);
+                            validRoomMessage.innerHTML = response;
+                            if (response) {
+                                addRoomElement.onclick = (e) => {
+                                    e.preventDefault();
+                                }
+                            } else {
+                                addRoomElement.onclick = (e) => {
+                                    e.returnValue = true;
+                                }
+                            }
+
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
             }
 
             $(document).ready(function () {

@@ -278,6 +278,7 @@
                 </c:if>
             </div>
 
+
             <%@include file="footerDashboard.jsp" %>
         </div>
 
@@ -300,6 +301,16 @@
                                                                 toastr[type](msg);
                                                             }
         </script>
+        <c:if test="${requestScope.addSuccess != null}">
+            <script>
+                showToast('success', '${requestScope.addSuccess}');
+            </script>
+        </c:if>
+        <c:if test="${requestScope.addFail != null}">
+            <script>
+                showToast('error', '${requestScope.addFail}');
+            </script>
+        </c:if>
         <script>
 
             if (${not empty requestScope.currentRoomType.imgList}) {
@@ -653,36 +664,47 @@
 
                     //messageElement.innerHTML = message;
                     showToast('error', message);
-                } else
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'name': name.value,
-                            'price': price.value,
-                            'area': area.value,
-                            'maxNumberOfResidents': maxNumberOfResidents.value,
-                            'description': description.value,
-                            'hostelId': hostelId.value
-                        },
-                        url: '/sakura/room/add-roomtype',
-                        success: function (response) {
-                            console.log(response);
-                            name.value = "";
-                            price.value = "";
-                            area.value = "";
-                            maxNumberOfResidents.value = "";
-                            description.value = "";
-                            messageElement.innerHTML = response;
-                            toggleModal('.addRoomTypemodal2');
+                } else {
+                    let fault = false;
+                    for (let i = 0; i < name.value.length; i++) {
+                        let c = name.value.charAt(i);
+                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ')) {
+                            fault = true;
+                            showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng và -');
+                            break;
+                        }
+                    }
+                    if (!fault)
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'name': name.value,
+                                'price': price.value,
+                                'area': area.value,
+                                'maxNumberOfResidents': maxNumberOfResidents.value,
+                                'description': description.value,
+                                'hostelId': hostelId.value
+                            },
+                            url: '/sakura/room/add-roomtype',
+                            success: function (response) {
+                                console.log(response);
+                                name.value = "";
+                                price.value = "";
+                                area.value = "";
+                                maxNumberOfResidents.value = "";
+                                description.value = "";
+                                messageElement.innerHTML = response;
+                                toggleModal('.addRoomTypemodal2');
 //                            showToast('success', '')
 //                            setTimeout(function () {
 //                                window.location.reload();
 //                            }, 2000);
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
-                        }
-                    });
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                }
             }
 
             function updateRoomType() {
@@ -722,59 +744,86 @@
 
                     messageElement.innerHTML = message;
                     showToast("error", message);
-                } else
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'name': name.value,
-                            'price': price.value,
-                            'area': area.value,
-                            'maxNumberOfResidents': maxNumberOfResidents.value,
-                            'description': description.value,
-                            'roomTypeId': roomTypeId.value
-                        },
-                        url: '/sakura/room/update-roomtype',
-                        success: function (response) {
-                            messageElement.innerHTML = response;
-                            toggleModal('.updateRoomTypemodal1');
-                            showToast('success', 'Cập nhật thành công! Đang cập nhật trang.');
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 3000);
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
+                } else {
+                    let fault = false;
+                    for (let i = 0; i < name.value.length; i++) {
+                        let c = name.value.charAt(i);
+                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ')) {
+                            fault = true;
+                            showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng và -');
+                            break;
                         }
-                    });
+                    }
+                    if (!fault)
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'name': name.value,
+                                'price': price.value,
+                                'area': area.value,
+                                'maxNumberOfResidents': maxNumberOfResidents.value,
+                                'description': description.value,
+                                'roomTypeId': roomTypeId.value
+                            },
+                            url: '/sakura/room/update-roomtype',
+                            success: function (response) {
+                                messageElement.innerHTML = response;
+                                toggleModal('.updateRoomTypemodal1');
+                                showToast('success', 'Cập nhật thành công! Đang cập nhật trang.');
+                                function Redirect() {
+                                    let urll = "/sakura/landlord/room-type?roomTypeId=" + roomTypeId.value;
+                                    console.log(urll);
+                                    window.location = urll;
+                                }
+                                setTimeout(Redirect(), 2000);
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                }
             }
 
             function checkValidRoom(element) {
                 const hostelId = document.querySelector("input[name='hostelId']").value;
                 const validRoomMessage = document.querySelector(".validRoomMessage");
                 const addRoomElement = document.querySelector(".addRoom");
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'roomNumber': element.value,
-                        'hostelId': hostelId
-                    },
-                    url: '/sakura/room/check-room-valid',
-                    success: function (response) {
-                        validRoomMessage.innerHTML = response;
-                        if (response) {
-                            addRoomElement.onclick = (e) => {
-                                e.preventDefault();
-                            };
-                        } else {
-                            addRoomElement.onclick = (e) => {
-                                e.returnValue = true;
-                            };
-                        }
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                let fault = false;
+                for (let i = 0; i < element.value.length; i++) {
+                    let c = element.value.charAt(i);
+                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ' || c == '.')) {
+                        fault = true;
+                        validRoomMessage.innerHTML = 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng "." và "-"';
+                        addRoomElement.onclick = (e) => {
+                            e.preventDefault();
+                        };
+                        break;
                     }
-                });
+                }
+                if (!fault)
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'roomNumber': element.value,
+                            'hostelId': hostelId
+                        },
+                        url: '/sakura/room/check-room-valid',
+                        success: function (response) {
+                            validRoomMessage.innerHTML = response;
+                            if (response) {
+                                addRoomElement.onclick = (e) => {
+                                    e.preventDefault();
+                                };
+                            } else {
+                                addRoomElement.onclick = (e) => {
+                                    e.returnValue = true;
+                                };
+                            }
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
             }
         </script>
         <script>
@@ -991,6 +1040,33 @@
                     toggleModal('.deleteRoomTypemodal2');
                 }
             };
+        </script>
+        <script>
+            $("input[data-type='currency']").on({
+                keyup: function () {
+                    formatCurrency($(this));
+                },
+                blur: function () {
+                    formatCurrency($(this), "blur");
+                }
+            });
+
+
+            function formatNumber(n) {
+                // format number 1000000 to 1.000.000
+                return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, "\.")
+            }
+
+
+            function formatCurrency(input, blur) {
+                var input_val = input.val();
+
+                if (input_val === "")
+                    return;
+
+                input_val = formatNumber(input_val);
+                input.val(input_val);
+            }
         </script>
     </body>
 

@@ -127,7 +127,7 @@
                                 <input name="updateType" type="hidden" class="text-[15px]" value="1"/>
                                 <td class="px-3 py-4">Điện</td>
                                 <td class="px-3 py-4 text-center">
-                                    <input name="updateFee" type="text" class="text-[15px]" value="${requestScope.eletricService.serviceFee}"/>
+                                    <input name="updateFee" type="number" class="text-[15px]" value="${requestScope.eletricService.serviceFee}"/>
                                 </td>
                                 <input name="updateUnit" type="hidden" class="text-[15px]" value="kWh"/>
                                 <td class="px-3 py-4 text-center">kWh</td>
@@ -145,7 +145,7 @@
                                 <input name="updateType" type="hidden" class="text-[15px]" value="2"/>
                                 <td class="px-3 py-4 ">Nước</td>
                                 <td class="px-3 py-4 text-center">
-                                    <input name="updateFee" type="text" class="text-[15px]" value="${requestScope.waterService.serviceFee}"/>
+                                    <input name="updateFee" type="number" class="text-[15px]" value="${requestScope.waterService.serviceFee}"/>
                                 </td>
                                 <input name="updateUnit" type="hidden" class="text-[15px]" value="m3"/>
                                 <td class="px-3 py-4 text-center">
@@ -172,7 +172,7 @@
                                         <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
                                     </td>
                                     <td class="px-3 py-4 text-center">
-                                        <input name="updateFee" type="text" class="text-[15px]" value="${service.serviceFee}"/>
+                                        <input name="updateFee" type="number" class="text-[15px]" value="${service.serviceFee}"/>
                                     </td>
                                     <td class="px-3 py-4 text-center">
                                         <input name="updateUnit" type="text" class="text-[15px]" value="${service.unit}"/>
@@ -204,7 +204,7 @@
                             </div>
                             <div class="flex items-center mb-[20px]">
                                 <label class="w-[120px] inline-block" for="service-fee">Đơn giá (VNĐ)</label>
-                                <input type="text" required name="addServiceFee" id="service-fee" class="w-[200px] text-[15px] p-[5px]"/>
+                                <input type="number" required name="addServiceFee" id="service-fee" class="w-[200px] text-[15px] p-[5px]"/>
                                 <p class="ml-[10px] font-light text-[13px]">VD: 3000,4000 ...</p>
                             </div>
                             <div class="flex items-center mb-[20px]">
@@ -252,7 +252,7 @@
                 const addServiceMessage = document.querySelector(".addServiceMessage");
                 const serviceList = document.querySelector(".service-list");
 
-                if (!serviceName.value || !serviceFee.value || !serviceUnit.value) {
+                if (!serviceName.value || !serviceFee.value) {
                     let message = "";
                     if (!serviceName.value) {
                         message += "Tên dịch vụ - ";
@@ -260,55 +260,47 @@
                     if (!serviceFee.value) {
                         message += "Phí dịch vụ - ";
                     }
-//                    if (!serviceUnit.value) {
-//                        message += "Đơn vị ";
-//                    }
                     message += "không được trống!";
                     addServiceMessage.innerHTML = message;
                 } else {
-                    let message = "";
-                    if (!Number.isInteger(Number(serviceFee.value))) {
-                        message += "Phí dịch vụ phải là một số";
-                        addServiceMessage.innerHTML = message;
-                    } else
-                        jQuery.ajax({
-                            type: 'POST',
-                            data: {'serviceName': serviceName.value,
-                                'serviceFee': serviceFee.value,
-                                'serviceUnit': serviceUnit.value,
-                                'hostelId': ${sessionScope.currentHostel.hostelID}
-                            },
-                            url: '/sakura/service/add-service',
-                            success: function (response) {
-                                serviceName.value = "";
-                                serviceFee.value = "";
-                                serviceUnit.value = "";
-                                const res = response.toString();
-                                console.log(res);
-                                if (res.includes("px-3 py-4 text-center")) {
-                                    serviceList.innerHTML = response;
-                                    console.log(serviceList);
-                                    showToast("success", "Thêm thành công", 0);
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'serviceName': serviceName.value,
+                            'serviceFee': serviceFee.value,
+                            'serviceUnit': serviceUnit.value,
+                            'hostelId': ${sessionScope.currentHostel.hostelID}
+                        },
+                        url: '/sakura/service/add-service',
+                        success: function (response) {
+                            serviceName.value = "";
+                            serviceFee.value = "";
+                            serviceUnit.value = "";
+                            const res = response.toString();
+                            console.log(res);
+                            if (res.includes("px-3 py-4 text-center")) {
+                                serviceList.innerHTML = response;
+                                console.log(serviceList);
+                                showToast("success", "Thêm thành công", 0);
 //                                    setTimeout(function () {
 //                                        window.location.reload();
 //                                    }, 3000);
-                                    //addServiceMessage.innerHTML = "Thêm thành công";
-                                } else {
-                                    addServiceMessage.innerHTML = response;
-                                }
-                                console.log(serviceList.children.length);
-                                if (serviceList.children.length < 10) {
-                                    $('.card-container').addClass('h-[calc(100vh-275px)]');
-                                } else {
-                                    $('.card-container').removeClass('h-[calc(100vh-275px)]');
-                                }
-
-                            },
-                            error: function () {
-                            },
-                            complete: function (result) {
+                                //addServiceMessage.innerHTML = "Thêm thành công";
+                            } else {
+                                addServiceMessage.innerHTML = response;
                             }
-                        });
+                            console.log(serviceList.children.length);
+                            if (serviceList.children.length < 10) {
+                                $('.card-container').addClass('h-[calc(100vh-275px)]');
+                            } else {
+                                $('.card-container').removeClass('h-[calc(100vh-275px)]');
+                            }
+
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
 
                 }
             }
@@ -329,7 +321,7 @@
                 console.log("serviceFee ", serviceFee.value);
                 console.log("serviceUnit ", serviceUnit.value);
                 console.log("serviceType ", serviceType.value);
-                if (!serviceName.value || !serviceFee.value || !serviceUnit.value) {
+                if (!serviceName.value || !serviceFee.value) {
                     let message = "";
                     if (!serviceName.value) {
                         message += "Tên dịch vụ - ";
@@ -337,39 +329,31 @@
                     if (!serviceFee.value) {
                         message += "Phí dịch vụ - ";
                     }
-                    if (!serviceUnit.value) {
-                        message += "Đơn vị ";
-                    }
                     message += "không được trống!";
                     //updateMessage.innerHTML = message;
                     showToast('error', message);
                 } else {
-                    let message = "";
-                    if (!Number.isInteger(Number(serviceFee.value))) {
-                        message += "Phí dịch vụ phải là một số";
-                        updateMessage.innerHTML = message;
-                    } else
-                        jQuery.ajax({
-                            type: 'POST',
-                            data: {'serviceName': serviceName.value,
-                                'serviceFee': serviceFee.value,
-                                'serviceUnit': serviceUnit.value,
-                                'hostelId': ${sessionScope.currentHostel.hostelID},
-                                'serviceType': serviceType.value,
-                                'serviceId': serviceId.value
-                            },
-                            url: '/sakura/service/edit-service',
-                            success: function (response) {
-                                serviceFee.value = serviceFee.value;
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'serviceName': serviceName.value,
+                            'serviceFee': serviceFee.value,
+                            'serviceUnit': serviceUnit.value,
+                            'hostelId': ${sessionScope.currentHostel.hostelID},
+                            'serviceType': serviceType.value,
+                            'serviceId': serviceId.value
+                        },
+                        url: '/sakura/service/edit-service',
+                        success: function (response) {
+                            serviceFee.value = serviceFee.value;
 
-                                showToast("info", response, 1);
-                                //updateMessage.innerHTML = response;
-                            },
-                            error: function () {
-                            },
-                            complete: function (result) {
-                            }
-                        });
+                            showToast("info", response, 1);
+                            //updateMessage.innerHTML = response;
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
 
                 }
             }

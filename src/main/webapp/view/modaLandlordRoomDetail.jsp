@@ -218,7 +218,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="deleteRoommodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <form action="/sakura/landlord/overview">
+                <form action="/sakura/landlord/room-detail">
                     <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                     </button>
                 </form>

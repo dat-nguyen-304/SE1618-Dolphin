@@ -563,7 +563,7 @@
         <script src="../assets/javascript//jquery/jquery.min.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/javascript/jquery.js"></script>
-        <script src="../assets/javascript/hostel-detail.js"></script>
+        <script src="../assets/javascript/keep-district.js"></script>
         <script>
                     function toggleFavoriteHostel(hostelID, element) {
                         if (element.style.color === 'red')

@@ -33,7 +33,6 @@
                     </div>
                     <div class="mb-[20px]">
                         <label class="w-[160px] inline-block text-[18px]" for="">Tên phòng</label>
-                        <input type="hidden" name="roomTypeId" value="${requestScope.currentRoomType.roomTypeID}"/>
                         <input type="text" name="addRoomNumber" class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidRoom(this)"/>
                         <span class="ml-2 text-[16px]">VD: A101, A102, A510 ...</span>
                     </div>

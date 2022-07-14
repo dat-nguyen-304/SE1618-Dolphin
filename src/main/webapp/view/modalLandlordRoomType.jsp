@@ -166,17 +166,17 @@
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Giá</label>
-                    <input type="text" name="updatePrice" value="${requestScope.currentRoomType.advertisedPrice}" required class="w-[250px] text-[18px] p-[10px]">
+                    <input type="number" name="updatePrice" value="${requestScope.currentRoomType.advertisedPrice}" required class="w-[250px] text-[18px] p-[10px]"> 
                         <span class="ml-2 text-[15px]">VD: 3000000, 5000000 ...</span>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Diện tích (m<sup>2</sup>)</label>
-                    <input type="text" name="updateArea" value="${requestScope.currentRoomType.area}" placeholer="m<sup>2</sup>" required class="w-[250px] text-[18px] p-[10px]">
+                    <input type="number" name="updateArea" value="${requestScope.currentRoomType.area}" placeholer="m<sup>2</sup>" required class="w-[250px] text-[18px] p-[10px]">
                         <span class="ml-2 text-[15px]">VD: 24, 30, ...</span>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Số người tối đa</label>
-                    <input type="text" name="updateMaxNumberOfResidents" value="${requestScope.currentRoomType.maxNumberOfResidents}" required class="w-[250px] text-[18px] p-[10px]">
+                    <input type="number" name="updateMaxNumberOfResidents" value="${requestScope.currentRoomType.maxNumberOfResidents}" required class="w-[250px] text-[18px] p-[10px]">
                         <span class="ml-2 text-[15px]">VD: 4, 5, 6, ...</span>
                 </div>
                 <div class="mb-[20px] flex items-start">
@@ -265,17 +265,17 @@
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Giá</label>
-                    <input type="text" name="price" required class="w-[250px] text-[18px] p-[10px]">
-                        <span class="ml-2 text-[16px]">VD: 3000000, 5000000 ...</span>
+                    <input type="number" name="price" required class="w-[250px] text-[18px] p-[10px]"/>
+                    <span class="ml-2 text-[16px]">VD: 3000000, 5000000 ...</span>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Diện tích</label>
-                    <input type="text" name="area" required class="w-[250px] text-[18px] p-[10px]">
+                    <input type="number" name="area" required class="w-[250px] text-[18px] p-[10px]">
                         <span class="ml-2 text-[16px]">VD: 24, 30, ...</span>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Số người tối đa</label>
-                    <input type="text" name="maxNumberOfResidents" required class="w-[250px] text-[18px] p-[10px]">
+                    <input type="number" name="maxNumberOfResidents" required class="w-[250px] text-[18px] p-[10px]">
                         <span class="ml-2 text-[16px]">VD: 4, 5, 6, ...</span>
                 </div>
                 <div class="mb-[20px] flex items-start">
@@ -357,9 +357,9 @@
                     <input type="hidden" name="roomTypeId" value="${requestScope.currentRoomType.roomTypeID}"/>
                     <input type="text" name="addRoomNumber" class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidRoom(this)"/>
                     <p class="mt-[10px] ml-[165px] text-[14px] italic font-light text-gray-700 ">VD: A101, B102, S510 ...</span>
-                    <div class="grid justify-items-end">
-                        <button type="submit" class="addRoom px-8 py-2 mx-4 my-2 rounded text-white bg-[#17535B] hover:bg-[#13484F]">Thêm</button>
-                    </div>
+                        <div class="grid justify-items-end">
+                            <button type="submit" class="addRoom px-8 py-2 mx-4 my-2 rounded text-white bg-[#17535B] hover:bg-[#13484F]">Thêm</button>
+                        </div>
                 </form>
             </div>
         </div>
@@ -487,3 +487,4 @@
     </div>
 </div>
 <!--End modal add image-->
+

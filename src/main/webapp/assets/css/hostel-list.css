@@ -238,14 +238,16 @@ footer {
 
 
 .hostel-address {
-    font-size         : 12px;
-    font-weight       : 400;
+    font-size: 12px;
+    line-height: 18px;
+    height: 36px;
+    font-weight: 400;
     padding: 5px 0;
-    color             : #666;
-    display           : -webkit-box;
+    color: #666;
+    display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    overflow          : hidden;
+    overflow: hidden;
 }
 
 .hostel-info {

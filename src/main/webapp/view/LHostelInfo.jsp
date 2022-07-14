@@ -346,29 +346,44 @@
                 const updateHostelBtn = document.querySelector(".updateHostelBtn");
                 const currentName = document.querySelector("input[name='currentName']");
                 const updateHostelMessage = document.querySelector(".updateHostelMessage");
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'updateName': element.value,
-                        'landlordId': landlordId.value,
-                        'currentName': currentName.value
-                    },
-                    url: '/sakura/hostel/check-update-hostel-valid',
-                    success: function (response) {
-                        validUpdateHostelMessage.innerHTML = response;
-                        if (response) {
-                            updateHostelBtn.onclick = (e) => {
-                                e.preventDefault();
-                                updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
-                            };
-                        } else {
-                            updateHostelBtn.onclick = () => updateHostel();
-                        }
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                let fault = false;
+                for (let i = 0; i < element.value.length; i++) {
+                    let c = element.value.charAt(i);
+                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ')) {
+                        fault = true;
+                        validUpdateHostelMessage.innerHTML = 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                        
+                        updateHostelBtn.onclick = (e) => {
+                            e.preventDefault();
+                            updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
+                        };
+                        break;
                     }
-                });
+                }
+                if (!fault)
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'updateName': element.value,
+                            'landlordId': landlordId.value,
+                            'currentName': currentName.value
+                        },
+                        url: '/sakura/hostel/check-update-hostel-valid',
+                        success: function (response) {
+                            validUpdateHostelMessage.innerHTML = response;
+                            if (response) {
+                                updateHostelBtn.onclick = (e) => {
+                                    e.preventDefault();
+                                    updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
+                                };
+                            } else {
+                                updateHostelBtn.onclick = () => updateHostel();
+                            }
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
             }
 
             function updateHostel() {

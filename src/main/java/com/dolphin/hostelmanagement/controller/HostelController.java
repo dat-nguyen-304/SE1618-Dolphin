@@ -23,6 +23,7 @@ import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.DTO.District;
+import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.RoomType;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -575,6 +576,9 @@ public class HostelController extends HttpServlet {
 //                }
                 if (deleteSuccess) {
                     out.print("Xóa thành công");
+                    Landlord landlord = (Landlord) session.getAttribute("currentUser");
+                    List<Hostel> hostelList = HostelDAO.findByLandlord(landlord.getAccount().getAccountID());
+                    session.setAttribute("hostelList", hostelList);
                     session.setAttribute("currentHostel", null);
                 } else {
                     out.print("Xóa không thành công");

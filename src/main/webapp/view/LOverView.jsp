@@ -272,60 +272,60 @@
 
                     <!-- Requests -->
                     <div class="statistic flex justify-between mt-[20px] grid grid-cols-2 gap-[20px]">
-<!--                        <div class="card w-full bg-[#fff] p-5 flex flex-col">
-                            <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Yêu cầu thuê phòng
-                            </div>
-                            <div class="w-full h-full mx-auto">
-                                <div class="relative overflow-x-auto">
-                                    <table class="w-full text-sm text-left text-gray-500">
-                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-                                            <tr>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Thời gian
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Nội dung
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Đã xử lý
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                             Chưa xử lý 
-                                            <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                                <td class="px-6 py-4">
-                                                    16:04 - 05/05/2022
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    Nguyễn Văn An yêu cầu thuê phòng A1, nhà trọ An Khang
-                                                </td>
-                                                <td class="px-6 py-4 flex justify-center">
-                                                    <input checked id="teal-checkbox" type="checkbox" value=""
-                                                           class="w-4 h-4 text-teal-600 bg-gray-100 rounded border-[#17535B] focus:ring-[#17535B] focus:ring-2 duration-200">
-
-                                                </td>
-                                            </tr>
-                                             Đã xử lý 
-                                            <tr class="bg-white border-b hover:bg-gray-50 text-[#929CA5]">
-                                                <td class="px-6 py-4">
-                                                    16:04 - 05/05/2022
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    Nguyễn Văn An yêu cầu thuê phòng A1, nhà trọ An Khang
-                                                </td>
-                                                <td class="px-6 py-4 flex justify-center">
-                                                    <input checked id="teal-checkbox" type="checkbox" value=""
-                                                           class="w-4 h-4 text-teal-600 bg-gray-100 rounded border-[#17535B] focus:ring-[#17535B] focus:ring-2 duration-200">
-
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="card w-full bg-[#fff] p-5 flex flex-col">
+                                                    <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Yêu cầu thuê phòng
+                                                    </div>
+                                                    <div class="w-full h-full mx-auto">
+                                                        <div class="relative overflow-x-auto">
+                                                            <table class="w-full text-sm text-left text-gray-500">
+                                                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                                                                    <tr>
+                                                                        <th scope="col" class="px-6 py-3">
+                                                                            Thời gian
+                                                                        </th>
+                                                                        <th scope="col" class="px-6 py-3">
+                                                                            Nội dung
+                                                                        </th>
+                                                                        <th scope="col" class="px-6 py-3">
+                                                                            Đã xử lý
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                     Chưa xử lý 
+                                                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
+                                                                        <td class="px-6 py-4">
+                                                                            16:04 - 05/05/2022
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            Nguyễn Văn An yêu cầu thuê phòng A1, nhà trọ An Khang
+                                                                        </td>
+                                                                        <td class="px-6 py-4 flex justify-center">
+                                                                            <input checked id="teal-checkbox" type="checkbox" value=""
+                                                                                   class="w-4 h-4 text-teal-600 bg-gray-100 rounded border-[#17535B] focus:ring-[#17535B] focus:ring-2 duration-200">
+                        
+                                                                        </td>
+                                                                    </tr>
+                                                                     Đã xử lý 
+                                                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#929CA5]">
+                                                                        <td class="px-6 py-4">
+                                                                            16:04 - 05/05/2022
+                                                                        </td>
+                                                                        <td class="px-6 py-4">
+                                                                            Nguyễn Văn An yêu cầu thuê phòng A1, nhà trọ An Khang
+                                                                        </td>
+                                                                        <td class="px-6 py-4 flex justify-center">
+                                                                            <input checked id="teal-checkbox" type="checkbox" value=""
+                                                                                   class="w-4 h-4 text-teal-600 bg-gray-100 rounded border-[#17535B] focus:ring-[#17535B] focus:ring-2 duration-200">
+                        
+                                                                        </td>
+                                                                    </tr>
+                        
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
 
                         <!-- Rating -->
                         <div class="card w-full bg-[#fff] p-5 flex flex-col">
@@ -489,27 +489,36 @@
                     //addHostelMessage.innerHTML = message;
                     showToast("error", message);
                 } else {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'name': name.value,
-                            'districtId': districtId.value,
-                            'streetAddress': streetAddress.value,
-                            'description': description.value,
-                            'landlordId': landlordId.value
-                        },
-                        url: '/sakura/hostel/add-hostel',
-                        success: function (response) {
-                            name.value = "";
-                            streetAddress.value = "";
-                            description.value = "";
-                            addHostelMessage.innerHTML = response;
-                            toggleModal('.addHostelmodal2');
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
+                    for (let i = 0; i < streetAddress.value.length; i++) {
+                        let c = streetAddress.value.charAt(i);
+                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '/' || c == ' ' || c == ',')) {
+                            fault = true;
+                            showToast("error", 'Địa chỉ chỉ được chứa chữ cái, chữ số khoảng trắng, "/", "," và "-"');
+                            break;
                         }
-                    });
+                    }
+                    if (!fault)
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'name': name.value,
+                                'districtId': districtId.value,
+                                'streetAddress': streetAddress.value,
+                                'description': description.value,
+                                'landlordId': landlordId.value
+                            },
+                            url: '/sakura/hostel/add-hostel',
+                            success: function (response) {
+                                name.value = "";
+                                streetAddress.value = "";
+                                description.value = "";
+                                addHostelMessage.innerHTML = response;
+                                toggleModal('.addHostelmodal2');
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
                 }
             }
         </script>
@@ -522,31 +531,45 @@
                 console.log("da vao checkvalidhostel");
                 console.log(element.value);
                 console.log(landlordId.value);
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'hostelName': element.value,
-                        'landlordId': landlordId.value
-                    },
-                    url: '/sakura/hostel/check-hostel-valid',
-                    success: function (response) {
-                        validHostelMessage.innerHTML = response;
-                        if (response) {
-                            adddHostelBtn.onclick = (e) => {
-                                //addHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp";
-                                showToast("error", "Tên nhà trọ không được trùng lặp!");
-                                e.preventDefault();
-                                //addHostelBtn.disabled = true;
-                            };
-                        } else {
-                            adddHostelBtn.onclick = () => addHostel();
-                        }
-
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+                let fault = false;
+                for (let i = 0; i < element.value.length; i++) {
+                    let c = element.value.charAt(i);
+                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ')) {
+                        fault = true;
+                        validHostelMessage.innerHTML = 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                        adddHostelBtn.onclick = (e) => {
+                            showToast("error", 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng');
+                            e.preventDefault();
+                        };
+                        break;
                     }
-                });
+                }
+                if (!fault)
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'hostelName': element.value,
+                            'landlordId': landlordId.value
+                        },
+                        url: '/sakura/hostel/check-hostel-valid',
+                        success: function (response) {
+                            validHostelMessage.innerHTML = response;
+                            if (response) {
+                                adddHostelBtn.onclick = (e) => {
+                                    //addHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp";
+                                    showToast("error", "Tên nhà trọ không được trùng lặp!");
+                                    e.preventDefault();
+                                    //addHostelBtn.disabled = true;
+                                };
+                            } else {
+                                adddHostelBtn.onclick = () => addHostel();
+                            }
+
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
             }
         </script>
         <script>
@@ -629,24 +652,34 @@
 
                     messageElement.innerHTML = message;
                 } else {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'name': name.value,
-                            'updateDistrictId': updateDistrictId.value,
-                            'updateStreetAddress': updateStreetAddress.value,
-                            'description': description.value,
-                            'hostelId': hostelId.value
-                        },
-                        url: '/sakura/hostel/update-hostel',
-                        success: function (response) {
-                            //messageElement.innerHTML = response;
-                            showToast("success", "Chỉnh sửa thông tin thành công!");
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
+                    let fault = false;
+                    for (let i = 0; i < streetAddress.value.length; i++) {
+                        let c = streetAddress.value.charAt(i);
+                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '/' || c == ' ')) {
+                            fault = true;
+                            showToast("error", 'Địa chỉ chỉ được chứa chữ cái, chữ số khoảng trắng, "/" và "-"');
+                            break;
                         }
-                    });
+                    }
+                    if (!fault)
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'name': name.value,
+                                'updateDistrictId': updateDistrictId.value,
+                                'updateStreetAddress': updateStreetAddress.value,
+                                'description': description.value,
+                                'hostelId': hostelId.value
+                            },
+                            url: '/sakura/hostel/update-hostel',
+                            success: function (response) {
+                                //messageElement.innerHTML = response;
+                                showToast("success", "Chỉnh sửa thông tin thành công!");
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
                 }
             }
         </script>
