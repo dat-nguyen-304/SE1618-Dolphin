@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<% response.setHeader("Cache-Control", "no-cache, no-store");%>
 <!DOCTYPE html>
 <html lang="en">
 

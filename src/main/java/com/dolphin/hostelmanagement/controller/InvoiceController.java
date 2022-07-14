@@ -156,7 +156,7 @@ public class InvoiceController extends HttpServlet {
                     List<Invoice> invoiceList = null;
                     if (request.getParameter("hostelID") == null) {
                         chosenHostel = (session.getAttribute("currentHostel") != null) ? (Hostel) session.getAttribute("currentHostel") : null;
-                    } else chosenHostel = HostelDAO.findById(Integer.parseInt(request.getParameter("hostelID")) );
+                    } else chosenHostel = HostelDAO.findById(Integer.parseInt(request.getParameter("hostelID")));
                     if (chosenHostel != null) {
                         if (request.getParameter("roomID") != null) {
                             int roomID = Integer.parseInt(request.getParameter("roomID"));
@@ -205,7 +205,7 @@ public class InvoiceController extends HttpServlet {
                             Room chosenRoom = RoomDAO.findRoomNewInvoice(Integer.parseInt(chosenRoomID));
                             chosenHostel = chosenRoom.getRoomType().getHostel();
                             request.setAttribute("chosenRoom", chosenRoom);
-                            activeServices = ServiceDAO.findHostelActiveServices(chosenHostel);
+                            activeServices = ServiceDAO.findServiceByRoom(chosenRoom);
                             Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
                             if (chosenRoom.getLatestInvoiceMonth() == null) {
                                 String startMonth = contract.getStartDate().toString();
@@ -282,9 +282,8 @@ public class InvoiceController extends HttpServlet {
                     // Save invoice
                     if (InvoiceDAO.save(startDate, endDate, totalPrice, contractID, month, invoiceMonth, electricitySum, waterSum, detailList, roomID)) {
                         System.out.println("!! SAVED INVOICE !!");
-                        url = "/view/LInvoiceList.jsp";
-
-                        request.setAttribute("addInvoice", "Tạo hoá đơn thành công!");
+                        url = "/sakura/invoice/success";
+                        
                         // send notification to tenant
                         Notification noti = new Notification();
                         noti.setToAccount(t.getAccount());
@@ -293,9 +292,9 @@ public class InvoiceController extends HttpServlet {
                         noti.setStatus(0);
                         NotificationDAO.saveNotification(noti);
                     } else {
-                        url = "/sakura/view/failure.jsp";
+                        url = "/sakura/invoice/failure";
                     }
-                    request.getRequestDispatcher(url).forward(request, response);
+                    response.sendRedirect(url);
                 }
 
                 if (path.equals("/search")) {

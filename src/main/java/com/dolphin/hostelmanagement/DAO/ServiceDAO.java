@@ -6,12 +6,14 @@ package com.dolphin.hostelmanagement.DAO;
 
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Invoice;
+import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Service;
 import com.dolphin.hostelmanagement.DTO.ServiceDetail;
 import com.dolphin.hostelmanagement.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,7 @@ public class ServiceDAO {
         }
         return list;
     }
-    
+
     public static List<Service> findAddedActiveServices(Hostel hostel) {
         List<Service> list = null;
         Connection cn = null;
@@ -171,6 +173,56 @@ public class ServiceDAO {
         return list;
     }
 
+    public static List<Service> findServiceByRoom(Room room) {
+        List<Service> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                YearMonth ym = room.getLatestInvoiceMonth();
+                YearMonth ym2 = ym.plusMonths(1);
+                LocalDate startNextMonth = ym2.atDay(1);
+
+                list = new ArrayList();
+                String sql = "SELECT s.type, serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied, serviceFee, unit FROM Service s\n"
+                        + "WHERE serviceID IN (\n" + "SELECT DISTINCT max(serviceID) FROM Service \n"
+                        + "where hostelID = ? and monthApplied < ? GROUP BY serviceName)";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, room.getRoomType().getHostel().getHostelID());
+                pst.setString(2, startNextMonth.toString());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int serviceID = rs.getInt("serviceID");
+                        String serviceName = rs.getString("serviceName");
+                        String monthAppliedString = rs.getString("monthApplied");
+                        YearMonth monthApplied = YearMonth.parse(monthAppliedString);
+                        int serviceFee = rs.getInt("serviceFee");
+                        String unit = rs.getString("unit");
+                        int type = rs.getInt("type");
+                        Hostel hostel = room.getRoomType().getHostel();
+                        
+                        // serviceFee = 0, service is deleted
+                        if (serviceFee != 0) {
+                            list.add(new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit, type));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
 //    public static List<Service> findByHostelId(int hostelId) {
 //        Connection cn = null;
 //        List<Service> list = null;
@@ -202,7 +254,7 @@ public class ServiceDAO {
 //        }
 //        return list;
 //    }
-     public static boolean save(int hostelId, String name, int fee, String unit, int serviceType) {
+    public static boolean save(int hostelId, String name, int fee, String unit, int serviceType) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
@@ -306,6 +358,5 @@ public class ServiceDAO {
         for (Service service : list) {
             System.out.println(service.getType());
         }
-                
     }
 }
