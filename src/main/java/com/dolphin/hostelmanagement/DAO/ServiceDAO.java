@@ -59,6 +59,44 @@ public class ServiceDAO {
         }
         return list;
     }
+    
+    public static List<Service> findAddedActiveServices(Hostel hostel) {
+        List<Service> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "select s.type, serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied, serviceFee, unit from Service s where hostelID = ? and active = 1 and type = 0";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, hostel.getHostelID());
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int serviceID = rs.getInt("serviceID");
+                        String serviceName = rs.getString("serviceName");
+                        String monthAppliedString = rs.getString("monthApplied");
+                        YearMonth monthApplied = YearMonth.parse(monthAppliedString);
+                        int serviceFee = rs.getInt("serviceFee");
+                        String unit = rs.getString("unit");
+                        int type = rs.getInt("type");
+                        list.add(new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit, type));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
 
     public static Service findServiceByID(int id) {
         Connection cn = null;
@@ -263,7 +301,8 @@ public class ServiceDAO {
     }
 
     public static void main(String[] args) {
-        List<Service> list = findHostelActiveServices(HostelDAO.findById(1));
+        List<Service> list = findAddedActiveServices(HostelDAO.findById(43));
+        System.out.println(list.size());
         for (Service service : list) {
             System.out.println(service.getType());
         }

@@ -96,7 +96,9 @@
                                 <div class="grid grid-cols-6 gap-[8px]">
                                     <div class="col-span-2 grid grid-rows-2 gap-[3px]">
                                         <p class="text-[#929ca5] font-normal">Mã nhà trọ</p>
-                                        <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.hostelID}</p>
+                                        <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                            <fmt:formatNumber value="${sessionScope.currentHostel.hostelID}" groupingUsed="false" minIntegerDigits="5"/>
+                                        </p>
                                     </div>
                                     <div class="col-span-4 grid grid-rows-2 gap-[3px]">
                                         <p class="text-[#929ca5] font-normal">Tên nhà trọ</p>
@@ -105,7 +107,7 @@
                                     <div class="col-span-2 grid grid-rows-2 gap-[0px]">
                                         <p class="text-[#929ca5] font-normal">Trạng thái</p>
                                         <c:if test="${sessionScope.currentHostel.activate == true}">
-                                            <p class="w-2/3 text-center px-2 py-[2px] bg-[#dcfce7] rounded text-[18px] text-[#17535B] font-semibold">Hoạt động</p>
+                                            <p class="w-2/3 text-center px-2 py-[2px] bg-[#dcfce7] rounded-[32px] text-[18px] text-[#17535B] font-semibold">Hoạt động</p>
                                         </c:if>
                                         <c:if test="${sessionScope.currentHostel.activate == false}">
                                             <p class="w-1/2 text-center px-2 py-[2px] bg-[#f0f1f2] rounded text-[16px] text-[#616569] font-semibold">Đóng cửa</p>
@@ -228,12 +230,19 @@
                     <!-- Feedback, review -->
                     <div class="feedback mt-[20px] grid grid-cols-5 gap-[20px]">
                         <div class="card w-full h-fit bg-[#fff] p-[20px] flex flex-col">
-                            <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Đánh giá</div>
+                            <div class="text-[20px] font-bold text-[#2A3C46]">Đánh giá</div>
                             <div class="w-full h-fit mx-auto">
                                 <div class="relative w-[80%] h-fit mx-auto mt-[20px]">
-                                    <div id="donut-chart" dir="ltr" dnt></div>
-                                    <div>Điểm đánh giá trung bình</div>
-                                    <p class="text-center">${requestScope.feedbacks.size()} lượt đánh giá</p>
+                                    <c:if test="${requestScope.feedbacks.size() <= 0}">
+                                        <div class="h-[250px] flex justify-center items-center">
+                                            <p class="text-center font-bold text-[18px] text-slate-300">Chưa có đánh giá nào!</p>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${requestScope.feedbacks.size() > 0}">
+                                        <div class="w-full text-center">Điểm trung bình</div>
+                                        <div class="mt-[20px]" id="donut-chart" dir="ltr" dnt></div>
+                                        <p class="text-center font-bold text-[18px] text-gray-500">${requestScope.feedbacks.size()} lượt đánh giá</p>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
@@ -242,28 +251,30 @@
                         <div class="card col-span-4 w-full bg-[#fff] p-[20px]">
                             <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Chi tiết đánh giá
                             </div>
-                            <div class="w-full mx-auto overflow-y-auto">
-                                <table class="w-full text-[15px] text-left text-gray-500 ">
-                                    <thead class="text-[15px] text-gray-700 uppercase bg-gray-50 ">
-                                        <tr class="grid grid-16 gap-[5px]">
-                                            <th scope="col" class="px-2 py-3 col-span-2">Thời gian</th>
-                                            <th scope="col" class="px-2 py-3 col-span-2">Người đánh giá</th>
-                                            <th scope="col" class="text-center px-1 py-3 col-span-2">Số điểm</th>
-                                            <th scope="col" class="px-1 py-3 col-span-10">Nội dung</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items="${requestScope.feedbacks}" var="feedback">
-                                            <tr class="bg-white border-b hover:bg-gray-50 grid grid-16 gap-[5px]">
-                                                <td class="px-2 py-4 col-span-2">${feedback.date}</td>
-                                                <td class="px-2 py-4 col-span-2">${feedback.tenant.fullname}</td>
-                                                <td class="text-center px-1 py-4 col-span-2">${feedback.rating}</td>
-                                                <td class="px-1 py-4 col-span-10">${feedback.content}</td>
+                            <c:if test="${requestScope.feedbacks.size() > 0}">
+                                <div class="w-full mx-auto overflow-y-auto">
+                                    <table class="w-full text-[15px] text-left text-gray-500 ">
+                                        <thead class="text-[15px] text-gray-700 uppercase bg-gray-50 ">
+                                            <tr class="grid grid-16 gap-[5px]">
+                                                <th scope="col" class="px-2 py-3 col-span-2">Thời gian</th>
+                                                <th scope="col" class="px-2 py-3 col-span-2">Người đánh giá</th>
+                                                <th scope="col" class="text-center px-1 py-3 col-span-2">Số điểm</th>
+                                                <th scope="col" class="px-1 py-3 col-span-10">Nội dung</th>
                                             </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="${requestScope.feedbacks}" var="feedback">
+                                                <tr class="bg-white border-b hover:bg-gray-50 grid grid-16 gap-[5px]">
+                                                    <td class="px-2 py-4 col-span-2">${feedback.date}</td>
+                                                    <td class="px-2 py-4 col-span-2">${feedback.tenant.fullname}</td>
+                                                    <td class="text-center px-1 py-4 col-span-2">${feedback.rating}</td>
+                                                    <td class="px-1 py-4 col-span-10">${feedback.content}</td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </c:if>
                         </div>
 
                     </div>
@@ -280,14 +291,13 @@
 
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
 
         <script type="text/javascript">
                                                                 function showToast(type, msg) {
                                                                     toastr.options.positionClass = 'toast-bottom-right';
-                                                                    toastr.options.extendedTimeOut = 0; //1000;
+                                                                    // toastr.options.extendedTimeOut = 0; //1000;
                                                                     toastr.options.timeOut = 3000;
                                                                     toastr.options.hideDuration = 250;
                                                                     toastr.options.showDuration = 250;
@@ -549,7 +559,7 @@
             function confirmRemoveMultipleFile() {
                 removeMultipleFile();
                 //toggleModal('.modal.remove-image');
-                showToast('info', 'Đang xoá, đợi vài giây!');
+                showToast('info', 'Đang xoá, vui lòng đợi!');
                 setTimeout(function () {
                     window.location.reload();
                 }, 3000);
@@ -634,11 +644,10 @@
                         url: '/sakura/landlord/remove-image',
                         complete: function () {
                             toggleModal('.modal.remove-an-image');
-                            window.location.reload();
-                            //showToast('success', 'Xoá ảnh thành công!');
-                            //setTimeout(function () {
-                            //    window.location.reload();
-                            //}, 3000);
+                            showToast('info', 'Đang xoá, vui lòng đợi!');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 3000);
                         }
                     });
                 });
@@ -772,25 +781,29 @@
                 });
                 countSelectedImage();
             }
-
-            let chart = new Donutty(document.getElementById('donut-chart'), {
-                min: 0,
-                max: 5,
-                bg: '#e4ecf4',
-                value: ${requestScope.avgRating},
-                round: true,
-                color: '#17535B',
-                thickness: 4,
-                circle: false,
-                padding: 2,
-                text: function (state) {
-                    let label = state.value + " / 5";
-                    //return (state.value / (state.max - state.min) * 100) + "%";
-                    return label;
-                    // return the percentage of the donut
-                }
-
-            });
         </script>
+        <c:if test="${requestScope.feedbacks.size() > 0}">
+            <script>
+                let chart = new Donutty(document.getElementById('donut-chart'), {
+                    min: 0,
+                    max: 5,
+                    bg: '#e4ecf4',
+                    value: ${requestScope.avgRating},
+                    round: true,
+                    color: '#17535B',
+                    thickness: 4,
+                    circle: false,
+                    padding: 2,
+                    text: function (state) {
+                        let label = state.value + " / 5";
+                        //return (state.value / (state.max - state.min) * 100) + "%";
+                        return label;
+                        // return the percentage of the donut
+                    }
+
+                });
+            </script>
+        </c:if>
+
     </body>
 </html>

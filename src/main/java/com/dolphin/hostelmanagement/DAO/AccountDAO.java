@@ -474,7 +474,6 @@ public class AccountDAO {
     
 
     public static void main(String[] args) {
-        //saveGoogleAccount(3, "hiohiahha");
         updateVerificationCode("dasdassda@gmail.com", null);
     }
 

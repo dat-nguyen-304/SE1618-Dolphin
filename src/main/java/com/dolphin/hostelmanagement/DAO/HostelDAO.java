@@ -77,7 +77,7 @@ public class HostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select * from Hostel where activate = 1";
+                String sql = "select * from Hostel where activate = 1 and availableRoom > 0";
                 PreparedStatement pst = cn.prepareCall(sql);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
@@ -127,6 +127,12 @@ public class HostelDAO {
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, area);
                 pst.setInt(2, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,6 +149,12 @@ public class HostelDAO {
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, area);
                 pst.setInt(2, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,6 +171,12 @@ public class HostelDAO {
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, price);
                 pst.setInt(2, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,6 +193,12 @@ public class HostelDAO {
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, price);
                 pst.setInt(2, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -362,27 +386,20 @@ public class HostelDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "update Hostel set activate = ? where hostelID = ?";
+                String sql = "update Hostel set activate = 0 where hostelID = ?";
                 PreparedStatement pst = cn.prepareCall(sql);
-                pst.setBoolean(1, false);
-                pst.setInt(2, deleteId);
-                check = pst.executeUpdate() != 0;
-                if (check) {
-                    System.out.println("!!! DEACTIVATED hostelId " + deleteId);
+                pst.setInt(1, deleteId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
                 }
+                cn.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return check;
+        } 
+        return false;
     }
 
     public static List<Hostel> findByDistrict(int wardID) {
@@ -726,12 +743,35 @@ public class HostelDAO {
         return 0;
     }
     
-    public static boolean updateRoomQuantity(int hostelId, int quantity) {
+    public static boolean updateTotalRoom(int hostelId, int quantity) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 String sql = "UPDATE Hostel SET totalRoom = (SELECT totalRoom FROM Hostel WHERE hostelID = ?) + ? WHERE HostelID = ?";  
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                pst.setInt(2, quantity);
+                pst.setInt(3, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static boolean updateAvailableRoom(int hostelId, int quantity) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Hostel SET availableRoom = (SELECT availableRoom FROM Hostel WHERE hostelID = ?) + ? WHERE HostelID = ?";  
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 pst.setInt(2, quantity);

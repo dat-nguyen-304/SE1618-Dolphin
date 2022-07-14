@@ -18,12 +18,14 @@ public class RoomType {
     private int maxNumberOfResidents;
     private String description;
     private Hostel hostel;
+    private int availableRoom;
+    private int totalRoom;
     private ArrayList<String> imgList;
 
     public RoomType() {
     }
 
-    public RoomType(int roomTypeID, String roomTypeName, int area, int advertisedPrice, int maxNumberOfResidents, String description, Hostel hostel, ArrayList<String> imgList) {
+    public RoomType(int roomTypeID, String roomTypeName, int area, int advertisedPrice, int maxNumberOfResidents, String description, Hostel hostel, int availableRoom, int totalRoom, ArrayList<String> imgList) {
         this.roomTypeID = roomTypeID;
         this.roomTypeName = roomTypeName;
         this.area = area;
@@ -31,9 +33,11 @@ public class RoomType {
         this.maxNumberOfResidents = maxNumberOfResidents;
         this.description = description;
         this.hostel = hostel;
+        this.availableRoom = availableRoom;
+        this.totalRoom = totalRoom;
         this.imgList = imgList;
     }
-
+    
     public int getRoomTypeID() {
         return roomTypeID;
     }
@@ -97,4 +101,22 @@ public class RoomType {
     public void setImgList(ArrayList<String> imgList) {
         this.imgList = imgList;
     }
+
+    public int getAvailableRoom() {
+        return availableRoom;
+    }
+
+    public void setAvailableRoom(int availableRoom) {
+        this.availableRoom = availableRoom;
+    }
+
+    public int getTotalRoom() {
+        return totalRoom;
+    }
+
+    public void setTotalRoom(int totalRoom) {
+        this.totalRoom = totalRoom;
+    }
+    
+    
 }

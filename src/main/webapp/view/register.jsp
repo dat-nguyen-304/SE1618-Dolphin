@@ -187,6 +187,10 @@
         </div>
         <script src="../assets/javascript/jquery.js"></script>
         <script>
+                        window.onload = () => {
+                            const myInput = document.querySelector("#cf-password");
+                            myInput.onpaste = e => e.preventDefault();
+                        };
                         // Toggle Password
                         const togglePassword = document.querySelector("#toggle-password");
                         const toggleCfPassword = document.querySelector("#toggle-cf-password");
@@ -363,11 +367,15 @@
                         function checkPassword(submit) {
                             $("#password-error").html("");
                             $("#password").css("border", "");
-                            var re = /^\S{8,15}$/; // regex here
+                            var re = /\S{8,15}/; // regex here
                             console.log($("#password").val());
                             if ($("#password").val().trim().length > 0 && !re.test($("#password").val().trim())) {
+                                if ($("#password").val().trim().length < 8 || $("#password").val().trim() > 15) {
+                                    $("#password-error").html("8-15 kí tự!");
+                                } else {
+                                    $("#password-error").html("Không khoảng trắng!");
+                                }
                                 console.log($("#password").val());
-                                $("#password-error").html("8-15 kí tự, không khoảng trắng");
                                 $("#password-error").css("color", "red");
                                 if (submit === 1)
                                     $("#password").focus();

@@ -143,6 +143,14 @@
                                             <p class="text-[#929ca5] font-normal">Số người tối đa</p>
                                             <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.currentRoomType.maxNumberOfResidents} người</p>
                                         </div>
+                                        <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                            <p class="text-[#929ca5] font-normal">Số phòng trống</p>
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.currentRoomType.availableRoom} phòng</p>
+                                        </div>
+                                        <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                            <p class="text-[#929ca5] font-normal">Tổng phòng</p>
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.currentRoomType.totalRoom} phòng</p>
+                                        </div>
                                     </div>
                                     <div class="mt-[20px]">
                                         <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Mô tả</p>
@@ -168,20 +176,25 @@
                                     <p class="w-[40px] h-[20px] bg-white border-2 border-gray-200 rounded"><p>
                                 </div>
                                 <c:if test="${requestScope.currentRoomType !=null}">
-                                    <div class="grid grid-cols-8 gap-[10px] mt-[20px]">
-                                        <c:forEach items="${requestScope.roomList}" var="room">
-                                            <c:if test="${room.status == 0}"> <!--<!-- empty -->
-                                                <form action="/sakura/landlord/room-detail" class="border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150">
-                                                    <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
-                                                </form>
-                                            </c:if>
-                                            <c:if test="${room.status == 1}">
-                                                <form action="/sakura/landlord/room-detail" class="rounded text-center p-1 bg-[#17535B] text-white hover:bg-[#13484F] duration-150">
-                                                    <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
-                                                </form>
-                                            </c:if>
-                                        </c:forEach>
-                                    </div>
+                                    <c:if test="${requestScope.roomList.size() > 0}">
+                                        <div class="grid grid-cols-8 gap-[10px] mt-[20px]">
+                                            <c:forEach items="${requestScope.roomList}" var="room">
+                                                <c:if test="${room.status == 0}"> <!--<!-- empty -->
+                                                    <form action="/sakura/landlord/room-detail" class="border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150">
+                                                        <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
+                                                    </form>
+                                                </c:if>
+                                                <c:if test="${room.status == 1}">
+                                                    <form action="/sakura/landlord/room-detail" class="rounded text-center p-1 bg-[#17535B] text-white hover:bg-[#13484F] duration-150">
+                                                        <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
+                                                    </form>
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${requestScope.roomList.size() == 0}">
+                                        <p>Chưa có phòng nào</p>
+                                    </c:if>
                                 </c:if>
                                 <c:if test="${requestScope.currentRoomType == null}">
                                     <p class="text-gray-400 text-center text-[20px] py-[10px]">Trống</p>
@@ -594,7 +607,8 @@
 
                 jQuery.ajax({
                     type: 'POST',
-                    data: {'deleteRoomTypeId': deleteRoomTypeId.value
+                    data: {'deleteRoomTypeId': deleteRoomTypeId.value,
+                        'hostelId': ${sessionScope.currentHostel.hostelID}
                     },
                     url: '/sakura/room/delete-roomtype',
                     success: function (response) {
@@ -780,7 +794,7 @@
                             addRoomTypeBtn.onclick = (e) => {
                                 e.preventDefault();
                             };
-                           // showToast('error', response);
+                            // showToast('error', response);
                         } else {
                             addRoomTypeBtn.onclick = () => addRoomType();
                         }

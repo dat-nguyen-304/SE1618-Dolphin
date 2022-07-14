@@ -98,7 +98,7 @@
                         </div>
                         <button class="rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group"
                                 type="button" data-modal-toggle="addRoom">
-                            <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm phòng</p>
+                            <p class="addRoom font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm phòng</p>
                         </button>
                     </div>
                     <div class="card bg-[#fff] general-info p-[20px] mt-[20px] h-[calc(100vh-225px)]">
@@ -162,13 +162,17 @@
                 const hostelId = document.querySelector("input[name='hostelId']");
                 const validRoomMessage = document.querySelector(".validRoomMessage");
                 const addRoomElement = document.querySelector(".addRoom");
+                console.log("hostelID: ", hostelId.value);
+                console.log("number: ", element.value);
+                console.log("addRoomElement: ", addRoomElement);
                 jQuery.ajax({
                     type: 'POST',
                     data: {'roomNumber': element.value,
                         'hostelId': hostelId.value
                     },
-                    url: '/sakura/landlord/check-room-valid',
+                    url: '/sakura/room/check-room-valid',
                     success: function (response) {
+                        console.log("response: " , response);
                         validRoomMessage.innerHTML = response;
                         if (response) {
                             addRoomElement.onclick = (e) => {
