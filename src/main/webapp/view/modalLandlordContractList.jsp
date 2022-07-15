@@ -45,15 +45,22 @@
             </div>
 
             <div class="p-6 space-y-6">
+                <div>
+                    <label>Tìm Phòng</label> 
+                    <input type="text" name="searchRoom"/>
+                    <button class="ml-[20px] border-2 py-2 px-4" onclick="searchRoomOnModal()">Tìm kiếm</button>
+                </div>
                 <form action="/sakura/landlord/contract-list">
                     <button type="submit" name="roomId" value="0" class="px-4 py-2 mx-2 rounded border-2">Tất cả</button>
                 </form>
-                <c:forEach items="${requestScope.roomList}" var="room">
-                    <form action="/sakura/landlord/contract-list" class="inline-block">
-                        <input type="hidden" name="roomNumber" value="${room.roomNumber}"/>
-                        <button type="submit" name="roomId" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>
-                    </form>
-                </c:forEach>
+                <div class="room-list-modal">
+                    <c:forEach items="${requestScope.roomList}" var="room">
+                        <form action="/sakura/landlord/contract-list" class="inline-block">
+                            <input type="hidden" name="roomNumber" value="${room.roomNumber}"/>
+                            <button type="submit" name="roomId" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>
+                        </form>
+                    </c:forEach>
+                </div>
             </div>
         </div>
     </div>

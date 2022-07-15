@@ -270,7 +270,7 @@
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     <c:forEach var="detail" items="${requestScope.prevMonthDetails}">
-                                                                        <c:if test="${service.serviceID == detail.service.serviceID}">
+                                                                        <c:if test="${service.serviceName == detail.service.serviceName}">
                                                                             <span id="startInput${service.serviceID}">${detail.endValue}</span>
                                                                             <input type="hidden" name="startInput${service.serviceID}"
                                                                                    value="${detail.endValue}">
@@ -290,7 +290,7 @@
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     <c:forEach var="detail" items="${requestScope.prevMonthDetails}">
-                                                                        <c:if test="${service.serviceID == detail.service.serviceID}">
+                                                                        <c:if test="${service.serviceName == detail.service.serviceName}">
                                                                             <input type="number" name="endInput${service.serviceID}"
                                                                                    min="${detail.endValue}" value="${detail.endValue}"
                                                                                    id="endInput${service.serviceID}"

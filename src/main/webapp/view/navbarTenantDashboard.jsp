@@ -10,26 +10,15 @@
                     <span class="ml-3">Tổng quan</span>
                 </a>
             </li>
-            <li class="menu-item">
-                <button type="button" class="${(pageContext.request.requestURI == '/sakura/view/tenantPageInvoiceList.jsp' || pageContext.request.requestURI == '/sakura/view/tenantPageInvoiceDetail.jsp') ? 'parent-active' : ''} flex items-center p-2 w-full text-base font-normal text-slate-300 rounded transition duration-75 group hover:bg-[#17535B] hover:text-slate-100" aria-controls="dropdown-invoice" data-collapse-toggle="dropdown-invoice">
+            <li class="">
+                <a href="/sakura/invoice/list"
+                   class="${(pageContext.request.requestURI == '/sakura/view/tenantPageInvoiceList.jsp') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-300 transition duration-75 group-hover:text-slate-100" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
                         <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
                     </svg>
-                    <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="">Hoá đơn</span>
-                    <svg sidebar-toggle-item="" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-                <ul id="dropdown-invoice" class="${(pageContext.request.requestURI == '/sakura/view/tenantPageInvoiceList.jsp' || pageContext.request.requestURI == '/sakura/view/tenantPageInvoiceDetail.jsp') ? '' : 'hidden'} py-2 space-y-2">
-                    <li>
-                        <a href="/sakura/invoice/list" class="${(pageContext.request.requestURI == '/sakura/view/tenantPageInvoiceList.jsp') ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Danh sách hoá đơn</a>
-                    </li>
-                    <li>
-                        <a href="/sakura/invoice/detail" class="${(pageContext.request.requestURI == '/sakura/view/tenantPageInvoiceDetail.jsp') ? 'active' : ''} menu-item flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100"
-                           id="list-item">Chi tiết hoá đơn</a>
-                    </li>
-                </ul>
+                    <span class="ml-3">Hoá đơn</span>
+                </a>
             </li>
             <li class="menu-item">
                 <a href="/sakura/tenant/contract-list" class="${(pageContext.request.requestURI == '/sakura/view/TContractDetail.jsp') ? 'active' : ''} menu-item flex items-center p-2 text-base font-normal text-slate-300 rounded hover:bg-[#17535B] hover:text-slate-100 group">

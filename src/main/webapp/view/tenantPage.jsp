@@ -64,8 +64,8 @@
                 </c:if>
                 <c:if test="${not empty sessionScope.currentContract}">
                     <!-- General information -->
-                    <div class="general-info flex justify-between mt-[20px]">
-                        <div class="card hostel-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
+                    <div class="general-info grid grid-cols-4 gap-[20px] mt-[20px]">
+                        <div class="card hostel-info h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
                             <div class="hostel-info-head flex justify-between items-baseline">
                                 <div class="hostel-name text-[20px] font-bold text-[#2A3C46]">
                                     <h3>Nhà trọ ${sessionScope.currentContract.hostel.hostelName}</h3>
@@ -81,7 +81,7 @@
                             </div>
                         </div>
 
-                        <div class="card landlord-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
+                        <div class="card landlord-info h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
                             <div class="landlord-name text-[20px] font-bold text-[#2A3C46]">
                                 <h3>Chủ nhà - ${sessionScope.currentContract.landlord.fullname}</h3>
                             </div>
@@ -92,7 +92,7 @@
                             </div>
                         </div>
 
-                        <div class="card room-info w-[27%] h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
+                        <div class="card room-info h-[120px] bg-[#fff] p-5 flex flex-col justify-between">
                             <div class="room-code text-[20px] font-bold text-[#2A3C46]">
                                 <h3>Phòng ${currentContract.room.roomNumber}</h3>
                             </div>
@@ -111,11 +111,22 @@
                                 </div>
                             </div>
                         </div>
-                        <form class="card cancel-rent w-[15%] h-[120px]">
-                            <button type="button"
-                                    class="w-full h-full bg-[#F3F8FA] p-5 flex justify-center items-center text-[#17535B] font-medium text-[22px] hover:bg-[#DCE8E9]">Huỷ
-                                thuê phòng</button>
-                        </form>
+
+                        <div href="#" class="card rounded overall-info h-[120px] bg-[#fff] group relative">
+                            <div class="overall-info-head h-[30%] bg-[#F5FDFA] flex flex-col justify-center items-end pr-[10px]">
+                                <p class="text-[14px] font-medium text-[#17535B]">Trang thông tin dành cho người thuê</p>
+                            </div>
+                            <div class="desc h-[70%] px-[20px] flex items-center">
+                                <div class="user-ava mr-[20px] inline-block border border-[3px] border-[#fff] rounded-full overflow-hidden">
+                                    <img class="w-14 h-14 object-cover" src="${empty sessionScope.currentUser.account.avatar ? "/sakura/assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="" />
+                                </div>
+                                <div class="user-info text-[14px] font-normal text-[#7B8692]">
+                                    <p><span class="text-[#40576C] font-bold">${sessionScope.currentUser.fullname}</span> - ${sessionScope.currentUser.account.username}</p>
+                                    <p>${sessionScope.currentUser.account.email}</p>
+                                    <p>${sessionScope.currentUser.phone}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- End general information -->
 

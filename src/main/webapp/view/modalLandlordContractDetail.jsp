@@ -34,7 +34,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="endContractmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <button id="endContract-2" onclick="endContract()" class="endContractBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Chắc chắn</button>
+                <button id="endContract-1" onclick="endContract()" class="endContractBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Chắc chắn</button>
             </div>
         </div>
     </div>

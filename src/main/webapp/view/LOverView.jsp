@@ -490,15 +490,16 @@
                     //addHostelMessage.innerHTML = message;
                     showToast("error", message);
                 } else {
-                    for (let i = 0; i < streetAddress.value.length; i++) {
-                        let c = streetAddress.value.charAt(i);
-                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '/' || c == ' ' || c == ',')) {
-                            fault = true;
-                            showToast("error", 'Địa chỉ chỉ được chứa chữ cái, chữ số khoảng trắng, "/", "," và "-"');
-                            break;
-                        }
-                    }
-                    if (!fault)
+//                    let fault = false;
+//                    for (let i = 0; i < streetAddress.value.length; i++) {
+//                        let c = streetAddress.value.charAt(i);
+//                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '/' || c == ' ' || c == ',')) {
+//                            fault = true;
+//                            showToast("error", 'Địa chỉ chỉ được chứa chữ cái, chữ số khoảng trắng, "/", "," và "-"');
+//                            break;
+//                        }
+//                    }
+//                    if (!fault)
                         jQuery.ajax({
                             type: 'POST',
                             data: {'name': name.value,
@@ -532,20 +533,20 @@
                 console.log("da vao checkvalidhostel");
                 console.log(element.value);
                 console.log(landlordId.value);
-                let fault = false;
-                for (let i = 0; i < element.value.length; i++) {
-                    let c = element.value.charAt(i);
-                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ')) {
-                        fault = true;
-                        validHostelMessage.innerHTML = 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng';
-                        adddHostelBtn.onclick = (e) => {
-                            showToast("error", 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng');
-                            e.preventDefault();
-                        };
-                        break;
-                    }
-                }
-                if (!fault)
+//                let fault = false;
+//                for (let i = 0; i < element.value.length; i++) {
+//                    let c = element.value.charAt(i);
+//                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ')) {
+//                        fault = true;
+//                        validHostelMessage.innerHTML = 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng';
+//                        adddHostelBtn.onclick = (e) => {
+//                            showToast("error", 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng');
+//                            e.preventDefault();
+//                        };
+//                        break;
+//                    }
+//                }
+//                if (!fault)
                     jQuery.ajax({
                         type: 'POST',
                         data: {'hostelName': element.value,

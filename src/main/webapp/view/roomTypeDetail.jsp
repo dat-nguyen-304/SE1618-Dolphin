@@ -56,6 +56,10 @@
                     <img class="w-full h-full object-fill object-center"
                          src="${requestScope.roomType.imgList.get(0)}">
                     </c:if>
+                    <c:if test = "${requestScope.roomType.imgList.size() == 0}">
+                    <img class="w-full h-full object-fill object-center"
+                         src="../assets/images/hostel-list-images/empty_img.jpg">
+                    </c:if>
                 </div>
                 <div class="w-2/5 pl-[30px]">
                     <div class="mb-[20px]">

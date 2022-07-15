@@ -158,11 +158,11 @@
 
                             <div class="col-span-2 grid grid-rows-2 gap-0 mb-[10px]">
                                 <p class="text-[#929ca5] font-normal text-[15px]">Người cho thuê</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.tenant.fullname}</p>
+                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.landlord.fullname}</p>
                             </div>
                             <div class="col-span-4 grid grid-rows-2 gap-0 mb-[10px]">
                                 <p class="text-[#929ca5] font-normal text-[15px]">Người thuê</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.landlord.fullname}</p>
+                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.tenant.fullname}</p>
                             </div>
 
                             <div class="col-span-2 grid grid-rows-2 gap-0 mb-[10px]">

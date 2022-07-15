@@ -20,10 +20,10 @@
         <!--Favicon-->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
 
-        <!-- Font -->
+       <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <!--CSS-->
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
@@ -44,7 +44,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] ${requestScope.invitationList.size() < 10 ? 'h-[calc(100vh-80px)]' : ''}">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)] ${requestScope.invitationList.size() < 10 ? 'h-[calc(100vh-80px)]' : ''}">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -67,8 +67,8 @@
 
 
                 <!-- Rental request list -->
-                <div class="statistic w-full mt-[20px] grid grid-cols-2 gap-[20px]">
-                    <div class="card w-full room-member bg-[#fff] p-5 flex flex-col">
+                <div class="statistic w-full mt-[20px] grid grid-cols-8 gap-[20px]">
+                    <div class="card col-span-3 w-full room-member bg-[#fff] p-5 flex flex-col">
                         <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                             <p>Danh sách yêu cầu thuê phòng</p>
                         </div>
@@ -114,7 +114,7 @@
                             </c:if>
                         </div>
                     </div>
-                    <div class="card room-member bg-[#fff] p-5 flex flex-col">
+                    <div class="card col-span-5 room-member bg-[#fff] p-5 flex flex-col">
                         <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                             <p>Lời mời thuê nhà</p>
                         </div>
@@ -135,6 +135,10 @@
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Thời gian gửi
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                             </th>

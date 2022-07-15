@@ -296,7 +296,7 @@
                                                 </div>
                                             </c:if>
                                             <c:if test="${hostel.imgList.size() == 0}">
-                                                <img class="d-block w-100 h-[200px] object-cover" src="https://media.istockphoto.com/vectors/house-icon-black-minimalist-icon-isolated-on-white-background-vector-id858148582?k=20&m=858148582&s=612x612&w=0&h=SMaFJFzStgpcZkpVELQ2H9aoQZEMURVK1SCRafnZP8Q=" />
+                                                <img class="d-block w-100 h-[200px] object-cover" src="../assets/images/hostel-list-images/empty_img.jpg" />
                                             </c:if>
 
                                             <div class="hostel-content btn-submit">
@@ -418,36 +418,38 @@
                                         </form>
                                     </li>
                                 </c:if>
-                                <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
-                                    <c:if test="${requestScope.currentPage == iterator}">
-                                        <li class="pagination-item pagination-item--active">
-                                        </c:if>
-                                        <c:if test="${requestScope.currentPage != iterator}">
-                                        <li class="pagination-item">
-                                        </c:if>
-                                        <form action="/sakura/hostel/list">
-                                            <c:if test="${sessionScope.province != null}">
-                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                <c:if test="${requestScope.itemQuantity > 8}">
+                                    <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
+                                        <c:if test="${requestScope.currentPage == iterator}">
+                                            <li class="pagination-item pagination-item--active">
                                             </c:if>
-                                            <c:if test="${sessionScope.district != null}">
-                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                            <c:if test="${requestScope.currentPage != iterator}">
+                                            <li class="pagination-item">
                                             </c:if>
-                                            <c:if test="${requestScope.keyword != null}">
-                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.sortByMinPrice != null}">
-                                                <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.sortByMaxPrice != null}">
-                                                <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.sortByRate != null}">
-                                                <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
-                                            </c:if>
-                                            <button type="submit" name="paging" value="${iterator}">${iterator}</button>
-                                        </form>
-                                    </li>
-                                </c:forEach>
+                                            <form action="/sakura/hostel/list">
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.sortByMinPrice != null}">
+                                                    <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMinPrice}"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.sortByMaxPrice != null}">
+                                                    <input type="hidden" name="sortByMaxPrice" value="${requestScope.sortByMaxPrice}"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.sortByRate != null}">
+                                                    <input type="hidden" name="sortByRate" value="${requestScope.sortByRate}"/>
+                                                </c:if>
+                                                <button type="submit" name="paging" value="${iterator}">${iterator}</button>
+                                            </form>
+                                        </li>
+                                    </c:forEach>
+                                </c:if>
                                 <c:if test="${!(requestScope.currentPage == requestScope.endPage || requestScope.itemQuantity <= 8)}">
                                     <li class="pagination-item pagination-next">
                                         <form action="/sakura/hostel/list">

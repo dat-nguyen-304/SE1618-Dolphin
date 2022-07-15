@@ -352,7 +352,7 @@
                     if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ')) {
                         fault = true;
                         validUpdateHostelMessage.innerHTML = 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng';
-                        
+
                         updateHostelBtn.onclick = (e) => {
                             e.preventDefault();
                             updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
@@ -385,7 +385,8 @@
                         }
                     });
             }
-
+        </script>
+        <script>
             function updateHostel() {
                 const name = document.querySelector("input[name='updateName']");
                 const updateDistrictId = document.querySelector("select[name='updateDistrictId']");
@@ -407,30 +408,41 @@
                     }
                     message += "không được trống";
 
-                    messageElement.innerHTML = message;
+//                    messageElement.innerHTML = message;
+                    showToast("error", message);
                 } else {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'name': name.value,
-                            'updateDistrictId': updateDistrictId.value,
-                            'updateStreetAddress': updateStreetAddress.value,
-                            'description': description.value,
-                            'hostelId': hostelId.value
-                        },
-                        url: '/sakura/hostel/update-hostel',
-                        success: function (response) {
-                            //messageElement.innerHTML = response;
-                            toggleModal('.editHostelmodal1');
-                            showToast("success", "Chỉnh sửa thành công! Đang cập nhật lại trang.");
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 3000);
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
+                    let fault = false;
+                    for (let i = 0; i < updateStreetAddress.value.length; i++) {
+                        let c = updateStreetAddress.value.charAt(i);
+                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '/' || c == ' ' || c == ',')) {
+                            fault = true;
+                            showToast("error", 'Địa chỉ chỉ được chứa chữ cái, chữ số khoảng trắng, "/", "," và "-"');
+                            break;
                         }
-                    });
+                    }
+                    if (!fault)
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'name': name.value,
+                                'updateDistrictId': updateDistrictId.value,
+                                'updateStreetAddress': updateStreetAddress.value,
+                                'description': description.value,
+                                'hostelId': hostelId.value
+                            },
+                            url: '/sakura/hostel/update-hostel',
+                            success: function (response) {
+                                //messageElement.innerHTML = response;
+                                toggleModal('.editHostelmodal1');
+                                showToast("success", "Chỉnh sửa thành công! Đang cập nhật lại trang.");
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 3000);
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
                 }
             }
         </script>

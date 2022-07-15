@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.YearMonth;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,7 @@ public class InvoiceController extends HttpServlet {
      */
     private static final String ERROR = "error.jsp";
     private SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 
     private void sortByStatus(List<Invoice> invoiceList, int status) {
         switch (status) {
@@ -156,7 +158,9 @@ public class InvoiceController extends HttpServlet {
                     List<Invoice> invoiceList = null;
                     if (request.getParameter("hostelID") == null) {
                         chosenHostel = (session.getAttribute("currentHostel") != null) ? (Hostel) session.getAttribute("currentHostel") : null;
-                    } else chosenHostel = HostelDAO.findById(Integer.parseInt(request.getParameter("hostelID")));
+                    } else {
+                        chosenHostel = HostelDAO.findById(Integer.parseInt(request.getParameter("hostelID")));
+                    }
                     if (chosenHostel != null) {
                         if (request.getParameter("roomID") != null) {
                             int roomID = Integer.parseInt(request.getParameter("roomID"));
@@ -172,7 +176,8 @@ public class InvoiceController extends HttpServlet {
                                 request.setAttribute("chosenRoom", new Room());
                             }
                             request.setAttribute("invoiceList", invoiceList);
-                        }
+                        } 
+                        else request.setAttribute("invoiceList", InvoiceDAO.findByHostelID(chosenHostel.getHostelID()));
                         request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
                     }
                     request.setAttribute("chosenHostel", chosenHostel);
@@ -205,8 +210,15 @@ public class InvoiceController extends HttpServlet {
                             Room chosenRoom = RoomDAO.findRoomNewInvoice(Integer.parseInt(chosenRoomID));
                             chosenHostel = chosenRoom.getRoomType().getHostel();
                             request.setAttribute("chosenRoom", chosenRoom);
-                            activeServices = ServiceDAO.findServiceByRoom(chosenRoom);
                             Contract contract = ContractDAO.findActiveContractByRoomID(Integer.parseInt(chosenRoomID));
+                            if (chosenRoom.getLatestInvoiceMonth() == null) {
+                                String firstMonth = df2.format(contract.getStartDate());
+                                firstMonth = firstMonth.substring(0, firstMonth.lastIndexOf('-'));
+                                YearMonth firstMonthYM = YearMonth.parse(firstMonth);
+                                activeServices = ServiceDAO.findServiceByRoom(new Room(chosenRoom.getRoomID(), chosenRoom.getRoomNumber(), chosenRoom.getRoomType(), firstMonthYM));
+                            } else {
+                                activeServices = ServiceDAO.findServiceByRoom(chosenRoom);
+                            }
                             if (chosenRoom.getLatestInvoiceMonth() == null) {
                                 String startMonth = contract.getStartDate().toString();
                                 startMonth = startMonth.substring(0, startMonth.lastIndexOf('-'));
@@ -214,13 +226,10 @@ public class InvoiceController extends HttpServlet {
                             } else {
                                 Invoice lastInvoice = InvoiceDAO.findLatestByContract(contract);
                                 List<ServiceDetail> prevMonthDetails = ServiceDAO.findDetailsByInvoice(lastInvoice);
-//                            for (ServiceDetail prevMonthDetail : prevMonthDetails) {
-//                                System.out.println(prevMonthDetail.getService().getServiceID());
-//                            }
                                 List<Integer> lastMonthValues = new ArrayList();
                                 for (Service activeService : activeServices) {
                                     for (ServiceDetail prevMonthDetail : prevMonthDetails) {
-                                        if (prevMonthDetail.getService().getServiceID() == activeService.getServiceID()) {
+                                        if (activeService.getType() != 0 && prevMonthDetail.getService().getServiceName().equalsIgnoreCase(activeService.getServiceName())) {
                                             lastMonthValues.add(prevMonthDetail.getEndValue());
                                         }
                                     }
@@ -256,9 +265,18 @@ public class InvoiceController extends HttpServlet {
                     int electricitySum = 0;
                     int waterSum = 0;
 
-                    Room room = RoomDAO.findByID(roomID);
-
-                    List<Service> serviceList = ServiceDAO.findHostelActiveServices(room.getRoomType().getHostel());
+                    Room room = RoomDAO.findRoomNewInvoice(roomID);
+                    
+                    List<Service> serviceList = new ArrayList();
+                    
+                    if (room.getLatestInvoiceMonth() == null) {
+                                String firstMonth = df2.format(c.getStartDate());
+                                firstMonth = firstMonth.substring(0, firstMonth.lastIndexOf('-'));
+                                YearMonth firstMonthYM = YearMonth.parse(firstMonth);
+                                serviceList = ServiceDAO.findServiceByRoom(new Room(room.getRoomID(), room.getRoomNumber(), room.getRoomType(), firstMonthYM));
+                            } else {
+                                serviceList = ServiceDAO.findServiceByRoom(room);
+                            }
                     List<ServiceDetail> detailList = new ArrayList();
                     for (Service service : serviceList) {
                         if (service.getType() != 0) {
@@ -283,7 +301,7 @@ public class InvoiceController extends HttpServlet {
                     if (InvoiceDAO.save(startDate, endDate, totalPrice, contractID, month, invoiceMonth, electricitySum, waterSum, detailList, roomID)) {
                         System.out.println("!! SAVED INVOICE !!");
                         url = "/sakura/invoice/success";
-                        
+
                         // send notification to tenant
                         Notification noti = new Notification();
                         noti.setToAccount(t.getAccount());

@@ -19,7 +19,6 @@
 
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="../assets/css/LRoomDetail.css">
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -27,6 +26,7 @@
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link href="../assets/css/toastr.css" rel="stylesheet" />
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../assets/css/LAddService.css">
 
     </head>
 

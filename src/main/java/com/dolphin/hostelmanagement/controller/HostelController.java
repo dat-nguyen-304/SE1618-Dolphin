@@ -285,10 +285,11 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("outstandingHostels", outstandingHostels);
 
                 List<Feedback> feedbackList = FeedbackDAO.findByHostelId(hostelId);
-
+                request.setAttribute("feedbackQuantity", feedbackList.size());
                 List<Province> provinceList = ProvinceDAO.findAll();
                 request.setAttribute("provinceList", provinceList);
-
+                List<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostelId);
+                request.setAttribute("roomTypeList", roomTypeList);
                 if (session.getAttribute("currentUser") != null) {
                     Tenant t = (Tenant) session.getAttribute("currentUser");
                     boolean isFavorite = FavoriteHostelDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
@@ -366,7 +367,7 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("feedbackList", feedbackList);
                 request.setAttribute("hostel", hostel);
                 
-                ArrayList<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostel.getHostelID());
+//                ArrayList<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostel.getHostelID());
                 
                 request.setAttribute("roomTypeList", roomTypeList);
                 
@@ -532,7 +533,7 @@ public class HostelController extends HttpServlet {
                 String updateStreetAddress = request.getParameter("updateStreetAddress");
                 String description = request.getParameter("description");
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
-                
+
                 boolean updateSuccess = HostelDAO.updateHostelById(hostelId, name, updateDistrictId, updateStreetAddress, description);
                 if (updateSuccess) {
                     out.print("Cập nhật thành công");

@@ -458,6 +458,7 @@
                                                     let node = allRowSum[i];
                                                     sum += parseInt(node.childNodes[0].nodeValue);
                                                 }
+                                                $("#invoiceSumHidden").val(sum);
                                                 $("#invoiceSum").html(sum);
                                                 $("#bottomSum").html(sum + " đồng");
 

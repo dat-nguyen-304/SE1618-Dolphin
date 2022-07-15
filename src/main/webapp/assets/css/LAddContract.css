@@ -1,0 +1,20 @@
+/* 
+    Created on : Jul 15, 2022, 3:19:18 PM
+    Author     : Admin
+*/
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Mulish', sans-serif;
+}
+
+.card {
+    border-radius: 4px;
+    box-shadow: rgba(60, 64, 67, 0.08) 0px 1px 2px 0px, rgba(60, 64, 67, 0.03) 0px 2px 6px 2px;
+}
+
+[type=number] {
+    border: 1px solid #cbd5e1;
+}

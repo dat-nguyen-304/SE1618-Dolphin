@@ -21,7 +21,7 @@
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <!--CSS-->
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
@@ -41,7 +41,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] ${empty sessionScope.currentContract ? 'h-[calc(100vh-80px)]' : ''}">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -64,96 +64,95 @@
                     <c:when test = "${requestScope.contract.status == 1}"><p>Trạng thái: Còn hiệu lực</p></c:when>
                     <c:when test = "${requestScope.contract.status == 2}"><p>Trạng thái: Chờ xác nhận</p></c:when>
                 </c:choose>
+                <c:if test = "${requestScope.contract ne null}">
+                    <%
+                        Contract contract = (Contract) request.getAttribute("contract");
+                        Date createdTime = contract.getCreatedDate();
+                        Date startTime = contract.getStartDate();
+                        Date endTime = contract.getEndDate();
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        String createdDate = formatter.format(createdTime);
+                        String startDate = formatter.format(startTime);
+                        String endDate = formatter.format(endTime);
+                    %>
+                    <div class="card bg-[#fff] p-[20px] w-2/3 mt-[20px]">
+                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
+                            Mã hợp đồng: <fmt:formatNumber value = "${requestScope.contract.contractID}" groupingUsed="false" type = "number" minIntegerDigits="5"/>
+                        </div>
+                        <div class="w-full h-fit mx-auto">
+                            <div class="grid grid-cols-6 gap-[8px]">
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Ngày tạo</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><%=createdDate%></p>
+                                </div>
+                                <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Thời gian</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><%=startDate%> - <%=endDate%></p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Người cho thuê</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.landlord.fullname}</p>
+                                </div>
+                                <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Người thuê</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.tenant.fullname}</p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Nhà trọ</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.hostel.hostelName}</p>
+                                </div>
+                                <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Phòng thuê</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.room.roomNumber}</p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Tiền đặt cọc</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                        <fmt:setLocale value = "vi_VN"/>
+                                        <fmt:formatNumber value = "${requestScope.contract.deposit}" type = "number" pattern="###,###,###VNĐ"/>
+                                    </p>
+                                </div>
+                                <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Giá hằng tháng</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                        <fmt:setLocale value = "vi_VN"/>
+                                        <fmt:formatNumber value = "${requestScope.contract.rentalFeePerMonth}" type = "number" pattern="###,###,###VNĐ"/>
+                                    </p>
+                                </div>
+                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                    <p class="text-[#929ca5] font-normal">Trạng thái</p>
+                                    <c:choose>
+                                        <c:when test = "${requestScope.contract.status == 0}">
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                                Hết hiệu lực
+                                            </p>
+                                        </c:when>
+                                        <c:when test = "${requestScope.contract.status == 1}">
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                                Còn hiệu lực
+                                            </p>
+                                        </c:when>
+                                        <c:when test = "${requestScope.contract.status == 2}">
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                                Chờ xác nhận
+                                            </p>
+                                        </c:when>
+                                    </c:choose>
+                                </div>
+
+                            </div>
+                            <div class="mt-[20px]">
+                                <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Nội dung</p>
+                                <p class="text-[18px] text-[#2A3C46] font-semibold">${not empty requestScope.contract.description ? requestScope.contract.description : 'Không có'}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </c:if>
             </div>
-            <c:if test = "${requestScope.contract ne null}">
-                <%
-                    Contract contract = (Contract) request.getAttribute("contract");
-                    Date createdTime = contract.getCreatedDate();
-                    Date startTime = contract.getStartDate();
-                    Date endTime = contract.getEndDate();
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                    String createdDate = formatter.format(createdTime);
-                    String startDate = formatter.format(startTime);
-                    String endDate = formatter.format(endTime);
-                %>
-                <div class="card bg-[#fff] p-[20px] w-2/3 mt-[20px]">
-                    <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
-                        Mã hợp đồng: <fmt:formatNumber value = "${requestScope.contract.contractID}" groupingUsed="false" type = "number" minIntegerDigits="5"/>
-                    </div>
-                    <div class="w-full h-fit mx-auto">
-                        <div class="grid grid-cols-6 gap-[8px]">
-                            <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Ngày tạo</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold"><%=createdDate%></p>
-                            </div>
-                            <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Thời gian</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold"><%=startDate%> - <%=endDate%></p>
-                            </div>
-                            <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Người cho thuê</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.landlord.fullname}</p>
-                            </div>
-                            <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Người thuê</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.tenant.fullname}</p>
-                            </div>
-                            <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Nhà trọ</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.hostel.hostelName}</p>
-                            </div>
-                            <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Phòng thuê</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.room.roomNumber}</p>
-                            </div>
-                            <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Tiền đặt cọc</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">
-                                    <fmt:setLocale value = "vi_VN"/>
-                                    <fmt:formatNumber value = "${requestScope.contract.deposit}" type = "number" pattern="###,###,###VNĐ"/>
-                                </p>
-                            </div>
-                            <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Giá hằng tháng</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">
-                                    <fmt:setLocale value = "vi_VN"/>
-                                    <fmt:formatNumber value = "${requestScope.contract.rentalFeePerMonth}" type = "number" pattern="###,###,###VNĐ"/>
-                                </p>
-                            </div>
-                            <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                <p class="text-[#929ca5] font-normal">Trạng thái</p>
-                                <c:choose>
-                                    <c:when test = "${requestScope.contract.status == 0}">
-                                        <p class="text-[18px] text-[#2A3C46] font-semibold">
-                                            Hết hiệu lực
-                                        </p>
-                                    </c:when>
-                                    <c:when test = "${requestScope.contract.status == 1}">
-                                        <p class="text-[18px] text-[#2A3C46] font-semibold">
-                                            Còn hiệu lực
-                                        </p>
-                                    </c:when>
-                                    <c:when test = "${requestScope.contract.status == 2}">
-                                        <p class="text-[18px] text-[#2A3C46] font-semibold">
-                                            Chờ xác nhận
-                                        </p>
-                                    </c:when>
-                                </c:choose>
-                            </div>
 
-                        </div>
-                        <div class="mt-[20px]">
-                            <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Nội dung</p>
-                            <p class="text-[18px] text-[#2A3C46] font-semibold">${not empty requestScope.contract.description ? requestScope.contract.description : 'Không có'}</p>
-                        </div>
-
-                    </div>
-                </div>
-            </c:if>
-        </div>
-
-        <%@include file="../view/footerDashboard.jsp" %>
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+            <%@include file="../view/footerDashboard.jsp" %>
+            <!-- flowbite -->
+            <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
     </body>
 </html>

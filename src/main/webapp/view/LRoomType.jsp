@@ -277,8 +277,6 @@
                     <!-- General information -->
                 </c:if>
             </div>
-
-
             <%@include file="footerDashboard.jsp" %>
         </div>
 
@@ -287,19 +285,19 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script>
-                                                            function showToast(type, msg) {
-                                                                toastr.options.positionClass = 'toast-bottom-right';
-                                                                toastr.options.extendedTimeOut = 0; //1000;
-                                                                toastr.options.timeOut = 3000;
-                                                                toastr.options.hideDuration = 250;
-                                                                toastr.options.showDuration = 250;
-                                                                toastr.options.hideMethod = 'slideUp';
-                                                                toastr.options.showMethod = 'slideDown';
-                                                                toastr.options.preventDuplicates = true;
-                                                                toastr.options.closeButton = true;
-                                                                toastr.options.progressBar = true;
-                                                                toastr[type](msg);
-                                                            }
+            function showToast(type, msg) {
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.options.extendedTimeOut = 0; //1000;
+                toastr.options.timeOut = 3000;
+                toastr.options.hideDuration = 250;
+                toastr.options.showDuration = 250;
+                toastr.options.hideMethod = 'slideUp';
+                toastr.options.showMethod = 'slideDown';
+                toastr.options.preventDuplicates = true;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                toastr[type](msg);
+            }
         </script>
         <c:if test="${requestScope.addSuccess != null}">
             <script>
@@ -665,16 +663,16 @@
                     //messageElement.innerHTML = message;
                     showToast('error', message);
                 } else {
-                    let fault = false;
-                    for (let i = 0; i < name.value.length; i++) {
-                        let c = name.value.charAt(i);
-                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ')) {
-                            fault = true;
-                            showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng và -');
-                            break;
-                        }
-                    }
-                    if (!fault)
+//                    let fault = false;
+//                    for (let i = 0; i < name.value.length; i++) {
+//                        let c = name.value.charAt(i);
+//                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ')) {
+//                            fault = true;
+//                            showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng và -');
+//                            break;
+//                        }
+//                    }
+//                    if (!fault)
                         jQuery.ajax({
                             type: 'POST',
                             data: {'name': name.value,
@@ -745,16 +743,16 @@
                     messageElement.innerHTML = message;
                     showToast("error", message);
                 } else {
-                    let fault = false;
-                    for (let i = 0; i < name.value.length; i++) {
-                        let c = name.value.charAt(i);
-                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ')) {
-                            fault = true;
-                            showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng và -');
-                            break;
-                        }
-                    }
-                    if (!fault)
+//                    let fault = false;
+//                    for (let i = 0; i < name.value.length; i++) {
+//                        let c = name.value.charAt(i);
+//                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ')) {
+//                            fault = true;
+//                            showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng và -');
+//                            break;
+//                        }
+//                    }
+//                    if (!fault)
                         jQuery.ajax({
                             type: 'POST',
                             data: {'name': name.value,

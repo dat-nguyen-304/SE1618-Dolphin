@@ -160,14 +160,31 @@
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script>
+            function searchRoomOnModal() {
+                const hostelId = ${sessionScope.currentHostel.hostelID};
+                const keyword = document.querySelector('input[name="searchRoom"]').value;
+                jQuery.ajax({
+                    type: 'POST',
+                    data: {'hostelId': hostelId,
+                        'keyword': keyword
+                    },
+                    url: '/sakura/room/search-room-on-modal',
+                    success: function (response) {
+                        const roomListModal = document.querySelector(".room-list-modal");
+                        roomListModal.innerHTML = response;
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
+            }
+        </script>
+        <script>
             $(document).ready(function () {
                 $('#contract-table').DataTable({
                     dom: 'Bfrtip',
-                    "fnDrawCallback": function (oSettings) {
-                        if ($('#room-list-table tr').length < 10) {
-                            $('.dataTables_paginate').hide();
-                        }
-                    },
+                    
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",

@@ -10,21 +10,18 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Thêm hợp đồng</title>
+        <title>Trang chủ nhà - Thêm hợp đồng</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
 
-        <!-- <link rel="stylesheet" href="app.css"> -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-            rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="../assets/css/LOverView.css">
+        <link rel="stylesheet" href="../assets/css/LAddContract.css">
 
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
@@ -39,11 +36,11 @@
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+            <div class="h-[calc(100vh-80px)] px-[20px] pt-[calc(60px+20px)] pb-[20px]">
                 <div class="general-info flex justify-between mt-[20px]">
-                    <div class="card w-fit h-fit bg-[#fff] p-5 flex flex-col justify-between">
-                        <h2 class="text-[20px] font-medium text-[#17535B]">Thêm hợp đồng thuê nhà với người thuê là <span class="font-bold">${requestScope.bookingRequest.tenant.fullname}</span>, kiểu phòng
- <span class="font-bold">${requestScope.bookingRequest.roomType.roomTypeName}</span>
+                    <div class="card mx-auto w-[45%] h-fit bg-[#fff] p-[30px] flex flex-col justify-between">
+                        <h2 class="text-[20px] font-medium text-[#17535B]">Thêm hợp đồng thuê nhà với người thuê là <span class="font-bold">${requestScope.bookingRequest.tenant.fullname}</span>, <br/>loại phòng
+                            <span class="font-bold">${requestScope.bookingRequest.roomType.roomTypeName}</span>
                         </h2>
                         <form id="contract-form" action = "/sakura/contract/add-contract" method = "post" class="mt-[40px]">
                             <input type="hidden" name="queryType" value="add"/>
@@ -54,19 +51,19 @@
                                 <select id="rooms" name = "roomID" class="ml-[20px] w-[100px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5">
                                     <c:forEach items="${requestScope.roomList}" var="room">
                                         <c:if test="${room.status == 0}">
-                                                <option value="${room.roomID}">${room.roomNumber}</option>
+                                            <option value="${room.roomID}">${room.roomNumber}</option>
                                         </c:if>
                                     </c:forEach>
                                 </select>
                             </div>
 
-                            <div class="mt-[40px] flex items-center">
-                                <div class="mr-[20px]">
+                            <div class="mt-[40px] flex items-center grid grid-cols-6 gap-[20px]">
+                                <div class=" col-span-3">
                                     <label for="rentalFeePerMonth" class="block mb-2 text-sm font-medium text-gray-900">Giá thuê theo tháng</label>
                                     <input type="number" name="rentalFeePerMonth" oninput="validity.valid||(value='');" 
                                            min="0" id="rentalFeePerMonth" value = "${requestScope.editContract.rentalFeePerMonth}" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5 " placeholder="" required>
                                 </div>
-                                <div class="">
+                                <div class=" col-span-3">
                                     <label for="deposit" class="block mb-2 text-sm font-medium text-gray-900">Tiền đặt cọc</label>
                                     <input type="number" name="deposit" oninput="validity.valid||(value='');" 
                                            min="0" id="deposit" value = "${requestScope.editContract.deposit}" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5" placeholder="" required>
@@ -74,38 +71,26 @@
                                 <p class="text-sm font-medium" id="moneyError"></p>
                             </div>
 
-                            <div class="mt-[20px]">
+                            <div class="mt-[20px] w-full">
                                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Mô tả / Thông tin bổ sung</label>
                                 <textarea type ="text" id="description" name="description" maxlength="200" 
-                                          rows="4" width="250"class="w-[520px] block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-[#17535B] focus:border-[#17535B]" placeholder="">${requestScope.editContract.description}</textarea>
+                                          rows="4" class="w-full block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-[#17535B] focus:border-[#17535B]" placeholder="">${requestScope.editContract.description}</textarea>
                                 <p>Số kí tự: <span id="count"></span>/200</p>
                             </div>
 
-                            <%--                            <div class="mt-[20px] flex items-center">--%>
-                            <%--                                <div class="mr-[20px]">--%>
-                            <%--                                    <p class="block mb-2 text-sm font-medium text-gray-900">Ngày bắt đầu</p>--%>
-                            <%--                                    <input type ="date" name="startDate" id="start" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>--%>
-                            <%--                                </div>--%>
-                            <%--                                <div>--%>
-                            <%--                                    <p class="block mb-2 text-sm font-medium text-gray-900">Ngày kết thúc</p>--%>
-                            <%--                                    <input type ="date" name="endDate" id="end" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5"/><br>--%>
-                            <%--                                </div>--%>
-                            <%--                                <p class="text-sm font-medium" id="lengthError"></p>--%>
-                            <%--                            </div>--%>
-
-                            <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] grid grid-cols-6">
-                                <div class="start-date flex items-center col-span-2 grid grid-cols-6">
+                            <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] col-span-6 grid grid-cols-6 gap-[20px]">
+                                <div class="start-date flex items-center col-span-3 flex items-center">
                                     <label for="start"
-                                           class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày bắt đầu:</label>
+                                           class="mr-[20px] text-[15px] text-gray-900 font-normal flex items-center">Ngày bắt đầu:</label>
                                     <input type="text" id="start" name="startDate" value = "${requestScope.startDate}"
-                                           class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
+                                           class="bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn ngày...">
                                 </div>
-                                <div class="end-date flex items-center col-span-2 grid grid-cols-6">
+                                <div class="end-date flex items-center col-span-3 flex items-center">
                                     <label for="end"
-                                           class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày kết thúc</label>
+                                           class="mr-[20px] text-[15px] text-gray-900 font-normal flex items-center">Ngày kết thúc</label>
                                     <input type="text" id="end" name="endDate" value = "${requestScope.endDate}"
-                                           class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
+                                           class="bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn ngày...">
                                 </div>
                                 <div>
@@ -182,6 +167,10 @@
                 count.html("0");
             });
 
+            rentalFeePerMonth.click(function () {
+                rentalFeePerMonth.css("border", "");
+            });
+
             rentalFeePerMonth.change(function () {
                 rentalFeePerMonth.css("border", "");
                 checkMoney();
@@ -192,16 +181,32 @@
                 checkMoney();
             });
 
+            deposit.click(function () {
+                deposit.css("border", "");
+            });
+
             description.on("input", function () {
                 $("#count").html($(this).val().length);
+            });
+
+            description.click(function () {
+                description.css("border", "");
             });
 
             start.change(function () {
                 checkDate();
             });
 
+            start.click(function () {
+                start.css("border", "");
+            });
+
             end.change(function () {
                 checkDate();
+            });
+
+            end.click(function () {
+                end.css("border", "");
             });
 
             function checkMoney() {

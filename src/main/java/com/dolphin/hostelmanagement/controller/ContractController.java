@@ -138,8 +138,6 @@ public class ContractController extends HttpServlet {
                 } else {
                     out.print("Cập nhật thất bại");
                 }
-                
-                request.getRequestDispatcher("/sakura/landlord/contract-list").forward(request, response);
             }
 
             if (path.equals("/replace-contract")) {

@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Quản lý phòng thuê - Thông báo</title>
+        <title>Trang người thuê - Yêu cầu thuê phòng</title>
 
         <!--Favicon-->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
@@ -18,7 +18,7 @@
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <!--CSS-->
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
@@ -38,7 +38,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
 
                 <!-- Breadcrumb -->
                 <!-- <div class="bc-container">
@@ -77,37 +77,37 @@
                 <div class="content mt-[20px] flex justify-between grid grid-cols-2 gap-[20px]">
                     <!-- Notification list -->
                     <div class="noti-list flex flex-col justify-between">
-<!--                        <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
-                            <div class="noti-item-header flex justify-between items-center mb-[20px]">
-                                <div class="text-[18px] font-bold text-[#2A3C46]">
-                                    <h3>Chủ nhà</h3>
-                                </div>
-                                <div class="text-[14px] font-normal text-[#597187] flex items-center">
-                                    <h3 class="rating mr-[3px]">14:02 - 25/04/2022</h3>
-                                </div>
-                            </div>
-                            <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
-                                <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat elit odio
-                                    scelerisque duis quam enim pellentesque. Lorem pellentesque adipiscing pulvinar dolor.
-                                    Quis
-                                    cursus arcu condimentum vel. Eleifend eu sit tristique eros.</p>
-                            </div>
-                        </div>-->
-                        
+                        <!--                        <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
+                                                    <div class="noti-item-header flex justify-between items-center mb-[20px]">
+                                                        <div class="text-[18px] font-bold text-[#2A3C46]">
+                                                            <h3>Chủ nhà</h3>
+                                                        </div>
+                                                        <div class="text-[14px] font-normal text-[#597187] flex items-center">
+                                                            <h3 class="rating mr-[3px]">14:02 - 25/04/2022</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
+                                                        <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat elit odio
+                                                            scelerisque duis quam enim pellentesque. Lorem pellentesque adipiscing pulvinar dolor.
+                                                            Quis
+                                                            cursus arcu condimentum vel. Eleifend eu sit tristique eros.</p>
+                                                    </div>
+                                                </div>-->
+
                         <c:forEach var="notification" items="${requestScope.notificationList}">
                             <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
-                            <div class="noti-item-header flex justify-between items-center mb-[20px]">
-                                <div class="text-[18px] font-bold text-[#2A3C46]">
-                                    <h3>${notification.createdDate}</h3>
+                                <div class="noti-item-header flex justify-between items-center mb-[20px]">
+                                    <div class="text-[18px] font-bold text-[#2A3C46]">
+                                        <h3>${notification.createdDate}</h3>
+                                    </div>
+                                    <!--                                <div class="text-[14px] font-normal text-[#597187] flex items-center">
+                                                                        <h3 class="rating mr-[3px]">${notification.createdDate}</h3>
+                                                                    </div>-->
                                 </div>
-<!--                                <div class="text-[14px] font-normal text-[#597187] flex items-center">
-                                    <h3 class="rating mr-[3px]">${notification.createdDate}</h3>
-                                </div>-->
+                                <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
+                                    <p class="">${notification.content}</p>
+                                </div>
                             </div>
-                            <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
-                                <p class="">${notification.content}</p>
-                            </div>
-                        </div>
                         </c:forEach>
 
                     </div>

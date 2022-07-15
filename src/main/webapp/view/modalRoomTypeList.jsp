@@ -40,7 +40,11 @@
                                     </div>
                                     <div class="h-[65%] p-[20px] relative">
                                         <p class="text-left text-gray-400 font-medium text-[15px] mb-2">${roomType.area}m<sup>2</sup></p>
-                                        <p class="text-left text-gray-400 font-medium text-[15px] mb-2">${roomType.advertisedPrice} / tháng</p>
+                                        <p class="text-left text-gray-400 font-medium text-[15px] mb-2">
+                                            <fmt:setLocale value = "vi_VN"/>
+                                            <fmt:formatNumber value = "${roomType.advertisedPrice}" type = "number" pattern="###,###,###"/>
+                                            / tháng
+                                        </p>
                                         <p class="absolute right-[20px] bottom-[20px] text-orange-600 bg-[#FFF6F1] px-[10px] rounded font-medium text-[15px]">${roomType.availableRoom} phòng trống</p>
                                     </div>
                                 </button>

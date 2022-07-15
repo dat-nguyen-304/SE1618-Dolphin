@@ -58,7 +58,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]  ${requestScope.invoiceList.size() < 10 ? 'h-[calc(100vh-80px)]' : ''}">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -289,11 +289,6 @@
 
                 $('#invoice-table').DataTable({
                     dom: 'Bfrtip',
-                    "fnDrawCallback": function (oSettings) {
-                        if ($('#room-list-table tr').length < 10) {
-                            $('.dataTables_paginate').hide();
-                        }
-                    },
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",

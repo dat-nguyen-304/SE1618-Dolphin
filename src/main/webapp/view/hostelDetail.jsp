@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : hostelDetail
     Created on : Jun 11, 2022, 6:32:21 PM
     Author     : Admin
@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,10 +56,14 @@
         <div class="w-[70%] mx-auto mt-[90px]">
             <div class="w-full main-content ">
                 <div class="w-full grid grid-cols-12 h-[600px] gap-[20px]">
-                    <div id="animation-carousel" class="col-span-8 relative" data-carousel="static"> 
-                        <!-- Carousel wrapper -->
-                        <div class="overflow-hidden relative h-full rounded">
-                            <c:if test="${requestScope.hostel.imgList.size() > 0}">
+                    <c:if test="${requestScope.hostel.imgList.size() == 0}" >
+                        <img class="overflow-hidden relative col-span-8 h-full rounded" src="../assets/images/hostel-list-images/empty_img.jpg" alt="alt"/>
+                    </c:if>
+                    <c:if test="${requestScope.hostel.imgList.size() > 0}">
+                        <div id="animation-carousel" class="col-span-8 relative" data-carousel="static"> 
+                            <!-- Carousel wrapper -->
+                            <div class="overflow-hidden relative h-full rounded">
+
                                 <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
                                     <c:if test="${iterator == 0}">
                                         <div class="hidden duration-200 ease-in-out active" data-carousel-item>
@@ -71,53 +76,53 @@
                                         </div>
                                     </c:if>
                                 </c:forEach>
-                            </c:if>
+
+                            </div>
+
+                            <!-- Slider indicators -->
+                            <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
+                                <c:if test="${requestScope.hostel.imgList.size() > 0}">
+                                    <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
+                                        <c:if test="${iterator == 0}">
+                                            <button type="button" class="slide-indicator w-6 h-[4px] rounded active text-[#fff] bg-[#fff]" aria-current="true" 
+                                                    data-carousel-slide-to="0"></button>
+                                        </c:if>
+                                        <c:if test="${iterator > 0}">
+                                            <button type="button" class="slide-indicator w-6 h-[4px] rounded text-[#fff] bg-[#fff]" aria-current="true" aria-label="Slide 1"
+                                                    data-carousel-slide-to="${iterator}"></button>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:if>
+                            </div>
+
+                            <!-- Slider controls -->
+                            <button type="button"
+                                    class="slide-control flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
+                                    data-carousel-prev>
+                                <span
+                                    class="inline-flex justify-center items-center w-8 h-8 group-focus:outline-none">
+                                    <svg class="w-5 h-5 text-[#fff]" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                                    </path>
+                                    </svg>
+                                    <span class="hidden">Previous</span>
+                                </span>
+                            </button>
+                            <button type="button"
+                                    class="slide-control flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
+                                    data-carousel-next>
+                                <span
+                                    class="inline-flex justify-center items-center w-8 h-8 group-focus:outline-none">
+                                    <svg class="w-5 h-5 text-[#fff]" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                    <span class="hidden">Next</span>
+                                </span>
+                            </button>
                         </div>
-
-                        <!-- Slider indicators -->
-                        <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
-                            <c:if test="${requestScope.hostel.imgList.size() > 0}">
-                                <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
-                                    <c:if test="${iterator == 0}">
-                                        <button type="button" class="slide-indicator w-6 h-[4px] rounded active text-[#fff] bg-[#fff]" aria-current="true" 
-                                                data-carousel-slide-to="0"></button>
-                                    </c:if>
-                                    <c:if test="${iterator > 0}">
-                                        <button type="button" class="slide-indicator w-6 h-[4px] rounded text-[#fff] bg-[#fff]" aria-current="true" aria-label="Slide 1"
-                                                data-carousel-slide-to="${iterator}"></button>
-                                    </c:if>
-                                </c:forEach>
-                            </c:if>
-                        </div>
-
-                        <!-- Slider controls -->
-                        <button type="button"
-                                class="slide-control flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
-                                data-carousel-prev>
-                            <span
-                                class="inline-flex justify-center items-center w-8 h-8 group-focus:outline-none">
-                                <svg class="w-5 h-5 text-[#fff]" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                                </path>
-                                </svg>
-                                <span class="hidden">Previous</span>
-                            </span>
-                        </button>
-                        <button type="button"
-                                class="slide-control flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
-                                data-carousel-next>
-                            <span
-                                class="inline-flex justify-center items-center w-8 h-8 group-focus:outline-none">
-                                <svg class="w-5 h-5 text-[#fff]" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                                <span class="hidden">Next</span>
-                            </span>
-                        </button>
-                    </div>
-
+                    </c:if>
                     <div class="information-column col-span-4">
                         <div class="hostel-info-title flex justify-between items-center">
                             <h3 class="hostel-name text-[25px] font-bold text-">${requestScope.hostel.hostelName}</h3>
@@ -154,7 +159,6 @@
                                 <div class="hostel-available-room col-span-2 text-slate-500">Phòng trống</div>
                                 <div class="col-span-1 text-slate-900 font-bold">${requestScope.hostel.availableRoom}</div>
                             </div>
-
                             <button id="view-room-type" type = "submit" name = "action" class="btn-view-all-room w-full h-[50px] rounded text-white bg-[#17535B] hover:bg-[#13484F]">Xem phòng</button>
                         </div>
 
@@ -220,7 +224,7 @@
                             </c:forEach>
                         </div>
                         <div class="ml-[20px] text-slate-800 italic">
-                            <p>(53 lượt đánh giá)</p>
+                            <p>(${requestScope.feedbackQuantity} lượt đánh giá)</p>
                         </div>
                     </div>
                     <ul class="feedback-header-list flex ">
@@ -304,75 +308,78 @@
                 </ul>
                 <div class="pagination">
                     <ul class="pagination__list">
-                        <li class="pagination-item pagination-previous pagination-previous--fast">
-                            <form action="/sakura/hostel/detail">
-                                <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                <button type="submit" name="paging" value="1"><i class="bi bi-arrow-left"></i></button>
-                            </form>
-                        </li>
-
-                        <li class="pagination-item pagination-previous">
-                            <form action="/sakura/hostel/detail">
-                                <c:if test="${requestScope.currentPage > 1}">
-                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                    <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                    <button type="submit" name="paging" value="${requestScope.currentPage - 1}">
-                                        <i class="bi bi-arrow-left"></i>
-                                    </button>
-                                </c:if>
-                                <c:if test="${requestScope.currentPage == 1}">
-                                    <button>
-                                        <i class="bi bi-arrow-left"></i>
-                                    </button>
-                                </c:if>
-                            </form>
-                        </li>
-
-                        <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
-                            <c:if test="${requestScope.currentPage == iterator}">
-                                <li class="pagination-item pagination-item--active">
-                                </c:if>
-                                <c:if test="${requestScope.currentPage != iterator}">
-                                <li class="pagination-item">
-                                </c:if>
+                        <c:if test="${!(requestScope.currentPage == 1 || requestScope.itemQuantity <= 8)}">
+                            <li class="pagination-item pagination-previous pagination-previous--fast">
                                 <form action="/sakura/hostel/detail">
                                     <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                                     <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                    <button type="submit" name="paging" value="${iterator}">${iterator}</button>
+                                    <button type="submit" name="paging" value="1"><i class="bi bi-arrow-left"></i></button>
                                 </form>
                             </li>
 
-                        </c:forEach>
-                        <li class="pagination-item pagination-next">
-                            <form action="/sakura/hostel/detail">
-                                <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                <c:if test="${requestScope.currentPage < requestScope.endPage}">
-                                    <button type="submit" name="paging" value="${requestScope.currentPage + 1}">
-                                        <i class="bi bi-arrow-right"></i>
-                                    </button>
-                                </c:if>
-                                <c:if test="${requestScope.currentPage == requestScope.endPage}">
-                                    <button type="submit" name="paging" value="${requestScope.endPage}">
-                                        <i class="bi bi-arrow-right"></i>
-                                    </button>
-                                </c:if>
-                            </form>
-                        </li>
-                        <li class="pagination-item pagination-next pagination-next--fast">
-                            <form action="/sakura/hostel/detail">
-                                <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="bi bi-arrow-right"></i></button>
-                            </form>
-                        </li>
+                            <li class="pagination-item pagination-previous">
+                                <form action="/sakura/hostel/detail">
+                                    <c:if test="${requestScope.currentPage > 1}">
+                                        <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                        <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                        <button type="submit" name="paging" value="${requestScope.currentPage - 1}">
+                                            <i class="bi bi-arrow-left"></i>
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${requestScope.currentPage == 1}">
+                                        <button>
+                                            <i class="bi bi-arrow-left"></i>
+                                        </button>
+                                    </c:if>
+                                </form>
+                            </li>
+                        </c:if>
+                        <c:if test="${requestScope.itemQuantity > 8}">
+                            <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
+                                <c:if test="${requestScope.currentPage == iterator}">
+                                    <li class="pagination-item pagination-item--active">
+                                    </c:if>
+                                    <c:if test="${requestScope.currentPage != iterator}">
+                                    <li class="pagination-item">
+                                    </c:if>
+                                    <form action="/sakura/hostel/detail">
+                                        <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                        <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                        <button type="submit" name="paging" value="${iterator}">${iterator}</button>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                        </c:if>
+                        <c:if test="${!(requestScope.currentPage == requestScope.endPage || requestScope.itemQuantity <= 8)}">
+                            <li class="pagination-item pagination-next">
+                                <form action="/sakura/hostel/detail">
+                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                    <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                    <c:if test="${requestScope.currentPage < requestScope.endPage}">
+                                        <button type="submit" name="paging" value="${requestScope.currentPage + 1}">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${requestScope.currentPage == requestScope.endPage}">
+                                        <button type="submit" name="paging" value="${requestScope.endPage}">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </button>
+                                    </c:if>
+                                </form>
+                            </li>
+                            <li class="pagination-item pagination-next pagination-next--fast">
+                                <form action="/sakura/hostel/detail">
+                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                    <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                    <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="bi bi-arrow-right"></i></button>
+                                </form>
+                            </li>
+                        </c:if>
                     </ul>
                 </div>
 
 
             </div>
-
             <div class="section mt-[40px] mb-[50px]">
                 <h3 class="section-title font-bold text-[18px] text-slate-800 mb-[20px]">
                     Đánh giá của bạn
@@ -475,9 +482,15 @@
             </a>
         </div>
     </div>
+<<<<<<< Updated upstream
 
     <div class="hostel-vip-content btn-submit">
 
+=======
+    
+    <div class="hostel-vip-content btn-submit">
+    
+>>>>>>> Stashed changes
         <div class="hostel-vip-name">${hostel.hostelName}</div>
         <div class="hostel-vip-action">
             <div class="hostel-vip-rating">
@@ -511,60 +524,58 @@
         </div>
         <div class="hostel-vip-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
     </div>
+<<<<<<< Updated upstream
 </button>
 </form>
 </li>
+=======
+    </button>
+    </form>
+    </li>
+>>>>>>> Stashed changes
             </c:forEach>
         </ul>
     </div>-->
         </div>
     </div>
-
-        <%@include file="footer.jsp" %>    
-        <script src="../assets/javascript/hostel-detail.js"></script>
-        <script src="../assets/javascript//jquery/jquery.min.js"></script>
-        <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/javascript/jquery.js"></script>
-        <script src="../assets/javascript/keep-district.js"></script>
-        <script>
-                    function toggleFavoriteHostel(hostelID, element) {
-                        if (element.style.color === 'red')
-                            element.style.color = 'gray';
-                        else
-                            element.style.color = 'red';
-                        console.log("line 413");
-                        console.log(hostelID);
-                        jQuery.ajax({
-                            type: 'POST',
-                            data: {'hostelID': hostelID},
-                            url: '/sakura/hostel/toggleFavHostel',
-                            success: function (result) {
-                                console.log('Success 36');
-                            },
-                            error: function () {
-                                console.log('Error 39');
-                            },
-                            complete: function (result) {
-                                console.log('Complete 41');
-                            }
-                        });
-                        console.log("line 429");
-                    }
-        </script>
-        <script>
-            let noti = document.getElementById("notification");
-            noti.style.transform = "translateX(0%);";
-            if (noti.classList.contains("show")) {
-                noti.style.transform = "translateX(0%)";
-                setTimeout(function () {
-                    noti.style.transform = "translateX(150%)";
-                }, 5000);
-            }
-            if (noti.classList.contains("hide")) {
-                noti.style.display = "none";
-            }
-
-            function closeNoti() {
+    <%@include file="footer.jsp" %>    
+    <!-- flowbite -->
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+    <script src="../assets/javascript/hostel-detail.js"></script>
+    <script src="../assets/javascript//jquery/jquery.min.js"></script>
+    <script src="../assets/javascript/keep-district.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+    <script>
+                                            function toggleFavoriteHostel(hostelID, element) {
+                                                if (element.style.color === 'red')
+                                                    element.style.color = 'gray';
+                                                else
+                                                    element.style.color = 'red';
+                                                console.log("line 413");
+                                                console.log(hostelID);
+                                                jQuery.ajax({
+                                                    type: 'POST',
+                                                    data: {'hostelID': hostelID},
+                                                    url: '/sakura/hostel/toggleFavHostel',
+                                                    success: function (result) {
+                                                        console.log('Success 36');
+                                                    },
+                                                    error: function () {
+                                                        console.log('Error 39');
+                                                    },
+                                                    complete: function (result) {
+                                                        console.log('Complete 41');
+                                                    }
+                                                });
+                                                console.log("line 429");
+                                            }
+    </script>
+    <script>
+        let noti = document.getElementById("notification");
+        noti.style.transform = "translateX(0%);";
+        if (noti.classList.contains("show")) {
+            noti.style.transform = "translateX(0%)";
+            setTimeout(function () {
                 noti.style.transform = "translateX(150%)";
             }, 5000);
         }
@@ -577,8 +588,7 @@
 
         }
     </script>
-    <!-- flowbite -->
-    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+
     <script>
         // MODAL 
         var open_modal_1 = document.querySelector('#view-room-type');

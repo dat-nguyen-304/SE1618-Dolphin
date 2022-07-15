@@ -33,7 +33,8 @@
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
         <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
@@ -46,7 +47,9 @@
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
-        <link rel="stylesheet" href="../assets/css/datatables.css">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../assets/css/toastr.css"/>
+        <link rel="stylesheet" href="../assets/css/datatables.css"/>
 
     </head>
 
@@ -59,7 +62,7 @@
         </c:if>
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
-        
+
             <!-- CONTENT -->
             <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
 
@@ -152,10 +155,10 @@
                                 </div>
                             </c:if>
                             <c:if test = "${requestScope.contract.status == 1}">
-                            <form action = "/sakura/contract/replace-contract" method = "post">
-                                <input type ="hidden" name ="contractID" value ="${requestScope.contract.contractID}"/>
-                                <button type = "submit">Thay hợp đồng mới</button>
-                            </form>
+                                <form action = "/sakura/contract/replace-contract" method = "post">
+                                    <input type ="hidden" name ="contractID" value ="${requestScope.contract.contractID}"/>
+                                    <button type = "submit">Thay hợp đồng mới</button>
+                                </form>
                             </c:if>
                             <p class="col-span-4 text-right">Đã thỏa thuận</p>
                         </div>
@@ -262,6 +265,23 @@
 
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="../assets/javascript/render-district.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript">
+            function showToast(type, msg) {
+                toastr.options.positionClass = 'toast-bottom-right';
+                // toastr.options.extendedTimeOut = 0; //1000;
+                toastr.options.timeOut = 3000;
+                toastr.options.hideDuration = 250;
+                toastr.options.showDuration = 250;
+                toastr.options.hideMethod = 'slideUp';
+                toastr.options.showMethod = 'slideDown';
+                toastr.options.preventDuplicates = true;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                toastr[type](msg);
+            }
+        </script>
         <script>
             $(document).ready(function () {
                 $('#invoice-table').DataTable({
@@ -327,15 +347,21 @@
                 const endContractId = document.querySelector("input[name='endContractId']");
                 const endContractBtn = document.querySelector(".endContractBtn");
                 const contractStatus = document.querySelector(".contractStatus");
+                console.log(endContractContent);
+                console.log(endContractId);
+                console.log(endContractBtn);
+                console.log(contractStatus);
                 jQuery.ajax({
                     type: 'POST',
                     data: {'endContractId': endContractId.value
                     },
                     url: '/sakura/contract/end-contract',
                     success: function (response) {
-                        endContractContent.innerHTML = response;
+//                        endContractContent.innerHTML = response;
                         if (response === "Cập nhật thành công")
                             contractStatus.innerHTML = "Trạng thái: Đã kết thúc";
+                        showToast("success", "Kết thúc hợp đồng thành công!");
+                        toggleModal('.endContractmodal1');
                     },
                     error: function () {
                     },
@@ -352,11 +378,11 @@
                 toggleModal('.endContractmodal1');
             });
 
-            var open_modal_2 = document.querySelector('#endContract-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.endContractmodal2');
-            });
+//            var open_modal_2 = document.querySelector('#endContract-2');
+//            open_modal_2.addEventListener('click', function (event) {
+//                event.preventDefault();
+//                toggleModal('.endContractmodal2');
+//            });
 
             // Bấm ngoài modal thì đóng modal
             // const overlay = document.querySelector('.modal .modal-overlay');
