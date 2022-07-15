@@ -19,7 +19,7 @@
 </script>
 
 <%
-    //response.setHeader("Cache-Control", "no-cache, no-store");
+    response.setHeader("Cache-Control", "no-cache, no-store");
 %>
 
 <html class="no-js" lang="en">

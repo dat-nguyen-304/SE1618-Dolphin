@@ -34,16 +34,6 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     </head>
-    <%
-        Contract contract = (Contract) request.getAttribute("contract");
-        Date createdTime = contract.getCreatedDate();
-        Date startTime = contract.getStartDate();
-        Date endTime = contract.getEndDate();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String createdDate = formatter.format(createdTime);
-        String startDate = formatter.format(startTime);
-        String endDate = formatter.format(endTime);
-    %>
     <body>
         <%@include file="../view/headerTenantDashboard.jsp" %>
         <%@include file="../view/navbarTenantDashboard.jsp" %>
@@ -63,26 +53,29 @@
                                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
                                 </path>
                                 </svg>
-                                Tổng quan
+                                Chi tiết hợp đồng
                             </a>
                         </li>
                     </ol>
                 </nav>
-                <!--                <div class="card bg-[#fff] mt-[20px] p-[20px]">
-                                    <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thông tin hợp đồng hiện tại</div>
-                                    <p>Tên nhà trọ: ${requestScope.contract.hostel.hostelName}</p>
-                                    <p>Số phòng: ${requestScope.contract.room.roomNumber}</p>
-                                    <p>Tên chủ nhà: ${requestScope.contract.landlord.fullname}</p>
-                                    <p>Thời hạn: <%=startDate%> - <%=endDate%></p>
-                                    <p>Tiền thuê hàng tháng: ${requestScope.contract.rentalFeePerMonth}</p>
-                                    <p>Tiền đặt cọc: ${requestScope.contract.deposit}</p>
-                                    <p>Mô tả thêm: ${requestScope.contract.description}</p>
                 <c:choose>
+                    <c:when test = "${requestScope.contract eq null}">Không có hợp đồng</c:when>
                     <c:when test = "${requestScope.contract.status == 0}"><p>Trạng thái: Hết hiệu lực</p></c:when>
                     <c:when test = "${requestScope.contract.status == 1}"><p>Trạng thái: Còn hiệu lực</p></c:when>
                     <c:when test = "${requestScope.contract.status == 2}"><p>Trạng thái: Chờ xác nhận</p></c:when>
                 </c:choose>
-            </div>-->
+            </div>
+            <c:if test = "${requestScope.contract ne null}">
+                <%
+                    Contract contract = (Contract) request.getAttribute("contract");
+                    Date createdTime = contract.getCreatedDate();
+                    Date startTime = contract.getStartDate();
+                    Date endTime = contract.getEndDate();
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    String createdDate = formatter.format(createdTime);
+                    String startDate = formatter.format(startTime);
+                    String endDate = formatter.format(endTime);
+                %>
                 <div class="card bg-[#fff] p-[20px] w-2/3 mt-[20px]">
                     <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
                         Mã hợp đồng: <fmt:formatNumber value = "${requestScope.contract.contractID}" groupingUsed="false" type = "number" minIntegerDigits="5"/>
@@ -156,10 +149,10 @@
 
                     </div>
                 </div>
-            </div>
-
-            <%@include file="../view/footerDashboard.jsp" %>
+            </c:if>
         </div>
+
+        <%@include file="../view/footerDashboard.jsp" %>
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
     </body>

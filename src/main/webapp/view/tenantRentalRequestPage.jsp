@@ -159,8 +159,12 @@
                                                         <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
                                                             Đồng ý
                                                         </button>
+                                                    </form>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <form method = "post" action = "/sakura/tenant/rentalRequestList">
                                                         <input type ="hidden" name ="queryType" value ="refuse">
-                                                        <input type ="hidden" name ="contractID" value ="${invitation.roomType.roomTypeID}">
+                                                        <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
                                                         <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
                                                             Từ chối
                                                         </button>
@@ -168,10 +172,10 @@
                                                 </td>
                                                 <td class="px-6 py-4 ">
                                                     <form method = "post" action = "/sakura/tenant/contract-detail">
-                                                    <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                    <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
-                                                        Xem hợp đồng
-                                                    </button></form>
+                                                        <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            Xem hợp đồng
+                                                        </button></form>
                                                 </td>
 
                                             </tr>

@@ -365,6 +365,11 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("pagingQuantity", pagingQuantity);
                 request.setAttribute("feedbackList", feedbackList);
                 request.setAttribute("hostel", hostel);
+                
+                ArrayList<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostel.getHostelID());
+                
+                request.setAttribute("roomTypeList", roomTypeList);
+                
                 request.getRequestDispatcher("/view/hostelDetail.jsp").forward(request, response);
             } else if (path.equals("/toggleFavHostel")) {
                 //Hàm bắt xử lí khi nhấn toggle favorite
@@ -414,41 +419,28 @@ public class HostelController extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (path.equals("/roomList")) {
-                int hostelID = Integer.parseInt(request.getParameter("hostelID"));
-                ArrayList<RoomType> roomTypeList = (ArrayList<RoomType>) RoomTypeDAO.findByHostelID(hostelID);
-                ArrayList<ArrayList<Room>> roomList = new ArrayList<>();
-                for (RoomType rt : roomTypeList) {
-                    ArrayList<Room> rooms = RoomDAO.findByRoomTypeID(rt.getRoomTypeID());
-                    roomList.add(rooms);
-                }
-
-                request.setAttribute("roomTypeList", roomTypeList);
-                request.setAttribute("roomList", roomList);
-                request.getRequestDispatcher("/view/roomList.jsp").forward(request, response);
-            } else if (path.equals("/roomDetail")) {
-                int roomID = Integer.parseInt(request.getParameter("roomID"));
-                System.out.println("RoomID: " + roomID);
-                Room room = RoomDAO.findByID(roomID);
-                request.setAttribute("room", room);
-                request.getRequestDispatcher("/view/roomDetail.jsp").forward(request, response);
+            } else if (path.equals("/roomTypeDetail")) {
+                int roomTypeID = Integer.parseInt(request.getParameter("roomTypeID"));
+                //System.out.println("RoomID: " + roomID);
+                RoomType roomType = RoomTypeDAO.findByID(roomTypeID);
+                request.setAttribute("roomType", roomType);
+                request.getRequestDispatcher("/view/roomTypeDetail.jsp").forward(request, response);
 
             } else if (path.equals("/sendRentalRequest")) {
                 Tenant t = (Tenant) session.getAttribute("currentUser");
 
                 Notification rentalNoti = new Notification();
 
-                int roomID = Integer.parseInt(request.getParameter("roomID"));
-                int hostelID = Integer.parseInt(request.getParameter("hostelID"));
-                Hostel hostel = HostelDAO.findById(hostelID);
-                Room room = RoomDAO.findByID(roomID);
+                int roomTypeID = Integer.parseInt(request.getParameter("roomTypeID"));
+                
+                RoomType roomType = RoomTypeDAO.findByID(roomTypeID);
 
                 //this is notification for landlord about booking request from tenant
-                int landlordID = hostel.getLandlord().getAccount().getAccountID();
+                int landlordID = roomType.getHostel().getLandlord().getAccount().getAccountID();
                 rentalNoti.setToAccount(AccountDAO.findById(landlordID));
                 rentalNoti.setCreatedDate(new Date());
-                rentalNoti.setContent("Người thuê nhà " + t.getFullname() + " muốn xem phòng " + room.getRoomNumber() + ", loại phòng " + room.getRoomType().getRoomTypeName()
-                        + " ở nhà trọ " + hostel.getHostelName() + "!");
+                rentalNoti.setContent("Người thuê nhà " + t.getFullname() + " muốn xem loại phòng " + roomType.getRoomTypeName()
+                        + " ở nhà trọ " + roomType.getHostel().getHostelName() + "!");
                 rentalNoti.setStatus(0); //0 means unread
 
                 boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
@@ -464,8 +456,8 @@ public class HostelController extends HttpServlet {
 
                 successNoti.setToAccount(t.getAccount());
                 successNoti.setCreatedDate(new Date());
-                successNoti.setContent("Bạn đã đăng kí xem phòng " + room.getRoomNumber() + ", loại phòng " + room.getRoomType().getRoomTypeName()
-                        + ", ở nhà trọ " + hostel.getHostelName() + " thành công!");
+                successNoti.setContent("Bạn đã đăng kí xem loại phòng " + roomType.getRoomTypeName()
+                        + ", ở nhà trọ " + roomType.getHostel().getHostelName() + " thành công!");
 
                 successNoti.setStatus(0); //0 means unread
                 check = NotificationDAO.saveNotification(successNoti);
@@ -477,13 +469,13 @@ public class HostelController extends HttpServlet {
                 //end notification for landlord
 
                 //this is booking request adding function
-                int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), room.getRoomType().getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
+                int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomType.getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
 
                 System.out.println("MY TEST ID: " + testID);
 
                 //end booking request adding function
                 //this will show notification after returning back to hostel detail page!
-                response.sendRedirect("/sakura/hostel/detail?successBookingMessage=true&filterStar=0&hostelId=" + hostelID);
+                response.sendRedirect("/sakura/tenant/rentalRequestList");
                 return;
 
                 //end function

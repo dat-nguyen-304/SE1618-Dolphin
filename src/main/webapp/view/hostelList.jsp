@@ -46,19 +46,14 @@
 
     </head>
     <body>
-        <c:choose>
-            <c:when test="${sessionScope.currentUser != null}">
-                <header id="header-section" class="stick z-[100]">
-                    <%@include file="headerUserSearchAddress.jsp" %>
-                </header>
-            </c:when>
-            <c:otherwise>
-                <header id="header-section" class="stick z-[100]">
-                    <%@include file="headerGuestSearchAddress.jsp" %>
-                </header>
-            </c:otherwise>
-        </c:choose>
-
+        <header id="header-section" class="stick z-[100]">
+            <c:if test="${sessionScope.currentUser != null}">
+                <%@include file="headerUserSearchAddress.jsp" %>
+            </c:if>
+            <c:if test="${sessionScope.currentUser == null}">
+                <%@include file="headerGuestSearchAddress.jsp" %>
+            </c:if>
+        </header>
         <div class="w-full m-0 p-0 bg-white mt-[90px]">
             <!--    SEARCH BY NAME  -->
 

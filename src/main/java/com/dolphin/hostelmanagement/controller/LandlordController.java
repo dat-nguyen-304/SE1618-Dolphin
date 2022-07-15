@@ -127,6 +127,7 @@ public class LandlordController extends HttpServlet {
                     session.setAttribute("hostelList", null);
                 }
             } else {
+                
                 currentHostel = (Hostel) session.getAttribute("currentHostel");
                 currentHostel = HostelDAO.findById(currentHostel.getHostelID());
                 session.setAttribute("currentHostel", currentHostel);
@@ -138,6 +139,7 @@ public class LandlordController extends HttpServlet {
                     currentHostel = HostelDAO.findById(hostelId);
                     session.setAttribute("currentHostel", currentHostel);
                 }
+                currentHostel = (Hostel) session.getAttribute("currentHostel");
 
                 List<Province> provinceList = ProvinceDAO.findAll();
                 List<District> districtList = DistrictDAO.findByProvinceID(provinceList.get(0).getProvinceID());
@@ -201,7 +203,7 @@ public class LandlordController extends HttpServlet {
                     if (revenueValue.size() <= 1 || revenueValue.get(0) == revenueValue.get(1)) {
                         request.setAttribute("revenueChange", 0);
                     } else {
-                        double ratio = ((double) revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(0) * 100;
+                        double ratio = ((double)revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(0) * 100;
                         ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
 
                         request.setAttribute("revenueChange", -ratio);

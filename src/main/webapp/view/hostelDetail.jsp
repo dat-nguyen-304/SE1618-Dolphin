@@ -26,50 +26,38 @@
 
         <!-- Icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-
-        <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
-
-        <<link rel="stylesheet" href="../assets/css/flowbite.min.css"/>
         <script src="https://cdn.tailwindcss.com"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+        <<link rel="stylesheet" href="../assets/css/flowbite.min.css"/>
         <link rel="stylesheet" href="../assets/css/hostel-detail.css">
-        <c:choose>
-            <c:when test="${sessionScope.currentUser != null}">
-                <link rel="stylesheet" href="../assets/css/header-user-search-address.css">
-            </c:when>
-            <c:otherwise>
-                <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
-            </c:otherwise>
-        </c:choose>
-        <link rel="stylesheet" href="../assets/css/fix-hostel-detail.css">
+
+        <c:if test="${sessionScope.currentUser != null}">
+            <link rel="stylesheet" href="../assets/css/header-user-search-address.css"/>
+        </c:if>
+        <c:if test="${sessionScope.currentUser == null}">
+            <link rel="stylesheet" href="../assets/css/header-guest-search-address.css"/>
+        </c:if>
+
+
     </head>
 
     <body>
-        <c:choose>
-            <c:when test="${sessionScope.currentUser != null}">
-                <header id="header-section" class="stick z-[100]">
-                    <%@include file="headerUserSearchAddress.jsp" %>
-                </header>
-            </c:when>
-            <c:otherwise>
-                <header id="header-section" class="stick z-[100]">
-                    <%@include file="headerGuestSearchAddress.jsp" %>
-                </header>
-            </c:otherwise>
-        </c:choose>
+        <header id="header-section" class="stick z-[100]">
+            <c:if test="${sessionScope.currentUser != null}">
+                <%@include file="../view/headerUserSearchAddress.jsp" %>
+            </c:if>
+            <c:if test="${sessionScope.currentUser == null}">
+                <%@include file="../view/headerGuestSearchAddress.jsp" %>
+            </c:if>
+        </header>
 
-        <div class="w-[60%] mx-auto mt-[90px]">
-            
-            <!--Breadcrumb-->
-            
-            <!--End Breadcrumb-->
-            <div></div>
-            
+        <div class="w-[70%] mx-auto mt-[90px]">
             <div class="w-full main-content ">
-                <div class="w-full grid grid-cols-12 gap-[20px]">
-                    <div id="animation-carousel" class="col-span-8 relative" data-carousel="static"> <!--data-carousel=slide-->
+                <div class="w-full grid grid-cols-12 h-[600px] gap-[20px]">
+                    <div id="animation-carousel" class="col-span-8 relative" data-carousel="static"> 
                         <!-- Carousel wrapper -->
-                        <div class="overflow-hidden relative h-[500px] rounded">
+                        <div class="overflow-hidden relative h-full rounded">
                             <c:if test="${requestScope.hostel.imgList.size() > 0}">
                                 <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
                                     <c:if test="${iterator == 0}">
@@ -131,432 +119,406 @@
                     </div>
 
                     <div class="information-column col-span-4">
-                        <div class="hostel-info">
-                            <div class="hostel-info-title">
-                                <h3 class="hostel-name">${requestScope.hostel.hostelName}</h3>
-                                <c:if test="${sessionScope.currentUser != null}">
-                                    <div class="hostel-favorite">
-                                        <c:if test="${requestScope.isFavorite == true}">
-                                            <i class="bi bi-heart-fill" style="color: red;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
-                                        </c:if>
-                                        <c:if test="${requestScope.isFavorite == false}">
-                                            <i class="bi bi-heart-fill" style="color: #ccc;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
-                                        </c:if>
-                                    </div>
-                                </c:if>
-                            </div>
-                            <div class="hostel-rating">
-                                <span class="hostel-rating-number">${requestScope.hostel.rating} <i class="bi bi-star-fill ml-[5px]"></i></span>
-                            </div>
-                            <div class="hostel-cost">${requestScope.hostel.minPrice / 1000000} triệu - ${requestScope.hostel.maxPrice / 1000000} triệu / tháng</div>
-                            <div class="hostel-total-rom">Có tất cả ${requestScope.hostel.totalRoom} phòng</div>
-                            <div class="hostel-available-room">Hiện đang có ${requestScope.hostel.availableRoom} phòng trống</div>
-                            <div class="hostel-address">${requestScope.hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
-                            <form action ="/sakura/hostel/roomList" method="post">
-                                <input type="hidden" name="hostelID" value="${requestScope.hostel.hostelID}">
-                                <button type = "submit" name = "action" class="btn-view-all-room bg-[#17535B] text-[#fff] hover:bg-[#13484F]">Xem tất cả phòng</button>
-                            </form>
-                        </div>
-                        <div class="landlord-info mt-[10px]">
-                            <h2 class="landlord-info-title">Thông tin người quản lí:</h2>
-                            <div class="landlord-title">
-                                <div class="landlord-content">
-                                    <div class="landlord-avatar">
-                                        <img src="https://anhdep123.com/wp-content/uploads/2021/05/hinh-avatar-trang.jpg"
-                                             alt="">
-                                    </div>
-                                    <div class="landlord-name"><span>${requestScope.hostel.landlord.fullname}</span> </div>
+                        <div class="hostel-info-title flex justify-between items-center">
+                            <h3 class="hostel-name text-[25px] font-bold text-">${requestScope.hostel.hostelName}</h3>
+                            <c:if test="${sessionScope.currentUser != null}">
+                                <div class="hostel-favorite cursor-pointer">
+                                    <c:if test="${requestScope.isFavorite == true}">
+                                        <i class="bi bi-heart-fill" style="color: red;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
+                                    </c:if>
+                                    <c:if test="${requestScope.isFavorite == false}">
+                                        <i class="bi bi-heart-fill" style="color: #ccc;" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)"></i>
+                                    </c:if>
                                 </div>
-                                <a href="" class="landlord-messenger">
-                                    <i class="fa-brands fa-facebook-messenger"></i>
-                                </a>
-                            </div>
-                            <div class="landlord-phone">Số điện thoại: <span>${requestScope.hostel.landlord.phone}</span> </div>
-                            <div class="landlord-email">Email: <span>${requestScope.hostel.landlord.account.email}</span> </div>
+                            </c:if>
                         </div>
+                        <div class="hostel-rating my-[20px] text-amber-400 font-bold">
+                            <span class="hostel-rating-number">${requestScope.hostel.rating} / 5 <i class="bi bi-star-fill ml-[5px]"></i></span>
+                        </div>
+
+                        <div class="text-slate-600 font-medium text-slate-500 text-[18px] pb-[20px] my-[20px] border-b">
+                            <div class="hostel-cost"><i class="bi bi-cash-stack"></i> ${requestScope.hostel.minPrice / 1000000} - ${requestScope.hostel.maxPrice / 1000000} triệu / tháng</div>
+                            <div class="hostel-address"><i class="bi bi-geo-fill"></i> ${requestScope.hostel.streetAddress}, ${hostel.district.districtName}, ${hostel.district.province.provinceName}</div>
+                        </div>
+
+                        <div class="landlord-info my-[20px] pb-[20px] border-b">
+                            <h2 class="landlord-info-title text-[18px] font-bold text-slate-800 mb-[5px]">Quản lí: <span>${requestScope.hostel.landlord.fullname}</span></h2>
+                            <div class="landlord-phone text-slate-500"><i class="bi bi-telephone-fill"></i> <span>${requestScope.hostel.landlord.phone}</span> </div>
+                            <div class="landlord-email text-slate-500"><i class="bi bi-envelope-fill"></i> <span>${requestScope.hostel.landlord.account.email}</span> </div>
+                        </div>
+
+                        <div class="room-cta text-[18px] w-full">
+                            <div class="grid grid-cols-6 my-[20px]">
+                                <div class="hostel-total-rom col-span-2 text-slate-500">Tổng số phòng</div>
+                                <div class="col-span-1 text-slate-900 font-bold">${requestScope.hostel.totalRoom}</div>
+                                <div class="hostel-available-room col-span-2 text-slate-500">Phòng trống</div>
+                                <div class="col-span-1 text-slate-900 font-bold">${requestScope.hostel.availableRoom}</div>
+                            </div>
+
+                            <button id="view-room-type" type = "submit" name = "action" class="btn-view-all-room w-full h-[50px] rounded text-white bg-[#17535B] hover:bg-[#13484F]">Xem phòng</button>
+                        </div>
+
+                        <%@include file="../view/modalRoomTypeList.jsp" %>
+                    </div>
+
+                </div>
+            </div>
+            <div class="my-[20px] pb-[40px] border-b" >
+                <ul class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4" id="tabs-tabFill"
+                    role="tablist">
+                    <li class="nav-item flex-auto text-center" role="presentation">
+                        <a href="#tabs-homeFill" class="nav-link w-full block font-medium text-[18px] leading-tight border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent bg-[#fff] hover:bg-slate-50 focus:border-transparent active" id="tabs-home-tabFill" data-bs-toggle="pill" data-bs-target="#tabs-homeFill" role="tab"
+                           aria-controls="tabs-homeFill" aria-selected="true">Tổng quan</a>
+                    </li>
+                    <li class="nav-item flex-auto text-center" role="presentation">
+                        <a href="#tabs-profileFill" class="nav-link w-full block font-medium text-[18px] leading-tight border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent bg-[#fff] hover:bg-slate-50 focus:border-transparent" id="tabs-profile-tabFill" data-bs-toggle="pill" data-bs-target="#tabs-profileFill" role="tab"
+                           aria-controls="tabs-profileFill" aria-selected="false">Dịch vụ</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="tabs-tabContentFill">
+                    <div class="tab-pane fade show active" id="tabs-homeFill" role="tabpanel" aria-labelledby="tabs-home-tabFill">
+                        ${requestScope.hostel.description}
+                    </div>
+                    <div class="tab-pane fade" id="tabs-profileFill" role="tabpanel" aria-labelledby="tabs-profile-tabFill">
+                        Liệt kê các dịch vụ
                     </div>
                 </div>
-                <div class="row section" style="margin-top: 20px">
-                    <div class="col-12 col-sm-6 hostel-overview">
-                        <h3 class="hostel-overview-title">Tổng quan</h3>
-                        <div class="hostel-description">
-                            ${requestScope.hostel.description}
+            </div>
+
+            <div class="section">
+                <h3 class="section-title font-bold text-[18px] text-slate-800">
+                    Đánh giá
+                </h3>
+
+                <c:if test="${requestScope.feedbackList == null}">
+                    <h3 class="no-rating">Chưa có đánh giá nào</h3>
+                </c:if>
+
+                <div class="feedback-header flex justify-between items-center my-[10px]">
+                    <div class="feedback-average text-amber-400 font-medium flex items-center mb-[20px]">
+                        <h3 class="feedback-average-title mr-[10px]">${requestScope.hostel.rating} / 5</h3>
+                        <div class="feedback-average-star">
+                            <c:forEach begin="1" end="5" var="iterator">
+                                <c:choose>
+                                    <c:when test="${iterator <= requestScope.hostel.rating}">
+                                        <i class="bi bi-star-fill"></i>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:choose>
+                                            <c:when test="${(iterator - requestScope.hostel.rating) > 0 && (iterator - requestScope.hostel.rating) <= 0.2}">
+                                                <i class="bi bi-star-fill"></i>
+                                            </c:when>
+                                            <c:when test="${(iterator - requestScope.hostel.rating) > 0.2  && (iterator - requestScope.hostel.rating) <= 0.7}">
+                                                <i class="bi bi-star-fill"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="bi bi-star-fill" style="color: #ccc"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </div>
+                        <div class="ml-[20px] text-slate-800 italic">
+                            <p>(53 lượt đánh giá)</p>
                         </div>
                     </div>
-                    <!--                    <div class="col-12 col-sm-4 hostel-room">
-                                            <h3 class="hostel-room-title">Loại phòng</h3>
-                                        </div>-->
-                    <div class="col-12 col-sm-6 hostel-service">
-                        <h3 class="hostel-service-title">Dịch vụ</h3>
-                    </div>
-                </div>
-                <div class="section">
-
-                    <h3 class="section-title">
-                        đánh giá từ người dùng
-                    </h3>
-
-                    <c:if test="${requestScope.feedbackList == null}">
-                        <h3 class="no-rating">Chưa có đánh giá nào</h3>
-                    </c:if>
-
-                    <div class="feedback-header">
-                        <div class="feedback-average">
-                            <h3 class="feedback-average-title">${requestScope.hostel.rating} trên 5</h3>
-                            <div class="feedback-average-star">
-                                <c:forEach begin="1" end="5" var="iterator">
-                                    <c:choose>
-                                        <c:when test="${iterator <= requestScope.hostel.rating}">
-                                            <i class="bi bi-star-fill"></i>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:choose>
-                                                <c:when test="${(iterator - requestScope.hostel.rating) > 0 && (iterator - requestScope.hostel.rating) <= 0.2}">
-                                                    <i class="bi bi-star-fill"></i>
-                                                </c:when>
-                                                <c:when test="${(iterator - requestScope.hostel.rating) > 0.2  && (iterator - requestScope.hostel.rating) <= 0.7}">
-                                                    <i class="bi bi-star-fill"></i>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <i class="bi bi-star-fill" style="color: #ccc"></i>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </div>
-                        </div>
-                        <ul class="feedback-header-list">
-                            <c:if test="${requestScope.filterStar == 0}">
+                    <ul class="feedback-header-list flex ">
+                        <c:if test="${requestScope.filterStar == 0}">
+                            <li class="feedback-header-item active">
+                                <form action="/sakura/hostel/detail">
+                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                    <button type="submit" name="filterStar" value="0">Tất cả</button>
+                                </form>
+                            </li>
+                        </c:if>
+                        <c:if test="${requestScope.filterStar != 0}">
+                            <li class="feedback-header-item">
+                                <form action="/sakura/hostel/detail">
+                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                    <button type="submit" name="filterStar" value="0">Tất cả</button>
+                                </form>
+                            </li>
+                        </c:if>
+                        <c:forEach begin="1" end="5" var="i">
+                            <c:if test="${requestScope.filterStar == i}">
                                 <li class="feedback-header-item active">
                                     <form action="/sakura/hostel/detail">
                                         <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                        <button type="submit" name="filterStar" value="0">Tất cả</button>
+                                        <button type="submit" name="filterStar" value="${i}">${i} sao</button>
                                     </form>
                                 </li>
                             </c:if>
-                            <c:if test="${requestScope.filterStar != 0}">
+                            <c:if test="${requestScope.filterStar != i}">
                                 <li class="feedback-header-item">
                                     <form action="/sakura/hostel/detail">
                                         <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                        <button type="submit" name="filterStar" value="0">Tất cả</button>
+                                        <button type="submit" name="filterStar" value="${i}">${i} sao</button>
                                     </form>
                                 </li>
                             </c:if>
-                            <c:forEach begin="1" end="5" var="i">
-                                <c:if test="${requestScope.filterStar == i}">
-                                    <li class="feedback-header-item active">
-                                        <form action="/sakura/hostel/detail">
-                                            <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                            <button type="submit" name="filterStar" value="${i}">${i} sao</button>
-                                        </form>
-                                    </li>
-                                </c:if>
-                                <c:if test="${requestScope.filterStar != i}">
-                                    <li class="feedback-header-item">
-                                        <form action="/sakura/hostel/detail">
-                                            <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                            <button type="submit" name="filterStar" value="${i}">${i} sao</button>
-                                        </form>
-                                    </li>
-                                </c:if>
 
 
-                            </c:forEach>
-                        </ul>
-                    </div>
-
-                    <ul class="feedback-list">
-                        <c:forEach var="feedback" items="${requestScope.feedbackList}">
-                            <li class="feedback-item">
-                                <div class="tenant-item-header">
-                                    <div class="tenant-info">
-                                        <div class="tenant-avt">
-                                            <img src="${sessionScope.currentUser.account.avatar}" alt="">
-                                        </div>
-                                        <div>
-                                            <div class="tenant-name">
-                                                ${feedback.tenant.fullname}
-                                            </div>
-                                            <div class="tenant-rating">
-                                                <c:forEach begin="1" end="5" var="iterator">
-                                                    <c:choose>
-                                                        <c:when test="${iterator <= feedback.rating}">
-                                                            <i class="bi bi-star-fill"></i>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:choose>
-                                                                <c:when test="${(iterator - feedback.rating) > 0 && (iterator - feedback.rating) <= 0.2}">
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                </c:when>
-                                                                <c:when test="${(iterator - feedback.rating) > 0.2  && (iterator - feedback.rating) <= 0.7}">
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <i class="bi bi-star-fill" style="color: #ccc"></i>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tenant-posting-date">${feedback.date}</div>
-                                </div>
-                                <div class="tenant-item-content">
-                                    ${feedback.content}
-                                </div>
-                            </li>
                         </c:forEach>
-
                     </ul>
-                    <div class="pagination">
-                        <ul class="pagination__list">
-                            <li class="pagination-item pagination-previous pagination-previous--fast">
-                                <form action="/sakura/hostel/detail">
-                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                    <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                    <button type="submit" name="paging" value="1"><i class="fa-solid fa-angles-left"></i></button>
-                                </form>
-                            </li>
-
-                            <li class="pagination-item pagination-previous">
-                                <form action="/sakura/hostel/detail">
-                                    <c:if test="${requestScope.currentPage > 1}">
-                                        <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                        <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                        <button type="submit" name="paging" value="${requestScope.currentPage - 1}">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage == 1}">
-                                        <button>
-                                            <i class="fas fa-chevron-left"></i>
-                                        </button>
-                                    </c:if>
-                                </form>
-                            </li>
-
-                            <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
-                                <c:if test="${requestScope.currentPage == iterator}">
-                                    <li class="pagination-item pagination-item--active">
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage != iterator}">
-                                    <li class="pagination-item">
-                                    </c:if>
-                                    <form action="/sakura/hostel/detail">
-                                        <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                        <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                        <button type="submit" name="paging" value="${iterator}">${iterator}</button>
-                                    </form>
-                                </li>
-
-                            </c:forEach>
-                            <li class="pagination-item pagination-next">
-                                <form action="/sakura/hostel/detail">
-                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                    <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                    <c:if test="${requestScope.currentPage < requestScope.endPage}">
-                                        <button type="submit" name="paging" value="${requestScope.currentPage + 1}">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </button>
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage == requestScope.endPage}">
-                                        <button type="submit" name="paging" value="${requestScope.endPage}">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </button>
-                                    </c:if>
-                                </form>
-                            </li>
-                            <li class="pagination-item pagination-next pagination-next--fast">
-                                <form action="/sakura/hostel/detail">
-                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                                    <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                                    <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="fa-solid fa-angles-right"></i></button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-
-
                 </div>
 
-                <div class="section">
-                    <h3 class="section-title">
-                        đánh giá của bạn
-                    </h3>
-                    <c:if test="${sessionScope.currentUser != null}">
-                        <form action="/sakura/hostel/detail">
-                            <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
-                            <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
-                            <c:if test="${requestScope.feedback == null}">
-                                <div class="send-feedback">
-                                    <input type="hidden" name="rating" value="5" />
-                                    <div class="send-feedback-star-list">
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
+                <ul class="feedback-list">
+                    <c:forEach var="feedback" items="${requestScope.feedbackList}">
+                        <li class="feedback-item mt-[20px] mb-[25px] bg-[#FDFEFF] shadow rounded p-[20px]">
+                            <div class="tenant-item-header">
+                                <div class="flex items-center space-x-4">
+                                    <img class="w-10 h-10 rounded-full" src="${sessionScope.currentUser.account.avatar == null ? '../assets/images/user-avatars/no_ava.jpg' : sessionScope.currentUser.account.avatar}" alt="">
+                                    <div class="space-y-1 font-medium">
+                                        <p> ${feedback.tenant.fullname} <time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">${feedback.date}</time></p>
                                     </div>
-                                    <textarea class="text-area" placeholder="Nhập vào đây đánh giá của bạn"
-                                              name="feedbackContent" rows="4" cols="100"></textarea>
-                                    <button type="submit" name="message" value="Cảm ơn đánh giá của bạn" class="send-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
                                 </div>
-                            </c:if>
-                            <c:if test="${requestScope.feedback != null}">
-                                <div class="send-feedback">
-                                    <input type="hidden" name="oldRating" value="${requestScope.feedback.rating}" />
-                                    <input type="hidden" name="rating" value="${requestScope.feedback.rating}" />
-                                    <div class="send-feedback-star-list">
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                        <div class="send-feedback-star"><i class="fa-solid fa-star" style="color: #ccc;"></i></div>
-                                    </div>
-                                    <textarea class="text-area" disabled placeholder="Nhập vào đây đánh giá của bạn"
-                                              name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
-                                    <button type="submit" class="send-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
-                                    <button class="update-feedback-btn bg-[#17535B] text-[#fff] hover:bg-[#13484B]">Chỉnh sửa đánh giá</button>
+                                <div class="tenant-rating text-amber-400">
+                                    <c:forEach begin="1" end="5" var="iterator">
+                                        <c:choose>
+                                            <c:when test="${iterator <= feedback.rating}">
+                                                <i class="bi bi-star-fill"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${(iterator - feedback.rating) > 0 && (iterator - feedback.rating) <= 0.2}">
+                                                        <i class="bi bi-star-fill"></i>
+                                                    </c:when>
+                                                    <c:when test="${(iterator - feedback.rating) > 0.2  && (iterator - feedback.rating) <= 0.7}">
+                                                        <i class="bi bi-star-fill"></i>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <i class="bi bi-star-fill" style="color: #ccc"></i>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
                                 </div>
-                            </c:if>
-                        </form>
-                    </c:if>
-                    <c:if test="${sessionScope.currentUser == null}">
-                        <h3>Bạn phải đăng nhập để đánh giá nhà trọ này</h3>
-                    </c:if>
-                </div>
+                            </div>
+                            <div class="tenant-item-content mt-[5px] text-slate-800 font-normal">
+                                ${feedback.content}
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+                <div class="pagination">
+                    <ul class="pagination__list">
+                        <li class="pagination-item pagination-previous pagination-previous--fast">
+                            <form action="/sakura/hostel/detail">
+                                <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                <button type="submit" name="paging" value="1"><i class="bi bi-arrow-left"></i></button>
+                            </form>
+                        </li>
 
-                <div class="section">
-                    <h3 class="section-title">
-                        nhà trọ nổi bật
-                    </h3>
-                    <ul class="hostel-vip-list row">
-                        <c:set var="i" value="-1" />
-                        <c:forEach var="hostel" items="${requestScope.outstandingHostels}">
-                            <c:set var="i" value="${i + 1}" />
-                            <li class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <form action="/sakura/hostel/detail">
-                                    <input type="hidden" name="filterStar" value="0" />
-                                    <button class="hostel-vip-item" name="hostelId" value="${hostel.hostelID}" class="hostel-item">
-                                        <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
-                                            <ol class="carousel-indicators carousel-vip-indicators">
-                                                <c:if test="${hostel.imgList.size() > 0}">
-                                                    <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
-                                                        <c:if test="${iterator == 0}">
-                                                            <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
-                                                            </li>
-                                                        </c:if>
-                                                        <c:if test="${iterator > 0}">
-                                                            <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}">
-                                                            </li>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </ol>
-                                            <div class="hostel-vip-images">
-                                                <div class="carousel-inner">
-                                                    <c:if test="${hostel.imgList.size() > 0}">
-                                                        <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
-                                                            <c:if test="${iterator == 0}">
-                                                                <div class="carousel-item carousel-vip-item active">
-                                                                </c:if>
-                                                                <c:if test="${iterator > 0}">
-                                                                    <div class="carousel-item carousel-vip-item">
-                                                                    </c:if>
-                                                                    <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
-                                                                </div>
-                                                            </c:forEach>
-                                                        </c:if>
-                                                    </div>
-                                                </div>
-                                                <div class="btn-prev-next">
-                                                    <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button"
-                                                       data-slide="prev">
-                                                        <span><i class="fa-solid fa-angle-left"></i></span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                    <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button"
-                                                       data-slide="next">
-                                                        <span><i class="fa-solid fa-angle-right"></i></span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                            <div class="hostel-vip-content btn-submit">
-
-                                                <div class="hostel-vip-name">${hostel.hostelName}</div>
-                                                <div class="hostel-vip-action">
-                                                    <div class="hostel-vip-rating">
-                                                        <c:forEach begin="1" end="5" var="iterator">
-                                                            <c:choose>
-                                                                <c:when test="${iterator <= hostel.rating}">
-                                                                    <i class="fa-solid fa-star"></i>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <c:choose>
-                                                                        <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
-                                                                            <i class="fa-solid fa-star"></i>
-                                                                        </c:when>
-                                                                        <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
-                                                                            <i class="fa-solid fa-star-half-stroke"></i>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <i class="fa-solid fa-star" style="color: #ccc"></i>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </c:forEach>
-                                                        <span class="hostel-vip-rating-number">${hostel.rating}/5</span>
-                                                    </div>
-                                                </div>
-                                                <div class="hostel-vip-address">${hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
-                                                <div class="hostel-vip-info">
-                                                    <span class="hostel-vip-room-available">Còn ${hostel.availableRoom} phòng trống</span>
-                                                    <span class="hostel-vip-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
-                                                </div>
-                                                <div class="hostel-vip-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
-                                            </div>
+                        <li class="pagination-item pagination-previous">
+                            <form action="/sakura/hostel/detail">
+                                <c:if test="${requestScope.currentPage > 1}">
+                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                    <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                    <button type="submit" name="paging" value="${requestScope.currentPage - 1}">
+                                        <i class="bi bi-arrow-left"></i>
                                     </button>
+                                </c:if>
+                                <c:if test="${requestScope.currentPage == 1}">
+                                    <button>
+                                        <i class="bi bi-arrow-left"></i>
+                                    </button>
+                                </c:if>
+                            </form>
+                        </li>
+
+                        <c:forEach begin="${requestScope.beginPage}" end="${requestScope.endPage}" var="iterator">
+                            <c:if test="${requestScope.currentPage == iterator}">
+                                <li class="pagination-item pagination-item--active">
+                                </c:if>
+                                <c:if test="${requestScope.currentPage != iterator}">
+                                <li class="pagination-item">
+                                </c:if>
+                                <form action="/sakura/hostel/detail">
+                                    <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                    <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                    <button type="submit" name="paging" value="${iterator}">${iterator}</button>
                                 </form>
                             </li>
+
                         </c:forEach>
+                        <li class="pagination-item pagination-next">
+                            <form action="/sakura/hostel/detail">
+                                <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                <c:if test="${requestScope.currentPage < requestScope.endPage}">
+                                    <button type="submit" name="paging" value="${requestScope.currentPage + 1}">
+                                        <i class="bi bi-arrow-right"></i>
+                                    </button>
+                                </c:if>
+                                <c:if test="${requestScope.currentPage == requestScope.endPage}">
+                                    <button type="submit" name="paging" value="${requestScope.endPage}">
+                                        <i class="bi bi-arrow-right"></i>
+                                    </button>
+                                </c:if>
+                            </form>
+                        </li>
+                        <li class="pagination-item pagination-next pagination-next--fast">
+                            <form action="/sakura/hostel/detail">
+                                <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                                <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                                <button type="submit" name="paging" value="${requestScope.pagingQuantity}"><i class="bi bi-arrow-right"></i></button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
+
+
             </div>
-            <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
-                 class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden ${(param.successBookingMessage == "true") ? 'show' : 'hide'}"
-                 id="notification">
-                <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
-                    <i class="bi bi-check-circle"></i>
-                </div>
-                <div class="px-2 py-2">
-                    <h1 class="text-lg text-[#4d4d4d] font-semibold">Yêu cầu thành công</h1>
-                    <p class="text-[12px] text-[#8a8a8a] font-normal">Chủ nhà sẽ tiếp nhận yêu cầu và xác nhận lại với bạn.</p>
-                </div>
-                <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeNoti()">
-                    <i class="bi bi-x-lg"></i>
-                </a>
+
+            <div class="section mt-[40px] mb-[50px]">
+                <h3 class="section-title font-bold text-[18px] text-slate-800 mb-[20px]">
+                    Đánh giá của bạn
+                </h3>
+                <c:if test="${sessionScope.currentUser != null}">
+                    <form action="/sakura/hostel/detail">
+                        <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
+                        <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
+                        <c:if test="${requestScope.feedback == null}">
+                            <div class="send-feedback">
+                                <input type="hidden" name="rating" value="5" />
+                                <div class="send-feedback-star-list flex mb-[10px]">
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                </div>
+                                <textarea class="text-area w-full" placeholder="Viết đánh giá ở đây..." name="feedbackContent" rows="4"></textarea>
+                                <button type="submit" name="message" value="Cảm ơn đánh giá của bạn" class="send-feedback-btn bg-[#17535B] px-[10px] py-[5px] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
+                            </div>
+                        </c:if>
+                        <c:if test="${requestScope.feedback != null}">
+                            <div class="send-feedback">
+                                <input type="hidden" name="oldRating" value="${requestScope.feedback.rating}" />
+                                <input type="hidden" name="rating" value="${requestScope.feedback.rating}" />
+                                <div class="send-feedback-star-list flex mb-[10px]">
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                    <div class="send-feedback-star"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                </div>
+                                <textarea class="text-area w-full" disabled placeholder="Viết đánh giá ở đây..."
+                                          name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
+                                <button type="submit" class="send-feedback-btn bg-[#17535B] px-[10px] py-[5px] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
+                                <button class="update-feedback-btn bg-[#17535B] text-[#fff] px-[10px] py-[5px] hover:bg-[#13484B]">Chỉnh sửa đánh giá</button>
+                            </div>
+                        </c:if>
+                    </form>
+                </c:if>
+                <c:if test="${sessionScope.currentUser == null}">
+                    <h3>Bạn phải đăng nhập để đánh giá nhà trọ này</h3>
+                </c:if>
+            </div>
+
+            <!--            <div class="section">
+                            <h3 class="section-title">
+                                Nhà trọ nổi bật
+                            </h3>
+                            <ul class="hostel-vip-list row">
+            <c:set var="i" value="-1" />
+            <c:forEach var="hostel" items="${requestScope.outstandingHostels}">
+                <c:set var="i" value="${i + 1}" />
+                <li class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <form action="/sakura/hostel/detail">
+                        <input type="hidden" name="filterStar" value="0" />
+                        <button class="hostel-vip-item" name="hostelId" value="${hostel.hostelID}" class="hostel-item">
+                            <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
+                                <ol class="carousel-indicators carousel-vip-indicators">
+                <c:if test="${hostel.imgList.size() > 0}">
+                    <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                        <c:if test="${iterator == 0}">
+                            <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
+                            </li>
+                        </c:if>
+                        <c:if test="${iterator > 0}">
+                            <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}">
+                            </li>
+                        </c:if>
+                    </c:forEach>
+                </c:if>
+            </ol>
+            <div class="hostel-vip-images">
+                <div class="carousel-inner">
+                <c:if test="${hostel.imgList.size() > 0}">
+                    <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                        <c:if test="${iterator == 0}">
+                            <div class="carousel-item carousel-vip-item active">
+                        </c:if>
+                        <c:if test="${iterator > 0}">
+                            <div class="carousel-item carousel-vip-item">
+                        </c:if>
+                        <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
+                    </div>
+                    </c:forEach>
+                </c:if>
             </div>
         </div>
-        <c:if test="${requestScope.message != null}">
-            <div class="modaL">
-                <div class="modal-ticket">
-                    <div class="modalHeader">
-                        <i class="bi bi-briefcase-fill"></i>
-                        <span class="modalHeader-title">sakura</span>
-                    </div>
-                    <div class="modal-close-btn"><i class="bi bi-x"></i></div>
-                    <div class="modal-content">
-                        <h5>${requestScope.message}</h5>
-                    </div>
-                </div>
+        <div class="btn-prev-next">
+            <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button"
+               data-slide="prev">
+                <span><i class="bi bi-arrow-left"></i></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button"
+               data-slide="next">
+                <span><i class="bi bi-arrow-right"></i></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="hostel-vip-content btn-submit">
+
+        <div class="hostel-vip-name">${hostel.hostelName}</div>
+        <div class="hostel-vip-action">
+            <div class="hostel-vip-rating">
+                <c:forEach begin="1" end="5" var="iterator">
+                    <c:choose>
+                        <c:when test="${iterator <= hostel.rating}">
+                            <i class="bi bi-star-fill"></i>
+                        </c:when>
+                        <c:otherwise>
+                            <c:choose>
+                                <c:when test="${(iterator - hostel.rating) > 0 && (iterator - hostel.rating) <= 0.2}">
+                                    <i class="bi bi-star-fill"></i>
+                                </c:when>
+                                <c:when test="${(iterator - hostel.rating) > 0.2  && (iterator - hostel.rating) <= 0.7}">
+                                    <i class="bi bi-star-fill-half-stroke"></i>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="bi bi-star-fill" style="color: #ccc"></i>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <span class="hostel-vip-rating-number">${hostel.rating}/5</span>
             </div>
-        </c:if>
+        </div>
+        <div class="hostel-vip-address">${hostel.streetAddress} - ${hostel.district.districtName} - ${hostel.district.province.provinceName}</div>
+        <div class="hostel-vip-info">
+            <span class="hostel-vip-room-available">Còn ${hostel.availableRoom} phòng trống</span>
+            <span class="hostel-vip-area">${hostel.minArea} - ${hostel.maxArea} m²</span>
+        </div>
+        <div class="hostel-vip-price">${hostel.minPrice / 1000000} triệu - ${hostel.maxPrice / 1000000} triệu</div>
+    </div>
+</button>
+</form>
+</li>
+            </c:forEach>
+        </ul>
+    </div>-->
+        </div>
+    </div>
 
         <%@include file="footer.jsp" %>    
         <script src="../assets/javascript/hostel-detail.js"></script>
@@ -604,10 +566,55 @@
 
             function closeNoti() {
                 noti.style.transform = "translateX(150%)";
+            }, 5000);
+        }
+        if (noti.classList.contains("hide")) {
+            noti.style.display = "none";
+        }
 
+        function closeNoti() {
+            noti.style.transform = "translateX(150%)";
+
+        }
+    </script>
+    <!-- flowbite -->
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+    <script>
+        // MODAL 
+        var open_modal_1 = document.querySelector('#view-room-type');
+        open_modal_1.addEventListener('click', function (event) {
+            event.preventDefault();
+            toggleModal('#room-type-modal');
+        });
+        var close_modal_1 = document.querySelectorAll('.modal-close');
+        console.log(close_modal_1);
+        for (let i = 0; i < close_modal_1.length; ++i) {
+            close_modal_1[i].addEventListener('click', () => {
+                console.log("close");
+                toggleModal('#room-type-modal');
+            });
+        }
+
+        document.onkeydown = function (evt) {
+            evt = evt || window.event;
+            var isEscape = false;
+            if ("key" in evt) {
+                isEscape = (evt.key === "Escape" || evt.key === "Esc");
+            } else {
+                isEscape = (evt.keyCode === 27);
             }
-        </script>
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-    </body>
+            const modal_1 = document.querySelector('#room-type-modal');
+            if (isEscape && modal_1.classList.contains('active-modal')) {
+                toggleModal('#room-type-modal');
+            }
+        };
+
+        function toggleModal(modal_item) {
+            const modal = document.querySelector(modal_item);
+            modal.classList.toggle('active-modal');
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+        }
+    </script>
+</body>
 </html>

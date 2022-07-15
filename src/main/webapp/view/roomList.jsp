@@ -58,7 +58,7 @@
                             <div class="mx-auto grid grid-cols-3 pt-6 gap-6 pb-8 mb-8 border-b-2 border-dashed">
                             <c:forEach items = "${roomList[ptr.index]}" var = "room" varStatus = "ptr2"> <!-- 2 vong for -->
                                 <c:choose>
-                                    <c:when test = "${(roomList[ptr.index][ptr2.index].status != 2) and (roomList[ptr.index][ptr2.index].currentNumberOfResidents < roomTypeList[ptr.index].maxNumberOfResidents)}">
+                                    <c:when test = "${(roomList[ptr.index][ptr2.index].status == 0) and (roomList[ptr.index][ptr2.index].currentNumberOfResidents < roomTypeList[ptr.index].maxNumberOfResidents)}">
                                         <form action = "/sakura/hostel/roomDetail" method = "post">
                                             <input type = "hidden" name = "roomID" value = "${roomList[ptr.index][ptr2.index].roomID}">
                                             <button type="submit" class="block m-0 room-item w-[280px] h-[120px] flex rounded bg-white shadow overflow-hidden cursor-pointer transition hover:-translate-y-[1px] hover:bg-[#fff2ea]">
@@ -69,12 +69,9 @@
                                                     <h2 class="text-left text-gray-900 text-xl font-bold mb-1">${roomList[ptr.index][ptr2.index].roomNumber}</h2>
                                                     <p class="text-left text-gray-400 font-medium text-sm mb-5">${roomTypeList[ptr.index].area}m<sup>2</sup></p>
                                                     <h3 class="text-[#ee7b35] text-base font-bold align-text-bottom">${roomTypeList[ptr.index].advertisedPrice / 1000000} triệu / tháng</h3>
-                                                    <c:choose>
-                                                        <c:when test="${roomList[ptr.index][ptr2.index].status == 1}">
-                                                            <p class="absolute right-0 top-3 text-gray-400 font-medium text-sm">Trống</p>
-                                                        </c:when> 
+                                                    <c:choose> 
                                                         <c:when test="${roomList[ptr.index][ptr2.index].status == 0}">
-                                                            <p class="absolute right-0 top-3 text-gray-400 font-medium text-sm">Sắp trống</p>
+                                                            <p class="absolute right-0 top-3 text-gray-400 font-medium text-sm">Trống</p>
                                                         </c:when>
                                                     </c:choose>
                                                 </div>

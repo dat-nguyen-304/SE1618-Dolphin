@@ -452,7 +452,7 @@ public class HostelDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select hostelID from FavoriteHostel where tenantID = ? AND activate = 1";
+                String sql = "select hostelID from FavoriteHostel where tenantID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, tenantID);
                 ResultSet rs = pst.executeQuery();
@@ -790,6 +790,9 @@ public class HostelDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(updateAvailableRoom(45, 1));
+        //save(String name, int districtId, String streetAddress, String description, int landlordId)
+        
+        save("Cô Đệ", 83, "A24 Cống Quỳnh", "Thiết kế đẹp thoáng mát, sang trọng "
+                + "với các căn hộ thiết kế 1 phòng khách + 2 phòng ngủ và phòng thông studio phù hợp với hộ gia đình, người đi làm.", 21);
     }
 }

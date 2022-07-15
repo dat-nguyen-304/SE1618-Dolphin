@@ -42,7 +42,9 @@
             <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
                 <div class="general-info flex justify-between mt-[20px]">
                     <div class="card w-fit h-fit bg-[#fff] p-5 flex flex-col justify-between">
-                        <h2 class="text-[20px] font-medium text-[#17535B]">Thêm hợp đồng thuê nhà với người thuê là <span class="font-bold">${requestScope.bookingRequest.tenant.fullname}</span></h2>
+                        <h2 class="text-[20px] font-medium text-[#17535B]">Thêm hợp đồng thuê nhà với người thuê là <span class="font-bold">${requestScope.bookingRequest.tenant.fullname}</span>, kiểu phòng
+ <span class="font-bold">${requestScope.bookingRequest.roomType.roomTypeName}</span>
+                        </h2>
                         <form id="contract-form" action = "/sakura/contract/add-contract" method = "post" class="mt-[40px]">
                             <input type="hidden" name="queryType" value="add"/>
                             <input type="hidden" name="tenantID" value="${requestScope.bookingRequest.tenant.account.accountID}"/>
@@ -51,13 +53,8 @@
                                 <label for="rooms" class="block mb-2 text-sm font-medium text-gray-900">Chọn phòng</label>
                                 <select id="rooms" name = "roomID" class="ml-[20px] w-[100px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5">
                                     <c:forEach items="${requestScope.roomList}" var="room">
-                                        <c:if test="${room.status != 2}">
-                                            <c:if test = "${requestScope.editContract.room.roomID eq room.roomID}">
-                                                <option value="${room.roomID}" selected>${room.roomNumber}</option>
-                                            </c:if>
-                                            <c:if test = "${requestScope.editContract.room.roomID != room.roomID}">
+                                        <c:if test="${room.status == 0}">
                                                 <option value="${room.roomID}">${room.roomNumber}</option>
-                                            </c:if>
                                         </c:if>
                                     </c:forEach>
                                 </select>

@@ -450,8 +450,27 @@ public class RoomDAO {
         }
         return false;
     }
+    
+    public static void removeLatestInvoiceMonth(int roomID) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Update Room set latestInvoiceMonth = NULL where roomID = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setInt(1, roomID);
+            
+            pst.executeUpdate();
+            
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String args[]) {
+        removeLatestInvoiceMonth(2);
         System.out.println(findByHostelAndKeyword(1, "A").size());
     }
 }
