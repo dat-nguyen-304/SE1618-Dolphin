@@ -134,6 +134,11 @@
                                                     Còn hiệu lực
                                                 </span>
                                             </c:if>
+                                            <c:if test="${contract.status == 2}">
+                                                <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                    Đang chờ
+                                                </span>
+                                            </c:if>
                                         </td>
                                         <td class="text-center px-6 py-4 text-center">
                                             <form action="/sakura/landlord/contract-detail">

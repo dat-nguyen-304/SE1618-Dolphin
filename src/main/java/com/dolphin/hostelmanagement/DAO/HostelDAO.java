@@ -452,7 +452,7 @@ public class HostelDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select hostelID from FavoriteHostel where tenantID = ? AND activate = 1";
+                String sql = "select hostelID from FavoriteHostel where tenantID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, tenantID);
                 ResultSet rs = pst.executeQuery();

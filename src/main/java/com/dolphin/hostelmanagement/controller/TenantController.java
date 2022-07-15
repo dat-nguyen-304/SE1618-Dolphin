@@ -91,6 +91,11 @@ public class TenantController extends HttpServlet {
                     session.setAttribute("roomResidentList", roomResidentList);
                     session.setAttribute("latestInvoice", latestInvoice);
                 }
+                else {
+                    session.removeAttribute("currentContract");
+                    session.removeAttribute("roomResidentList");
+                    session.removeAttribute("latestInvoice");
+                }
                 //currentContract.getHostel().getDistrict()
                 request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
             }
@@ -107,6 +112,10 @@ public class TenantController extends HttpServlet {
             }
 
             if (path.equals("/rentalRequestList")) {
+                if(request.getParameter("queryType") != null) {
+                    System.out.println("QueryType: " + request.getParameter("queryType"));
+                    System.out.println("Querytype: " + request.getParameter("queryType").equals("accept"));
+                }
                 if (request.getParameter("queryType") == null) {
                     ArrayList<BookingRequest> bookingList = BookingRequestDAO.getBookingRequestByTenant(t, 1);
                     ArrayList<BookingRequest> invitationList = BookingRequestDAO.getBookingRequestByTenant(t, 2);
@@ -115,7 +124,9 @@ public class TenantController extends HttpServlet {
                     request.setAttribute("invitationList", invitationList);
 
                     request.getRequestDispatcher("/view/tenantRentalRequestPage.jsp").forward(request, response);
-                } else if (request.getParameter("queryType").equals("accept")) {
+                    return;
+                } 
+                if (request.getParameter("queryType").equals("accept")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
                     ContractDAO.changeStatus(contractID, 1); //activate cai contract
@@ -123,12 +134,12 @@ public class TenantController extends HttpServlet {
                     RoomDAO.changeStatus(contract.getRoom().getRoomID(), 1); // thay trang thai cua phong
                     TenantDAO.changeStatus(t.getAccount().getAccountID(), true); // thay trang thai tenant
 
-                    HostelDAO.updateTotalRoom(contract.getHostel().getHostelID(),  -1); //cap nhat so phong da co
-                    RoomTypeDAO.updateTotalRoom(contract.getRoom().getRoomType().getRoomTypeID(), -1); //cap nhat so phong da co
+                    HostelDAO.updateAvailableRoom(contract.getHostel().getHostelID(),  -1); //cap nhat so phong da co
+                    RoomTypeDAO.updateAvailableRoom(contract.getRoom().getRoomType().getRoomTypeID(), -1); //cap nhat so phong da co
 
-                    //send accept notification to landlord
+//                    //send accept notification to landlord
                     Notification landlordNoti = new Notification();
-
+//
                     landlordNoti.setToAccount(contract.getLandlord().getAccount());
                     landlordNoti.setCreatedDate(new Date());
                     landlordNoti.setContent(t.getFullname() + " đã đồng ý hợp đồng thuê nhà ở phòng " + contract.getRoom().getRoomNumber()
@@ -136,9 +147,9 @@ public class TenantController extends HttpServlet {
 
                     landlordNoti.setStatus(0); //0 means unread
                     boolean check = NotificationDAO.saveNotification(landlordNoti);
-                    //end send accept notification to landlord
-
-                    //send accept notification to landlord
+//                    //end send accept notification to landlord
+//
+//                    //send accept notification to landlord
                     Notification tenantNoti = new Notification();
 
                     tenantNoti.setToAccount(t.getAccount());
@@ -148,14 +159,21 @@ public class TenantController extends HttpServlet {
 
                     tenantNoti.setStatus(0); //0 means unread
                     check = NotificationDAO.saveNotification(tenantNoti);
-                    //end send accept notification to landlord   
+//                    //end send accept notification to landlord   
+                    System.out.println("In accept");
                     response.sendRedirect("/sakura/tenant/dashboard");
-                } else if (request.getParameter("queryType").equals("refuse")) {
+                } 
+                if (request.getParameter("queryType").equals("refuse")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
+                    
                     ContractDAO.changeStatus(contractID, 0);
                     BookingRequestDAO.changeStatus(contractID, 0);
+                    
+                    System.out.println("In refuse");
                     response.sendRedirect("/sakura/tenant/dashboard");
                 }
+//                
+//                response.sendRedirect("/sakura/tenant/dashboard");
             }
 
             if (path.equals("/notifications")) {

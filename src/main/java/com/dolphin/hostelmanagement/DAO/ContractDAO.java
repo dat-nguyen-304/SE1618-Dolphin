@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -402,10 +402,11 @@ public class ContractDAO {
 
         try {
             cn = DBUtils.makeConnection();
-            String sql = "Update Contract set status = 1 where contractID = ?";
+            String sql = "Update Contract set status = ? where contractID = ?";
 
             PreparedStatement pst = cn.prepareCall(sql);
-            pst.setInt(1, contractID);
+            pst.setInt(2, contractID);
+            pst.setInt(1, status);
 
             return pst.executeUpdate() > 0;
         } catch (Exception e) {

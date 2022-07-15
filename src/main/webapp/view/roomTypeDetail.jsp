@@ -48,39 +48,38 @@
         </c:choose>
         <div class="w-[60%] mx-auto my-[100px]">
             <div class="room-detail-title mb-[30px]">
-                <h2 class="text-[25px] font-medium text-[#17535B]">Chi tiết phòng</h2>
+                <h2 class="text-[25px] font-medium text-[#17535B]">Chi tiết</h2>
             </div>
             <div class="flex w-full h-[500px]">
                 <div class="w-3/5 h-full rounded">
+                    <c:if test = "${requestScope.roomType.imgList.size() > 0}">
                     <img class="w-full h-full object-fill object-center"
-                         src="${requestScope.room.roomType.imgList.get(0)}">
+                         src="${requestScope.roomType.imgList.get(0)}">
+                    </c:if>
                 </div>
                 <div class="w-2/5 pl-[30px]">
                     <div class="mb-[20px]">
-                        <span class="text-[#FF9F47] text-[25px] title-font font-medium">Phòng ${requestScope.room.roomNumber}</span>
-                        <span class="text-[#597187] text-[25px] font-light">  - ${requestScope.room.roomType.hostel.hostelName} </span>
+                        <span class="text-[#597187] text-[25px] font-light">  Nhà trọ ${requestScope.roomType.hostel.hostelName} </span>
                     </div>
                     <div class="room-info mb-[30px]">
                         <div class="grid grid-cols-4">
                             <div class="text-[#597187] font-light text-[15px]">Loại phòng</div>
-                            <div class="col-span-3 text-[#40576C] font-semibold text-[15px]">${requestScope.room.roomType.roomTypeName}</div>
+                            <div class="col-span-3 text-[#40576C] font-semibold text-[15px]">${requestScope.roomType.roomTypeName}</div>
                         </div>
                         <div class="grid grid-cols-4">
                             <div class="text-[#597187] font-light text-[15px]">Diện tích</div>
-                            <div class="col-span-3 text-[#40576C] font-semibold text-[15px]">${requestScope.room.roomType.area}m<sup>2</sup></div>
+                            <div class="col-span-3 text-[#40576C] font-semibold text-[15px]">${requestScope.roomType.area}m<sup>2</sup></div>
                         </div>
                     </div>
                     <div class="room-desc mb-[30px] pt-[10px] border-t">
-                        <p class="leading-relaxed mb-[30px] text-[#597187] text-[15px] font-semibold">${requestScope.room.roomType.description}</p>
+                        <p class="leading-relaxed mb-[30px] text-[#597187] text-[15px] font-semibold">${requestScope.roomType.description}</p>
                     </div>
                     <div class="room-price mb-[30px] pt-[30px] border-t">
-                        <p class="title-font text-center font-medium text-[18px] text-[#40576C]">${requestScope.room.roomType.advertisedPrice / 1000000 } triệu / tháng</p>
+                        <p class="title-font text-center font-medium text-[18px] text-[#40576C]">${requestScope.roomType.advertisedPrice / 1000000 } triệu / tháng</p>
                     </div>
 
                         <form action = "${sessionScope.currentUser == null ? "/sakura/access/login" : "/sakura/hostel/sendRentalRequest"}" method="post" class="w-full m-0 p-0">
-                        <input type ="hidden" name ="hostelID" value ="${requestScope.room.roomType.hostel.hostelID}">
-                        <input type ="hidden" name ="roomID" value ="${requestScope.room.roomID}">
-                        
+                        <input type ="hidden" name ="roomTypeID" value ="${requestScope.roomType.roomTypeID}">
                         <button type ="submit" name ="action" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đặt thuê</button>
                     </form>
                 </div>
