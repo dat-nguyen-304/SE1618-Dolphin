@@ -62,16 +62,14 @@ public class TenantController extends HttpServlet {
             System.out.println("Path: " + path);
             HttpSession session = request.getSession(true);
             Tenant t = (Tenant) session.getAttribute("currentUser");
-            
-            if(t == null) {
+
+            if (t == null) {
                 response.sendRedirect("/sakura/view/login.jsp");
                 return;
             }
-            
+
             List<Contract> contractList = ContractDAO.findByTenant(t);
 
-            
-            
             if (path.equals("/dashboard")) {
                 /*HashMap<Contract, ArrayList<Invoice>> invoiceMap = new HashMap();
                 for (Contract contract : contractList) {
@@ -90,8 +88,7 @@ public class TenantController extends HttpServlet {
                     session.setAttribute("currentContract", currentContract);
                     session.setAttribute("roomResidentList", roomResidentList);
                     session.setAttribute("latestInvoice", latestInvoice);
-                }
-                else {
+                } else {
                     session.removeAttribute("currentContract");
                     session.removeAttribute("roomResidentList");
                     session.removeAttribute("latestInvoice");
@@ -112,7 +109,7 @@ public class TenantController extends HttpServlet {
             }
 
             if (path.equals("/rentalRequestList")) {
-                if(request.getParameter("queryType") != null) {
+                if (request.getParameter("queryType") != null) {
                     System.out.println("QueryType: " + request.getParameter("queryType"));
                     System.out.println("Querytype: " + request.getParameter("queryType").equals("accept"));
                 }
@@ -125,7 +122,7 @@ public class TenantController extends HttpServlet {
 
                     request.getRequestDispatcher("/view/tenantRentalRequestPage.jsp").forward(request, response);
                     return;
-                } 
+                }
                 if (request.getParameter("queryType").equals("accept")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
@@ -134,7 +131,7 @@ public class TenantController extends HttpServlet {
                     RoomDAO.changeStatus(contract.getRoom().getRoomID(), 1); // thay trang thai cua phong
                     TenantDAO.changeStatus(t.getAccount().getAccountID(), true); // thay trang thai tenant
 
-                    HostelDAO.updateAvailableRoom(contract.getHostel().getHostelID(),  -1); //cap nhat so phong da co
+                    HostelDAO.updateAvailableRoom(contract.getHostel().getHostelID(), -1); //cap nhat so phong da co
                     RoomTypeDAO.updateAvailableRoom(contract.getRoom().getRoomType().getRoomTypeID(), -1); //cap nhat so phong da co
 
 //                    //send accept notification to landlord
@@ -162,13 +159,13 @@ public class TenantController extends HttpServlet {
 //                    //end send accept notification to landlord   
                     System.out.println("In accept");
                     response.sendRedirect("/sakura/tenant/dashboard");
-                } 
+                }
                 if (request.getParameter("queryType").equals("refuse")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
-                    
+
                     ContractDAO.changeStatus(contractID, 0);
                     BookingRequestDAO.changeStatus(contractID, 0);
-                    
+
                     System.out.println("In refuse");
                     response.sendRedirect("/sakura/tenant/dashboard");
                 }
@@ -177,12 +174,47 @@ public class TenantController extends HttpServlet {
             }
 
             if (path.equals("/notifications")) {
-                List<Notification> notiList = NotificationDAO.getNotificationByToAccount(t.getAccount());
-                for (Notification notification : notiList) {
-                    System.out.println(notification);
+                System.out.println("Query: " + request.getParameter("query"));
+                if (request.getParameter("query") == null) {
+                    
+                    System.out.println(t.getAccount().getAccountID());
+
+                    List<Notification> notiList = NotificationDAO.getNotificationByToAccount(t.getAccount());
+                    System.out.println("notiList: " + notiList.size());
+                    for (Notification notification : notiList) {
+                        System.out.println(notification.getContent());
+                    }
+                    request.setAttribute("notificationList", notiList);
+                    request.getRequestDispatcher("/view/tenantPageNotiList.jsp").forward(request, response);
                 }
-                request.setAttribute("notificationList", notiList);
-                request.getRequestDispatcher("/view/tenantPageNotiList.jsp").forward(request, response);
+                else if(request.getParameter("query").equals("sendRequest")) {
+                    Contract contract = ContractDAO.findActiveContractByTenant(t);
+                    
+                    String description = request.getParameter("description");
+                    
+                    Notification sentNoti = new Notification();
+                    
+                    String tenantName = t.getFullname();
+                    String roomNumber = contract.getRoom().getRoomNumber();
+                    String hostelName = contract.getRoom().getRoomType().getHostel().getHostelName();
+                    
+                    sentNoti.setContent(tenantName + " ở phòng " + roomNumber + ", nhà trọ " + hostelName + " đã gửi yêu cầu: " + 
+                            description);
+                    
+                    sentNoti.setCreatedDate(new Date());
+                    sentNoti.setToAccount(contract.getLandlord().getAccount());
+                    sentNoti.setStatus(0);
+                    
+                    NotificationDAO.saveNotification(sentNoti);
+                    
+                    Notification myNoti = sentNoti;
+                    myNoti.setContent("Bạn đã gửi yêu cầu cho chủ nhà trọ " + hostelName + " với nội dung: " + description);
+                    myNoti.setToAccount(t.getAccount());
+                    
+                    NotificationDAO.saveNotification(myNoti);
+                    
+                    response.sendRedirect("/sakura/tenant/notifications");
+               }
             }
 
             if (path.equals("/contract-detail")) {
@@ -193,10 +225,10 @@ public class TenantController extends HttpServlet {
 
                 request.getRequestDispatcher("/view/TContractDetail.jsp").forward(request, response);
             }
-            
-            if(path.equals("/contract-list")) {
+
+            if (path.equals("/contract-list")) {
                 request.setAttribute("contractList", contractList);
-                
+
                 request.getRequestDispatcher("/view/TContractList.jsp").forward(request, response);
             }
         }

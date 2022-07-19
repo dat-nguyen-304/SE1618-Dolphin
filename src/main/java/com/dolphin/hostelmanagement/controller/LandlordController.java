@@ -10,6 +10,7 @@ import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DAO.FeedbackDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.InvoiceDAO;
+import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
@@ -429,6 +430,10 @@ public class LandlordController extends HttpServlet {
             } else if (path.equals("/add-invoice")) {
                 request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
             } else if (path.equals("/notification")) {
+                ArrayList<Notification> notificationList = NotificationDAO.getNotificationByToAccount(landlord.getAccount());
+                
+                request.setAttribute("notificationList", notificationList);
+                
                 request.getRequestDispatcher("/view/LNotification.jsp").forward(request, response);
             } else if (path.equals("/service")) {
                 List<Service> list = ServiceDAO.findHostelActiveServices(currentHostel);

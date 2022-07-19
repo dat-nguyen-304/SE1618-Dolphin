@@ -112,16 +112,14 @@
 
                     </div>
                     <!-- End Notification list -->
-                    <form class="card send-request h-[300px] bg-[#fff] p-5 overflow-hidden">
-                        <input hidden type=text" name=tenantID" value="101" />
-                        <input hidden type="text" name=roomID" value="101" />
-
+                    <form method = "post" action="/sakura/tenant/notifications" class="card send-request h-[300px] bg-[#fff] p-5 overflow-hidden">
+                        <input type="hidden" name="query" value="sendRequest"/>
                         <label for="message" class="block mb-[20px] text-[17px] font-medium text-gray-900">Gửi yêu cầu đến chủ nhà</label>
                         <textarea id="message" rows="4"
                                   class="block mb-[20px] p-3 w-full text-[15px] text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-0 focus:border focus:border-[#17535B]"
-                                  placeholder="Nhập nội dung của bạn..."></textarea>
+                                  placeholder="Nhập nội dung của bạn..." name = "description"></textarea>
 
-                        <button type="button"
+                        <button type="submit"
                                 class="float-right px-8 py-2 bg-[#17535B] rounded flex justify-center items-center text-[#fff] font-medium text-[15px] hover:bg-[#13484F]">Gửi <i class="bi bi-send-fill ml-[5px]"></i></button>
                     </form>
 
