@@ -290,7 +290,7 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("provinceList", provinceList);
                 List<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostelId);
                 request.setAttribute("roomTypeList", roomTypeList);
-                if (session.getAttribute("currentUser") != null) {
+                if (session.getAttribute("currentUser") != null && session.getAttribute("currentUser") instanceof Tenant ) {
                     Tenant t = (Tenant) session.getAttribute("currentUser");
                     boolean isFavorite = FavoriteHostelDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
                     request.setAttribute("isFavorite", isFavorite);
@@ -326,7 +326,7 @@ public class HostelController extends HttpServlet {
                     Feedback feedback = FeedbackDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
                     request.setAttribute("feedback", feedback);
                 }
-
+                
                 if (request.getParameter("filterStar") != null) {
                     int filterStar = Integer.parseInt(request.getParameter("filterStar"));
                     if (filterStar > 0) {
