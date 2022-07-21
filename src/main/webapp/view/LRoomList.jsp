@@ -98,10 +98,6 @@
                                 ${sessionScope.currentHostel.hostelName}
                             </button>
                         </div>
-                        <button class="rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group"
-                                type="button" data-modal-toggle="addRoom">
-                            <p class="addRoom font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm phòng</p>
-                        </button>
                     </div>
                     <div class="card bg-[#fff] general-info p-[20px] mt-[20px] h-[calc(100vh-225px)]">
                         <div class="">
@@ -175,64 +171,7 @@
                 toastr[type](msg);
             }
         </script>
-        <c:if test="${requestScope.addSuccess != null}">
-            <script>
-                showToast('success', '${requestScope.addSuccess}');
-            </script>
-        </c:if>
-        <c:if test="${requestScope.addFail != null}">
-            <script>
-                showToast('error', '${requestScope.addFail}');
-            </script>
-        </c:if>
         <script>
-            function checkValidRoom(element) {
-                const hostelId = document.querySelector("input[name='hostelId']");
-                const validRoomMessage = document.querySelector(".validRoomMessage");
-                const addRoomElement = document.querySelector(".addRoom");
-                console.log("hostelID: ", hostelId.value);
-                console.log("number: ", element.value);
-                console.log("addRoomElement: ", addRoomElement);
-                let fault = false;
-                for (let i = 0; i < element.value.length; i++) {
-                    let c = element.value.charAt(i);
-                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ' || c == '.')) {
-                        fault = true;
-                        validRoomMessage.innerHTML = 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng "." và "-"';
-                        addRoomElement.onclick = (e) => {
-                            e.preventDefault();
-                        };
-                        break;
-                    }
-                }
-                if (!fault)
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'roomNumber': element.value,
-                            'hostelId': hostelId.value
-                        },
-                        url: '/sakura/room/check-room-valid',
-                        success: function (response) {
-                            console.log("response: ", response);
-                            validRoomMessage.innerHTML = response;
-                            if (response) {
-                                addRoomElement.onclick = (e) => {
-                                    e.preventDefault();
-                                }
-                            } else {
-                                addRoomElement.onclick = (e) => {
-                                    e.returnValue = true;
-                                }
-                            }
-
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
-                        }
-                    });
-            }
-
             $(document).ready(function () {
                 $('#room-list-table').DataTable({
                     dom: 'Bfrtip',

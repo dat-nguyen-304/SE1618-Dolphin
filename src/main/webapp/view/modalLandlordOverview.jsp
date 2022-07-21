@@ -29,10 +29,10 @@
             <!--Body-->
             <div class="p-4">
                 <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
+                <p class="text-xs validHostelMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Tên nhà trọ mới</label>
                     <input type="text" required name="name" class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidHostel(this)"/>
-                    <span class="text-xs validHostelMessage"></span>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
@@ -50,20 +50,22 @@
                         </c:forEach>
                     </select>
                 </div>
+                <p class="text-xs validAddressMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
-                    <input type="text" name="streetAddress" required class="w-[500px] text-[18px] p-[10px]">
+                    <input type="text" name="streetAddress" required class="w-[500px] text-[18px] p-[10px]" onkeyup="checkValidAddress(this)"/>
                     <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
                 </div>
+                <p class="text-xs validDescMessage"></p>
                 <div class="mb-[20px] flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
-                    <textarea required class="text-[15px] p-[10px] w-[500px]" name="description" id="" rows="5"></textarea>
+                    <textarea required class="text-[15px] p-[10px] w-[500px]" name="description" id="" rows="5" onkeyup="checkValidDesc(this)"></textarea>
                 </div>
             </div>
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button
-                        class="addHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
+                    class="addHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
                 <button id="addHostel-2" onclick="addHostel()"
                         class="addHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
             </div>

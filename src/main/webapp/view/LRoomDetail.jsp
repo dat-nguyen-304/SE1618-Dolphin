@@ -32,7 +32,7 @@
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LRoomDetail.css">
         <link rel="stylesheet" href="../assets/css/toastr.css">
-        
+
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
@@ -323,6 +323,7 @@
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../assets/javascript/checkvalid.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script>
                                                         function showToast(type, msg) {
@@ -338,39 +339,47 @@
                                                             toastr.options.progressBar = true;
                                                             toastr[type](msg);
                                                         }
+                                                        var checkRoom = false;
                                                         function checkValidRoom(element) {
                                                             const hostelId = document.querySelector("input[name='hostelId']");
                                                             const validRoomMessage = document.querySelector(".validRoomMessage");
                                                             const updateRoomBtn = document.querySelector(".updateRoom");
                                                             const roomNumber = document.querySelector("input[name='roomNumber']");
-                                                            console.log("current: ", roomNumber.value.trim());
-                                                            console.log("new: ", element.value.trim());
+                                                            if (!element.value.trim()) {
+                                                                validRoomMessage.innerHTML = 'Tên phòng không được trống';
+                                                                checkRoom = false;
+                                                            } else
                                                             if (roomNumber.value.trim() !== element.value.trim()) {
-                                                                jQuery.ajax({
-                                                                    type: 'POST',
-                                                                    data: {
-                                                                        'roomNumber': element.value,
-                                                                        'hostelId': hostelId.value
-                                                                    },
-                                                                    url: '/sakura/room/check-room-valid',
-                                                                    success: function (response) {
-                                                                        validRoomMessage.innerHTML = response;
-                                                                        if (response) {
-                                                                            updateRoomBtn.onclick = (e) => {
-                                                                                e.preventDefault();
+                                                                let valid = isValid(element.value, 'name');
+                                                                if (!valid) {
+                                                                    validRoomMessage.innerHTML = 'Tên phòng chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                                                                    checkRoom = false;
+                                                                } else
+                                                                    jQuery.ajax({
+                                                                        type: 'POST',
+                                                                        data: {
+                                                                            'roomNumber': element.value,
+                                                                            'hostelId': hostelId.value
+                                                                        },
+                                                                        url: '/sakura/room/check-room-valid',
+                                                                        success: function (response) {
+                                                                            if (response) {
+                                                                                validRoomMessage.innerHTML = response;
+                                                                                checkRoom = false;
+                                                                            } else {
+                                                                                validRoomMessage.innerHTML = "";
+                                                                                checkRoom = true;
                                                                             }
-                                                                        } else {
-                                                                            updateRoomBtn.onclick = () => updateRoom();
-                                                                        }
-                                                                    },
+                                                                        },
 
-                                                                    error: function () {
-                                                                    },
-                                                                    complete: function (result) {
-                                                                    }
-                                                                });
+                                                                        error: function () {
+                                                                        },
+                                                                        complete: function (result) {
+                                                                        }
+                                                                    });
                                                             } else {
                                                                 validRoomMessage.innerHTML = "";
+                                                                checkRoom = true;
                                                             }
                                                         }
 
@@ -393,7 +402,11 @@
                                                                 },
                                                                 url: '/sakura/room/update-room',
                                                                 success: function (response) {
-                                                                    messageElement.innerHTML = response;
+                                                                    toggleModal('.updateRoommodal1');
+                                                                    showToast('success', response);
+                                                                    setTimeout(function () {
+                                                                        window.location.reload();
+                                                                    }, 1000);
                                                                 },
                                                                 error: function () {
                                                                 },
@@ -435,39 +448,24 @@
                 const updatePhone = memberElement.querySelector("input[name='updatePhone']");
                 const updateDob = memberElement.querySelector("input[name='updateDob']");
                 const updateMemberMessage = document.querySelector(".updateMemberMessage");
-                console.log("updateFullName: ", updateFullName.value);
-                console.log("updatePhone: ", updatePhone.value);
-                if (!updateFullName.value || !updatePhone.value || !updateDob.value) {
+                if (!updateFullName.value.trim() || !updatePhone.value.trim() || !updateDob.value.trim()) {
                     let message = "";
-                    if (!updateFullName.value) {
+                    if (!updateFullName.value.trim()) {
                         message += "Tên người ở - ";
                     }
-                    if (!updatePhone.value) {
+                    if (!updatePhone.value.trim()) {
                         message += "SÐT - ";
                     }
-                    if (!updateDob.value) {
+                    if (!updateDob.value.trim()) {
                         message += "Ngày sinh ";
                     }
                     message += "không được trống!";
                     showToast('error', message);
                 } else {
-                    let goAjax = true;
-                    let message = "";
-                    if (updatePhone.value.length !== 10) {
-                        message += "Số điện thoại phải có 10 chữ số";
-                        goAjax = false;
-                        showToast('error', message);
-                    } else
-                        for (let i = 0; i < updatePhone.value.length; i++) {
-                            if (updatePhone.value.charAt(i) < '0' || updatePhone.value.charAt(i) > '9') {
-                                message += "Số điện thoại gồm 10 chữ số!";
-                                goAjax = false;
-                                showToast('error', message);
-                                break;
-                            }
-                        }
-
-                    if (goAjax === true) {
+                    let checkName = checkPhone = false;
+                    checkName = isValid(updateFullName.value.trim(), 'human');
+                    checkPhone = isValid(updatePhone.value.trim(), 'phone');
+                    if (checkName && checkPhone) {
                         jQuery.ajax({
                             type: 'POST',
                             data: {'residentId': residentId.value,
@@ -484,6 +482,12 @@
                             complete: function (result) {
                             }
                         });
+                    } else {
+                        if (!checkName) {
+                            showToast('error', 'Tên chỉ bao gồm chỉ cái và khoảng trắng');
+                        } else if (!checkPhone) {
+                            showToast('error', 'Số điện thoại bao gồm 10 chữ số');
+                        }
                     }
                 }
             }
@@ -636,11 +640,11 @@
                 toggleModal('.updateRoommodal1');
             });
 
-            var open_modal_2 = document.querySelector('#updateRoom-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.updateRoommodal2');
-            });
+//            var open_modal_2 = document.querySelector('#updateRoom-2');
+//            open_modal_2.addEventListener('click', function (event) {
+//                event.preventDefault();
+//                toggleModal('.updateRoommodal2');
+//            });
 
             var close_modal_1 = document.querySelectorAll('.updateRoommodal1 .updateRoommodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {

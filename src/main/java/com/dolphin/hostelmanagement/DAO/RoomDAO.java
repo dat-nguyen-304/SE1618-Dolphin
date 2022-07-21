@@ -468,6 +468,36 @@ public class RoomDAO {
             e.printStackTrace();
         }
     }
+    
+    public static Room findByHostelRoomNumber(int hostelID , String roomNumber) {
+        Room room = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "SELECT R.* FROM Room R INNER JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID \n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID \n"
+                        + "WHERE H.hostelID = ? AND R.activate = 1 AND R.roomNumber = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelID);
+                pst.setString(2, roomNumber);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    if (rs.next()) {
+                        int roomID = rs.getInt("roomID");
+                        int currentNoResidents = rs.getInt("currentNoResidents");
+                        int status = rs.getInt("status");
+                        RoomType roomType = findByID(roomID).getRoomType();
+                        room = new Room(roomID, roomNumber, currentNoResidents, status, roomType);
+                    }
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return room;
+    }
 
     public static void main(String args[]) {
         removeLatestInvoiceMonth(2);
