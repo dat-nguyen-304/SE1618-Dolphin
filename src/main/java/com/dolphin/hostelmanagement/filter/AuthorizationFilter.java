@@ -31,7 +31,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author anvu1911
  */
-@WebFilter(filterName = "AuthorizationFilter", urlPatterns = "/view/*",
+@WebFilter(filterName = "AuthorizationFilter",
         servletNames = {"InvoiceController", "TenantController", "LandlordController"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 public class AuthorizationFilter implements Filter {
 
