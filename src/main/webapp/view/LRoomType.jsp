@@ -180,12 +180,12 @@
                                         <c:if test="${requestScope.roomList.size() > 0}">
                                             <c:forEach items="${requestScope.roomList}" var="room">
                                                 <c:if test="${room.status == 0}"> <!--<!-- empty -->
-                                                    <form action="/sakura/landlord/room-detail" class="border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150">
+                                                    <form action="/sakura/landlord/room-detail" method="post" class="border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150">
                                                         <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
                                                     </form>
                                                 </c:if>
                                                 <c:if test="${room.status == 1}">
-                                                    <form action="/sakura/landlord/room-detail" class="rounded text-center p-1 bg-[#17535B] text-white hover:bg-[#13484F] duration-150">
+                                                    <form action="/sakura/landlord/room-detail" method="post" class="rounded text-center p-1 bg-[#17535B] text-white hover:bg-[#13484F] duration-150">
                                                         <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
                                                     </form>
                                                 </c:if>

@@ -247,7 +247,7 @@
                                         </c:if>
                                     </td>
                                     <td class="text-center px-6 py-4 text-center">
-                                        <form action="/sakura/invoice/detail">
+                                        <form action="/sakura/invoice/detail" method="post">
                                             <button type="submit" name="invoiceID" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</butotn>
                                         </form>
                                     </td>

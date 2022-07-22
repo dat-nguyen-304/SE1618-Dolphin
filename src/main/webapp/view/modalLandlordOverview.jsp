@@ -29,7 +29,7 @@
             <!--Body-->
             <div class="p-4">
                 <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
-                <p class="text-xs validHostelMessage"></p>
+                <p class="text-xs text-[red] validHostelMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Tên nhà trọ mới</label>
                     <input type="text" required name="name" class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidHostel(this)"/>
@@ -50,13 +50,13 @@
                         </c:forEach>
                     </select>
                 </div>
-                <p class="text-xs validAddressMessage"></p>
+                <p class="text-xs text-[red] validAddressMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
                     <input type="text" name="streetAddress" required class="w-[500px] text-[18px] p-[10px]" onkeyup="checkValidAddress(this)"/>
                     <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú</p>
                 </div>
-                <p class="text-xs validDescMessage"></p>
+                <p class="text-xs text-[red] validDescMessage"></p>
                 <div class="mb-[20px] flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
                     <textarea required class="text-[15px] p-[10px] w-[500px]" name="description" id="" rows="5" onkeyup="checkValidDesc(this)"></textarea>
@@ -91,7 +91,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="addHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Đóng</button>
-                <form action="/sakura/landlord/overview">
+                <form action="/sakura/landlord/overview" method="post">
                     <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                     </button>
                 </form>
@@ -115,7 +115,7 @@
             </div>
             <div class="p-6 space-y-6">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                    <form action="/sakura/landlord/overview" class="inline-block">
+                    <form action="/sakura/landlord/overview" method="post" class="inline-block">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff]">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>
@@ -234,7 +234,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="deleteHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Đóng</button>
-                <form action="/sakura/landlord/overview">
+                <form action="/sakura/landlord/overview" method="post">
                     <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                     </button>
                 </form>

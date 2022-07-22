@@ -98,25 +98,25 @@
                         <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[16px] px-[10px] py-[5px] text-center " type="button" data-modal-toggle="roomModal">
                             ${requestScope.currentRoom.roomNumber}
                         </button>
-                        <form action="/sakura/landlord/invoice-list" class="ml-[20px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                        <form action="/sakura/landlord/invoice-list" method="post" class="ml-[20px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
                             <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">Xem hóa đơn</button>
                         </form>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-[20px]">
+                <div class="grid grid-cols-5 gap-[20px]">
                     <!--LEFT--> 
-                    <div class="card bg-[#fff] mt-[20px] p-[20px]">
+                    <div class="card col-span-2 bg-[#fff] mt-[20px] p-[20px]">
                         <div class="w-full mb-[20px] flex items-center justify-between">
                             <p class="text-[20px] font-bold text-[#2A3C46">Hợp đồng gần nhất</p>
                             <div>
                                 <c:if test="${requestScope.contract != null}">
-                                    <form action="/sakura/landlord/contract-detail" class="inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                                    <form action="/sakura/landlord/contract-detail" method="post" class="inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
                                         <button type="submit" name="contractID" value="${requestScope.contract.contractID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
                                             Xem hóa đơn
                                         </button>
                                     </form>
-                                    <form action="/sakura/landlord/contract-list" class="ml-[10px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                                    <form action="/sakura/landlord/contract-list" method="post" class="ml-[10px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
                                         <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
                                             Xem tất cả hợp đồng
                                         </button>
@@ -197,7 +197,7 @@
                     </div>
 
                     <!--RIGHT-->
-                    <div class="card bg-[#fff] p-[20px] mt-[20px]">
+                    <div class="card col-span-3 bg-[#fff] p-[20px] mt-[20px]">
                         <div class="w-full mb-[20px] flex items-center justify-between">
                             <p class="text-[20px] font-bold text-[#2A3C46">Thông tin phòng</p>
                             <div class="flex items-center">
@@ -273,11 +273,11 @@
                                     <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                                         <thead>
                                             <tr class="text-[13px] text-center py-[10px] text-gray-700 uppercase bg-gray-100 grid grid-cols-12 gap-[10px]">
-                                                <th scope="col" class="col-span-2">Mã số</th>
+                                                <th scope="col" class="col-span-1">Mã số</th>
                                                 <th scope="col" class="col-span-3 text-left">Họ & tên</th>
                                                 <th scope="col" class="col-span-2">Điện thoại</th>
                                                 <th scope="col" class="col-span-2">Ngày sinh</th>
-                                                <th scope="col" class="col-span-3"><span class="sr-only">Update/Remove</span></th>
+                                                <th scope="col" class="col-span-4"><span class="sr-only">Update/Remove</span></th>
                                             </tr>
                                         </thead>
                                         <tbody class="member-list">
@@ -285,7 +285,7 @@
 
                                         <c:forEach items="${requestScope.residentList}" var="resident">
                                             <tr class="py-[10px] text-[16px] bg-white border-b hover:bg-gray-50 grid grid-cols-12 gap-[10px]">
-                                                <td class="col-span-2 text-center">
+                                                <td class="col-span-1 text-center">
                                                     <p class="p-2">${resident.roomResidentID}</p>
                                                 </td>
                                                 <td class="col-span-3">
@@ -297,8 +297,9 @@
                                                 <td class="col-span-2">
                                                     <input name="updateDob" type="date" class="w-full p-2"  value="${resident.dob}"/>
                                                 </td>
-                                                <td class="col-span-3 flex justify-around items-center">
+                                                <td class="col-span-4 flex justify-around items-center">
                                                     <button onclick="updateMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline">Lưu thay đổi</button>
+                                                    <button onclick="resetMember(this, '${resident.fullname}', '${resident.phone}', '${resident.dob}')" class="mx-auto font-[15px] text-[#288D87] hover:underline">Hoàn tác</button>
                                                     <button onclick="deleteMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline">Xóa</button>
                                                 </td>
                                             </tr>
@@ -490,6 +491,17 @@
                         }
                     }
                 }
+            }
+            
+            function resetMember(element, fullname, phone, dob) {
+                const memberElement = element.parentElement.parentElement;
+                const updateFullName = memberElement.querySelector("input[name='updateFullName']");
+                const updatePhone = memberElement.querySelector("input[name='updatePhone']");
+                const updateDob = memberElement.querySelector("input[name='updateDob']");
+                const updateMemberMessage = document.querySelector(".updateMemberMessage");
+                updateFullName.value = fullname;
+                updatePhone.value = phone;
+                updateDob.value = dob;
             }
         </script>
 

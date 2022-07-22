@@ -73,7 +73,7 @@
                     </a>
                 </div>
                 <div class="grid grid-cols-2">
-                    <form action="/sakura/hostel/list" class="input-group relative flex w-[90%] h-[50px] mb-4" method="get">
+                    <form action="/sakura/hostel/list" class="input-group relative flex w-[90%] h-[50px] mb-4" method="post">
                         <c:if test="${requestScope.favorite == true}">
                             <input type="hidden" name="favorite" value="true"/>
                         </c:if>
@@ -97,7 +97,7 @@
                                     Đánh giá <i class="bi bi-caret-down-fill ml-[10px]"></i>
                                     <ul class="rating-sort-list hidden group-hover:block absolute top-[50px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
                                         <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                            <form action="/sakura/hostel/list">
+                                            <form action="/sakura/hostel/list" method="post">
                                                 <c:if test="${requestScope.favorite == true}">
                                                     <input type="hidden" name="favorite" value="true"/>
                                                 </c:if>
@@ -114,7 +114,7 @@
                                             </form>
                                         </li>
                                         <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                            <form action="/sakura/hostel/list">
+                                            <form action="/sakura/hostel/list" method="post">
                                                 <c:if test="${requestScope.favorite == true}">
                                                     <input type="hidden" name="favorite" value="true"/>
                                                 </c:if>
@@ -138,7 +138,7 @@
                                     Giá tiền <i class="bi bi-caret-down-fill ml-[10px]"></i>
                                     <ul class="rating-sort-list hidden group-hover:block absolute top-[50px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
                                         <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                            <form action="/sakura/hostel/list">
+                                            <form action="/sakura/hostel/list" method="post">
                                                 <c:if test="${requestScope.favorite == true}">
                                                     <input type="hidden" name="favorite" value="true"/>
                                                 </c:if>
@@ -155,7 +155,7 @@
                                             </form>
                                         </li>
                                         <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                            <form action="/sakura/hostel/list">
+                                            <form action="/sakura/hostel/list" method="post">
                                                 <c:if test="${requestScope.favorite == true}">
                                                     <input type="hidden" name="favorite" value="true"/>
                                                 </c:if>
@@ -172,7 +172,7 @@
                                             </form>
                                         </li>
                                         <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                            <form action="/sakura/hostel/list">
+                                            <form action="/sakura/hostel/list" method="post">
                                                 <c:if test="${requestScope.favorite == true}">
                                                     <input type="hidden" name="favorite" value="true"/>
                                                 </c:if>
@@ -189,7 +189,7 @@
                                             </form>
                                         </li>
                                         <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                            <form action="/sakura/hostel/list">
+                                            <form action="/sakura/hostel/list" method="post">
                                                 <c:if test="${requestScope.favorite == true}">
                                                     <input type="hidden" name="favorite" value="true"/>
                                                 </c:if>
@@ -212,7 +212,7 @@
 
                         <c:if test="${sessionScope.currentUser != null}">
                             <div class="filter-item p-0 m-0">
-                                <form class="submit-filter h-[50px] w-[180px] bg-[#ee7b35] text-[#E6EEF1] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center" action="/sakura/hostel/list">
+                                <form action="/sakura/hostel/list" method="post" class="submit-filter h-[50px] w-[180px] bg-[#ee7b35] text-[#E6EEF1] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center">
                                     <c:if test="${requestScope.keyword != null}">
                                         <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                     </c:if>
@@ -248,7 +248,7 @@
                             <c:forEach var="hostel" items="${requestScope.hostelList}">
                                 <c:set var="i" value="${i + 1}" />
                                 <li class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                    <form action="/sakura/hostel/detail">
+                                    <form action="/sakura/hostel/detail" method="post">
                                         <input type="hidden" name="filterStar" value="0" />
                                         <button name="hostelId" value="${hostel.hostelID}" class="hostel-item w-100">
                                             <c:if test="${hostel.imgList.size() > 0}">
@@ -362,7 +362,7 @@
                                 <!--  PAGING-->
                                 <c:if test="${!(requestScope.currentPage == 1 || requestScope.itemQuantity <= 8)}">
                                     <li class="pagination-item pagination-previous pagination-previous--fast">
-                                        <form action="/sakura/hostel/list">
+                                        <form action="/sakura/hostel/list" method="post">
                                             <c:if test="${requestScope.keyword != null}">
                                                 <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
                                             </c:if>
@@ -386,7 +386,7 @@
                                     </li>
 
                                     <li class="pagination-item pagination-previous">
-                                        <form action="/sakura/hostel/list">
+                                        <form action="/sakura/hostel/list" method="post">
                                             <c:if test="${sessionScope.province != null}">
                                                 <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>
@@ -426,7 +426,7 @@
                                             <c:if test="${requestScope.currentPage != iterator}">
                                             <li class="pagination-item">
                                             </c:if>
-                                            <form action="/sakura/hostel/list">
+                                            <form action="/sakura/hostel/list" method="post">
                                                 <c:if test="${sessionScope.province != null}">
                                                     <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                                 </c:if>
@@ -452,7 +452,7 @@
                                 </c:if>
                                 <c:if test="${!(requestScope.currentPage == requestScope.endPage || requestScope.itemQuantity <= 8)}">
                                     <li class="pagination-item pagination-next">
-                                        <form action="/sakura/hostel/list">
+                                        <form action="/sakura/hostel/list" method="post">
                                             <c:if test="${sessionScope.province != null}">
                                                 <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>
@@ -484,7 +484,7 @@
                                         </form>
                                     </li>
                                     <li class="pagination-item pagination-next pagination-next--fast">
-                                        <form action="/sakura/hostel/list">
+                                        <form action="/sakura/hostel/list" method="post">
                                             <c:if test="${sessionScope.province != null}">
                                                 <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
                                             </c:if>

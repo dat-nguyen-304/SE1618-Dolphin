@@ -89,18 +89,6 @@
                                 <p class="font-medium text-[16px] text-[#fff]">${sessionScope.currentHostel.hostelName}</p>
                             </button>
                         </div>
-
-                        <div class="mr-[20px] flex items-center">    
-                            <span>Chọn phòng: </span>
-                            <button class="ml-[10px] inline-block rounded w-fit h-fit py-[5px] px-[20px] bg-[#288D87] hover:bg-[#248781] flex flex justify-between items-center" type="button" data-modal-toggle="roomModal">
-                                <c:if test="${requestScope.currentRoom == null}">
-                                    <p class="font-medium text-[16px] text-[#fff]">Tất cả</p>
-                                </c:if>
-                                <c:if test="${requestScope.currentRoom != null}">
-                                    <p class="font-medium text-[16px] text-[#fff]">${requestScope.currentRoom.roomNumber}</p>
-                                </c:if>
-                            </button>
-                        </div>
                     </div>
                 </c:if>
 
@@ -122,7 +110,7 @@
                                         <tr class="bg-white border-b hover:bg-gray-50">
                                             <td class="px-6 py-4">${resident.roomResidentID}</td>
                                             <td class="px-6 py-4">
-                                                <form action="/sakura/landlord/room-detail">
+                                                <form action="/sakura/landlord/room-detail" method="post">
                                                     <button type="submit" name="roomId" value="${resident.room.roomID}">${resident.room.roomNumber}</button>
                                                 </form>
                                             </td>

@@ -21,7 +21,7 @@
             </div>
             <div class="p-6 space-y-6">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                    <form action="/sakura/landlord/room-type" class="inline-block">
+                    <form action="/sakura/landlord/room-type" method="post" class="inline-block">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2 border-gray-300 hover:border-[#288D87] hover:text-[#288D87] duration-150">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>
@@ -47,7 +47,7 @@
 
             <div class="p-6 space-y-6">
                 <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
-                    <form action="/sakura/landlord/room-type" class="inline-block">
+                    <form action="/sakura/landlord/room-type" method="post" class="inline-block">
                         <button type="submit" name="roomTypeId" value="${roomtype.roomTypeID}" class="px-4 py-2 mx-2 rounded border-2 border-gray-300 hover:border-[#288D87] hover:text-[#288D87] duration-150">${roomtype.roomTypeName}</button>
                     </form>
                 </c:forEach>
@@ -123,7 +123,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="deleteRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <form action="/sakura/landlord/room-type">
+                <form action="/sakura/landlord/room-type" method="post">
                     <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                     </button>
                 </form>
@@ -157,32 +157,32 @@
             </div>
             <!--Body-->
             <div class="p-[20px]">
-                <p class="text-xs validUpdateRoomTypeMessage"></p>
+                <p class="text-xs text-[red] validUpdateRoomTypeMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Tên</label>
                     <input type="text" name="updateName" value="${requestScope.currentRoomType.roomTypeName}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidUpdateRoomType(this)"/>
                     <input type="hidden" name="currentName" value="${requestScope.currentRoomType.roomTypeName}"/>
                     <span class="ml-2 text-[15px]">VD: Bình dân, Cao cấp, ...</span>
                 </div>
-                <p class="text-xs validUpdatePriceMessage"></p>
+                <p class="text-xs text-[red] validUpdatePriceMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Giá</label>
                     <input type="number" name="updatePrice" value="${requestScope.currentRoomType.advertisedPrice}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidPrice(this)"/> 
                         <span class="ml-2 text-[15px]">VD: 3000000, 5000000 ...</span>
                 </div>
-                <p class="text-xs validUpdateAreaMessage"></p>
+                <p class="text-xs text-[red] validUpdateAreaMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Diện tích (m<sup>2</sup>)</label>
                     <input type="number" name="updateArea" value="${requestScope.currentRoomType.area}" placeholer="m<sup>2</sup>" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidArea(this)"/>
                         <span class="ml-2 text-[15px]">VD: 24, 30, ...</span>
                 </div>
-                <p class="text-xs validUpdateMaxResidentMessage"></p>
+                <p class="text-xs text-[red] validUpdateMaxResidentMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Số người tối đa</label>
                     <input type="number" name="updateMaxNumberOfResidents" value="${requestScope.currentRoomType.maxNumberOfResidents}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidMaxResident(this)"/>
                         <span class="ml-2 text-[15px]">VD: 4, 5, 6, ...</span>
                 </div>
-                <p class="text-xs validUpdateDescMessage"></p>
+                <p class="text-xs text-[red] validUpdateDescMessage"></p>
                 <div class="mb-[20px] flex items-start">
                     <label class="w-[160px] inline-block text-[18px]" for="">Mô tả</label>
                     <textarea class="text-[16px] p-[10px] w-[500px]" name="updateDescription" value="${requestScope.currentRoomType.description}" id="" rows="5" onkeyup="checkUpdateValidDesc(this)">${requestScope.currentRoomType.description}</textarea>
@@ -227,7 +227,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="updateRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <form action="/sakura/landlord/room-type">
+                <form action="/sakura/landlord/room-type" method="post">
                     <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                     </button>
                 </form>
@@ -261,31 +261,31 @@
             </div>
             <!--Body-->
             <div class="p-[20px] mx-auto">
-                <p class="text-xs validRoomTypeMessage"></p>
+                <p class="text-xs text-[red] validRoomTypeMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Tên</label>
                     <input type="text" name="name" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidRoomType(this)" />
                     <span class="ml-2 text-[16px]">VD: bình dân, cao cấp, ...</span>
                 </div>
-                <p class="text-xs validPriceMessage"></p>
+                <p class="text-xs text-[red] validPriceMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Giá</label>
                     <input type="number" name="price" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidPrice(this)"/>
                     <span class="ml-2 text-[16px]">VD: 3000000, 5000000 ...</span>
                 </div>
-                <p class="text-xs validAreaMessage"></p>
+                <p class="text-xs text-[red] validAreaMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Diện tích</label>
                     <input type="number" name="area" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidArea(this)" />
                         <span class="ml-2 text-[16px]">VD: 24, 30, ...</span>
                 </div>
-                <p class="text-xs validMaxResidentMessage"></p>
+                <p class="text-xs text-[red] validMaxResidentMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Số người tối đa</label>
                     <input type="number" name="maxNumberOfResidents" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidMaxResident(this)"/>
                         <span class="ml-2 text-[16px]">VD: 4, 5, 6, ...</span>
                 </div>
-                <p class="text-xs validDescMessage"></p>
+                <p class="text-xs text-[red] validDescMessage"></p>
                 <div class="mb-[20px] flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
                     <textarea class="w-[500px] text-[16px] p-[10px]" name="description" id="" rows="5" onkeyup="checkValidDesc(this)"></textarea>
@@ -335,7 +335,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="addRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <form action="/sakura/landlord/room-type">
+                <form action="/sakura/landlord/room-type" method="post">
                     <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                     </button>
                 </form>
@@ -359,7 +359,7 @@
                 </button>
             </div>
             <div class="p-4">
-                <p class="text-xs validRoomMessage"></p>
+                <p class="text-xs text-[red] validRoomMessage"></p>
                 <label class="w-[160px] inline-block" for="">Tên phòng</label>
                 <input type="hidden" name="roomTypeId" value="${requestScope.currentRoomType.roomTypeID}"/>
                 <input type="text" name="addRoomNumber" class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidRoom(this)"/>
