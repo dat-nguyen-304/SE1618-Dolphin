@@ -32,7 +32,7 @@
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LRoomDetail.css">
         <link rel="stylesheet" href="../assets/css/toastr.css">
-        
+
         <!-- icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
@@ -98,25 +98,25 @@
                         <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[16px] px-[10px] py-[5px] text-center " type="button" data-modal-toggle="roomModal">
                             ${requestScope.currentRoom.roomNumber}
                         </button>
-                        <form action="/sakura/landlord/invoice-list" class="ml-[20px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                        <form action="/sakura/landlord/invoice-list" method="post" class="ml-[20px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
                             <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">Xem hóa đơn</button>
                         </form>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-[20px]">
+                <div class="grid grid-cols-5 gap-[20px]">
                     <!--LEFT--> 
-                    <div class="card bg-[#fff] mt-[20px] p-[20px]">
+                    <div class="card col-span-2 bg-[#fff] mt-[20px] p-[20px]">
                         <div class="w-full mb-[20px] flex items-center justify-between">
                             <p class="text-[20px] font-bold text-[#2A3C46">Hợp đồng gần nhất</p>
                             <div>
                                 <c:if test="${requestScope.contract != null}">
-                                    <form action="/sakura/landlord/contract-detail" class="inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                                    <form action="/sakura/landlord/contract-detail" method="post" class="inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
                                         <button type="submit" name="contractID" value="${requestScope.contract.contractID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
                                             Xem hóa đơn
                                         </button>
                                     </form>
-                                    <form action="/sakura/landlord/contract-list" class="ml-[10px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
+                                    <form action="/sakura/landlord/contract-list" method="post" class="ml-[10px] inline-block bg-[#fff] rounded border border-gray-300 hover:border-[#288D87] py-[5px] px-[10px] group">
                                         <button type="submit" name="roomId" value="${requestScope.currentRoom.roomID}" class="font-medium text-[15px] text-gray-600 group-hover:text-[#288D87]">
                                             Xem tất cả hợp đồng
                                         </button>
@@ -197,7 +197,7 @@
                     </div>
 
                     <!--RIGHT-->
-                    <div class="card bg-[#fff] p-[20px] mt-[20px]">
+                    <div class="card col-span-3 bg-[#fff] p-[20px] mt-[20px]">
                         <div class="w-full mb-[20px] flex items-center justify-between">
                             <p class="text-[20px] font-bold text-[#2A3C46">Thông tin phòng</p>
                             <div class="flex items-center">
@@ -273,11 +273,11 @@
                                     <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                                         <thead>
                                             <tr class="text-[13px] text-center py-[10px] text-gray-700 uppercase bg-gray-100 grid grid-cols-12 gap-[10px]">
-                                                <th scope="col" class="col-span-2">Mã số</th>
+                                                <th scope="col" class="col-span-1">Mã số</th>
                                                 <th scope="col" class="col-span-3 text-left">Họ & tên</th>
                                                 <th scope="col" class="col-span-2">Điện thoại</th>
                                                 <th scope="col" class="col-span-2">Ngày sinh</th>
-                                                <th scope="col" class="col-span-3"><span class="sr-only">Update/Remove</span></th>
+                                                <th scope="col" class="col-span-4"><span class="sr-only">Update/Remove</span></th>
                                             </tr>
                                         </thead>
                                         <tbody class="member-list">
@@ -285,7 +285,7 @@
 
                                         <c:forEach items="${requestScope.residentList}" var="resident">
                                             <tr class="py-[10px] text-[16px] bg-white border-b hover:bg-gray-50 grid grid-cols-12 gap-[10px]">
-                                                <td class="col-span-2 text-center">
+                                                <td class="col-span-1 text-center">
                                                     <p class="p-2">${resident.roomResidentID}</p>
                                                 </td>
                                                 <td class="col-span-3">
@@ -297,8 +297,9 @@
                                                 <td class="col-span-2">
                                                     <input name="updateDob" type="date" class="w-full p-2"  value="${resident.dob}"/>
                                                 </td>
-                                                <td class="col-span-3 flex justify-around items-center">
+                                                <td class="col-span-4 flex justify-around items-center">
                                                     <button onclick="updateMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline">Lưu thay đổi</button>
+                                                    <button onclick="resetMember(this, '${resident.fullname}', '${resident.phone}', '${resident.dob}')" class="mx-auto font-[15px] text-[#288D87] hover:underline">Hoàn tác</button>
                                                     <button onclick="deleteMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline">Xóa</button>
                                                 </td>
                                             </tr>
@@ -323,6 +324,7 @@
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../assets/javascript/checkvalid.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script>
                                                         function showToast(type, msg) {
@@ -338,39 +340,47 @@
                                                             toastr.options.progressBar = true;
                                                             toastr[type](msg);
                                                         }
+                                                        var checkRoom = false;
                                                         function checkValidRoom(element) {
                                                             const hostelId = document.querySelector("input[name='hostelId']");
                                                             const validRoomMessage = document.querySelector(".validRoomMessage");
                                                             const updateRoomBtn = document.querySelector(".updateRoom");
                                                             const roomNumber = document.querySelector("input[name='roomNumber']");
-                                                            console.log("current: ", roomNumber.value.trim());
-                                                            console.log("new: ", element.value.trim());
+                                                            if (!element.value.trim()) {
+                                                                validRoomMessage.innerHTML = 'Tên phòng không được trống';
+                                                                checkRoom = false;
+                                                            } else
                                                             if (roomNumber.value.trim() !== element.value.trim()) {
-                                                                jQuery.ajax({
-                                                                    type: 'POST',
-                                                                    data: {
-                                                                        'roomNumber': element.value,
-                                                                        'hostelId': hostelId.value
-                                                                    },
-                                                                    url: '/sakura/room/check-room-valid',
-                                                                    success: function (response) {
-                                                                        validRoomMessage.innerHTML = response;
-                                                                        if (response) {
-                                                                            updateRoomBtn.onclick = (e) => {
-                                                                                e.preventDefault();
+                                                                let valid = isValid(element.value, 'name');
+                                                                if (!valid) {
+                                                                    validRoomMessage.innerHTML = 'Tên phòng chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                                                                    checkRoom = false;
+                                                                } else
+                                                                    jQuery.ajax({
+                                                                        type: 'POST',
+                                                                        data: {
+                                                                            'roomNumber': element.value,
+                                                                            'hostelId': hostelId.value
+                                                                        },
+                                                                        url: '/sakura/room/check-room-valid',
+                                                                        success: function (response) {
+                                                                            if (response) {
+                                                                                validRoomMessage.innerHTML = response;
+                                                                                checkRoom = false;
+                                                                            } else {
+                                                                                validRoomMessage.innerHTML = "";
+                                                                                checkRoom = true;
                                                                             }
-                                                                        } else {
-                                                                            updateRoomBtn.onclick = () => updateRoom();
-                                                                        }
-                                                                    },
+                                                                        },
 
-                                                                    error: function () {
-                                                                    },
-                                                                    complete: function (result) {
-                                                                    }
-                                                                });
+                                                                        error: function () {
+                                                                        },
+                                                                        complete: function (result) {
+                                                                        }
+                                                                    });
                                                             } else {
                                                                 validRoomMessage.innerHTML = "";
+                                                                checkRoom = true;
                                                             }
                                                         }
 
@@ -393,7 +403,11 @@
                                                                 },
                                                                 url: '/sakura/room/update-room',
                                                                 success: function (response) {
-                                                                    messageElement.innerHTML = response;
+                                                                    toggleModal('.updateRoommodal1');
+                                                                    showToast('success', response);
+                                                                    setTimeout(function () {
+                                                                        window.location.reload();
+                                                                    }, 1000);
                                                                 },
                                                                 error: function () {
                                                                 },
@@ -435,39 +449,24 @@
                 const updatePhone = memberElement.querySelector("input[name='updatePhone']");
                 const updateDob = memberElement.querySelector("input[name='updateDob']");
                 const updateMemberMessage = document.querySelector(".updateMemberMessage");
-                console.log("updateFullName: ", updateFullName.value);
-                console.log("updatePhone: ", updatePhone.value);
-                if (!updateFullName.value || !updatePhone.value || !updateDob.value) {
+                if (!updateFullName.value.trim() || !updatePhone.value.trim() || !updateDob.value.trim()) {
                     let message = "";
-                    if (!updateFullName.value) {
+                    if (!updateFullName.value.trim()) {
                         message += "Tên người ở - ";
                     }
-                    if (!updatePhone.value) {
+                    if (!updatePhone.value.trim()) {
                         message += "SÐT - ";
                     }
-                    if (!updateDob.value) {
+                    if (!updateDob.value.trim()) {
                         message += "Ngày sinh ";
                     }
                     message += "không được trống!";
                     showToast('error', message);
                 } else {
-                    let goAjax = true;
-                    let message = "";
-                    if (updatePhone.value.length !== 10) {
-                        message += "Số điện thoại phải có 10 chữ số";
-                        goAjax = false;
-                        showToast('error', message);
-                    } else
-                        for (let i = 0; i < updatePhone.value.length; i++) {
-                            if (updatePhone.value.charAt(i) < '0' || updatePhone.value.charAt(i) > '9') {
-                                message += "Số điện thoại gồm 10 chữ số!";
-                                goAjax = false;
-                                showToast('error', message);
-                                break;
-                            }
-                        }
-
-                    if (goAjax === true) {
+                    let checkName = checkPhone = false;
+                    checkName = isValid(updateFullName.value.trim(), 'human');
+                    checkPhone = isValid(updatePhone.value.trim(), 'phone');
+                    if (checkName && checkPhone) {
                         jQuery.ajax({
                             type: 'POST',
                             data: {'residentId': residentId.value,
@@ -484,8 +483,25 @@
                             complete: function (result) {
                             }
                         });
+                    } else {
+                        if (!checkName) {
+                            showToast('error', 'Tên chỉ bao gồm chỉ cái và khoảng trắng');
+                        } else if (!checkPhone) {
+                            showToast('error', 'Số điện thoại bao gồm 10 chữ số');
+                        }
                     }
                 }
+            }
+            
+            function resetMember(element, fullname, phone, dob) {
+                const memberElement = element.parentElement.parentElement;
+                const updateFullName = memberElement.querySelector("input[name='updateFullName']");
+                const updatePhone = memberElement.querySelector("input[name='updatePhone']");
+                const updateDob = memberElement.querySelector("input[name='updateDob']");
+                const updateMemberMessage = document.querySelector(".updateMemberMessage");
+                updateFullName.value = fullname;
+                updatePhone.value = phone;
+                updateDob.value = dob;
             }
         </script>
 
@@ -636,11 +652,11 @@
                 toggleModal('.updateRoommodal1');
             });
 
-            var open_modal_2 = document.querySelector('#updateRoom-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.updateRoommodal2');
-            });
+//            var open_modal_2 = document.querySelector('#updateRoom-2');
+//            open_modal_2.addEventListener('click', function (event) {
+//                event.preventDefault();
+//                toggleModal('.updateRoommodal2');
+//            });
 
             var close_modal_1 = document.querySelectorAll('.updateRoommodal1 .updateRoommodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {

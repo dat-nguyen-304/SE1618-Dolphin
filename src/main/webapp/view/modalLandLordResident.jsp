@@ -15,7 +15,7 @@
             </div>
             <div class="p-6 space-y-6">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                    <form action="/sakura/landlord/resident" class="inline-block">
+                    <form action="/sakura/landlord/resident" class="inline-block" method="post">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>
@@ -41,7 +41,7 @@
 
             <div class="p-6 space-y-6">
                 <c:forEach items="${requestScope.roomList}" var="room">
-                    <form action="/sakura/landlord/resident" class="inline-block">
+                    <form action="/sakura/landlord/resident" class="inline-block" method="post">
                         <button type="submit" name="roomID" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>
                     </form>
                 </c:forEach>

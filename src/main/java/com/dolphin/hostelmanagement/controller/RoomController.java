@@ -4,6 +4,8 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
+import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
@@ -126,6 +128,26 @@ public class RoomController extends HttpServlet {
                     out.print("Success");
                 } else {
                     out.print("Fail");
+                }
+            } else if (path.equals("/add-room")) {
+                if (request.getParameter("addRoomNumber") != null) {
+                    String roomNumber = request.getParameter("addRoomNumber").trim();
+                    int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
+                    boolean addSuccess = RoomDAO.save(roomTypeId, roomNumber);
+                    if (addSuccess) {
+                        Hostel currentHostel = (Hostel) session.getAttribute("currentHostel");
+                        RoomType currentRoomType = RoomTypeDAO.findByID(roomTypeId);
+                        HostelDAO.updateAvailableRoom(currentHostel.getHostelID(), 1);
+                        HostelDAO.updateTotalRoom(currentHostel.getHostelID(), 1);
+                        RoomTypeDAO.updateAvailableRoom(roomTypeId, 1);
+                        RoomTypeDAO.updateTotalRoom(roomTypeId, 1);
+                        Room room = RoomDAO.findByHostelRoomNumber(currentHostel.getHostelID(), roomNumber);
+                        out.println("<form action=\"/sakura/landlord/room-detail\" class=\"border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150\">\n"
+                                + "                                                        <button name=\"roomId\" value=\"" + room.getRoomID() + "\" class=\"w-full\">" + room.getRoomNumber() + "</button>\n"
+                                + "                                                    </form>");
+                    } else {
+                        out.print("Thêm phòng " + roomNumber + " thất bại!");
+                    }
                 }
             } else if (path.equals("/add-roomtype")) {
                 String name = request.getParameter("name");
@@ -344,6 +366,12 @@ public class RoomController extends HttpServlet {
                             + "                                            <button type=\"submit\" name=\"roomID\" value=\"" + room.getRoomID() + "\" class=\"px-4 py-2 m-2 rounded border-2\">" + room.getRoomNumber() + "</button>\n"
                             + "                                        </form>");
                 }
+            } else if (path.equals("/pending-room-check")) {
+                int roomID = Integer.parseInt(request.getParameter("roomID"));
+                
+                if(ContractDAO.findByRoomAndStatus(roomID, 2))
+                    out.print(1);
+                else out.print(0);
             }
         }
     }

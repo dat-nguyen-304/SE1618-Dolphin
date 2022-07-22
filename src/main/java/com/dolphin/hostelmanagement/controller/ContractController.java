@@ -14,6 +14,7 @@ import com.dolphin.hostelmanagement.DTO.BookingRequest;
 import com.dolphin.hostelmanagement.DTO.Contract;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Landlord;
+import com.dolphin.hostelmanagement.DTO.Notification;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import java.io.IOException;
@@ -77,10 +78,10 @@ public class ContractController extends HttpServlet {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    int duration = Integer.parseInt(request.getParameter("duration"));
+                    int duration = 0;//Integer.parseInt(request.getParameter("duration"));
                     Date createdDate = new Date();
                     Contract c = new Contract(bookingRequestID, r, t, null, null, startDate, endDate,
-                            deposit, 2, rentalFeePerMonth, description, duration, createdDate);
+                            deposit, 2, rentalFeePerMonth, description, createdDate);
                     if (ContractDAO.findByID(bookingRequestID) == null) {
                         ContractDAO.save(c);
                     } else {
@@ -122,16 +123,30 @@ public class ContractController extends HttpServlet {
                 }
             }
 
+            if (path.equals("/deny-contract")) {
+                int contractID = Integer.parseInt(request.getParameter("contractID"));
+
+                ContractDAO.changeStatus(contractID, 0);
+                BookingRequestDAO.changeStatus(contractID, 0);
+//                
+//                Notification noti = new Notification();
+//                noti.setCreatedDate(new Date());
+//                noti.setStatus();
+
+                System.out.println("In refuse");
+                response.sendRedirect("/sakura/landlord/rentalRequestList");
+            }
+
             if (path.equals("/end-contract")) {
                 int endContractId = Integer.parseInt(request.getParameter("endContractId"));
                 Contract c = ContractDAO.findByID(endContractId);
                 TenantDAO.changeStatus(c.getTenant().getAccount().getAccountID(), false);
                 RoomDAO.changeStatus(c.getRoom().getRoomID(), 0);
-                
+
                 RoomDAO.removeLatestInvoiceMonth(c.getRoom().getRoomID());
                 HostelDAO.updateAvailableRoom(c.getHostel().getHostelID(), 1);
                 RoomTypeDAO.updateAvailableRoom(c.getRoom().getRoomType().getRoomTypeID(), 1);
-                
+
                 boolean endContractSuccess = ContractDAO.endContractById(endContractId);
                 if (endContractSuccess) {
                     out.print("Cập nhật thành công");
@@ -185,7 +200,7 @@ public class ContractController extends HttpServlet {
                             oldContract.getRoom().getRoomType().getRoomTypeID(), createdDate, 0);
 
                     Contract c = new Contract(contractID, r, t, null, null, startDate, endDate,
-                            deposit, 1, rentalFeePerMonth, description, duration, createdDate);
+                            deposit, 1, rentalFeePerMonth, description, createdDate);
 
                     ContractDAO.save(c);
                     ContractDAO.endContractById(oldContractID); //end old contract

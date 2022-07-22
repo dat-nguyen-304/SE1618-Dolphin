@@ -74,5 +74,9 @@ public class NotificationDAO {
     }
 
     public static void main(String args[]) {
+        Account acc = new Account();
+        acc.setAccountID(44);
+        for(Notification noti: getNotificationByToAccount(acc))
+            System.out.println(noti.getContent());
     }
 }

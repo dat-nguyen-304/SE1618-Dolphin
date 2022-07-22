@@ -13,7 +13,7 @@
         </a>
 
         <div class="home-filter">
-            <form action="/sakura/hostel/list" class="filter">
+            <form action="/sakura/hostel/list" class="filter" method="post">
                 <select id="province" name="province" class="filter-address" onchange="renderDistrict(this)">
                     <option value="0">Thành phố</option>
                     <c:forEach items="${sessionScope.provinceList}" var="province">

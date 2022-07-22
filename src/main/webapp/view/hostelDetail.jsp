@@ -367,7 +367,6 @@
                 </div>
             </div>
             <!--END HOSTEL INFO-->
-
         </div>
 
         <%@include file="footer.jsp" %>

@@ -19,6 +19,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+        <link rel="stylesheet" href="../assets/css/toastr.css">
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LAddContract.css">
@@ -48,13 +49,15 @@
                             <input type="hidden" name="bookingRequestID" value="${requestScope.bookingRequest.bookingRequestID}"/>
                             <div class="flex items-center">
                                 <label for="rooms" class="block mb-2 text-sm font-medium text-gray-900">Chọn phòng</label>
-                                <select id="rooms" name = "roomID" class="ml-[20px] w-[100px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5">
+                                <select onchange="pendingRoomCheck(this)" id="rooms" name = "roomID" class="ml-[20px] w-[100px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5">
+                                    <option value="0">Phòng</option>
                                     <c:forEach items="${requestScope.roomList}" var="room">
                                         <c:if test="${room.status == 0}">
                                             <option value="${room.roomID}">${room.roomNumber}</option>
                                         </c:if>
                                     </c:forEach>
                                 </select>
+                                <p class="text-sm font-medium" id="roomError"></p>
                             </div>
 
                             <div class="mt-[40px] flex items-center grid grid-cols-6 gap-[20px]">
@@ -97,13 +100,6 @@
                                     <p class="text-sm font-medium" id="lengthError"></p>
                                 </div>
                             </div>
-
-                            <div class="mt-[20px]">
-                                <label for="deposit" class="block mb-2 text-sm font-medium text-gray-900">Số tháng ở (dự kiến)</label>
-                                <input type="number" name="duration" oninput="validity.valid||(value='');" 
-                                       min="1" id="length" value = "${requestScope.editContract.duration}" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5" placeholder="" required>
-                            </div>
-
                             <button type ="button" id="submitButton" class="mt-[40px] w-full h-[50px] rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff] flex items-center justify-center">Thêm hợp đồng</button>
 
                             <!--                            <input type ="number" name="rentalFeePerMonth" placeholder="Giá thuê theo tháng"/><br>
@@ -152,6 +148,22 @@
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="../assets/javascript/moment.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script>
+            function showToast(type, msg) {
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.options.extendedTimeOut = 0; //1000;
+                toastr.options.timeOut = 3000;
+                toastr.options.hideDuration = 250;
+                toastr.options.showDuration = 250;
+                toastr.options.hideMethod = 'slideUp';
+                toastr.options.showMethod = 'slideDown';
+                toastr.options.preventDuplicates = true;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                toastr[type](msg);
+            }
+        </script>
         <script>
             let room = $("#rooms");
             let start = $("#start");
@@ -165,6 +177,10 @@
 
             $(document).ready(function () {
                 count.html("0");
+            });
+            
+            room.change(function () {
+               room.css("border", ""); 
             });
 
             rentalFeePerMonth.click(function () {
@@ -229,6 +245,35 @@
                     moneyError.css("color", "red");
                 }
             }
+            
+            function pendingRoomCheck(element) {
+                const roomID = element.value;
+                
+                $("#roomError").html("");
+                
+                console.log("RoomID: ", roomID);
+                
+                jQuery.ajax({
+                            type: 'POST',
+                            data: {'roomID': roomID,
+                                
+                            },
+                            url: '/sakura/room/pending-room-check',
+                            success: function (response) {
+                                //messageElement.innerHTML = response;
+                                console.log(response);
+                                if(response === "1") {
+                                    //showToast("success", "Phòng này đã có hợp đồng đang chờ!");
+                                        $("#roomError").html("Phòng này có hợp đồng đang chờ!");
+                                        $("#roomError").css("color", "red");
+                                }
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+            }
 
             function checkDate() {
                 if (end.val() !== "" && start.val() !== "") {
@@ -253,15 +298,18 @@
                 }
             }
 
-            let interval = setInterval(checkDate, 5000);
+            let interval = setInterval(checkDate, 100);
 
             $("#submitButton").click(function () {
                 let check = true;
-                if (!room.val()) {
+                if (!room.val() || room.val() === '0') {
                     room.css("border", "1.5px solid red");
                     check = false;
                 }
-                if (lengthError.html() !== "" || moneyError.html() !== "")
+                
+                console.log(check, room.val());
+                
+                if (lengthError.html() !== "" || moneyError.html() !== "" || $("#roomError").html() !== "")
                     check = false;
                 if (!rentalFeePerMonth.val()) {
                     rentalFeePerMonth.css("border", "1.5px solid red");

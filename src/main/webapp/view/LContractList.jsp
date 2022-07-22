@@ -141,7 +141,7 @@
                                             </c:if>
                                         </td>
                                         <td class="text-center px-6 py-4 text-center">
-                                            <form action="/sakura/landlord/contract-detail">
+                                            <form action="/sakura/landlord/contract-detail" method="post">
                                                 <button name="contractID" value="${contract.contractID}"
                                                         class="font-medium text-[#288D87] hover:underline">Xem chi tiết</button>
                                             </form>

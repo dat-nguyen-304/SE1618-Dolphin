@@ -105,7 +105,7 @@
                                 <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-pencil-fill mr-[5px]"></i>Chỉnh sửa</p>
                             </button>
                         </c:if>
-                        <c:if test="${requestScope.currentRoomType ==null}">
+                        <c:if test="${requestScope.currentRoomType == null}">
                             <span>Nhà trọ ${sessionScope.currentHostel.hostelName} chưa có loại phòng.</span>
                         </c:if>
                         <button id="addRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
@@ -176,22 +176,22 @@
                                     <p class="w-[40px] h-[20px] bg-white border-2 border-gray-200 rounded"><p>
                                 </div>
                                 <c:if test="${requestScope.currentRoomType !=null}">
-                                    <c:if test="${requestScope.roomList.size() > 0}">
-                                        <div class="grid grid-cols-8 gap-[10px] mt-[20px]">
+                                    <div class="room-list grid grid-cols-8 gap-[10px] mt-[20px]">
+                                        <c:if test="${requestScope.roomList.size() > 0}">
                                             <c:forEach items="${requestScope.roomList}" var="room">
                                                 <c:if test="${room.status == 0}"> <!--<!-- empty -->
-                                                    <form action="/sakura/landlord/room-detail" class="border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150">
+                                                    <form action="/sakura/landlord/room-detail" method="post" class="border-2 rounded text-center p-1 hover:border-[#17535B] hover:text-[#17535B] duration-150">
                                                         <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
                                                     </form>
                                                 </c:if>
                                                 <c:if test="${room.status == 1}">
-                                                    <form action="/sakura/landlord/room-detail" class="rounded text-center p-1 bg-[#17535B] text-white hover:bg-[#13484F] duration-150">
+                                                    <form action="/sakura/landlord/room-detail" method="post" class="rounded text-center p-1 bg-[#17535B] text-white hover:bg-[#13484F] duration-150">
                                                         <button name="roomId" value="${room.roomID}" class="w-full">${room.roomNumber}</button>
                                                     </form>
                                                 </c:if>
                                             </c:forEach>
-                                        </div>
-                                    </c:if>
+                                        </c:if>
+                                    </div>
                                     <c:if test="${requestScope.roomList.size() == 0}">
                                         <p>Chưa có phòng nào</p>
                                     </c:if>
@@ -284,20 +284,21 @@
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="../assets/javascript/checkvalid.js"></script>
         <script>
-            function showToast(type, msg) {
-                toastr.options.positionClass = 'toast-bottom-right';
-                toastr.options.extendedTimeOut = 0; //1000;
-                toastr.options.timeOut = 3000;
-                toastr.options.hideDuration = 250;
-                toastr.options.showDuration = 250;
-                toastr.options.hideMethod = 'slideUp';
-                toastr.options.showMethod = 'slideDown';
-                toastr.options.preventDuplicates = true;
-                toastr.options.closeButton = true;
-                toastr.options.progressBar = true;
-                toastr[type](msg);
-            }
+                                                            function showToast(type, msg) {
+                                                                toastr.options.positionClass = 'toast-bottom-right';
+                                                                toastr.options.extendedTimeOut = 0; //1000;
+                                                                toastr.options.timeOut = 3000;
+                                                                toastr.options.hideDuration = 250;
+                                                                toastr.options.showDuration = 250;
+                                                                toastr.options.hideMethod = 'slideUp';
+                                                                toastr.options.showMethod = 'slideDown';
+                                                                toastr.options.preventDuplicates = true;
+                                                                toastr.options.closeButton = true;
+                                                                toastr.options.progressBar = true;
+                                                                toastr[type](msg);
+                                                            }
         </script>
         <c:if test="${requestScope.addSuccess != null}">
             <script>
@@ -595,18 +596,18 @@
                 countSelectedImage();
             }
         </script>
-        <script>
-            const hasResident = document.querySelectorAll('input[name="status"]');
-            const inputResident = document.querySelector('.inputResident');
-            hasResident.forEach(element => {
-                element.onclick = () => {
-                    if (element.value === "2" || element.value === "3") {
-                        inputResident.style.display = "block";
-                    } else
-                        inputResident.style.display = "none";
-                };
-            });
-        </script>
+        <!--        <script>
+                    const hasResident = document.querySelectorAll('input[name="status"]');
+                    const inputResident = document.querySelector('.inputResident');
+                    hasResident.forEach(element => {
+                        element.onclick = () => {
+                            if (element.value === "2" || element.value === "3") {
+                                inputResident.style.display = "block";
+                            } else
+                                inputResident.style.display = "none";
+                        };
+                    });
+                </script>-->
         <script>
             function deleteRoomType(element) {
 
@@ -631,6 +632,8 @@
             }
         </script>
         <script>
+            var checkRoomType = checkPrice = checkArea = checkMaxResident = checkDesc = false;
+            var checkUpdateRoomType = checkUpdatePrice = checkUpdateArea = checkUpdateMaxResident = checkUpdateDesc = false;
             function addRoomType(element) {
                 console.log("da vao add roomtype");
                 const name = document.querySelector("input[name='name']");
@@ -640,39 +643,37 @@
                 const description = document.querySelector("textarea[name='description']");
                 const hostelId = document.querySelector("input[name='hostelId']");
                 const messageElement = document.querySelector(".addRoomMessage");
-                console.log("Name: ", name.value);
+                const validRoomTypeMessage = document.querySelector(".validRoomTypeMessage");
+                const validPriceMessage = document.querySelector(".validPriceMessage");
+                const validAreaMessage = document.querySelector(".validAreaMessage");
+                const validMaxResidentMessage = document.querySelector(".validMaxResidentMessage");
+                const validDescMessage = document.querySelector(".validDescMessage");
                 if (!name.value || !price.value || !area.value || !maxNumberOfResidents.value || !description.value) {
                     let message = "";
                     if (!name.value) {
-                        message += "Tên loại phòng - ";
+                        validRoomTypeMessage.innerHTML = "Tên loại phòng không được trống";
+                        checkRoomType = false;
                     }
                     if (!price.value) {
-                        message += "Giá tiền - ";
+                        checkPrice = false;
+                        validPriceMessage.innerHTML = "Giá tiền không được trống";
                     }
                     if (!area.value) {
-                        message += "Diện tích - ";
+                        checkArea = false;
+                        validAreaMessage.innerHTML = "Diện tích không được trống";
                     }
                     if (!maxNumberOfResidents.value) {
-                        message += "Số người tối đa - ";
+                        checkMaxResident = false;
+                        validMaxResidentMessage.innerHTML = "Số người tối đa không được trống";
                     }
                     if (!description.value) {
-                        message += "Mô tả ";
+                        checkDesc = false;
+                        validDescMessage.innerHTML = "Mô tả không được trống";
                     }
-                    message += "không được trống";
-
                     //messageElement.innerHTML = message;
-                    showToast('error', message);
+                    showToast("error", 'Vui lòng kiểm tra lại thông tin!');
                 } else {
-//                    let fault = false;
-//                    for (let i = 0; i < name.value.length; i++) {
-//                        let c = name.value.charAt(i);
-//                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ')) {
-//                            fault = true;
-//                            showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng và -');
-//                            break;
-//                        }
-//                    }
-//                    if (!fault)
+                    if (checkRoomType && checkPrice && checkArea && checkMaxResident && checkDesc) {
                         jQuery.ajax({
                             type: 'POST',
                             data: {'name': name.value,
@@ -692,6 +693,7 @@
                                 description.value = "";
                                 messageElement.innerHTML = response;
                                 toggleModal('.addRoomTypemodal2');
+                                toggleModal('.addRoomTypemodal1');
 //                            showToast('success', '')
 //                            setTimeout(function () {
 //                                window.location.reload();
@@ -702,6 +704,7 @@
                             complete: function (result) {
                             }
                         });
+                    }
                 }
             }
 
@@ -715,64 +718,220 @@
                 const description = document.querySelector("textarea[name='updateDescription']");
                 const messageElement = document.querySelector(".updateMessage");
                 const roomTypeId = document.querySelector("input[name='roomTypeId']");
-                console.log("Name: ", name.value);
-                console.log("Price: ", price.value);
-                console.log("area: ", area.value);
-                console.log("maxNumberOfResidents: ", maxNumberOfResidents.value);
-                console.log("description ", description.value);
-                console.log("roomTypeId", roomTypeId.value);
+                const validUpdateRoomTypeMessage = document.querySelector(".validUpdateRoomTypeMessage");
+                const validUpdatePriceMessage = document.querySelector(".validUpdatePriceMessage");
+                const validUpdateAreaMessage = document.querySelector(".validUpdateAreaMessage");
+                const validUpdateMaxResidentMessage = document.querySelector(".validUpdateMaxResidentMessage");
+                const validUpdateDescMessage = document.querySelector(".validUpdateDescMessage");
                 if (!name.value || !price.value || !area.value || !maxNumberOfResidents.value || !description.value) {
                     let message = "";
                     if (!name.value) {
-                        message += "Tên loại phòng - ";
+                        validUpdateRoomTypeMessage.innerHTML = "Tên loại phòng không được trống";
+                        checkRoomType = false;
                     }
                     if (!price.value) {
-                        message += "Giá tiền - ";
+                        checkPrice = false;
+                        validUpdatePriceMessage.innerHTML = "Giá tiền không được trống";
                     }
                     if (!area.value) {
-                        message += "Diện tích - ";
+                        checkArea = false;
+                        validUpdateAreaMessage.innerHTML = "Diện tích không được trống";
                     }
                     if (!maxNumberOfResidents.value) {
-                        message += "Số người tối đa - ";
+                        checkMaxResident = false;
+                        validUpdateMaxResidentMessage.innerHTML = "Số người tối đa không được trống";
                     }
                     if (!description.value) {
-                        message += "Mô tả ";
+                        checkDesc = false;
+                        validUpdateDescMessage.innerHTML = "Mô tả không được trống";
                     }
-                    message += "không được trống!";
-
-                    messageElement.innerHTML = message;
-                    showToast("error", message);
+                    //messageElement.innerHTML = message;
+                    showToast("error", 'Vui lòng kiểm tra lại thông tin!');
                 } else {
-//                    let fault = false;
-//                    for (let i = 0; i < name.value.length; i++) {
-//                        let c = name.value.charAt(i);
-//                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ')) {
-//                            fault = true;
-//                            showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng và -');
-//                            break;
-//                        }
-//                    }
-//                    if (!fault)
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {'name': name.value,
+                            'price': price.value,
+                            'area': area.value,
+                            'maxNumberOfResidents': maxNumberOfResidents.value,
+                            'description': description.value,
+                            'roomTypeId': roomTypeId.value
+                        },
+                        url: '/sakura/room/update-roomtype',
+                        success: function (response) {
+                            messageElement.innerHTML = response;
+                            toggleModal('.updateRoomTypemodal1');
+                            showToast('success', 'Cập nhật thành công! Đang cập nhật trang.');
+                            function Redirect() {
+                                let urll = "/sakura/landlord/room-type?roomTypeId=" + roomTypeId.value;
+                                console.log(urll);
+                                window.location = urll;
+                            }
+                            setTimeout(Redirect(), 2000);
+                        },
+                        error: function () {
+                        },
+                        complete: function (result) {
+                        }
+                    });
+                }
+            }
+
+            function checkValidPrice(element) {
+                const validPriceMessage = document.querySelector(".validPriceMessage");
+                if (!element.value.trim()) {
+                    validPriceMessage.innerHTML = 'Giá không được trống';
+                    checkDesc = false;
+                } else {
+                    validPriceMessage.innerHTML = '';
+                    checkDesc = true;
+                }
+            }
+
+            function checkValidArea(element) {
+                const validAreaMessage = document.querySelector(".validAreaMessage");
+                console.log("Da vao check desc: ", element.value);
+                if (!element.value.trim()) {
+                    validAreaMessage.innerHTML = 'Diện tích không được trống';
+                    checkDesc = false;
+                } else {
+                    validAreaMessage.innerHTML = '';
+                    checkDesc = true;
+                }
+            }
+
+            function checkValidMaxResident(element) {
+                const validMaxResidentMessage = document.querySelector(".validMaxResidentMessage");
+                console.log("Da vao check desc: ", element.value);
+                if (!element.value.trim()) {
+                    validMaxResidentMessage.innerHTML = 'Số cư dân tối đa không được trống';
+                    checkDesc = false;
+                } else {
+                    validMaxResidentMessage.innerHTML = '';
+                    checkDesc = true;
+                }
+            }
+
+            function checkValidDesc(element) {
+                const validDescMessage = document.querySelector(".validDescMessage");
+                if (!element.value.trim()) {
+                    validDescMessage.innerHTML = 'Mô tả không được trống';
+                    checkDesc = false;
+                } else {
+                    validDescMessage.innerHTML = '';
+                    checkDesc = true;
+                }
+            }
+
+            function checkUpdateValidDesc(element) {
+                const validUpdateDescMessage = document.querySelector(".validUpdateDescMessage");
+                if (!element.value.trim()) {
+                    validUpdateDescMessage.innerHTML = 'Mô tả không được trống';
+                    checkUpdateDesc = false;
+                } else {
+                    validUpdateDescMessage.innerHTML = '';
+                    checkUpdateDesc = true;
+                }
+            }
+
+            function checkUpdateValidPrice(element) {
+                const validUpdatePriceMessage = document.querySelector(".validUpdatePriceMessage");
+                if (!element.value.trim()) {
+                    validUpdatePriceMessage.innerHTML = 'Giá không được trống';
+                    checkUpdateDesc = false;
+                } else {
+                    validUpdatePriceMessage.innerHTML = '';
+                    checkUpdateDesc = true;
+                }
+            }
+
+            function checkUpdateValidArea(element) {
+                const validUpdateAreaMessage = document.querySelector(".validUpdateAreaMessage");
+                if (!element.value.trim()) {
+                    validUpdateAreaMessage.innerHTML = 'Diện tích không được trống';
+                    checkUpdateDesc = false;
+                } else {
+                    validUpdateAreaMessage.innerHTML = '';
+                    checkUpdateDesc = true;
+                }
+            }
+
+            function checkUpdateValidMaxResident(element) {
+                const validUpdateMaxResidentMessage = document.querySelector(".validUpdateMaxResidentMessage");
+                if (!element.value.trim()) {
+                    validUpdateMaxResidentMessage.innerHTML = 'Số cư dân tối đa không được trống';
+                    checkUpdateDesc = false;
+                } else {
+                    validUpdateMaxResidentMessage.innerHTML = '';
+                    checkUpdateDesc = true;
+                }
+            }
+
+            var checkRoom = false;
+            function checkValidRoom(element) {
+                const hostelId = document.querySelector("input[name='hostelId']").value;
+                const validRoomMessage = document.querySelector(".validRoomMessage");
+                if (!element.value.trim()) {
+                    validRoomMessage.innerHTML = 'Tên phòng không được trống';
+                    checkRoom = false;
+                } else {
+                    let valid = isValid(element.value, 'name');
+                    if (!valid) {
+                        validRoomMessage.innerHTML = 'Tên phòng chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                        checkRoom = false;
+                    } else
                         jQuery.ajax({
                             type: 'POST',
-                            data: {'name': name.value,
-                                'price': price.value,
-                                'area': area.value,
-                                'maxNumberOfResidents': maxNumberOfResidents.value,
-                                'description': description.value,
-                                'roomTypeId': roomTypeId.value
+                            data: {'roomNumber': element.value,
+                                'hostelId': hostelId
                             },
-                            url: '/sakura/room/update-roomtype',
+                            url: '/sakura/room/check-room-valid',
                             success: function (response) {
-                                messageElement.innerHTML = response;
-                                toggleModal('.updateRoomTypemodal1');
-                                showToast('success', 'Cập nhật thành công! Đang cập nhật trang.');
-                                function Redirect() {
-                                    let urll = "/sakura/landlord/room-type?roomTypeId=" + roomTypeId.value;
-                                    console.log(urll);
-                                    window.location = urll;
+                                if (response) {
+                                    validRoomMessage.innerHTML = response;
+                                    checkRoom = false;
+                                } else {
+                                    checkRoom = true;
+                                    validRoomMessage.innerHTML = "";
                                 }
-                                setTimeout(Redirect(), 2000);
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                }
+            }
+        </script>
+        <script>
+            function checkValidRoomType(element) {
+                const validRoomTypeMessage = document.querySelector(".validRoomTypeMessage");
+                const hostelId = document.querySelector("input[name='hostelId']");
+                const addRoomTypeBtn = document.querySelector(".addRoomTypeBtn");
+                if (!element.value.trim()) {
+                    validRoomTypeMessage.innerHTML = 'Tên loại phòng không được trống';
+                    checkHostel = false;
+                } else {
+                    let valid = isValid(element.value.trim(), 'name');
+                    if (!valid) {
+                        checkRoomType = false;
+                        validRoomTypeMessage.innerHTML = 'Tên loại phòng chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                    } else
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'roomTypeName': element.value,
+                                'hostelId': hostelId.value
+                            },
+                            url: '/sakura/room/check-roomtype-valid',
+                            success: function (response) {
+                                if (response) {
+                                    validRoomTypeMessage.innerHTML = response;
+                                    checkRoomType = false;
+                                    // showToast('error', response);
+                                } else {
+                                    checkRoomType = true;
+                                    validRoomTypeMessage.innerHTML = "";
+                                }
                             },
                             error: function () {
                             },
@@ -782,39 +941,33 @@
                 }
             }
 
-            function checkValidRoom(element) {
-                const hostelId = document.querySelector("input[name='hostelId']").value;
-                const validRoomMessage = document.querySelector(".validRoomMessage");
-                const addRoomElement = document.querySelector(".addRoom");
-                let fault = false;
-                for (let i = 0; i < element.value.length; i++) {
-                    let c = element.value.charAt(i);
-                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == ' ' || c == '.')) {
-                        fault = true;
-                        validRoomMessage.innerHTML = 'Tên loại phòng chỉ được chứa chữ cái, chữ số, khoảng trắng "." và "-"';
-                        addRoomElement.onclick = (e) => {
-                            e.preventDefault();
-                        };
-                        break;
-                    }
-                }
-                if (!fault)
+            function checkValidUpdateRoomType(element) {
+                const validUpdateRoomTypeMessage = document.querySelector(".validUpdateRoomTypeMessage");
+                const hostelId = document.querySelector("input[name='hostelId']");
+                const updateRoomTypeBtn = document.querySelector(".updateRoomTypeBtn");
+                const currentName = document.querySelector("input[name='currentName']");
+                let valid = isValid(element.value, 'name');
+                if (!valid) {
+                    validUpdateRoomTypeMessage.innerHTML = 'Tên loại phòng chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                    updateRoomTypeBtn.onclick = (e) => {
+                        showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số và khoảng trắng');
+                        e.preventDefault();
+                    };
+                } else
                     jQuery.ajax({
                         type: 'POST',
-                        data: {'roomNumber': element.value,
-                            'hostelId': hostelId
+                        data: {'roomTypeName': element.value,
+                            'hostelId': hostelId.value,
+                            'currentName': currentName.value
                         },
-                        url: '/sakura/room/check-room-valid',
+                        url: '/sakura/room/check-update-roomtype-valid',
                         success: function (response) {
-                            validRoomMessage.innerHTML = response;
                             if (response) {
-                                addRoomElement.onclick = (e) => {
-                                    e.preventDefault();
-                                };
+                                validUpdateRoomTypeMessage.innerHTML = response;
+                                checkUpdateRoomType = false;
                             } else {
-                                addRoomElement.onclick = (e) => {
-                                    e.returnValue = true;
-                                };
+                                validUpdateRoomTypeMessage.innerHTML = "";
+                                checkUpdateRoomType = true;
                             }
                         },
                         error: function () {
@@ -824,66 +977,47 @@
                     });
             }
         </script>
+
         <script>
-            function checkValidRoomType(element) {
-                const validRoomTypeMessage = document.querySelector(".validRoomTypeMessage");
-                const hostelId = document.querySelector("input[name='hostelId']");
-                const addRoomTypeBtn = document.querySelector(".addRoomTypeBtn");
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'roomTypeName': element.value,
-                        'hostelId': hostelId.value
-                    },
-                    url: '/sakura/room/check-roomtype-valid',
-                    success: function (response) {
-                        validRoomTypeMessage.innerHTML = response;
-                        if (response) {
-                            addRoomTypeBtn.onclick = (e) => {
-                                e.preventDefault();
-                            };
-                            // showToast('error', response);
-                        } else {
-                            addRoomTypeBtn.onclick = () => addRoomType();
-                        }
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
+            function addRoom(element) {
+                console.log("da vao add room");
+                const addRoomNumber = document.querySelector("input[name='addRoomNumber']");
+                const roomTypeId = document.querySelector("input[name='roomTypeId']");
+                const roomList = document.querySelector(".room-list");
+                const modal = document.querySelector("#addRoom");
+                const validRoomMessage = document.querySelector(".validRoomMessage");
+                if (!addRoomNumber.value.trim()) {
+                    validRoomMessage.innerHTML = 'Tên phòng không được trống';
+                    checkRoom = false;
+                    showToast('error', 'Vui lòng kiểm tra lại thông tin!');
+                } else {
+                    if (checkRoom) {
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'addRoomNumber': addRoomNumber.value,
+                                'roomTypeId': roomTypeId.value
+                            },
+                            url: '/sakura/room/add-room',
+                            success: function (response) {
+                                const res = response.toString();
+                                if (res.includes("border-2 rounded text-center")) {
+                                    roomList.innerHTML += response;
+                                    showToast('success', "Thêm phòng " + addRoomNumber.value + " thành công");
+                                    addRoomNumber.value = "";
+                                } else
+                                    showToast('error', response);
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                    } else {
+                        showToast('error', 'Vui lòng kiểm tra lại thông tin!');
                     }
-                });
-            }
-
-            function checkValidUpdateRoomType(element) {
-                const validUpdateRoomTypeMessage = document.querySelector(".validUpdateRoomTypeMessage");
-                const hostelId = document.querySelector("input[name='hostelId']");
-                const updateRoomTypeBtn = document.querySelector(".updateRoomTypeBtn");
-                const currentName = document.querySelector("input[name='currentName']");
-                jQuery.ajax({
-                    type: 'POST',
-                    data: {'roomTypeName': element.value,
-                        'hostelId': hostelId.value,
-                        'currentName': currentName.value
-                    },
-                    url: '/sakura/room/check-update-roomtype-valid',
-                    success: function (response) {
-                        validUpdateRoomTypeMessage.innerHTML = response;
-                        if (response) {
-                            updateRoomTypeBtn.onclick = (e) => {
-                                e.preventDefault();
-                            };
-
-                        } else {
-                            updateRoomTypeBtn.onclick = () => updateRoomType();
-                        }
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
-                    }
-                });
+                }
             }
         </script>
-
         <script>
             var open_modal_1 = document.querySelector('#addRoomType-1');
             open_modal_1.addEventListener('click', function (event) {
@@ -891,8 +1025,8 @@
                 toggleModal('.addRoomTypemodal1');
             });
 
-//            var open_modal_2 = document.querySelector('#addRoomType-2');
-//            open_modal_2.addEventListener('click', function (event) {
+            //            var open_modal_2 = document.querySelector('#addRoomType-2');
+            //            open_modal_2.addEventListener('click', function (event) {
 //                event.preventDefault();
 //                toggleModal('.addRoomTypemodal2');
 //            });

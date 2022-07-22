@@ -19,7 +19,7 @@
 
             <div class="p-6 space-y-6">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                    <form action="/sakura/landlord/contract-list" class="inline-block">
+                    <form action="/sakura/landlord/contract-list" method="post" class="inline-block">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>
@@ -50,12 +50,12 @@
                     <input type="text" name="searchRoom"/>
                     <button class="ml-[20px] border-2 py-2 px-4" onclick="searchRoomOnModal()">Tìm kiếm</button>
                 </div>
-                <form action="/sakura/landlord/contract-list">
+                <form action="/sakura/landlord/contract-list" method="post">
                     <button type="submit" name="roomId" value="0" class="px-4 py-2 mx-2 rounded border-2">Tất cả</button>
                 </form>
                 <div class="room-list-modal">
                     <c:forEach items="${requestScope.roomList}" var="room">
-                        <form action="/sakura/landlord/contract-list" class="inline-block">
+                        <form action="/sakura/landlord/contract-list" class="inline-block" method="post">
                             <input type="hidden" name="roomNumber" value="${room.roomNumber}"/>
                             <button type="submit" name="roomId" value="${room.roomID}" class="px-4 py-2 mx-2 rounded border-2">${room.roomNumber}</button>
                         </form>
