@@ -176,7 +176,7 @@ public class TenantController extends HttpServlet {
             if (path.equals("/notifications")) {
                 System.out.println("Query: " + request.getParameter("query"));
                 if (request.getParameter("query") == null) {
-                    
+                    Contract contract = ContractDAO.findActiveContractByTenant(t);
                     System.out.println(t.getAccount().getAccountID());
 
                     List<Notification> notiList = NotificationDAO.getNotificationByToAccount(t.getAccount());
@@ -184,37 +184,42 @@ public class TenantController extends HttpServlet {
                     for (Notification notification : notiList) {
                         System.out.println(notification.getContent());
                     }
+                    
+                    request.setAttribute("contract", contract);
                     request.setAttribute("notificationList", notiList);
                     request.getRequestDispatcher("/view/tenantPageNotiList.jsp").forward(request, response);
-                }
-                else if(request.getParameter("query").equals("sendRequest")) {
+                } else if (request.getParameter("query").equals("sendRequest")) {
                     Contract contract = ContractDAO.findActiveContractByTenant(t);
-                    
-                    String description = request.getParameter("description");
-                    
-                    Notification sentNoti = new Notification();
-                    
-                    String tenantName = t.getFullname();
-                    String roomNumber = contract.getRoom().getRoomNumber();
-                    String hostelName = contract.getRoom().getRoomType().getHostel().getHostelName();
-                    
-                    sentNoti.setContent(tenantName + " ở phòng " + roomNumber + ", nhà trọ " + hostelName + " đã gửi yêu cầu: " + 
-                            description);
-                    
-                    sentNoti.setCreatedDate(new Date());
-                    sentNoti.setToAccount(contract.getLandlord().getAccount());
-                    sentNoti.setStatus(0);
-                    
-                    NotificationDAO.saveNotification(sentNoti);
-                    
-                    Notification myNoti = sentNoti;
-                    myNoti.setContent("Bạn đã gửi yêu cầu cho chủ nhà trọ " + hostelName + " với nội dung: " + description);
-                    myNoti.setToAccount(t.getAccount());
-                    
-                    NotificationDAO.saveNotification(myNoti);
-                    
+
+                    if (contract != null) {
+
+                        String description = request.getParameter("description");
+
+                        Notification sentNoti = new Notification();
+
+                        String tenantName = t.getFullname();
+                        String roomNumber = contract.getRoom().getRoomNumber();
+                        String hostelName = contract.getRoom().getRoomType().getHostel().getHostelName();
+
+                        sentNoti.setContent(tenantName + " ở phòng " + roomNumber + ", nhà trọ " + hostelName + " đã gửi yêu cầu: "
+                                + description);
+
+                        sentNoti.setCreatedDate(new Date());
+                        sentNoti.setToAccount(contract.getLandlord().getAccount());
+                        sentNoti.setStatus(0);
+
+                        NotificationDAO.saveNotification(sentNoti);
+
+                        Notification myNoti = sentNoti;
+                        myNoti.setContent("Bạn đã gửi yêu cầu cho chủ nhà trọ " + hostelName + " với nội dung: " + description);
+                        myNoti.setToAccount(t.getAccount());
+
+                        NotificationDAO.saveNotification(myNoti);
+
+                    }
+
                     response.sendRedirect("/sakura/tenant/notifications");
-               }
+                }
             }
 
             if (path.equals("/contract-detail")) {

@@ -482,13 +482,13 @@ public class LandlordController extends HttpServlet {
                 int hostelID = ((Hostel) session.getAttribute("currentHostel")).getHostelID();
                 request.setAttribute("hostelID", hostelID);
 
-                ArrayList<BookingRequest> bookingList = BookingRequestDAO.getBookingRequestByHostelID(hostelID, 1);
-                for (BookingRequest br : bookingList) {
+                ArrayList<BookingRequest> bookingList = BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 1);
+                /*for (BookingRequest br : bookingList) {
                     System.out.println(br.getRoomType().getRoomTypeName());
                     System.out.println(br.getBookingRequestID());
                     System.out.println(br.getTenant().getFullname());
-                }
-                ArrayList<BookingRequest> invitationList = BookingRequestDAO.getBookingRequestByHostelID(hostelID, 2);
+                }*/
+                ArrayList<BookingRequest> invitationList = BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 2);
 
                 request.setAttribute("bookingList", bookingList);
                 request.setAttribute("invitationList", invitationList);
