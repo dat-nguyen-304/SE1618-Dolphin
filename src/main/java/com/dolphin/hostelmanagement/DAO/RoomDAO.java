@@ -271,9 +271,12 @@ public class RoomDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select roomID, roomNumber, status, CONCAT(YEAR(latestInvoiceMonth), '-', RIGHT(CONCAT('00', MONTH(latestInvoiceMonth)), 2)) as latestInvoiceMonth\n"
-                        + "from Room";
+                String sql = "select roomID, roomNumber, status, CONCAT(YEAR(latestInvoiceMonth), '-', RIGHT(CONCAT('00', MONTH(latestInvoiceMonth)), 2)) as latestInvoiceMonth from Room r\n"
+                        + "join RoomType rt on r.roomTypeID = rt.roomTypeID\n"
+                        + "join Hostel h on rt.hostelID = h.hostelID\n"
+                        + "where h.hostelID = ? and [status] = 1";
                 PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, hostelID);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {
@@ -283,7 +286,7 @@ public class RoomDAO {
                         RoomType roomType = findByID(roomID).getRoomType();
                         String latestMonthString = rs.getString("latestInvoiceMonth");
                         YearMonth latestInvoiceMonth = (!latestMonthString.equals("-00")) ? YearMonth.parse(latestMonthString) : null;
-                        if (roomType.getHostel().getHostelID() == hostelID && status == 1 && (latestInvoiceMonth == null || latestInvoiceMonth.isBefore(thisMonth))) {
+                        if (latestInvoiceMonth == null || latestInvoiceMonth.isBefore(thisMonth)) {
                             list.add(new Room(roomID, roomNumber, roomType, latestInvoiceMonth));
                         }
                     }
@@ -467,6 +470,36 @@ public class RoomDAO {
         }catch(Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public static Room findByHostelRoomNumber(int hostelID , String roomNumber) {
+        Room room = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "SELECT R.* FROM Room R INNER JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID \n"
+                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID \n"
+                        + "WHERE H.hostelID = ? AND R.activate = 1 AND R.roomNumber = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelID);
+                pst.setString(2, roomNumber);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    if (rs.next()) {
+                        int roomID = rs.getInt("roomID");
+                        int currentNoResidents = rs.getInt("currentNoResidents");
+                        int status = rs.getInt("status");
+                        RoomType roomType = findByID(roomID).getRoomType();
+                        room = new Room(roomID, roomNumber, currentNoResidents, status, roomType);
+                    }
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return room;
     }
 
     public static void main(String args[]) {

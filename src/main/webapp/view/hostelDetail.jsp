@@ -384,7 +384,7 @@
                 <h3 class="section-title font-bold text-[18px] text-slate-800 mb-[20px]">
                     Đánh giá của bạn
                 </h3>
-                <c:if test="${sessionScope.currentUser != null}">
+                <c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.account.role == 1}">
                     <form action="/sakura/hostel/detail">
                         <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                         <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
@@ -423,6 +423,9 @@
                 </c:if>
                 <c:if test="${sessionScope.currentUser == null}">
                     <h3>Bạn phải đăng nhập để đánh giá nhà trọ này</h3>
+                </c:if>
+                <c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.account.role == 2}">
+                    <h3>Bạn không thể đánh giá với tài khoản chủ nhà trọ</h3>
                 </c:if>
             </div>
 

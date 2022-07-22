@@ -29,11 +29,11 @@
             <input type="hidden" name="hostelId" value="${sessionScope.currentHostel.hostelID}"/>
             <input type="hidden" name="landlordId" value="${sessionScope.currentUser.account.accountID}"/>
             <div class="p-[20px] w-full">
+                <p class="text-xs validUpdateHostelMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Tên nhà trọ</label>
                     <input type="hidden" required name="currentName" value="${sessionScope.currentHostel.hostelName}"/>
                     <input type="text" name="updateName" value="${sessionScope.currentHostel.hostelName}" class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidUpdateHostel(this)"/>
-                    <span class="text-xs validUpdateHostelMessage"></span>
                 </div>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Chọn tỉnh</label>
@@ -61,14 +61,16 @@
                         </c:forEach>
                     </select> 
                 </div>
+                <p class="text-xs validUpdateAddressMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Địa chỉ chi tiết</label>
-                    <input type="text" required name="updateStreetAddress" value="${sessionScope.currentHostel.streetAddress}" class="text-[18px] w-[500px] p-[10px]">
+                    <input type="text" required name="updateStreetAddress" value="${sessionScope.currentHostel.streetAddress}" class="text-[18px] w-[500px] p-[10px]" onkeyup="checkValidUpdateAddress(this)"/>
                         <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú)</p>
                 </div>
+                <p class="text-xs validUpdateDescMessage"></p>
                 <div class="mb-[20px] flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
-                    <textarea class="text-[18px] p-[10px] w-[500px] text-clip" required name="updateDescription" id="" rows="5">${sessionScope.currentHostel.description}</textarea>
+                    <textarea class="text-[18px] p-[10px] w-[500px] text-clip" required name="updateDescription" id="" rows="5" onkeyup="checkValidUpdateDesc(this)">${sessionScope.currentHostel.description}</textarea>
                 </div>
             </div>
             <!--Footer-->

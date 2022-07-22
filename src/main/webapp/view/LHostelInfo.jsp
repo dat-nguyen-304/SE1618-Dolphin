@@ -293,7 +293,7 @@
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
-
+        <script src="../assets/javascript/checkvalid.js"></script>
         <script type="text/javascript">
                                                                 function showToast(type, msg) {
                                                                     toastr.options.positionClass = 'toast-bottom-right';
@@ -340,53 +340,75 @@
         </script>
         <script>
             function checkValidUpdateHostel(element) {
-                console.log("Da vao check update hostel");
                 const validUpdateHostelMessage = document.querySelector(".validUpdateHostelMessage");
                 const landlordId = document.querySelector("input[name='landlordId']");
-                const updateHostelBtn = document.querySelector(".updateHostelBtn");
                 const currentName = document.querySelector("input[name='currentName']");
-                const updateHostelMessage = document.querySelector(".updateHostelMessage");
-                let fault = false;
-                for (let i = 0; i < element.value.length; i++) {
-                    let c = element.value.charAt(i);
-                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ')) {
-                        fault = true;
+                if (!element.value.trim()) {
+                    validHostelMessage.innerHTML = 'Tên nhà trọ không được trống';
+                    checkHostel = false;
+                } else {
+                    let valid = isValid(element.value, 'name');
+                    if (!valid) {
                         validUpdateHostelMessage.innerHTML = 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                        checkHostel = false;
+                    } else
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'updateName': element.value,
+                                'landlordId': landlordId.value,
+                                'currentName': currentName.value
+                            },
+                            url: '/sakura/hostel/check-update-hostel-valid',
+                            success: function (response) {
+                                if (response) {
+                                    validUpdateHostelMessage.innerHTML = response;
+                                    checkHostel = false;
+                                } else {
+                                    checkHostel = true;
+                                    validUpdateHostelMessage.innerHTML = "";
+                                }
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                }
+            }
 
-                        updateHostelBtn.onclick = (e) => {
-                            e.preventDefault();
-                            updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
-                        };
-                        break;
+            function checkValidUpdateAddress(element) {
+                console.log("da vao check valid address");
+                const validUpdateAddressMessage = document.querySelector(".validUpdateAddressMessage");
+                if (!element.value.trim()) {
+                    validUpdateAddressMessage.innerHTML = 'Tên địa chỉ không được trống';
+                    checkDesc = false;
+                } else {
+                    let valid = isValid(element.value.trim(), 'address');
+                    if (!valid) {
+                        validUpdateAddressMessage.innerHTML = 'Địa chỉ chỉ được chứa chữ cái, chữ số khoảng trắng / , . và -';
+                        checkAddress = false;
+                    } else {
+                        validUpdateAddressMessage.innerHTML = '';
+                        checkAddress = true;
                     }
                 }
-                if (!fault)
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'updateName': element.value,
-                            'landlordId': landlordId.value,
-                            'currentName': currentName.value
-                        },
-                        url: '/sakura/hostel/check-update-hostel-valid',
-                        success: function (response) {
-                            validUpdateHostelMessage.innerHTML = response;
-                            if (response) {
-                                updateHostelBtn.onclick = (e) => {
-                                    e.preventDefault();
-                                    updateHostelMessage.innerHTML = "Tên nhà trọ không được trùng lặp!";
-                                };
-                            } else {
-                                updateHostelBtn.onclick = () => updateHostel();
-                            }
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
-                        }
-                    });
+            }
+
+            function checkValidUpdateDesc(element) {
+                const validUpdateDescMessage = document.querySelector(".validUpdateDescMessage");
+                const adddHostelBtn = document.querySelector(".addHostelBtn");
+                console.log("Da vao check desc: ", element.value);
+                if (!element.value.trim()) {
+                    validUpdateDescMessage.innerHTML = 'Tên mô tả không được trống';
+                    checkDesc = false;
+                } else {
+                    validUpdateDescMessage.innerHTML = '';
+                    checkDesc = true;
+                }
             }
         </script>
         <script>
+            var checkAddress = checkDesc = checkHostel = false;
             function updateHostel() {
                 const name = document.querySelector("input[name='updateName']");
                 const updateDistrictId = document.querySelector("select[name='updateDistrictId']");
@@ -394,33 +416,28 @@
                 const description = document.querySelector("textarea[name='updateDescription']");
                 const messageElement = document.querySelector(".updateHostelMessage");
                 const hostelId = document.querySelector("input[name='hostelId']");
-                console.log(hostelId);
+                const validUpdateHostelMessage = document.querySelector(".validUpdateHostelMessage");
+                const validUpdateAddressMessage = document.querySelector(".validUpdateAddressMessage");
+                const validUpdateDescMessage = document.querySelector(".validUpdateDescMessage");
                 if (!name.value || !updateStreetAddress.value || !description.value) {
                     let message = "";
                     if (!name.value) {
-                        message += "Tên nhà trọ - ";
+                        checkHostel = false;
+                        validHostelMessage.innerHTML = 'Tên nhà trọ không được trống';
                     }
                     if (!updateStreetAddress.value) {
-                        message += "Địa chỉ chi tiết - ";
+                        checkAddress = false;
+                        validUpdateAddressMessage.innerHTML = 'Tên địa chỉ không được trống';
                     }
                     if (!description.value) {
-                        message += "Mô tả ";
+                        checkDesc = false;
+                        validUpdateDescMessage.innerHTML = 'Tên mô tả không được trống';
                     }
-                    message += "không được trống";
 
 //                    messageElement.innerHTML = message;
-                    showToast("error", message);
+                    showToast("error", 'Vui lòng kiểm tra lại thông tin!');
                 } else {
-                    let fault = false;
-                    for (let i = 0; i < updateStreetAddress.value.length; i++) {
-                        let c = updateStreetAddress.value.charAt(i);
-                        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '/' || c == ' ' || c == ',')) {
-                            fault = true;
-                            showToast("error", 'Địa chỉ chỉ được chứa chữ cái, chữ số khoảng trắng, "/", "," và "-"');
-                            break;
-                        }
-                    }
-                    if (!fault)
+                    if (checkHostel && checkAddress && checkDesc) {
                         jQuery.ajax({
                             type: 'POST',
                             data: {'name': name.value,
@@ -443,6 +460,9 @@
                             complete: function (result) {
                             }
                         });
+                    } else {
+                        showToast('error', 'Vui lòng kiểm tra lại thông tin!');
+                    }
                 }
             }
         </script>

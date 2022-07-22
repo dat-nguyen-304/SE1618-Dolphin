@@ -193,18 +193,20 @@
                         </div>
                     </div>
 
-                    <div class="card bg-[#fff] h-[350px] col-span-3 p-[20px] rounded relative">
+                    <div class="card bg-[#fff] col-span-3 p-[20px] rounded relative">
                         <div class="text-[20px] font-bold text-[#288D87] mb-[10px]">Thêm dịch vụ</div>
                         <div class="text-[15px] font-light text-gray-800 mb-[20px]">Chủ nhà có thể thêm các dịch vụ như gửi xe, internet, vệ sinh,.. kèm theo đơn giá sẽ được tính khi tính hoá đơn hằng tháng cho người thuê.</div>
                         <div class="mb-[20px]">
+                            <p class="text-xs validServiceMessage"></p>
                             <div class="flex items-center mb-[20px]">
                                 <label class="w-[120px] inline-block" for="service-name">Tên dịch vụ</label>
-                                <input type="text" required name="addServiceName" id="service-name" class="w-[200px] text-[15px] p-[5px]"/>
+                                <input type="text" required name="addServiceName" id="service-name" class="w-[200px] text-[15px] p-[5px]" onkeyup="checkValidService(this)"/>
                                 <p class="ml-[10px] font-light text-[13px]">VD: Gửi xe, đổ rác, ...</p>
                             </div>
+                            <p class="text-xs validFeeMessage"></p>
                             <div class="flex items-center mb-[20px]">
                                 <label class="w-[120px] inline-block" for="service-fee">Đơn giá (VNĐ)</label>
-                                <input type="number" required name="addServiceFee" id="service-fee" class="w-[200px] text-[15px] p-[5px]"/>
+                                <input type="number" required name="addServiceFee" id="service-fee" class="w-[200px] text-[15px] p-[5px]" onkeyup="checkValidFee(this)"/>
                                 <p class="ml-[10px] font-light text-[13px]">VD: 3000,4000 ...</p>
                             </div>
                             <div class="flex items-center mb-[20px]">
@@ -218,7 +220,6 @@
                                 Thêm dịch vụ
                             </button>
                         </div>
-                        <h1 class="addServiceMessage absolute bottom-[30px] left-[20px] text-[15px] text-emerald-500 font-bold"></h1>
                     </div>
                 </div>
             </div>
@@ -228,6 +229,7 @@
 
         <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="../assets/javascript/checkvalid.js"></script>
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script>
                                 function showToast(type, msg, duplicate) {
@@ -245,63 +247,95 @@
                                 }
         </script>
         <script>
+            var checkService = checkFee = false;
             function addService() {
                 const serviceName = document.querySelector("input[name='addServiceName']");
                 const serviceFee = document.querySelector("input[name='addServiceFee']");
                 const serviceUnit = document.querySelector("input[name='addServiceUnit']");
-                const addServiceMessage = document.querySelector(".addServiceMessage");
                 const serviceList = document.querySelector(".service-list");
-
+                const validServiceMessage = document.querySelector(".validServiceMessage");
+                const validFeeMessage = document.querySelector(".validFeeMessage");
                 if (!serviceName.value || !serviceFee.value) {
-                    let message = "";
                     if (!serviceName.value) {
-                        message += "Tên dịch vụ - ";
+                        validServiceMessage.innerHTML = "Tên dịch vụ không được trống!";
+                        checkService = false;
                     }
                     if (!serviceFee.value) {
-                        message += "Phí dịch vụ - ";
+                        validFeeMessage.innerHTML = "Phí dịch vụ không được trống!";
+                        checkFee = false;
                     }
-                    message += "không được trống!";
-                    addServiceMessage.innerHTML = message;
+                    showToast('error', 'Vui lòng kiểm tra lại thông tin!');
                 } else {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'serviceName': serviceName.value,
-                            'serviceFee': serviceFee.value,
-                            'serviceUnit': serviceUnit.value,
-                            'hostelId': ${sessionScope.currentHostel.hostelID}
-                        },
-                        url: '/sakura/service/add-service',
-                        success: function (response) {
-                            serviceName.value = "";
-                            serviceFee.value = "";
-                            serviceUnit.value = "";
-                            const res = response.toString();
-                            console.log(res);
-                            if (res.includes("px-3 py-4 text-center")) {
-                                serviceList.innerHTML = response;
-                                console.log(serviceList);
-                                showToast("success", "Thêm thành công", 0);
+                    if (checkService && checkFee) {
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'serviceName': serviceName.value,
+                                'serviceFee': serviceFee.value,
+                                'serviceUnit': serviceUnit.value,
+                                'hostelId': ${sessionScope.currentHostel.hostelID}
+                            },
+                            url: '/sakura/service/add-service',
+                            success: function (response) {
+                                serviceName.value = "";
+                                serviceFee.value = "";
+                                serviceUnit.value = "";
+                                const res = response.toString();
+                                console.log(res);
+                                if (res.includes("px-3 py-4 text-center")) {
+                                    serviceList.innerHTML = response;
+                                    console.log(serviceList);
+                                    showToast("success", "Thêm thành công", 0);
 //                                    setTimeout(function () {
 //                                        window.location.reload();
 //                                    }, 3000);
-                                //addServiceMessage.innerHTML = "Thêm thành công";
-                            } else {
-                                addServiceMessage.innerHTML = response;
-                            }
-                            console.log(serviceList.children.length);
-                            if (serviceList.children.length < 10) {
-                                $('.card-container').addClass('h-[calc(100vh-275px)]');
-                            } else {
-                                $('.card-container').removeClass('h-[calc(100vh-275px)]');
-                            }
+                                    //addServiceMessage.innerHTML = "Thêm thành công";
+                                } else {
+                                    showToast('error', 'Thêm dịch vụ thất bại!');
+                                }
+                                console.log(serviceList.children.length);
+                                if (serviceList.children.length < 10) {
+                                    $('.card-container').addClass('h-[calc(100vh-275px)]');
+                                } else {
+                                    $('.card-container').removeClass('h-[calc(100vh-275px)]');
+                                }
 
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
-                        }
-                    });
-
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                    } else {
+                        showToast('error', 'Vui lòng kiểm tra lại thông tin!');
+                    }
+                }
+            }
+            
+            function checkValidService(element) {
+                const validServiceMessage = document.querySelector(".validServiceMessage");
+                if (!element.value.trim()) {
+                    validServiceMessage.innerHTML = 'Tên dịch vụ không được trống';
+                    checkService = false;
+                } else {
+                    let valid = isValid(element.value, 'name');
+                    if (!valid) {
+                        validServiceMessage.innerHTML = 'Tên dịch vụ chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                        checkService = false;
+                    } else {
+                        validServiceMessage.innerHTML = '';
+                        checkService = true;
+                    }
+                }
+            }
+            
+            function checkValidFee(element) {
+                const validFeeMessage = document.querySelector(".validFeeMessage");
+                if (!element.value.trim()) {
+                    validFeeMessage.innerHTML = 'Phí dịch vụ không được trống';
+                    checkFee = false;
+                } else {
+                    validFeeMessage.innerHTML = '';
+                    checkFee = true;
                 }
             }
         </script>
@@ -374,7 +408,7 @@
                     success: function (response) {
                         serviceElement.remove();
                         //updateMessage.innerHTML = response;
-                        showToast("error", response, 0);
+                        showToast("success", response, 0);
                     },
                     error: function () {
                     },

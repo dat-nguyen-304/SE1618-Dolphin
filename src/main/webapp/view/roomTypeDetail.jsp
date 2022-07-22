@@ -53,12 +53,12 @@
             <div class="flex w-full h-[500px]">
                 <div class="w-3/5 h-full rounded">
                     <c:if test = "${requestScope.roomType.imgList.size() > 0}">
-                    <img class="w-full h-full object-fill object-center"
-                         src="${requestScope.roomType.imgList.get(0)}">
+                        <img class="w-full h-full object-fill object-center"
+                             src="${requestScope.roomType.imgList.get(0)}">
                     </c:if>
                     <c:if test = "${requestScope.roomType.imgList.size() == 0}">
-                    <img class="w-full h-full object-fill object-center"
-                         src="../assets/images/hostel-list-images/empty_img.jpg">
+                        <img class="w-full h-full object-fill object-center"
+                             src="../assets/images/hostel-list-images/empty_img.jpg">
                     </c:if>
                 </div>
                 <div class="w-2/5 pl-[30px]">
@@ -81,11 +81,25 @@
                     <div class="room-price mb-[30px] pt-[30px] border-t">
                         <p class="title-font text-center font-medium text-[18px] text-[#40576C]">${requestScope.roomType.advertisedPrice / 1000000 } triệu / tháng</p>
                     </div>
-
-                        <form action = "${sessionScope.currentUser == null ? "/sakura/access/login" : "/sakura/hostel/sendRentalRequest"}" method="post" class="w-full m-0 p-0">
-                        <input type ="hidden" name ="roomTypeID" value ="${requestScope.roomType.roomTypeID}">
-                        <button type ="submit" name ="action" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đặt thuê</button>
-                    </form>
+                    <c:if test="${sessionScope.currentUser == null}">
+                        <h1>Bạn vui lòng đăng nhập để có thể thuê phòng</h1>
+                        <form action="/sakura/access/login" method="post" class="mt-[20px] w-full m-0 p-0">
+                            <button type="submit" name="action" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đăng nhập ngay</button>
+                        </form>
+                    </c:if>
+                    <c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.account.role == 2}">
+                        <h1>Bạn không thể thuê phòng với tài khoản chủ nhà trọ</h1>
+                        <form action="/sakura/access/login" method="post" class="mt-[20px] w-full m-0 p-0">
+                            <input type="hidden" name ="roomTypeID" value ="${requestScope.roomType.roomTypeID}">
+                            <button type="submit" name="logout" value="true" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đăng nhập bằng tải khoản khác</button>
+                        </form>
+                    </c:if>
+                    <c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.account.role == 1}">
+                        <form action="/sakura/hostel/sendRentalRequest" method="post" class="w-full m-0 p-0">
+                            <input type="hidden" name="roomTypeID" value ="${requestScope.roomType.roomTypeID}">
+                            <button type="submit" name="action" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đặt thuê</button>
+                        </form>
+                    </c:if>
                 </div>
             </div>
         </div>
