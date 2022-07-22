@@ -31,7 +31,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author anvu1911
  */
-@WebFilter(filterName = "AuthorizationFilter",
+@WebFilter(filterName = "AuthorizationFilter", urlPatterns = "/view/*",
         servletNames = {"InvoiceController", "TenantController", "LandlordController"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 public class AuthorizationFilter implements Filter {
 
@@ -163,34 +163,27 @@ public class AuthorizationFilter implements Filter {
             String url = wrappedRequest.getServletPath();
 
             boolean loggedIn = session != null && session.getAttribute("currentUser") != null;
-            boolean checkJsp = url.endsWith("login.jsp") || url.endsWith("mailVerficiation.jsp") || url.endsWith("register.jsp") || url.endsWith("/sakura/account/checkUsername");
-//        boolean loginRequest = request.getRequestURI().equals(loginURI);
-            System.out.println(loggedIn);
-            System.out.println(checkJsp);
+            boolean checkJsp = url.endsWith("roomTypeDetail.jsp") || url.endsWith("hostelDetail.jsp") || url.endsWith("hostelList.jsp") || url.endsWith("login.jsp") || url.endsWith("mailVerficiation.jsp") || url.endsWith("register.jsp") || url.endsWith("/sakura/account/checkUsername");
 
             if (!loggedIn) {
                 System.out.println("Not logged in");
                 if (!checkJsp) {
-                    System.out.println("Not found in 166 list");
-                    System.out.println("162 " + url);
                     wrappedResponse.sendRedirect(loginURI);
                 } else {
-                    System.out.println("Found in 166 list");
-                    System.out.println("162 " + url);
                     chain.doFilter(wrappedRequest, wrappedResponse);
                 }
             } else {
-                System.out.println("AuthorizationFilter - Found session or redirecting to login.jsp");
-                chain.doFilter(wrappedRequest, wrappedResponse);
+                if ((Integer) session.getAttribute("role") == 1 && url.contains("/landlord")) {
+                    System.out.println("Logged in but wrong role");
+                    wrappedResponse.sendRedirect("/sakura/tenant/dashboard");
+                } else if ((Integer) session.getAttribute("role") == 2 && url.contains("/tenant")) {
+                    System.out.println("Logged in but wrong role");
+                    wrappedResponse.sendRedirect("/sakura/landlord/overview");
+                } else {
+                    System.out.println("AuthorizationFilter - Found session or redirecting to login.jsp");
+                    chain.doFilter(wrappedRequest, wrappedResponse);
+                }
             }
-
-//            if (!loggedIn && !checkJsp) {
-//                System.out.println("Redirecting! Ôkê?");
-//                wrappedResponse.sendRedirect(loginURI);
-//            } else {
-//                System.out.println("AuthorizationFilter - Found session or redirecting to login.jsp");
-//                chain.doFilter(wrappedRequest, wrappedResponse);
-//            }
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
             // we still want to execute our after processing, and then
