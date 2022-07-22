@@ -24,45 +24,33 @@
 
 <html class="no-js" lang="en">
     <!--<![endif]-->
-
     <head>
-
-        <!--- basic page needs
-       ================================================== -->
+        <!--- basic page needs-->
         <meta charset="utf-8">
         <title>Sakura</title>
         <meta name="description" content="">
         <meta name="author" content="">
 
+        <!--Font-->
+        <link rel="stylesheet" href="/sakura/assets/css/font.css">
 
-        <!-- Reload page-->
-
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
-
-        <!-- mobile specific metas -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Icon -->
+        <link rel="stylesheet" href="/sakura/assets/icons/bootstrap-icons.css">
 
         <!-- CSS -->
-
         <link rel="stylesheet" href="/sakura/assets/css/homepage-main.css">
         <link rel="stylesheet" href="/sakura/assets/css/header-user.css">
         <link rel="stylesheet" href="/sakura/assets/css/header-guest.css">
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
+        <link rel="stylesheet" href="/sakura/webjars/flowbite/1.3.4/src/flowbite.css" />
         <script src="https://cdn.tailwindcss.com"></script>
 
         <!-- script -->
-        <script src="assets/javascript/homepage-modernizr.js"></script>
-        <script src="assets/javascript/jquery/jquery.min.js"></script>
-        <!--<script src="assets/javascript/homepage-pace.min.js"></script>-->
+        <script src="/sakura/assets/javascript/jquery/jquery.min.js"></script>
+        <script src="/sakura/webjars/flowbite/1.3.4/src/flowbite.js"></script>
 
         <!-- favicons -->
         <link rel="shortcut icon" href="/sakura/assets/icons/logo.png" type="image/x-icon">
 
-        <!-- Icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     </head>
 
     <body id="top" onbeforeunload='return reloadPage()'>
@@ -362,27 +350,27 @@
         <!--<script src="assets/javascript/homepage-main.js"></script>-->
 
         <script type="text/javascript">
-            window.addEventListener("scroll", function () {
-                var header = document.querySelector("#header-section");
-                header.classList.toggle("stick", window.scrollY > 0);
+    window.addEventListener("scroll", function () {
+        var header = document.querySelector("#header-section");
+        header.classList.toggle("stick", window.scrollY > 0);
 
-                // var img = document.querySelector("#logo-header");
-                // img.src = "../assets/images/homepage-icon/logo.png";
-            });
+        // var img = document.querySelector("#logo-header");
+        // img.src = "../assets/images/homepage-icon/logo.png";
+    });
 
-            var initialSrc = "assets/images/homepage-icon/logo_white.png";
-            var scrollSrc = "assets/images/homepage-icon/logo.png";
+    var initialSrc = "assets/images/homepage-icon/logo_white.png";
+    var scrollSrc = "assets/images/homepage-icon/logo.png";
 
-            $(window).scroll(function () {
-                var value = $(this).scrollTop();
-                if (value > 0) {
-                    //$("#name-header").css("color", "#17535B");
-                    $("#logo-header").attr("src", scrollSrc);
-                } else {
-                    //$("#name-header").css("color", "#fff");
-                    $("#logo-header").attr("src", initialSrc);
-                }
-            });
+    $(window).scroll(function () {
+        var value = $(this).scrollTop();
+        if (value > 0) {
+            //$("#name-header").css("color", "#17535B");
+            $("#logo-header").attr("src", scrollSrc);
+        } else {
+            //$("#name-header").css("color", "#fff");
+            $("#logo-header").attr("src", initialSrc);
+        }
+    });
         </script>
         <script>
             /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
@@ -420,9 +408,9 @@
                         let data = JSON.parse(obj.responseText);
                         for (let i = 0; i < data.length; i++) {
                             $("#province").append($("<option/>", {
-                                    value: data[i].provinceID,
-                                    text: data[i].provinceName,
-                                }
+                                value: data[i].provinceID,
+                                text: data[i].provinceName,
+                            }
                             ));
                         }
                         console.log('Complete');
@@ -453,9 +441,9 @@
                         let data = JSON.parse(obj.responseText);
                         for (let i = 0; i < data.length; i++) {
                             $("#district").append($("<option/>", {
-                                    value: data[i].districtID,
-                                    text: data[i].districtName
-                                }
+                                value: data[i].districtID,
+                                text: data[i].districtName
+                            }
                             ));
                         }
                         console.log('Complete');

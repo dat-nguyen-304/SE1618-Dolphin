@@ -4,14 +4,14 @@
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
 <footer class="w-full h-auto mx-0 bg-[#F9F9F9]">
-    <div class="px-4 pt-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 ">
-        <div class="grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="pt-16 mx-auto w-[70%]">
+        <div class="grid gap-10 row-gap-6 mb-8 grid-cols-4">
             <div class="sm:col-span-2">
                 <a href="/" aria-label="Go home" title="Company" class="inline-flex items-center">
                     <img class="w-9 h-9" src="/sakura/assets/icons/logo.png" alt="">
                     <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">SAKURA</span>
                 </a>
-                <div class="mt-6 lg:max-w-sm">
+                <div class="mt-6">
                     <p class="text-sm text-gray-800">
                         Sakura mong muốn trở thành công cụ thuận tiện cho người thuê và chủ nhà để quản lý phòng trọ.
                     </p>

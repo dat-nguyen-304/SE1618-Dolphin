@@ -127,7 +127,7 @@ public class LandlordController extends HttpServlet {
                     session.setAttribute("hostelList", null);
                 }
             } else {
-                
+
                 currentHostel = (Hostel) session.getAttribute("currentHostel");
                 currentHostel = HostelDAO.findById(currentHostel.getHostelID());
                 session.setAttribute("currentHostel", currentHostel);
@@ -203,7 +203,7 @@ public class LandlordController extends HttpServlet {
                     if (revenueValue.size() <= 1 || revenueValue.get(0) == revenueValue.get(1)) {
                         request.setAttribute("revenueChange", 0);
                     } else {
-                        double ratio = ((double)revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(0) * 100;
+                        double ratio = ((double) revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(0) * 100;
                         ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
 
                         request.setAttribute("revenueChange", -ratio);
@@ -339,7 +339,7 @@ public class LandlordController extends HttpServlet {
                 request.getRequestDispatcher("/view/LRoomType.jsp").forward(request, response);
             } else if (path.equals("/room-list")) {
                 currentHostel = (Hostel) session.getAttribute("currentHostel");
-                
+
                 if (request.getParameter("addRoomNumber") != null) {
                     String roomNumber = request.getParameter("addRoomNumber").trim();
                     int roomTypeId = Integer.parseInt(request.getParameter("roomTypeId"));
@@ -544,6 +544,7 @@ public class LandlordController extends HttpServlet {
                         //System.out.println(feedback.toString());
                     }
                     avgRating /= feedbackList.size();
+                    avgRating = Math.round(avgRating * 100.0) / 100.0;
                     request.setAttribute("avgRating", avgRating);
                     request.setAttribute("feedbacks", feedbackList);
                     int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();

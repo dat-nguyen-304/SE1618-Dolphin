@@ -111,7 +111,7 @@ public class TenantController extends HttpServlet {
                 request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
             }
 
-            if (path.equals("/rentalRequestList")) {
+            if (path.equals("/rental-request")) {
                 if(request.getParameter("queryType") != null) {
                     System.out.println("QueryType: " + request.getParameter("queryType"));
                     System.out.println("Querytype: " + request.getParameter("queryType").equals("accept"));

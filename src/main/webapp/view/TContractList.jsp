@@ -13,34 +13,14 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Trang chủ nhà - Danh sách hợp đồng</title>
+        <title>Trang người thuê - Danh sách hợp đồng</title>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png">
+        <%@include file="../view/assets.jsp" %>
 
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LContractList.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
 
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
-
-        <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+        <%@include file="../assets/datatables/dataTables.jsp" %>
 
         <link rel="stylesheet" href="../assets/css/datatables.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
@@ -58,7 +38,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -74,7 +54,7 @@
                     </ol>
                 </nav>
                 <!-- End breadcrumb -->
-                
+
                 <div class="card bg-[#fff] p-[20px] mt-[20px]">
                     <table id="contract-table" class="w-full text-sm text-left text-gray-500">
                         <thead>
@@ -131,22 +111,20 @@
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script>
             $(document).ready(function () {
                 $('#contract-table').DataTable({
                     dom: 'Bfrtip',
-                    "fnDrawCallback": function (oSettings) {
-                        if ($('#room-list-table tr').length < 10) {
-                            $('.dataTables_paginate').hide();
-                        }
-                    },
+//                    "fnDrawCallback": function (oSettings) {
+//                        if ($('#room-list-table tr').length < 10) {
+//                            $('.dataTables_paginate').hide();
+//                        }
+//                    },
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",
                         "infoEmpty": "Hiển thị 0 kết quả",
-                        "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
+                        "info": "Hiển thị <b>_START_</b> - <b>_END_</b> của <b>_TOTAL_</b> kết quả",
                         "infoFiltered": "",
                         search: "Tìm kiếm",
                         paginate: {

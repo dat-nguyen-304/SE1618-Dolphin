@@ -20,16 +20,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sakura - Danh sách nhà trọ</title>
 
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+        <!--Font-->
+        <link rel="stylesheet" href="/sakura/assets/css/font.css">
+
+        <!-- Icon -->
+        <link rel="stylesheet" href="/sakura/assets/icons/bootstrap-icons.css">
 
         <!--Favicon-->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
-
-        <!-- Icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
@@ -56,22 +54,7 @@
         </header>
         <div class="w-full m-0 p-0 bg-white mt-[90px]">
             <!--    SEARCH BY NAME  -->
-
-            <div class="w-[60%] mx-auto py-5">
-                <div role="alert" style="box-shadow: rgba(100, 100, 111, 0.15) 0px 7px 29px 0px;"
-                     class="top-[100px] absolute right-5 w-[330px] bg-[#ffffff] rounded flex flex-row transition duration-150 ease-in-out overflow-hidden ${(fn:length(requestScope.messageTitle) > 0 and fn:length(requestScope.messageDetail) > 0) ? 'show' : 'hide'} "
-                     id="notification">
-                    <div class="px-3 flex items-center justify-center bg-[#36d39a] text-white text-lg w-1/6">
-                        <i class="bi bi-check-circle"></i>
-                    </div>
-                    <div class="px-2 py-2">
-                        <h1 class="text-lg text-[#4d4d4d] font-semibold">${requestScope.messageTitle}</h1>
-                        <p class="text-[12px] text-[#8a8a8a] font-normal">${requestScope.messageDetail}.</p>
-                    </div>
-                    <a href="javascript:void(0)" class="flex justify-center items-center border-l text-[#c5c5c5] border-[#e0e0e0] w-1/6 cursor-pointer" onclick="closeNoti()">
-                        <i class="bi bi-x-lg"></i>
-                    </a>
-                </div>
+            <div class="w-[70%] mx-auto py-5">
                 <div class="grid grid-cols-2">
                     <form action="/sakura/hostel/list" class="input-group relative flex w-[90%] h-[50px] mb-4" method="get">
                         <c:if test="${requestScope.favorite == true}">
