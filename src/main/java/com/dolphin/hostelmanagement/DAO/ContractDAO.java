@@ -540,6 +540,32 @@ public class ContractDAO {
 
         return false;
     }
+    
+    public static boolean findByRoomAndStatus(int roomID, int status) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Select * from Contract where roomID = ? and status = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setInt(1, roomID);
+            pst.setInt(2, status);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs != null && rs.next()) {
+                return true;
+            }
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
 
     public static void main(String[] args) {
         Contract contract = findLastContractByRoomID(2);

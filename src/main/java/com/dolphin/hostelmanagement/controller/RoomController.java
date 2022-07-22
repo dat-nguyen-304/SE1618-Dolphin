@@ -4,6 +4,8 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
+import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
+import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
 import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
@@ -344,6 +346,12 @@ public class RoomController extends HttpServlet {
                             + "                                            <button type=\"submit\" name=\"roomID\" value=\"" + room.getRoomID() + "\" class=\"px-4 py-2 m-2 rounded border-2\">" + room.getRoomNumber() + "</button>\n"
                             + "                                        </form>");
                 }
+            } else if (path.equals("/pending-room-check")) {
+                int roomID = Integer.parseInt(request.getParameter("roomID"));
+                
+                if(ContractDAO.findByRoomAndStatus(roomID, 2))
+                    out.print(1);
+                else out.print(0);
             }
         }
     }

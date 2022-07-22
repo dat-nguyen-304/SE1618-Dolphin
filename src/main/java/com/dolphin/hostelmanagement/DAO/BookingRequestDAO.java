@@ -224,6 +224,43 @@ public class BookingRequestDAO {
             e.printStackTrace();
         }
     }
+    
+    public static ArrayList<BookingRequest> findByLandlordID(int landlordID, int status) {
+        Connection cn = null;
+        
+        ArrayList<BookingRequest> brList = new ArrayList<>();
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Select br.bookingRequestID, br.tenantID, br.createdDate, br.status, br.roomTypeID from BookingRequest br inner join RoomType rt \n" +
+"	on rt.roomTypeID = br.roomTypeID inner join Hostel h on rt.hostelID = h.hostelID inner join Landlord l on l.landlordID = h.landlordId where L.landlordID = ?\n" +
+"	and status = ?";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            
+            pst.setInt(1, landlordID);
+            pst.setInt(2, status);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            while(rs != null && rs.next()) {
+                int bookingRequestID = rs.getInt("bookingRequestID");
+                Tenant t = TenantDAO.findById(rs.getInt("tenantID"));
+                Date createdDate = rs.getDate("createdDate");
+                RoomType rt = RoomTypeDAO.findByID(rs.getInt("roomTypeID"));
+                
+                brList.add(new BookingRequest(bookingRequestID, t, rt, createdDate, status));
+            }
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return brList;
+    }
+    
+    
 
     public static void main(String args[]) {
         /*Tenant t = new Tenant();

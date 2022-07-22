@@ -80,6 +80,9 @@
                                     <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                         <tr>
                                             <th scope="col" class="px-6 py-3">
+                                                Tên nhà trọ
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
                                                 Tên khách thuê
                                             </th>
                                             <th scope="col" class="px-6 py-3">
@@ -102,6 +105,9 @@
                                         <c:forEach items = "${requestScope.bookingList}" var="booking">
                                             <tr class="bg-white border-b hover:bg-gray-50">
                                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    ${booking.roomType.hostel.hostelName}
+                                                </td>
+                                                <td class="px-6 py-4 date">
                                                     ${booking.tenant.fullname}
                                                 </td>
                                                 <td class="px-6 py-4 date">
@@ -156,6 +162,9 @@
                                     <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                         <tr>
                                             <th scope="col" class="px-6 py-3">
+                                                Tên nhà trọ
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
                                                 Tên người nhận
                                             </th>
                                             <th scope="col" class="px-6 py-3">
@@ -175,6 +184,9 @@
                                         <c:forEach items = "${requestScope.invitationList}" var="invitation">
                                             <tr class="bg-white border-b hover:bg-gray-50">
                                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    ${invitation.roomType.hostel.hostelName}
+                                                </td>
+                                                <td class="px-6 py-4 ">
                                                     ${invitation.tenant.fullname}
                                                 </td>
                                                 <td class="px-6 py-4 ">
@@ -200,6 +212,14 @@
                                                         <input type ="hidden" name ="queryType" value ="edit"/>
                                                         <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
                                                             Sửa hợp đồng
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <form method = "post" action="/sakura/contract/deny-contract">
+                                                        <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            Hủy hợp đồng
                                                         </button>
                                                     </form>
                                                 </td>

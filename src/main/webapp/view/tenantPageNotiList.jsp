@@ -112,6 +112,7 @@
 
                     </div>
                     <!-- End Notification list -->
+                    <c:if test = "${requestScope.contract ne null}">
                     <form method = "post" action="/sakura/tenant/notifications" class="card send-request h-[300px] bg-[#fff] p-5 overflow-hidden">
                         <input type="hidden" name="query" value="sendRequest"/>
                         <label for="message" class="block mb-[20px] text-[17px] font-medium text-gray-900">Gửi yêu cầu đến chủ nhà</label>
@@ -122,7 +123,7 @@
                         <button type="submit"
                                 class="float-right px-8 py-2 bg-[#17535B] rounded flex justify-center items-center text-[#fff] font-medium text-[15px] hover:bg-[#13484F]">Gửi <i class="bi bi-send-fill ml-[5px]"></i></button>
                     </form>
-
+                    </c:if>
                 </div>
 
             </div>
