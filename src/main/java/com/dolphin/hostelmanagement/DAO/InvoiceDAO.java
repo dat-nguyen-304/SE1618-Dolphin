@@ -356,5 +356,8 @@ public class InvoiceDAO {
     }
 
     public static void main(String[] args) {
+        List<Invoice> list = findByContract(1);
+        Invoice firstInvoice = list.get(list.size() - 1);
+        System.out.println(firstInvoice.getMonth());
     }
 }

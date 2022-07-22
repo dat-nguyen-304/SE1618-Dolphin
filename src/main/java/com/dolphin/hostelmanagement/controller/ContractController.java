@@ -81,7 +81,7 @@ public class ContractController extends HttpServlet {
                     int duration = 0;//Integer.parseInt(request.getParameter("duration"));
                     Date createdDate = new Date();
                     Contract c = new Contract(bookingRequestID, r, t, null, null, startDate, endDate,
-                            deposit, 2, rentalFeePerMonth, description, duration, createdDate);
+                            deposit, 2, rentalFeePerMonth, description, createdDate);
                     if (ContractDAO.findByID(bookingRequestID) == null) {
                         ContractDAO.save(c);
                     } else {
@@ -200,7 +200,7 @@ public class ContractController extends HttpServlet {
                             oldContract.getRoom().getRoomType().getRoomTypeID(), createdDate, 0);
 
                     Contract c = new Contract(contractID, r, t, null, null, startDate, endDate,
-                            deposit, 1, rentalFeePerMonth, description, duration, createdDate);
+                            deposit, 1, rentalFeePerMonth, description, createdDate);
 
                     ContractDAO.save(c);
                     ContractDAO.endContractById(oldContractID); //end old contract

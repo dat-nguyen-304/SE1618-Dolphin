@@ -18,13 +18,12 @@ public class Contract implements Comparable<Contract> {
     private int status;
     private int rentalFeePerMonth;
     private String description;
-    private int duration;
     private Date createdDate;
 
     public Contract() {
     }
 
-    public Contract(int contractID, Room room, Tenant tenant, Landlord landlord, Hostel hostel, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth, String description, int duration, Date createdDate) {
+    public Contract(int contractID, Room room, Tenant tenant, Landlord landlord, Hostel hostel, Date startDate, Date endDate, int deposit, int status, int rentalFeePerMonth, String description, Date createdDate) {
         this.contractID = contractID;
         this.room = room;
         this.tenant = tenant;
@@ -36,7 +35,6 @@ public class Contract implements Comparable<Contract> {
         this.status = status;
         this.rentalFeePerMonth = rentalFeePerMonth;
         this.description = description;
-        this.duration = duration;
         this.createdDate = createdDate;
     }
 
@@ -126,14 +124,6 @@ public class Contract implements Comparable<Contract> {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 
     public Date getCreatedDate() {
