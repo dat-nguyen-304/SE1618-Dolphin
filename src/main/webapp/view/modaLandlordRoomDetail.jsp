@@ -252,18 +252,20 @@
             </div>
             <!--Body-->
             <div class="p-4">
+                <p class="text-xs text-[red] validAddNameMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] text-[16px] inline-block" for="">Tên người ở</label>
-                    <input type="text" name="memberName" required class="w-[300px] text-[18px] p-[10px]">
+                    <input type="text" name="memberName" required class="w-[300px] text-[18px] p-[10px]"  onkeyup="checkValidAddName(this)"/>
                 </div>
+                <p class="text-xs text-[red] validAddPhoneMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] text-[16px] inline-block" for="">Số điện thoại</label>
-                    <input type="text" name="memberPhone" required class="w-[300px] text-[18px] p-[10px]" />
-                    <p class="ml-[165px] text-[13px] italic font-light">Số điện thoại gồm 10 chữ số</p>
+                    <input type="text" name="memberPhone" required class="w-[300px] text-[18px] p-[10px]" onkeyup="checkValidAddPhone(this)"/>
                 </div>
+                <p class="text-xs text-[red] validAddDobMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] text-[16px] inline-block" for="">Ngày sinh</label>
-                    <input type="date" name="memberDob" required class="w-[300px] text-[18px] p-[10px]">
+                    <input type="date" name="memberDob" required class="w-[300px] text-[18px] p-[10px]" onkeyup="checkValidAddDob(this)"/>
                 </div>
             </div>
             <!--Footer-->
