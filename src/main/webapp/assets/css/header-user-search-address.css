@@ -257,3 +257,9 @@ select {
     color: #fff;
     background-color: #13484F;
 }
+
+select, select:focus, select:active {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}

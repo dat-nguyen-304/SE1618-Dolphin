@@ -403,13 +403,13 @@
                     jQuery('#current_page').val(0);
                     jQuery('#show_per_page').val(show_per_page);
 
-                    var navigation_html = '<a class="previous_link " href="javascript:previous();"><i class="bi bi-caret-left-fill"></i></a>';
+                    var navigation_html = '<a class="previous_link " href="javascript:previous();"><i class="bi bi-chevron-left"></i></a>';
                     var current_link = 0;
                     while (number_of_pages > current_link) {
                         navigation_html += '<a class="page_link hidden" href="javascript:go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a>';
                         current_link++;
                     }
-                    navigation_html += '<a class="next_link" href="javascript:next();"><i class="bi bi-caret-right-fill"></i></a>';
+                    navigation_html += '<a class="next_link" href="javascript:next();"><i class="bi bi-chevron-right"></i></a>';
 
 
                     jQuery('#page_navigation').html(navigation_html);
