@@ -128,11 +128,7 @@ public class HostelController extends HttpServlet {
             String path = request.getPathInfo();
             if (path.equals("/list")) {
                 List<Hostel> hostelList = null;
-                int currentPage = 1;
-                int itemsOnOnePage = 8;
-                if (request.getParameter("paging") != null) {
-                    currentPage = Integer.parseInt(request.getParameter("paging"));
-                }
+
                 if (request.getParameter("favorite") != null && request.getParameter("favorite").equals("true")) {
                     Tenant t = (Tenant) session.getAttribute("currentUser");
                     hostelList = HostelDAO.findFavoriteList(t.getAccount().getAccountID());
@@ -242,38 +238,11 @@ public class HostelController extends HttpServlet {
                     }
                     request.setAttribute("toggleList", toggleList);
                 }
-                int itemQuantity = hostelList.size();
-                int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);
-                int beginIndex = (currentPage - 1) * itemsOnOnePage;
-                int endIndex = currentPage * itemsOnOnePage;
-                int beginPage = 1;
-                int endPage = pagingQuantity;
 
-                if (pagingQuantity > 5) {
-                    if (currentPage >= 3 && currentPage <= pagingQuantity - 2) {
-                        beginPage = currentPage - 2;
-                        endPage = currentPage + 2;
-                    } else if (currentPage >= pagingQuantity - 1) {
-                        beginPage = pagingQuantity - 4;
-                        endPage = pagingQuantity;
-                    }
-                }
-                hostelList = (List<Hostel>) hostelList.subList(beginIndex, (endIndex > itemQuantity) ? itemQuantity : endIndex);
-                request.setAttribute("itemQuantity", itemQuantity);
-                request.setAttribute("currentPage", currentPage);
-                request.setAttribute("beginPage", beginPage);
-                request.setAttribute("endPage", endPage);
-                request.setAttribute("pagingQuantity", pagingQuantity);
                 request.setAttribute("hostelList", hostelList);
 
                 request.getRequestDispatcher("/view/hostelList.jsp").forward(request, response);
             } else if (path.equals("/detail")) {
-                int currentPage = 1;
-                int itemsOnOnePage = 8;
-                if (request.getParameter("paging") != null) {
-                    currentPage = Integer.parseInt(request.getParameter("paging"));
-                }
-
                 if (request.getParameter("message") != null) {
                     String message = request.getParameter("message");
                     request.setAttribute("message", message);
@@ -290,7 +259,7 @@ public class HostelController extends HttpServlet {
                 request.setAttribute("provinceList", provinceList);
                 List<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostelId);
                 request.setAttribute("roomTypeList", roomTypeList);
-                if (session.getAttribute("currentUser") != null && session.getAttribute("currentUser") instanceof Tenant ) {
+                if (session.getAttribute("currentUser") != null && session.getAttribute("currentUser") instanceof Tenant) {
                     Tenant t = (Tenant) session.getAttribute("currentUser");
                     boolean isFavorite = FavoriteHostelDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
                     request.setAttribute("isFavorite", isFavorite);
@@ -326,7 +295,7 @@ public class HostelController extends HttpServlet {
                     Feedback feedback = FeedbackDAO.findByHostelTenant(hostelId, t.getAccount().getAccountID());
                     request.setAttribute("feedback", feedback);
                 }
-                
+
                 if (request.getParameter("filterStar") != null) {
                     int filterStar = Integer.parseInt(request.getParameter("filterStar"));
                     if (filterStar > 0) {
@@ -340,37 +309,12 @@ public class HostelController extends HttpServlet {
                     }
                     request.setAttribute("filterStar", filterStar);
                 }
-
-                int itemQuantity = feedbackList.size();
-                int pagingQuantity = (int) Math.ceil((double) itemQuantity / itemsOnOnePage);
-                int beginIndex = (currentPage - 1) * itemsOnOnePage;
-                int endIndex = currentPage * itemsOnOnePage;
-                int beginPage = 1;
-                int endPage = pagingQuantity;
-
-                if (pagingQuantity > 5) {
-                    if (currentPage >= 3 && currentPage <= pagingQuantity - 2) {
-                        beginPage = currentPage - 2;
-                        endPage = currentPage + 2;
-                    } else if (currentPage >= pagingQuantity - 1) {
-                        beginPage = pagingQuantity - 4;
-                        endPage = pagingQuantity;
-                    }
-                }
-                feedbackList = (List<Feedback>) feedbackList.subList(beginIndex, (endIndex > itemQuantity) ? itemQuantity : endIndex);
-
-                request.setAttribute("itemQuantity", itemQuantity);
-                request.setAttribute("currentPage", currentPage);
-                request.setAttribute("beginPage", beginPage);
-                request.setAttribute("endPage", endPage);
-                request.setAttribute("pagingQuantity", pagingQuantity);
                 request.setAttribute("feedbackList", feedbackList);
                 request.setAttribute("hostel", hostel);
-                
+
 //                ArrayList<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostel.getHostelID());
-                
                 request.setAttribute("roomTypeList", roomTypeList);
-                
+
                 request.getRequestDispatcher("/view/hostelDetail.jsp").forward(request, response);
             } else if (path.equals("/toggleFavHostel")) {
                 //Hàm bắt xử lí khi nhấn toggle favorite
@@ -433,7 +377,7 @@ public class HostelController extends HttpServlet {
                 Notification rentalNoti = new Notification();
 
                 int roomTypeID = Integer.parseInt(request.getParameter("roomTypeID"));
-                
+
                 RoomType roomType = RoomTypeDAO.findByID(roomTypeID);
 
                 //this is notification for landlord about booking request from tenant

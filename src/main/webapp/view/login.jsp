@@ -41,8 +41,8 @@
             <!-- banner -->
             <div class="w-2/5 relativee">
                 <div class="w-2/5 h-screen absolute z-[5] bg-black black opacity-80 flex flex-col justify-center items-center">
-                    <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Welcome Back!</h2>
-                    <p class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">To keep connected with us please login with your personal info</p>
+                    <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Xin chào!</h2>
+                    <p class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">Đăng nhập để đặt thuê phòng hoặc quản lý nhà trọ với Sakura</p>
                 </div>
                 <img class="w-2/5 h-screen absolute" src="../assets/images/bg3.jpg" alt="">
             </div>
@@ -52,7 +52,7 @@
                 <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/login" method="post" id="form" name="login-form" novalidate="true">
 
                     <div class="form-header w-full h-auto text-center m-0 py-2 relative">
-                        <h2 class="text-3xl text-[#FF6532] font-medium mb-5">Đăng nhập</h2>
+                        <h2 class="text-3xl text-[#288D87] font-medium mb-5">Đăng nhập</h2>
                         <p id="error" class="warning text-[15px] font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
                     </div>
                     <ul class="item-list list-none p-0 w-[52%]">

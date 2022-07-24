@@ -26,7 +26,7 @@ a {
 }
 
 nav.header {
-    width: 80%;
+    width: 70%;
     height: 100%;
     display: flex;
     justify-content: space-between;
@@ -100,7 +100,7 @@ nav .access {
 }
 
 nav .access a {
-    height: 80%;
+    height: 60%;
     padding: 0 10px;
     display: flex;
     align-items: center;
@@ -114,12 +114,13 @@ nav .access a {
     cursor: pointer;
     margin-left: 20px;
     color: #e2e2e2;
-
+    transition: all 0.2s ease-in-out;
 }
 
 #header-section.stick nav .access a {
     color: #E6EEF1;
     background: #17535B;
+    transition: all 0.2s ease-in-out;
 }
 
 nav .access a:hover {
@@ -143,7 +144,6 @@ nav .access a:last-child {
 
 /*Filter address*/
 .home-filter {
-    max-width: 500px;
     width: fit-content;
     height: 100%;
     padding: 5px 10px;
@@ -158,45 +158,44 @@ nav .access a:last-child {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 8px;
     background-color: #F5F5F5;
 }
 
 /* Hide arrow  */
 select {
-    -moz-appearance: none;
+    -moz-appearance   : none;
     -webkit-appearance: none;
-    appearance: none;
+    appearance        : none;
 }
 
 .filter-address {
     margin: 0;
     background-color: transparent;
     color: #17535B;
-    width: fit-content;
-    padding: 0 20px;
-    height: 70%;
+    width: 170px;
+    height: 60%;
     text-align: center;
     outline: none;
+    padding: 0 10px;
 }
 
 .filter-address:first-child {
-    border-right: 1px solid #88b6b3;
+    border-right: 1px solid #288D87;
 }
 
 .filter-submit {
-    width: 20%;
-    height: 100%;
+    width: 60px;
+    border-radius: 0 8px 8px 0;
+    overflow: hidden;
 }
 
 .filter-submit button {
     background-color: #17535B;
     border: none;
     outline: none;
-    border-radius: 4px;
     height: 100%;
     width: 100%;
-    height: 100%;
     color: #fff;
     font-size: 15px;
     margin: 0;
@@ -212,4 +211,98 @@ select {
     outline: none;
     color: #fff;
     background-color: #13484F;
+}
+
+select, select:focus, select:active {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-image: none;
+}
+
+.s-hidden {
+    visibility: hidden;
+    padding-right: 10px;
+}
+
+.select, .select-district {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    font: normal 11px/22px "Mulish", Sans-Serif;
+    color: #1f2937;
+    font-size: 15px;
+}
+
+.styledSelect, .styledSelect-district {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #F5F5F5;
+    color: #17535B;
+    text-align: center;
+    padding: 0 10px;
+    border-right: 1px solid #17535B;
+}
+
+.styledSelect-district {
+    border-right: none;
+}
+
+/* .styledSelect:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-color: black transparent transparent transparent;
+    position: absolute;
+    top: 9px;
+    right: 6px;
+} */
+
+.styledSelect:active,
+.styledSelect.active,
+.styledSelect-district:active,
+.styledSelect-district.active {
+    color: #288D87;
+}
+
+.options, .options-district {
+    font-weight: 700;
+    display: none;
+    position: absolute;
+    top: 150%;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    margin: 0 0;
+    padding: 0 0;
+    list-style: none;
+    background-color: white;
+    border-radius: 8px;
+    -webkit-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    -moz-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.options-district {
+    width: 250px;
+    height: 600px;
+    overflow-y: auto;
+}
+
+.options li, .options-district li {
+    margin: 0 10px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.options li:last-child, .options-district li:last-child {
+    border-bottom: none;
+}
+
+.options li:hover, .options-district li:hover {
+    color: #288D87;
 }

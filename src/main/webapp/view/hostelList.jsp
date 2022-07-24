@@ -20,7 +20,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sakura - Danh sách nhà trọ</title>
 
-
         <%@include file="../view/assets.jsp" %>
 
         <link rel="stylesheet" href="../assets/css/hostel-list.css">
@@ -166,7 +165,7 @@
                 <c:if test="${requestScope.itemQuantity != 0}">
                     <div class="hostel-list container">
                         <div class="hostel-list-header flex justify-between items-center my-[20px]">
-                            <h4 class="result-number text-[#282C3B] text-[17px] font-md">Tìm thấy ${requestScope.itemQuantity} nhà trọ</h4>
+                            <h4 class="result-number text-[#282C3B] text-[17px] font-md">Tìm thấy ${requestScope.hostelList.size() } nhà trọ</h4>
                             <input type='hidden' id='current_page' />
                             <input type='hidden' id='show_per_page' />
                             <div class="flex items-center justify-end">

@@ -9,15 +9,6 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" ></script>
-<script>
-    /*$(window).bind("pageshow", function(event) {
-     if (event.originalEvent.persisted) {
-     window.location.reload(); 
-     }
-     });*/
-</script>
-
 <%
     response.setHeader("Cache-Control", "no-cache, no-store");
 %>
@@ -27,7 +18,7 @@
     <head>
         <!--- basic page needs-->
         <meta charset="utf-8">
-        <title>Sakura</title>
+        <title>Sakura - Trang chủ</title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -39,14 +30,20 @@
 
         <!-- CSS -->
         <link rel="stylesheet" href="/sakura/assets/css/homepage-main.css">
-        <link rel="stylesheet" href="/sakura/assets/css/header-user.css">
-        <link rel="stylesheet" href="/sakura/assets/css/header-guest.css">
-        <link rel="stylesheet" href="/sakura/webjars/flowbite/1.3.4/src/flowbite.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="/sakura/assets/css/select-address-header.css">
+
+        <c:if test="${sessionScope.currentUser != null}">
+            <link rel="stylesheet" href="/sakura/assets/css/header-user.css">
+        </c:if>
+        <c:if test="${sessionScope.currentUser == null}">
+            <link rel="stylesheet" href="/sakura/assets/css/header-guest.css">
+        </c:if>
+
+        <link rel="stylesheet" href="/sakura/webjars/flowbite/1.3.4/dist/flowbite.css" />
+        <script src="/sakura/assets/javascript/tailwindcss.js"></script>
 
         <!-- script -->
         <script src="/sakura/assets/javascript/jquery/jquery.min.js"></script>
-        <script src="/sakura/webjars/flowbite/1.3.4/src/flowbite.js"></script>
 
         <!-- favicons -->
         <link rel="shortcut icon" href="/sakura/assets/icons/logo.png" type="image/x-icon">
@@ -58,25 +55,23 @@
         <!-- HOME -->
         <section id="home" class="parallax w-full h-full bg-transparent relative">
             <header id="header-section"class="z-[5] ">
-                <c:choose>
-                    <c:when test="${sessionScope.currentUser == null}">
-                        <%@include file="../view/headerGuest.jsp"%>
-                    </c:when>
-                    <c:otherwise>
-                        <%@include file="../view/headerUser.jsp" %>
-                    </c:otherwise>
-                </c:choose>
+                <c:if test="${sessionScope.currentUser != null}">
+                    <%@include file="../view/headerUser.jsp" %>
+                </c:if>
+                <c:if test="${sessionScope.currentUser == null}">
+                    <%@include file="../view/headerGuest.jsp" %>
+                </c:if>
             </header>
             <div class="overlay absolute top-0 left-0 w-full h-full bg-[#000] opacity-[0.6] z-0"></div>
-            <div class="home-content w-[65%] h-full mx-auto flex flex-col justify-center ">
+            <div class="home-content w-[65%] h-full mx-auto flex flex-col justify-center translate-y-[-50px]">
                 <div class="home-content-title mb-[50px] z-[2]">
-                    <h1 data-aos="fade-up" class="text-[50px] text-[#fff] font-bold mb-[20px] tracking-wide">
+                    <h1 data-aos="fade-up" class="text-[50px] text-[#fff] font-extrabold mb-[20px] tracking-wide">
                         Không gian sống tiêu chuẩn<br>
                         <span style="color: #FF9410;">dành cho giới trẻ</span>
                     </h1>
-                    <h5 data-aos="fade-up" class="text-[#fff] text-[20px] font-medium tracking-wide	">Điều kiện sống chất lượng với nhiều ưu điểm nổi bật</h5>
+                    <h5 data-aos="fade-up" class="text-[#fff] text-[20px] font-medium tracking-wide">Điều kiện sống chất lượng với nhiều ưu điểm nổi bật</h5>
                 </div>
-                <div data-aos="fade-up" class="filter-container w-full h-auto bg-white/80 backdrop-blur-md  py-[20px] px-[60px] rounded z-[2]">
+                <div data-aos="fade-up" class="filter-container w-full h-auto bg-white/80 backdrop-blur-md py-[20px] px-[60px] rounded z-[2]">
                     <form action="/sakura/hostel/list" class="filter grid grid-cols-5 gap-[20px]">
                         <select id="province" class="filter-address col-span-2 outline-none border border-[#40576C] hover:border-[#FF9F47] focus:border-[#FF9F47] active:border-[#FF9F47] hover:outline-none active:ring-0 active:outline-none focus:ring-0 focus:outline-none rounded text-[18px] font-bold text-[#40576C] w-full h-full p-2" name="province">
                         </select>
@@ -96,7 +91,6 @@
                     <i class="bi-arrow-right pl-[9px] relative text-[15px]" aria-hidden="true"></i>
                 </a>
             </div>
-
 
         </section> <!-- end home -->
 
@@ -231,38 +225,27 @@
                     </div>
                     <!-- Slider indicators -->
                     <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
-                        <button type="button" class="w-6 h-[4px] rounded" aria-current="true" aria-label="Slide 1"
-                                data-carousel-slide-to="0"></button>
-                        <button type="button" class="w-6 h-[4px] rounded" aria-current="false" aria-label="Slide 2"
-                                data-carousel-slide-to="1"></button>
-                        <button type="button" class="w-6 h-[4px] rounded" aria-current="false" aria-label="Slide 3"
-                                data-carousel-slide-to="2"></button>
-                        <button type="button" class="w-6 h-[4px] rounded" aria-current="false" aria-label="Slide 4"
-                                data-carousel-slide-to="3"></button>
-                        <button type="button" class="w-6 h-[4px] rounded" aria-current="false" aria-label="Slide 5"
-                                data-carousel-slide-to="4"></button>
+                        <button type="button" class="w-6 h-[4px] rounded" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+                        <button type="button" class="w-6 h-[4px] rounded" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+                        <button type="button" class="w-6 h-[4px] rounded" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+                        <button type="button" class="w-6 h-[4px] rounded" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
+                        <button type="button" class="w-6 h-[4px] rounded" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
                     </div>
                     <!-- Slider controls -->
-                    <button type="button"
-                            class="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
-                            data-carousel-prev>
-                        <span
-                            class="inline-flex justify-center items-center w-8 h-8 rounded-ful group-focus:outline-none">
-                            <svg class="w-5 h-5 text-[#40576C]" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <button type="button" data-carousel-prev
+                            class="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none">
+                        <span class="inline-flex justify-center items-center w-8 h-8 rounded-ful group-focus:outline-none">
+                            <svg class="w-5 h-5 text-[#40576C]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
                             </path>
                             </svg>
                             <span class="hidden">Previous</span>
                         </span>
                     </button>
-                    <button type="button"
-                            class="flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
-                            data-carousel-next>
-                        <span
-                            class="inline-flex justify-center items-center w-8 h-8 rounded-ful group-focus:outline-none">
-                            <svg class="w-5 h-5 text-[#40576C]" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <button type="button" data-carousel-next
+                            class="flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none">
+                        <span class="inline-flex justify-center items-center w-8 h-8 rounded-ful group-focus:outline-none">
+                            <svg class="w-5 h-5 text-[#40576C]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
                             <span class="hidden">Next</span>
@@ -323,52 +306,36 @@
             </div>
         </section> <!-- End FAQ -->
 
-
-        <!-- footer
-        ================================================== -->
-        <div>
-            <div class="footer-bottom">
-                <div class="row">
-                    <div class="col-twelve">
-                        <div id="go-top">
-                            <a class="smoothscroll" title="Back to Top" href="#top"><i class="bi-arrow-up"></i></a>
-                        </div>
-                    </div>
-                </div> <!-- end footer-bottom -->
+        <div class="footer-bottom">
+            <div id="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"><i class="bi-arrow-up"></i></a>
             </div>
         </div>
         <%@include file="footer.jsp" %>
-        <!--         <div id="preloader"><div id="loader"></div></div> -->
 
-        <!-- Java Script
-        ================================================== -->
-
-        <!--<script src="assets/javascript/homepage-jquery-2.1.3.min.js"></script>-->
         <!--<script src="assets/javascript/homepage-plugins.js"></script>-->
         <!--<script src="assets/javascript/homepage-main.js"></script>-->
 
+
         <script type="text/javascript">
-    window.addEventListener("scroll", function () {
-        var header = document.querySelector("#header-section");
-        header.classList.toggle("stick", window.scrollY > 0);
+            window.addEventListener("scroll", function () {
+                var header = document.querySelector("#header-section");
+                header.classList.toggle("stick", window.scrollY > 0);
+            });
 
-        // var img = document.querySelector("#logo-header");
-        // img.src = "../assets/images/homepage-icon/logo.png";
-    });
+            var initialSrc = "assets/images/homepage-icon/logo_white.png";
+            var scrollSrc = "assets/images/homepage-icon/logo.png";
 
-    var initialSrc = "assets/images/homepage-icon/logo_white.png";
-    var scrollSrc = "assets/images/homepage-icon/logo.png";
-
-    $(window).scroll(function () {
-        var value = $(this).scrollTop();
-        if (value > 0) {
-            //$("#name-header").css("color", "#17535B");
-            $("#logo-header").attr("src", scrollSrc);
-        } else {
-            //$("#name-header").css("color", "#fff");
-            $("#logo-header").attr("src", initialSrc);
-        }
-    });
+            $(window).scroll(function () {
+                var value = $(this).scrollTop();
+                if (value > 0) {
+                    //$("#name-header").css("color", "#17535B");
+                    $("#logo-header").attr("src", scrollSrc);
+                } else {
+                    //$("#name-header").css("color", "#fff");
+                    $("#logo-header").attr("src", initialSrc);
+                }
+            });
         </script>
         <script>
             /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
@@ -393,7 +360,6 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#province').append('<option value="0">Chọn thành phố</option>');
-                $('#province').append('<option value="0">Tất cả thành phố</option>');
                 $('#district').append('<option value="0">Chọn quận/huyện</option>');
 //                $('#district').append('<option value="0">Tất cả quận/huyện</option>');
 
@@ -412,11 +378,12 @@
                         for (let i = 0; i < data.length; i++) {
                             $("#province").append($("<option/>", {
                                 value: data[i].provinceID,
-                                text: data[i].provinceName,
+                                text: data[i].provinceName
                             }
                             ));
                         }
                         console.log('Complete');
+                        customProvinceSelect();
                     }
                 });
             });
@@ -451,11 +418,12 @@
                             ));
                         }
                         console.log('Complete');
+                        //customProvinceSelect();
                     }
                 });
             });
         </script>
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="assets/javascript/homepage-custom-select.js"></script>
+        <script src="/sakura/webjars/flowbite/1.3.4/dist/flowbite.js"></script>
     </body>
 </html>

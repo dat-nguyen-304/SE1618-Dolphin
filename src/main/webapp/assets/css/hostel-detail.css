@@ -71,9 +71,10 @@ textarea {
 #toggle-fav-hostel {
     background-color: #cbd5e1;
     border-radius: 4px;
-    width: 150px;
+    width: 100px;
     color: #fff;
     padding: 5px 10px;
+    transition: all 0.2s ease-out;
 }
 
 #toggle-fav-hostel:hover {
@@ -81,11 +82,19 @@ textarea {
 }
 
 #toggle-fav-hostel.active {
-    background-color: #f43f5e !important;
+    background-color: #288D87 !important;
 }
 
 #toggle-fav-hostel.active:hover {
-    background-color: #e11d48;
+    background-color: #1D837D;
+}
+
+.lg-backdrop {
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+.lg-outer .lg-thumb-outer {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .lg-outer .lg-thumb-item {

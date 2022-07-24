@@ -50,18 +50,18 @@
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="hostel-address font-semibold text-slate-700 text-[15px]">
-                        <i class="bi bi-geo-fill text-orange-500 text-[18px] mr-[10px]"></i> ${requestScope.hostel.streetAddress}, ${hostel.district.districtName}, ${hostel.district.province.provinceName}
+                        <i class="bi bi-geo-fill text-[#288D87] text-[18px] mr-[10px]"></i> ${requestScope.hostel.streetAddress}, ${hostel.district.districtName}, ${hostel.district.province.provinceName}
                     </div>
                     <c:if test="${sessionScope.currentUser != null}">
                         <div class="cursor-pointer">
                             <c:if test="${requestScope.isFavorite == true}">
                                 <button id="toggle-fav-hostel" class="active" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)">
-                                    <i class="bi bi-heart-fill"></i> Bỏ yêu thích
+                                    <i class="bi bi-bookmark-fill"></i> Bỏ lưu
                                 </button>
                             </c:if>
                             <c:if test="${requestScope.isFavorite == false}">
                                 <button id="toggle-fav-hostel" class="" onclick="toggleFavoriteHostel(${requestScope.hostel.hostelID}, this)">
-                                    <i class="bi bi-heart-fill"></i> Yêu thích
+                                    <i class="bi bi-bookmark-fill"></i> Lưu
                                 </button>
                             </c:if>
                         </div>
@@ -89,10 +89,12 @@
                         </c:if>
                         <c:if test="${iterator == 4}">
                             <a class="duration-200 ease-in-out relative" data-src="${hostel.imgList.get(iterator)}" >
-                                <p class="w-full h-full absolute top-0 left-0 flex items-center justify-center z-10">
-                                    <span class="text-[#fff] font-bold text-[28px]">+${requestScope.hostel.imgList.size() - iterator - 1}</span>
-                                </p>
-                                <p class="w-full h-full bg-[#000] opacity-[0.35] absolute"></p>
+                                <c:if test="${requestScope.hostel.imgList.size() > 5}">
+                                    <p class="w-full h-full absolute top-0 left-0 flex items-center justify-center z-10">
+                                        <span class="text-[#fff] font-bold text-[28px]">+${requestScope.hostel.imgList.size() - iterator - 1}</span>
+                                    </p>
+                                    <p class="w-full h-full bg-[#000] opacity-[0.35] absolute"></p>
+                                </c:if>
                                 <img class="w-full h-full object-cover" src="${hostel.imgList.get(iterator)}">
                             </a>
                         </c:if>
@@ -497,9 +499,9 @@
                     success: function (result) {
                         element.classList.toggle("active");
                         if (element.classList.contains("active")) {
-                            element.innerHTML = "<i class='bi bi-heart-fill'></i> Bỏ yêu thích";
+                            element.innerHTML = "<i class='bi bi-bookmark-fill'></i> Bỏ lưu";
                         } else {
-                            element.innerHTML = "<i class='bi bi-heart-fill'></i> Yêu thích";
+                            element.innerHTML = "<i class='bi bi-bookmark-fill'></i> Lưu";
                         }
                     },
                     error: function () {

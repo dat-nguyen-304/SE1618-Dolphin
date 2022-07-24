@@ -7,13 +7,13 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <nav class="header">
     <a class="logo" href="/sakura/home">
-        <img id="logo-header" src="/sakura/assets/icons/logo.png" alt="">
+        <img id="logo-header" src="/sakura/assets/icons/logo_white.png" alt="">
         <h3 id="name-header">Sakura</h3>
     </a>
     <!-- left header section -->
     <div class="item-list">
-        <a class="item  ${(empty requestScope['javax.servlet.forward.servlet_path'] || requestScope['javax.servlet.forward.servlet_path'] == '/home') ? 'select' : ''}" href="/sakura">Trang chủ</a>
-        <a class="item  ${requestScope['javax.servlet.forward.servlet_path'] == '/hostel' ? 'select' : ''}" href="/sakura/hostel/list">Thuê phòng</a>
+        <a class="item  ${(empty requestScope['javax.servlet.forward.servlet_path'] || requestScope['javax.servlet.forward.servlet_path'] == '/home') ? 'selected' : ''}" href="/sakura">Trang chủ</a>
+        <a class="item  ${requestScope['javax.servlet.forward.servlet_path'] == '/hostel' ? 'selected' : ''}" href="/sakura/hostel/list">Thuê phòng</a>
     </div>
     <!-- right header section -->
     <div class="profile">
