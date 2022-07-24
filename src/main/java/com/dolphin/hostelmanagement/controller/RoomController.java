@@ -4,7 +4,6 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
-import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
@@ -16,8 +15,6 @@ import com.dolphin.hostelmanagement.DTO.RoomResident;
 import com.dolphin.hostelmanagement.DTO.RoomType;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -338,7 +335,6 @@ public class RoomController extends HttpServlet {
                 }
             }
             if (path.equals("/roomsByHostel")) {
-                System.out.println("called");
                 String hostelID = request.getParameter("hostelID");
                 int id = 0;
                 if (hostelID != null) {
@@ -347,7 +343,6 @@ public class RoomController extends HttpServlet {
 
                     JSONArray list = new JSONArray();
                     for (Room room : roomList) {
-                        System.out.println(room);
                         JSONObject obj = new JSONObject();
                         String roomID = Integer.toString(room.getRoomID());
                         String roomNumber = room.getRoomNumber();

@@ -32,7 +32,7 @@ import javax.servlet.http.HttpSession;
  * @author anvu1911
  */
 @WebFilter(filterName = "AuthorizationFilter", urlPatterns = "/view/*",
-        servletNames = {"InvoiceController", "TenantController", "LandlordController"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
+        servletNames = {"InvoiceController", "TenantController", "LandlordController", "AdminController"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 public class AuthorizationFilter implements Filter {
 
     private static final boolean debug = false;
@@ -163,7 +163,11 @@ public class AuthorizationFilter implements Filter {
             String url = wrappedRequest.getServletPath();
 
             boolean loggedIn = session != null && session.getAttribute("currentUser") != null;
-            boolean checkJsp = url.endsWith("roomTypeDetail.jsp") || url.endsWith("hostelDetail.jsp") || url.endsWith("hostelList.jsp") || url.endsWith("login.jsp") || url.endsWith("mailVerficiation.jsp") || url.endsWith("register.jsp") || url.endsWith("/sakura/account/checkUsername");
+            boolean checkJsp = url.endsWith("error.jsp") || url.endsWith("forgotPassword.jsp")
+                    || url.endsWith("roomTypeDetail.jsp") || url.endsWith("hostelDetail.jsp")
+                    || url.endsWith("hostelList.jsp") || url.endsWith("login.jsp")
+                    || url.endsWith("mailVerficiation.jsp") || url.endsWith("register.jsp")
+                    || url.endsWith("/sakura/account/checkUsername");
 
             if (!loggedIn) {
                 System.out.println("Not logged in");
@@ -173,12 +177,15 @@ public class AuthorizationFilter implements Filter {
                     chain.doFilter(wrappedRequest, wrappedResponse);
                 }
             } else {
-                if ((Integer) session.getAttribute("role") == 1 && url.contains("/landlord")) {
+                if ((Integer) session.getAttribute("role") == 1 && (url.contains("/landlord") || url.contains("/admin"))) {
                     System.out.println("Logged in but wrong role");
                     wrappedResponse.sendRedirect("/sakura/tenant/dashboard");
-                } else if ((Integer) session.getAttribute("role") == 2 && url.contains("/tenant")) {
+                } else if ((Integer) session.getAttribute("role") == 2 && (url.contains("/tenant") || url.contains("/admin"))) {
                     System.out.println("Logged in but wrong role");
                     wrappedResponse.sendRedirect("/sakura/landlord/overview");
+                } else if ((Integer) session.getAttribute("role") == 0 && (url.contains("/tenant") || url.contains("/landlord"))) {
+                    System.out.println("Logged in but wrong role admin");
+                    wrappedResponse.sendRedirect("/sakura/admin/dashboard");
                 } else {
                     System.out.println("AuthorizationFilter - Found session or redirecting to login.jsp");
                     chain.doFilter(wrappedRequest, wrappedResponse);
