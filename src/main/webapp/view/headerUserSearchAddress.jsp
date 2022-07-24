@@ -15,7 +15,7 @@
         <div class="home-filter">
             <form action="/sakura/hostel/list" class="filter" method="post">
                 <select id="province" name="province" class="filter-address" onchange="renderDistrict(this)">
-                    <option value="0">Thành phố</option>
+                    <option value="0" >Thành phố</option>
                     <c:forEach items="${sessionScope.provinceList}" var="province">
                         <c:if test="${province.provinceID == sessionScope.province.provinceID}">
                             <option selected value="${province.provinceID}">${province.provinceName}</option>
@@ -31,6 +31,7 @@
                         <input type="hidden" class="districtSelected-hidden" value="${sessionScope.district.districtID}" />
                     </c:if>
                 </select>
+
                 <div class="filter-submit">
                     <button class="btn btn-search" type="submit">
                         Lọc

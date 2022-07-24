@@ -20,9 +20,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sakura - Danh sách nhà trọ</title>
 
+
         <%@include file="../view/assets.jsp" %>
 
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
         <link rel="stylesheet" href="../assets/css/hostel-list.css">
         <c:choose>
             <c:when test="${sessionScope.currentUser != null}">
@@ -32,6 +32,7 @@
                 <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
             </c:otherwise>
         </c:choose>
+
 
     </head>
     <body>
@@ -285,19 +286,17 @@
             </div>
         </div>
         <%@include file="footer.jsp" %>      
-
         <script src="../assets/javascript/hostel-list.js"></script>
         <script src="../assets/javascript/toggle-favorite.js"></script>
         <script src="../assets/javascript/keep-district.js"></script>
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="../assets/javascript/custom-select.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script>
                                                                             let x = 0;
         </script>
         <script>
             //Pagination JS
-            var show_per_page = 5;
+            var show_per_page = 20;
             var number_of_items = jQuery('#paging_box').children().length; //getting the amount of elements inside pagingBox div
             var number_of_pages = Math.ceil(number_of_items / show_per_page); //calculate the number of pages we are going to have
 
