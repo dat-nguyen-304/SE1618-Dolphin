@@ -140,7 +140,7 @@
                                         <td class="px-3 py-4 text-center">
                                             <button onclick="updateService(this)" type="submit" value="${requestScope.eletricService.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
                                         </td>
-                                        <td class="px-3 py-4 text-center">
+                                        <td class="px-3 py-4 text-center backup">
                                             <button onclick="resetService(this, 'Điện', '${requestScope.eletricService.serviceFee}', 'kWh')" type="submit" value="${requestScope.eletricService.serviceID}" class="font-medium text-[#288D87] hover:underline">Hoàn tác</button>
                                         </td>
                                         <td class="px-3 py-4 text-right text-center">
@@ -163,7 +163,7 @@
                                         <td class="px-3 py-4 text-center">
                                             <button onclick="updateService(this)" type="submit" value="${requestScope.waterService.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
                                         </td>
-                                        <td class="px-3 py-4 text-center">
+                                        <td class="px-3 py-4 text-center backup">
                                             <button onclick="resetService(this, 'Nước', '${requestScope.waterService.serviceFee}', 'm3')" type="submit" class="font-medium text-[#288D87] hover:underline">Hoàn tác</button>
                                         </td>
                                         <td class="px-3 py-4">
@@ -191,7 +191,7 @@
                                             <td class="px-3 py-4 text-center">
                                                 <button onclick="updateService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
                                             </td>
-                                            <td class="px-3 py-4 text-center">
+                                            <td class="px-3 py-4 text-center backup">
                                                 <button onclick="resetService(this, '${service.serviceName}', '${service.serviceFee}', '${service.unit}')" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Hoàn tác</button>
                                             </td>
                                             <td class="px-3 py-4 text-center">
@@ -390,7 +390,9 @@
                         url: '/sakura/service/edit-service',
                         success: function (response) {
                             serviceFee.value = serviceFee.value;
-
+                            const backup = serviceElement.querySelector(".backup");
+                            const htmlString = "<button onclick=\"resetService(this, '" + serviceName.value + "', '" + serviceFee.value + "', '" + serviceUnit.value + "')\" type='submit' value='" + serviceId.value + "' class='font-medium text-[#288D87] hover:underline'>Hoàn tác</button>";
+                            backup.innerHTML = htmlString;
                             showToast("info", response, 1);
                             //updateMessage.innerHTML = response;
                         },
@@ -402,7 +404,7 @@
 
                 }
             }
-            
+
             function resetService(element, service, fee, unit) {
                 console.log("da vao update service");
                 const serviceElement = element.parentElement.parentElement;
