@@ -299,7 +299,9 @@
                                                 </td>
                                                 <td class="col-span-4 flex justify-around items-center">
                                                     <button onclick="updateMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline">Lưu thay đổi</button>
-                                                    <button onclick="resetMember(this, '${resident.fullname}', '${resident.phone}', '${resident.dob}')" class="mx-auto font-[15px] text-[#288D87] hover:underline">Hoàn tác</button>
+                                                    <div class="backup">
+                                                        <button onclick="resetMember(this, '${resident.fullname}', '${resident.phone}', '${resident.dob}')" class="mx-auto font-[15px] text-[#288D87] hover:underline">Hoàn tác</button>
+                                                    </div>
                                                     <button onclick="deleteMember(this)" type="submit" value="${resident.roomResidentID}" class="mx-auto font-[15px] text-[#288D87] hover:underline">Xóa</button>
                                                 </td>
                                             </tr>
@@ -476,6 +478,9 @@
                             },
                             url: '/sakura/room/update-member',
                             success: function (response) {
+                                const backup = memberElement.querySelector(".backup");
+                                const htmlString = "<button onclick=\"resetMember(this, '" + updateFullName.value + "', '" + updatePhone.value + "', '" + updateDob.value + "')\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Hoàn tác</button>";
+                                backup.innerHTML = htmlString;
                                 showToast('info', response.toString());
                             },
                             error: function () {
@@ -494,7 +499,7 @@
             }
 
             function resetMember(element, fullname, phone, dob) {
-                const memberElement = element.parentElement.parentElement;
+                const memberElement = element.parentElement.parentElement.parentElement;
                 const updateFullName = memberElement.querySelector("input[name='updateFullName']");
                 const updatePhone = memberElement.querySelector("input[name='updatePhone']");
                 const updateDob = memberElement.querySelector("input[name='updateDob']");
@@ -574,7 +579,7 @@
                     }
                 }
             }
-            
+
             function checkValidAddDob(element) {
                 const validAddDobMessage = document.querySelector(".validAddDobMessage");
                 if (!element.value.trim()) {
@@ -585,8 +590,8 @@
                     checkAddDob = true;
                 }
             }
-            
-            
+
+
             function addMember() {
                 console.log("da vao add member");
                 const roomId = document.querySelector("input[name='roomId']");

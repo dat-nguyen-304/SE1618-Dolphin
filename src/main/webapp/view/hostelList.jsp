@@ -71,31 +71,87 @@
                     <div class="flex items-center justify-end z-[5]">
                         <c:if test="${requestScope.itemQuantity != 0}">
                             <div class="filter-item p-0 m-0 mr-[20px]">
-                                <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
-                                    Đánh giá <i class="bi bi-caret-down-fill ml-[10px]"></i>
-                                    <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
-                                        <form action="/sakura/hostel/list" method="post">
-                                            <c:if test="${requestScope.favorite == true}">
-                                                <input type="hidden" name="favorite" value="true"/>
-                                            </c:if>
-                                            <c:if test="${requestScope.keyword != null}">
-                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.province != null}">
-                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                            </c:if>
-                                            <c:if test="${sessionScope.district != null}">
-                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                            </c:if>
-                                            <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
-                                            </li>
-                                            <li class="sort-criteria-item h-[50px] text-[14px] font-norĐã lưumal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
-                                            </li>
-                                        </form>
-                                    </ul>
-                                </div>
+                                <c:if test="${param.sortByRate == null}">
+                                    <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
+                                        Đánh giá <i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                        <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
+                                            <form action="/sakura/hostel/list" method="post">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
+                                                </li>
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-norĐã lưumal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
+                                                </li>
+                                            </form>
+                                        </ul>
+                                    </div>
+                                </c:if>
+                                <c:if test="${param.sortByRate eq 'asc'}">
+                                    <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
+                                        Đánh giá: Tăng dần<i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                        <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
+                                            <form action="/sakura/hostel/list" method="post">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit">Mặc định</button>
+                                                </li>
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-norĐã lưumal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
+                                                </li>
+                                            </form>
+                                        </ul>
+                                    </div>
+                                </c:if>
+                                <c:if test="${param.sortByRate eq 'desc'}">
+                                    <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
+                                        Đánh giá: Giảm dần<i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                        <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
+                                            <form action="/sakura/hostel/list" method="post">
+                                                <c:if test="${requestScope.favorite == true}">
+                                                    <input type="hidden" name="favorite" value="true"/>
+                                                </c:if>
+                                                <c:if test="${requestScope.keyword != null}">
+                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.province != null}">
+                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                                </c:if>
+                                                <c:if test="${sessionScope.district != null}">
+                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                                </c:if>
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit">Mặc định</button>
+                                                </li>
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-norĐã lưumal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit" value="desc" name="sortByRate">Tăng dần</button>
+                                                </li>
+                                            </form>
+                                        </ul>
+                                    </div>
+                                </c:if>
                             </div>
                             <div class="filter-item p-0 m-0 mr-[20px]">
                                 <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border-1 border-[#17535B]">
@@ -291,89 +347,86 @@
         <script src="../assets/javascript/custom-select.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script>
-                                                                            let x = 0;
-        </script>
-        <script>
-            //Pagination JS
-            var show_per_page = 20;
-            var number_of_items = jQuery('#paging_box').children().length; //getting the amount of elements inside pagingBox div
-            var number_of_pages = Math.ceil(number_of_items / show_per_page); //calculate the number of pages we are going to have
+                                                                            //Pagination JS
+                                                                            var show_per_page = 20;
+                                                                            var number_of_items = jQuery('#paging_box').children().length; //getting the amount of elements inside pagingBox div
+                                                                            var number_of_pages = Math.ceil(number_of_items / show_per_page); //calculate the number of pages we are going to have
 
-            if (number_of_items > show_per_page) {
-                jQuery(document).ready(function () {
+                                                                            if (number_of_items > show_per_page) {
+                                                                                jQuery(document).ready(function () {
 
-                    jQuery('#current_page').val(0);
-                    jQuery('#show_per_page').val(show_per_page);
+                                                                                    jQuery('#current_page').val(0);
+                                                                                    jQuery('#show_per_page').val(show_per_page);
 
-                    var navigation_html = '<a class="previous_link " href="javascript:previous();"><i class="bi bi-chevron-left"></i></a>';
-                    var current_link = 0;
-                    while (number_of_pages > current_link) {
-                        navigation_html += '<a class="page_link" href="javascript:go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a>';
-                        current_link++;
-                    }
-                    navigation_html += '<a class="next_link" href="javascript:next();"><i class="bi bi-chevron-right"></i></a>';
+                                                                                    var navigation_html = '<a class="previous_link " href="javascript:previous();"><i class="bi bi-chevron-left"></i></a>';
+                                                                                    var current_link = 0;
+                                                                                    while (number_of_pages > current_link) {
+                                                                                        navigation_html += '<a class="page_link" href="javascript:go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a>';
+                                                                                        current_link++;
+                                                                                    }
+                                                                                    navigation_html += '<a class="next_link" href="javascript:next();"><i class="bi bi-chevron-right"></i></a>';
 
 
-                    jQuery('#page_navigation').html(navigation_html);
+                                                                                    jQuery('#page_navigation').html(navigation_html);
 
 
-                    //add active_page class to the first page link
-                    jQuery('#page_navigation .page_link:first').addClass('active_page');
-                    var navigation_html_id = '<p class="next_link">Trang ' + 1 + ' / ' + number_of_pages + '</p>';
-                    jQuery('#page_navigation_id').html(navigation_html_id);
+                                                                                    //add active_page class to the first page link
+                                                                                    jQuery('#page_navigation .page_link:first').addClass('active_page');
+                                                                                    var navigation_html_id = '<p class="next_link">Trang ' + 1 + ' / ' + number_of_pages + '</p>';
+                                                                                    jQuery('#page_navigation_id').html(navigation_html_id);
 
-                    //hide all the elements inside pagingBox div
-                    jQuery('#paging_box').children().css('display', 'none');
+                                                                                    //hide all the elements inside pagingBox div
+                                                                                    jQuery('#paging_box').children().css('display', 'none');
 
-                    //and show the first n (show_per_page) elements
-                    jQuery('#paging_box').children().slice(0, show_per_page).css('display', 'block');
+                                                                                    //and show the first n (show_per_page) elements
+                                                                                    jQuery('#paging_box').children().slice(0, show_per_page).css('display', 'block');
 
 
 
 
-                });
+                                                                                });
 
-                //Pagination JS
-                function previous() {
-                    new_page = parseInt(jQuery('#current_page').val()) - 1;
-                    //if there is an item before the current active link run the function
-                    if (jQuery('.active_page').prev('.page_link').length == true) {
-                        go_to_page(new_page);
-                    }
-                }
+                                                                                //Pagination JS
+                                                                                function previous() {
+                                                                                    new_page = parseInt(jQuery('#current_page').val()) - 1;
+                                                                                    //if there is an item before the current active link run the function
+                                                                                    if (jQuery('.active_page').prev('.page_link').length == true) {
+                                                                                        go_to_page(new_page);
+                                                                                    }
+                                                                                }
 
-                function next() {
-                    new_page = parseInt(jQuery('#current_page').val()) + 1;
-                    //if there is an item after the current active link run the function
-                    if (jQuery('.active_page').next('.page_link').length == true) {
-                        go_to_page(new_page);
-                    }
-                }
+                                                                                function next() {
+                                                                                    new_page = parseInt(jQuery('#current_page').val()) + 1;
+                                                                                    //if there is an item after the current active link run the function
+                                                                                    if (jQuery('.active_page').next('.page_link').length == true) {
+                                                                                        go_to_page(new_page);
+                                                                                    }
+                                                                                }
 
-                function go_to_page(page_num) {
-                    var navigation_html_id = '<p class="next_link">Trang ' + (page_num + 1) + ' / ' + number_of_pages + '</p>';
-                    jQuery('#page_navigation_id').html(navigation_html_id);
+                                                                                function go_to_page(page_num) {
+                                                                                    var navigation_html_id = '<p class="next_link">Trang ' + (page_num + 1) + ' / ' + number_of_pages + '</p>';
+                                                                                    jQuery('#page_navigation_id').html(navigation_html_id);
 
-                    //get the number of items shown per page
-                    var show_per_page = parseInt(jQuery('#show_per_page').val());
+                                                                                    //get the number of items shown per page
+                                                                                    var show_per_page = parseInt(jQuery('#show_per_page').val());
 
-                    //get the element number where to start the slice from
-                    start_from = page_num * show_per_page;
+                                                                                    //get the element number where to start the slice from
+                                                                                    start_from = page_num * show_per_page;
 
-                    //get the element number where to end the slice
-                    end_on = start_from + show_per_page;
+                                                                                    //get the element number where to end the slice
+                                                                                    end_on = start_from + show_per_page;
 
-                    //hide all children elements of pagingBox div, get specific items and show them
-                    jQuery('#paging_box').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');
+                                                                                    //hide all children elements of pagingBox div, get specific items and show them
+                                                                                    jQuery('#paging_box').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');
 
-                    /*get the page link that has longdesc attribute of the current page and add active_page class to it
-                     and remove that class from previously active page link*/
-                    jQuery('.page_link[longdesc=' + page_num + ']').addClass('active_page').siblings('.active_page').removeClass('active_page');
+                                                                                    /*get the page link that has longdesc attribute of the current page and add active_page class to it
+                                                                                     and remove that class from previously active page link*/
+                                                                                    jQuery('.page_link[longdesc=' + page_num + ']').addClass('active_page').siblings('.active_page').removeClass('active_page');
 
-                    //update the current page input field
-                    jQuery('#current_page').val(page_num);
-                }
-            }
+                                                                                    //update the current page input field
+                                                                                    jQuery('#current_page').val(page_num);
+                                                                                }
+                                                                            }
         </script>
     </body>
 </html>
