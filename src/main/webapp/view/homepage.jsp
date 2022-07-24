@@ -79,11 +79,9 @@
                 <div data-aos="fade-up" class="filter-container w-full h-auto bg-white/80 backdrop-blur-md  py-[20px] px-[60px] rounded z-[2]">
                     <form action="/sakura/hostel/list" class="filter grid grid-cols-5 gap-[20px]">
                         <select id="province" class="filter-address col-span-2 outline-none border border-[#40576C] hover:border-[#FF9F47] focus:border-[#FF9F47] active:border-[#FF9F47] hover:outline-none active:ring-0 active:outline-none focus:ring-0 focus:outline-none rounded text-[18px] font-bold text-[#40576C] w-full h-full p-2" name="province">
-                            <option value="0">Thành phố</option>
                         </select>
 
                         <select id="district" class="filter-address col-span-2 outline-none border border-[#40576C] hover:border-[#FF9F47] focus:border-[#FF9F47] active:border-[#FF9F47] hover:outline-none active:ring-0 active:outline-none focus:ring-0 focus:outline-none rounded text-[18px] font-bold text-[#40576C] w-full h-full p-2" name="district">
-                            <option value="0">Quận huyện</option>
                         </select>
 
                         <button class="btn btn-search text-[#fff] bg-[#17535B] hover:bg-[#13484F] w-full h-full rounded cursor-pointer" type="submit">
@@ -394,6 +392,11 @@
         </script>
         <script type="text/javascript">
             $(document).ready(function () {
+                $('#province').append('<option value="0">Chọn thành phố</option>');
+                $('#province').append('<option value="0">Tất cả thành phố</option>');
+                $('#district').append('<option value="0">Chọn quận/huyện</option>');
+//                $('#district').append('<option value="0">Tất cả quận/huyện</option>');
+
                 jQuery.ajax({
                     url: '/sakura/hostel/findDistrictProvince',
                     type: 'GET',
@@ -420,7 +423,8 @@
 
             $('#province').change(function () {
                 $('#district').find('option').remove();
-                $('#district').append('<option value="0">Chọn quận</option>');
+//                $('#district').append('<option value="0">Chọn quận/huyện</option>');
+                $('#district').append('<option value="0">Tất cả quận/huyện</option>');
 
                 let provinceID = $('#province').val();
                 let data = {

@@ -106,5 +106,6 @@
         </div>
 
         <%@include file="footer.jsp" %>   
+        <script src="../assets/javascript/keep-district.js"></script>
     </body>
 </html>

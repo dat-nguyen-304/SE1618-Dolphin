@@ -94,10 +94,14 @@
                     Date createdTime = contract.getCreatedDate();
                     Date startTime = contract.getStartDate();
                     Date endTime = contract.getEndDate();
+                    Date actualEndTime = contract.getActualEndDate();
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String createdDate = formatter.format(createdTime);
                     String startDate = formatter.format(startTime);
                     String endDate = formatter.format(endTime);
+                    String actualEndDate = "";
+                    if (actualEndTime != null)
+                        actualEndDate = formatter.format(actualEndTime);
                 %>
 
                 <div class="grid grid-cols-2 gap-[20px]">
@@ -147,6 +151,12 @@
                                         </c:if>
                                     </p>
                                 </div>
+                                <c:if test="${requestScope.contract.actualEndDate != null}">
+                                    <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                        <p class="text-[#929ca5] font-normal">Ngày kết thúc </p>
+                                        <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money"><%= actualEndDate %></span></p>
+                                    </div>
+                                </c:if>
                             </div>
                             <c:if test="${requestScope.contract.description != null}">
                                 <div class="mt-[20px]">

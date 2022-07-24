@@ -12,7 +12,7 @@
     <div class="item-list">
         <a class="item select" href="/sakura">Trang chủ</a>
         <a class="item" href="/sakura/hostel/list">Thuê phòng</a>
-        <a class="item" href="#">Đăng tin nhà trọ</a>
+        <a class="item" href="/sakura/access/login">Đăng tin nhà trọ</a>
     </div>
     <!-- right header section -->
     <div class="access">

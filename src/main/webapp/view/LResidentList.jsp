@@ -103,20 +103,22 @@
                                         <th scope="col" class="px-6 py-3">Họ và tên</th>
                                         <th scope="col" class="px-6 py-3">SÐT</th>  
                                         <th scope="col" class="px-6 py-3">Ngày sinh</th>
+                                        <th scope="col" class="px-6 py-3"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.residentList}" var="resident">
                                         <tr class="bg-white border-b hover:bg-gray-50">
                                             <td class="px-6 py-4">${resident.roomResidentID}</td>
-                                            <td class="px-6 py-4">
-                                                <form action="/sakura/landlord/room-detail" method="post">
-                                                    <button type="submit" name="roomId" value="${resident.room.roomID}">${resident.room.roomNumber}</button>
-                                                </form>
-                                            </td>
+                                            <td class="px-6 py-4">${resident.room.roomNumber}</td>
                                             <td class="px-6 py-4">${resident.fullname}</td>
                                             <td class="px-6 py-4 date">${resident.phone}</td>
                                             <td class="px-6 py-4 date">${resident.dob}</td>
+                                            <td class="px-6 py-4">
+                                                <form action="/sakura/landlord/room-detail" method="post">
+                                                    <button type="submit" name="roomId" value="${resident.room.roomID}">Xem tại chi tiết phòng</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
