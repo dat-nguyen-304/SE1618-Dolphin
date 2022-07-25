@@ -23,15 +23,12 @@
         <%@include file="../view/assets.jsp" %>
 
         <link rel="stylesheet" href="../assets/css/hostel-list.css">
-        <c:choose>
-            <c:when test="${sessionScope.currentUser != null}">
-                <link rel="stylesheet" href="../assets/css/header-user-search-address.css">
-            </c:when>
-            <c:otherwise>
-                <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
-            </c:otherwise>
-        </c:choose>
-
+        <c:if test="${sessionScope.currentUser != null}">
+            <link rel="stylesheet" href="../assets/css/header-user-search-address.css">
+        </c:if>
+        <c:if test="${sessionScope.currentUser == null}">
+            <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
+        </c:if>
 
     </head>
     <body>
@@ -218,7 +215,7 @@
                     </c:if>
                 </div>
 
-                <c:if test="${requestScope.itemQuantity != 0}">
+                <c:if test="${requestScope.hostelList.size() != 0}">
                     <div class="hostel-list container">
                         <div class="hostel-list-header flex justify-between items-center my-[20px]">
                             <h4 class="result-number text-[#282C3B] text-[17px] font-md">Tìm thấy ${requestScope.hostelList.size() } nhà trọ</h4>
@@ -242,14 +239,12 @@
                                                     <ol class="carousel-indicators">
                                                         <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
                                                             <c:if test="${iterator == 0}">
-                                                                <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active">
-                                                                </li>
-                                                            </c:if>
-                                                            <c:if test="${iterator > 0}">
-                                                                <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}">
-                                                                </li>
-                                                            </c:if>
-                                                        </c:forEach>
+                                                                <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active"></li>
+                                                                </c:if>
+                                                                <c:if test="${iterator > 0}">
+                                                                <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}"></li>
+                                                                </c:if>
+                                                            </c:forEach>
                                                     </ol>
                                                     <div class="hostel-images">
                                                         <div class="carousel-inner">
@@ -268,13 +263,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="btn-prev-next">
-                                                        <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button"
-                                                           data-slide="prev">
+                                                        <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button" data-slide="prev">
                                                             <span><i class="bi bi-caret-left-fill"></i></span>
                                                             <span class="sr-only">Previous</span>
                                                         </a>
-                                                        <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button"
-                                                           data-slide="next">
+                                                        <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button" data-slide="next">
                                                             <span><i class="bi bi-caret-right-fill"></i></span>
                                                             <span class="sr-only">Next</span>
                                                         </a>
@@ -328,7 +321,7 @@
                         </ul>
                     </div>
                 </c:if>
-                <c:if test="${requestScope.itemQuantity == 0}">
+                <c:if test="${requestScope.hostelList.size() == 0}">
                     <h4 class="result-number text-[#282C3B] text-[20px] font-bold mt-[20px]">Không tìm thấy kết quả</h4>
                     <div class="w-full h-fit flex flex-col justify-center items-center mb-[160px]">
                         <img class="w-[400px] h-[400px] mt-[80px] objectfit-cover" src="../assets/images/no-result.svg" alt="alt"/>
@@ -348,7 +341,7 @@
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script>
                                                                             //Pagination JS
-                                                                            var show_per_page = 20;
+                                                                            var show_per_page = 8;
                                                                             var number_of_items = jQuery('#paging_box').children().length; //getting the amount of elements inside pagingBox div
                                                                             var number_of_pages = Math.ceil(number_of_items / show_per_page); //calculate the number of pages we are going to have
 

@@ -15,22 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Thông tin nhà trọ</title>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
-
-        <!-- <link rel="stylesheet" href="app.css"> -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
-
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <%@include file="../view/assets.jsp" %>
 
         <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/js/splide.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/css/splide.min.css">
@@ -40,8 +25,8 @@
 
         <script src="https://cdn.jsdelivr.net/npm/donutty@2.3.1/dist/donutty.min.js"></script>
 
-        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="../assets/css/LHostelInfo.css">
+        <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
+        <link  href="../assets/css/LHostelInfo.css" rel="stylesheet">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
     </head>
     <body>
@@ -291,7 +276,7 @@
 
         <!-- flowbite -->
         <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="../assets/toastr/toastr.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
         <script src="../assets/javascript/checkvalid.js"></script>
         <script type="text/javascript">

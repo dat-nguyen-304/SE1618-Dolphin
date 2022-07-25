@@ -20,3 +20,6 @@
 <!--CSS-->
 <link rel="stylesheet" href="../webjars/flowbite/1.3.4/dist/flowbite.css" />
 <script src="../assets/javascript/tailwindcss.js"></script>
+
+<!--Scrollbar-->
+<link rel="stylesheet" href="../assets/css/webkit-scrollbar.css" />

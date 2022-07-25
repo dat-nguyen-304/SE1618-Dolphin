@@ -12,17 +12,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sakura - Đăng nhập</title>
 
-        <!--Font-->
-        <link rel="stylesheet" href="../assets/css/font.css">
 
-        <!-- Icon -->
-        <link rel="stylesheet" href="../assets/icons/bootstrap-icons.css">
-
-        <!--Favicon-->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
+        <%@include file="../view/assets.jsp" %>
 
         <!--CSS-->
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/register.css">
         <link rel="stylesheet" href="../assets/css/app.css">
     </head>

@@ -18,16 +18,16 @@
         <title>Sakura - Nhà trọ ${requestScope.hostel.hostelName}</title>
 
         <%@include file="../view/assets.jsp" %>
-        <link rel="stylesheet" href="../webjars/lightgallery/2.2.1/css/lightgallery-bundle.min.css">
-        <link rel="stylesheet" href="../assets/css/hostel-detail.css">
 
+        <link rel="stylesheet" href="../assets/css/hostel-detail.css">
         <c:if test="${sessionScope.currentUser != null}">
-            <link rel="stylesheet" href="../assets/css/header-user-search-address.css"/>
+            <link rel="stylesheet" href="../assets/css/header-user-search-address.css">
         </c:if>
         <c:if test="${sessionScope.currentUser == null}">
-            <link rel="stylesheet" href="../assets/css/header-guest-search-address.css"/>
+            <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
         </c:if>
 
+        <link rel="stylesheet" href="../webjars/lightgallery/2.2.1/css/lightgallery-bundle.min.css">
     </head>
 
     <body>
@@ -43,9 +43,7 @@
             <!--HEADING-->
             <div class="hostel-header mb-[20px]">
                 <div class="flex items-center mb-[20px]">
-                    <form action="/sakura/hostel/list" method="POST" class=""> 
-                        <button class="font-bold text-[23px] duration-150 hover:text-[#FF6532]"><i class="bi bi-arrow-left"></i></button>
-                    </form>
+                    <a class="font-bold text-[23px] duration-150 hover:text-[#FF6532] cursor-pointer" onclick="history.back()"><i class="bi bi-arrow-left"></i></a>
                     <h3 class="hostel-name ml-[20px] text-[23px] font-extrabold text-slate-600">Nhà trọ ${requestScope.hostel.hostelName}</h3>
                 </div>
                 <div class="flex items-center justify-between">
@@ -375,21 +373,21 @@
 
         <script src="../assets/javascript/hostel-detail.js"></script>
         <script src="../assets/javascript/keep-district.js"></script>
+        <script src="../assets/javascript/custom-select.js"></script>
         <script src="../assets/javascript/ckeditor.js"></script>
-
         <script src="../webjars/lightgallery/2.2.1/lightgallery.umd.js"></script>
         <script src="../webjars/lightgallery/2.2.1/plugins/zoom/lg-zoom.umd.js"></script>
         <script src="../webjars/lightgallery/2.2.1/plugins/thumbnail/lg-thumbnail.umd.js"></script>
 
         <script>
-                                    window.lightGallery(
-                                            document.getElementById("animated-thumbnails-gallery"),
-                                            {
-                                                autoplayFirstVideo: false,
-                                                pager: false,
-                                                plugins: [lgZoom, lgThumbnail]
-                                            }
-                                    );
+//                                    window.lightGallery(
+//                                            document.getElementById("animated-thumbnails-gallery"),
+//                                            {
+//                                                autoplayFirstVideo: false,
+//                                                pager: false,
+//                                                plugins: [lgZoom, lgThumbnail]
+//                                            }
+//                                    );
 
         </script>
 

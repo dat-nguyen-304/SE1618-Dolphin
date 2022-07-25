@@ -65,7 +65,7 @@
                 <c:if test="${sessionScope.currentHostel != null}">
                     <div class="general-info flex justify-between mt-[20px]">
                         <div class="">
-                            <div class="pr-[20px] mr-[20px] border-r border-gray-300">
+                            <div class="pr-[20px] mr-[20px]">
                                 <span>Nhà trọ: </span>
                                 <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
                                     ${sessionScope.currentHostel.hostelName}

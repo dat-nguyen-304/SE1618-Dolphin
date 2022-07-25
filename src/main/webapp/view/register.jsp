@@ -14,17 +14,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sakura - Đăng ký</title>
 
-        <!--Font-->
-        <link rel="stylesheet" href="../assets/css/font.css">
-
-        <!-- Icon -->
-        <link rel="stylesheet" href="../assets/icons/bootstrap-icons.css">
-
-        <!--Favicon-->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
+        <%@include file="../view/assets.jsp" %>
 
         <!--CSS-->
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/register.css">
         <link rel="stylesheet" href="../assets/css/app.css">
 
@@ -47,8 +39,8 @@
             <!-- banner -->
             <div class="w-2/5 relativee">
                 <div class="w-2/5 h-screen absolute z-[5] bg-black black opacity-80 flex flex-col justify-center items-center">
-                    <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Hello, Friend!</h2>
-                    <p  class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">Enter your personal details and start journey with us</p>
+                    <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Xin chào!</h2>
+                    <p  class="z-10 pt-9 text-white text-[20px] font-extralight">Nhập thông tin của bạn để đăng ký tài khoản để đồng hành cùng Sakura</p>
                 </div>
                 <img class="w-2/5 h-screen absolute " src="../assets/images/bg2.jpg" alt="">
             </div>
@@ -58,7 +50,7 @@
                 <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/register" method="post" id="form" name="register-form" novalidate="">
 
                     <div class="form-header w-full h-14 text-center m-0 p-0 relative">
-                        <h2 class="text-3xl text-[#FF6532] font-medium ">Đăng ký</h2>
+                        <h2 class="text-3xl text-[#288D87] font-medium ">Đăng ký</h2>
                     </div>
                     <ul class="item-list list-none w-[52%]">
 
@@ -181,7 +173,7 @@
                 </div>
             </div>
         </div>
-                            
+
         <script>
             window.onload = () => {
                 const myInput = document.querySelector("#cf-password");

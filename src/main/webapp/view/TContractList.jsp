@@ -16,14 +16,12 @@
         <title>Trang người thuê - Danh sách hợp đồng</title>
 
         <%@include file="../view/assets.jsp" %>
-
-        <link rel="stylesheet" href="../assets/css/LContractList.css">
-        <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
-
         <%@include file="../assets/datatables/dataTables.jsp" %>
 
+        <link href="../assets/css/LContractList.css" rel="stylesheet">
+        <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
+
         <link rel="stylesheet" href="../assets/css/datatables.css">
-        <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
     </head>
 
