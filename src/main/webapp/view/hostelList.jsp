@@ -68,91 +68,68 @@
                     <div class="flex items-center justify-end z-[5]">
                         <c:if test="${requestScope.itemQuantity != 0}">
                             <div class="filter-item p-0 m-0 mr-[20px]">
-                                <c:if test="${param.sortByRate == null}">
-                                    <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
-                                        Đánh giá <i class="bi bi-caret-down-fill ml-[10px]"></i>
-                                        <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
-                                            <form action="/sakura/hostel/list" method="post">
-                                                <c:if test="${requestScope.favorite == true}">
-                                                    <input type="hidden" name="favorite" value="true"/>
-                                                </c:if>
-                                                <c:if test="${requestScope.keyword != null}">
-                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                </c:if>
-                                                <c:if test="${sessionScope.province != null}">
-                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                                </c:if>
-                                                <c:if test="${sessionScope.district != null}">
-                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                                </c:if>
+                                <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
+                                    <c:if test="${param.sortByRate eq 'asc'}">
+                                        Đánh giá:<i class="ml-[12px] bi bi-arrow-up"></i>
+                                    </c:if>
+                                    <c:if test="${param.sortByRate eq 'desc'}">
+                                        Đánh giá:<i class="ml-[12px] bi bi-arrow-down"></i>
+                                    </c:if>
+                                    <c:if test="${param.sortByRate == null}">
+                                        Đánh giá
+                                    </c:if>
+                                    <i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                    <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
+                                        <form action="/sakura/hostel/list" method="get">
+                                            <c:if test="${requestScope.favorite == true}">
+                                                <input type="hidden" name="favorite" value="true"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.keyword != null}">
+                                                <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
+                                            </c:if>
+                                            <c:if test="${sessionScope.province != null}">
+                                                <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
+                                            </c:if>
+                                            <c:if test="${sessionScope.district != null}">
+                                                <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
+                                            </c:if>
+                                            <c:if test="${param.sortByRate != null}">
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit">Mặc định</button>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${param.sortByRate != 'asc'}">
                                                 <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
                                                     <button type="submit" value="asc" name="sortByRate">Tăng dần</button>
                                                 </li>
-                                                <li class="sort-criteria-item h-[50px] text-[14px] font-norĐã lưumal flex justify-center items-center hover:bg-[#eff3f5]">
+                                            </c:if>
+                                            <c:if test="${param.sortByRate != 'desc'}">
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
                                                     <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
                                                 </li>
-                                            </form>
-                                        </ul>
-                                    </div>
-                                </c:if>
-                                <c:if test="${param.sortByRate eq 'asc'}">
-                                    <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
-                                        Đánh giá: Tăng dần<i class="bi bi-caret-down-fill ml-[10px]"></i>
-                                        <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
-                                            <form action="/sakura/hostel/list" method="post">
-                                                <c:if test="${requestScope.favorite == true}">
-                                                    <input type="hidden" name="favorite" value="true"/>
-                                                </c:if>
-                                                <c:if test="${requestScope.keyword != null}">
-                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                </c:if>
-                                                <c:if test="${sessionScope.province != null}">
-                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                                </c:if>
-                                                <c:if test="${sessionScope.district != null}">
-                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                                </c:if>
-                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                    <button type="submit">Mặc định</button>
-                                                </li>
-                                                <li class="sort-criteria-item h-[50px] text-[14px] font-norĐã lưumal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                    <button type="submit" value="desc" name="sortByRate">Giảm dần</button>
-                                                </li>
-                                            </form>
-                                        </ul>
-                                    </div>
-                                </c:if>
-                                <c:if test="${param.sortByRate eq 'desc'}">
-                                    <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
-                                        Đánh giá: Giảm dần<i class="bi bi-caret-down-fill ml-[10px]"></i>
-                                        <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
-                                            <form action="/sakura/hostel/list" method="post">
-                                                <c:if test="${requestScope.favorite == true}">
-                                                    <input type="hidden" name="favorite" value="true"/>
-                                                </c:if>
-                                                <c:if test="${requestScope.keyword != null}">
-                                                    <input type="hidden" name="keyword" value="${requestScope.keyword}"/>
-                                                </c:if>
-                                                <c:if test="${sessionScope.province != null}">
-                                                    <input type="hidden" name="province" value="${sessionScope.province.provinceID}"/>
-                                                </c:if>
-                                                <c:if test="${sessionScope.district != null}">
-                                                    <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
-                                                </c:if>
-                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                    <button type="submit">Mặc định</button>
-                                                </li>
-                                                <li class="sort-criteria-item h-[50px] text-[14px] font-norĐã lưumal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                    <button type="submit" value="desc" name="sortByRate">Tăng dần</button>
-                                                </li>
-                                            </form>
-                                        </ul>
-                                    </div>
-                                </c:if>
+                                            </c:if>
+                                        </form>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="filter-item p-0 m-0 mr-[20px]">
                                 <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border-1 border-[#17535B]">
-                                    Giá tiền <i class="bi bi-caret-down-fill ml-[10px]"></i>
+                                    <c:if test="${param.sortByMinPrice == null && sortByMaxPrice == null}">
+                                        Giá tiền 
+                                    </c:if>
+                                    <c:if test="${param.sortByMinPrice eq 'asc'}">
+                                        Giá đầu:<i class="ml-[12px] bi bi-arrow-up"></i>
+                                    </c:if>
+                                    <c:if test="${param.sortByMinPrice eq 'desc'}">
+                                        Giá đầu:<i class="ml-[12px] bi bi-arrow-down"></i>
+                                    </c:if>
+                                    <c:if test="${param.sortByMaxPrice eq 'asc'}">
+                                        Giá cuối:<i class="ml-[12px] bi bi-arrow-up"></i>
+                                    </c:if>
+                                    <c:if test="${param.sortByMaxPrice eq 'desc'}">
+                                        Giá cuối:<i class="ml-[12px] bi bi-arrow-down"></i>
+                                    </c:if>
+                                    <i class="bi bi-caret-down-fill ml-[10px]"></i>
                                     <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
                                         <form action="/sakura/hostel/list" method="post">
                                             <c:if test="${requestScope.favorite == true}">
@@ -167,18 +144,31 @@
                                             <c:if test="${sessionScope.district != null}">
                                                 <input type="hidden" name="district" value="${sessionScope.district.districtID}"/>
                                             </c:if>
-                                            <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
-                                            </li>
-                                            <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
-                                            </li>
-                                            <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
-                                            </li>
-                                            <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
-                                                <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
-                                            </li>
+                                            <c:if test="${param.sortByMinPrice != null || param.sortByMaxPrice != null}"> 
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit">Mặc định</button>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${param.sortByMinPrice != 'asc'}">
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit" value="asc" name="sortByMinPrice">Tăng dần theo giá đầu</button>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${param.sortByMinPrice != 'desc'}">
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit" value="desc" name="sortByMinPrice">Giảm dần theo giá đầu</button>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${param.sortByMaxPrice != 'asc'}">
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit" value="asc" name="sortByMaxPrice">Tăng dần theo giá cuối</button>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${param.sortByMaxPrice != 'desc'}">
+                                                <li class="sort-criteria-item h-[50px] text-[14px] font-normal flex justify-center items-center hover:bg-[#eff3f5]">
+                                                    <button type="submit" value="desc" name="sortByMaxPrice">Giảm dần theo giá cuối</button>
+                                                </li>
+                                            </c:if>
                                         </form>
                                     </ul>
                                 </div>
