@@ -53,7 +53,12 @@
                                     <option value="0">Phòng</option>
                                     <c:forEach items="${requestScope.roomList}" var="room">
                                         <c:if test="${room.status == 0}">
-                                            <option value="${room.roomID}">${room.roomNumber}</option>
+                                            <c:if test = "${room.roomID eq requestScope.editContract.room.roomID}">
+                                                <option selected value="${room.roomID}">${room.roomNumber}</option>
+                                            </c:if>
+                                            <c:if test = "${room.roomID ne requestScope.editContract.room.roomID}">
+                                                <option value="${room.roomID}">${room.roomNumber}</option>
+                                            </c:if>
                                         </c:if>
                                     </c:forEach>
                                 </select>
@@ -64,7 +69,7 @@
                                 <div class=" col-span-3">
                                     <label for="rentalFeePerMonth" class="block mb-2 text-sm font-medium text-gray-900">Giá thuê theo tháng</label>
                                     <input type="number" name="rentalFeePerMonth" oninput="validity.valid||(value='');" 
-                                           min="0" id="rentalFeePerMonth" value = "${requestScope.editContract.rentalFeePerMonth}" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5 " placeholder="" required>
+                                           min="0" id="rentalFeePerMonth" value = "${requestScope.editContract.rentalFeePerMonth eq null ? requestScope.bookingRequest.roomType.advertisedPrice : requestScope.editContract.rentalFeePerMonth}" class="w-[250px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-[#17535B] focus:border-[#17535B] block w-full p-2.5 " placeholder="" required>
                                 </div>
                                 <div class=" col-span-3">
                                     <label for="deposit" class="block mb-2 text-sm font-medium text-gray-900">Tiền đặt cọc</label>
