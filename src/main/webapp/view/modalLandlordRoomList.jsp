@@ -21,7 +21,7 @@
             </div>
             <div class="p-6 space-y-6">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                    <form action="/sakura/landlord/contract-list" class="inline-block">
+                    <form action="/sakura/landlord/contract-list" method="post" class="inline-block">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border hover:bg-[#F2F5F6]">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>

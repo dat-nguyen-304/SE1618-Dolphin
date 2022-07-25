@@ -24,7 +24,7 @@ a {
 }
 
 nav.header {
-    width: 80%;
+    width: 70%;
     height: 100%;
     display: flex;
     justify-content: space-between;
@@ -68,7 +68,7 @@ nav .item-list .item {
     padding: 0 15px;
 }
 
-nav .item-list .item.select, nav .item-list .item:hover {
+nav .item-list .item.chosen, nav .item-list .item:hover {
     color: #ffffff;
 }
 
@@ -76,7 +76,7 @@ nav .item-list .item.select, nav .item-list .item:hover {
     color: #bbbbbb;
 }
 
-#header-section.stick nav .item-list .item.select, #header-section.stick nav .item-list .item:hover {
+#header-section.stick nav .item-list .item.chosen, #header-section.stick nav .item-list .item:hover {
     color: #FF6532;
 }
 
@@ -96,6 +96,7 @@ nav .access a {
     font-weight: 600;
     font-size: 17px;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
 #header-section.stick nav .access a {

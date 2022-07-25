@@ -88,22 +88,24 @@
                         </form>
                     </c:if>
                     <c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.account.role == 2}">
-                        <h1>Bạn không thể thuê phòng với tài khoản chủ nhà trọ</h1>
-                        <form action="/sakura/access/login" method="post" class="mt-[20px] w-full m-0 p-0">
-                            <input type="hidden" name ="roomTypeID" value ="${requestScope.roomType.roomTypeID}">
-                            <button type="submit" name="logout" value="true" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đăng nhập bằng tải khoản khác</button>
-                        </form>
+                        <h1 class="mb-[24px]">Bạn không thể thuê phòng với tài khoản chủ nhà trọ</h1>
+                        <div class="w-full text-white text-[20px] font-semibold bg-[#ccc] border-0 py-2 px-6 focus:outline-none text-center rounded">Đặt thuê</div>
                     </c:if>
-                    <c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.account.role == 1}">
+                    <c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.account.role == 1 && sessionScope.currentUser.rentStatus == false}">
                         <form action="/sakura/hostel/sendRentalRequest" method="post" class="w-full m-0 p-0">
                             <input type="hidden" name="roomTypeID" value ="${requestScope.roomType.roomTypeID}">
                             <button type="submit" name="action" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đặt thuê</button>
                         </form>
+                    </c:if>
+                    <c:if test="${sessionScope.currentUser != null && sessionScope.currentUser.account.role == 1 && sessionScope.currentUser.rentStatus == true}">
+                        <h1 class="mb-[24px]">Tài khoản của bạn đã thuê phòng thành công. Không thể thực hiện thuê phòng khác.</h1>
+                        <div class="w-full text-white text-[20px] font-semibold bg-[#ccc] border-0 py-2 px-6 focus:outline-none text-center rounded">Đặt thuê</div>
                     </c:if>
                 </div>
             </div>
         </div>
 
         <%@include file="footer.jsp" %>   
+        <script src="../assets/javascript/keep-district.js"></script>
     </body>
 </html>

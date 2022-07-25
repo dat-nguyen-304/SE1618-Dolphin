@@ -353,10 +353,5 @@ public class ServiceDAO {
     }
 
     public static void main(String[] args) {
-        List<Service> list = findAddedActiveServices(HostelDAO.findById(43));
-        System.out.println(list.size());
-        for (Service service : list) {
-            System.out.println(service.getType());
-        }
     }
 }

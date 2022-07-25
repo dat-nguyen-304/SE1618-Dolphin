@@ -4,7 +4,6 @@
  */
 package com.dolphin.hostelmanagement.controller;
 
-import com.dolphin.hostelmanagement.DAO.BookingRequestDAO;
 import com.dolphin.hostelmanagement.DAO.ContractDAO;
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.RoomDAO;
@@ -16,8 +15,6 @@ import com.dolphin.hostelmanagement.DTO.RoomResident;
 import com.dolphin.hostelmanagement.DTO.RoomType;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -78,7 +75,7 @@ public class RoomController extends HttpServlet {
                 RoomResident roomResident = RoomResidentDAO.findLastRoomResidentByRoomId(roomId);
                 if (updateSuccess) {
                     out.print("<tr class=\"py-[10px] text-[16px] bg-white border-b hover:bg-gray-50 grid grid-cols-12 gap-[10px]\">\n"
-                            + "                                                <td class=\"col-span-2 text-center\">\n"
+                            + "                                                <td class=\"col-span-1 text-center\">\n"
                             + "                                                    <p class=\"p-2\">" + roomResident.getRoomResidentID() + "</p>\n"
                             + "                                                </td>\n"
                             + "                                                <td class=\"col-span-3\">\n"
@@ -90,8 +87,9 @@ public class RoomController extends HttpServlet {
                             + "                                                <td class=\"col-span-2\">\n"
                             + "                                                    <input name=\"updateDob\" type=\"date\" class=\"w-full p-2\"  value=\"" + roomResident.getDob() + "\"/>\n"
                             + "                                                </td>\n"
-                            + "                                                <td class=\"col-span-3 flex justify-around items-center\">\n"
+                            + "                                                <td class=\"col-span-4 flex justify-around items-center\">\n"
                             + "                                                    <button onclick=\"updateMember(this)\" type=\"submit\" value=\"" + roomResident.getRoomResidentID() + "\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Lưu thay đổi</button>\n"
+                            + "                                                    <button onclick=\"resetMember(this, '" + roomResident.getFullname() + "', '" + roomResident.getPhone() + "', '" + roomResident.getDob() + "')\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Hoàn tác</button>\n"
                             + "                                                    <button onclick=\"deleteMember(this)\" type=\"submit\" value=\"" + roomResident.getRoomResidentID() + "\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Xóa</button>\n"
                             + "                                                </td>\n"
                             + "                                            </tr>");
@@ -337,7 +335,6 @@ public class RoomController extends HttpServlet {
                 }
             }
             if (path.equals("/roomsByHostel")) {
-                System.out.println("called");
                 String hostelID = request.getParameter("hostelID");
                 int id = 0;
                 if (hostelID != null) {
@@ -346,7 +343,6 @@ public class RoomController extends HttpServlet {
 
                     JSONArray list = new JSONArray();
                     for (Room room : roomList) {
-                        System.out.println(room);
                         JSONObject obj = new JSONObject();
                         String roomID = Integer.toString(room.getRoomID());
                         String roomNumber = room.getRoomNumber();
@@ -368,10 +364,12 @@ public class RoomController extends HttpServlet {
                 }
             } else if (path.equals("/pending-room-check")) {
                 int roomID = Integer.parseInt(request.getParameter("roomID"));
-                
-                if(ContractDAO.findByRoomAndStatus(roomID, 2))
+
+                if (ContractDAO.findByRoomAndStatus(roomID, 2)) {
                     out.print(1);
-                else out.print(0);
+                } else {
+                    out.print(0);
+                }
             }
         }
     }

@@ -94,10 +94,14 @@
                     Date createdTime = contract.getCreatedDate();
                     Date startTime = contract.getStartDate();
                     Date endTime = contract.getEndDate();
+                    Date actualEndTime = contract.getActualEndDate();
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String createdDate = formatter.format(createdTime);
                     String startDate = formatter.format(startTime);
                     String endDate = formatter.format(endTime);
+                    String actualEndDate = "";
+                    if (actualEndTime != null)
+                        actualEndDate = formatter.format(actualEndTime);
                 %>
 
                 <div class="grid grid-cols-2 gap-[20px]">
@@ -147,6 +151,12 @@
                                         </c:if>
                                     </p>
                                 </div>
+                                <c:if test="${requestScope.contract.actualEndDate != null}">
+                                    <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                        <p class="text-[#929ca5] font-normal">Ngày kết thúc </p>
+                                        <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money"><%= actualEndDate %></span></p>
+                                    </div>
+                                </c:if>
                             </div>
                             <c:if test="${requestScope.contract.description != null}">
                                 <div class="mt-[20px]">
@@ -169,11 +179,7 @@
                         </div>
                         <div class="w-full h-fit mx-auto">
                             <div class="grid grid-cols-6 gap-[8px]">
-                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
-                                    <p class="text-[#929ca5] font-normal">Thời hạn</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.duration} tháng</p>
-                                </div>
-                                <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                <div class="col-span-6 grid grid-rows-2 gap-[1px] mb-[5px]">
                                     <p class="text-[#929ca5] font-normal">Tổng tiền nhà</p>
                                     <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.contract.rentalFeePerMonth * requestScope.invoiceList.size()}</span><span> (${requestScope.invoiceList.size()} tháng)</span></p>
                                 </div>
@@ -247,7 +253,7 @@
                                         </c:if>
                                     </td>
                                     <td class="text-center px-6 py-4 text-center">
-                                        <form action="/sakura/invoice/detail">
+                                        <form action="/sakura/invoice/detail" method="post">
                                             <button type="submit" name="invoiceID" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</butotn>
                                         </form>
                                     </td>

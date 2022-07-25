@@ -11,14 +11,6 @@ body {
     padding: 0;
 }
 
-.slide-indicator {
-    color: rgba(255, 255, 255, 0.5) !important;
-}
-
-.slide-control, .slide-indicator:hover, .slide-indicator.active {
-    color: rgba(255, 255, 255, 1) !important;
-}
-
 [multiple],
 [type=date],
 [type=datetime-local],
@@ -46,49 +38,6 @@ textarea {
     border: 1px solid #929CA5;
 }
 
-.pagination {
-    margin-top: 36px;
-    display: block;
-}
-
-.pagination__list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.pagination-item,
-.pagination-dot {
-    display: inline-block;
-    font-size: 20px;
-    margin: 0 12px;
-    color: #888;
-}
-
-.pagination-item button {
-    display: block;
-    padding: 4px 14px;
-    color: currentColor;
-    background-color: #fff;
-    text-decoration: none;
-    outline: none;
-    border: none;
-}
-
-.pagination-item--active button {
-    background-color: #17535B;
-    color: #fff;
-}
-
-.pagination-previous,
-.pagination-next {
-    font-size: 16px;
-    color: red;
-}
-
 .nav-tabs .nav-item a.active {
     color: #17535B !important;
     border-bottom: 2px solid #288D87 !important;
@@ -107,4 +56,85 @@ textarea {
 .feedback-header-item:hover {
     color: #288D87;
     border: 1px solid #288D87;
+}
+
+.feedback-header-item.active {
+    background-color: #288D87;
+    color: #fff;
+    border: none;
+}
+
+.feedback-header-item.active:hover {
+    background-color: #1D837D;
+}
+
+#toggle-fav-hostel {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+    width: 100px;
+    color: #fff;
+    padding: 5px 10px;
+    transition: all 0.2s ease-out;
+}
+
+#toggle-fav-hostel:hover {
+    background-color: #B8C3D1;
+}
+
+#toggle-fav-hostel.active {
+    background-color: #288D87 !important;
+}
+
+#toggle-fav-hostel.active:hover {
+    background-color: #1D837D;
+}
+
+.lg-backdrop {
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+.lg-outer .lg-thumb-outer {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.lg-outer .lg-thumb-item {
+    border: none;
+}
+
+.lg-outer .lg-thumb-item.active,
+.lg-outer .lg-thumb-item:hover {
+    border: 2px solid #fff;
+}
+
+
+/*Pagination CSS*/
+#page_navigation {
+    clear: both;
+}
+
+#page_navigation a {
+    padding: 5px 10px;
+    color: #64748b;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#page_navigation a:hover {
+    background-color: #e2e8f0;
+}
+
+#page_navigation a:first-child {
+    margin-right: 10px;
+}
+
+
+.ck-reset_all :not(.ck-reset_all-excluded), .ck.ck-reset_all {
+    color: #475569 !important;
+}
+
+.ck.ck-editor__top.ck-reset_all {
+    /*border: 1px solid #cbd5e1 !important;*/
+}
+.ck.ck-editor__editable.ck-focused {
+    border: 1px solid #288d87 !important;
 }

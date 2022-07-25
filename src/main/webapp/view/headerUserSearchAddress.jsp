@@ -4,6 +4,7 @@
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <nav class="header">
     <!--LEFT-->
     <div class="header-left">
@@ -13,9 +14,9 @@
         </a>
 
         <div class="home-filter">
-            <form action="/sakura/hostel/list" class="filter">
+            <form action="/sakura/hostel/list" class="filter" method="get">
                 <select id="province" name="province" class="filter-address" onchange="renderDistrict(this)">
-                    <option value="0">Thành phố</option>
+                    <option value="0" >Thành phố</option>
                     <c:forEach items="${sessionScope.provinceList}" var="province">
                         <c:if test="${province.provinceID == sessionScope.province.provinceID}">
                             <option selected value="${province.provinceID}">${province.provinceName}</option>
@@ -27,10 +28,13 @@
                 </select>
                 <select id="district" name="district" class="filter-address">
                     <option value='0'>Quận huyện</option>
-                    <c:if test="${sessionScope.district != null && sessionScope.district.districtID != 0}">
-                        <input type="hidden" class="districtSelected-hidden" value="${sessionScope.district.districtID}" />
-                    </c:if>
                 </select>
+                <c:if test="${sessionScope.district != null}">
+                    <input type="hidden" class="districtSelected-hidden" value="${sessionScope.district.districtID}" />
+                </c:if>
+                <c:if test="${sessionScope.district == null && sessionScope.province != null}">
+                    <input type="hidden" class="districtSelected-hidden" value="0" />
+                </c:if>
                 <div class="filter-submit">
                     <button class="btn btn-search" type="submit">
                         Lọc
@@ -51,7 +55,12 @@
                 <img id="profile-btn" src="${empty sessionScope.currentUser.account.avatar ? "../assets/images/user-avatars/no_ava.jpg" : sessionScope.currentUser.account.avatar}" alt="">
             </div>
             <div class="profile-menu">
-                <h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>
+                <c:set var = "fullname" value = "${sessionScope.currentUser.fullname}"/>
+                <c:set var="part" value="${fn:split(fullname, ' ')}" />
+                <c:set var="sz" value="${fn:length(part)}" />
+                <c:set var="firstName" value="${part[sz-1]}" />
+                <h3>Xin chào, ${firstName}!<br><span>${sessionScope.currentUser.account.username}</span><br></h3>
+                <!--<h3>${sessionScope.currentUser.fullname}<br><span>${sessionScope.currentUser.account.username}</span></h3>-->
                 <p class="text-[#929CA5] font-normal text-[15px] w-full text-center mb-[10px]">${sessionScope.currentUser.account.role == 1 ? 'Người thuê' : (sessionScope.currentUser.account.role == 2 ?  'Chủ nhà' : 'Admin')}</p>
                 <ul>
                     <form action = "/sakura/access/login" method = "post">

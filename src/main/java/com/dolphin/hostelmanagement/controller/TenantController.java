@@ -107,8 +107,7 @@ public class TenantController extends HttpServlet {
 
                 request.getRequestDispatcher("/view/tenantPageInvoiceList.jsp").forward(request, response);
             }
-
-            if (path.equals("/rentalRequestList")) {
+            if (path.equals("/rental-request")) {
                 if (request.getParameter("queryType") != null) {
                     System.out.println("QueryType: " + request.getParameter("queryType"));
                     System.out.println("Querytype: " + request.getParameter("queryType").equals("accept"));
@@ -184,7 +183,7 @@ public class TenantController extends HttpServlet {
                     for (Notification notification : notiList) {
                         System.out.println(notification.getContent());
                     }
-                    
+
                     request.setAttribute("contract", contract);
                     request.setAttribute("notificationList", notiList);
                     request.getRequestDispatcher("/view/tenantPageNotiList.jsp").forward(request, response);

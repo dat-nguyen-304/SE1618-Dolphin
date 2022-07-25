@@ -24,7 +24,7 @@ a {
 }
 
 nav.header {
-    width: 80%;
+    width: 70%;
     height: 100%;
     display: flex;
     justify-content: space-between;
@@ -72,11 +72,11 @@ nav .item-list .item {
     color: #bbbbbb;
 }
 
-nav .item-list .item.select {
+nav .item-list .item.selected {
     color: #ffffff;
 }
 
-#header-section.stick nav .item-list .item.select {
+#header-section.stick nav .item-list .item.selected {
     color: #FF6532;
 }
 

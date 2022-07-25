@@ -18,7 +18,7 @@
             </div>
             <div class="p-6 space-y-6">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                    <form action="/sakura/landlord/room-detail" class="inline-block">
+                    <form action="/sakura/landlord/room-detail" method="post" class="inline-block">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-[10px] py-[5px] mr-[10px] rounded bg-gray-200 text-gray-800 hover:bg-[#17535B] hover:text-[#fff] duration-150">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>
@@ -43,7 +43,7 @@
 
             <div class="p-6 space-y-6">
                 <c:forEach items="${requestScope.roomList}" var="room">
-                    <form action="/sakura/landlord/room-detail" class="inline-block">
+                    <form action="/sakura/landlord/room-detail" method="post" class="inline-block">
                         <button type="submit" name="roomId" value="${room.roomID}" class="px-[10px] py-[5px] mr-[10px] rounded bg-gray-200 text-gray-800 hover:bg-[#17535B] hover:text-[#fff] duration-150">${room.roomNumber}</button>
                     </form>
                 </c:forEach>
@@ -140,7 +140,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="updateRoommodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Đóng</button>
-                <form action="/sakura/landlord/room-detail">
+                <form action="/sakura/landlord/room-detail" method="post">
                     <input type="hidden" name="roomId" value="${requestScope.currentRoom.roomID}"/>
                     <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                     </button>
@@ -218,7 +218,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="deleteRoommodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <form action="/sakura/landlord/room-detail">
+                <form action="/sakura/landlord/room-detail" method="post">
                     <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
                     </button>
                 </form>
@@ -252,18 +252,20 @@
             </div>
             <!--Body-->
             <div class="p-4">
+                <p class="text-xs text-[red] validAddNameMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] text-[16px] inline-block" for="">Tên người ở</label>
-                    <input type="text" name="memberName" required class="w-[300px] text-[18px] p-[10px]">
+                    <input type="text" name="memberName" required class="w-[300px] text-[18px] p-[10px]"  onkeyup="checkValidAddName(this)"/>
                 </div>
+                <p class="text-xs text-[red] validAddPhoneMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] text-[16px] inline-block" for="">Số điện thoại</label>
-                    <input type="text" name="memberPhone" required class="w-[300px] text-[18px] p-[10px]" />
-                    <p class="ml-[165px] text-[13px] italic font-light">Số điện thoại gồm 10 chữ số</p>
+                    <input type="text" name="memberPhone" required class="w-[300px] text-[18px] p-[10px]" onkeyup="checkValidAddPhone(this)"/>
                 </div>
+                <p class="text-xs text-[red] validAddDobMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] text-[16px] inline-block" for="">Ngày sinh</label>
-                    <input type="date" name="memberDob" required class="w-[300px] text-[18px] p-[10px]">
+                    <input type="date" name="memberDob" required class="w-[300px] text-[18px] p-[10px]" onkeyup="checkValidAddDob(this)"/>
                 </div>
             </div>
             <!--Footer-->

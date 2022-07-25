@@ -134,7 +134,7 @@
                                                                                                     <span class="bg-blue-100 text-blue-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán</span>
                                                                                                 </td>-->
                                                 <td class="text-center px-6 py-[5px] text-right">
-                                                    <form action="/sakura/landlord/room-detail">
+                                                    <form action="/sakura/landlord/room-detail" method="post">
                                                         <button class="rounded py-[5px] px-[10px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
                                                             <input type="hidden" name="roomId" value="${room.roomID}"/>
                                                         <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết

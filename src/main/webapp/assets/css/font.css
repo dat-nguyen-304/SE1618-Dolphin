@@ -1,0 +1,213 @@
+/* 
+    Created on : Jul 16, 2022, 9:00:51 AM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-Bold.eot');
+    src: ur('../font/Mulish-Bold.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-Bold.woff2') format('woff2'),
+        ur('../font/Mulish-Bold.woff') format('woff'),
+        ur('../font/Mulish-Bold.ttf') format('truetype'),
+        ur('../font/Mulish-Bold.svg#Mulish-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-BlackItalic.eot');
+    src: ur('../font/Mulish-BlackItalic.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-BlackItalic.woff2') format('woff2'),
+        ur('../font/Mulish-BlackItalic.woff') format('woff'),
+        ur('../font/Mulish-BlackItalic.ttf') format('truetype'),
+        ur('../font/Mulish-BlackItalic.svg#Mulish-BlackItalic') format('svg');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-Black.eot');
+    src: ur('../font/Mulish-Black.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-Black.woff2') format('woff2'),
+        ur('../font/Mulish-Black.woff') format('woff'),
+        ur('../font/Mulish-Black.ttf') format('truetype'),
+        ur('../font/Mulish-Black.svg#Mulish-Black') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-BoldItalic.eot');
+    src: ur('../font/Mulish-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-BoldItalic.woff2') format('woff2'),
+        ur('../font/Mulish-BoldItalic.woff') format('woff'),
+        ur('../font/Mulish-BoldItalic.ttf') format('truetype'),
+        ur('../font/Mulish-BoldItalic.svg#Mulish-BoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-ExtraLightItalic.eot');
+    src: ur('../font/Mulish-ExtraLightItalic.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-ExtraLightItalic.woff2') format('woff2'),
+        ur('../font/Mulish-ExtraLightItalic.woff') format('woff'),
+        ur('../font/Mulish-ExtraLightItalic.ttf') format('truetype'),
+        ur('../font/Mulish-ExtraLightItalic.svg#Mulish-ExtraLightItalic') format('svg');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-ExtraLight.eot');
+    src: ur('../font/Mulish-ExtraLight.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-ExtraLight.woff2') format('woff2'),
+        ur('../font/Mulish-ExtraLight.woff') format('woff'),
+        ur('../font/Mulish-ExtraLight.ttf') format('truetype'),
+        ur('../font/Mulish-ExtraLight.svg#Mulish-ExtraLight') format('svg');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-ExtraBoldItalic.eot');
+    src: ur('../font/Mulish-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-ExtraBoldItalic.woff2') format('woff2'),
+        ur('../font/Mulish-ExtraBoldItalic.woff') format('woff'),
+        ur('../font/Mulish-ExtraBoldItalic.ttf') format('truetype'),
+        ur('../font/Mulish-ExtraBoldItalic.svg#Mulish-ExtraBoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-Italic.eot');
+    src: ur('../font/Mulish-Italic.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-Italic.woff2') format('woff2'),
+        ur('../font/Mulish-Italic.woff') format('woff'),
+        ur('../font/Mulish-Italic.ttf') format('truetype'),
+        ur('../font/Mulish-Italic.svg#Mulish-Italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-ExtraBold.eot');
+    src: ur('../font/Mulish-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-ExtraBold.woff2') format('woff2'),
+        ur('../font/Mulish-ExtraBold.woff') format('woff'),
+        ur('../font/Mulish-ExtraBold.ttf') format('truetype'),
+        ur('../font/Mulish-ExtraBold.svg#Mulish-ExtraBold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-SemiBold.eot');
+    src: ur('../font/Mulish-SemiBold.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-SemiBold.woff2') format('woff2'),
+        ur('../font/Mulish-SemiBold.woff') format('woff'),
+        ur('../font/Mulish-SemiBold.ttf') format('truetype'),
+        ur('../font/Mulish-SemiBold.svg#Mulish-SemiBold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-Medium.eot');
+    src: ur('../font/Mulish-Medium.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-Medium.woff2') format('woff2'),
+        ur('../font/Mulish-Medium.woff') format('woff'),
+        ur('../font/Mulish-Medium.ttf') format('truetype'),
+        ur('../font/Mulish-Medium.svg#Mulish-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-Light.eot');
+    src: ur('../font/Mulish-Light.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-Light.woff2') format('woff2'),
+        ur('../font/Mulish-Light.woff') format('woff'),
+        ur('../font/Mulish-Light.ttf') format('truetype'),
+        ur('../font/Mulish-Light.svg#Mulish-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-MediumItalic.eot');
+    src: ur('../font/Mulish-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-MediumItalic.woff2') format('woff2'),
+        ur('../font/Mulish-MediumItalic.woff') format('woff'),
+        ur('../font/Mulish-MediumItalic.ttf') format('truetype'),
+        ur('../font/Mulish-MediumItalic.svg#Mulish-MediumItalic') format('svg');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-LightItalic.eot');
+    src: ur('../font/Mulish-LightItalic.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-LightItalic.woff2') format('woff2'),
+        ur('../font/Mulish-LightItalic.woff') format('woff'),
+        ur('../font/Mulish-LightItalic.ttf') format('truetype'),
+        ur('../font/Mulish-LightItalic.svg#Mulish-LightItalic') format('svg');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-Regular.eot');
+    src: ur('../font/Mulish-Regular.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-Regular.woff2') format('woff2'),
+        ur('../font/Mulish-Regular.woff') format('woff'),
+        ur('../font/Mulish-Regular.ttf') format('truetype'),
+        ur('../font/Mulish-Regular.svg#Mulish-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: ur('../font/Mulish-SemiBoldItalic.eot');
+    src: ur('../font/Mulish-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
+        ur('../font/Mulish-SemiBoldItalic.woff2') format('woff2'),
+        ur('../font/Mulish-SemiBoldItalic.woff') format('woff'),
+        ur('../font/Mulish-SemiBoldItalic.ttf') format('truetype'),
+        ur('../font/Mulish-SemiBoldItalic.svg#Mulish-SemiBoldItalic') format('svg');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+

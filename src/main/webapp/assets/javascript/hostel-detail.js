@@ -23,7 +23,6 @@ const sendFeedbackBtn = document.querySelector('.send-feedback-btn');
 const updateFeedbackBtn = document.querySelector('.update-feedback-btn');
 const textarea = document.querySelector('.text-area');
 const sendFeedbackMess = document.querySelector('.send-feedback-mess');
-console.log(updateFeedbackBtn);
 const getColorForStar = (starNum) => {
     starList.forEach((star, index) => {
         if (index <= starNum) {

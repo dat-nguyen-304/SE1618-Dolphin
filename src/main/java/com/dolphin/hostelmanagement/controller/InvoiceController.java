@@ -107,7 +107,7 @@ public class InvoiceController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
@@ -168,17 +168,22 @@ public class InvoiceController extends HttpServlet {
                                 chosenRoom = RoomDAO.findByID(roomID);
                                 chosenHostel = chosenRoom.getRoomType().getHostel();
                                 invoiceList = InvoiceDAO.findByRoomID(chosenRoom.getRoomID());
+//                                System.out.println("InvoiceDAO.findByRoomID 171");
                                 request.setAttribute("chosenRoom", chosenRoom);
                             } else {
                                 int hostelID = Integer.parseInt(request.getParameter("hostelID"));
                                 chosenHostel = HostelDAO.findById(hostelID);
                                 invoiceList = InvoiceDAO.findByHostelID(chosenHostel.getHostelID());
+//                                System.out.println("InvoiceDAO.findByHostelID 177");
                                 request.setAttribute("chosenRoom", new Room());
                             }
                             request.setAttribute("invoiceList", invoiceList);
-                        } 
-                        else request.setAttribute("invoiceList", InvoiceDAO.findByHostelID(chosenHostel.getHostelID()));
+                        } else {
+                            request.setAttribute("invoiceList", InvoiceDAO.findByHostelID(chosenHostel.getHostelID()));
+//                            System.out.println("InvoiceDAO.findByHostelID 183");
+                        }
                         request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
+//                        System.out.println("RoomDAO.findByHostelID 186");
                     }
                     request.setAttribute("chosenHostel", chosenHostel);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
@@ -191,7 +196,7 @@ public class InvoiceController extends HttpServlet {
                         request.setAttribute("invoice", invoice);
                         List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
                         request.setAttribute("detailList", detailList);
-                        url = "/view/LInvoiceDetail_v2.jsp";
+                        url = "/view/LInvoiceDetail.jsp";
                     } else {
                         url = "/invoice/list"; //Neu bam vao page ma` khong qua con mat' thi cho no ve list :D
                     }
@@ -248,7 +253,7 @@ public class InvoiceController extends HttpServlet {
                         }
                     }
                     request.setAttribute("chosenHostel", chosenHostel);
-                    request.getRequestDispatcher("/view/LAddInvoice_v2.jsp").forward(request, response);
+                    request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
                 }
 
                 if (path.equals("/save")) {
@@ -266,17 +271,17 @@ public class InvoiceController extends HttpServlet {
                     int waterSum = 0;
 
                     Room room = RoomDAO.findRoomNewInvoice(roomID);
-                    
+
                     List<Service> serviceList = new ArrayList();
-                    
+
                     if (room.getLatestInvoiceMonth() == null) {
-                                String firstMonth = df2.format(c.getStartDate());
-                                firstMonth = firstMonth.substring(0, firstMonth.lastIndexOf('-'));
-                                YearMonth firstMonthYM = YearMonth.parse(firstMonth);
-                                serviceList = ServiceDAO.findServiceByRoom(new Room(room.getRoomID(), room.getRoomNumber(), room.getRoomType(), firstMonthYM));
-                            } else {
-                                serviceList = ServiceDAO.findServiceByRoom(room);
-                            }
+                        String firstMonth = df2.format(c.getStartDate());
+                        firstMonth = firstMonth.substring(0, firstMonth.lastIndexOf('-'));
+                        YearMonth firstMonthYM = YearMonth.parse(firstMonth);
+                        serviceList = ServiceDAO.findServiceByRoom(new Room(room.getRoomID(), room.getRoomNumber(), room.getRoomType(), firstMonthYM));
+                    } else {
+                        serviceList = ServiceDAO.findServiceByRoom(room);
+                    }
                     List<ServiceDetail> detailList = new ArrayList();
                     for (Service service : serviceList) {
                         if (service.getType() != 0) {

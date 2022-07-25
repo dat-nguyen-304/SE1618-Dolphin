@@ -76,23 +76,23 @@ public class LandlordController extends HttpServlet {
      */
     public int[] statisticElectrictWater(List<Invoice> invoiceList) {
         int kq[] = new int[7];
-        Invoice firstInvoice = invoiceList.get(invoiceList.size() - 1);
+        Invoice firstInvoice = invoiceList.get(0);
         List<ServiceDetail> serviceDetailList = ServiceDAO.findDetailsByInvoice(firstInvoice);
         for (ServiceDetail serviceDetail : serviceDetailList) {
-            if (serviceDetail.getService().getServiceName().equals("Điện")) {
+            if (serviceDetail.getService().getType() == 1) {
                 kq[0] = serviceDetail.getStartValue();
             }
-            if (serviceDetail.getService().getServiceName().equals("Nước")) {
+            if (serviceDetail.getService().getType() == 2) {
                 kq[3] = serviceDetail.getStartValue();
             }
         }
-        Invoice lastInvoice = invoiceList.get(0);
+        Invoice lastInvoice = invoiceList.get(invoiceList.size() - 1);
         serviceDetailList = ServiceDAO.findDetailsByInvoice(lastInvoice);
         for (ServiceDetail serviceDetail : serviceDetailList) {
-            if (serviceDetail.getService().getServiceName().equals("Điện")) {
+            if (serviceDetail.getService().getType() == 1) {
                 kq[1] = serviceDetail.getEndValue();
             }
-            if (serviceDetail.getService().getServiceName().equals("Nước")) {
+            if (serviceDetail.getService().getType() == 2) {
                 kq[4] = serviceDetail.getEndValue();
             }
         }
@@ -128,7 +128,7 @@ public class LandlordController extends HttpServlet {
                     session.setAttribute("hostelList", null);
                 }
             } else {
-                
+
                 currentHostel = (Hostel) session.getAttribute("currentHostel");
                 currentHostel = HostelDAO.findById(currentHostel.getHostelID());
                 session.setAttribute("currentHostel", currentHostel);
@@ -204,7 +204,7 @@ public class LandlordController extends HttpServlet {
                     if (revenueValue.size() <= 1 || revenueValue.get(0) == revenueValue.get(1)) {
                         request.setAttribute("revenueChange", 0);
                     } else {
-                        double ratio = ((double)revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(0) * 100;
+                        double ratio = ((double) revenueValue.get(0) - revenueValue.get(1)) / revenueValue.get(0) * 100;
                         ratio = Math.round(ratio * 100.0) / 100.0; //round up to 2 decimal places
 
                         request.setAttribute("revenueChange", -ratio);
@@ -509,6 +509,7 @@ public class LandlordController extends HttpServlet {
                         //System.out.println(feedback.toString());
                     }
                     avgRating /= feedbackList.size();
+                    avgRating = Math.round(avgRating * 100.0) / 100.0;
                     request.setAttribute("avgRating", avgRating);
                     request.setAttribute("feedbacks", feedbackList);
                     int currentProvinceId = currentHostel.getDistrict().getProvince().getProvinceID();

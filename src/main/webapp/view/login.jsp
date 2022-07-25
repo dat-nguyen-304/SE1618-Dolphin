@@ -12,13 +12,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sakura - Đăng nhập</title>
 
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+        <!--Font-->
+        <link rel="stylesheet" href="../assets/css/font.css">
 
         <!-- Icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="../assets/icons/bootstrap-icons.css">
 
         <!--Favicon-->
         <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
@@ -43,8 +41,8 @@
             <!-- banner -->
             <div class="w-2/5 relativee">
                 <div class="w-2/5 h-screen absolute z-[5] bg-black black opacity-80 flex flex-col justify-center items-center">
-                    <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Welcome Back!</h2>
-                    <p class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">To keep connected with us please login with your personal info</p>
+                    <h2 class="z-10 pt-9 text-white opacity-100 text-[50px] font-semibold">Xin chào!</h2>
+                    <p class="z-10 pt-9 text-white opacity-100 text-[20px] font-extralight">Đăng nhập để đặt thuê phòng hoặc quản lý nhà trọ với Sakura</p>
                 </div>
                 <img class="w-2/5 h-screen absolute" src="../assets/images/bg3.jpg" alt="">
             </div>
@@ -54,7 +52,7 @@
                 <form class="login-form flex flex-col justify-center items-center w-full h-full" action="/sakura/access/login" method="post" id="form" name="login-form" novalidate="true">
 
                     <div class="form-header w-full h-auto text-center m-0 py-2 relative">
-                        <h2 class="text-3xl text-[#FF6532] font-medium mb-5">Đăng nhập</h2>
+                        <h2 class="text-3xl text-[#288D87] font-medium mb-5">Đăng nhập</h2>
                         <p id="error" class="warning text-[15px] font-light mt-4 absolute top-1/2 left-1/2 -translate-x-1/2" style="color:red">${requestScope.error}</p>
                     </div>
                     <ul class="item-list list-none p-0 w-[52%]">
@@ -97,11 +95,9 @@
                                         <span class="text-xl font-light">Facebook</span>
                                     </div>
                                 </a>
-
                             </div>
                         </li>
                     </ul>
-
                 </form>
                 <div class="backlink absolute bottom-10 right-10">
                     <a class="w-[40px] h-[40px] flex justify-center items-center border-2 border-[#17535B] rounded-full animate-pulse" href="#" onclick="history.back()">
@@ -109,10 +105,8 @@
                     </a>
                 </div>
             </div>
-
-
         </div>
-        <script src="../assets/javascript/jquery.js"></script>
+
         <script>
             // Toggle password 
             const togglePassword = document.querySelector("#toggle-password");
