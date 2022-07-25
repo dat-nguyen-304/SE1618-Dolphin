@@ -4,7 +4,6 @@
  */
 package com.dolphin.hostelmanagement.DAO;
 
-import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.RoomResident;
 import com.dolphin.hostelmanagement.DTO.RoomType;
@@ -271,10 +270,28 @@ public class RoomDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select roomID, roomNumber, status, CONCAT(YEAR(latestInvoiceMonth), '-', RIGHT(CONCAT('00', MONTH(latestInvoiceMonth)), 2)) as latestInvoiceMonth from Room r\n"
+                String sql = "select * from (select r.roomID, roomNumber, r.STATUS, latestInvoiceMonth,\n"
+                        + "    (CASE\n"
+                        + "        WHEN latestInvoiceMonth is not null\n"
+                        + "            THEN CONCAT(YEAR(latestInvoiceMonth), '-', RIGHT(CONCAT('00', MONTH(latestInvoiceMonth)), 2))\n"
+                        + "        ELSE CONCAT(YEAR(DATEADD(MONTH, -1, startDate)), '-', RIGHT(CONCAT('00', MONTH(DATEADD(MONTH, -1, startDate))), 2))\n"
+                        + "    END) as latestMonthString from Room r\n"
                         + "join RoomType rt on r.roomTypeID = rt.roomTypeID\n"
                         + "join Hostel h on rt.hostelID = h.hostelID\n"
-                        + "where h.hostelID = ? and [status] = 1";
+                        + "join Contract c on c.roomID = r.roomID\n"
+                        + "where h.hostelID = 1 and r.[status] = 1) mytable\n"
+                        + "where latestMonthString = (\n"
+                        + "    select top 1 (CASE\n"
+                        + "        WHEN latestInvoiceMonth is not null\n"
+                        + "            THEN CONCAT(YEAR(latestInvoiceMonth), '-', RIGHT(CONCAT('00', MONTH(latestInvoiceMonth)), 2))\n"
+                        + "        ELSE CONCAT(YEAR(DATEADD(MONTH, -1, startDate)), '-', RIGHT(CONCAT('00', MONTH(DATEADD(MONTH, -1, startDate))), 2))\n"
+                        + "    END) as latestMonthString    \n"
+                        + "from Room r\n"
+                        + "join RoomType rt on r.roomTypeID = rt.roomTypeID\n"
+                        + "join Hostel h on rt.hostelID = h.hostelID\n"
+                        + "join Contract c on c.roomID = r.roomID\n"
+                        + "where h.hostelID = ? and r.[status] = 1\n"
+                        + "ORDER BY latestMonthString ASC)";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, hostelID);
                 ResultSet rs = pst.executeQuery();
@@ -282,9 +299,8 @@ public class RoomDAO {
                     while (rs.next()) {
                         int roomID = rs.getInt("roomID");
                         String roomNumber = rs.getString("roomNumber");
-                        int status = rs.getInt("status");
                         RoomType roomType = findByID(roomID).getRoomType();
-                        String latestMonthString = rs.getString("latestInvoiceMonth");
+                        String latestMonthString = rs.getString("latestMonthString");
                         YearMonth latestInvoiceMonth = (!latestMonthString.equals("-00")) ? YearMonth.parse(latestMonthString) : null;
                         if (latestInvoiceMonth == null || latestInvoiceMonth.isBefore(thisMonth)) {
                             list.add(new Room(roomID, roomNumber, roomType, latestInvoiceMonth));
@@ -453,26 +469,26 @@ public class RoomDAO {
         }
         return false;
     }
-    
+
     public static void removeLatestInvoiceMonth(int roomID) {
         Connection cn = null;
-        
+
         try {
             cn = DBUtils.makeConnection();
             String sql = "Update Room set latestInvoiceMonth = NULL where roomID = ?";
-            
+
             PreparedStatement pst = cn.prepareCall(sql);
-            
+
             pst.setInt(1, roomID);
-            
+
             pst.executeUpdate();
-            
-        }catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public static Room findByHostelRoomNumber(int hostelID , String roomNumber) {
+
+    public static Room findByHostelRoomNumber(int hostelID, String roomNumber) {
         Room room = null;
         Connection cn = null;
         try {
@@ -503,7 +519,8 @@ public class RoomDAO {
     }
 
     public static void main(String args[]) {
-        removeLatestInvoiceMonth(2);
-        System.out.println(findByHostelAndKeyword(1, "A").size());
+        for (Room room : findRoomsNeedInvoice(1)) {
+            System.out.println(room);
+        }
     }
 }
