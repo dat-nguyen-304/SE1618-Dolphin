@@ -19,6 +19,7 @@
 
         <%@include file="../view/assets.jsp" %>
 
+        <link rel="stylesheet" href="../webjars/lightgallery/2.2.1/css/lightgallery-bundle.min.css">
         <link rel="stylesheet" href="../assets/css/hostel-detail.css">
         <c:if test="${sessionScope.currentUser != null}">
             <link rel="stylesheet" href="../assets/css/header-user-search-address.css">
@@ -27,11 +28,10 @@
             <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
         </c:if>
 
-        <link rel="stylesheet" href="../webjars/lightgallery/2.2.1/css/lightgallery-bundle.min.css">
     </head>
 
     <body>
-        <header id="header-section" class="stick z-[100]">
+        <header id="header-section" class="stick z-[10]">
             <c:if test="${sessionScope.currentUser != null}">
                 <%@include file="../view/headerUserSearchAddress.jsp" %>
             </c:if>
@@ -362,13 +362,13 @@
                             <button id="view-room-type" type = "submit" name = "action" class="btn-view-all-room w-full h-[50px] rounded text-white bg-[#17535B] hover:bg-[#13484F]">Xem phòng</button>
                         </div>
 
-                        <%@include file="../view/modalRoomTypeList.jsp" %>
+
                     </div>
                 </div>
             </div>
             <!--END HOSTEL INFO-->
         </div>
-
+        <%@include file="../view/modalRoomTypeList.jsp" %>
         <%@include file="footer.jsp" %>
 
         <script src="../assets/javascript/hostel-detail.js"></script>
@@ -380,14 +380,14 @@
         <script src="../webjars/lightgallery/2.2.1/plugins/thumbnail/lg-thumbnail.umd.js"></script>
 
         <script>
-//                                    window.lightGallery(
-//                                            document.getElementById("animated-thumbnails-gallery"),
-//                                            {
-//                                                autoplayFirstVideo: false,
-//                                                pager: false,
-//                                                plugins: [lgZoom, lgThumbnail]
-//                                            }
-//                                    );
+                                    window.lightGallery(
+                                            document.getElementById("animated-thumbnails-gallery"),
+                                            {
+                                                autoplayFirstVideo: false,
+                                                pager: false,
+                                                plugins: [lgZoom, lgThumbnail]
+                                            }
+                                    );
 
         </script>
 
