@@ -29,8 +29,12 @@
         <link rel="stylesheet" href="/sakura/assets/icons/bootstrap-icons.css">
 
         <!-- CSS -->
-        <link rel="stylesheet" href="/sakura/assets/css/homepage-main.css">
+        <link rel="stylesheet" href="/sakura/webjars/flowbite/1.3.4/dist/flowbite.css" />
+        <script src="/sakura/assets/javascript/tailwindcss.js"></script>
+
+        <link rel="stylesheet" href="/sakura/assets/css/webkit-scrollbar.css">
         <link rel="stylesheet" href="/sakura/assets/css/select-address-header.css">
+        <link rel="stylesheet" href="/sakura/assets/css/homepage-main.css">
 
         <c:if test="${sessionScope.currentUser != null}">
             <link rel="stylesheet" href="/sakura/assets/css/header-user.css">
@@ -39,8 +43,6 @@
             <link rel="stylesheet" href="/sakura/assets/css/header-guest.css">
         </c:if>
 
-        <link rel="stylesheet" href="/sakura/webjars/flowbite/1.3.4/dist/flowbite.css" />
-        <script src="/sakura/assets/javascript/tailwindcss.js"></script>
 
         <!-- script -->
         <script src="/sakura/assets/javascript/jquery/jquery.min.js"></script>
@@ -384,6 +386,7 @@
                         }
                         console.log('Complete');
                         customProvinceSelect();
+                        customDistrictSelect();
                     }
                 });
             });
@@ -423,7 +426,7 @@
                 });
             });
         </script>
-        <script src="assets/javascript/homepage-custom-select.js"></script>
+        <script src="/sakura/assets/javascript/homepage-custom-select.js"></script>
         <script src="/sakura/webjars/flowbite/1.3.4/dist/flowbite.js"></script>
     </body>
 </html>

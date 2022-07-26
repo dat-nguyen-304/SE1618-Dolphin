@@ -4,6 +4,8 @@
  */
 package com.dolphin.hostelmanagement.DTO;
 
+import java.util.Objects;
+
 /**
  *
  * @author Vu Thien An - SE160296
@@ -47,5 +49,24 @@ public class District {
         this.province = province;
     }
 
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final District other = (District) obj;
+        if (this.districtID != other.districtID) {
+            return false;
+        }
+        if (!Objects.equals(this.districtName, other.districtName)) {
+            return false;
+        }
+        return Objects.equals(this.province, other.province);
+    }
 }

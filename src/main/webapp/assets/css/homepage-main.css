@@ -48,6 +48,7 @@ select {
     /*for chrome*/
     -webkit-appearance: none;
     appearance: none;
+    background-image: none;
 }
 
 /*for IE10+*/
@@ -59,4 +60,8 @@ select::-ms-expand {
 .scroll-icon {
     -webkit-animation: animate-it 3s ease infinite;
     animation: animate-it 3s ease infinite;
+}
+
+.options li:hover, .options-district li:hover {
+    color: #ff9f47;
 }

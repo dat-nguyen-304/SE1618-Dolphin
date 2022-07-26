@@ -1,0 +1,151 @@
+/* 
+    Created on : Jul 25, 2022, 11:25:41 PM
+    Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
+*/
+* {
+    font-family: "Mulish", sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #feffff;
+}
+
+.filter-province,
+.filter-district,
+.filter-ward {
+    width: 160px;
+}
+
+.hostel-images:hover~.btn-prev-next {
+    display: block;
+}
+
+.carousel {
+    position: relative;
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-item {
+    position: relative;
+    display: none;
+    float: left;
+    width: 100%;
+    margin-right: -100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: transform .4s ease-out;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.carousel-item-next, .carousel-item-prev, .carousel-item.active{
+    display: block;
+}
+
+.active.carousel-item-right, .carousel-item-next:not(.carousel-item-left){
+    transform: translateX(100%);
+}
+
+.active.carousel-item-left,.carousel-item-prev:not(.carousel-item-right){
+    transform:translateX(-100%);
+}
+
+.btn-prev-next:hover {
+    display: block;
+}
+
+.btn-prev-next {
+    display: none;
+}
+
+.carousel-control-prev{
+    left:0;
+}
+.carousel-control-next{
+    right:0;
+}
+
+.carousel-control-next,.carousel-control-prev{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8%;
+    color: #fff;
+    text-align: center;
+    opacity: .5;
+    transition: opacity .15s ease;
+}
+
+.carousel-control-next:focus,.carousel-control-next:hover,.carousel-control-prev:focus,.carousel-control-prev:hover{
+    color: #fff;
+    text-decoration: none;
+    outline: 0;
+    opacity: .9;
+}
+
+.carousel-item img, img.empty-img {
+    height: 620px;
+    object-fit: cover;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 12px;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    list-style: none;
+}
+
+.carousel-indicators li {
+    width: 25px;
+    height: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 999px;
+    margin: 0 3px;
+    padding: 0;
+    position: relative;
+    display: inline-block;
+    opacity: .5;
+    transition: opacity .3s ease-in-out;
+}
+
+.carousel-indicators li.active {
+    opacity: 1;
+}
+
+[type=date], [type=date]:focus, [type=date]:active,
+textarea, textarea:focus, textarea:active {
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+
+[type=date],
+textarea {
+    border: 1px solid #e2e8f0;
+}
+
+[type=date]:focus, [type=date]:active,
+textarea:focus, textarea:active {
+    border: 1px solid #288D87;
+}

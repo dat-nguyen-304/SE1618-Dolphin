@@ -29,7 +29,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
+            <div class="h-full px-[20px]  pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -60,16 +60,16 @@
                     <form class="w-full flex justify-between items-center" action="/sakura/invoice/list" method="post">
                         <div class="left-part">
                             <!-- Search invoice by id -->
-<!--                            <label for="default-search" class="mb-2 text-[14px] font-[14px] text-gray-900 sr-only">Search</label>
-                            <div class="relative h-full">
-                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                </div>
-                                <input type="search" id="search-invoice-id" placeholder="Tìm theo mã hoá đơn..."
-                                       class="block pl-10 w-full text-[14px] text-gray-900 bg-gray-50 rounded-[4px] border border-gray-300 focus:ring-0 focus:border-[#17535B]">
-                            </div>-->
+                            <!--                            <label for="default-search" class="mb-2 text-[14px] font-[14px] text-gray-900 sr-only">Search</label>
+                                                        <div class="relative h-full">
+                                                            <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                                                </svg>
+                                                            </div>
+                                                            <input type="search" id="search-invoice-id" placeholder="Tìm theo mã hoá đơn..."
+                                                                   class="block pl-10 w-full text-[14px] text-gray-900 bg-gray-50 rounded-[4px] border border-gray-300 focus:ring-0 focus:border-[#17535B]">
+                                                        </div>-->
                         </div>
 
                         <div class="right-part flex justify-between items-center">
@@ -193,7 +193,7 @@
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",
                         "infoEmpty": "Hiển thị 0 kết quả",
-                        "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
+                        "info": "Hiển thị <b>_START_</b> - <b>_END_</b> của <b>_TOTAL_</b> kết quả",
                         "infoFiltered": "",
                         search: "Tìm kiếm",
                         paginate: {

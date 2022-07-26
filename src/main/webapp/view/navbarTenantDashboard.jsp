@@ -1,6 +1,10 @@
 <c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
-<aside class="w-[256px] top-[60px] h-[calc(100vh-60px)] fixed border-r border-[#e6e9e9]" aria-label="Sidebar">
-    <div class="navigation-bar overflow-y-auto h-full py-4 px-3 bg-[#03353C]">
+<aside class="w-[256px] top-0 h-[100vh] fixed border-r border-[#e6e9e9] z-50" aria-label="Sidebar">
+    <div class="navigation-bar overflow-y-auto h-full px-3 bg-[#03353C]">
+        <a href="/sakura" class="h-[60px] flex items-center justify-center mb-[10px]">
+            <img src="../assets/icons/logo_white.png" class="mr-3 h-6" alt="">
+                <span class="self-center text-xl font-bold whitespace-nowrap text-[#fff]">Sakura</span>
+        </a>
         <ul class="space-y-2">
             <li class="">
                 <a href="/sakura/tenant/dashboard"

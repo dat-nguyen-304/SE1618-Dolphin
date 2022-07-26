@@ -442,21 +442,35 @@
                         <!--table invoice list-->
                         <div class="statistic flex justify-between">
                             <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
-                                <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter">
-                                <div class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                    Chọn phòng chưa có hóa đơn
-                                </div>
-                                <div id="roomList" class="grid grid-cols-5">
-                                    <c:if test="${requestScope.noInvoiceList != null}">
-                                        <c:forEach var="room" items="${requestScope.noInvoiceList}">
-                                            <form method="post" action="/sakura/invoice/new" style="display: inline-block;">
-                                                <button class="roomNoInvoice ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
-                                                        name="roomID" value="${room.roomID}" type="submit">
-                                                    ${room.roomNumber}</button>
-                                            </form>
-                                        </c:forEach>
-                                    </c:if>
-                                </div>
+                                <c:choose>
+                                    <c:when test="${requestScope.noInvoiceList != null && requestScope.noInvoiceList.size() != 0}">
+                                        <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter">
+                                        <div class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                            <c:choose>
+                                                <c:when test="${requestScope.noInvoiceList[0].latestInvoiceMonth eq null}">
+                                                    Các phòng cần nhập hóa đơn đầu tiên:
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Các phòng cần nhập hóa đơn kỳ <span id="monthPlusOne">${requestScope.noInvoiceList[0].latestInvoiceMonth}</span>:
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                        <div id="roomList" class="grid grid-cols-5">
+                                            <c:forEach var="room" items="${requestScope.noInvoiceList}">
+                                                <form method="post" action="/sakura/invoice/new" style="display: inline-block;">
+                                                    <button class="roomNoInvoice ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center"
+                                                            name="roomID" value="${room.roomID}" type="submit">
+                                                        ${room.roomNumber}</button>
+                                                </form>
+                                            </c:forEach>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                            Hiện tại chưa có phòng cần nhập hóa đơn
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                         <!-- End table invoice list -->
@@ -525,6 +539,7 @@
                                                 let bottomSum = $("#bottomSum");
                                                 let latestInvoiceMonth = $("#latestInvoiceMonth");
                                                 let allRowSum = $(".rowSum");
+                                                let monthPlusOne = $("#monthPlusOne");
 
                                                 jQuery(document).ready(function ($) {
 
@@ -535,11 +550,14 @@
                                                         node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                                     }
                                                     let month;
+                                                    let monthP1Temp;
                                                     if (latestInvoiceMonth.html() === "Hợp đồng này chưa có hóa đơn") {
                                                         month = moment(invoiceMonthDisplay.html());
                                                     } else {
                                                         month = moment(invoiceMonthDisplay.html()).add(1, "M");
                                                     }
+                                                    monthP1Temp = moment(monthPlusOne.html()).add(1, "M");
+                                                    monthPlusOne.html(monthP1Temp.format('MM/YYYY').toString());
                                                     invoiceMonth.val(month.format('MM/YYYY').toString());
                                                     invoiceMonthDisplay.html(month.format('MM/YYYY').toString());
                                                     latestInvoiceMonth.html(latestInvoiceMonth.html().split('-').reverse().join('/'));

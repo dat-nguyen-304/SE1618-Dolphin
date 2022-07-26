@@ -1,9 +1,6 @@
-<nav class="bg-[#ffffff] w-full h-[60px] flex items-center fixed z-50 border-b border-[#e6e9e9]">
-    <div class="w-full flex flex-wrap justify-between items-center mx-[55px]">
-        <a href="/sakura" class="flex items-center">
-            <img src="../assets/icons/logo.png" class="mr-3 h-6" alt="">
-                <span class="self-center text-xl font-bold whitespace-nowrap text-[#17535B]">Sakura</span>
-        </a>
+<nav class="bg-[#ffffff] mr-[250px] w-[100vw] h-[60px] flex items-center fixed z-10 border-b border-[#e6e9e9]">
+    <div class="absolute right-0 flex items-center mx-[55px]">
+
         <div class="flex items-center">
             <div class="relative">
                 <!-- Notification button -->

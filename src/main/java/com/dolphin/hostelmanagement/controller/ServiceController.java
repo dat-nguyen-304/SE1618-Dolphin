@@ -44,13 +44,13 @@ public class ServiceController extends HttpServlet {
                 int serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
                 String serviceUnit = request.getParameter("serviceUnit");
 
-                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit, 0);
+                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit);
                 Service service = ServiceDAO.findLastServiceByHostelId(hostelId);
                 List<Service> list = ServiceDAO.findAddedActiveServices(HostelDAO.findById(hostelId));
                 if (addSuccess) {
                     for (Service ser : list) {
                         out.print("<tr class=\"bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800\">\n"
-                                + "                                        <input name=\"updateType\" type=\"hidden\" class=\"text-[15px]\" value=\"0\"/>\n"
+                                + "                                        <input name=\"updateType\" type=\"hidden\" class=\"text-[15px]\" value=\"" + ser.getType() +"\"/>\n"
                                 + "                                        <td class=\"px-3 py-4\">\n"
                                 + "                                            <input name=\"updateName\" type=\"text\" class=\"text-[15px]\" value=\"" + ser.getServiceName() + "\"/>\n"
                                 + "                                        </td>\n"
@@ -88,8 +88,8 @@ public class ServiceController extends HttpServlet {
                 String serviceUnit = request.getParameter("serviceUnit");
                 int serviceType = Integer.parseInt(request.getParameter("serviceType"));
 
-                boolean addSuccess = ServiceDAO.save(hostelId, serviceName, serviceFee, serviceUnit, serviceType);
-                boolean deleteSuccess = ServiceDAO.delete(serviceId);
+                boolean addSuccess = ServiceDAO.update(hostelId, serviceName, serviceFee, serviceUnit, serviceType);
+                boolean deleteSuccess = ServiceDAO.deactivate(serviceId);
                 if (addSuccess && deleteSuccess) {
                     out.print("<h1>Cập nhật dịch vụ " + serviceName + " thành công</h1>");
 

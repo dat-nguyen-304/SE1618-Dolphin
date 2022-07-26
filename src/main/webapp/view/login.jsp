@@ -12,17 +12,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sakura - Đăng nhập</title>
 
-        <!--Font-->
-        <link rel="stylesheet" href="../assets/css/font.css">
 
-        <!-- Icon -->
-        <link rel="stylesheet" href="../assets/icons/bootstrap-icons.css">
-
-        <!--Favicon-->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
+        <%@include file="../view/assets.jsp" %>
 
         <!--CSS-->
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/register.css">
         <link rel="stylesheet" href="../assets/css/app.css">
     </head>
@@ -75,7 +68,7 @@
                             <a class="hover:text-[#FF6532]" id="forgot" href="/sakura/access/forgotPassword">Quên mật khẩu?</a>
                         </div>
                         <li class="mb-9">
-                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%]" onclick = "return validate()">Đăng nhập</button>
+                            <button type="submit" id="login-btn" class="w-full h-1/5 mx-auto rounded px-5 py-3 min-w-max overflow-hidden shadow relative bg-[#17535B] text-white hover:bg-opacity-[95%] disabled:cursor-progress disabled:bg-opacity-[50%]" onclick = "return validate()">Đăng nhập</button>
                         </li>
                         <div id="more" class="mt-3 flex justify-center text-sm font-light">
                             <span>Chưa có tài khoản? </span> <a id="signup" href="/sakura/access/register" class="ml-1 font-normal text-green-700 hover:font-normal hover:text-green-600"> Đăng ký</a>
@@ -158,6 +151,14 @@
                 }
                 return true;
             }
+
+            const form = document.getElementById('form');
+            const submitBtn = document.getElementById('login-btn');
+            form.addEventListener('submit', function () {
+                console.log("Form submit");
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = "Đang xác thực...";
+            });
         </script>
 
     </body>

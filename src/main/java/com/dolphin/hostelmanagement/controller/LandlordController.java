@@ -391,9 +391,9 @@ public class LandlordController extends HttpServlet {
                 request.getRequestDispatcher("/view/LAddInvoice.jsp").forward(request, response);
             } else if (path.equals("/notification")) {
                 ArrayList<Notification> notificationList = NotificationDAO.getNotificationByToAccount(landlord.getAccount());
-                
+
                 request.setAttribute("notificationList", notificationList);
-                
+
                 request.getRequestDispatcher("/view/LNotification.jsp").forward(request, response);
             } else if (path.equals("/service")) {
                 List<Service> list = ServiceDAO.findHostelActiveServices(currentHostel);
@@ -401,12 +401,12 @@ public class LandlordController extends HttpServlet {
                 Service eletricService = null;
                 Service waterService = null;
                 for (Service service : list) {
-                    if (service.getType() == 0) {
-                        serviceList.add(service);
-                    } else if (service.getType() == 1) {
+                    if (service.getType() == 1) {
                         eletricService = service;
                     } else if (service.getType() == 2) {
                         waterService = service;
+                    } else {
+                        serviceList.add(service);
                     }
                 }
                 request.setAttribute("serviceList", serviceList);

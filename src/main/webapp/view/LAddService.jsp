@@ -65,7 +65,7 @@
                 <c:if test="${sessionScope.currentHostel != null}">
                     <div class="general-info flex justify-between mt-[20px]">
                         <div class="">
-                            <div class="pr-[20px] mr-[20px] border-r border-gray-300">
+                            <div class="pr-[20px] mr-[20px]">
                                 <span>Nhà trọ: </span>
                                 <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
                                     ${sessionScope.currentHostel.hostelName}
@@ -175,7 +175,7 @@
                                 <tbody class="service-list">
                                     <c:forEach items="${requestScope.serviceList}" var="service">
                                         <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
-                                            <td class="hidden"><input name="updateType" type="hidden" class="text-[15px]" value="0"/></td>
+                                            <td class="hidden"><input name="updateType" type="hidden" class="text-[15px]" value="${service.type}"/></td>
                                             <td class="px-3 py-4">
                                                 <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
                                             </td>
@@ -291,7 +291,7 @@
                                 serviceFee.value = "";
                                 serviceUnit.value = "";
                                 const res = response.toString();
-                                console.log(res);
+                                console.log("res: ", res);
                                 if (res.includes("px-3 py-4 text-center")) {
                                     serviceList.innerHTML = response;
                                     console.log(serviceList);
@@ -352,6 +352,23 @@
         </script>
 
         <script>
+            function checkValidUpdateService(element) {
+                const validServiceMessage = document.querySelector(".validServiceMessage");
+                if (!element.value.trim()) {
+                    validServiceMessage.innerHTML = 'Tên dịch vụ không được trống';
+                    checkService = false;
+                } else {
+                    let valid = isValid(element.value, 'name');
+                    if (!valid) {
+                        validServiceMessage.innerHTML = 'Tên dịch vụ chỉ được chứa chữ cái, chữ số và khoảng trắng';
+                        checkService = false;
+                    } else {
+                        validServiceMessage.innerHTML = '';
+                        checkService = true;
+                    }
+                }
+            }
+
             function updateService(element) {
                 console.log("da vao update service");
                 const serviceElement = element.parentElement.parentElement;
@@ -365,7 +382,6 @@
                 console.log("serviceName: ", serviceName.value);
                 console.log("serviceFee ", serviceFee.value);
                 console.log("serviceUnit ", serviceUnit.value);
-                console.log("serviceType ", serviceType.value);
                 if (!serviceName.value || !serviceFee.value) {
                     let message = "";
                     if (!serviceName.value) {
@@ -378,30 +394,32 @@
                     //updateMessage.innerHTML = message;
                     showToast('error', message);
                 } else {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'serviceName': serviceName.value,
-                            'serviceFee': serviceFee.value,
-                            'serviceUnit': serviceUnit.value,
-                            'hostelId': ${sessionScope.currentHostel.hostelID},
-                            'serviceType': serviceType.value,
-                            'serviceId': serviceId.value
-                        },
-                        url: '/sakura/service/edit-service',
-                        success: function (response) {
-                            serviceFee.value = serviceFee.value;
-                            const backup = serviceElement.querySelector(".backup");
-                            const htmlString = "<button onclick=\"resetService(this, '" + serviceName.value + "', '" + serviceFee.value + "', '" + serviceUnit.value + "')\" type='submit' value='" + serviceId.value + "' class='font-medium text-[#288D87] hover:underline'>Hoàn tác</button>";
-                            backup.innerHTML = htmlString;
-                            showToast("info", response, 1);
-                            //updateMessage.innerHTML = response;
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
-                        }
-                    });
-
+                    const checkUpdateService = isValid(serviceName.value.trim(), 'name');
+                    if (checkUpdateService)
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'serviceName': serviceName.value,
+                                'serviceFee': serviceFee.value,
+                                'serviceUnit': serviceUnit.value,
+                                'hostelId': ${sessionScope.currentHostel.hostelID},
+                                'serviceType': serviceType.value,
+                                'serviceId': serviceId.value
+                            },
+                            url: '/sakura/service/edit-service',
+                            success: function (response) {
+                                serviceFee.value = serviceFee.value;
+                                const backup = serviceElement.querySelector(".backup");
+                                const htmlString = "<button onclick=\"resetService(this, '" + serviceName.value + "', '" + serviceFee.value + "', '" + serviceUnit.value + "')\" type='submit' value='" + serviceId.value + "' class='font-medium text-[#288D87] hover:underline'>Hoàn tác</button>";
+                                backup.innerHTML = htmlString;
+                                showToast("info", response, 1);
+                                //updateMessage.innerHTML = response;
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+                        else showToast("error", "Tên dịch vụ chỉ được chứa chữ cái, chữ số và khoảng trắng")
                 }
             }
 

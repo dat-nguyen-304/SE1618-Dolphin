@@ -13,14 +13,11 @@ import com.dolphin.hostelmanagement.DAO.NotificationDAO;
 import com.dolphin.hostelmanagement.DAO.ProvinceDAO;
 import com.dolphin.hostelmanagement.DAO.DistrictDAO;
 import com.dolphin.hostelmanagement.DTO.Province;
-import com.dolphin.hostelmanagement.DAO.RoomDAO;
-import com.dolphin.hostelmanagement.DAO.RoomResidentDAO;
 import com.dolphin.hostelmanagement.DAO.RoomTypeDAO;
 import com.dolphin.hostelmanagement.DAO.ServiceDAO;
 import com.dolphin.hostelmanagement.DTO.Feedback;
 import com.dolphin.hostelmanagement.DTO.Hostel;
 import com.dolphin.hostelmanagement.DTO.Notification;
-import com.dolphin.hostelmanagement.DTO.Room;
 import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.Landlord;
@@ -57,68 +54,6 @@ public class HostelController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private void sortByMinPrice(List<Hostel> hostelList, boolean asc) {
-        if (asc) {
-            Collections.sort(hostelList, new Comparator<Hostel>() {
-                @Override
-                public int compare(Hostel o1, Hostel o2) {
-                    return (o1.getMinPrice() - o2.getMinPrice());
-                }
-            });
-        } else {
-            Collections.sort(hostelList, new Comparator<Hostel>() {
-                @Override
-                public int compare(Hostel o1, Hostel o2) {
-                    return (o2.getMinPrice() - o1.getMinPrice());
-                }
-            });
-        }
-    }
-
-    private void sortByMaxPrice(List<Hostel> hostelList, boolean asc) {
-        if (asc) {
-            Collections.sort(hostelList, new Comparator<Hostel>() {
-                @Override
-                public int compare(Hostel o1, Hostel o2) {
-                    return (o1.getMaxPrice() - o2.getMaxPrice());
-                }
-            });
-        } else {
-            Collections.sort(hostelList, new Comparator<Hostel>() {
-                @Override
-                public int compare(Hostel o1, Hostel o2) {
-                    return (o2.getMaxPrice() - o1.getMaxPrice());
-                }
-            });
-        }
-    }
-
-    private void sortByRate(List<Hostel> hostelList, boolean asc) {
-        if (asc) {
-            Collections.sort(hostelList, new Comparator<Hostel>() {
-                @Override
-                public int compare(Hostel o1, Hostel o2) {
-                    if (o1.getRating() - o2.getRating() >= 0) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                }
-            });
-        } else {
-            Collections.sort(hostelList, new Comparator<Hostel>() {
-                @Override
-                public int compare(Hostel o1, Hostel o2) {
-                    if (o2.getRating() - o1.getRating() >= 0) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                }
-            });
-        }
-    }
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -179,6 +114,27 @@ public class HostelController extends HttpServlet {
                             session.setAttribute("district", null);
                         }
 
+                    } else if (session.getAttribute("province") != null) {
+                        Province province = (Province) session.getAttribute("province");
+                        District district = null;
+                        if (session.getAttribute("district") != null) {
+                            district = (District) session.getAttribute("district");
+                        }
+                        List<Hostel> hostelListTmp = new ArrayList<>();
+                        if (district == null) {
+                            for (Hostel hostel : hostelList) {
+                                if (hostel.getDistrict().getProvince().equals(province)) {
+                                    hostelListTmp.add(hostel);
+                                }
+                            }
+                        } else {
+                            for (Hostel hostel : hostelList) {
+                                if (hostel.getDistrict().equals(district)) {
+                                    hostelListTmp.add(hostel);
+                                }
+                            }
+                        }
+                        hostelList = hostelListTmp;
                     }
                     if (request.getParameter("keyword") != null) {
                         String keyword = request.getParameter("keyword");
@@ -521,6 +477,68 @@ public class HostelController extends HttpServlet {
                     out.print("Xóa không thành công");
                 }
             }
+        }
+    }
+
+    private void sortByMinPrice(List<Hostel> hostelList, boolean asc) {
+        if (asc) {
+            Collections.sort(hostelList, new Comparator<Hostel>() {
+                @Override
+                public int compare(Hostel o1, Hostel o2) {
+                    return (o1.getMinPrice() - o2.getMinPrice());
+                }
+            });
+        } else {
+            Collections.sort(hostelList, new Comparator<Hostel>() {
+                @Override
+                public int compare(Hostel o1, Hostel o2) {
+                    return (o2.getMinPrice() - o1.getMinPrice());
+                }
+            });
+        }
+    }
+
+    private void sortByMaxPrice(List<Hostel> hostelList, boolean asc) {
+        if (asc) {
+            Collections.sort(hostelList, new Comparator<Hostel>() {
+                @Override
+                public int compare(Hostel o1, Hostel o2) {
+                    return (o1.getMaxPrice() - o2.getMaxPrice());
+                }
+            });
+        } else {
+            Collections.sort(hostelList, new Comparator<Hostel>() {
+                @Override
+                public int compare(Hostel o1, Hostel o2) {
+                    return (o2.getMaxPrice() - o1.getMaxPrice());
+                }
+            });
+        }
+    }
+
+    private void sortByRate(List<Hostel> hostelList, boolean asc) {
+        if (asc) {
+            Collections.sort(hostelList, new Comparator<Hostel>() {
+                @Override
+                public int compare(Hostel o1, Hostel o2) {
+                    if (o1.getRating() - o2.getRating() >= 0) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
+        } else {
+            Collections.sort(hostelList, new Comparator<Hostel>() {
+                @Override
+                public int compare(Hostel o1, Hostel o2) {
+                    if (o2.getRating() - o1.getRating() >= 0) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
         }
     }
 

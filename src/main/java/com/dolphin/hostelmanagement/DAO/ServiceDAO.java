@@ -69,7 +69,7 @@ public class ServiceDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select s.type, serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied, serviceFee, unit from Service s where hostelID = ? and active = 1 and type = 0";
+                String sql = "select s.type, serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied, serviceFee, unit from Service s where hostelID = ? and active = 1 and type >= 3";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, hostel.getHostelID());
                 ResultSet rs = pst.executeQuery();
@@ -254,7 +254,33 @@ public class ServiceDAO {
 //        }
 //        return list;
 //    }
-    public static boolean save(int hostelId, String name, int fee, String unit, int serviceType) {
+    public static boolean save(int hostelId, String name, int fee, String unit) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "INSERT INTO Service(hostelID, serviceName, serviceFee, unit, type) VALUES (?, ?, ?, ?, (SELECT MAX(type) FROM Service WHERE hostelID = ?) + 1)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelId);
+                pst.setString(2, name);
+                pst.setInt(3, fee);
+                pst.setString(4, unit);
+                pst.setInt(5, hostelId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static boolean update(int hostelId, String name, int fee, String unit, int type) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
@@ -265,7 +291,7 @@ public class ServiceDAO {
                 pst.setString(2, name);
                 pst.setInt(3, fee);
                 pst.setString(4, unit);
-                pst.setInt(5, serviceType);
+                pst.setInt(5, type);
                 int rows = pst.executeUpdate();
                 if (rows > 0) {
                     cn.close();
@@ -307,12 +333,33 @@ public class ServiceDAO {
         return null;
     }
 
-    public static boolean delete(int serviceId) {
+    public static boolean deactivate(int serviceId) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 String sql = "UPDATE Service SET active = 0 WHERE serviceID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, serviceId);
+                int rows = pst.executeUpdate();
+                if (rows > 0) {
+                    cn.close();
+                    return true;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static boolean delete(int serviceId) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "UPDATE Service SET active = 0, serviceFee = -1 WHERE serviceID = ?";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, serviceId);
                 int rows = pst.executeUpdate();
@@ -353,5 +400,10 @@ public class ServiceDAO {
     }
 
     public static void main(String[] args) {
+        boolean b = save(1, "abcde", 10000, "a");
+        List<Service> list = findAddedActiveServices(HostelDAO.findById(1));
+        for (Service service : list) {
+            System.out.println(service.getServiceName());
+        }
     }
 }
