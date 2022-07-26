@@ -354,14 +354,17 @@ public class ServiceDAO {
         return false;
     }
     
-    public static boolean delete(int serviceId) {
+    public static boolean delete(int hostelId, String name, String unit, int type) {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "UPDATE Service SET active = 0, serviceFee = -1 WHERE serviceID = ?";
+                String sql = "INSERT INTO Service(hostelID, serviceName, serviceFee, unit, type, active) VALUES (?, ?, -1, ?, ?, 0)";
                 PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setInt(1, serviceId);
+                pst.setInt(1, hostelId);
+                pst.setString(2, name);
+                pst.setString(3, unit);
+                pst.setInt(4, type);
                 int rows = pst.executeUpdate();
                 if (rows > 0) {
                     cn.close();

@@ -181,9 +181,9 @@ public class RoomController extends HttpServlet {
                     }
                     session.setAttribute("currentHostel", hostel);
                     out.println("<span class=\"inline-block text-green-600\">Thêm loại phòng " + newRoomType.getRoomTypeName() + " thành công! Xem");
-                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\">");
+                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\" method='post'>");
                     out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
-                    out.println("<input type=\"submit\" value=\"tại đây\">");
+                    out.println("<input class='hover:underline text-green-800 cursor-pointer font-bold' type=\"submit\" value=\"tại đây\">");
                     out.println("</form></span>");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");
