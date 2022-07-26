@@ -222,7 +222,7 @@ public class InvoiceController extends HttpServlet {
                                 YearMonth firstMonthYM = YearMonth.parse(firstMonth);
                                 activeServices = ServiceDAO.findServiceByRoom(new Room(chosenRoom.getRoomID(), chosenRoom.getRoomNumber(), chosenRoom.getRoomType(), firstMonthYM));
                             } else {
-                                activeServices = ServiceDAO.findServiceByRoom(chosenRoom);
+                                activeServices = ServiceDAO.findServiceByRoom(new Room(chosenRoom.getRoomID(), chosenRoom.getRoomNumber(), chosenRoom.getRoomType(), chosenRoom.getLatestInvoiceMonth().plusMonths(1)));
                             }
                             if (chosenRoom.getLatestInvoiceMonth() == null) {
                                 String startMonth = contract.getStartDate().toString();

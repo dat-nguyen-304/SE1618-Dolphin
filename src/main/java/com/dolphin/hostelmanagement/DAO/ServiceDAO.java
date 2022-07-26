@@ -202,8 +202,8 @@ public class ServiceDAO {
                         int type = rs.getInt("type");
                         Hostel hostel = room.getRoomType().getHostel();
                         
-                        // serviceFee = 0, service is deleted
-                        if (serviceFee != 0) {
+                        // serviceFee = -1, service is deleted
+                        if (serviceFee != -1) {
                             list.add(new Service(serviceID, serviceName, serviceFee, monthApplied, hostel, unit, type));
                         }
                     }
