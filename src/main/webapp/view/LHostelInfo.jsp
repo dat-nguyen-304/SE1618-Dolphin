@@ -125,7 +125,7 @@
 
                                 <div class="mt-[20px]">
                                     <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Mô tả</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.description}</p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold h-[200px] overflow-y-auto">${sessionScope.currentHostel.description}</p>
                                 </div>
 
                             </div>
@@ -393,7 +393,7 @@
             }
         </script>
         <script>
-            var checkAddress = checkDesc = checkHostel = false;
+            var checkAddress = checkDesc = checkHostel = true;
             function updateHostel() {
                 const name = document.querySelector("input[name='updateName']");
                 const updateDistrictId = document.querySelector("select[name='updateDistrictId']");
