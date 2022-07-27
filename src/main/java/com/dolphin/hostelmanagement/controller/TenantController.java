@@ -180,9 +180,9 @@ public class TenantController extends HttpServlet {
 
                     List<Notification> notiList = NotificationDAO.getNotificationByToAccount(t.getAccount());
                     System.out.println("notiList: " + notiList.size());
-                    for (Notification notification : notiList) {
-                        System.out.println(notification.getContent());
-                    }
+//                    for (Notification notification : notiList) {
+//                        System.out.println(notification.getContent());
+//                    }
 
                     request.setAttribute("contract", contract);
                     request.setAttribute("notificationList", notiList);
@@ -234,6 +234,15 @@ public class TenantController extends HttpServlet {
                 request.setAttribute("contractList", contractList);
 
                 request.getRequestDispatcher("/view/TContractList.jsp").forward(request, response);
+            }
+            
+            if (path.equals("/pending-booking-request")) {
+                int tenantID = t.getAccount().getAccountID();
+                int roomTypeID = Integer.parseInt(request.getParameter("roomTypeID"));
+                
+                if(BookingRequestDAO.findPendingBookingRequest(tenantID, roomTypeID)) 
+                    out.print(1);
+                else out.print(0);
             }
         }
     }

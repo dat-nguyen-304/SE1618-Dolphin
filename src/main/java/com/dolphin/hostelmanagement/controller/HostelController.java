@@ -330,6 +330,13 @@ public class HostelController extends HttpServlet {
             } else if (path.equals("/sendRentalRequest")) {
                 Tenant t = (Tenant) session.getAttribute("currentUser");
 
+                
+                String intentStartDate = request.getParameter("intentStartDate").trim();
+                String rentalNote = request.getParameter("rentalNote").trim();
+                
+                if(intentStartDate == null || intentStartDate.length() == 0) intentStartDate = "Không có";
+                if(rentalNote == null || rentalNote.length() == 0) rentalNote = "Không có";
+                
                 Notification rentalNoti = new Notification();
 
                 int roomTypeID = Integer.parseInt(request.getParameter("roomTypeID"));
@@ -340,8 +347,14 @@ public class HostelController extends HttpServlet {
                 int landlordID = roomType.getHostel().getLandlord().getAccount().getAccountID();
                 rentalNoti.setToAccount(AccountDAO.findById(landlordID));
                 rentalNoti.setCreatedDate(new Date());
-                rentalNoti.setContent("Người thuê nhà " + t.getFullname() + " muốn xem loại phòng " + roomType.getRoomTypeName()
-                        + " ở nhà trọ " + roomType.getHostel().getHostelName() + "!");
+                
+                String content = "Người thuê nhà " + t.getFullname() + " muốn xem loại phòng " + roomType.getRoomTypeName()
+                        + " ở nhà trọ " + roomType.getHostel().getHostelName() + "!<br>";
+                
+                content += "Ngày đến xem phòng(dự kiến): " + intentStartDate + "<br>";
+                content += "Ghi chú thêm: " + rentalNote + ".";
+                
+                rentalNoti.setContent(content);
                 rentalNoti.setStatus(0); //0 means unread
 
                 boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
@@ -357,8 +370,14 @@ public class HostelController extends HttpServlet {
 
                 successNoti.setToAccount(t.getAccount());
                 successNoti.setCreatedDate(new Date());
-                successNoti.setContent("Bạn đã đăng kí xem loại phòng " + roomType.getRoomTypeName()
-                        + ", ở nhà trọ " + roomType.getHostel().getHostelName() + " thành công!");
+                
+                content = "Bạn đã đăng kí xem loại phòng " + roomType.getRoomTypeName()
+                        + ", ở nhà trọ " + roomType.getHostel().getHostelName() + " thành công!<br>";
+                
+                content += "Ngày đến xem phòng(dự kiến): " + intentStartDate + "<br>";
+                content += "Ghi chú thêm: " + rentalNote + ".";
+                
+                successNoti.setContent(content);
 
                 successNoti.setStatus(0); //0 means unread
                 check = NotificationDAO.saveNotification(successNoti);
@@ -376,7 +395,7 @@ public class HostelController extends HttpServlet {
 
                 //end booking request adding function
                 //this will show notification after returning back to hostel detail page!
-                response.sendRedirect("/sakura/tenant/rentalRequestList");
+                response.sendRedirect("/sakura/tenant/rental-request");
                 return;
 
                 //end function

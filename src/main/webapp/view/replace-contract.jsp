@@ -32,7 +32,6 @@
             <p>Ngày kết thúc</p>
             <input date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" type ="text" name="endDate" value = "${requestScope.endDate}"/><br>
             <p>Số tháng ở(dự kiến)</p>
-            <input type="number" name="duration" placeholder="Số tháng ở (dự kiến)" value = "${requestScope.oldContract.duration}"/><br>
             <input type="hidden" name="queryType" value="replace"/>
             <input type="hidden" name="tenantID" value="${requestScope.oldContract.tenant.account.accountID}"/>
             <input type="hidden" name="contractID" value="${requestScope.oldContract.contractID}"/>

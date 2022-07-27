@@ -156,18 +156,19 @@
                                         <h3 class="font-bold text-[20px] text-slate-800">Gửi yêu cầu thuê nhà</h3>
                                         <p class="font-normal text-[15px] text-gray-500">Bạn có thể điền các thông tin bổ sung dưới đây</p>
                                     </div>
-                                    <form action="/sakura/hostel/sendRentalRequest" method="post" class="w-full" >
+                                    <form action="/sakura/hostel/sendRentalRequest" method="post" class="w-full" id = "rental-request-form">
                                         <div class="w-full mb-[20px]">
-                                            <h3 class="text-[15px] font-normal text-slate-500 mb-[8px]">Ngày bắt đầu thuê (dự kiến)</h3>
+                                            <h3 class="text-[15px] font-normal text-slate-500 mb-[8px]">Ngày đến xem phòng (dự kiến)</h3>
                                             <input type="date" name="intentStartDate" class="w-full"/>
                                         </div>
                                         <div class="w-full mb-[20px]">
                                             <label for="note" class="text-[15px] font-normal text-slate-500 mb-[8px]">Ghi chú bổ sung</label>
-                                            <textarea id="note" name="rentalNote"  rows="4" class="w-full"></textarea>
+                                            <textarea id="note" name="rentalNote" rows="4" class="w-full"></textarea>
                                         </div>
                                         <div class="">
-                                            <input type="hidden" name="roomTypeID" value ="${requestScope.roomType.roomTypeID}">
-                                            <button type="submit" name="action" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đặt thuê</button>
+                                            <input id = "roomTypeID" type="hidden" name="roomTypeID" value ="${requestScope.roomType.roomTypeID}">
+                                            <p id = "rentingError"></p>
+                                            <button onclick="pendingRentingCheck()" id="renting-submit-button" type="button" name="action" class="w-full text-white text-[20px] font-semibold bg-[#17535B] border-0 py-2 px-6 focus:outline-none hover:bg-[#13484F] rounded">Đặt thuê</button>
                                         </div>
                                     </form>
                                 </c:if>
@@ -182,5 +183,49 @@
         <script src="../assets/javascript/keep-district.js"></script>
         <script src="../assets/javascript/custom-select.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
+        
+        <script>
+            let renting = $("#rentingError");
+            function pendingRentingCheck() {
+                const roomTypeID = document.getElementById('roomTypeID').value;
+                
+                
+                console.log("RoomTypeID: ", roomTypeID);
+                
+                jQuery.ajax({
+                            type: 'POST',
+                            async: false,
+                            data: {'roomTypeID': roomTypeID,
+                                
+                            },
+                            url: '/sakura/tenant/pending-booking-request',
+                            success: function (response) {
+                                //messageElement.innerHTML = response;
+                                if(response === "1") {
+                                    //showToast("success", "Phòng này đã có hợp đồng đang chờ!");
+                                        $("#rentingError").html("Bạn đã gửi yêu cầu xem phòng này rồi!");
+                                        $("#rentingError").css("color", "red");
+                                }
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
+                            }
+                        });
+            }
+            
+            $("#renting-submit-button").click(function () {
+                let check = true;
+                if (renting.html() !== "")
+                    check = false;
+                
+                console.log("Check: " + check);
+                console.log("Check: " + $("#rentingError").html());
+                if (!check)
+                    console.log("LOI");
+                else
+                    $("#rental-request-form").submit();
+            });
+        </script>
     </body>
 </html>

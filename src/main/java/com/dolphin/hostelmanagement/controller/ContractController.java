@@ -193,7 +193,6 @@ public class ContractController extends HttpServlet {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    int duration = Integer.parseInt(request.getParameter("duration"));
                     Date createdDate = new Date();
 
                     int contractID = BookingRequestDAO.saveBookingRequest(oldContract.getTenant().getAccount().getAccountID(),
