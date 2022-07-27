@@ -122,6 +122,12 @@ public class TenantController extends HttpServlet {
                     request.getRequestDispatcher("/view/tenantRentalRequestPage.jsp").forward(request, response);
                     return;
                 }
+                if(request.getParameter("queryType").equals("refuse-booking")) {
+                    int bookingRequestID = Integer.parseInt(request.getParameter("bookingID"));
+                    BookingRequestDAO.changeStatus(bookingRequestID, -1);
+                    response.sendRedirect("/sakura/tenant/rental-request");
+                    
+                }
                 if (request.getParameter("queryType").equals("accept")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
@@ -162,11 +168,10 @@ public class TenantController extends HttpServlet {
                 if (request.getParameter("queryType").equals("refuse")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
 
-                    ContractDAO.changeStatus(contractID, 0);
+                    ContractDAO.changeStatus(contractID, 3);
                     BookingRequestDAO.changeStatus(contractID, 0);
 
-                    System.out.println("In refuse");
-                    response.sendRedirect("/sakura/tenant/dashboard");
+                    response.sendRedirect("/sakura/tenant/rental-request");
                 }
 //                
 //                response.sendRedirect("/sakura/tenant/dashboard");

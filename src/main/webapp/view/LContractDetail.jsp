@@ -149,12 +149,14 @@
                                                 Kết thúc hợp đồng này
                                             </button>
                                         </c:if>
-                                    </p>
-                                </div>
+                                        <c:if test="${requestScope.contract.status == 2}">Chờ xác nhận</c:if>
+                                        <c:if test="${requestScope.contract.status == 3}">Đã hủy</c:if>
+                                        </p>
+                                    </div>
                                 <c:if test="${requestScope.contract.actualEndDate != null}">
                                     <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
                                         <p class="text-[#929ca5] font-normal">Ngày kết thúc </p>
-                                        <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money"><%= actualEndDate %></span></p>
+                                        <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money"><%= actualEndDate%></span></p>
                                     </div>
                                 </c:if>
                             </div>

@@ -184,7 +184,7 @@ public class LandlordController extends HttpServlet {
                             currentDate = i.getMonth();
                             revenueValue.add(0);
                         }
-                        if (revenueDate.size() <= 5) {
+                        if (revenueDate.size() <= 5 && currentDate.equals(i.getMonth())) {
                             revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
                         }
 
@@ -462,6 +462,7 @@ public class LandlordController extends HttpServlet {
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
                     BookingRequest currentBr = BookingRequestDAO.getBookingRequestByID(bookingRequestID);
                     BookingRequestDAO.changeStatus(bookingRequestID, 0);
+                    ContractDAO.changeStatus(bookingRequestID, 3);
                     int hostelID = currentBr.getRoomType().getHostel().getHostelID();
 
                     //end change
@@ -712,9 +713,9 @@ public class LandlordController extends HttpServlet {
                     }
                 });
 
-                /*for (Invoice i : invoiceList) {
+                for (Invoice i : invoiceList) {
                     System.out.println(i.getMonth());
-                }*/
+                }
                 ArrayList<String> revenueDate = new ArrayList<>();
                 ArrayList<Integer> revenueValue = new ArrayList<>();
 
@@ -726,7 +727,7 @@ public class LandlordController extends HttpServlet {
                         currentDate = i.getMonth();
                         revenueValue.add(0);
                     }
-                    if (revenueDate.size() <= 5) {
+                    if (revenueDate.size() <= 5 && currentDate.equals(i.getMonth())) {
                         revenueValue.set(revenueValue.size() - 1, revenueValue.get(revenueValue.size() - 1) + i.getTotalPrice());
                     }
                 }

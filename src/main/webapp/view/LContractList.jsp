@@ -118,14 +118,14 @@
                             <tbody>
                                 <c:forEach items="${requestScope.contractList}" var="contract">
                                     <tr class="text-[15px] bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900">${contract.contractID}</th>
+                                        <th scope="row" class="text-left px-6 py-4 font-medium text-gray-900">${contract.contractID}</th>
                                         <td class="text-left px-6 py-4">${contract.tenant.fullname}</td>
-                                        <td class="text-center px-6 py-4">${contract.room.roomNumber}</td>
-                                        <td class="text-center px-6 py-4">${contract.startDate}</td>
-                                        <td class="text-center px-6 py-4">${contract.endDate}</td>
-                                        <td class="text-center px-6 py-4">
+                                        <td class="text-left px-6 py-4">${contract.room.roomNumber}</td>
+                                        <td class="text-left px-6 py-4">${contract.startDate}</td>
+                                        <td class="text-left px-6 py-4">${contract.endDate}</td>
+                                        <td class="text-left px-6 py-4">
                                             <c:if test="${contract.status == 0}">
-                                                <span class="bg-blue-100 text-blue-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                <span class="bg-black-100 text-blue-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
                                                     Đã kết thúc
                                                 </span>
                                             </c:if>
@@ -137,6 +137,11 @@
                                             <c:if test="${contract.status == 2}">
                                                 <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
                                                     Đang chờ
+                                                </span>
+                                            </c:if>
+                                            <c:if test="${contract.status == 3}">
+                                                <span class="bg-gray-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                    Đã hủy
                                                 </span>
                                             </c:if>
                                         </td>

@@ -125,6 +125,11 @@
                                                 Chờ xác nhận
                                             </p>
                                         </c:when>
+                                        <c:if test="${contract.status == 3}">
+                                            <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                Đã hủy
+                                            </span>
+                                        </c:if>
                                     </c:choose>
                                 </div>
 
