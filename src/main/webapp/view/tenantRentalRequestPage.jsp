@@ -166,7 +166,7 @@
                                                     ${invitation.createdDate}
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    <form method = "post" action = "/sakura/tenant/rentalRequestList">
+                                                    <form method = "post" action = "/sakura/tenant/rental-request">
                                                         <input type ="hidden" name ="queryType" value ="accept">
                                                         <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
                                                         <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
@@ -175,7 +175,7 @@
                                                     </form>
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    <form method = "post" action = "/sakura/tenant/rentalRequestList">
+                                                    <form method = "post" action = "/sakura/tenant/rental-request">
                                                         <input type ="hidden" name ="queryType" value ="refuse">
                                                         <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
                                                         <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">

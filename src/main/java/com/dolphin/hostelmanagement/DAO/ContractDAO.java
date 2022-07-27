@@ -563,6 +563,24 @@ public class ContractDAO {
 
         return false;
     }
+    
+    public static void removePendingByTenant(int tenantID) {
+        Connection cn = null;
+        
+        try {
+            cn = DBUtils.makeConnection();
+            
+            String sql = "Update Contract set status = 3 where tenantID = ? and status = 2";
+            
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, tenantID);
+            
+            pst.executeUpdate();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
     }

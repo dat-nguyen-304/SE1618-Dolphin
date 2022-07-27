@@ -133,6 +133,7 @@ public class TenantController extends HttpServlet {
                     Contract contract = ContractDAO.findByID(contractID);
                     ContractDAO.changeStatus(contractID, 1); //activate cai contract
                     BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID()); // xoa het moi booking request
+                    ContractDAO.removePendingByTenant(t.getAccount().getAccountID());
                     RoomDAO.changeStatus(contract.getRoom().getRoomID(), 1); // thay trang thai cua phong
                     TenantDAO.changeStatus(t.getAccount().getAccountID(), true); // thay trang thai tenant
 
