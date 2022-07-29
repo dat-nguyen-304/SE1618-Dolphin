@@ -186,7 +186,7 @@ public class ServiceDAO {
                 list = new ArrayList();
                 String sql = "SELECT s.type, serviceID, serviceName, CONCAT(YEAR(s.monthApplied), '-', RIGHT(CONCAT('00', MONTH(s.monthApplied)), 2)) as monthApplied, serviceFee, unit FROM Service s\n"
                         + "WHERE serviceID IN (\n" + "SELECT DISTINCT max(serviceID) FROM Service \n"
-                        + "where hostelID = ? and monthApplied < ? GROUP BY serviceName)";
+                        + "where hostelID = ? and monthApplied < ? GROUP BY type)";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, room.getRoomType().getHostel().getHostelID());
                 pst.setString(2, startNextMonth.toString());

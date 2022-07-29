@@ -177,7 +177,7 @@
                                                 <td scope="col" class="px-6 py-3">${detail.service.serviceName}</td>
                                                 <td scope="col" class="px-6 py-3">${detail.service.unit}</td>
                                                 <td scope="col" class="px-6 py-3">
-                                                    <c:if test="${detail.service.type != 0}">
+                                                    <c:if test="${detail.service.type == 1 || detail.service.type == 2}">
                                                         <c:choose>
                                                             <c:when test="${invoice.status == 0}">
                                                                 <input type="number" name="startInput${detail.service.serviceID}"
@@ -193,7 +193,7 @@
                                                     </c:if>
                                                 </td>
                                                 <td scope="col" class="px-6 py-3">
-                                                    <c:if test="${detail.service.type != 0}">
+                                                    <c:if test="${detail.service.type == 1 || detail.service.type == 2}">
                                                         <c:choose>
                                                             <c:when test="${invoice.status == 0}">
                                                                 <input type="number" name="endInput${detail.service.serviceID}"
@@ -210,7 +210,7 @@
                                                 </c:if>
                                                 <td scope="col" class="px-6 py-3">
                                                     <c:choose>
-                                                        <c:when test="${detail.service.type != 0}">
+                                                        <c:when test="${detail.service.type == 1 || detail.service.type == 2}">
                                                             <span id="quantity${detail.service.serviceID}">${detail.quantity}</span></td>
                                                         </c:when>
                                                         <c:otherwise>

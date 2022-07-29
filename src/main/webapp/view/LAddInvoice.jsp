@@ -199,9 +199,6 @@
                                             <%--                                               placeholder="Chọn tháng...">--%>
                                         </div>
                                         <div class="flex items-center col-span-2 grid grid-cols-6">
-                                            <p class="col-span-5" id="monthError"></p>
-                                        </div>
-                                        <div class="flex items-center col-span-2 grid grid-cols-6">
                                             <p class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Kỳ gần
                                                 nhất có hóa đơn:</p>
                                             <span class="col-span-3 bg-[#fff] text-gray-900 rounded p-[5px] text-[15px]"
@@ -261,7 +258,7 @@
                                                     <td scope="col" class="px-6 py-3">${service.serviceName}</td>
                                                     <td scope="col" class="px-6 py-3">${service.unit}</td>
                                                     <td scope="col" class="px-6 py-3">
-                                                        <c:if test="${service.type != 0}">
+                                                        <c:if test="${service.type == 1 || service.type == 2}">
                                                             <c:choose>
                                                                 <c:when test="${startMonth != null}">
                                                                     <input type="number" name="startInput${service.serviceID}" min="0"
@@ -281,7 +278,7 @@
                                                         </c:if>
                                                     </td>
                                                     <td scope="col" class="px-6 py-3">
-                                                        <c:if test="${service.type != 0}">
+                                                        <c:if test="${service.type == 1 || service.type == 2}">
                                                             <c:choose>
                                                                 <c:when test="${startMonth != null}">
                                                                     <input type="number" name="endInput${service.serviceID}" min="0" value="0"
@@ -302,7 +299,7 @@
                                                         </c:if>
                                                     <td scope="col" class="px-6 py-3">
                                                         <c:choose>
-                                                            <c:when test="${service.type != 0}">
+                                                            <c:when test="${service.type == 1 || service.type == 2}">
                                                                 <span id="quantity${service.serviceID}"></span></td>
                                                             </c:when>
                                                             <c:otherwise>
@@ -640,7 +637,7 @@
                                                     let rowSum = $("#rowSum" + serviceID);
                                                     rowSum.html("");
                                                     let sum;
-                                                    if (type !== 0) {
+                                                    if (type == 1 || type == 2) {
                                                         if ($(element).val() === "") {
                                                             $(element).val(0);
                                                         }
