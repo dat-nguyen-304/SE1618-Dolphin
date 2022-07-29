@@ -9,19 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Dịch vụ</title>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png">
-
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <%@include file="../view/assets.jsp" %>
 
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link href="../assets/css/toastr.css" rel="stylesheet" />
@@ -106,95 +94,87 @@
                             <h1 class="updateMessage text-[15px] text-emerald-500 font-bold"></h1>
                         </div>
                         <div class="max-h-[calc(100%-40px)] overflow-y-auto">
-                            <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                            <table class="w-full text-[14px] text-left text-gray-500">
                                 <thead class="text-[13px] text-gray-700 uppercase bg-gray-50">
                                     <tr>
-                                        <th scope="col" class="px-3 py-3 text-center">Tên dịch vụ</th>
-                                        <th scope="col" class="px-3 py-3 text-center">Đơn giá</th>
-                                        <th scope="col" class="px-3 py-3 text-center">Đơn vị</th>
-                                        <th scope="col" class="px-3 py-3 text-center">Ngày áp dụng</th>
-                                        <th scope="col" class="px-3 py-3 text-center">
-                                            <span class="sr-only">Update</span>
-                                        </th>
-                                        <th scope="col" class="px-3 py-3 text-center">
-                                            <span class="sr-only">Reset</span>
-                                        </th>
-                                        <th scope="col" class="px-3 py-3 text-center">
-                                            <span class="sr-only">Remove</span>
-                                        </th>
+                                        <th scope="col" class="py-3 w-[200px] pl-[10px]">Tên dịch vụ</th>
+                                        <th scope="col" class="py-3 w-[180px]">Đơn giá (VNĐ)</th>
+                                        <th scope="col" class="py-3 w-[150px]">Đơn vị</th>
+                                        <th scope="col" class="py-3 w-[150px]">Tháng áp dụng</th>
+                                        <th scope="col" class="py-3"><span class="sr-only">Update</span></th>
+                                        <th scope="col" class="py-3"><span class="sr-only">Reset</span></th>
+                                        <th scope="col" class="py-3"><span class="sr-only">Remove</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
                                         <td class="hidden"><input name="updateName" type="hidden" class="text-[15px]" value="Điện"/></td>
                                         <td class="hidden"><input name="updateType" type="hidden" class="text-[15px]" value="1"/></td>
-                                        <td class="px-3 py-4">Điện</td>
-                                        <td class="px-3 py-4 text-center">
-                                            <input name="updateFee" type="number" class="text-[15px]" value="${requestScope.eletricService.serviceFee}"/>
+                                        <td class="py-4 w-[200px] pl-[10px]">Điện</td>
+                                        <td class="py-4 w-[180px]">
+                                            <input name="updateFee" type="number" class="w-[90%] text-[15px] px-[3px]" value="${requestScope.eletricService.serviceFee}"/>
+                                            <input name="updateUnit" type="hidden" class="text-[15px]" value="kWh"/>
                                         </td>
-                                        <td class="hidden"><input name="updateUnit" type="hidden" class="text-[15px]" value="kWh"/></td>
-                                        <td class="px-3 py-4 text-center">kWh</td>
-                                        <td class="px-3 py-4 text-center">
+                                        <td class="py-4 w-[150px]">kWh</td>
+                                        <td class="py-4 w-[150px]">
                                             ${requestScope.eletricService.monthApplied}
                                         </td>
-                                        <td class="px-3 py-4 text-center">
+                                        <td class="py-4 text-center">
                                             <button onclick="updateService(this)" type="submit" value="${requestScope.eletricService.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
                                         </td>
-                                        <td class="px-3 py-4 text-center backup">
+                                        <td class="py-4 text-center backup">
                                             <button onclick="resetService(this, 'Điện', '${requestScope.eletricService.serviceFee}', 'kWh')" type="submit" value="${requestScope.eletricService.serviceID}" class="font-medium text-[#288D87] hover:underline">Hoàn tác</button>
                                         </td>
-                                        <td class="px-3 py-4 text-right text-center">
-                                        </td>
+                                        <td class="py-4 text-center cursor-not-allowed text-gray-300 pr-[5px]">Xoá</td>
                                     </tr>
                                     <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
                                         <td class="hidden"><input name="updateName" type="hidden" class="text-[15px]" value="Nước"/></td>
                                         <td class="hidden"><input name="updateType" type="hidden" class="text-[15px]" value="2"/></td>
-                                        <td class="px-3 py-4 ">Nước</td>
-                                        <td class="px-3 py-4 text-center">
-                                            <input name="updateFee" type="number" class="text-[15px]" value="${requestScope.waterService.serviceFee}"/>
+                                        <td class="py-4 w-[200px] pl-[10px]">Nước</td>
+                                        <td class="py-4 w-[180px]">
+                                            <input name="updateFee" type="number" class="w-[90%] text-[15px] px-[3px]" value="${requestScope.waterService.serviceFee}"/>
+                                            <input name="updateUnit" type="hidden" class="text-[15px]" value="m3"/>
                                         </td>
-                                        <td class="hidden"><input name="updateUnit" type="hidden" class="text-[15px]" value="m3"/></td>
-                                        <td class="px-3 py-4 text-center">
+                                        <td class="py-4 w-[150px]">
                                             m<sup>3</sup>
                                         </td>
-                                        <td class="px-3 py-4 text-center">
+                                        <td class="py-4 w-[150px]">
                                             ${requestScope.waterService.monthApplied}
                                         </td>
-                                        <td class="px-3 py-4 text-center">
+                                        <td class="py-4 text-center">
                                             <button onclick="updateService(this)" type="submit" value="${requestScope.waterService.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
                                         </td>
-                                        <td class="px-3 py-4 text-center backup">
+                                        <td class="py-4 text-center backup">
                                             <button onclick="resetService(this, 'Nước', '${requestScope.waterService.serviceFee}', 'm3')" type="submit" class="font-medium text-[#288D87] hover:underline">Hoàn tác</button>
                                         </td>
-                                        <td class="px-3 py-4">
-                                        </td>
+                                        <td class="py-4 text-center cursor-not-allowed text-gray-300 pr-[5px]">Xoá</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                            <table class="w-full text-[14px] text-left text-gray-500">
                                 <tbody class="service-list">
                                     <c:forEach items="${requestScope.serviceList}" var="service">
                                         <tr class="bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800">
-                                            <td class="hidden"><input name="updateType" type="hidden" class="text-[15px]" value="${service.type}"/></td>
-                                            <td class="px-3 py-4">
-                                                <input name="updateName" type="text" class="text-[15px]" value="${service.serviceName}"/>
+                                            <td class="hidden"><input name="updateType" type="hidden" class="text-[15px] w-[90%] px-[3px]" value="${service.type}"/></td>
+                                            <td class="py-4 w-[200px]">
+                                                <input name="updateName" type="text" class="text-[15px] w-[90%] px-[3px]" value="${service.serviceName}"/>
                                             </td>
-                                            <td class="px-3 py-4 text-center">
-                                                <input name="updateFee" type="number" class="text-[15px]" value="${service.serviceFee}"/>
+                                            <td class="py-4 w-[180px]">
+                                                <input name="updateFee" type="number" class="text-[15px] w-[90%] px-[3px]" value="${service.serviceFee}"/>
                                             </td>
-                                            <td class="px-3 py-4 text-center">
-                                                <input name="updateUnit" type="text" class="text-[15px]" value="${service.unit}"/>
+                                            <td class="py-4 w-[150px]">
+                                                <input name="updateUnit" type="text" class="text-[15px] w-[90%] px-[3px]" value="${service.unit}"/>
                                             </td>
-                                            <td class="px-3 py-4 text-center">
+                                            <td class="py-4 w-[150px]">
                                                 ${service.monthApplied}
                                             </td>
-                                            <td class="px-3 py-4 text-center">
+                                            <td class="py-4 text-center">
                                                 <button onclick="updateService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Lưu thay đổi</button>
                                             </td>
-                                            <td class="px-3 py-4 text-center backup">
+                                            <td class="py-4 text-center backup">
                                                 <button onclick="resetService(this, '${service.serviceName}', '${service.serviceFee}', '${service.unit}')" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Hoàn tác</button>
                                             </td>
-                                            <td class="px-3 py-4 text-center">
+                                            <td class="py-4 text-center pr-[5px]">
                                                 <button onclick="deleteService(this)" type="submit" value="${service.serviceID}" class="font-medium text-[#288D87] hover:underline">Xóa</button>
                                             </td>
                                         </tr>

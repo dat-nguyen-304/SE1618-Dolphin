@@ -48,9 +48,6 @@
                 </nav>
                 <c:choose>
                     <c:when test = "${requestScope.contract eq null}">Không có hợp đồng</c:when>
-                    <c:when test = "${requestScope.contract.status == 0}"><p>Trạng thái: Hết hiệu lực</p></c:when>
-                    <c:when test = "${requestScope.contract.status == 1}"><p>Trạng thái: Còn hiệu lực</p></c:when>
-                    <c:when test = "${requestScope.contract.status == 2}"><p>Trạng thái: Chờ xác nhận</p></c:when>
                 </c:choose>
                 <c:if test = "${requestScope.contract ne null}">
                     <%
@@ -125,11 +122,11 @@
                                                 Chờ xác nhận
                                             </p>
                                         </c:when>
-                                        <c:if test="${contract.status == 3}">
+                                        <c:when test="${contract.status == 3}">
                                             <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
                                                 Đã hủy
                                             </span>
-                                        </c:if>
+                                        </c:when>
                                     </c:choose>
                                 </div>
 

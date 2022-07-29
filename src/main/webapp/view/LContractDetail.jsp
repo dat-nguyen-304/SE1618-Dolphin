@@ -19,23 +19,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Chi tiết hợp đồng</title>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png">
+        <%@include file="../view/assets.jsp" %>
 
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LContractDetail.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
 
@@ -104,10 +92,18 @@
                         actualEndDate = formatter.format(actualEndTime);
                 %>
 
-                <div class="grid grid-cols-2 gap-[20px]">
+                <div class="mt-[20px] grid grid-cols-2 gap-[20px]">
                     <div class="card bg-[#fff] p-[20px]">
-                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
-                            Mã hợp đồng: <fmt:formatNumber value = "${requestScope.contract.contractID}" groupingUsed="false" type = "number" minIntegerDigits="5"/>
+                        <div class="pb-[20px] flex justify-between items-center">
+                            <div class="text-[20px] font-bold text-[#2A3C46]">
+                                Mã hợp đồng: <fmt:formatNumber value = "${requestScope.contract.contractID}" groupingUsed="false" type = "number" minIntegerDigits="5"/>
+                            </div>
+                            <c:if test = "${requestScope.contract.status == 1}">
+                                <form action = "/sakura/contract/replace-contract" method = "post">
+                                    <input type ="hidden" name ="contractID" value ="${requestScope.contract.contractID}"/>
+                                    <button type = "submit" class="text-[15px] font-semibold text-[#fff] bg-[#17535B] hover:bg-[#13484F] px-[10px] py-[5px] rounded">Thay hợp đồng mới</button>
+                                </form>
+                            </c:if>
                         </div>
                         <div class="w-full h-fit mx-auto">
                             <div class="grid grid-cols-6 gap-[8px]">
@@ -139,20 +135,26 @@
                                     <p class="text-[#929ca5] font-normal">Giá hằng tháng</p>
                                     <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.contract.rentalFeePerMonth}</span></p>
                                 </div>
-                                <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
+                                <div class="col-span-6 grid grid-rows-2 gap-[1px] mb-[5px]">
                                     <p class="text-[#929ca5] font-normal">Trạng thái</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold contractStatus">
-                                        <c:if test="${requestScope.contract.status == 0}">Đã kết thúc</c:if>
+                                    <div class="text-[18px] text-[#2A3C46] font-semibold contractStatus flex items-center">
+                                        <c:if test="${requestScope.contract.status == 0}">
+                                            Đã kết thúc
+                                        </c:if>
                                         <c:if test="${requestScope.contract.status == 1}">
-                                            Còn hiệu lực
-                                            <button class="" id="endContract-1" type="submit" name="action" value="Save">
+                                            <p class="text-blue-600"> Còn hiệu lực</p>
+                                            <button class="inline-block ml-[30px] px-[10px] text-gray-400 hover:text-[#17535B] border border-gray-300 hover:border-[#17535B]" id="endContract-1" type="submit" name="action" value="Save" class="">
                                                 Kết thúc hợp đồng này
                                             </button>
                                         </c:if>
-                                        <c:if test="${requestScope.contract.status == 2}">Chờ xác nhận</c:if>
-                                        <c:if test="${requestScope.contract.status == 3}">Đã hủy</c:if>
-                                        </p>
+                                        <c:if test="${requestScope.contract.status == 2}">
+                                            <p class="text-gray-700">Chờ xác nhận</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.contract.status == 3}">
+                                            <p class="text-slate-500">Đã kết thúc</p>
+                                        </c:if>
                                     </div>
+                                </div>
                                 <c:if test="${requestScope.contract.actualEndDate != null}">
                                     <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
                                         <p class="text-[#929ca5] font-normal">Ngày kết thúc </p>
@@ -166,13 +168,8 @@
                                     <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.description}</p>
                                 </div>
                             </c:if>
-                            <c:if test = "${requestScope.contract.status == 1}">
-                                <form action = "/sakura/contract/replace-contract" method = "post">
-                                    <input type ="hidden" name ="contractID" value ="${requestScope.contract.contractID}"/>
-                                    <button type = "submit">Thay hợp đồng mới</button>
-                                </form>
-                            </c:if>
-                            <p class="col-span-4 text-right">Đã thỏa thuận</p>
+
+                            <!--<p class="col-span-4 text-right">Đã thỏa thuận</p>-->
                         </div>
                     </div>
                     <div class="card bg-[#fff] p-[20px]">

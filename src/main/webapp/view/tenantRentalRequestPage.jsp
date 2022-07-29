@@ -17,24 +17,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Trang người thuê - Yêu cầu thuê phòng</title>
 
-        <!--Favicon-->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
-
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <!--CSS-->
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
+        <%@include file="../view/assets.jsp" %>
         <link rel="stylesheet" href="../assets/css/tenant-page.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     </head>
     <body>
         <%@include file="../view/headerTenantDashboard.jsp" %>
@@ -80,26 +66,26 @@
                                 <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                                     <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3">Nhà trọ</th>
-                                            <th scope="col" class="px-6 py-3">Loại phòng</th>
-                                            <th scope="col" class="px-6 py-3">Thời gian gửi</th>
-                                            <th scope="col" class="px-6 py-3">
-                                            </th>
+                                            <th scope="col" class=" py-3">Nhà trọ</th>
+                                            <th scope="col" class=" py-3">Loại phòng</th>
+                                            <th scope="col" class=" py-3">Thời gian gửi</th>
+                                            <th scope="col" class=" py-3"></th>
+                                            <th scope="col" class=" py-3"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items = "${requestScope.bookingList}" var="booking">
                                             <tr class="bg-white border-b hover:bg-gray-50">
-                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                <td scope="row" class=" py-4 font-medium text-gray-900 whitespace-nowrap">
                                                     ${booking.roomType.hostel.hostelName}
                                                 </td>
-                                                <td class="px-6 py-4 date">
+                                                <td class=" py-4 date">
                                                     ${booking.roomType.roomTypeName}
                                                 </td>
-                                                <td class="px-6 py-4 date">
+                                                <td class=" py-4 date">
                                                     ${booking.createdDate}
                                                 </td>
-                                                <td class="px-6 py-4 money">
+                                                <td class=" py-4 money">
                                                     <form method = "post" action="/sakura/hostel/detail">
                                                         <input type ="hidden" name ="hostelId" value ="${booking.roomType.hostel.hostelID}">
                                                         <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
@@ -107,7 +93,7 @@
                                                         </button>
                                                     </form>    
                                                 </td>
-                                                <td class="px-6 py-4 money">
+                                                <td class=" py-4 money">
                                                     <form method = "post" action="/sakura/tenant/rental-request">
                                                         <input type ="hidden" name ="bookingID" value ="${booking.bookingRequestID}"/>
                                                         <input type ="hidden" name="queryType" value="refuse-booking"/>
