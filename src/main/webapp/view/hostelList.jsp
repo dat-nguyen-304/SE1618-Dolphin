@@ -68,21 +68,25 @@
                     <div class="flex items-center justify-end z-[5]">
                         <c:if test="${requestScope.itemQuantity != 0}">
                             <div class="filter-item p-0 m-0 mr-[20px]">
-                                <div class="rating-btn h-[40px] w-[180px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-center items-center group border border border-[#17535B]">
+                                <div class="rating-btn h-[40px] w-[180px] px-[15px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-between items-center group border border-[#17535B]">
                                     <c:if test="${param.sortByRate eq 'asc'}">
-                                        <p>
+                                        <p class="w-full text-center">
                                             Đánh giá <i class="ml-[12px] bi bi-chevron-double-up"></i>
                                         </p>
+
                                     </c:if>
                                     <c:if test="${param.sortByRate eq 'desc'}">
-                                        <p>
+                                        <p class="w-full text-center">
                                             Đánh giá <i class="ml-[12px] bi bi-chevron-double-down"></i>
                                         </p>
                                     </c:if>
                                     <c:if test="${param.sortByRate == null}">
                                         <p>Đánh giá</p>
+                                        <p>
+                                            <i class="bi bi-chevron-down"></i>
+                                        </p>
                                     </c:if>
-                                    <p><i class="bi bi-chevron-down"></i></p>
+
                                     <ul class="rating-sort-list hidden group-hover:block shadow-lg absolute top-[39px] left-0 w-full rounded bg-[#fff] text-[#17535B] overflow-hidden">
                                         <form action="/sakura/hostel/list" method="get">
                                             <c:if test="${requestScope.favorite == true}">
@@ -120,28 +124,31 @@
                                 <div class="rating-btn h-[40px] w-[180px] px-[15px] bg-[#FFF] text-[#17535B] text-lg font-semibold rounded cursor-pointer relative flex justify-between items-center group border border-[#17535B]">
                                     <c:if test="${param.sortByMinPrice == null && sortByMaxPrice == null}">
                                         <p class="">Giá tiền</p>
+                                        <p class="">
+                                            <i class="bi bi-chevron-down"></i>
+                                        </p>
                                     </c:if>
                                     <c:if test="${param.sortByMinPrice eq 'asc'}">
-                                        <p class="">
+                                        <p class="w-full text-center">
                                             Giá đầu <i class="ml-[12px] bi bi-chevron-double-up"></i>
                                         </p>
                                     </c:if>
                                     <c:if test="${param.sortByMinPrice eq 'desc'}">
-                                        <p class="">
+                                        <p class="w-full text-center">
                                             Giá đầu <i class="ml-[12px] bi bi-chevron-double-down"></i>
                                         </p>
                                     </c:if>
                                     <c:if test="${param.sortByMaxPrice eq 'asc'}">
-                                        <p class="">
+                                        <p class="w-full text-center">
                                             Giá cuối <i class="ml-[12px] bi bi-chevron-double-up"></i>
                                         </p>
                                     </c:if>
                                     <c:if test="${param.sortByMaxPrice eq 'desc'}">
-                                        <p class="">
+                                        <p class="w-full text-center">
                                             Giá cuối <i class="ml-[12px] bi bi-chevron-double-down"></i>
                                         </p>
                                     </c:if>
-                                    <p class=""><i class="bi bi-chevron-down"></i></p>
+
                                     <ul class="rating-sort-list hidden group-hover:block absolute top-[40px] left-0 w-full rounded-bl-md rounded-br-md bg-[#FAFAFA] text-[#17535B] overflow-hidden">
                                         <form action="/sakura/hostel/list" method="post">
                                             <c:if test="${requestScope.favorite == true}">
@@ -292,7 +299,7 @@
                                                     <div class="hostel-info mb-[8px]">
                                                         <i class="bi bi-slash-square w-[25px] mr-[8px]"></i>${hostel.minArea} - ${hostel.maxArea}m<sup>2</sup>
                                                     </div>
-                                                    <div class="hostel-address mb-[8px]">
+                                                    <div class="hostel-address mb-[8px] h-[60px]">
                                                         <i class="bi bi-geo w-[25px] mr-[8px]"></i>${hostel.streetAddress}, ${hostel.district.districtName}, ${hostel.district.province.provinceName}
                                                     </div>
                                                 </div>

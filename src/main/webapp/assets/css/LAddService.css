@@ -22,5 +22,6 @@
 
 [type=text]:focus, [type=text]:active,
 [type=number]:focus, [type=number]:active  {
-    outline: 1px solid #288d87;
+    box-shadow: none;
+    border: 1px solid #17535B;
 }

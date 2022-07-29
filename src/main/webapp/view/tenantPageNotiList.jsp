@@ -29,9 +29,6 @@
             <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
 
                 <!-- Breadcrumb -->
-                <!-- <div class="bc-container">
-                    <div class="bc"><a href="#">Quản lý phòng thuê </a></div>
-                </div> -->
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
                         <li class="inline-flex items-center">

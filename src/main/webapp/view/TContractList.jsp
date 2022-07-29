@@ -52,63 +52,67 @@
                     </ol>
                 </nav>
                 <!-- End breadcrumb -->
-
-                <div class="card bg-[#fff] p-[20px] mt-[20px]">
-                    <table id="contract-table" class="w-full text-sm text-left text-gray-500">
-                        <thead>
-                            <tr class="text-center text-xs text-gray-700 uppercase bg-gray-50">
-                                <th scope="col" class="text-center px-6 py-3">Mã hợp đồng</th>
-                                <th scope="col" class="text-center px-6 py-3">Người thuê</th>
-                                <th scope="col" class="text-center px-6 py-3">Phòng</th>
-                                <th scope="col" class="text-center px-6 py-3">Từ ngày</th>
-                                <th scope="col" class="text-center px-6 py-3">Đến ngày</th>
-                                <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
-                                <th scope="col" class="text-center px-6 py-3 text-[#288D87]">
-                                    <span class="sr-only">Xem chi tiết</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${requestScope.contractList}" var="contract">
-                                <tr class="text-[15px] bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="text-left px-6 py-4 font-medium text-gray-900">${contract.contractID}</th>
-                                    <td class="text-left px-6 py-4">${contract.tenant.fullname}</td>
-                                    <td class="text-left px-6 py-4">${contract.room.roomNumber}</td>
-                                    <td class="text-left px-6 py-4">${contract.startDate}</td>
-                                    <td class="text-left px-6 py-4">${contract.endDate}</td>
-                                    <td class="text-left px-6 py-4">
-                                        <c:if test="${contract.status == 0}">
-                                            <span class="bg-black-100 text-blue-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
-                                                Đã kết thúc
-                                            </span>
-                                        </c:if>
-                                        <c:if test="${contract.status == 1}">
-                                            <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
-                                                Còn hiệu lực
-                                            </span>
-                                        </c:if>
-                                        <c:if test="${contract.status == 2}">
-                                            <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
-                                                Đang chờ
-                                            </span>
-                                        </c:if>
-                                        <c:if test="${contract.status == 3}">
-                                            <span class="bg-gray-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
-                                                Đã hủy
-                                            </span>
-                                        </c:if>
-                                    </td>
-                                    <td class="text-center px-6 py-4 text-center">
-                                        <form action="/sakura/tenant/contract-detail">
-                                            <button name="contractID" value="${contract.contractID}"
-                                                    class="font-medium text-[#288D87] hover:underline">Xem chi tiết</button>
-                                        </form>
-                                    </td>
+                <c:if test="${empty sessionScope.currentContract}">
+                    <p class="text-gray-300 text-[25px] font-bold absolute top-1/2 left-1/2 translate-x-[-30%] translate-y-[-50%]">Hiện tại bạn không có hợp đồng thuê nhà trọ.</p>
+                </c:if>
+                <c:if test="${not empty sessionScope.currentContract}">
+                    <div class="card bg-[#fff] p-[20px] mt-[20px]">
+                        <table id="contract-table" class="w-full text-sm text-left text-gray-500">
+                            <thead>
+                                <tr class="text-center text-xs text-gray-700 uppercase bg-gray-50">
+                                    <th scope="col" class="text-center px-6 py-3">Mã hợp đồng</th>
+                                    <th scope="col" class="text-center px-6 py-3">Người thuê</th>
+                                    <th scope="col" class="text-center px-6 py-3">Phòng</th>
+                                    <th scope="col" class="text-center px-6 py-3">Từ ngày</th>
+                                    <th scope="col" class="text-center px-6 py-3">Đến ngày</th>
+                                    <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
+                                    <th scope="col" class="text-center px-6 py-3 text-[#288D87]">
+                                        <span class="sr-only">Xem chi tiết</span>
+                                    </th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${requestScope.contractList}" var="contract">
+                                    <tr class="text-[15px] bg-white border-b hover:bg-gray-50">
+                                        <th scope="row" class="text-left px-6 py-4 font-medium text-gray-900">${contract.contractID}</th>
+                                        <td class="text-left px-6 py-4">${contract.tenant.fullname}</td>
+                                        <td class="text-left px-6 py-4">${contract.room.roomNumber}</td>
+                                        <td class="text-left px-6 py-4">${contract.startDate}</td>
+                                        <td class="text-left px-6 py-4">${contract.endDate}</td>
+                                        <td class="text-left px-6 py-4">
+                                            <c:if test="${contract.status == 0}">
+                                                <span class="bg-black-100 text-blue-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                    Đã kết thúc
+                                                </span>
+                                            </c:if>
+                                            <c:if test="${contract.status == 1}">
+                                                <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                    Còn hiệu lực
+                                                </span>
+                                            </c:if>
+                                            <c:if test="${contract.status == 2}">
+                                                <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                    Đang chờ
+                                                </span>
+                                            </c:if>
+                                            <c:if test="${contract.status == 3}">
+                                                <span class="bg-gray-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                    Đã hủy
+                                                </span>
+                                            </c:if>
+                                        </td>
+                                        <td class="text-center px-6 py-4 text-center">
+                                            <form action="/sakura/tenant/contract-detail">
+                                                <button name="contractID" value="${contract.contractID}"
+                                                        class="font-medium text-[#288D87] hover:underline">Xem chi tiết</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </c:if>
             </div>
 
             <%@include file="../view/footerDashboard.jsp" %>
