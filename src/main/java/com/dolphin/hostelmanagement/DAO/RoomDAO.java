@@ -279,7 +279,7 @@ public class RoomDAO {
                         + "join RoomType rt on r.roomTypeID = rt.roomTypeID\n"
                         + "join Hostel h on rt.hostelID = h.hostelID\n"
                         + "join Contract c on c.roomID = r.roomID\n"
-                        + "where h.hostelID = 1 and r.[status] = 1) mytable\n"
+                        + "where h.hostelID = ? and r.[status] = 1) mytable\n"
                         + "where latestMonthString = (\n"
                         + "    select top 1 (CASE\n"
                         + "        WHEN latestInvoiceMonth is not null\n"
@@ -294,6 +294,7 @@ public class RoomDAO {
                         + "ORDER BY latestMonthString ASC)";
                 PreparedStatement pst = cn.prepareCall(sql);
                 pst.setInt(1, hostelID);
+                pst.setInt(2, hostelID);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     while (rs.next()) {

@@ -234,7 +234,7 @@ public class InvoiceController extends HttpServlet {
                                 List<Integer> lastMonthValues = new ArrayList();
                                 for (Service activeService : activeServices) {
                                     for (ServiceDetail prevMonthDetail : prevMonthDetails) {
-                                        if (activeService.getType() != 0 && prevMonthDetail.getService().getServiceName().equalsIgnoreCase(activeService.getServiceName())) {
+                                        if (activeService.getType() == 1 || activeService.getType() == 2 && prevMonthDetail.getService().getServiceName().equalsIgnoreCase(activeService.getServiceName())) {
                                             lastMonthValues.add(prevMonthDetail.getEndValue());
                                         }
                                     }
@@ -284,7 +284,7 @@ public class InvoiceController extends HttpServlet {
                     }
                     List<ServiceDetail> detailList = new ArrayList();
                     for (Service service : serviceList) {
-                        if (service.getType() != 0) {
+                        if (service.getType() == 1 || service.getType() == 2) {
                             int startValue = Integer.parseInt(request.getParameter("startInput" + service.getServiceID()));
                             int endValue = Integer.parseInt(request.getParameter("endInput" + service.getServiceID()));
                             int quantity = endValue - startValue;
@@ -374,7 +374,7 @@ public class InvoiceController extends HttpServlet {
 
                     List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
                     for (ServiceDetail detail : detailList) {
-                        if (detail.getService().getType() != 0) {
+                        if (detail.getService().getType() == 1 || detail.getService().getType() == 2) {
                             int startValue = Integer.parseInt(request.getParameter("startInput" + detail.getService().getServiceID()));
                             int endValue = Integer.parseInt(request.getParameter("endInput" + detail.getService().getServiceID()));
                             int quantity = endValue - startValue;

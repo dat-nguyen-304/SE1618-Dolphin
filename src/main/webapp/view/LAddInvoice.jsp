@@ -173,7 +173,7 @@
                                                     <td scope="col" class="px-6 py-3">${service.serviceName}</td>
                                                     <td scope="col" class="px-6 py-3">${service.unit}</td>
                                                     <td scope="col" class="px-6 py-3">
-                                                        <c:if test="${service.type != 0}">
+                                                        <c:if test="${service.type == 1 || service.type == 2}">
                                                             <c:choose>
                                                                 <c:when test="${startMonth != null}">
                                                                     <input type="number" name="startInput${service.serviceID}" min="0"
@@ -193,7 +193,7 @@
                                                         </c:if>
                                                     </td>
                                                     <td scope="col" class="px-6 py-3">
-                                                        <c:if test="${service.type != 0}">
+                                                        <c:if test="${service.type == 1 || service.type == 2}">
                                                             <c:choose>
                                                                 <c:when test="${startMonth != null}">
                                                                     <input type="number" name="endInput${service.serviceID}" min="0" value="0"
@@ -214,7 +214,7 @@
                                                         </c:if>
                                                     <td scope="col" class="px-6 py-3">
                                                         <c:choose>
-                                                            <c:when test="${service.type != 0}">
+                                                            <c:when test="${service.type == 1 || service.type == 2}">
                                                                 <span id="quantity${service.serviceID}"></span></td>
                                                             </c:when>
                                                             <c:otherwise>
@@ -512,7 +512,7 @@
                                                     let rowSum = $("#rowSum" + serviceID);
                                                     rowSum.html("");
                                                     let sum;
-                                                    if (type !== 0) {
+                                                    if (type == 1 || type == 2) {
                                                         if ($(element).val() === "") {
                                                             $(element).val(0);
                                                         }
