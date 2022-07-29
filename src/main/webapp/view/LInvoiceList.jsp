@@ -101,14 +101,6 @@
                                                 </span>
                                             </button>
                                         </div>
-                                        <div id="chooseRoom">
-                                            <span>Phòng: </span>
-                                            <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="roomModal">
-                                                <span id="roomNumber">
-                                                    ${(requestScope.chosenRoom == null) ? "Chọn phòng" : requestScope.chosenRoom.roomID == 0 ? "Tất cả" : requestScope.chosenRoom.roomNumber}
-                                                </span>
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
 

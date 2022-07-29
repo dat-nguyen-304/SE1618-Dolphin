@@ -1,0 +1,19 @@
+.ck.ck-editor {
+    width: 700px;
+}
+
+.ck .ck-content.ck-editor__editable {
+    height: 400px;
+    overflow-y: auto;
+}
+
+.ck-reset_all :not(.ck-reset_all-excluded), .ck.ck-reset_all {
+    color: #475569 !important;
+}
+
+.ck.ck-editor__top.ck-reset_all {
+    /*border: 1px solid #cbd5e1 !important;*/
+}
+.ck.ck-editor__editable.ck-focused {
+    border: 1px solid #288d87 !important;
+}

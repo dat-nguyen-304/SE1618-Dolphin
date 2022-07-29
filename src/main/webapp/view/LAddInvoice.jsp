@@ -446,14 +446,7 @@
                                     <c:when test="${requestScope.noInvoiceList != null && requestScope.noInvoiceList.size() != 0}">
                                         <input class="ml-2" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter">
                                         <div class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                            <c:choose>
-                                                <c:when test="${requestScope.noInvoiceList[0].latestInvoiceMonth eq null}">
-                                                    Các phòng cần nhập hóa đơn đầu tiên:
-                                                </c:when>
-                                                <c:otherwise>
-                                                    Các phòng cần nhập hóa đơn kỳ <span id="monthPlusOne">${requestScope.noInvoiceList[0].latestInvoiceMonth}</span>:
-                                                </c:otherwise>
-                                            </c:choose>
+                                            Các phòng cần nhập hóa đơn kỳ <span id="monthPlusOne">${requestScope.noInvoiceList[0].latestInvoiceMonth}</span>:
                                         </div>
                                         <div id="roomList" class="grid grid-cols-5">
                                             <c:forEach var="room" items="${requestScope.noInvoiceList}">

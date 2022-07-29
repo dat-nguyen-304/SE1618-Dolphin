@@ -632,8 +632,8 @@
             }
         </script>
         <script>
-            var checkRoomType = checkPrice = checkArea = checkMaxResident = checkDesc = false;
-            var checkUpdateRoomType = checkUpdatePrice = checkUpdateArea = checkUpdateMaxResident = checkUpdateDesc = false;
+            var checkRoomType = checkPrice = checkArea = checkMaxResident = checkDesc = true;
+            var checkUpdateRoomType = checkUpdatePrice = checkUpdateArea = checkUpdateMaxResident = checkUpdateDesc = true;
             function addRoomType(element) {
                 console.log("da vao add roomtype");
                 const name = document.querySelector("input[name='name']");
@@ -704,7 +704,7 @@
                             complete: function (result) {
                             }
                         });
-                    }
+                    } else showToast("error", 'Vui lòng kiểm tra lại thông tin!');
                 }
             }
 
@@ -748,32 +748,35 @@
                     //messageElement.innerHTML = message;
                     showToast("error", 'Vui lòng kiểm tra lại thông tin!');
                 } else {
-                    jQuery.ajax({
-                        type: 'POST',
-                        data: {'name': name.value,
-                            'price': price.value,
-                            'area': area.value,
-                            'maxNumberOfResidents': maxNumberOfResidents.value,
-                            'description': description.value,
-                            'roomTypeId': roomTypeId.value
-                        },
-                        url: '/sakura/room/update-roomtype',
-                        success: function (response) {
-                            messageElement.innerHTML = response;
-                            toggleModal('.updateRoomTypemodal1');
-                            showToast('success', 'Cập nhật thành công! Đang cập nhật trang.');
-                            function Redirect() {
-                                let urll = "/sakura/landlord/room-type?roomTypeId=" + roomTypeId.value;
-                                console.log(urll);
-                                window.location = urll;
+                    if (checkUpdateRoomType && checkUpdatePrice && checkUpdateArea && checkUpdateMaxResident && checkUpdateDesc)
+                        jQuery.ajax({
+                            type: 'POST',
+                            data: {'name': name.value,
+                                'price': price.value,
+                                'area': area.value,
+                                'maxNumberOfResidents': maxNumberOfResidents.value,
+                                'description': description.value,
+                                'roomTypeId': roomTypeId.value
+                            },
+                            url: '/sakura/room/update-roomtype',
+                            success: function (response) {
+                                messageElement.innerHTML = response;
+                                toggleModal('.updateRoomTypemodal1');
+                                showToast('success', 'Cập nhật thành công! Đang cập nhật trang.');
+                                function Redirect() {
+                                    let urll = "/sakura/landlord/room-type?roomTypeId=" + roomTypeId.value;
+                                    console.log(urll);
+                                    window.location = urll;
+                                }
+                                setTimeout(Redirect(), 2000);
+                            },
+                            error: function () {
+                            },
+                            complete: function (result) {
                             }
-                            setTimeout(Redirect(), 2000);
-                        },
-                        error: function () {
-                        },
-                        complete: function (result) {
-                        }
-                    });
+                        });
+                    else
+                        showToast("error", 'Vui lòng kiểm tra lại thông tin!');
                 }
             }
 
@@ -781,10 +784,16 @@
                 const validPriceMessage = document.querySelector(".validPriceMessage");
                 if (!element.value.trim()) {
                     validPriceMessage.innerHTML = 'Giá không được trống';
-                    checkDesc = false;
+                    checkPrice = false;
                 } else {
-                    validPriceMessage.innerHTML = '';
-                    checkDesc = true;
+                    let valid = isValid(element.value.trim(), 'money');
+                    if (valid) {
+                        validPriceMessage.innerHTML = '';
+                        checkPrice = true;
+                    } else {
+                        validPriceMessage.innerHTML = 'Giá tiền phải là số dương chia hết cho 1000';
+                        checkPrice = false;
+                    }
                 }
             }
 
@@ -793,10 +802,10 @@
                 console.log("Da vao check desc: ", element.value);
                 if (!element.value.trim()) {
                     validAreaMessage.innerHTML = 'Diện tích không được trống';
-                    checkDesc = false;
+                    checkArea = false;
                 } else {
                     validAreaMessage.innerHTML = '';
-                    checkDesc = true;
+                    checkArea = true;
                 }
             }
 
@@ -805,10 +814,10 @@
                 console.log("Da vao check desc: ", element.value);
                 if (!element.value.trim()) {
                     validMaxResidentMessage.innerHTML = 'Số cư dân tối đa không được trống';
-                    checkDesc = false;
+                    checkMaxResident = false;
                 } else {
                     validMaxResidentMessage.innerHTML = '';
-                    checkDesc = true;
+                    checkMaxResident = true;
                 }
             }
 
@@ -838,10 +847,16 @@
                 const validUpdatePriceMessage = document.querySelector(".validUpdatePriceMessage");
                 if (!element.value.trim()) {
                     validUpdatePriceMessage.innerHTML = 'Giá không được trống';
-                    checkUpdateDesc = false;
+                    checkUpdatePrice = false;
                 } else {
-                    validUpdatePriceMessage.innerHTML = '';
-                    checkUpdateDesc = true;
+                    let valid = isValid(element.value.trim(), 'money');
+                    if (valid) {
+                        validUpdatePriceMessage.innerHTML = '';
+                        checkUpdatePrice = true;
+                    } else {
+                        validUpdatePriceMessage.innerHTML = 'Giá tiền phải là số dương chia hết cho 1000';
+                        checkUpdatePrice = false;
+                    }
                 }
             }
 
@@ -849,10 +864,10 @@
                 const validUpdateAreaMessage = document.querySelector(".validUpdateAreaMessage");
                 if (!element.value.trim()) {
                     validUpdateAreaMessage.innerHTML = 'Diện tích không được trống';
-                    checkUpdateDesc = false;
+                    checkUpdateArea = false;
                 } else {
                     validUpdateAreaMessage.innerHTML = '';
-                    checkUpdateDesc = true;
+                    checkUpdateArea = true;
                 }
             }
 
@@ -860,10 +875,10 @@
                 const validUpdateMaxResidentMessage = document.querySelector(".validUpdateMaxResidentMessage");
                 if (!element.value.trim()) {
                     validUpdateMaxResidentMessage.innerHTML = 'Số cư dân tối đa không được trống';
-                    checkUpdateDesc = false;
+                    checkUpdateMaxResident = false;
                 } else {
                     validUpdateMaxResidentMessage.innerHTML = '';
-                    checkUpdateDesc = true;
+                    checkUpdateMaxResident = true;
                 }
             }
 
@@ -949,10 +964,7 @@
                 let valid = isValid(element.value, 'name');
                 if (!valid) {
                     validUpdateRoomTypeMessage.innerHTML = 'Tên loại phòng chỉ được chứa chữ cái, chữ số và khoảng trắng';
-                    updateRoomTypeBtn.onclick = (e) => {
-                        showToast("error", 'Tên loại phòng chỉ được chứa chữ cái, chữ số và khoảng trắng');
-                        e.preventDefault();
-                    };
+                    checkUpdateRoomType = false;
                 } else
                     jQuery.ajax({
                         type: 'POST',

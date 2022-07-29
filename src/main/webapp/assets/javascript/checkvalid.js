@@ -21,5 +21,7 @@ function isValid(string, type) {
         re = /^[a-zA-Z\s]{1,}$/g
     if (type === 'phone')
         re = /^[0-9]{10}$/g
+    if (type === 'money')
+        re = /^[0-9]{1,}000$/g
     return re.test(removeAscent(string));
 }

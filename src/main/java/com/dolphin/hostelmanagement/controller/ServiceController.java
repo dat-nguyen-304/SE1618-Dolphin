@@ -6,7 +6,6 @@ package com.dolphin.hostelmanagement.controller;
 
 import com.dolphin.hostelmanagement.DAO.HostelDAO;
 import com.dolphin.hostelmanagement.DAO.ServiceDAO;
-import static com.dolphin.hostelmanagement.DAO.ServiceDAO.findAddedActiveServices;
 import com.dolphin.hostelmanagement.DTO.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -89,8 +88,8 @@ public class ServiceController extends HttpServlet {
                 int serviceType = Integer.parseInt(request.getParameter("serviceType"));
 
                 boolean addSuccess = ServiceDAO.update(hostelId, serviceName, serviceFee, serviceUnit, serviceType);
-                boolean deleteSuccess = ServiceDAO.deactivate(serviceId);
-                if (addSuccess && deleteSuccess) {
+                boolean deactivateSuccess = ServiceDAO.deactivate(serviceId);
+                if (addSuccess && deactivateSuccess) {
                     out.print("<h1>Cập nhật dịch vụ " + serviceName + " thành công</h1>");
 
                 } else {
@@ -100,9 +99,13 @@ public class ServiceController extends HttpServlet {
 
             if (path.equals("/delete-service")) {
                 int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+                int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                String serviceUnit = request.getParameter("serviceUnit");
+                int serviceType = Integer.parseInt(request.getParameter("serviceType"));
                 String serviceName = request.getParameter("serviceName");
-                boolean deleteSuccess = ServiceDAO.delete(serviceId);
-                if (deleteSuccess) {
+                boolean deactivateSuccess = ServiceDAO.deactivate(serviceId);
+                boolean deleteSuccess = ServiceDAO.delete(hostelId, serviceName, serviceUnit, serviceType);
+                if (deleteSuccess && deactivateSuccess) {
                     out.print("<h1>Xóa dịch vụ " + serviceName + " thành công</h1>");
                 } else {
                     out.print("Thông tin không hợp lệ. Vui lòng kiểm tra lại.");

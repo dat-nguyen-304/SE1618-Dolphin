@@ -328,7 +328,7 @@
                     validServiceMessage.innerHTML = 'Tên dịch vụ không được trống';
                     checkService = false;
                 } else {
-                    let valid = isValid(element.value, 'name');
+                    let valid = isValid(element.value.trim(), 'name');
                     if (!valid) {
                         validServiceMessage.innerHTML = 'Tên dịch vụ chỉ được chứa chữ cái, chữ số và khoảng trắng';
                         checkService = false;
@@ -345,8 +345,20 @@
                     validFeeMessage.innerHTML = 'Phí dịch vụ không được trống';
                     checkFee = false;
                 } else {
-                    validFeeMessage.innerHTML = '';
-                    checkFee = true;
+                    if (element.value.trim() === "0" || element.value.trim() === "00" || element.value.trim() === "000") {
+                        validFeeMessage.innerHTML = '';
+                        checkFee = true;
+                    } else {
+                        let valid = isValid(element.value.trim(), 'money');
+                        if (!valid) {
+                            validFeeMessage.innerHTML = 'Số tiền không được âm và chia hết cho 1000';
+                            checkFee = false;
+                        } else {
+                            validFeeMessage.innerHTML = '';
+                            checkFee = true;
+                        }
+                    }
+
                 }
             }
         </script>
@@ -395,7 +407,15 @@
                     showToast('error', message);
                 } else {
                     const checkUpdateService = isValid(serviceName.value.trim(), 'name');
-                    if (checkUpdateService)
+                    let checkUpdateFee = true;
+                    while (serviceFee.value.trim().charAt(0) === "0" && serviceFee.value.trim().length > 1) {
+                        serviceFee.value = serviceFee.value.slice(1);
+                    }
+                    if (serviceFee.value.trim() === "0") {
+                        checkUpdateFee = true;
+                    } else
+                        checkUpdateFee = isValid(serviceFee.value.trim(), 'money');
+                    if (checkUpdateService && checkUpdateFee)
                         jQuery.ajax({
                             type: 'POST',
                             data: {'serviceName': serviceName.value,
@@ -419,7 +439,12 @@
                             complete: function (result) {
                             }
                         });
-                        else showToast("error", "Tên dịch vụ chỉ được chứa chữ cái, chữ số và khoảng trắng")
+                    else {
+                        if (!checkUpdateService)
+                            showToast("error", "Tên dịch vụ chỉ được chứa chữ cái, chữ số và khoảng trắng");
+                        if (!checkUpdateFee)
+                            showToast("error", "Số tiền không được âm và chia hết cho 1000");
+                    }
                 }
             }
 
@@ -439,12 +464,17 @@
             function deleteService(element) {
                 const serviceElement = element.parentElement.parentElement;
                 const serviceName = serviceElement.querySelector("input[name='updateName']");
+                const serviceUnit = serviceElement.querySelector("input[name='updateUnit']");
+                const serviceType = serviceElement.querySelector("input[name='updateType']");
                 const updateMessage = document.querySelector(".updateMessage");
                 const serviceId = element;
                 jQuery.ajax({
                     type: 'POST',
                     data: {'serviceId': serviceId.value,
-                        'serviceName': serviceName.value
+                        'hostelId': ${sessionScope.currentHostel.hostelID},
+                        'serviceName': serviceName.value,
+                        'serviceUnit': serviceUnit.value,
+                        'serviceType': serviceType.value
                     },
                     url: '/sakura/service/delete-service',
                     success: function (response) {
