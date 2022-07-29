@@ -450,8 +450,8 @@ public class LandlordController extends HttpServlet {
                     //end send notification to landlord
                 }
 
-                int hostelID = ((Hostel) session.getAttribute("currentHostel")).getHostelID();
-                request.setAttribute("hostelID", hostelID);
+//                int hostelID = ((Hostel) session.getAttribute("currentHostel")).getHostelID();
+//                request.setAttribute("hostelID", hostelID);
 
                 ArrayList<BookingRequest> bookingList = BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 1);
                 /*for (BookingRequest br : bookingList) {

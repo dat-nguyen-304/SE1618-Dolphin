@@ -126,7 +126,7 @@ public class ContractController extends HttpServlet {
             if (path.equals("/deny-contract")) {
                 int contractID = Integer.parseInt(request.getParameter("contractID"));
 
-                ContractDAO.changeStatus(contractID, 0);
+                ContractDAO.changeStatus(contractID, 3);
                 BookingRequestDAO.changeStatus(contractID, 0);
 //                
 //                Notification noti = new Notification();

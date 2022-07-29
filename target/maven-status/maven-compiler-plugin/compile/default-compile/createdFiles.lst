@@ -4,7 +4,6 @@ com\dolphin\hostelmanagement\DAO\LandlordDAO.class
 com\dolphin\hostelmanagement\DAO\RoomTypeDAO.class
 com\dolphin\hostelmanagement\controller\HostelController$5.class
 com\dolphin\hostelmanagement\controller\LoginController.class
-com\dolphin\hostelmanagement\filter\AuthorizationFilter$ResponseWrapper.class
 com\dolphin\hostelmanagement\utils\EmailService$1.class
 com\dolphin\hostelmanagement\DAO\DistrictDAO.class
 com\dolphin\hostelmanagement\DTO\GooglePojo.class
@@ -54,11 +53,9 @@ com\dolphin\hostelmanagement\DTO\RoomType.class
 com\dolphin\hostelmanagement\controller\AccountController.class
 com\dolphin\hostelmanagement\DTO\Room.class
 com\dolphin\hostelmanagement\controller\LandlordController.class
-com\dolphin\hostelmanagement\filter\AuthorizationFilter.class
 com\dolphin\hostelmanagement\utils\EmailService.class
 com\dolphin\hostelmanagement\controller\HostelController$2.class
 com\dolphin\hostelmanagement\controller\ContractController.class
 com\dolphin\hostelmanagement\controller\HomeController.class
 com\dolphin\hostelmanagement\controller\LandlordController$2.class
 com\dolphin\hostelmanagement\DAO\ContractDAO.class
-com\dolphin\hostelmanagement\filter\AuthorizationFilter$RequestWrapper.class
