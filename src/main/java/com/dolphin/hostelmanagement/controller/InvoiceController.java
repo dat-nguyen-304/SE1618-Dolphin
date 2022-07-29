@@ -15,6 +15,7 @@ import java.time.YearMonth;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -107,7 +108,7 @@ public class InvoiceController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
@@ -168,22 +169,18 @@ public class InvoiceController extends HttpServlet {
                                 chosenRoom = RoomDAO.findByID(roomID);
                                 chosenHostel = chosenRoom.getRoomType().getHostel();
                                 invoiceList = InvoiceDAO.findByRoomID(chosenRoom.getRoomID());
-//                                System.out.println("InvoiceDAO.findByRoomID 171");
                                 request.setAttribute("chosenRoom", chosenRoom);
                             } else {
                                 int hostelID = Integer.parseInt(request.getParameter("hostelID"));
                                 chosenHostel = HostelDAO.findById(hostelID);
                                 invoiceList = InvoiceDAO.findByHostelID(chosenHostel.getHostelID());
-//                                System.out.println("InvoiceDAO.findByHostelID 177");
                                 request.setAttribute("chosenRoom", new Room());
                             }
                             request.setAttribute("invoiceList", invoiceList);
                         } else {
                             request.setAttribute("invoiceList", InvoiceDAO.findByHostelID(chosenHostel.getHostelID()));
-//                            System.out.println("InvoiceDAO.findByHostelID 183");
                         }
-                        request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
-//                        System.out.println("RoomDAO.findByHostelID 186");
+                        request.setAttribute("roomList", RoomDAO.findByHostelIDInvoiceList(chosenHostel.getHostelID()));
                     }
                     request.setAttribute("chosenHostel", chosenHostel);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
@@ -344,7 +341,7 @@ public class InvoiceController extends HttpServlet {
                     }
                     List<Hostel> hostelList = HostelDAO.findByLandlordObject(l);
                     request.setAttribute("hostelList", hostelList);
-                    request.setAttribute("roomList", RoomDAO.findByHostelID(chosenHostel.getHostelID()));
+                    request.setAttribute("roomList", RoomDAO.findByHostelIDInvoiceList(chosenHostel.getHostelID()));
                     request.setAttribute("chosenHostel", chosenHostel);
                     request.setAttribute("invoiceList", invoiceList);
                     request.getRequestDispatcher("/view/LInvoiceList.jsp").forward(request, response);
