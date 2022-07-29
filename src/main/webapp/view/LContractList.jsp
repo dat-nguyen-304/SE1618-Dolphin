@@ -88,17 +88,6 @@
                                 ${sessionScope.currentHostel.hostelName}
                             </button>
                         </div>
-                        <div class="">
-                            <span>Phòng: </span>
-                            <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="roomModal">
-                                <c:if test="${requestScope.roomNumber == null}">
-                                    Tất cả
-                                </c:if>
-                                <c:if test="${requestScope.roomNumber != null}">
-                                    ${requestScope.roomNumber}
-                                </c:if>
-                            </button>
-                        </div>
                     </div>
                     <div class="card bg-[#fff] p-[20px] mt-[20px]">
                         <table id="contract-table" class="w-full text-sm text-left text-gray-500">

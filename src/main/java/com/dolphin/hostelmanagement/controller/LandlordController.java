@@ -226,16 +226,11 @@ public class LandlordController extends HttpServlet {
                 List<Room> roomList = null;
                 if (session.getAttribute("currentHostel") != null) {
                     currentHostel = (Hostel) session.getAttribute("currentHostel");
-                    roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());
                 }
                 int roomId = 0;
-                if (request.getParameter("roomId") != null) {
-                    roomId = Integer.parseInt(request.getParameter("roomId"));
-                    String roomNumber = request.getParameter("roomNumber");
-                    request.setAttribute("roomNumber", roomNumber);
-                }
                 if (request.getParameter("hostelId") != null) {
-                    session.setAttribute("currentHostel", Integer.parseInt(request.getParameter("hostelId")));
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
                 }
                 if (session.getAttribute("currentHostel") != null) {
                     currentHostel = (Hostel) session.getAttribute("currentHostel");
@@ -244,7 +239,6 @@ public class LandlordController extends HttpServlet {
                         contractList = ContractDAO.findByRoom(roomId);
                     }
                 }
-                request.setAttribute("roomList", roomList);
                 request.setAttribute("contractList", contractList);
                 request.getRequestDispatcher("/view/LContractList.jsp").forward(request, response);
             } else if (path.equals("/contract-detail")) {
@@ -420,34 +414,10 @@ public class LandlordController extends HttpServlet {
                     int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                     currentHostel = HostelDAO.findById(hostelId);
                     session.setAttribute("currentHostel", currentHostel);
-                    if (request.getParameter("searchName") == null) {
-                        residentList = RoomResidentDAO.findByHostelID(hostelId);
-                    } else {
-                        String name = request.getParameter("searchName");
-                        residentList = RoomResidentDAO.findByHostelAndName(hostelId, name);
-                    }
-                } else if (request.getParameter("roomID") != null) {
-                    int roomId = Integer.parseInt(request.getParameter("roomID"));
-                    Room currentRoom = RoomDAO.findByID(roomId);
-                    request.setAttribute("currentRoom", currentRoom);
-                    if (request.getParameter("searchName") == null) {
-                        residentList = RoomResidentDAO.findByRoom(currentRoom);
-                    } else {
-                        String name = request.getParameter("searchName");
-                        residentList = RoomResidentDAO.findByRoomAndName(currentRoom, name);
-                    }
-                } else {
-                    if (request.getParameter("searchName") == null) {
-                        residentList = RoomResidentDAO.findByHostelID(currentHostel.getHostelID());
-                    } else {
-                        String name = request.getParameter("searchName");
-                        residentList = RoomResidentDAO.findByHostelAndName(currentHostel.getHostelID(), name);
-                    }
                 }
+                residentList = RoomResidentDAO.findByHostelID(currentHostel.getHostelID());
 
-                List<Room> roomList = RoomDAO.findByHostelID(currentHostel.getHostelID());
                 request.setAttribute("residentList", residentList);
-                request.setAttribute("roomList", roomList);
                 request.getRequestDispatcher("/view/LResidentList.jsp").forward(request, response);
             }
 
