@@ -192,9 +192,7 @@
                                             </c:forEach>
                                         </c:if>
                                     </div>
-                                    <c:if test="${requestScope.roomList.size() == 0}">
-                                        <p>Chưa có phòng nào</p>
-                                    </c:if>
+                                    
                                 </c:if>
                                 <c:if test="${requestScope.currentRoomType == null}">
                                     <p class="text-gray-400 text-center text-[20px] py-[10px]">Trống</p>

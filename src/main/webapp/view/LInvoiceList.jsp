@@ -21,9 +21,6 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
 
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
-
         <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -34,8 +31,7 @@
 
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
         <link rel="stylesheet" href="../assets/css/datatables.css">
-        <link rel="stylesheet" href="../assets/css/toastr.css">
-        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
     </head>
 
     <body>
@@ -157,7 +153,7 @@
 
                         <!-- table invoice list -->
                         <div class="statistic flex justify-between mt-[20px] w-full">
-                            <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
+                            <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full h-[calc(100vh-225px)]">
                                 <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                                     <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                         <tr>
@@ -224,27 +220,6 @@
 
         </div>
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-        <script src="js/monthpicker.js"></script>
-
-        <script>
-            function showToast(type, msg) {
-                toastr.options.positionClass = 'toast-bottom-right';
-                toastr.options.extendedTimeOut = 0; //1000;
-                toastr.options.timeOut = 3000;
-                toastr.options.hideDuration = 250;
-                toastr.options.showDuration = 250;
-                toastr.options.hideMethod = 'slideUp';
-                toastr.options.showMethod = 'slideDown';
-                toastr.options.preventDuplicates = true;
-                toastr.options.closeButton = true;
-                toastr.options.progressBar = true;
-                toastr[type](msg);
-            }
-        </script>
         <c:if test="${not empty addInvoice}">
             <script>
                 window.onload = showToast('success', "${addInvoice}");
@@ -268,12 +243,12 @@
                 }
 
                 $('#invoice-table').DataTable({
-                    dom: 'Bfrtip',
+                    dom: 'fprtiB',
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",
                         "infoEmpty": "Hiển thị 0 kết quả",
-                        "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
+                        "info": "Hiển thị <b>_START_ - _END_</b> của <b>_TOTAL_</b> kết quả",
                         "infoFiltered": "",
                         search: "Tìm kiếm",
                         paginate: {
@@ -294,8 +269,23 @@
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4]
                             }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'Xuất file PDF <i class="bi bi-filetype-pdf text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: 'In <i class="bi bi-printer text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
                         }
                     ],
+
                     "pageLength": 10, // items per page
                     info: true
                 });

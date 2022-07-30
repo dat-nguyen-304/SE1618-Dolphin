@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +21,8 @@
         <link rel="stylesheet" href="../assets/css/LContractList.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
 
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../assets/datatables/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../assets/datatables/buttons.dataTables.min.css"/>
 
         <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
@@ -47,21 +48,31 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
-
-                <!-- Breadcrumb -->
-                <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                        <li class="inline-flex items-center">
-                            <p class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900 ">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                                </svg>
-                                Danh sách hợp đồng nhà trọ ${sessionScope.currentHostel.hostelName}
-                            </p>
-                        </li>
-                    </ol>
-                </nav>
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] ${requestScope.contractList.size() <= 8 ? 'h-[calc(100vh-80px)]' : ''}">
+                <div class="head-control flex justify-between">
+                    <!-- Breadcrumb -->
+                    <nav class="flex" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                            <li class="inline-flex items-center">
+                                <p class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900 ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                                    </svg>
+                                    Danh sách hợp đồng nhà trọ ${sessionScope.currentHostel.hostelName}
+                                </p>
+                            </li>
+                        </ol>
+                    </nav>
+                    <%@include file="../view/modalLandlordContractList.jsp" %>
+                    <div class="general-info flex items-center">
+                        <div class="">
+                            <span>Nhà trọ: </span>
+                            <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
+                                ${sessionScope.currentHostel.hostelName}
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <!-- End breadcrumb -->
                 <c:if test="${sessionScope.hostelList == null}">
                     Bạn chưa có nhà trọ nào.
@@ -69,19 +80,11 @@
                 </c:if>
                 <!-- General information -->
                 <c:if test="${sessionScope.hostelList != null}">
-                    <%@include file="../view/modalLandlordContractList.jsp" %>
-                    <div class="general-info flex items-center mt-[20px]">
-                        <div class="pr-[20px] mr-[20px]">
-                            <span>Nhà trọ: </span>
-                            <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
-                                ${sessionScope.currentHostel.hostelName}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card bg-[#fff] p-[20px] mt-[20px]">
-                        <table id="contract-table" class="w-full text-sm text-left text-gray-500">
-                            <thead>
-                                <tr class="text-center text-xs text-gray-700 uppercase bg-gray-50">
+
+                    <div class="card bg-[#fff] p-[20px] mt-[20px] h-[calc(100vh-225px)]">
+                        <table id="contract-table" class="w-full text-[15px] text-left text-gray-600 border-[1px] border-gray-100 relative">
+                            <thead class="text-center text-[16px] text-slate-700 uppercase bg-slate-50">
+                                <tr>
                                     <th scope="col" class="text-center px-6 py-3">Mã hợp đồng</th>
                                     <th scope="col" class="text-center px-6 py-3">Người thuê</th>
                                     <th scope="col" class="text-center px-6 py-3">Phòng</th>
@@ -96,37 +99,41 @@
                             <tbody>
                                 <c:forEach items="${requestScope.contractList}" var="contract">
                                     <tr class="text-[15px] bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" class="text-left px-6 py-4 font-medium text-gray-900">${contract.contractID}</th>
-                                        <td class="text-left px-6 py-4">${contract.tenant.fullname}</td>
-                                        <td class="text-left px-6 py-4">${contract.room.roomNumber}</td>
-                                        <td class="text-left px-6 py-4">${contract.startDate}</td>
-                                        <td class="text-left px-6 py-4">${contract.endDate}</td>
-                                        <td class="text-left px-6 py-4">
+                                        <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900">
+                                            <fmt:formatNumber type = "number" groupingUsed="false" minIntegerDigits = "5" value = "${contract.contractID}" />
+                                        </th>
+                                        <td class="text-left px-6 py-[5px]">${contract.tenant.fullname}</td>
+                                        <td class="text-center px-6 py-[5px]">${contract.room.roomNumber}</td>
+                                        <td class="text-center px-6 py-[5px]"><span class="date">${contract.startDate}</span></td>
+                                        <td class="text-center px-6 py-[5px]"><span class="date">${contract.endDate}</span></td>
+                                        <td class="text-center px-6 py-[5px]">
                                             <c:if test="${contract.status == 0}">
-                                                <span class="bg-black-100 text-blue-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                <p class="bg-slate-100 text-slate-500 font-semibold w-[150px] mx-auto py-[5px] text-center rounded">
                                                     Đã kết thúc
-                                                </span>
+                                                </p>
                                             </c:if>
                                             <c:if test="${contract.status == 1}">
-                                                <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                <p class="bg-sky-100 text-sky-700 font-semibold w-[150px] mx-auto py-[5px] text-center rounded">
                                                     Còn hiệu lực
-                                                </span>
+                                                </p>
                                             </c:if>
                                             <c:if test="${contract.status == 2}">
-                                                <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                <p class="bg-emerald-100 text-emerald-600 font-semibold w-[150px] mx-auto py-[5px] text-center rounded">
                                                     Đang chờ
-                                                </span>
+                                                </p>
                                             </c:if>
                                             <c:if test="${contract.status == 3}">
-                                                <span class="bg-gray-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                                <p class="bg-rose-100 text-rose-500 font-semibold w-[150px] mx-auto py-[5px] text-center rounded">
                                                     Đã hủy
-                                                </span>
+                                                </p>
                                             </c:if>
                                         </td>
-                                        <td class="text-center px-6 py-4 text-center">
+                                        <td class="text-center px-6 py-[5px]">
                                             <form action="/sakura/landlord/contract-detail" method="post">
                                                 <button name="contractID" value="${contract.contractID}"
-                                                        class="font-medium text-[#288D87] hover:underline">Xem chi tiết</button>
+                                                        class="rounded py-[3px] px-[10px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
+                                                    <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -139,9 +146,24 @@
 
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
+        <script>
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+                let allMoneyCells = $(".money");
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join(' / ');
+                }
+
+                for (let i = 0; i < allMoneyCells.length; i++) {
+                    let node = allMoneyCells[i];
+                    let money = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                }
+            });
+        </script>
         <script>
             function searchRoomOnModal() {
                 const hostelId = ${sessionScope.currentHostel.hostelID};
@@ -166,13 +188,12 @@
         <script>
             $(document).ready(function () {
                 $('#contract-table').DataTable({
-                    dom: 'Bfrtip',
-
+                    dom: 'fprtiB',
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",
                         "infoEmpty": "Hiển thị 0 kết quả",
-                        "info": "Hiển thị <b>_START_</b> - <b>_END_</b> của <b>_TOTAL_</b> kết quả",
+                        "info": "Hiển thị <b>_START_ - _END_</b> của <b>_TOTAL_</b> kết quả",
                         "infoFiltered": "",
                         search: "Tìm kiếm",
                         paginate: {
@@ -190,6 +211,20 @@
                         {
                             extend: 'excelHtml5',
                             text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'Xuất file PDF <i class="bi bi-filetype-pdf text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: 'In <i class="bi bi-printer text-[20px]"></i>',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4]
                             }

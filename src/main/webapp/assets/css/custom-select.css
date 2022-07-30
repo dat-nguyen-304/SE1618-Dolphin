@@ -1,0 +1,100 @@
+.s-hidden {
+    visibility: hidden;
+}
+
+.select {
+    grid-column: span 2 / span 2;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    font: normal 11px/18px "Mulish", Sans-Serif;
+    color: #475569;
+    font-size: 15px;
+    font-weight: 500;
+    width: 170px;
+    height: 36px;
+}
+
+.select:hover {
+    border: 1px solid #288D87;
+}
+
+.styledSelect {
+    border-radius: 4px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f9fafb;
+    color: #6b7280;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 8px;
+}
+
+.styledSelect::before {
+    content: "\f282";
+    position: absolute;
+    color: #6b7280;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-block;
+    font-display: block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    z-index: 1;
+}
+
+.styledSelect:active,
+.styledSelect.active,
+.styledSelect:active::before,
+.styledSelect.active::before {
+    color: #288D87;
+}
+
+.options {
+    font-weight: 700;
+    display: none;
+    position: absolute;
+    top: 120%;
+    right: 0;
+    left: 0;
+    width: 170px;
+    z-index: 999;
+    margin: 0 0;
+    padding: 0 0;
+    list-style: none;
+    background-color: white;
+    border-radius: 8px;
+    -webkit-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    -moz-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+
+.options li {
+    margin: 0 10px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #64748b;
+}
+
+.options li:last-child {
+    border-bottom: none;
+}
+
+.options li:hover {
+    color: #288D87;
+}

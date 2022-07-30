@@ -103,6 +103,84 @@ public class InvoiceController extends HttpServlet {
             sortByDate(invoiceList, null, end);
         }
     }
+    
+    private String NumberToText(long inputNumber, boolean suffix) {
+        String[] unitNumbers = new String[]{"không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"};
+        String[] placeValues = new String[]{"", "nghìn", "triệu", "tỷ"};
+        boolean isNegative = false;
+
+        String sNumber = String.valueOf(inputNumber);
+        System.out.println(sNumber);
+        int ones, tens, hundreds;
+
+        int positionDigit = sNumber.length();   // last -> first
+        System.out.println(positionDigit);
+    
+        String result = " ";
+
+        if (positionDigit == 0) {
+            result = unitNumbers[0] + result;
+        } else {
+            // 0:       ###
+            // 1: nghìn ###,###
+            // 2: triệu ###,###,###
+            // 3: tỷ    ###,###,###,###
+            int placeValue = 0;
+
+            System.out.println("cur: " + positionDigit);
+            while (positionDigit > 0) {
+                // Check last 3 digits remain ### (hundreds tens ones)
+                tens = hundreds = -1;
+                ones = Integer.parseInt(sNumber.substring(positionDigit - 1, positionDigit));
+                positionDigit--;
+                if (positionDigit > 0) {
+                    tens = Integer.parseInt(sNumber.substring(positionDigit - 1, positionDigit));
+                    positionDigit--;
+                    if (positionDigit > 0) {
+                        hundreds = Integer.parseInt(sNumber.substring(positionDigit - 1, positionDigit));
+                        positionDigit--;
+                    }
+                }
+
+                if ((ones > 0) || (tens > 0) || (hundreds > 0) || (placeValue == 3)) {
+                    result = placeValues[placeValue] + result;
+                }
+
+                placeValue++;
+                if (placeValue > 3) {
+                    placeValue = 1;
+                }
+
+                if ((ones == 1) && (tens > 1)) {
+                    result = "một " + result;
+                } else {
+                    if ((ones == 5) && (tens > 0)) {
+                        result = "lăm " + result;
+                    } else if (ones > 0) {
+                        result = unitNumbers[ones] + " " + result;
+                    }
+                }
+                if (tens < 0) {
+                    break;
+                } else {
+                    if ((tens == 0) && (ones > 0)) result = "lẻ " + result;
+                    if (tens == 1) result = "mười " + result;
+                    if (tens > 1) result = unitNumbers[tens] + " mươi " + result;
+                }
+                if (hundreds < 0) {
+                    break;
+                } else if ((hundreds > 0) || (tens > 0) || (ones > 0)) {
+                        result = unitNumbers[hundreds] + " trăm " + result;
+                }
+                result = " " + result;
+            }
+        }
+        result = result.trim();
+        if (isNegative) {
+            result = "Âm " + result;
+        }
+        return result + (suffix ? " đồng" : "");
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
@@ -140,7 +218,20 @@ public class InvoiceController extends HttpServlet {
                         Invoice invoice = InvoiceDAO.findByID(invoiceID);
                         request.setAttribute("invoice", invoice);
                         List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
+                        
+                        long totalPrice = (long) invoice.getContract().getRentalFeePerMonth();
+                        
+                        for (ServiceDetail serviceDetail : detailList) {
+                            int st = serviceDetail.getStartValue();
+                            int en = serviceDetail.getEndValue();
+                            int qt = serviceDetail.getQuantity();
+                            int price = serviceDetail.getService().getServiceFee();
+                            totalPrice += (long) price * qt; 
+                            System.out.println(st + " " + en + " " + qt + " " + price);
+                        }
+                        
                         request.setAttribute("detailList", detailList);
+                        request.setAttribute("totalPrice", NumberToText(totalPrice, true));
                         url = "/view/tenantPageInvoiceDetail.jsp";
                     } else {
                         url = "/invoice/list"; //Neu bam vao page ma` khong qua con mat' thi cho no ve list :D

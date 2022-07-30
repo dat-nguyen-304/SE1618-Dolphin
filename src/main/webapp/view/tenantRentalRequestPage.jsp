@@ -38,11 +38,8 @@
                         <li class="inline-flex items-center">
                             <a href="#"
                                class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900">
-                                <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-                                </path>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                                 </svg>
                                 Yêu cầu thuê phòng
                             </a>
@@ -55,7 +52,7 @@
                 <!-- Rental request list -->
                 <div class="statistic w-full mt-[20px] grid grid-cols-8 gap-[20px]">
                     <div class="card col-span-3 w-full room-member bg-[#fff] p-5 flex flex-col">
-                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
+                        <div class="text-[20px] font-bold text-[#288D87] pb-[20px] flex justify-between items-center">
                             <p>Danh sách yêu cầu thuê phòng</p>
                         </div>
                         <div class="relative overflow-x-auto">
@@ -76,15 +73,9 @@
                                     <tbody>
                                         <c:forEach items = "${requestScope.bookingList}" var="booking">
                                             <tr class="bg-white border-b hover:bg-gray-50">
-                                                <td scope="row" class=" py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    ${booking.roomType.hostel.hostelName}
-                                                </td>
-                                                <td class=" py-4 date">
-                                                    ${booking.roomType.roomTypeName}
-                                                </td>
-                                                <td class=" py-4 date">
-                                                    ${booking.createdDate}
-                                                </td>
+                                                <td scope="row" class=" py-4 font-medium text-gray-900 whitespace-nowrap">${booking.roomType.hostel.hostelName}</td>
+                                                <td class=" py-4 date">${booking.roomType.roomTypeName}</td>
+                                                <td class=" py-4 date">${booking.createdDate}</td>
                                                 <td class=" py-4 money">
                                                     <form method = "post" action="/sakura/hostel/detail">
                                                         <input type ="hidden" name ="hostelId" value ="${booking.roomType.hostel.hostelID}">
@@ -110,7 +101,7 @@
                         </div>
                     </div>
                     <div class="card col-span-5 room-member bg-[#fff] p-5 flex flex-col">
-                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
+                        <div class="text-[20px] font-bold text-[#288D87] pb-[20px] flex justify-between items-center">
                             <p>Lời mời thuê nhà</p>
                         </div>
                         <div class="relative overflow-x-auto">
@@ -122,35 +113,20 @@
                                 <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                                     <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                Nhà trọ
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Loại phòng
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Thời gian gửi
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                            </th>
+                                            <th scope="col" class="px-6 py-3">Nhà trọ</th>
+                                            <th scope="col" class="px-6 py-3">Loại phòng</th>
+                                            <th scope="col" class="px-6 py-3">Thời gian gửi</th>
+                                            <th scope="col" class="px-6 py-3"></th>
+                                            <th scope="col" class="px-6 py-3"></th>
+                                            <th scope="col" class="px-6 py-3"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items = "${requestScope.invitationList}" var="invitation">
                                             <tr class="bg-white border-b hover:bg-gray-50">
-                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    ${invitation.roomType.hostel.hostelName}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    ${invitation.roomType.roomTypeName}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    ${invitation.createdDate}
-                                                </td>
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${invitation.roomType.hostel.hostelName}</td>
+                                                <td class="px-6 py-4 ">${invitation.roomType.roomTypeName}</td>
+                                                <td class="px-6 py-4 ">${invitation.createdDate}</td>
                                                 <td class="px-6 py-4">
                                                     <form method = "post" action = "/sakura/tenant/rental-request">
                                                         <input type ="hidden" name ="queryType" value ="accept">

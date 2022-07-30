@@ -431,6 +431,7 @@ public class LandlordController extends HttpServlet {
                     //change status of booking request from 1 to 0, means rejected request
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
                     BookingRequest currentBr = BookingRequestDAO.getBookingRequestByID(bookingRequestID);
+                    
                     BookingRequestDAO.changeStatus(bookingRequestID, 0);
                     ContractDAO.changeStatus(bookingRequestID, 3);
                     int hostelID = currentBr.getRoomType().getHostel().getHostelID();

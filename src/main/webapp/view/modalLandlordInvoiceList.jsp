@@ -17,7 +17,9 @@
             </div>
             <div class="p-6 space-y-6">
                 <c:forEach var="hostel" items="${sessionScope.hostelList}">
-                    <button class="px-4 py-2 mx-2 rounded border-2" data-modal-toggle="hostelModal" onclick="changeHostel(${hostel.hostelID}, '${hostel.hostelName}')">${hostel.hostelName} </button>
+                    <form action="/sakura/invoice/list" method="post" class="inline-block">
+                        <button type="submit" name="hostelID" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
+                    </form>
                 </c:forEach>
             </div>
         </div>

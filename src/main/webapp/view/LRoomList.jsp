@@ -14,23 +14,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Danh sách phòng</title>
+        <%@include file="../view/assets.jsp" %>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png">
-
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <script src="https://cdn.tailwindcss.com"></script>
-
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../assets/datatables/jquery.dataTables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../assets/datatables/buttons.dataTables.min.css"/>
 
         <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
@@ -42,8 +29,6 @@
 
         <link rel="stylesheet" href="../assets/css/LRoomList.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
-        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="../assets/css/toastr.css">
     </head>
 
     <body>
@@ -89,63 +74,57 @@
                 </c:if>
                 <!-- General information -->
                 <c:if test="${sessionScope.hostelList != null}">
-                    <%@include file="../view/modalLandlordRoomList.jsp" %>
-                    <div class="flex justify-between mt-[20px]">
-                        <div>
-                            <span>Chọn nhà trọ: </span>
-                            <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[16px] py-[5px] px-[10px] text-center"
-                                    type="button" data-modal-toggle="hostelModal">
-                                ${sessionScope.currentHostel.hostelName}
-                            </button>
-                        </div>
-                    </div>
+
                     <div class="card bg-[#fff] general-info p-[20px] mt-[20px] h-[calc(100vh-225px)]">
-                        <div class="">
-                            <table id="room-list-table" class="w-full text-[15px] text-left text-gray-500 border-[1px] border-gray-100">
-                                <thead class="text-center text-[16px] text-gray-700 uppercase bg-gray-100">
-                                    <tr>
-                                        <th scope="col" class="text-center px-6 py-3">Mã phòng</th>
-                                        <th scope="col" class="text-center px-6 py-3">Tên phòng</th>
-                                        <th scope="col" class="text-center px-6 py-3">Loại phòng</th>
-                                        <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
-                                        <th scope="col" class="text-center px-6 py-3">Số người hiện tại</th>
-                                        <!--<th scope="col" class="text-center px-6 py-3">Hóa đơn gần nhất</th>-->
-                                        <th scope="col" class="text-center px-6 py-3"></th>
+                        <table id="room-list-table" class="w-full text-[15px] text-left text-gray-500 border-[1px] border-gray-100 relative">
+                            <thead class="text-center text-[16px] text-gray-700 uppercase bg-gray-100">
+                                <tr>
+                                    <th scope="col" class="text-center px-6 py-3">Mã phòng</th>
+                                    <th scope="col" class="text-center px-6 py-3">Tên phòng</th>
+                                    <th scope="col" class="text-center px-6 py-3">Loại phòng</th>
+                                    <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
+                                    <th scope="col" class="text-center px-6 py-3">Số người hiện tại</th>
+                                    <!--<th scope="col" class="text-center px-6 py-3">Hóa đơn gần nhất</th>-->
+                                    <th scope="col" class="text-center px-6 py-3"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${requestScope.roomList}" var="room">
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900">${room.roomID}</th>
+                                        <td class="text-center px-6 py-[5px]">${room.roomNumber}</td>
+                                        <td class="text-center px-6 py-[5px]">${room.roomType.roomTypeName}</td>
+                                        <td class="text-center px-6 py-[5px]">
+                                            <c:if test="${room.status == 0}">
+                                                <p class="bg-slate-100 text-slate-600 font-medium w-[100px] py-[3px] mx-auto rounded">Còn trống</p>
+                                            </c:if>
+                                            <c:if test="${room.status == 1}">
+                                                <p class="bg-sky-100 text-sky-600 font-medium w-[100px] py-[3px] mx-auto rounded">Có người ở</p>
+                                            </c:if>
+                                        </td>
+                                        <td class="text-center px-6 py-[5px]">
+                                            <c:if test="${room.status == 0}">
+                                                0
+                                            </c:if>
+                                            <c:if test="${room.status == 1 && room.currentNumberOfResidents == 0}">
+                                                Chưa cập nhật
+                                            </c:if>
+                                            <c:if test="${room.status == 1 && room.currentNumberOfResidents != 0}">
+                                                ${room.currentNumberOfResidents}
+                                            </c:if>
+                                        </td>
+                                        <td class="text-center px-6 py-[5px] text-right">
+                                            <form action="/sakura/landlord/room-detail" method="post">
+                                                <input type="hidden" name="roomId" value="${room.roomID}"/>
+                                                <button class="rounded py-[3px] px-[10px] text-[13px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
+                                                    <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${requestScope.roomList}" var="room">
-                                        <tr class="bg-white border-b hover:bg-gray-50">
-                                            <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900">${room.roomID}</th>
-                                            <td class="text-center px-6 py-[5px]">${room.roomNumber}</td>
-                                            <td class="text-center px-6 py-[5px]">${room.roomType.roomTypeName}</td>
-                                            <td class="text-center px-6 py-[5px]">
-                                                <c:if test="${room.status == 0}">Còn trống</c:if>
-                                                <c:if test="${room.status == 1}">Đã có người ở</c:if>
-                                                </td>
-                                                <td class="text-center px-6 py-[5px]">
-                                                <c:if test="${room.status == 0}">0</c:if>
-                                                <c:if test="${room.status == 1 && room.currentNumberOfResidents == 0}">Chưa cập nhật</c:if>
-                                                <c:if test="${room.status == 1 && room.currentNumberOfResidents != 0}">${room.currentNumberOfResidents}</c:if>
-                                                </td>
-                                                <!--                                                <td class="text-center px-6 py-[5px]">
-                                                                                                    <span class="bg-green-100 text-green-800 text-[14px] font-medium px-2.5 py-0.5 rounded">Đã thanh toán</span>
-                                                                                                    <span class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Quá hạn</span>
-                                                                                                    <span class="bg-blue-100 text-blue-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán</span>
-                                                                                                </td>-->
-                                                <td class="text-center px-6 py-[5px] text-right">
-                                                    <form action="/sakura/landlord/room-detail" method="post">
-                                                        <button class="rounded py-[5px] px-[10px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
-                                                            <input type="hidden" name="roomId" value="${room.roomID}"/>
-                                                        <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
+                                </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </c:if>
             </div>
@@ -153,29 +132,11 @@
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-        <script>
-            function showToast(type, msg) {
-                toastr.options.positionClass = 'toast-bottom-right';
-                toastr.options.extendedTimeOut = 0; //1000;
-                toastr.options.timeOut = 3000;
-                toastr.options.hideDuration = 250;
-                toastr.options.showDuration = 250;
-                toastr.options.hideMethod = 'slideUp';
-                toastr.options.showMethod = 'slideDown';
-                toastr.options.preventDuplicates = true;
-                toastr.options.closeButton = true;
-                toastr.options.progressBar = true;
-                toastr[type](msg);
-            }
-        </script>
         <script>
             $(document).ready(function () {
                 $('#room-list-table').DataTable({
-                    dom: 'Bfrtip',
-                    
+                    dom: 'fprtiB',
+
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",
@@ -198,6 +159,20 @@
                         {
                             extend: 'excelHtml5',
                             text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'Xuất file PDF <i class="bi bi-filetype-pdf text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: 'In <i class="bi bi-printer text-[20px]"></i>',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4]
                             }

@@ -7,7 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>  
 <!DOCTYPE html>
 <html>
     <head>
@@ -130,7 +130,7 @@
 
                         <div class="grid grid-rows-2 row-span-2">
                             <div class="card room-member bg-[#fff] p-5 flex flex-col">
-                                <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thành viên phòng</div>
+                                <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thành viên khác</div>
                                 <div class="relative overflow-y-auto h-[250px]">
                                     <c:if test="${empty sessionScope.roomResidentList}">
                                         <p class="text-gray-200 font-bold text-[22px] w-fit absolute left-1/2 top-1/2 translate-y-[-70%] translate-x-[-50%]">Chưa có thêm thành viên</p>

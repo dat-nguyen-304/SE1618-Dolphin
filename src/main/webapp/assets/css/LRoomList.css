@@ -99,7 +99,7 @@
 }
 
 .dataTables_paginate {
-    margin-top: 20px !important;
+    margin-bottom: 20px !important;
 }
 
 .paginate_button {
@@ -130,10 +130,6 @@
     background-color: transparent !important;
 }
 
-#room-list-table tbody tr {
-    border-bottom: 1px solid #d1d1d1 !important;
-}
-
 table.dataTable.no-footer {
     border: none !important;
 }
@@ -144,4 +140,42 @@ table.dataTable thead th {
 
 table.dataTable {
     border-collapse: collapse;
+}
+
+.dataTables_filter {
+    float: left !important;
+}
+
+.dataTables_wrapper {
+    height: 100% !important;
+}
+
+.dataTables_info {
+    position: absolute !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    margin-bottom: 10px !important;
+}
+
+.dt-buttons {
+    position: absolute !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: flex;
+    align-items: end;
+    /*float: right !important;*/
+}
+
+.dt-button {
+    margin: 0 !important;
+    margin-left: 20px !important;
+    /*float: right !important;*/
+}
+
+.dt-button.buttons-print {
+    width: 120px;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 10px 0 !important;
 }
