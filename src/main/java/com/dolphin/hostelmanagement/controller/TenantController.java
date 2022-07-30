@@ -114,7 +114,13 @@ public class TenantController extends HttpServlet {
                 }
                 if (request.getParameter("queryType") == null) {
                     ArrayList<BookingRequest> bookingList = BookingRequestDAO.getBookingRequestByTenant(t, 1);
+                    bookingList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 3));
+                    bookingList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 4));
+                    
                     ArrayList<BookingRequest> invitationList = BookingRequestDAO.getBookingRequestByTenant(t, 2);
+                    invitationList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 5));
+                    invitationList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 6));
+                    invitationList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 7));
 
                     request.setAttribute("bookingList", bookingList);
                     request.setAttribute("invitationList", invitationList);
@@ -124,7 +130,7 @@ public class TenantController extends HttpServlet {
                 }
                 if(request.getParameter("queryType").equals("refuse-booking")) {
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingID"));
-                    BookingRequestDAO.changeStatus(bookingRequestID, -1);
+                    BookingRequestDAO.changeStatus(bookingRequestID, 3);
                     response.sendRedirect("/sakura/tenant/rental-request");
                     
                 }
@@ -132,10 +138,14 @@ public class TenantController extends HttpServlet {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
                     ContractDAO.changeStatus(contractID, 1); //activate cai contract
-                    BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID()); // xoa het moi booking request
+                    BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID(), 1); // xoa het moi booking request
+                    BookingRequestDAO.removeAllByTenantID(t.getAccount().getAccountID(), 2); // xoa het moi invitation request
+                    BookingRequestDAO.changeStatus(contractID, 7); // status = 7 means accepted 
                     ContractDAO.removePendingByTenant(t.getAccount().getAccountID());
                     RoomDAO.changeStatus(contract.getRoom().getRoomID(), 1); // thay trang thai cua phong
                     TenantDAO.changeStatus(t.getAccount().getAccountID(), true); // thay trang thai tenant
+                    t = TenantDAO.findById(t.getAccount().getAccountID());
+                    session.setAttribute("currentUser", t);
 
                     HostelDAO.updateAvailableRoom(contract.getHostel().getHostelID(), -1); //cap nhat so phong da co
                     RoomTypeDAO.updateAvailableRoom(contract.getRoom().getRoomType().getRoomTypeID(), -1); //cap nhat so phong da co
@@ -170,7 +180,7 @@ public class TenantController extends HttpServlet {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
 
                     ContractDAO.changeStatus(contractID, 3);
-                    BookingRequestDAO.changeStatus(contractID, 0);
+                    BookingRequestDAO.changeStatus(contractID, 5);
 
                     response.sendRedirect("/sakura/tenant/rental-request");
                 }

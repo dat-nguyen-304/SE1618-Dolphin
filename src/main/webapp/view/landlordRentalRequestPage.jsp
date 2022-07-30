@@ -96,6 +96,10 @@
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 Thời gian gửi
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Trạng thái
+                                            </th>
                                             <th scope="col" class="px-6 py-3">
                                             <th scope="col" class="px-6 py-3">
                                             </th>
@@ -122,26 +126,35 @@
                                                 <td class="px-6 py-4 date">
                                                     ${booking.createdDate}
                                                 </td>
-                                                <td class="px-6 py-4 money">
-                                                    <form method = "post" action="/sakura/landlord/rentalRequestList">
-                                                        <input type ="hidden" name ="queryType" value ="accept"/>
-                                                        <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
-                                                        <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
-                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
-                                                            Đồng ý
-                                                        </button>
-                                                    </form>   
+                                                <td class="px-6 py-4 date">
+                                                    <c:choose>
+                                                        <c:when test="${booking.status == 1}">Đang chờ</c:when>
+                                                        <c:when test="${booking.status == 4}">Đã hủy</c:when>
+                                                        <c:when test="${booking.status == 3}">Bị từ chối</c:when>
+                                                    </c:choose>
                                                 </td>
-                                                <td>
-                                                    <form method = "post" action="/sakura/landlord/rentalRequestList">
-                                                        <input type ="hidden" name ="queryType" value ="reject"/>
-                                                        <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
-                                                        <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
-                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#F6F8FA] border border-[288D87] hover:border hover:border-[#17535B] text-[#17535B] rounded">
-                                                            Từ chối
-                                                        </button>
-                                                    </form>    
-                                                </td>
+                                                <c:if test="${booking.status == 1}">
+                                                    <td class="px-6 py-4 money">
+                                                        <form method = "post" action="/sakura/landlord/rentalRequestList">
+                                                            <input type ="hidden" name ="queryType" value ="accept"/>
+                                                            <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
+                                                            <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
+                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
+                                                                Đồng ý
+                                                            </button>
+                                                        </form>   
+                                                    </td>
+                                                    <td>
+                                                        <form method = "post" action="/sakura/landlord/rentalRequestList">
+                                                            <input type ="hidden" name ="queryType" value ="reject"/>
+                                                            <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
+                                                            <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
+                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#F6F8FA] border border-[288D87] hover:border hover:border-[#17535B] text-[#17535B] rounded">
+                                                                Từ chối
+                                                            </button>
+                                                        </form>    
+                                                    </td>
+                                                </c:if>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -177,6 +190,9 @@
                                                 Thời gian gửi
                                             </th>
                                             <th scope="col" class="px-6 py-3">
+                                                Trạng thái
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
                                             </th>
                                         </tr>
                                     </thead>
@@ -198,6 +214,14 @@
                                                 <td class="px-6 py-4 ">
                                                     ${invitation.createdDate}
                                                 </td>
+                                                <td class="px-6 py-4 ">
+                                                    <c:choose>
+                                                        <c:when test="${invitation.status == 2}">Đang chờ</c:when>
+                                                        <c:when test="${invitation.status == 5}">Bị từ chối</c:when>
+                                                        <c:when test="${invitation.status == 6}">Đã hủy</c:when>
+                                                        <c:when test="${invitation.status == 7}">Thành công</c:when>
+                                                    </c:choose>
+                                                </td>
                                                 <td class="px-6 py-4">
                                                     <form method = "post" action="/sakura/landlord/contract-detail">
                                                         <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
@@ -206,23 +230,26 @@
                                                         </button>
                                                     </form>
                                                 </td>
-                                                <td class="px-6 py-4">
-                                                    <form method = "post" action="/sakura/contract/add-contract">
-                                                        <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                        <input type ="hidden" name ="queryType" value ="edit"/>
-                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
-                                                            Sửa hợp đồng
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <form method = "post" action="/sakura/contract/deny-contract">
-                                                        <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
-                                                            Hủy hợp đồng
-                                                        </button>
-                                                    </form>
-                                                </td>
+
+                                                <c:if test="${invitation.status == 2}">
+                                                    <td class="px-6 py-4">
+                                                        <form method = "post" action="/sakura/contract/add-contract">
+                                                            <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                            <input type ="hidden" name ="queryType" value ="edit"/>
+                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                                Sửa hợp đồng
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        <form method = "post" action="/sakura/contract/deny-contract">
+                                                            <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                                Hủy hợp đồng
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </c:if>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
