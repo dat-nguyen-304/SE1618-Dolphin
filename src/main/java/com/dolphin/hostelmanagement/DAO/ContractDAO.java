@@ -224,10 +224,10 @@ public class ContractDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "SELECT C.* FROM Contract C INNER JOIN Room R ON C.roomID = R.roomID \n"
-                        + "INNER JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID \n"
-                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID \n"
-                        + "WHERE H.hostelID = ?";
+                String sql = "SELECT * FROM Contract WHERE roomID IN \n"
+                        + "(SELECT roomID FROM Room WHERE roomTypeID IN \n"
+                        + "(SELECT roomTypeID FROM RoomType WHERE hostelID IN \n"
+                        + "(SELECT hostelID FROM Hostel WHERE hostelID = ?)))";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelId);
                 ResultSet rs = pst.executeQuery();
@@ -563,21 +563,20 @@ public class ContractDAO {
 
         return false;
     }
-    
+
     public static void removePendingByTenant(int tenantID) {
         Connection cn = null;
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
+
             String sql = "Update Contract set status = 3 where tenantID = ? and status = 2";
-            
+
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setInt(1, tenantID);
-            
+
             pst.executeUpdate();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

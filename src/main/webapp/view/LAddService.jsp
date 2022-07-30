@@ -272,7 +272,7 @@
                                 serviceUnit.value = "";
                                 const res = response.toString();
                                 console.log("res: ", res);
-                                if (res.includes("px-3 py-4 text-center")) {
+                                if (res.includes("py-4 w-[200px]")) {
                                     serviceList.innerHTML = response;
                                     console.log(serviceList);
                                     showToast("success", "Thêm thành công", 0);

@@ -98,9 +98,11 @@
                                     <p class="font-medium text-[16px] text-[#fff]">${requestScope.currentRoomType.roomTypeName}</p>
                                 </button>
                             </div>
-                            <button id="deleteRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-trash-fill mr-[5px]"></i>Xóa</p>
-                            </button>
+                            <c:if test="${requestScope.currentRoomType.totalRoom == 0}">
+                                <button id="deleteRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
+                                    <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-trash-fill mr-[5px]"></i>Xóa</p>
+                                </button>
+                            </c:if>
                             <button id="updateRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
                                 <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-pencil-fill mr-[5px]"></i>Chỉnh sửa</p>
                             </button>
@@ -193,7 +195,7 @@
                                         </c:if>
                                     </div>
                                     <c:if test="${requestScope.roomList.size() == 0}">
-                                        <p>Chưa có phòng nào</p>
+                                        <p class="no-room-message">Chưa có phòng nào</p>
                                     </c:if>
                                 </c:if>
                                 <c:if test="${requestScope.currentRoomType == null}">
@@ -622,7 +624,14 @@
                     },
                     url: '/sakura/room/delete-roomtype',
                     success: function (response) {
-                        deleteRoomTypeContent.innerHTML = response;
+                        toggleModal('.deleteRoomTypemodal1');
+                        showToast('success', 'Xóa thành công! Đang cập nhật trang.');
+                        function Redirect() {
+                            let urll = "/sakura/landlord/room-type";
+                            console.log(urll);
+                            window.location = urll;
+                        }
+                        setTimeout(Redirect(), 1000);
                     },
                     error: function () {
                     },
@@ -694,10 +703,10 @@
                                 messageElement.innerHTML = response;
                                 toggleModal('.addRoomTypemodal2');
                                 toggleModal('.addRoomTypemodal1');
-//                            showToast('success', '')
-//                            setTimeout(function () {
-//                                window.location.reload();
-//                            }, 2000);
+                                listRoomType = document.querySelector('.roomtype-list');
+                                const newRoomTypeId = document.querySelector("input[name='newRoomTypeId']").value;
+                                const newRoomTypeName = document.querySelector("input[name='newRoomTypeName']").value;
+                                listRoomType.innerHTML += "<form action='/sakura/landlord/room-type' method='post' class='inline-block'><button type='submit' name='roomTypeId' value='" + newRoomTypeId + "' class='px-4 py-2 mx-2 rounded border-2 border-gray-300 hover:border-[#288D87] hover:text-[#288D87] duration-150'>" + newRoomTypeName + "</button></form>";
                             },
                             error: function () {
                             },
@@ -1033,6 +1042,11 @@
                                     roomList.innerHTML += response;
                                     showToast('success', "Thêm phòng " + addRoomNumber.value + " thành công");
                                     addRoomNumber.value = "";
+                                    const noRoomMess = document.querySelector('.no-room-message');
+                                    noRoomMess.style.display = 'none';
+                                    const deleteRoomtypeBtn = document.querySelector("#deleteRoomType-1");
+                                    console.log(deleteRoomtypeBtn);
+                                    deleteRoomtypeBtn.style.display = "none";
                                 } else
                                     showToast('error', response);
                             },
@@ -1162,12 +1176,6 @@
                 toggleModal('.deleteRoomTypemodal1');
             });
 
-            var open_modal_2 = document.querySelector('#deleteRoomType-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.deleteRoomTypemodal2');
-            });
-
             var close_modal_1 = document.querySelectorAll('.deleteRoomTypemodal1 .deleteRoomTypemodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
                 close_modal_1[i].addEventListener('click', () => {
@@ -1175,32 +1183,6 @@
                     console.log('close 1');
                 });
             }
-
-            var close_modal_2 = document.querySelectorAll('.deleteRoomTypemodal2 .deleteRoomTypemodal2-close');
-            for (let i = 0; i < close_modal_1.length; ++i) {
-                close_modal_2[i].addEventListener('click', () => {
-                    toggleModal('.deleteRoomTypemodal2');
-                    console.log('close 2');
-                });
-            }
-
-            document.onkeydown = function (evt) {
-                evt = evt || window.event;
-                var isEscape = false;
-                if ("key" in evt) {
-                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
-                } else {
-                    isEscape = (evt.keyCode === 27);
-                }
-                const modal_1 = document.querySelector('.deleteRoomTypemodal1');
-                const modal_2 = document.querySelector('.deleteRoomTypemodal2');
-                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
-                    toggleModal('.deleteRoomTypemodal1');
-                }
-                if (isEscape && modal_2.classList.contains('active-modal')) {
-                    toggleModal('.deleteRoomTypemodal2');
-                }
-            };
         </script>
         <script>
             $("input[data-type='currency']").on({

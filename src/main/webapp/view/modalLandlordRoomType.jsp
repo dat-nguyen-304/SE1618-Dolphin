@@ -45,7 +45,7 @@
                 </button>
             </div>
 
-            <div class="p-6 space-y-6">
+            <div class="p-6 space-y-6 roomtype-list">
                 <c:forEach items="${requestScope.roomTypeList}" var="roomtype">
                     <form action="/sakura/landlord/room-type" method="post" class="inline-block">
                         <button type="submit" name="roomTypeId" value="${roomtype.roomTypeID}" class="px-4 py-2 mx-2 rounded border-2 border-gray-300 hover:border-[#288D87] hover:text-[#288D87] duration-150">${roomtype.roomTypeName}</button>
@@ -82,56 +82,17 @@
             <!--Body-->
             <div class="p-4">
                 <svg class="mx-auto mb-4 w-14 h-14 text-[#c81e25]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500">Tất cả dữ liệu về hợp đồng, hóa đơn liên quan đến loại phòng <b>${requestScope.currentRoomType.roomTypeName}</b> sẽ bị xóa. </h3>
-                <p class="text-lg font-normal text-gray-500">Bạn có chắc chắn muốn xóa?</p>
+                <p class="text-lg font-normal text-center text-gray-500">Bạn có chắc chắn muốn xóa?</p>
             </div>
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="deleteRoomTypemodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <button id="deleteRoomType-2" onclick="deleteRoomType()" class="deleteRoomTypeBtn px-5 py-2 rounded bg-[#c81e25] text-white hover:bg-[#11444b] mr-2">Xóa</button>
+                <button onclick="deleteRoomType()" class="deleteRoomTypeBtn px-5 py-2 rounded bg-[#c81e25] text-white hover:bg-[#11444b] mr-2">Xóa</button>
             </div>
         </div>
     </div>
 </div>
 <!-- End modal delete room type -->            
-<!--Modal confirm delete room type-->
-<div class="deleteRoomTypemodal2 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[1000]">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div class="deleteRoomTypemodal2-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
-            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                </path>
-            </svg>
-            <span class="text-sm"></span>
-        </div>
-        <div class="modal-content">
-            <!--Title-->
-            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
-                <p class="text-2xl font-bold">Thông báo</p>
-                <div class="deleteRoomTypemodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
-                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                        </path>
-                    </svg>
-                </div>
-            </div>
-            <!--Body-->
-            <div class="p-[20px]">
-                <p class="deleteRoomTypeContent"></p>
-            </div>
-            <!--Footer-->
-            <div class="flex justify-end p-[20px]">
-                <button class="deleteRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <form action="/sakura/landlord/room-type" method="post">
-                    <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!--End modal confirm delete room type-->
 
 <!--Modal update room type-->
 <div class="updateRoomTypemodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[1000]">
@@ -168,19 +129,19 @@
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Giá</label>
                     <input type="number" name="updatePrice" value="${requestScope.currentRoomType.advertisedPrice}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidPrice(this)"/> 
-                        <span class="ml-2 text-[15px]">VD: 3000000, 5000000 ...</span>
+                    <span class="ml-2 text-[15px]">VD: 3000000, 5000000 ...</span>
                 </div>
                 <p class="text-xs text-[red] validUpdateAreaMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Diện tích (m<sup>2</sup>)</label>
                     <input type="number" name="updateArea" value="${requestScope.currentRoomType.area}" placeholer="m<sup>2</sup>" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidArea(this)"/>
-                        <span class="ml-2 text-[15px]">VD: 24, 30, ...</span>
+                    <span class="ml-2 text-[15px]">VD: 24, 30, ...</span>
                 </div>
                 <p class="text-xs text-[red] validUpdateMaxResidentMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Số người tối đa</label>
                     <input type="number" name="updateMaxNumberOfResidents" value="${requestScope.currentRoomType.maxNumberOfResidents}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidMaxResident(this)"/>
-                        <span class="ml-2 text-[15px]">VD: 4, 5, 6, ...</span>
+                    <span class="ml-2 text-[15px]">VD: 4, 5, 6, ...</span>
                 </div>
                 <p class="text-xs text-[red] validUpdateDescMessage"></p>
                 <div class="mb-[20px] flex items-start">
@@ -277,13 +238,13 @@
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Diện tích</label>
                     <input type="number" name="area" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidArea(this)" />
-                        <span class="ml-2 text-[16px]">VD: 24, 30, ...</span>
+                    <span class="ml-2 text-[16px]">VD: 24, 30, ...</span>
                 </div>
                 <p class="text-xs text-[red] validMaxResidentMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Số người tối đa</label>
                     <input type="number" name="maxNumberOfResidents" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidMaxResident(this)"/>
-                        <span class="ml-2 text-[16px]">VD: 4, 5, 6, ...</span>
+                    <span class="ml-2 text-[16px]">VD: 4, 5, 6, ...</span>
                 </div>
                 <p class="text-xs text-[red] validDescMessage"></p>
                 <div class="mb-[20px] flex items-start">
@@ -334,11 +295,8 @@
             </div>
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
-                <button class="addRoomTypemodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <form action="/sakura/landlord/room-type" method="post">
-                    <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                    </button>
-                </form>
+                <button type="submit" class="addRoomTypemodal2-close px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">OK
+                </button>
             </div>
         </div>
     </div>

@@ -89,12 +89,9 @@
                 <p class="addHostelMessage text-[20px] font-normal text-gray-800"></p>
             </div>
             <!--Footer-->
-            <div class="flex justify-end p-[20px]">
-                <button class="addHostelmodal2-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Đóng</button>
-                <form action="/sakura/landlord/overview" method="post">
-                    <button type="submit" class="px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Cập nhật lại trang
-                    </button>
-                </form>
+            <div class="flex justify-end p-[20px]">     
+                <button type="submit" class="addHostelmodal2-close px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">OK
+                </button>
             </div>
         </div>
     </div>
@@ -113,7 +110,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="p-6 space-y-6">
+            <div class="p-6 space-y-6 hostel-list">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
                     <form action="/sakura/landlord/overview" method="post" class="inline-block">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff]">${hostel.hostelName}</button>

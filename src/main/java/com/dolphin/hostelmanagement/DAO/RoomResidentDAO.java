@@ -199,31 +199,6 @@ public class RoomResidentDAO {
         return false;
     }
 
-    public static boolean deleteByRoomTypeId(int roomTypeId) {
-        Connection cn = null;
-        try {
-            cn = DBUtils.makeConnection();
-            if (cn != null) {
-                String sql = "UPDATE RoomResident\n"
-                        + "SET activate = 0 FROM RoomResident RR\n"
-                        + "INNER JOIN Room R ON RR.roomID = R.roomID\n"
-                        + "INNER JOIN RoomType RT ON RT.roomTypeID = R.roomTypeID\n"
-                        + " WHERE RT.roomTypeID = ?";
-                PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setInt(1, roomTypeId);
-                int rows = pst.executeUpdate();
-                if (rows > 0) {
-                    cn.close();
-                    return true;
-                }
-                cn.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     public static boolean deleteByHostelId(int hostelId) {
         Connection cn = null;
         try {

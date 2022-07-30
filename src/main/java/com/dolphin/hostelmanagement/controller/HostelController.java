@@ -430,8 +430,10 @@ public class HostelController extends HttpServlet {
                 ServiceDAO.saveDefaultService(newHostel.getHostelID());
                 if (addSuccess) {
                     out.println("<p class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem <span>");
-                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/hostel-info\" method='post'>");
+                    out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview?id=" + newHostel.getHostelID() + "\" method='post'>");
                     out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
+                    out.println("<input type='hidden' name=\"newHostelId\" value='" + newHostel.getHostelID() + "'>");
+                    out.println("<input type='hidden' name=\"newHostelName\" value='" + newHostel.getHostelName()+ "'>");
                     out.println("<input type=\"submit\" class=\"ml-[4px] hover:underline text-green-800 cursor-pointer font-bold\" value=\"tại đây\">");
                     out.println("</form></span></p>");
                 } else {
