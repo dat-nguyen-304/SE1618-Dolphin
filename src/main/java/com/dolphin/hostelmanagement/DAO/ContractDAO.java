@@ -580,6 +580,33 @@ public class ContractDAO {
             e.printStackTrace();
         }
     }
+    
+    public static Contract findByIDInvoiceList(int id) {
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            String sql = "Select * from Contract where contractID = ?";
+            PreparedStatement pst = cn.prepareCall(sql);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                int contractID = rs.getInt("contractID");
+                Room room = RoomDAO.findByID(rs.getInt("roomID"));
+                return new Contract(contractID, room);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
     }

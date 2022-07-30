@@ -17,7 +17,10 @@
             </div>
             <div class="p-6 space-y-6">
                 <c:forEach var="hostel" items="${sessionScope.hostelList}">
-                    <button class="mb-[20px] mr-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center" data-modal-toggle="hostelModal" onclick="changeHostel(${hostel.hostelID}, '${hostel.hostelName}')">${hostel.hostelName} </button>
+                    <!--<button class="mb-[20px] mr-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center" data-modal-toggle="hostelModal" onclick="changeHostel(${hostel.hostelID}, '${hostel.hostelName}')">${hostel.hostelName} </button>-->
+                    <form action="/sakura/invoice/list" method="post" class="inline-block">
+                        <button type="submit" name="hostelID" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff]">${hostel.hostelName}</button>
+                    </form>
                 </c:forEach>
             </div>
         </div>

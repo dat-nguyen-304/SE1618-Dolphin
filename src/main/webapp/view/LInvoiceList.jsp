@@ -42,7 +42,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)] ${requestScope.invoiceList.size() <= 10 ? 'h-[calc(100vh-80px)]' : ''}">
+            <div class="overflow-y-auto h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)] ${requestScope.invoiceList.size() <= 10 ? 'h-[calc(100vh-80px)]' : ''}">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -99,7 +99,7 @@
                                 <div class="right-part flex justify-between items-center">
                                     <form id="filter-form" class="w-full flex justify-between items-center" action="/sakura/invoice/search" method="post">
                                         <input type="hidden" value="${requestScope.chosenHostel.hostelID}" name="hostelID">
-                                        <input type="hidden" value="${requestScope.chosenRoom.roomID}" name="roomID">
+                                        <input type="hidden" value="${(requestScope.chosenRoom.roomID != null) ? requestScope.chosenRoom.roomID : 0}" name="roomID">
 
                                         <div class="right-part flex justify-between items-center">
                                             <!-- Filter by date -->
@@ -180,7 +180,7 @@
                                                 <c:forEach items="${requestScope.invoiceList}" var="invoice">
                                                     <tr class="bg-white border-b hover:bg-gray-50">
                                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                            <a href="#" class="hover:text-[#288D87] hover:underline">${invoice.invoiceID}</a>
+                                                            <span>${invoice.invoiceID}</span>
                                                         </th>
                                                         <td class="px-6 py-4">${invoice.contract.room.roomNumber}</td>
                                                         <td class="px-6 py-4">${invoice.month}</td>
@@ -231,108 +231,71 @@
                 };
             </script>
         </c:if>
+        <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
         <script>
-            $(document).ready(function () {
-                let allDateCells = $(".date");
-                let allMoneyCells = $(".money");
-                for (let i = 0; i < allDateCells.length; i++) {
-                    let node = allDateCells[i];
-                    let isoDate = node.childNodes[0].nodeValue;
-                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
-                }
-
-                for (let i = 0; i < allMoneyCells.length; i++) {
-                    let node = allMoneyCells[i];
-                    let money = node.childNodes[0].nodeValue;
-                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-
-                $('#invoice-table').DataTable({
-                    dom: 'fprtiB',
-                    language: {
-                        "emptyTable": "Không có dữ liệu!",
-                        "zeroRecords": "Không có kết quả phù hợp!",
-                        "infoEmpty": "Hiển thị 0 kết quả",
-                        "info": "Hiển thị <b>_START_ - _END_</b> của <b>_TOTAL_</b> kết quả",
-                        "infoFiltered": "",
-                        search: "Tìm kiếm",
-                        paginate: {
-                            previous: '<i class="bi bi-caret-left-fill"></i>',
-                            next: '<i class="bi bi-caret-right-fill"></i>'
-                        },
-                        aria: {
-                            paginate: {
-                                previous: 'Trước',
-                                next: 'Sau'
-                            }
-                        }
-                    },
-                    buttons: [
-                        {
-                            extend: 'excelHtml5',
-                            text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4]
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            text: 'Xuất file PDF <i class="bi bi-filetype-pdf text-[20px]"></i>',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4]
-                            }
-                        },
-                        {
-                            extend: 'print',
-                            text: 'In <i class="bi bi-printer text-[20px]"></i>',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4]
-                            }
-                        }
-                    ],
-
-                    "pageLength": 10, // items per page
-                    info: true
-                });
-            });
-            function changeHostel(hostelID, hostelName) {
-                $("#hostelName").html(hostelName);
-                $("#roomNumber").html("Chọn phòng");
-                $("#chooseRoom").css("display", "block");
-                $("#roomList").empty();
-                $("#allRoom").empty();
-                $("#invoiceList").empty();
-                $("#filter-form").css("display", "none");
-                $("#table-container").css("display", "none");
-                jQuery.ajax({
-                    url: '/sakura/room/roomsByHostel',
-                    type: 'GET',
-                    data: {hostelID: hostelID},
-                    dataType: 'text',
-                    success: function (result) {
-                    },
-                    error: function () {
-                    },
-                    complete: function (result) {
-                        console.log("Complete");
-                        $("#hostelID").val(parseInt(hostelID));
-                        let data = JSON.parse(result.responseText);
-                        if (data.length !== 0) {
-                            $("#allRoom").append('<form action="/sakura/invoice/list" class="block" method="post"><input hidden id="hostelID" name="hostelID" value="${requestScope.chosenHostel.hostelID}">\n\
-                                                <button type="submit" name="roomID" value="0" class="room">Tất cả</button></form>');
-                            $("#hostelID").val(parseInt(hostelID));
-                            for (let i = 0; i < data.length; i++) {
-                                $("#roomList").append('<form method="post" action="/sakura/invoice/list" style="display: inline-block;"><button class="room" name="roomID" value="' + data[i].roomID + '" type="submit">'
-                                        + data[i].roomNumber + '</button></form>');
-                            }
-                        }
-                        $(".room").addClass("mb-[20px] mr-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center room");
-                        if (data.length === 0) {
-                            $("#roomList").append('<p style="color: red" class="col-span-3">Nhà trọ này không có phòng!</p>');
-                        }
+                $(document).ready(function () {
+                    let allDateCells = $(".date");
+                    let allMoneyCells = $(".money");
+                    for (let i = 0; i < allDateCells.length; i++) {
+                        let node = allDateCells[i];
+                        let isoDate = node.childNodes[0].nodeValue;
+                        node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
                     }
+
+                    for (let i = 0; i < allMoneyCells.length; i++) {
+                        let node = allMoneyCells[i];
+                        let money = node.childNodes[0].nodeValue;
+                        node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+
+                    $('#invoice-table').DataTable({
+                        dom: 'fprtiB',
+                        language: {
+                            "emptyTable": "Không có dữ liệu!",
+                            "zeroRecords": "Không có kết quả phù hợp!",
+                            "infoEmpty": "Hiển thị 0 kết quả",
+                            "info": "Hiển thị <b>_START_ - _END_</b> của <b>_TOTAL_</b> kết quả",
+                            "infoFiltered": "",
+                            search: "Tìm kiếm",
+                            paginate: {
+                                previous: '<i class="bi bi-caret-left-fill"></i>',
+                                next: '<i class="bi bi-caret-right-fill"></i>'
+                            },
+                            aria: {
+                                paginate: {
+                                    previous: 'Trước',
+                                    next: 'Sau'
+                                }
+                            }
+                        },
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4]
+                                }
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                text: 'Xuất file PDF <i class="bi bi-filetype-pdf text-[20px]"></i>',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4]
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                text: 'In <i class="bi bi-printer text-[20px]"></i>',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4]
+                                }
+                            }
+                        ],
+
+                        "pageLength": 10, // items per page
+                        info: true
+                    });
                 });
-            }
         </script>
         <script>
             $("#search-room").on("input", function () {
