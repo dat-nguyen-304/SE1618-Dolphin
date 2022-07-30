@@ -259,64 +259,6 @@
                         </div>
                     </div>
 
-                    <!-- Requests -->
-                    <div class="statistic flex justify-between mt-[20px] grid grid-cols-2 gap-[20px]">
-                        <!--                        <div class="card w-full bg-[#fff] p-5 flex flex-col">
-                                                    <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Yêu cầu thuê phòng
-                                                    </div>
-                                                    <div class="w-full h-full mx-auto">
-                                                        <div class="relative overflow-x-auto">
-                                                            <table class="w-full text-sm text-left text-gray-500">
-                                                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-                                                                    <tr>
-                                                                        <th scope="col" class="px-6 py-3">
-                                                                            Thời gian
-                                                                        </th>
-                                                                        <th scope="col" class="px-6 py-3">
-                                                                            Nội dung
-                                                                        </th>
-                                                                        <th scope="col" class="px-6 py-3">
-                                                                            Đã xử lý
-                                                                        </th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                     Chưa xử lý 
-                                                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#17535B] font-medium">
-                                                                        <td class="px-6 py-4">
-                                                                            16:04 - 05/05/2022
-                                                                        </td>
-                                                                        <td class="px-6 py-4">
-                                                                            Nguyễn Văn An yêu cầu thuê phòng A1, nhà trọ An Khang
-                                                                        </td>
-                                                                        <td class="px-6 py-4 flex justify-center">
-                                                                            <input checked id="teal-checkbox" type="checkbox" value=""
-                                                                                   class="w-4 h-4 text-teal-600 bg-gray-100 rounded border-[#17535B] focus:ring-[#17535B] focus:ring-2 duration-200">
-                        
-                                                                        </td>
-                                                                    </tr>
-                                                                     Đã xử lý 
-                                                                    <tr class="bg-white border-b hover:bg-gray-50 text-[#929CA5]">
-                                                                        <td class="px-6 py-4">
-                                                                            16:04 - 05/05/2022
-                                                                        </td>
-                                                                        <td class="px-6 py-4">
-                                                                            Nguyễn Văn An yêu cầu thuê phòng A1, nhà trọ An Khang
-                                                                        </td>
-                                                                        <td class="px-6 py-4 flex justify-center">
-                                                                            <input checked id="teal-checkbox" type="checkbox" value=""
-                                                                                   class="w-4 h-4 text-teal-600 bg-gray-100 rounded border-[#17535B] focus:ring-[#17535B] focus:ring-2 duration-200">
-                        
-                                                                        </td>
-                                                                    </tr>
-                        
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>-->
-
-                    </div>
                 </c:if>
                 <!-- End Statistics -->
                 <c:if test="${sessionScope.currentHostel == null}">
@@ -327,9 +269,6 @@
             <%@include file="../view/footerDashboard.jsp" %>
 
         </div>
-
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
 
         <!-- chartJS -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

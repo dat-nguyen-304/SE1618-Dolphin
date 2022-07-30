@@ -24,7 +24,6 @@
 
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.1.2/css/dataTables.dateTime.min.css"/>
 
         <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
@@ -44,66 +43,66 @@
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
-                <!-- Breadcrumb -->
-                <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                        <li class="inline-flex items-center">
-                            <a href="#" class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900 ">
-                                <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-                                </path>
-                                </svg>
-                                Cư dân
-                            </a>
-                        </li>
-                    </ol>
-                </nav>
-                <!-- End breadcrumb -->
-
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+                <div class="head-control flex justify-between">
+                    <!-- Breadcrumb -->
+                    <nav class="flex" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                            <li class="inline-flex items-center">
+                                <a href="#" class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900 ">
+                                    <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                    </path>
+                                    </svg>
+                                    Cư dân nhà trọ ${sessionScope.currentHostel.hostelName}
+                                </a>
+                            </li>
+                        </ol>
+                    </nav>
+                    <!-- End breadcrumb -->
+                    <c:if test="${sessionScope.hostelList != null}">
+                        <%@include file="../view/modalLandlordResidentList.jsp" %>
+                        <div class="flex items-center">
+                            <span>Chọn nhà trọ: </span>
+                            <button class="ml-[10px] inline-block rounded w-fit h-fit py-[5px] px-[20px] bg-[#17535B] hover:bg-[#13484F] flex justify-between items-center" type="button" data-modal-toggle="hostelModal">
+                                <p class="font-medium text-[16px] text-[#fff]">${sessionScope.currentHostel.hostelName}</p>
+                            </button>
+                        </div>
+                    </c:if>
+                </div>
                 <c:if test="${sessionScope.hostelList == null}">
                     Bạn chưa có nhà trọ nào.
                     <a href="/sakura/landlord/overview">Quay về trang thêm thông tin nhà trọ</a>
                 </c:if>
-                <c:if test="${sessionScope.hostelList != null}">
-
-
-                    <%@include file="../view/modalLandlordResidentList.jsp" %>
-                    <div class="mt-[20px] flex">
-                        <div class="flex items-center mr-[20px] pr-[20px]">
-                            <span>Chọn nhà trọ: </span>
-                            <button class="ml-[10px] inline-block rounded w-fit h-fit py-[5px] px-[20px] bg-[#17535B] hover:bg-[#13484F] flex flex justify-between items-center" type="button" data-modal-toggle="hostelModal">
-                                <p class="font-medium text-[16px] text-[#fff]">${sessionScope.currentHostel.hostelName}</p>
-                            </button>
-                        </div>
-                    </div>
-                </c:if>
 
                 <div class="statistic flex justify-between mt-[20px] w-full">
-                    <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
+                    <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full h-[calc(100vh-225px)]"">
                         <c:if test="${requestScope.residentList.size() != 0}">
-                            <table id="resident-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                                <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                            <table id="resident-table" class="w-full text-[16px] text-left text-gray-700 border-[1px] border-gray-100 relative">
+                                <thead class="text-center text-[15px] text-gray-700 uppercase bg-gray-100">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">Mã cư dân</th>
-                                        <th scope="col" class="px-6 py-3">Phòng</th>
-                                        <th scope="col" class="px-6 py-3">Họ và tên</th>
-                                        <th scope="col" class="px-6 py-3">SÐT</th>  
-                                        <th scope="col" class="px-6 py-3">Ngày sinh</th>
-                                        <th scope="col" class="px-6 py-3"></th>
+                                        <th scope="col" class="text-center px-6 py-3">Mã cư dân</th>
+                                        <th scope="col" class="text-center px-6 py-3">Phòng</th>
+                                        <th scope="col" class="text-center px-6 py-3">Họ và tên</th>
+                                        <th scope="col" class="text-center px-6 py-3">SÐT</th>  
+                                        <th scope="col" class="text-center px-6 py-3">Ngày sinh</th>
+                                        <th scope="col" class="text-center px-6 py-3"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.residentList}" var="resident">
                                         <tr class="bg-white border-b hover:bg-gray-50">
-                                            <td class="px-6 py-4">${resident.roomResidentID}</td>
-                                            <td class="px-6 py-4">${resident.room.roomNumber}</td>
+                                            <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900">${resident.roomResidentID}</th>
+                                            <td class="px-6 py-4 text-center">${resident.room.roomNumber}</td>
                                             <td class="px-6 py-4">${resident.fullname}</td>
-                                            <td class="px-6 py-4 date">${resident.phone}</td>
-                                            <td class="px-6 py-4 date">${resident.dob}</td>
+                                            <td class="px-6 py-4 text-center date">${resident.phone}</td>
+                                            <td class="px-6 py-4 text-center date">${resident.dob}</td>
                                             <td class="px-6 py-4">
                                                 <form action="/sakura/landlord/room-detail" method="post">
-                                                    <button type="submit" name="roomId" value="${resident.room.roomID}">Xem tại chi tiết phòng</button>
+                                                    <button type="submit" name="roomId" value="${resident.room.roomID}"
+                                                            class="rounded py-[3px] px-[10px] text-[15px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
+                                                        <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem tại chi tiết phòng
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -120,9 +119,24 @@
             </div>
             <%@include file="footerDashboard.jsp" %>
         </div>
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script>
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+                let allMoneyCells = $(".money");
 
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join(' / ');
+                }
+
+                for (let i = 0; i < allMoneyCells.length; i++) {
+                    let node = allMoneyCells[i];
+                    let money = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                }
+            });
+        </script>
         <script>
             function searchRoomOnModal() {
                 const hostelId = ${sessionScope.currentHostel.hostelID};
@@ -147,13 +161,13 @@
         <script>
             $(document).ready(function () {
                 $('#resident-table').DataTable({
-                    dom: 'Bfrtip',
+                    dom: 'fprtiB',
 
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",
                         "infoEmpty": "Hiển thị 0 kết quả",
-                        "info": "Hiển thị <b>_START_</b> - <b>_END_</b> của <b>_TOTAL_</b> kết quả",
+                        "info": "Hiển thị <b>_START_ - _END_</b> của <b>_TOTAL_</b> kết quả",
                         "infoFiltered": "",
                         search: "Tìm kiếm",
                         paginate: {
@@ -171,6 +185,20 @@
                         {
                             extend: 'excelHtml5',
                             text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'Xuất file PDF <i class="bi bi-filetype-pdf text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: 'In <i class="bi bi-printer text-[20px]"></i>',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4]
                             }

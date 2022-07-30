@@ -21,7 +21,6 @@
 
         <%@include file="../view/assets.jsp" %>
 
-        <link rel="stylesheet" href="../assets/css/LContractDetail.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
@@ -35,9 +34,10 @@
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
-        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+        <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/toastr.css"/>
         <link rel="stylesheet" href="../assets/css/datatables.css"/>
+        <link rel="stylesheet" href="../assets/css/LContractDetail.css">
 
     </head>
 
@@ -95,7 +95,7 @@
                 <div class="mt-[20px] grid grid-cols-2 gap-[20px]">
                     <div class="card bg-[#fff] p-[20px]">
                         <div class="pb-[20px] flex justify-between items-center">
-                            <div class="text-[20px] font-bold text-[#2A3C46]">
+                            <div class="text-[20px] font-bold text-[#288D87]">
                                 Mã hợp đồng: <fmt:formatNumber value = "${requestScope.contract.contractID}" groupingUsed="false" type = "number" minIntegerDigits="5"/>
                             </div>
                             <c:if test = "${requestScope.contract.status == 1}">
@@ -173,14 +173,14 @@
                         </div>
                     </div>
                     <div class="card bg-[#fff] p-[20px]">
-                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
+                        <div class="text-[20px] font-bold text-[#288D87] pb-[20px]">
                             Thống kê chi phí
                         </div>
                         <div class="w-full h-fit mx-auto">
                             <div class="grid grid-cols-6 gap-[8px]">
                                 <div class="col-span-6 grid grid-rows-2 gap-[1px] mb-[5px]">
                                     <p class="text-[#929ca5] font-normal">Tổng tiền nhà</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.contract.rentalFeePerMonth * requestScope.invoiceList.size()}</span><span> (${requestScope.invoiceList.size()} tháng)</span></p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="money">${requestScope.contract.rentalFeePerMonth * requestScope.invoiceList.size()}</span><span> (${requestScope.invoiceList.size()} tháng &times; <span class="money">${requestScope.contract.rentalFeePerMonth}</span>)</span></p>
                                 </div>
                                 <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
                                     <p class="text-[#929ca5] font-normal">Số điện (kWh)</p>
@@ -219,17 +219,17 @@
                     </div>
 
                 </div>
-                <div class="card bg-[#fff] p-[20px] mt-[20px]">
-                    <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">
+                <div class="card bg-[#fff] p-[20px] mt-[20px] h-[780px]">
+                    <div class="text-[20px] font-bold text-[#288D87] pb-[20px]">
                         Danh sách hóa đơn
                     </div>
-                    <table id="invoice-table" class="w-full text-sm text-left text-gray-500 ">
-                        <thead>
-                            <tr class="text-center text-xs text-gray-700 uppercase bg-gray-50  ">
+                    <table id="invoice-table" class="w-full text-[16px] text-left text-gray-600 border-[1px] border-gray-100 relative">
+                        <thead class="text-center text-[15px] text-slate-700 uppercase bg-slate-50">
+                            <tr>
                                 <th scope="col" class="text-center px-6 py-3">Mã hoá đơn</th>
                                 <th scope="col" class="text-center px-6 py-3">Tên Phòng</th>
-                                <th scope="col" class="text-center px-6 py-3">Thời gian</th>
-                                <th scope="col" class="text-center px-6 py-3">Tổng tiền</th>
+                                <th scope="col" class="text-center px-6 py-3">Kỳ thanh toán</th>
+                                <th scope="col" class="text-center px-6 py-3">Tổng tiền (VNĐ)</th>
                                 <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
                                 <th scope="col" class="text-center px-6 py-3">
                                     <span class="sr-only">Xem chi tiết</span>
@@ -238,22 +238,29 @@
                         </thead>
                         <tbody>
                             <c:forEach items="${requestScope.invoiceList}" var="invoice">
-                                <tr class="bg-white border-b ">
-                                    <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900  whitespace-nowrap">${invoice.invoiceID}</th>
+                                <tr class="bg-white border-b hover:bg-gray-50 text-[16px] ">
+                                    <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900">${invoice.invoiceID}</th>
                                     <td class="text-center px-6 py-4">${requestScope.contract.room.roomNumber}</td>
                                     <td class="text-center px-6 py-4">${invoice.month}</td>
                                     <td class="text-center px-6 py-4 money">${invoice.totalPrice}</td>
                                     <td class="text-center px-6 py-4">
                                         <c:if test="${invoice.status == 0}">
-                                            Chưa thanh toán
+                                            <p class="bg-red-100 text-red-800 text-[15px] font-medium w-[150px] mx-auto py-[3px] rounded">
+                                                Chưa thanh toán
+                                            </p>
                                         </c:if>
                                         <c:if test="${invoice.status == 1}">
-                                            Đã thanh toán
+                                            <p class="bg-green-100 text-emerald-800 text-[15px] font-medium w-[150px] mx-auto py-[3px] rounded">
+                                                Đã thanh toán
+                                            </p>
                                         </c:if>
                                     </td>
                                     <td class="text-center px-6 py-4 text-center">
                                         <form action="/sakura/invoice/detail" method="post">
-                                            <button type="submit" name="invoiceID" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</butotn>
+                                            <button type="submit" name="invoiceID" value="${invoice.invoiceID}" 
+                                                    class="rounded py-[3px] px-[10px] text-[15px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
+                                                <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -268,10 +275,8 @@
 
         </div>
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="../assets/toastr/toastr.min.js"></script>
         <script type="text/javascript">
             function showToast(type, msg) {
                 toastr.options.positionClass = 'toast-bottom-right';
@@ -290,17 +295,12 @@
         <script>
             $(document).ready(function () {
                 $('#invoice-table').DataTable({
-                    dom: 'Bfrtip',
-                    "fnDrawCallback": function (oSettings) {
-                        if ($('#room-list-table tr').length < 10) {
-                            $('.dataTables_paginate').hide();
-                        }
-                    },
+                    dom: 'fprtiB',
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",
                         "infoEmpty": "Hiển thị 0 kết quả",
-                        "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
+                        "info": "Hiển thị <b>_START_ - _END_</b> của <b>_TOTAL_</b> kết quả",
                         "infoFiltered": "",
                         search: "Tìm kiếm",
                         paginate: {
@@ -321,6 +321,20 @@
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4]
                             }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'Xuất file PDF <i class="bi bi-filetype-pdf text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: 'In <i class="bi bi-printer text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
                         }
                     ],
 
@@ -335,7 +349,7 @@
                 while ((i -= 3) > 0) {
                     r = '.' + s.substr(i, 3) + r;
                 }
-                return s.substr(0, i + 3) + r + " VNÐ";
+                return s.substr(0, i + 3) + r + "";
             };
             const moneyElements = document.querySelectorAll('.money');
             moneyElements.forEach(money => {

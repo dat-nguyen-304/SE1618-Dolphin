@@ -5,7 +5,7 @@
 --%>
 
 <!--Modal end contract-->
-<div class="endContractmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+<div class="endContractmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[1000]">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div class="modal-container bg-white w-3/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="endContractmodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">

@@ -77,7 +77,7 @@
                         <div class="card bg-[#fff] p-5 flex flex-col col-span-2">
                             <div class="flex justify-between">
                                 <div class="text-[20px] font-bold text-[#288D87] pb-[20px]">Thông tin cơ bản</div>
-                                <button id="editHostel-1" type="submit" name="action" value="Save"
+                                <button id="editHostel-1" type="submit" name="action" value="Save" onclick="buildEditor()"
                                         class="rounded text-[15px] text-gray-400 hover:text-[#288D87] w-[170px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center">
                                     <i class="bi bi-pencil-fill mr-[5px]"></i>Chỉnh sửa thông tin
                                 </button>
@@ -273,7 +273,6 @@
 
         </div>
 
-        <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js"></script>
         <script src="../assets/toastr/toastr.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
         <script src="../assets/javascript/checkvalid.js"></script>
@@ -292,13 +291,31 @@
                                                                     toastr[type](msg);
                                                                 }
         </script>
+        <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js"></script>
         <script>
-            tinymce.init({
-                selector: 'textarea# editor'
-            });
+                                                                function buildEditor() {
+                                                                    tinymce.init({
+                                                                        selector: 'textarea#editor',
+                                                                        language: "vi",
+                                                                        menubar: false,
+                                                                        statusbar: false,
+                                                                        placeholder: "Viết đánh giá của bạn ở đây...",
+                                                                        height: '400',
+                                                                        readonly: ${requestScope.feedback != null ? 'true' : 'false'},
+                                                                        plugins: [
+                                                                            'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                                                                            'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                                                                            'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                                                                        ],
+                                                                        toolbar: 'undo redo | blocks | bold italic link backcolor | ' +
+                                                                                'alignleft aligncenter alignright alignjustify | ' +
+                                                                                'bullist numlist outdent indent | removeformat '
+                                                                    });
+                                                                }
         </script>
         <script>
             $(document).ready(function () {
+
                 let allDateCells = $(".date");
                 let allMoneyCells = $(".money");
 
@@ -326,6 +343,7 @@
             for (let i = 0; i < close_modal_1.length; ++i) {
                 close_modal_1[i].addEventListener('click', () => {
                     toggleModal('.editHostelmodal1');
+                    tinymce.remove();
                     console.log('close 1');
                 });
             }
@@ -341,6 +359,7 @@
                 const modal_1 = document.querySelector('.editHostelmodal1');
                 if (isEscape && modal_1.classList.contains('active-modal')) {
                     toggleModal('.editHostelmodal1');
+                    tinymce.remove();
                 }
             };
         </script>

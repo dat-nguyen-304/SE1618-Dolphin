@@ -14,25 +14,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Thông báo</title>
+        <%@include file="../view/assets.jsp" %>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png">
-
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LNotification.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
-
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
     </head>
 
     <body>
@@ -41,10 +26,8 @@
 
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
-
             <!-- CONTENT -->
             <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
-
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -60,53 +43,21 @@
                 </nav>
                 <!-- End breadcrumb -->
 
-                <div class="content mt-[20px] flex justify-between grid grid-cols-1 gap-[20px] ">
+                <div class="content mt-[20px] w-full">
                     <!-- Notification list -->
-                    <div class="noti-list flex flex-col justify-between h-[740px] overflow-y-auto">
-
+                    <div class="noti-list flex flex-col justify-between space-y-[20px] h-[740px] overflow-y-auto">
                         <c:forEach items="${requestScope.notificationList}" var="notification">
-                            <div class="card noti-item w-[60%] mx-auto h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
-                                <div class="noti-item-header flex justify-between items-center mb-[20px]">
-                                    <div class="text-[14px] font-normal text-[#597187] flex items-center">
-                                        <h3 class="rating mr-[3px]">${notification.createdDate}</h3>
-                                    </div>
-                                </div>
-                                <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
+                            <div class="card noti-item w-[60%] mx-auto h-fit bg-[#fff] p-5 flex flex-col justify-between">
+                                <h3 class="rating text-[14px] font-bold text-slate-400 mb-[10px]">${notification.createdDate}</h3>
+                                <div class="noti-content text-[17px] font-semibold text-slate-700 text-justify">
                                     <p class="">${notification.content}</p>
                                 </div>
                             </div>
-
                         </c:forEach>
                     </div>
-
-                    <!-- <div class="card noti-item w-[60%] mx-auto h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
-                        <div class="noti-item-header flex justify-between items-center mb-[20px]">
-                            <div class="text-[18px] font-bold text-[#2A3C46]">
-                                <h3>Chủ nhà</h3>
-                            </div>
-                            <div class="text-[14px] font-normal text-[#597187] flex items-center">
-                                <h3 class="rating mr-[3px]">14:02 - 25/04/2022</h3>
-                            </div>
-                        </div>
-                        <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
-                            <p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Volutpat elit odio
-                                scelerisque duis quam enim pellentesque. Lorem pellentesque adipiscing pulvinar dolor.
-                                Quis
-                                cursus arcu condimentum vel. Eleifend eu sit tristique eros.</p>
-                        </div>
-                    </div> -->
                 </div>
-
             </div>
-
             <%@include file="../view/footerDashboard.jsp" %>
-
         </div>
-
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-
-
     </body>
-
 </html>

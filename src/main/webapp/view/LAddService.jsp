@@ -30,65 +30,40 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
             <!-- CONTENT -->
             <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
-
-                <!-- Breadcrumb -->
-                <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                        <li class="inline-flex items-center">
-                            <p class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900 ">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
-                                </svg>
-                                Dịch vụ nhà trọ
-                            </p>
-                        </li>
-                    </ol>
-                </nav>
-                <!-- End breadcrumb -->
-
-                <!-- General information -->
-                <c:if test="${sessionScope.currentHostel == null}">
-                    <h1>Bạn chưa có phòng trọ nào</h1>
-                </c:if>
-                <c:if test="${sessionScope.currentHostel != null}">
-                    <div class="general-info flex justify-between mt-[20px]">
-                        <div class="">
-                            <div class="pr-[20px] mr-[20px]">
-                                <span>Nhà trọ: </span>
+                <div class="head-control flex justify-between">
+                    <!-- Breadcrumb -->
+                    <nav class="flex" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                            <li class="inline-flex items-center">
+                                <p class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900 ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+                                    </svg>
+                                    Dịch vụ của nhà trọ ${sessionScope.currentHostel.hostelName}
+                                </p>
+                            </li>
+                        </ol>
+                    </nav>
+                    <!-- End breadcrumb -->
+                    <c:if test="${sessionScope.currentHostel != null}">
+                        <div class="general-info flex justify-between">
+                            <%@include file="../view/modalLandlordAddService.jsp" %>
+                            <div class="">
+                                <span>Chọn nhà trọ: </span>
                                 <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="hostelModal">
                                     ${sessionScope.currentHostel.hostelName}
                                 </button>
                             </div>
-
-                            <!--Modal select hostel-->
-                            <div id="hostelModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center z-[1000]">
-                                <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                                    <div class="relative bg-white rounded shadow">
-                                        <div class="flex justify-between items-start p-4 rounded-t border-b">
-                                            <h3 class="text-xl font-semibold text-gray-900">Chọn nhà trọ</h3>
-                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="hostelModal">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <div class="p-6 space-y-6">
-                                            <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                                                <form action="/sakura/landlord/service" class="inline-block" method="post">
-                                                    <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded border-2">${hostel.hostelName}</button>
-                                                </form>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--End modal select hostel-->
                         </div>
-                    </div>
+                    </c:if>
+                </div>
+                <!-- General information -->
+                <c:if test="${sessionScope.currentHostel == null}">
+                    <h1>Bạn chưa có phòng trọ nào</h1>
                 </c:if>
 
                 <div class="card-container mt-[20px] grid grid-cols-8 gap-[20px]">
-                    <div class="card col-span-5 relative bg-[#fff] p-[20px] w-full h-[calc(100vh-275px)] ">
+                    <div class="card col-span-5 relative bg-[#fff] p-[20px] w-full h-[calc(100vh-235px)] ">
                         <div class="flex items-center justify-between">
                             <div class="text-[20px] font-bold text-[#288D87] mb-[10px]">Danh sách dịch vụ</div>
                             <h1 class="updateMessage text-[15px] text-emerald-500 font-bold"></h1>
@@ -121,7 +96,7 @@
                                             <input name="updateUnit" type="hidden" class="text-[15px]" value="kWh"/>
                                         </td>
                                         <td class="py-4 w-[150px]">kWh</td>
-                                        <td class="py-4 w-[150px]">
+                                        <td class="py-4 w-[150px] date">
                                             ${requestScope.eletricService.monthApplied}
                                         </td>
                                         <td class="py-4 text-center">
@@ -231,7 +206,6 @@
         <script src="../assets/javascript/jquery/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script src="../assets/javascript/checkvalid.js"></script>
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script>
                                 function showToast(type, msg, duplicate) {
                                     toastr.options.positionClass = 'toast-bottom-right';

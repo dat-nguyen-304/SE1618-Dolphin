@@ -1,9 +1,8 @@
 <%-- 
-    Document   : modalLandlordResidentList
-    Created on : Jul 13, 2022, 12:01:16 PM
+    Document   : modalLandlordAddService
+    Created on : Jul 31, 2022, 4:42:52 AM
     Author     : Nguyen Dang Loc <locndse160199@fpt.edu.vn>
 --%>
-
 <!--Modal select hostel-->
 <div id="hostelModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center z-[50000]">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
@@ -18,7 +17,7 @@
             </div>
             <div class="p-6 space-y-6 hostel-list">
                 <c:forEach items="${sessionScope.hostelList}" var="hostel">
-                    <form action="/sakura/landlord/resident" method="post" class="inline-block">
+                    <form action="/sakura/landlord/service" method="post" class="inline-block">
                         <button type="submit" name="hostelId" value="${hostel.hostelID}" class="px-4 py-2 mx-2 rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff]">${hostel.hostelName}</button>
                     </form>
                 </c:forEach>

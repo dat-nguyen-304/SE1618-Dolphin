@@ -42,7 +42,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="overflow-y-auto h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)] ${requestScope.invoiceList.size() <= 10 ? 'h-[calc(100vh-80px)]' : ''}">
+            <div class="overflow-y-auto h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -158,18 +158,18 @@
 
                             <!-- table invoice list -->
                             <div class="statistic flex justify-between mt-[20px] w-full">
-                                <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full h-[calc(100vh-225px)]">
-                                    <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                                        <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full h-[calc(100vh-250px)]">
+                                    <table id="invoice-table" class="w-full text-[16px] text-left text-gray-600 border-[1px] border-gray-100 relative">
+                                        <thead class="text-center text-[15px] text-slate-700 uppercase bg-slate-50">
                                             <tr>
-                                                <th scope="col" class="px-6 py-3">Mã hoá đơn</th>
-                                                <th scope="col" class="px-6 py-3">Phòng</th>
-                                                <th scope="col" class="px-6 py-3">Hóa đơn tháng</th>
-                                                <th scope="col" class="px-6 py-3">Ngày bắt đầu</th>
-                                                <th scope="col" class="px-6 py-3">Ngày kết thúc</th>
-                                                <th scope="col" class="px-6 py-3">Giá tiền</th>
-                                                <th scope="col" class="px-6 py-3">Trạng thái</th>
-                                                <th scope="col" class="px-6 py-3">
+                                                <th scope="col" class="text-center px-6 py-3">Mã hoá đơn</th>
+                                                <th scope="col" class="text-center px-6 py-3">Phòng</th>
+                                                <th scope="col" class="text-center px-6 py-3">Hóa đơn tháng</th>
+                                                <th scope="col" class="text-center px-6 py-3">Ngày bắt đầu</th>
+                                                <th scope="col" class="text-center px-6 py-3">Ngày kết thúc</th>
+                                                <th scope="col" class="text-center px-6 py-3">Giá tiền (VNĐ)</th>
+                                                <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
+                                                <th scope="col" class="text-center px-6 py-3">
                                                     <span class="sr-only">Edit</span>
                                                 </th>
                                             </tr>
@@ -179,26 +179,36 @@
                                             <c:when test="${requestScope.invoiceList.size() != 0}">
                                                 <c:forEach items="${requestScope.invoiceList}" var="invoice">
                                                     <tr class="bg-white border-b hover:bg-gray-50">
-                                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                        <th scope="row" class=" text-center px-6 py-4 font-medium text-gray-900 ">
                                                             <span>${invoice.invoiceID}</span>
                                                         </th>
-                                                        <td class="px-6 py-4">${invoice.contract.room.roomNumber}</td>
-                                                        <td class="px-6 py-4">${invoice.month}</td>
-                                                        <td class="px-6 py-4 date">${invoice.startDate}</td>
-                                                        <td class="px-6 py-4 date">${invoice.endDate}</td>
-                                                        <td class="px-6 py-4"><span class="money">${invoice.totalPrice}</span> đ
+                                                        <td class="text-center px-6 py-4">${invoice.contract.room.roomNumber}</td>
+                                                        <td class="text-center px-6 py-4">${invoice.month}</td>
+                                                        <td class="text-center px-6 py-4 date">${invoice.startDate}</td>
+                                                        <td class="text-center px-6 py-4 date">${invoice.endDate}</td>
+                                                        <td class="text-right px-6 pr-[10px] py-4 ">
+                                                            <fmt:setLocale value = "vi_VN"/>
+                                                            <span class="pr-[50px]">
+                                                                <fmt:formatNumber value = "${invoice.totalPrice}" type = "number" pattern="###,###,###"/>
+                                                            </span>
                                                         </td>
                                                         <td class="px-6 py-4">
                                                             <c:if test="${invoice.status == 0}">
-                                                                <span class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán</span>
+                                                                <p class="bg-red-100 text-center text-red-800 text-[15px] font-medium w-[150px] mx-auto py-[3px] rounded">
+                                                                    Chưa thanh toán
+                                                                </p>
                                                             </c:if>
                                                             <c:if test="${invoice.status == 1}">
-                                                                <span class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã thanh toán</span>
+                                                                <p class="bg-green-100 text-center text-emerald-800 text-[15px] font-medium w-[150px] mx-auto py-[3px] rounded">
+                                                                    Đã thanh toán
+                                                                </p>
                                                             </c:if>
                                                         </td>
                                                         <td class="px-6 py-4 text-center">
                                                             <form action="/sakura/invoice/detail" method="post">
-                                                                <button name="invoiceID" value="${invoice.invoiceID}" class="font-medium text-[#288D87] hover:underline">Xem chi tiết</button>
+                                                                <button name="invoiceID" value="${invoice.invoiceID}" class="rounded py-[3px] px-[10px] text-[15px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
+                                                                    <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết
+                                                                </button>
                                                             </form>
                                                         </td>
                                                     </tr>

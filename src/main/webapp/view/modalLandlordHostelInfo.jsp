@@ -70,7 +70,13 @@
                 <p class="text-xs text-[red] validUpdateDescMessage"></p>
                 <div class="flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
-                    <textarea id="editor" class="updateDescription text-[18px] p-[10px] w-[700px] h-[350px] text-clip" required name="updateDescription" id="" onkeyup="checkValidUpdateDesc(this)">${sessionScope.currentHostel.description}</textarea>
+                    <!--<textarea id="editor" class="text-area w-full" placeholder="Viết đánh giá ở đây..." name="feedbackContent" rows="4"></textarea>-->
+<!--                    <textarea id="editor" class="text-area w-full " disabled placeholder="Viết đánh giá ở đây..." name="updateContent" rows="4" cols="100">
+                        ${requestScope.feedback.content}
+                    </textarea>-->
+                    <textarea id="editor" class="text-area w-full" required name="updateDescription" onkeyup="checkValidUpdateDesc(this)">
+                        ${sessionScope.currentHostel.description}
+                    </textarea>
                 </div>
             </div>
             <!--Footer-->

@@ -133,8 +133,8 @@
                                 </thead>
                                 <tbody id="invoice-list">
                                     <c:forEach var="invoice" items="${requestScope.invoiceList}">
-                                        <tr class="bg-white border-b hover:bg-gray-50 text-[16px]  invoice-row">
-                                            <td scope="row" class=" text-center px-6 py-4 font-medium text-gray-900 invoice-id">
+                                        <tr class="bg-white border-b hover:bg-gray-50 text-[16px] invoice-row">
+                                            <td scope="row" class="text-center px-6 py-4 font-medium text-gray-900 invoice-id">
                                                 <fmt:formatNumber type = "number" groupingUsed="false" minIntegerDigits = "5" value = "${invoice.invoiceID}" />
                                             </td>
                                             <td class="text-center px-6 py-[5px]"><p class="date startDate">${invoice.startDate}</p></td>

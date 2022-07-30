@@ -685,6 +685,7 @@
                 language: "vi",
                 menubar: false,
                 statusbar: false,
+                placeholder: "Viết đánh giá của bạn ở đây...",
                 height: '200',
                 readonly: ${requestScope.feedback != null ? 'true' : 'false'},
                 plugins: [

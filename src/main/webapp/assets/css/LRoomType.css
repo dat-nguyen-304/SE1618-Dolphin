@@ -217,7 +217,7 @@ svg {
     color: #fff;
 }
 
-select, [type=text], textarea {
+select, [type=text], [type=number], textarea {
     outline: none;
     box-shadow: none;
     border: 1px solid #e2e8f0;
@@ -225,6 +225,7 @@ select, [type=text], textarea {
 
 select:focus, select:active,
 [type=text]:focus, [type=text]:active,
+[type=number]:focus, [type=number]:active,
 textarea:focus, textarea:active {
     outline: none;
     box-shadow: none;

@@ -51,3 +51,7 @@
 .hasResident:checked .inputResident {
     display: inline-block !important;
 }
+
+.dataTables_wrapper {
+    height: 92% !important;
+}
