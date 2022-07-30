@@ -131,7 +131,12 @@
                                 </div>
                                 <div class="ml-[10px]">
                                     <h4 class="text-[#17535B] font-bold text-[18px]">Điện</h4>
-                                    <p class="text-gray-500 font-semibold text-[15px]">3.500VNĐ/kWh</p>
+                                    <c:if test="${requestScope.eletricService.serviceFee != 0}">
+                                        <p class="text-gray-500 font-semibold text-[15px]">${requestScope.eletricService.serviceFee}VNĐ/kWh</p>
+                                    </c:if>
+                                    <c:if test="${requestScope.eletricService.serviceFee == 0}">
+                                        <p class="text-gray-500 font-semibold text-[15px]">Chưa cập nhật giá</p>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="flex ">
@@ -140,27 +145,25 @@
                                 </div>
                                 <div class="ml-[10px]">
                                     <h4 class="text-[#17535B] font-bold text-[18px]">Nước</h4>
-                                    <p class="text-gray-500 font-semibold text-[15px]">3.500VNĐ/m<sup>3</sup></p>
+                                    <c:if test="${requestScope.waterService.serviceFee != 0}">
+                                        <p class="text-gray-500 font-semibold text-[15px]">${requestScope.waterService.serviceFee}VNĐ/m<sup>3</sup></p>
+                                    </c:if>
+                                    <c:if test="${requestScope.waterService.serviceFee == 0}">
+                                        <p class="text-gray-500 font-semibold text-[15px]">Chưa cập nhật giá</p>
+                                    </c:if>
                                 </div>
                             </div>
-                            <div class="flex ">
+                            <c:forEach items="${requestScope.serviceList}" var="service">
+                                <div class="flex ">
                                 <div class="bg-[#17535B] rounded-full h-6 w-6 flex justify-center items-center">
                                     <i class="bi bi-check-lg text-[#E6F4F0]"></i>
                                 </div>
                                 <div class="ml-[10px]">
-                                    <h4 class="text-[#17535B] font-bold text-[18px]">Giữ xe</h4>
-                                    <p class="text-gray-500 font-semibold text-[15px]">50.000VNĐ/cái</p>
+                                    <h4 class="text-[#17535B] font-bold text-[18px]">${service.serviceName}</h4>
+                                    <p class="text-gray-500 font-semibold text-[15px]">${service.serviceFee}VNĐ/${service.unit}</p>
                                 </div>
                             </div>
-                            <div class="flex ">
-                                <div class="bg-[#17535B] rounded-full h-6 w-6 flex justify-center items-center">
-                                    <i class="bi bi-check-lg text-[#E6F4F0]"></i>
-                                </div>
-                                <div class="ml-[10px]">
-                                    <h4 class="text-[#17535B] font-bold text-[18px]">Internet</h4>
-                                    <p class="text-gray-500 font-semibold text-[15px]">90.000VNĐ/tháng</p>
-                                </div>
-                            </div>
+                            </c:forEach>
                         </div>
                     </div>
                     <!--END SERVICE-->

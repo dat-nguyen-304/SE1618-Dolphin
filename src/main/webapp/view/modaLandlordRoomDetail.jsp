@@ -233,7 +233,7 @@
                 <p class="text-xs text-[red] validAddDobMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] text-[16px] inline-block" for="">Ngày sinh</label>
-                    <input type="date" name="memberDob" required class="w-[300px] text-[18px] p-[10px]" onkeyup="checkValidAddDob(this)"/>
+                    <input type="date" name="memberDob" required class="w-[300px] text-[18px] p-[10px]"/>
                 </div>
             </div>
             <!--Footer-->

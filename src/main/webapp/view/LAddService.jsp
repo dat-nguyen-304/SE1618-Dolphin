@@ -112,7 +112,12 @@
                                         <td class="hidden"><input name="updateType" type="hidden" class="text-[15px]" value="1"/></td>
                                         <td class="py-4 w-[200px] pl-[10px]">Điện</td>
                                         <td class="py-4 w-[180px]">
-                                            <input name="updateFee" type="number" class="w-[90%] text-[15px] px-[3px]" value="${requestScope.eletricService.serviceFee}"/>
+                                            <c:if test="${requestScope.eletricService.serviceFee == 0}">
+                                                <input name="updateFee" type="number" class="w-[90%] text-[15px] px-[3px]" value=""/>
+                                            </c:if>
+                                            <c:if test="${requestScope.eletricService.serviceFee != 0}">
+                                                <input name="updateFee" type="number" class="w-[90%] text-[15px] px-[3px]" value="${requestScope.eletricService.serviceFee}"/>
+                                            </c:if>
                                             <input name="updateUnit" type="hidden" class="text-[15px]" value="kWh"/>
                                         </td>
                                         <td class="py-4 w-[150px]">kWh</td>
@@ -132,7 +137,12 @@
                                         <td class="hidden"><input name="updateType" type="hidden" class="text-[15px]" value="2"/></td>
                                         <td class="py-4 w-[200px] pl-[10px]">Nước</td>
                                         <td class="py-4 w-[180px]">
-                                            <input name="updateFee" type="number" class="w-[90%] text-[15px] px-[3px]" value="${requestScope.waterService.serviceFee}"/>
+                                            <c:if test="${requestScope.waterService.serviceFee != 0}">
+                                                <input name="updateFee" type="number" class="w-[90%] text-[15px] px-[3px]" value="${requestScope.waterService.serviceFee}"/>
+                                            </c:if>
+                                            <c:if test="${requestScope.waterService.serviceFee == 0}">
+                                                <input name="updateFee" type="number" class="w-[90%] text-[15px] px-[3px]" value=""/>
+                                            </c:if>
                                             <input name="updateUnit" type="hidden" class="text-[15px]" value="m3"/>
                                         </td>
                                         <td class="py-4 w-[150px]">

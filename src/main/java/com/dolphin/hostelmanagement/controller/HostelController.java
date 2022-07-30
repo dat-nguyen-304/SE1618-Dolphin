@@ -22,6 +22,7 @@ import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.RoomType;
+import com.dolphin.hostelmanagement.DTO.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -265,12 +266,26 @@ public class HostelController extends HttpServlet {
                     }
                     request.setAttribute("filterStar", filterStar);
                 }
+                List<Service> list = ServiceDAO.findHostelActiveServices(hostel);
+                List<Service> serviceList = new ArrayList<>();
+                Service eletricService = null;
+                Service waterService = null;
+                for (Service service : list) {
+                    if (service.getType() == 1) {
+                        eletricService = service;
+                    } else if (service.getType() == 2) {
+                        waterService = service;
+                    } else {
+                        serviceList.add(service);
+                    }
+                }
+                request.setAttribute("serviceList", serviceList);
+                request.setAttribute("eletricService", eletricService);
+                request.setAttribute("waterService", waterService);
+                
                 request.setAttribute("feedbackList", feedbackList);
                 request.setAttribute("hostel", hostel);
-
-//                ArrayList<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostel.getHostelID());
                 request.setAttribute("roomTypeList", roomTypeList);
-
                 request.getRequestDispatcher("/view/hostelDetail.jsp").forward(request, response);
             } else if (path.equals("/toggleFavHostel")) {
                 //Hàm bắt xử lí khi nhấn toggle favorite
