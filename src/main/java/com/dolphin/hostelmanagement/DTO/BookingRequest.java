@@ -16,6 +16,7 @@ public class BookingRequest {
     private RoomType roomType;
     private Date createdDate;
     private int status;
+    private String description;
 
     public BookingRequest() {
     }
@@ -27,6 +28,24 @@ public class BookingRequest {
         this.createdDate = createdDate;
         this.status = status;
     }
+
+    public BookingRequest(int bookingRequestID, Tenant tenant, RoomType roomType, Date createdDate, int status, String description) {
+        this.bookingRequestID = bookingRequestID;
+        this.tenant = tenant;
+        this.roomType = roomType;
+        this.createdDate = createdDate;
+        this.status = status;
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
 
     public int getBookingRequestID() {
         return bookingRequestID;

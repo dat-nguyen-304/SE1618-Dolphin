@@ -151,7 +151,7 @@
                                             <p class="text-gray-700">Chờ xác nhận</p>
                                         </c:if>
                                         <c:if test="${requestScope.contract.status == 3}">
-                                            <p class="text-slate-500">Đã kết thúc</p>
+                                            <p class="text-slate-500">Đã hủy</p>
                                         </c:if>
                                     </div>
                                 </div>

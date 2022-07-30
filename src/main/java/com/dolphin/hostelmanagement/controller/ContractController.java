@@ -127,7 +127,7 @@ public class ContractController extends HttpServlet {
                 int contractID = Integer.parseInt(request.getParameter("contractID"));
 
                 ContractDAO.changeStatus(contractID, 3);
-                BookingRequestDAO.changeStatus(contractID, 0);
+                BookingRequestDAO.changeStatus(contractID, 6);
 //                
 //                Notification noti = new Notification();
 //                noti.setCreatedDate(new Date());
@@ -196,7 +196,7 @@ public class ContractController extends HttpServlet {
                     Date createdDate = new Date();
 
                     int contractID = BookingRequestDAO.saveBookingRequest(oldContract.getTenant().getAccount().getAccountID(),
-                            oldContract.getRoom().getRoomType().getRoomTypeID(), createdDate, 0);
+                            oldContract.getRoom().getRoomType().getRoomTypeID(), createdDate, 0, "");
 
                     Contract c = new Contract(contractID, r, t, null, null, startDate, endDate,
                             deposit, 1, rentalFeePerMonth, description, createdDate, null);

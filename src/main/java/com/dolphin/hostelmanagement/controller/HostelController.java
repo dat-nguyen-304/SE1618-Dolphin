@@ -358,11 +358,11 @@ public class HostelController extends HttpServlet {
                 rentalNoti.setStatus(0); //0 means unread
 
                 boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
-                if (!check) {
-                    System.out.println("Something wrong in save rental notification function!");
-                } else {
-                    System.out.println("Successfully save rental notification!");
-                }
+//                if (!check) {
+//                    System.out.println("Something wrong in save rental notification function!");
+//                } else {
+//                    System.out.println("Successfully save rental notification!");
+//                }
 
                 //end notification for landlord
                 //this is notification for tenant about successfully booking request from system
@@ -381,15 +381,15 @@ public class HostelController extends HttpServlet {
 
                 successNoti.setStatus(0); //0 means unread
                 check = NotificationDAO.saveNotification(successNoti);
-                if (!check) {
-                    System.out.println("Something wrong in save success notification function!");
-                } else {
-                    System.out.println("Successflly save success notification function");
-                }
+//                if (!check) {
+//                    System.out.println("Something wrong in save success notification function!");
+//                } else {
+//                    System.out.println("Successflly save success notification function");
+//                }
                 //end notification for landlord
 
                 //this is booking request adding function
-                int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomType.getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
+                int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomType.getRoomTypeID(), rentalNoti.getCreatedDate(), 1, ""); // 1 means pending from landlord
 
                 System.out.println("MY TEST ID: " + testID);
 
