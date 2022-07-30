@@ -183,6 +183,8 @@ public class RoomController extends HttpServlet {
                     out.println("<span class=\"inline-block text-green-600\">Thêm loại phòng " + newRoomType.getRoomTypeName() + " thành công! Xem");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\" method='post'>");
                     out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
+                    out.println("<input type='hidden' name=\"newRoomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
+                    out.println("<input type='hidden' name=\"newRoomTypeName\" value='" + newRoomType.getRoomTypeName()+ "'>");
                     out.println("<input class='hover:underline text-green-800 cursor-pointer font-bold' type=\"submit\" value=\"tại đây\">");
                     out.println("</form></span>");
                 } else {
@@ -279,38 +281,8 @@ public class RoomController extends HttpServlet {
                 int roomTypeId = Integer.parseInt(request.getParameter("deleteRoomTypeId"));
                 int hostelId = Integer.parseInt(request.getParameter("hostelId"));
                 RoomType roomType = RoomTypeDAO.findByID(roomTypeId);
-
                 boolean deleteSuccess = RoomTypeDAO.deleteById(roomTypeId);
-                RoomDAO.deleteByRoomTypeId(roomTypeId);
-                RoomResidentDAO.deleteByRoomTypeId(roomTypeId);
                 if (deleteSuccess) {
-                    HostelDAO.updateAvailableRoom(hostelId, -roomType.getAvailableRoom());
-                    HostelDAO.updateTotalRoom(hostelId, -roomType.getTotalRoom());
-                    RoomTypeDAO.updateAvailableRoom(roomTypeId, -roomType.getAvailableRoom());
-                    RoomTypeDAO.updateTotalRoom(hostelId, -roomType.getTotalRoom());
-
-                    List<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostelId);
-                    if (roomTypeList.size() == 0) {
-                        HostelDAO.updateMinArea(hostelId, 0);
-                        HostelDAO.updateMaxArea(hostelId, 0);
-                        HostelDAO.updateMinPrice(hostelId, 0);
-                        HostelDAO.updateMaxPrice(hostelId, 0);
-                    } else {
-                        int minPrice = Integer.MAX_VALUE;
-                        int maxPrice = -1;
-                        int minArea = Integer.MAX_VALUE;
-                        int maxArea = -1;
-                        for (RoomType roomtype : roomTypeList) {
-                            minPrice = Math.min(minPrice, roomtype.getAdvertisedPrice());
-                            maxPrice = Math.max(maxPrice, roomtype.getAdvertisedPrice());
-                            minArea = Math.min(minArea, roomtype.getArea());
-                            maxArea = Math.max(maxArea, roomtype.getArea());
-                        }
-                        HostelDAO.updateMinArea(hostelId, minArea);
-                        HostelDAO.updateMaxArea(hostelId, maxArea);
-                        HostelDAO.updateMinPrice(hostelId, minPrice);
-                        HostelDAO.updateMaxPrice(hostelId, maxPrice);
-                    }
                     session.setAttribute("currentHostel", HostelDAO.findById(hostelId));
                     out.print("Xóa thành công");
                 } else {

@@ -1,23 +1,6 @@
-const modal = $('.modal');
-if (modal) {
-    const modalTicket = $('.modal-ticket');
-    const modalClose = $('.modal-close-btn');
-    if (modalTicket) {
-        modalTicket.onclick = (e) => e.stopPropagation();
-    }
-    function hideModal() {
-        modal.style.display = 'none';
-    }
-    modalClose.addEventListener('click', hideModal);
-    modal.addEventListener('click', hideModal);
-    console.log(modalClose);
-    console.log(modal);
-}
-
 const inputRating = document.querySelector('input[name="rating"]');
-
+console.log("input Rating: ", inputRating.value);
 if (inputRating !== null) {
-
     const starList = document.querySelectorAll('.send-feedback-star');
     const sendFeedbackBtn = document.querySelector('.send-feedback-btn');
     const updateFeedbackBtn = document.querySelector('.update-feedback-btn');

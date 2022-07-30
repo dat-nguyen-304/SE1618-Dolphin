@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -65,11 +66,11 @@ public class RoomDAO {
         Connection cn = null;
         try {
             cn = DBUtils.makeConnection();
+            HashMap<Integer, RoomType> map = new HashMap<>();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "SELECT R.* FROM Room R INNER JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID \n"
-                        + "INNER JOIN Hostel H ON H.hostelID = RT.hostelID \n"
-                        + "WHERE H.hostelID = ? AND R.activate = 1";
+                String sql = "SELECT * FROM Room\n"
+                        + "WHERE roomTypeID IN (SELECT roomTypeID FROM RoomType WHERE hostelID = ?) AND activate = 1";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, hostelID);
                 ResultSet rs = pst.executeQuery();
@@ -79,7 +80,14 @@ public class RoomDAO {
                         String roomNumber = rs.getString("roomNumber");
                         int currentNoResidents = rs.getInt("currentNoResidents");
                         int status = rs.getInt("status");
-                        RoomType roomType = findByID(roomID).getRoomType();
+                        int roomTypeId = rs.getInt("roomTypeID");
+                        RoomType roomType;
+                        if (map.get(roomTypeId) == null) {
+                            roomType = RoomTypeDAO.findByID(roomTypeId);
+                            map.put(roomTypeId, roomType);
+                        } else {
+                            roomType = map.get(roomTypeId);
+                        }
                         list.add(new Room(roomID, roomNumber, currentNoResidents, status, roomType));
                     }
                 }
@@ -404,27 +412,6 @@ public class RoomDAO {
         return false;
     }
 
-    public static boolean deleteByRoomTypeId(int roomTypeId) {
-        Connection cn = null;
-        try {
-            cn = DBUtils.makeConnection();
-            if (cn != null) {
-                String sql = "UPDATE Room SET activate = 0 WHERE roomTypeID = ?";
-                PreparedStatement pst = cn.prepareStatement(sql);
-                pst.setInt(1, roomTypeId);
-                int rows = pst.executeUpdate();
-                if (rows > 0) {
-                    cn.close();
-                    return true;
-                }
-                cn.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     public static boolean deleteByHostelId(int hostelId) {
         Connection cn = null;
         try {
@@ -517,6 +504,41 @@ public class RoomDAO {
             e.printStackTrace();
         }
         return room;
+    }
+    
+    public static List<Room> findByHostelIDInvoiceList(int hostelID) {
+        List<Room> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "SELECT R.* FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID \n"
+                        + "JOIN Hostel H ON H.hostelID = RT.hostelID \n"
+                        + "WHERE H.hostelID = ? AND R.activate = 1";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelID);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int roomID = rs.getInt("roomID");
+                        String roomNumber = rs.getString("roomNumber");
+                        list.add(new Room(roomID, roomNumber));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
     }
 
     public static void main(String args[]) {

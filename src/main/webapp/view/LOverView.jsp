@@ -496,6 +496,10 @@
                                 addHostelMessage.innerHTML = response;
                                 toggleModal('.addHostelmodal2');
                                 toggleModal('.addHostelmodal1');
+                                const hostelList = document.querySelector('.hostel-list');
+                                const newHostelId = document.querySelector("input[name='newHostelId']").value;
+                                const newHostelName = document.querySelector("input[name='newHostelName']").value;
+                                hostelList.innerHTML += "<form action='/sakura/landlord/overview' method='post' class='inline-block'><button type='submit' name='hostelId' value='" + newHostelId + "' class='px-4 py-2 mx-2 rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff]'>" + newHostelName + "</button></form>";
                             },
                             error: function () {
                             },

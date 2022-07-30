@@ -35,6 +35,18 @@ public class Invoice {
         this.WaterPrice = WaterPrice;
     }
 
+    public Invoice(int invoiceID, Date startDate, Date endDate, Date createdDate, int status, int totalPrice, String month, int ElectricPrice, int WaterPrice) {
+        this.invoiceID = invoiceID;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.createdDate = createdDate;
+        this.status = status;
+        this.totalPrice = totalPrice;
+        this.month = month;
+        this.ElectricPrice = ElectricPrice;
+        this.WaterPrice = WaterPrice;
+    }
+
     public int getInvoiceID() {
         return invoiceID;
     }

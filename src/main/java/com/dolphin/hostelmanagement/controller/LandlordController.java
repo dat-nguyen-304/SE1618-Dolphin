@@ -152,7 +152,7 @@ public class LandlordController extends HttpServlet {
                     List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
                     request.setAttribute("currentDistrictList", currentDistrictList);
                     //doanh thu
-                    ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
+                    ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelIDLOverview(currentHostel.getHostelID());
                     Collections.sort(invoiceList, new Comparator<Invoice>() {
                         public int compare(Invoice i1, Invoice i2) {
                             SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");
@@ -431,9 +431,9 @@ public class LandlordController extends HttpServlet {
                     //change status of booking request from 1 to 0, means rejected request
                     int bookingRequestID = Integer.parseInt(request.getParameter("bookingRequestID"));
                     BookingRequest currentBr = BookingRequestDAO.getBookingRequestByID(bookingRequestID);
-                    
-                    BookingRequestDAO.changeStatus(bookingRequestID, 0);
-                    ContractDAO.changeStatus(bookingRequestID, 3);
+
+                    BookingRequestDAO.changeStatus(bookingRequestID, 4);
+                    //ContractDAO.changeStatus(bookingRequestID, 3);
                     int hostelID = currentBr.getRoomType().getHostel().getHostelID();
 
                     //end change
@@ -451,16 +451,21 @@ public class LandlordController extends HttpServlet {
                     //end send notification to landlord
                 }
 
-                int hostelID = ((Hostel) session.getAttribute("currentHostel")).getHostelID();
-                request.setAttribute("hostelID", hostelID);
+//                int hostelID = ((Hostel) session.getAttribute("currentHostel")).getHostelID();
+//                request.setAttribute("hostelID", hostelID);
 
                 ArrayList<BookingRequest> bookingList = BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 1);
+                bookingList.addAll(BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 3));
+                bookingList.addAll(BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 4));
                 /*for (BookingRequest br : bookingList) {
                     System.out.println(br.getRoomType().getRoomTypeName());
                     System.out.println(br.getBookingRequestID());
                     System.out.println(br.getTenant().getFullname());
                 }*/
                 ArrayList<BookingRequest> invitationList = BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 2);
+                invitationList.addAll(BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 5));
+                invitationList.addAll(BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 6));
+                invitationList.addAll(BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 7));
 
                 request.setAttribute("bookingList", bookingList);
                 request.setAttribute("invitationList", invitationList);

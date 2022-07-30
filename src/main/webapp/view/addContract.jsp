@@ -81,9 +81,9 @@
 
                             <div class="mt-[20px] w-full">
                                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Mô tả / Thông tin bổ sung</label>
-                                <textarea type ="text" id="description" name="description" maxlength="200" 
+                                <textarea type ="text" id="description" name="description"
                                           rows="4" class="w-full block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-[#17535B] focus:border-[#17535B]" placeholder="">${requestScope.editContract.description}</textarea>
-                                <p>Số kí tự: <span id="count"></span>/200</p>
+                                <!--<p>Số kí tự: <span id="count"></span>/500</p>-->
                             </div>
 
                             <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] col-span-6 grid grid-cols-6 gap-[20px]">
@@ -206,9 +206,9 @@
                 deposit.css("border", "");
             });
 
-            description.on("input", function () {
-                $("#count").html($(this).val().length);
-            });
+//            description.on("input", function () {
+//                $("#count").html($(this).val().length);
+//            });
 
             description.click(function () {
                 description.css("border", "");

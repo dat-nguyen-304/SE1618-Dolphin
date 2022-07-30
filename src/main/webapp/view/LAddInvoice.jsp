@@ -88,7 +88,7 @@
                                                     Chọn Nhà Trọ
                                                 </h3>
                                                 <button type="button" data-modal-toggle="hostelModal"
-                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+                                                        class="mb-[20px] mr-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center">
                                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                                     </svg>
@@ -97,7 +97,7 @@
 
                                             <div class="p-6">
                                                 <c:forEach var="hostel" items="${sessionScope.hostelList}">
-                                                    <button class="px-4 py-2 mx-2 rounded border-2" data-modal-toggle="hostelModal"
+                                                    <button class="mb-[20px] mr-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center" data-modal-toggle="hostelModal"
                                                             onclick="changeHostel(${hostel.hostelID}, '${hostel.hostelName}')">${hostel.hostelName} </button>
                                                 </c:forEach>
                                             </div>
@@ -348,7 +348,7 @@
 
                         <!--table invoice list-->
                         <div class="statistic flex justify-between">
-                            <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
+                            <div id="roomArea" class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
                                 <c:choose>
                                     <c:when test="${requestScope.noInvoiceList != null && requestScope.noInvoiceList.size() != 0}">
                                         <div class="mb-[30px] text-[15px] text-gray-700 uppercase  bg-gray-50">
@@ -382,6 +382,8 @@
                 </c:if>
 
             </div>
+            
+            <%@include file="../view/footerDashboard.jsp" %>
 
         </div>
 
@@ -494,16 +496,33 @@
                                                         error: function () {
                                                         },
                                                         complete: function (result) {
-                                                            console.log("Compelte");
+                                                            console.log("Complete");
                                                             let data = JSON.parse(result.responseText);
-                                                            for (let i = 0; i < data.length; i++) {
-                                                                $("#roomList").append('<form method="post" action="/sakura/invoice/new" style="display: inline-block;"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
-                                                                        + data[i].roomNumber + '</button></form>');
-                                                            }
-                                                            $(".roomNoInvoice").addClass("ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center");
                                                             if (data.length === 0) {
-                                                                $("#roomList").append('<p style="color: red" class="col-span-3">Toàn bộ phòng của nhà trọ này đã có hóa đơn đến tháng hiện tại!</p>');
+                                                                $("#roomArea").html('<div class="text-[15px] text-gray-700 uppercase bg-gray-50">Hiện tại chưa có phòng cần nhập hóa đơn</div>');
+                                                            } else {
+                                                                $("#roomArea").html('<div class="mb-[30px] text-[15px] text-gray-700 uppercase  bg-gray-50">Các phòng cần nhập hóa đơn kỳ <span id="monthPlusOne">${requestScope.noInvoiceList[0].latestInvoiceMonth}</span>:</div><input class="" type="text" name="searchRoom" placeholder="Tìm Phòng" id="room-filter"><div id="roomList" class="mt-[30px] flex flex-wrap"></div>');
+                                                                let monthPlusOne = $("#monthPlusOne");
+                                                                monthP1Temp = moment(monthPlusOne.html()).add(1, "M");
+                                                                monthPlusOne.html(monthP1Temp.format('MM/YYYY').toString());
+                                                                for (let i = 0; i < data.length; i++) {
+                                                                    $("#roomList").append('<form method="post" action="/sakura/invoice/new" style="display: inline-block;"><button class="roomNoInvoice" name="roomID" value="' + data[i].roomID + '" type="submit">'
+                                                                            + data[i].roomNumber + '</button></form>');
+                                                                }
+                                                                $(".roomNoInvoice").addClass("mb-[20px] mr-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center");
+                                                                $("#room-filter").on('input', function () {
+                                                                    let text = $("#room-filter").val();
+                                                                    let allRoomButtons = $(".roomNoInvoice");
+                                                                    for (let i = 0; i < allRoomButtons.length; i++) {
+                                                                        let node = allRoomButtons[i];
+                                                                        if ($(node).html().toLowerCase().indexOf(text.toLowerCase()) < 0) {
+                                                                            $(node).css("display", "none");
+                                                                        } else
+                                                                            $(node).css("display", "inline");
+                                                                    }
+                                                                });
                                                             }
+
                                                         }
                                                     });
                                                 }

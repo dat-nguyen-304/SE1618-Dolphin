@@ -29,7 +29,7 @@
         <c:if test="${sessionScope.currentUser == null}">
             <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
         </c:if>
-
+        
     </head>
     <body>
         <header id="header-section" class="stick z-[100]">

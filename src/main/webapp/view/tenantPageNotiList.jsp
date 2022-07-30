@@ -26,7 +26,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">

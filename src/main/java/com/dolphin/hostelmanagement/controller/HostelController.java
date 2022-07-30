@@ -22,6 +22,7 @@ import com.dolphin.hostelmanagement.DTO.Tenant;
 import com.dolphin.hostelmanagement.DTO.District;
 import com.dolphin.hostelmanagement.DTO.Landlord;
 import com.dolphin.hostelmanagement.DTO.RoomType;
+import com.dolphin.hostelmanagement.DTO.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -265,12 +266,26 @@ public class HostelController extends HttpServlet {
                     }
                     request.setAttribute("filterStar", filterStar);
                 }
+                List<Service> list = ServiceDAO.findHostelActiveServices(hostel);
+                List<Service> serviceList = new ArrayList<>();
+                Service eletricService = null;
+                Service waterService = null;
+                for (Service service : list) {
+                    if (service.getType() == 1) {
+                        eletricService = service;
+                    } else if (service.getType() == 2) {
+                        waterService = service;
+                    } else {
+                        serviceList.add(service);
+                    }
+                }
+                request.setAttribute("serviceList", serviceList);
+                request.setAttribute("eletricService", eletricService);
+                request.setAttribute("waterService", waterService);
+                
                 request.setAttribute("feedbackList", feedbackList);
                 request.setAttribute("hostel", hostel);
-
-//                ArrayList<RoomType> roomTypeList = RoomTypeDAO.findByHostelID(hostel.getHostelID());
                 request.setAttribute("roomTypeList", roomTypeList);
-
                 request.getRequestDispatcher("/view/hostelDetail.jsp").forward(request, response);
             } else if (path.equals("/toggleFavHostel")) {
                 //Hàm bắt xử lí khi nhấn toggle favorite
@@ -358,11 +373,11 @@ public class HostelController extends HttpServlet {
                 rentalNoti.setStatus(0); //0 means unread
 
                 boolean check = NotificationDAO.saveNotification(rentalNoti);  //check if request is sent
-                if (!check) {
-                    System.out.println("Something wrong in save rental notification function!");
-                } else {
-                    System.out.println("Successfully save rental notification!");
-                }
+//                if (!check) {
+//                    System.out.println("Something wrong in save rental notification function!");
+//                } else {
+//                    System.out.println("Successfully save rental notification!");
+//                }
 
                 //end notification for landlord
                 //this is notification for tenant about successfully booking request from system
@@ -381,15 +396,15 @@ public class HostelController extends HttpServlet {
 
                 successNoti.setStatus(0); //0 means unread
                 check = NotificationDAO.saveNotification(successNoti);
-                if (!check) {
-                    System.out.println("Something wrong in save success notification function!");
-                } else {
-                    System.out.println("Successflly save success notification function");
-                }
+//                if (!check) {
+//                    System.out.println("Something wrong in save success notification function!");
+//                } else {
+//                    System.out.println("Successflly save success notification function");
+//                }
                 //end notification for landlord
 
                 //this is booking request adding function
-                int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomType.getRoomTypeID(), rentalNoti.getCreatedDate(), 1); // 1 means pending from landlord
+                int testID = BookingRequestDAO.saveBookingRequest(t.getAccount().getAccountID(), roomType.getRoomTypeID(), rentalNoti.getCreatedDate(), 1, ""); // 1 means pending from landlord
 
                 System.out.println("MY TEST ID: " + testID);
 
@@ -432,6 +447,8 @@ public class HostelController extends HttpServlet {
                     out.println("<p class=\"inline-block text-green-600\">Thêm nhà trọ " + newHostel.getHostelName() + " thành công! Xem <span>");
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/overview?id=" + newHostel.getHostelID() + "\" method='post'>");
                     out.println("<input type='hidden' name=\"hostelId\" value='" + newHostel.getHostelID() + "'>");
+                    out.println("<input type='hidden' name=\"newHostelId\" value='" + newHostel.getHostelID() + "'>");
+                    out.println("<input type='hidden' name=\"newHostelName\" value='" + newHostel.getHostelName()+ "'>");
                     out.println("<input type=\"submit\" class=\"ml-[4px] hover:underline text-green-800 cursor-pointer font-bold\" value=\"tại đây\">");
                     out.println("</form></span></p>");
                 } else {

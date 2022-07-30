@@ -72,8 +72,16 @@ public class InvoiceDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String sql = "select * from Invoice ORDER BY createdDate DESC";
+                String sql = "select invoiceID, i.contractID, i.startDate, i.endDate, i.status, totalPrice, month, i.createdDate, electricPrice, waterPrice \n"
+                        + "from Invoice i\n"
+                        + "join Contract c on i.contractID = c.contractID\n"
+                        + "join Room r on r.roomID = c.roomID\n"
+                        + "join RoomType rt on rt.roomTypeID = r.roomTypeID\n"
+                        + "join Hostel h on h.hostelID = rt.hostelID\n"
+                        + "where h.hostelID = ?\n"
+                        + "ORDER BY i.createdDate DESC";
                 PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, hostelId);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
                     list = new ArrayList();
@@ -81,17 +89,15 @@ public class InvoiceDAO {
                         int invoiceID = rs.getInt("invoiceID");
                         int contractId = rs.getInt("contractID");
                         Contract contract = ContractDAO.findByID(contractId);
-                        if (contract.getHostel().getHostelID() == hostelId) {
-                            Date startDate = rs.getDate("startDate");
-                            Date endDate = rs.getDate("endDate");
-                            Date createdDate = rs.getDate("createdDate");
-                            int status = rs.getInt("status");
-                            int totalPrice = rs.getInt("totalPrice");
-                            String month = rs.getString("month");
-                            int electricPrice = rs.getInt("electricPrice");
-                            int waterPrice = rs.getInt("waterPrice");
-                            list.add(new Invoice(invoiceID, contract, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice));
-                        }
+                        Date startDate = rs.getDate("startDate");
+                        Date endDate = rs.getDate("endDate");
+                        Date createdDate = rs.getDate("createdDate");
+                        int status = rs.getInt("status");
+                        int totalPrice = rs.getInt("totalPrice");
+                        String month = rs.getString("month");
+                        int electricPrice = rs.getInt("electricPrice");
+                        int waterPrice = rs.getInt("waterPrice");
+                        list.add(new Invoice(invoiceID, contract, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice));
                     }
                 }
             }
@@ -228,7 +234,7 @@ public class InvoiceDAO {
     }
 
     public static boolean save(String startDate, String endDate, int totalPrice,
-                               int contractID, String month, String invoiceMonth, int electricPrice, int waterPrice, List<ServiceDetail> detailList, int roomID) {
+            int contractID, String month, String invoiceMonth, int electricPrice, int waterPrice, List<ServiceDetail> detailList, int roomID) {
         boolean check = false;
         Connection cn = null;
         try {
@@ -304,7 +310,7 @@ public class InvoiceDAO {
     }
 
     public static boolean edit(String startDate, String endDate, int status, int totalPrice,
-                               int electricPrice, int waterPrice, List<ServiceDetail> detailList, int invoiceID) {
+            int electricPrice, int waterPrice, List<ServiceDetail> detailList, int invoiceID) {
         boolean check = false;
         Connection cn = null;
         try {
@@ -353,6 +359,54 @@ public class InvoiceDAO {
             }
         }
         return check;
+    }
+    
+    public static List<Invoice> findByHostelIDLOverview(int hostelId) {
+        System.out.println("InvoiceDAO.findByHostelIDLOverview");
+        List<Invoice> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                String sql = "select invoiceID, i.startDate, i.endDate, i.status, totalPrice, month, i.createdDate, electricPrice, waterPrice \n"
+                        + "from Invoice i\n"
+                        + "join Contract c on i.contractID = c.contractID\n"
+                        + "join Room r on r.roomID = c.roomID\n"
+                        + "join RoomType rt on rt.roomTypeID = r.roomTypeID\n"
+                        + "join Hostel h on h.hostelID = rt.hostelID\n"
+                        + "where h.hostelID = ?\n"
+                        + "ORDER BY i.createdDate DESC";
+                PreparedStatement pst = cn.prepareCall(sql);
+                pst.setInt(1, hostelId);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    list = new ArrayList();
+                    while (rs.next()) {
+                        int invoiceID = rs.getInt("invoiceID");
+                        Date startDate = rs.getDate("startDate");
+                        Date endDate = rs.getDate("endDate");
+                        Date createdDate = rs.getDate("createdDate");
+                        int status = rs.getInt("status");
+                        int totalPrice = rs.getInt("totalPrice");
+                        String month = rs.getString("month");
+                        int electricPrice = rs.getInt("electricPrice");
+                        int waterPrice = rs.getInt("waterPrice");
+                        list.add(new Invoice(invoiceID, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
     }
 
     public static void main(String[] args) {
