@@ -213,7 +213,7 @@ public class HostelDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 list = new ArrayList();
-                String sql = "select TOP(4) * from Hostel where activate = 1 order by rating desc";
+                String sql = "select TOP(5) * from Hostel where activate = 1 order by rating desc";
                 PreparedStatement pst = cn.prepareCall(sql);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {

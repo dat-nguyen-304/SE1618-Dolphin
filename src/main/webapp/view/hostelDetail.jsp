@@ -27,6 +27,8 @@
         <c:if test="${sessionScope.currentUser == null}">
             <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
         </c:if>
+        <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
+        <link href="../assets/toastr/toastr-custom.css" rel="stylesheet" />
     </head>
 
     <body>
@@ -75,17 +77,17 @@
                 <c:if test="${requestScope.hostel.imgList.size() > 0}">
                     <c:forEach begin="0" end="${requestScope.hostel.imgList.size() - 1}" var="iterator">
                         <c:if test="${iterator == 0}">
-                            <a class="duration-200 col-span-2 row-span-2 ease-in-out active" data-src="${hostel.imgList.get(iterator)}" >
+                            <a class="duration-200 cursor-pointer col-span-2 row-span-2 ease-in-out active" data-src="${hostel.imgList.get(iterator)}" >
                                 <img class="w-full h-full object-cover" src="${hostel.imgList.get(iterator)}">
                             </a>
                         </c:if>
                         <c:if test="${iterator > 0 && iterator < 4}">
-                            <a class="duration-200 ease-in-out" data-src="${hostel.imgList.get(iterator)}" >
+                            <a class="duration-200 cursor-pointer ease-in-out" data-src="${hostel.imgList.get(iterator)}" >
                                 <img class="w-full h-full object-cover" src="${hostel.imgList.get(iterator)}">
                             </a>
                         </c:if>
                         <c:if test="${iterator == 4}">
-                            <a class="duration-200 ease-in-out relative" data-src="${hostel.imgList.get(iterator)}" >
+                            <a class="duration-200 cursor-pointer ease-in-out relative" data-src="${hostel.imgList.get(iterator)}" >
                                 <c:if test="${requestScope.hostel.imgList.size() > 5}">
                                     <p class="w-full h-full absolute top-0 left-0 flex items-center justify-center z-10">
                                         <span class="text-[#fff] font-bold text-[28px]">+${requestScope.hostel.imgList.size() - iterator - 1}</span>
@@ -96,7 +98,7 @@
                             </a>
                         </c:if>
                         <c:if test="${iterator > 4}">
-                            <a class="duration-200 ease-in-out relative hidden" data-src="${hostel.imgList.get(iterator)}" >
+                            <a class="duration-200 cursor-pointer ease-in-out relative hidden" data-src="${hostel.imgList.get(iterator)}" >
                                 <p class="w-full h-full absolute top-0 left-0 flex items-center justify-center z-10">
                                     <span class="text-[#fff] font-bold text-[28px]">+${requestScope.hostel.imgList.size() - iterator - 1}</span>
                                 </p>
@@ -132,7 +134,10 @@
                                 <div class="ml-[10px]">
                                     <h4 class="text-[#17535B] font-bold text-[18px]">Điện</h4>
                                     <c:if test="${requestScope.eletricService.serviceFee != 0}">
-                                        <p class="text-gray-500 font-semibold text-[15px]">${requestScope.eletricService.serviceFee}VNĐ/kWh</p>
+                                        <fmt:setLocale value = "vi_VN"/>
+                                        <p class="text-gray-500 font-semibold text-[15px]">
+                                            <fmt:formatNumber value = "${requestScope.eletricService.serviceFee}" type = "number" pattern="###,###,###VNĐ"/> / kWh
+                                        </p>
                                     </c:if>
                                     <c:if test="${requestScope.eletricService.serviceFee == 0}">
                                         <p class="text-gray-500 font-semibold text-[15px]">Chưa cập nhật giá</p>
@@ -146,7 +151,9 @@
                                 <div class="ml-[10px]">
                                     <h4 class="text-[#17535B] font-bold text-[18px]">Nước</h4>
                                     <c:if test="${requestScope.waterService.serviceFee != 0}">
-                                        <p class="text-gray-500 font-semibold text-[15px]">${requestScope.waterService.serviceFee}VNĐ/m<sup>3</sup></p>
+                                        <p class="text-gray-500 font-semibold text-[15px]">
+                                            <fmt:formatNumber value = "${requestScope.waterService.serviceFee}" type = "number" pattern="###,###,###VNĐ"/> / m<sup>3</sup>
+                                        </p>
                                     </c:if>
                                     <c:if test="${requestScope.waterService.serviceFee == 0}">
                                         <p class="text-gray-500 font-semibold text-[15px]">Chưa cập nhật giá</p>
@@ -155,14 +162,16 @@
                             </div>
                             <c:forEach items="${requestScope.serviceList}" var="service">
                                 <div class="flex ">
-                                <div class="bg-[#17535B] rounded-full h-6 w-6 flex justify-center items-center">
-                                    <i class="bi bi-check-lg text-[#E6F4F0]"></i>
+                                    <div class="bg-[#17535B] rounded-full h-6 w-6 flex justify-center items-center">
+                                        <i class="bi bi-check-lg text-[#E6F4F0]"></i>
+                                    </div>
+                                    <div class="ml-[10px]">
+                                        <h4 class="text-[#17535B] font-bold text-[18px]">${service.serviceName}</h4>
+                                        <p class="text-gray-500 font-semibold text-[15px]">
+                                            <fmt:formatNumber value = "${service.serviceFee}" type = "number" pattern="###,###,###VNĐ"/> / ${service.unit}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="ml-[10px]">
-                                    <h4 class="text-[#17535B] font-bold text-[18px]">${service.serviceName}</h4>
-                                    <p class="text-gray-500 font-semibold text-[15px]">${service.serviceFee}VNĐ/${service.unit}</p>
-                                </div>
-                            </div>
                             </c:forEach>
                         </div>
                     </div>
@@ -179,7 +188,10 @@
                         <c:if test="${requestScope.feedbackList != null}">
                             <div class="feedback-header flex justify-between items-center text-[20px] p-[20px] bg-slate-50">
                                 <div class="feedback-average text-amber-500 font-medium flex items-center">
-                                    <h3 class="feedback-average-title mr-[10px]">${requestScope.hostel.rating} / 5 <i class="bi bi-star-fill ml-[5px]"></i></h3>
+                                    <h3 class="feedback-average-title mr-[10px]">
+                                        <fmt:setLocale value = "en_US"/>
+                                        <fmt:formatNumber type = "number" value="${requestScope.hostel.rating}" maxFractionDigits="2" /> / 5 <i class="bi bi-star-fill ml-[5px]"></i>
+                                    </h3>
                                     <p class="ml-[10px] text-slate-800 italic">
                                         (${requestScope.feedbackQuantity} lượt đánh giá)
                                     </p>
@@ -223,7 +235,7 @@
                             </div>
                             <input type='hidden' id='current_page' />
                             <input type='hidden' id='show_per_page' />
-                            <div class="flex items-center justify-end">
+                            <div class="flex items-center justify-end mt-[20px]">
                                 <div id='page_navigation_id' class="font-bold text-slate-800 text-[15px] mr-[20px]"></div>
                                 <div id='page_navigation' class=""></div>
                             </div>
@@ -243,7 +255,7 @@
                                                                         <i class="bi bi-star-fill"></i>
                                                                     </c:when>
                                                                     <c:otherwise>
-                                                                        <i class="bi bi-star-fill text-slate-200"></i>
+                                                                        <i class="bi bi-star-fill text-gray-300"></i>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </c:forEach>
@@ -255,7 +267,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tenant-item-content mt-[5px] text-slate-800 font-normal">
+                                        <div class="tenant-item-content mt-[10px] text-slate-800 font-normal">
                                             ${feedback.content}
                                         </div>
                                     </li>
@@ -266,7 +278,7 @@
                     </div>
 
                     <!--YOUR REVIEW-->
-                    <div class="">
+                    <div class="mb-[40px]">
                         <h3 class="section-title font-bold text-[18px] text-slate-800 mb-[20px] uppercase">
                             Đánh giá của bạn
                         </h3>
@@ -276,8 +288,8 @@
                                 <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
                                 <c:if test="${requestScope.feedback == null}">
                                     <div class="send-feedback">
-                                        <input type="hidden" name="rating" value="5" />
-                                        <div class="send-feedback-star-list flex mb-[10px]">
+                                        <input type="hidden" name="rating" value="0" />
+                                        <div class="send-feedback-star-list flex space-x-[3px] mb-[10px]">
                                             <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
                                             <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
                                             <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
@@ -285,25 +297,26 @@
                                             <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
                                         </div>
                                         <textarea id="editor" class="text-area w-full" placeholder="Viết đánh giá ở đây..." name="feedbackContent" rows="4"></textarea>
-                                        <button type="submit" name="message" value="Cảm ơn đánh giá của bạn" class="send-feedback-btn bg-[#17535B] px-[10px] py-[5px] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
+                                        <button type="submit" name="message" value="Cảm ơn đánh giá của bạn" class="send-feedback-btn mt-[20px] bg-[#288D87] hover:bg-[#1D837D] px-[10px] py-[5px] text-[#fff] rounded">
+                                            Gửi đánh giá<i class="bi bi-send-fill ml-[5px]"></i>
+                                        </button>
                                     </div>
                                 </c:if>
                                 <c:if test="${requestScope.feedback != null}">
                                     <div class="send-feedback">
                                         <input type="hidden" name="oldRating" value="${requestScope.feedback.rating}" />
                                         <input type="hidden" name="rating" value="${requestScope.feedback.rating}" />
-                                        <div class="send-feedback-star-list flex mb-[10px]">
-                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
-                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
-                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
-                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
-                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
+                                        <div id="update-star" class="send-feedback-star-list pointer-events-none flex space-x-[3px] mb-[10px]">
+                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill"></i></div>
+                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill"></i></div>
+                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill"></i></div>
+                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill"></i></div>
+                                            <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill"></i></div>
                                         </div>
-                                        <textarea id="editor" class="text-area w-full " disabled placeholder="Viết đánh giá ở đây..."
-                                                  name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
+                                        <textarea id="editor" class="text-area w-full " disabled placeholder="Viết đánh giá ở đây..." name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
                                         <div class="my-[20px]">
-                                            <button type="submit" class="send-feedback-btn bg-[#17535B] px-[10px] py-[5px] text-[#fff] hover:bg-[#13484B]">Gửi đánh giá</button>
-                                            <button class="update-feedback-btn bg-[#17535B] text-[#fff] px-[10px] py-[5px] hover:bg-[#13484B]">Chỉnh sửa đánh giá</button>
+                                            <button type="submit" class="send-feedback-btn hidden bg-[#288D87] hover:bg-[#1D837D] px-[10px] py-[5px] text-[#fff] rounded">Gửi đánh giá</button>
+                                            <button class="update-feedback-btn bg-[#288D87] hover:bg-[#1D837D] px-[10px] py-[5px] text-[#fff] rounded">Chỉnh sửa đánh giá</button>
                                         </div>
                                     </div>
                                 </c:if>
@@ -314,6 +327,106 @@
                         </c:if>
                     </div>
                     <!--END YOUR REVIEW-->
+
+                    <!--OUTSTAND HOSTEL-->
+                    <div class="mt-[20px] border-t border-slate-100 py-[20px]">
+                        <h3 class="section-title font-bold text-[18px] text-slate-800 uppercase">
+                            Nhà trọ nổi bật
+                        </h3>
+                        <div class="mb-[30px] flex items-center justify-between">
+                            <p class="text-slate-500 italic">(Xếp hạng theo đánh giá)</p>
+                            <div>
+                                <input type='hidden' id='current_page2' />
+                                <input type='hidden' id='show_per_page2' />
+                                <div class="flex items-center justify-end mt-[20px]">
+                                    <div id='page_navigation_id2' class="font-bold text-slate-800 text-[15px] mr-[20px]"></div>
+                                    <div id='page_navigation2' class=""></div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="hostel-list grid grid-cols-3 gap-[40px]" id="paging_box2" >
+                            <c:set var="i" value="-1" />
+                            <c:forEach var="hostel" items="${requestScope.outstandingHostels}">
+                                <c:set var="i" value="${i + 1}" />
+                                <li class="">
+                                    <form action="/sakura/hostel/detail" method="post">
+                                        <input type="hidden" name="filterStar" value="0" />
+                                        <button name="hostelId" value="${hostel.hostelID}" class="hostel-item outline outline-1 outline-slate-200 hover:outline-[#288D87] duration-200 relative block rounded overflow-hidden ">
+                                            <c:if test="${hostel.imgList.size() > 0}">
+                                                <div id="carouselExampleIndicators-${i}" class="carousel slide" data-interval="false">
+                                                    <ol class="carousel-indicators">
+                                                        <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                                                            <c:if test="${iterator == 0}">
+                                                                <li data-target="#carouselExampleIndicators-${i}" data-slide-to="0" class="active"></li>
+                                                                </c:if>
+                                                                <c:if test="${iterator > 0}">
+                                                                <li data-target="#carouselExampleIndicators-${i}" data-slide-to="${iterator}"></li>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                    </ol>
+                                                    <div class="hostel-images">
+                                                        <div class="carousel-inner">
+                                                            <c:forEach begin="0" end="${hostel.imgList.size() - 1}" var="iterator">
+                                                                <c:if test="${iterator == 0}">
+                                                                    <div class="carousel-item active">
+                                                                        <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
+                                                                    </div>
+                                                                </c:if>
+                                                                <c:if test="${iterator > 0}">
+                                                                    <div class="carousel-item">
+                                                                        <img class="d-block w-100" src="${hostel.imgList.get(iterator)}">
+                                                                    </div>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </div>
+                                                    </div>
+                                                    <div class="btn-prev-next">
+                                                        <a class="carousel-control-prev" href="#carouselExampleIndicators-${i}" role="button" data-slide="prev">
+                                                            <span><i class="bi bi-caret-left-fill"></i></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="#carouselExampleIndicators-${i}" role="button" data-slide="next">
+                                                            <span><i class="bi bi-caret-right-fill"></i></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                            <c:if test="${hostel.imgList.size() == 0}">
+                                                <img class="empty-img d-block w-100 h-[200px] object-cover" src="../assets/images/hostel-list-images/empty_img.jpg" />
+                                            </c:if>
+
+                                            <div class="hostel-content text-left py-[10px] px-[15px]">
+                                                <div class="hostel-name flex items-center justify-between text-[18px]">
+                                                    <p class="font-bold text-slate-800">${hostel.hostelName}</p>
+                                                    <p class="hostel-rating-number text-[16px] font-bold text-slate-600">
+                                                        <fmt:setLocale value = "en_US"/>
+                                                        <fmt:formatNumber type = "number" value="${hostel.rating}" maxFractionDigits="2" /> <i class="bi bi-star-fill text-amber-500"></i>
+                                                    </p>
+                                                </div>
+                                                <div class="hostel-info my-[10px] text-[14px] font-semibold text-gray-500">
+                                                    <div class="hostel-avail-room mb-[8px]">
+                                                        <i class="bi bi-archive w-[25px] mr-[8px]"></i>${hostel.availableRoom} phòng trống
+                                                    </div>
+                                                    <div class="hostel-info mb-[8px]">
+                                                        <i class="bi bi-slash-square w-[25px] mr-[8px]"></i>${hostel.minArea} - ${hostel.maxArea}m<sup>2</sup>
+                                                    </div>
+                                                    <div class="hostel-address mb-[8px] h-[60px]">
+                                                        <i class="bi bi-geo w-[25px] mr-[8px]"></i>${hostel.streetAddress}, ${hostel.district.districtName}, ${hostel.district.province.provinceName}
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-end border-t border-dashed border-gray-200 pt-[10px]">
+                                                    <div class="hostel-price text-[18px] font-bold text-[#288D87]">${hostel.minPrice / 1000000} - ${hostel.maxPrice / 1000000} triệu</div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </form>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                        <a href="/sakura/hostel/list?sortByRate=desc" class="mt-[30px] block w-[200px] py-[5px] bg-[#288D87] hover:bg-[#1D837D] duration-200 rounded font-semibold text-[#fff] text-[20px] mx-auto text-center">Xem thêm</a>
+                    </div>
+                    <!--END OUTSANDING HOSTEL-->
                 </div>
 
                 <div class="col-span-3">
@@ -322,7 +435,8 @@
                             <div>
                                 <h3 class="text-[13px] text-slate-400">Đánh giá</h3>
                                 <p class="hostel-rating text-slate-900 text-[17.5px] font-bold">
-                                    ${requestScope.hostel.rating} / 5 <i class="bi bi-star-fill ml-[5px] text-amber-500 "></i>
+                                    <fmt:setLocale value = "en_US"/>
+                                    <fmt:formatNumber type = "number" value="${requestScope.hostel.rating}" maxFractionDigits="2" /> / 5 <i class="bi bi-star-fill ml-[5px] text-amber-500 "></i>
                                 </p>
                             </div>
                             <div>
@@ -373,28 +487,120 @@
         <%@include file="../view/modalRoomTypeList.jsp" %>
         <%@include file="footer.jsp" %>
 
-        <script src="../assets/javascript/hostel-detail.js"></script>
+        <script src="../assets/toastr/toastr.min.js"></script>
         <script src="../assets/javascript/keep-district.js"></script>
         <script src="../assets/javascript/custom-select.js"></script>
-        <script src="../assets/javascript/ckeditor.js"></script>
         <script src="../webjars/lightgallery/2.2.1/lightgallery.umd.js"></script>
         <script src="../webjars/lightgallery/2.2.1/plugins/zoom/lg-zoom.umd.js"></script>
         <script src="../webjars/lightgallery/2.2.1/plugins/thumbnail/lg-thumbnail.umd.js"></script>
-
+        <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript">
+                                    function showToast(type, msg) {
+                                        toastr.options.positionClass = 'toast-bottom-right';
+                                        // toastr.options.extendedTimeOut = 0; //1000;
+                                        toastr.options.timeOut = 3000;
+                                        toastr.options.hideDuration = 250;
+                                        toastr.options.showDuration = 250;
+                                        toastr.options.hideMethod = 'slideUp';
+                                        toastr.options.showMethod = 'slideDown';
+                                        toastr.options.preventDuplicates = true;
+                                        toastr.options.closeButton = true;
+                                        toastr.options.progressBar = true;
+                                        toastr[type](msg);
+                                    }
+        </script>
         <script>
-                                    window.lightGallery(
-                                            document.getElementById("animated-thumbnails-gallery"),
-                                            {
-                                                autoplayFirstVideo: false,
-                                                pager: false,
-                                                plugins: [lgZoom, lgThumbnail]
-                                            }
-                                    );
+            window.lightGallery(
+                    document.getElementById("animated-thumbnails-gallery"),
+                    {
+                        autoplayFirstVideo: false,
+                        pager: false,
+                        plugins: [lgZoom, lgThumbnail]
+                    }
+            );
 
         </script>
-
         <script>
-            //Pagination JS
+            //Pagination JS Outstanding hostels
+            var show_per_page2 = 3;
+            var number_of_items2 = jQuery('#paging_box2').children().length; //getting the amount of elements inside pagingBox div
+            var number_of_pages2 = Math.ceil(number_of_items2 / show_per_page2); //calculate the number of pages we are going to have
+
+            if (number_of_items2 > show_per_page2) {
+                jQuery(document).ready(function () {
+
+                    jQuery('#current_page2').val(0);
+                    jQuery('#show_per_page2').val(show_per_page2);
+
+                    var navigation_html2 = '<a class="previous_link2" href="javascript:previous2();"><i class="bi bi-chevron-left"></i></a>';
+                    var current_link2 = 0;
+                    while (number_of_pages2 > current_link2) {
+                        navigation_html2 += '<a class="page_link2 hidden" href="javascript:go_to_page2(' + current_link2 + ')" longdesc="' + current_link2 + '">' + (current_link2 + 1) + '</a>';
+                        current_link2++;
+                    }
+                    navigation_html2 += '<a class="next_link2" href="javascript:next2();"><i class="bi bi-chevron-right"></i></a>';
+
+
+                    jQuery('#page_navigation2').html(navigation_html2);
+
+
+                    //add active_page class to the first page link
+                    jQuery('#page_navigation2 .page_link2:first').addClass('active_page2');
+                    var navigation_html_id2 = '<p class="next_link2">Trang ' + 1 + ' / ' + number_of_pages2 + '</p>';
+                    jQuery('#page_navigation_id2').html(navigation_html_id2);
+
+                    //hide all the elements inside pagingBox div
+                    jQuery('#paging_box2').children().css('display', 'none');
+
+                    //and show the first n (show_per_page) elements
+                    jQuery('#paging_box2').children().slice(0, show_per_page2).css('display', 'block');
+
+                });
+
+                //Pagination JS
+                function previous2() {
+                    new_page2 = parseInt(jQuery('#current_page2').val()) - 1;
+                    //if there is an item before the current active link run the function
+                    if (jQuery('.active_page2').prev('.page_link2').length == true) {
+                        go_to_page2(new_page2);
+                    }
+                }
+
+                function next2() {
+                    new_page2 = parseInt(jQuery('#current_page2').val()) + 1;
+                    //if there is an item after the current active link run the function
+                    if (jQuery('.active_page2').next('.page_link2').length == true) {
+                        go_to_page2(new_page2);
+                    }
+                }
+
+                function go_to_page2(page_num2) {
+                    var navigation_html_id2 = '<p class="next_link2">Trang ' + (page_num2 + 1) + ' / ' + number_of_pages2 + '</p>';
+                    jQuery('#page_navigation_id2').html(navigation_html_id2);
+
+                    //get the number of items shown per page
+                    var show_per_page2 = parseInt(jQuery('#show_per_page2').val());
+
+                    //get the element number where to start the slice from
+                    start_from2 = page_num2 * show_per_page2;
+
+                    //get the element number where to end the slice
+                    end_on2 = start_from2 + show_per_page2;
+
+                    //hide all children elements of pagingBox div, get specific items and show them
+                    jQuery('#paging_box2').children().css('display', 'none').slice(start_from2, end_on2).css('display', 'block');
+
+                    /*get the page link that has longdesc attribute of the current page and add active_page class to it
+                     and remove that class from previously active page link*/
+                    jQuery('.page_link2[longdesc=' + page_num2 + ']').addClass('active_page2').siblings('.active_page2').removeClass('active_page2');
+
+                    //update the current page input field
+                    jQuery('#current_page2').val(page_num2);
+                }
+            }
+        </script>
+        <script>
+            //Pagination JS Feedback
             var show_per_page = 5;
             var number_of_items = jQuery('#paging_box').children().length; //getting the amount of elements inside pagingBox div
             var number_of_pages = Math.ceil(number_of_items / show_per_page); //calculate the number of pages we are going to have
@@ -472,23 +678,74 @@
                 }
             }
         </script>
-
+        <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js"></script>
         <script>
-            ClassicEditor
-                    .create(document.querySelector('#editor'), {
-                        toolbar: ['heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList'],
-                        heading: {
-                            options: [
-                                {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
-                                {model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1'},
-                                {model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2'},
-                                {model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3'}
-                            ]
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
+            tinymce.init({
+                selector: 'textarea#editor',
+                language: "vi",
+                menubar: false,
+                statusbar: false,
+                height: '200',
+                readonly: ${requestScope.feedback != null ? 'true' : 'false'},
+                plugins: [
+                    'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                    'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                    'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | blocks | bold italic link backcolor | ' +
+                        'alignleft aligncenter alignright alignjustify | ' +
+                        'bullist numlist outdent indent | removeformat '
+            });
+        </script>
+        <script>
+            const inputRating = document.querySelector('input[name="rating"]');
+            if (inputRating !== null) {
+                const starList = document.querySelectorAll('.send-feedback-star');
+                const starListBtn = document.querySelector('#update-star');
+                const sendFeedbackBtn = document.querySelector('.send-feedback-btn');
+                const updateFeedbackBtn = document.querySelector('.update-feedback-btn');
+                const textarea = document.querySelector('.text-area');
+
+                const getColorForStar = (starNum) => {
+                    starList.forEach((star, index) => {
+                        if (index <= starNum) {
+                            star.querySelector('i').style.color = 'orange';
+                        } else
+                            star.querySelector('i').style.color = '#cbd5e1';
                     });
+                };
+
+                getColorForStar(inputRating.value - 1);
+
+                sendFeedbackBtn.onclick = (e) => {
+                    if (inputRating.value === "0") {
+                        sendFeedbackMess.style.display = 'inline-block';
+                        e.preventDefault();
+                    }
+                };
+
+
+                if (updateFeedbackBtn) {
+                    updateFeedbackBtn.onclick = (e) => {
+                        e.preventDefault();
+                        textarea.disabled = false;
+                        tinymce.activeEditor.mode.set("design");
+                        e.target.style.display = 'none';
+                        sendFeedbackBtn.style.display = 'block';
+                        console.log(starListBtn);
+                        starListBtn.classList.toggle("pointer-events-none");
+                    };
+                }
+                ;
+
+                starList.forEach((star, index) => {
+                    star.onclick = (e) => {
+                        console.log(star);
+                        getColorForStar(index);
+                        inputRating.value = index + 1;
+                    };
+                });
+            }
         </script>
         <script>
             function toggleFavoriteHostel(hostelID, element) {

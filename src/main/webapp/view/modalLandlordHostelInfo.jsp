@@ -5,8 +5,8 @@
 --%>
 <!--Modal edit hostel-->
 <div class="editHostelmodal1 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-[1000]">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-    <div class="modal-container bg-white w-5/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-60"></div>
+    <div class="modal-container bg-white w-1/2 h-[85%] mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="editHostelmodal1-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
             <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
@@ -68,13 +68,13 @@
                         <p class="ml-[165px] text-[13px] font-light italic">(Nhập đến cấp phường/xã) VD: 100 Lê Việt - Tăng Nhơn Phú)</p>
                 </div>
                 <p class="text-xs text-[red] validUpdateDescMessage"></p>
-                <div class="mb-[20px] flex items-start">
+                <div class="flex items-start">
                     <label class="w-[160px] inline-block" for="">Mô tả</label>
-                    <textarea class="text-[18px] p-[10px] w-[500px] text-clip" required name="updateDescription" id="" rows="5" onkeyup="checkValidUpdateDesc(this)">${sessionScope.currentHostel.description}</textarea>
+                    <textarea id="editor" class="updateDescription text-[18px] p-[10px] w-[700px] h-[350px] text-clip" required name="updateDescription" id="" onkeyup="checkValidUpdateDesc(this)">${sessionScope.currentHostel.description}</textarea>
                 </div>
             </div>
             <!--Footer-->
-            <div class="flex justify-end p-[20px]">
+            <div class="flex justify-end px-[20px]">
                 <button class="editHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
                 <button id="editHostel-2" onclick="updateHostel()" class="updateHostelBtn px-5 py-2 rounded bg-[#17535B] text-white hover:bg-[#11444b] mr-2">Lưu</button>
             </div>

@@ -1,0 +1,39 @@
+
+#toast-container>.toast-error {
+    background-color: #b32929;
+}
+
+#toast-container>.toast-success {
+    background-color: #0e9c72;
+}
+#toast-container>.toast-info {
+    background-color: #0f66d0;
+}
+
+#toast-container>div {
+    opacity: 1;
+    box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+}
+
+#toast-container>div:hover {
+    opacity: 1;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 25px 50px -12px;
+}
+
+.toast-progress {
+    background-color: #fff;
+}
+
+.toast-close-button {
+    color: #fff;
+}
+
+.toast-close-button:focus,
+.toast-close-button:hover {
+    color: #fff;
+}
+
+.toast-success .toast-message {
+    font-weight: 800;
+    color: #fff;
+}

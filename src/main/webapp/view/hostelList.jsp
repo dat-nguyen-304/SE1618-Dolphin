@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 <!DOCTYPE html>
 
 <%
@@ -29,7 +30,7 @@
         <c:if test="${sessionScope.currentUser == null}">
             <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
         </c:if>
-        
+
     </head>
     <body>
         <header id="header-section" class="stick z-[100]">
@@ -290,7 +291,10 @@
                                             <div class="hostel-content text-left py-[10px] px-[15px]">
                                                 <div class="hostel-name flex items-center justify-between text-[18px]">
                                                     <p class="font-bold text-slate-800">${hostel.hostelName}</p>
-                                                    <p class="hostel-rating-number text-[16px] font-bold text-slate-600">${hostel.rating} <i class="bi bi-star-fill text-amber-500"></i></p>
+                                                    <p class="hostel-rating-number text-[16px] font-bold text-slate-600">
+                                                        <fmt:setLocale value = "en_US"/>
+                                                        <fmt:formatNumber type = "number" value="${hostel.rating}" maxFractionDigits="2" /> <i class="bi bi-star-fill text-amber-500"></i>
+                                                    </p>
                                                 </div>
                                                 <div class="hostel-info my-[10px] text-[14px] font-semibold text-gray-500">
                                                     <div class="hostel-avail-room mb-[8px]">

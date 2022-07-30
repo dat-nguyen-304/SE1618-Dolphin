@@ -316,45 +316,6 @@
                                                     </div>
                                                 </div>-->
 
-                        <!-- Rating -->
-                        <div class="card w-full bg-[#fff] p-5 flex flex-col">
-                            <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Đánh giá
-                            </div>
-                            <div class="w-full h-full mx-auto">
-                                <div class="relative overflow-x-auto">
-                                    <table class="w-full text-sm text-left text-gray-500">
-                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-                                            <tr>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Nhà trọ
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Trung bình
-                                                </th>
-                                                <th scope="col" class="px-6 py-3">
-                                                    Số đánh giá
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="bg-white border-b hover:bg-gray-50">
-                                                <td class="px-6 py-4">
-                                                    ${sessionScope.currentHostel.hostelName}
-                                                </td>
-                                                <td class="px-6 py-4 text-[#FFB03A]">
-                                                    ${sessionScope.currentHostel.rating} <i class="bi bi-star-fill"></i>
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    ${requestScope.ratingCount}
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </c:if>
                 <!-- End Statistics -->

@@ -39,8 +39,8 @@
                                         <h2 class="text-orange-500 text-[25px] font-bold">${roomType.roomTypeName}</h2>
                                     </div>
                                     <div class="h-[65%] p-[20px] relative">
-                                        <p class="text-left text-gray-400 font-medium text-[15px] mb-2">${roomType.area}m<sup>2</sup></p>
-                                        <p class="text-left text-gray-400 font-medium text-[15px] mb-2">
+                                        <p class="text-left text-slate-500 text-[16px] font-bold mb-2">${roomType.area}m<sup>2</sup></p>
+                                        <p class="text-left text-slate-500 text-[16px] font-bold mb-2">
                                             <fmt:setLocale value = "vi_VN"/>
                                             <fmt:formatNumber value = "${roomType.advertisedPrice}" type = "number" pattern="###,###,###"/>
                                             / tháng

@@ -84,9 +84,9 @@ textarea:focus, textarea:active {
 
 .splide__slide {
     width: 100%;
-    height: fit-content;
+    height: 650px;
     max-width: 100%;
-    max-height: 600px;
+    max-height: 650px;
 }
 
 .splide__arrow svg {

@@ -28,6 +28,8 @@
         <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
         <link  href="../assets/css/LHostelInfo.css" rel="stylesheet">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
+
+
     </head>
     <body>
         <%@include file="../view/headerLandlordDashboard.jsp" %>
@@ -48,17 +50,9 @@
                                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
                                     </path>
                                     </svg>
-                                    Thông tin nhà trọ
+                                    Thông tin nhà trọ ${sessionScope.currentHostel.hostelName}
                                 </a>
                             </li>
-                            <li aria-current="page">
-                                <div class="flex items-center">
-                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">${sessionScope.currentHostel.hostelName}</span>
-                                </div>
-                            </li> 
                         </ol>
                     </nav>
                     <!-- End breadcrumb -->
@@ -71,61 +65,52 @@
                         <!--Hostel info-->
                         <div class="card bg-[#fff] p-5 flex flex-col col-span-2">
                             <div class="flex justify-between">
-                                <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thông tin cơ bản</div>
+                                <div class="text-[20px] font-bold text-[#288D87] pb-[20px]">Thông tin cơ bản</div>
                                 <button id="editHostel-1" type="submit" name="action" value="Save"
-                                        class="rounded w-[150px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
-                                    <p class="font-normal text-[15px] text-gray-400 group-hover:text-[#288D87]">Chỉnh sửa thông tin</p>
+                                        class="rounded text-[15px] text-gray-400 hover:text-[#288D87] w-[170px] h-[30px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center">
+                                    <i class="bi bi-pencil-fill mr-[5px]"></i>Chỉnh sửa thông tin
                                 </button>
                             </div>
                             <div class="w-full h-fit mx-auto">
                                 <div class="grid grid-cols-6 gap-[8px]">
-                                    <div class="col-span-2 grid grid-rows-2 gap-[3px]">
-                                        <p class="text-[#929ca5] font-normal">Mã nhà trọ</p>
-                                        <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                    <div class="col-span-2">
+                                        <p class="text-slate-400 font-normal">Mã nhà trọ</p>
+                                        <p class="text-[18px] text-slate-800 font-semibold">
                                             <fmt:formatNumber value="${sessionScope.currentHostel.hostelID}" groupingUsed="false" minIntegerDigits="5"/>
                                         </p>
                                     </div>
-                                    <div class="col-span-4 grid grid-rows-2 gap-[3px]">
-                                        <p class="text-[#929ca5] font-normal">Tên nhà trọ</p>
-                                        <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.hostelName}</p>
+                                    <div class="col-span-2">
+                                        <p class="text-slate-400 font-normal">Tên nhà trọ</p>
+                                        <p class="text-[18px] text-slate-800 font-semibold">${sessionScope.currentHostel.hostelName}</p>
                                     </div>
-                                    <div class="col-span-2 grid grid-rows-2 gap-[0px]">
-                                        <p class="text-[#929ca5] font-normal">Trạng thái</p>
-                                        <c:if test="${sessionScope.currentHostel.activate == true}">
-                                            <p class="w-2/3 text-center px-2 py-[2px] bg-[#dcfce7] rounded-[32px] text-[18px] text-[#17535B] font-semibold">Hoạt động</p>
-                                        </c:if>
-                                        <c:if test="${sessionScope.currentHostel.activate == false}">
-                                            <p class="w-1/2 text-center px-2 py-[2px] bg-[#f0f1f2] rounded text-[16px] text-[#616569] font-semibold">Đóng cửa</p>
-                                        </c:if>
-                                    </div>
-                                    <div class="col-span-4 grid grid-rows-2 gap-[0px]">
-                                        <p class="text-[#929ca5] font-normal">Ngày tạo</p>
-                                        <p class="text-[18px] text-[#2A3C46] font-semibold">${sessionScope.currentHostel.registeredDate}</p>
+                                    <div class="col-span-2">
+                                        <p class="text-slate-400 font-normal">Ngày tạo</p>
+                                        <p class="text-[18px] text-slate-800 font-semibold date">${sessionScope.currentHostel.registeredDate}</p>
                                     </div>
                                 </div>
 
                                 <div class="mt-[20px]">
-                                    <p class="text-[#929ca5] font-normal"><i class="bi bi-geo-alt-fill mr-[5px]"></i>Địa chỉ</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold mt-[5px]">${sessionScope.currentHostel.streetAddress}, ${sessionScope.currentHostel.district.districtName}, ${sessionScope.currentHostel.district.province.provinceName}</p>
+                                    <p class="text-slate-400 font-normal"><i class="bi bi-geo-alt-fill mr-[5px]"></i>Địa chỉ</p>
+                                    <p class="text-[18px] text-slate-800 font-semibold mt-[5px]">${sessionScope.currentHostel.streetAddress}, ${sessionScope.currentHostel.district.districtName}, ${sessionScope.currentHostel.district.province.provinceName}</p>
                                 </div>
 
                                 <div class="grid grid-rows-2 grid-cols-6 gap-[5px] mt-[20px]">
-                                    <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-house-fill mr-[5px]"></i>Số phòng</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.totalRoom}</p>
-                                    <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-house mr-[5px]"></i>Phòng trống</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.availableRoom}</p>
+                                    <p class="text-slate-400 font-normal col-span-2"><i class="bi bi-house-fill mr-[5px]"></i>Số phòng</p>
+                                    <p class="text-[18px] text-slate-800 font-semibold col-span-4">${sessionScope.currentHostel.totalRoom}</p>
+                                    <p class="text-slate-400 font-normal col-span-2"><i class="bi bi-house mr-[5px]"></i>Phòng trống</p>
+                                    <p class="text-[18px] text-slate-800 font-semibold col-span-4">${sessionScope.currentHostel.availableRoom}</p>
                                 </div>
                                 <div class="grid grid-rows-2 grid-cols-6 gap-[5px] mt-[20px]">
                                     <fmt:setLocale value = "vi_VN"/>
-                                    <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-tags-fill mr-[5px]"></i>Giá thuê</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4"><fmt:formatNumber value = "${sessionScope.currentHostel.minPrice}" type = "number" pattern="###,###,###VNĐ"/> - <fmt:formatNumber value = "${sessionScope.currentHostel.maxPrice}" type = "number" pattern="###,###,###VNĐ"/></p>
-                                    <p class="text-[#929ca5] font-normal col-span-2"><i class="bi bi-slash-square mr-[5px]"></i>Diện tích phòng</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold col-span-4">${sessionScope.currentHostel.minArea}m<sup>2</sup> - ${sessionScope.currentHostel.maxArea}m<sup>2</sup></p>
+                                    <p class="text-slate-400 font-normal col-span-2"><i class="bi bi-tags-fill mr-[5px]"></i>Giá thuê</p>
+                                    <p class="text-[18px] text-slate-800 font-semibold col-span-4"><fmt:formatNumber value = "${sessionScope.currentHostel.minPrice}" type = "number" pattern="###,###,###VNĐ"/> - <fmt:formatNumber value = "${sessionScope.currentHostel.maxPrice}" type = "number" pattern="###,###,###VNĐ"/></p>
+                                    <p class="text-slate-400 font-normal col-span-2"><i class="bi bi-slash-square mr-[5px]"></i>Diện tích phòng</p>
+                                    <p class="text-[18px] text-slate-800 font-semibold col-span-4">${sessionScope.currentHostel.minArea}m<sup>2</sup> - ${sessionScope.currentHostel.maxArea}m<sup>2</sup></p>
                                 </div>
 
                                 <div class="mt-[20px]">
-                                    <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Mô tả</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold h-[200px] overflow-y-auto">${sessionScope.currentHostel.description}</p>
+                                    <p class="text-slate-400 font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Mô tả</p>
+                                    <p class="text-[18px] text-slate-800 font-semibold h-[370px] mt-[5px] overflow-y-auto">${sessionScope.currentHostel.description}</p>
                                 </div>
 
                             </div>
@@ -135,15 +120,18 @@
                         <!--Hostel image-->
                         <div class="col-span-3">
                             <div class="card bg-[#fff] p-5 flex flex-col">
-                                <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
+                                <div class="text-[20px] font-bold text-slate-800 pb-[20px] flex justify-between items-center">
                                     <p>Hình ảnh </p>
                                     <div class="flex ">
                                         <span id="cnt-images" class="font-light text-[18px] mr-[10px]"></span>
-                                        <button onclick="unselectAllImages()" class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#17535B] hover:bg-[#13484F] text-[#fff]" id="unselect-all-images" >
+                                        <button onclick="selectAllImages()" class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff]" id="select-all-images" >
+                                            <p><i class="bi bi-check-circle mr-[5px]"></i>Chọn tất cả</p>
+                                        </button>
+                                        <button onclick="unselectAllImages()" class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff]" id="unselect-all-images" >
                                             <p><i class="bi bi-slash-circle mr-[5px]"></i>Bỏ chọn tất cả</p>
                                         </button>
                                         <!-- Modal remove image toggle -->
-                                        <button class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#17535B] hover:bg-[#13484F] text-[#fff]" id="delete-images" >
+                                        <button class="text-[15px] rounded w-[150px] h-[30px] font-light flex justify-center items-center mr-[10px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff]" id="delete-images" >
                                             <p><i class="bi bi-trash3-fill mr-[5px]"></i>Xoá hình đã chọn</p>
                                         </button>
                                         <!-- Modal add image toggle -->
@@ -154,13 +142,13 @@
 
                                 </div>
                                 <div class="w-full h-fit mx-auto z-0 " id="display-image">
-                                    <div class="hidden h-[600px] flex flex-col items-center justify-around" id="empty-image-list">
+                                    <div class="hidden h-[700px] flex flex-col items-center justify-around" id="empty-image-list">
                                         <h4 class="w-[60%] mx-auto text-center text-[47px] font-bold tracking-wide text-[#c9c9c9]">Chưa có hình ảnh nào cho nhà trọ này!</h4>
                                         <p class="text-gray-700 font-semibold text-[18px]">Bạn cần cập nhật hình ảnh để thông tin nhà trọ của bạn đáng tin cậy hơn.</p>
                                     </div>
                                     <c:choose>
                                         <c:when test="${empty sessionScope.currentHostel.imgList}">
-                                            <div class="h-[600px] flex flex-col items-center justify-around" id="empty-image-list">
+                                            <div class="h-[700px] flex flex-col items-center justify-around" id="empty-image-list">
                                                 <h4 class="w-[60%] mx-auto text-center text-[47px] font-bold tracking-wide text-[#c9c9c9]">Chưa có hình ảnh nào cho nhà trọ này!</h4>
                                                 <p class="text-gray-700 font-semibold text-[18px]">Bạn cần cập nhật hình ảnh để thông tin nhà trọ của bạn đáng tin cậy hơn.</p>
                                             </div>
@@ -215,7 +203,7 @@
                     <!-- Feedback, review -->
                     <div class="feedback mt-[20px] grid grid-cols-5 gap-[20px]">
                         <div class="card w-full h-fit bg-[#fff] p-[20px] flex flex-col">
-                            <div class="text-[20px] font-bold text-[#2A3C46]">Đánh giá</div>
+                            <div class="text-[20px] font-bold text-[#288D87]">Đánh giá</div>
                             <div class="w-full h-fit mx-auto">
                                 <div class="relative w-[80%] h-fit mx-auto mt-[20px]">
                                     <c:if test="${requestScope.feedbacks.size() <= 0}">
@@ -234,7 +222,7 @@
 
                         <!-- Rating -->
                         <div class="card col-span-4 w-full bg-[#fff] p-[20px]">
-                            <div class="text-[20px] font-bold text-[#2A3C46] self-start pb-[20px]">Chi tiết đánh giá
+                            <div class="text-[20px] font-bold text-slate-800 self-start pb-[20px]">Chi tiết đánh giá
                             </div>
                             <c:if test="${requestScope.feedbacks.size() > 0}">
                                 <div class="w-full mx-auto overflow-y-auto">
@@ -274,8 +262,7 @@
 
         </div>
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js"></script>
         <script src="../assets/toastr/toastr.min.js"></script>
         <script src="../assets/javascript/render-district.js"></script>
         <script src="../assets/javascript/checkvalid.js"></script>
@@ -293,6 +280,29 @@
                                                                     toastr.options.progressBar = true;
                                                                     toastr[type](msg);
                                                                 }
+        </script>
+        <script>
+            tinymce.init({
+                selector: 'textarea# editor'
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+                let allMoneyCells = $(".money");
+
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('-');
+                }
+
+                for (let i = 0; i < allMoneyCells.length; i++) {
+                    let node = allMoneyCells[i];
+                    let money = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                }
+            });
         </script>
         <script>
             var open_modal_1 = document.querySelector('#editHostel-1');
@@ -793,6 +803,25 @@
                     msg.innerHTML = "(Đã chọn: " + images.length + ")";
                 else
                     msg.innerHTML = "";
+            }
+
+            function selectAllImages() {
+                let images = document.querySelectorAll('.checkbox-input');
+                console.log(images);
+                images.forEach(e => {
+                    console.log(e.checked);
+                    let par = e.parentElement;
+                    let imgEl = par.parentElement;
+                    if (e.checked === false) {
+                        par.classList.toggle('checked-box');
+                        imgEl.classList.toggle('selected');
+                        e.checked = true;
+                    }
+                });
+                images.forEach(e => {
+                    console.log(e.checked);
+                });
+                countSelectedImage();
             }
 
             function unselectAllImages() {
