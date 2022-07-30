@@ -196,7 +196,7 @@
             <!--Footer-->
             <div class="flex justify-end p-[20px]">
                 <button class="deleteHostelmodal1-close px-5 text-[#7e7e7e] py-2 rounded hover:text-[#FF6532]">Huỷ</button>
-                <button id="deleteHostel-2" onclick="deleteHostel()" class="deleteHostelBtn px-5 py-2 rounded bg-[#c81e25] text-white hover:bg-[#951504] mr-2">Chắc chắn</button>
+                <button onclick="deleteHostel()" class="deleteHostelBtn px-5 py-2 rounded bg-[#c81e25] text-white hover:bg-[#951504] mr-2">Chắc chắn</button>
             </div>
         </div>
     </div>
