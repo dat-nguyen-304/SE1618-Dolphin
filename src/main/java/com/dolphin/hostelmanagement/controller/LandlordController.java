@@ -152,7 +152,7 @@ public class LandlordController extends HttpServlet {
                     List<District> currentDistrictList = DistrictDAO.findByProvinceID(currentProvinceId);
                     request.setAttribute("currentDistrictList", currentDistrictList);
                     //doanh thu
-                    ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelID(currentHostel.getHostelID());
+                    ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByHostelIDLOverview(currentHostel.getHostelID());
                     Collections.sort(invoiceList, new Comparator<Invoice>() {
                         public int compare(Invoice i1, Invoice i2) {
                             SimpleDateFormat mmyy = new SimpleDateFormat("MM/yyyy");

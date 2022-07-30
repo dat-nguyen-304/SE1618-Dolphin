@@ -93,7 +93,7 @@
                                             <span>Phòng: </span>
                                             <button class="ml-[10px] inline-block text-white bg-[#17535B] hover:bg-[#13484F] font-medium rounded text-[15px] px-[10px] py-[5px] text-center" type="button" data-modal-toggle="roomModal">
                                                 <span id="roomNumber">
-                                                    ${(requestScope.chosenRoom == null) ? "Chọn phòng" : requestScope.chosenRoom.roomID == 0 ? "Tất cả" : requestScope.chosenRoom.roomNumber}
+                                                    ${(requestScope.chosenRoom == null) ? "Tất cả" : requestScope.chosenRoom.roomID == 0 ? "Tất cả" : requestScope.chosenRoom.roomNumber}
                                                 </span>
                                             </button>
                                         </div>
@@ -146,7 +146,7 @@
                                                 </div>
                                                 <!--Reset filter button-->
                                                 <button type="submit" name="resetButton" value="true" class="mr-[20px] px-[10px] py-[5px] text-[15px] font-medium text-[#fff] bg-[#17535B] rounded hover:bg-[#13484F]">
-                                                    Hủy tất cả
+                                                    Hủy bộ lọc
                                                 </button>
 
                                                 <!-- Submit button -->
@@ -161,7 +161,7 @@
                             <!-- End Search and filter -->
 
                             <!-- table invoice list -->
-                            <div class="statistic flex justify-between mt-[20px] w-full">
+                            <div id="table-container" class="statistic flex justify-between mt-[20px] w-full">
                                 <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
                                     <table id="invoice-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
                                         <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
@@ -313,6 +313,7 @@
                 $("#allRoom").empty();
                 $("#invoiceList").empty();
                 $("#filter-form").css("display", "none");
+                $("#table-container").css("display", "none");
                 jQuery.ajax({
                     url: '/sakura/room/roomsByHostel',
                     type: 'GET',

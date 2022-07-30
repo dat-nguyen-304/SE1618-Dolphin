@@ -382,6 +382,8 @@
                 </c:if>
 
             </div>
+            
+            <%@include file="../view/footerDashboard.jsp" %>
 
         </div>
 

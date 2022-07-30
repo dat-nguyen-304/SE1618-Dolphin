@@ -51,7 +51,7 @@ public class NotificationDAO {
         try {
             cn = DBUtils.makeConnection();
 
-            String sql = "Select * from Notification where toAccountID = ? order by invoiceID desc";
+            String sql = "Select * from Notification where toAccountID = ? order by notificationID desc";
             PreparedStatement pst = cn.prepareCall(sql);
 
             pst.setInt(1, acc.getAccountID());
