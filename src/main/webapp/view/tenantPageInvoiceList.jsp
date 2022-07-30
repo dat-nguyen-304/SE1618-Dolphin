@@ -236,7 +236,7 @@
                 for (let i = 0; i < allDateCells.length; i++) {
                     let node = allDateCells[i];
                     let isoDate = node.childNodes[0].nodeValue;
-                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join(' / ');
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
                 }
 
                 for (let i = 0; i < allMoneyCells.length; i++) {

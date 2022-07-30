@@ -335,7 +335,7 @@
                                         + data[i].roomNumber + '</button></form>');
                             }
                         }
-                        $(".room").addClass("ml-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center");
+                        $(".room").addClass("mb-[20px] mr-[20px] inline-block text-white bg-[#17535B] hover:bg-[13484F] font-medium rounded text-sm px-5 py-2.5 text-center room");
                         if (data.length === 0) {
                             $("#roomList").append('<p style="color: red" class="col-span-3">Nhà trọ này không có phòng!</p>');
                         }
