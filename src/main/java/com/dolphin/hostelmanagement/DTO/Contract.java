@@ -40,6 +40,11 @@ public class Contract implements Comparable<Contract> {
         this.actualEndDate = actualEndDate;
     }
 
+    public Contract(int contractID, Room room) {
+        this.contractID = contractID;
+        this.room = room;
+    }
+
     public int getContractID() {
         return contractID;
     }

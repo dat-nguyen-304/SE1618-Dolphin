@@ -107,15 +107,14 @@
                                 <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-pencil-fill mr-[5px]"></i>Chỉnh sửa</p>
                             </button>
                         </c:if>
-                        <c:if test="${requestScope.currentRoomType == null}">
-                            <span>Nhà trọ ${sessionScope.currentHostel.hostelName} chưa có loại phòng.</span>
-                        </c:if>
                         <button id="addRoomType-1" type="submit" name="action" value="Save" class="mr-[20px] rounded w-fit h-fit px-[10px] py-[5px] bg-[#fff] border border-gray-400 hover:border-[#288D87] flex justify-center items-center group">
                             <p class="font-normal text-[16px] text-gray-400 group-hover:text-[#288D87]"><i class="bi bi-plus-lg mr-[5px]"></i>Thêm loại phòng</p>
                         </button>
                     </div>
                 </c:if>
-
+                <c:if test="${requestScope.currentRoomType == null}">
+                    <span class="inline-block mt-[24px]">Nhà trọ ${sessionScope.currentHostel.hostelName} chưa có loại phòng.</span>
+                </c:if>
                 <c:if test="${requestScope.currentRoomType != null}">
                     <!-- General information -->
                     <div class="flex justify-between mt-[20px] grid grid-cols-5 gap-5">
@@ -147,11 +146,11 @@
                                         </div>
                                         <div class="col-span-2 grid grid-rows-2 gap-[1px] mb-[5px]">
                                             <p class="text-[#929ca5] font-normal">Số phòng trống</p>
-                                            <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.currentRoomType.availableRoom} phòng</p>
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="available-room">${requestScope.currentRoomType.availableRoom}</span> phòng</p>
                                         </div>
                                         <div class="col-span-4 grid grid-rows-2 gap-[1px] mb-[5px]">
                                             <p class="text-[#929ca5] font-normal">Tổng phòng</p>
-                                            <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.currentRoomType.totalRoom} phòng</p>
+                                            <p class="text-[18px] text-[#2A3C46] font-semibold"><span class="total-room">${requestScope.currentRoomType.totalRoom}</span> phòng</p>
                                         </div>
                                     </div>
                                     <div class="mt-[20px]">
@@ -177,6 +176,9 @@
                                     <p class="">Phòng trống</p>
                                     <p class="w-[40px] h-[20px] bg-white border-2 border-gray-200 rounded"><p>
                                 </div>
+                                <c:if test="${requestScope.roomList.size() == 0}">
+                                    <p class="no-room-message">Chưa có phòng nào</p>
+                                </c:if>
                                 <c:if test="${requestScope.currentRoomType !=null}">
                                     <div class="room-list grid grid-cols-8 gap-[10px] mt-[20px]">
                                         <c:if test="${requestScope.roomList.size() > 0}">
@@ -193,9 +195,7 @@
                                                 </c:if>
                                             </c:forEach>
                                         </c:if>
-                                        <c:if test="${requestScope.roomList.size() == 0}">
-                                            <p class="no-room-message">Chưa có phòng nào</p>
-                                        </c:if>
+
                                     </c:if>
                                     <c:if test="${requestScope.currentRoomType == null}">
                                         <p class="text-gray-400 text-center text-[20px] py-[10px]">Trống</p>
@@ -303,12 +303,12 @@
             </script>
             <c:if test="${requestScope.addSuccess != null}">
                 <script>
-                showToast('success', '${requestScope.addSuccess}');
+                    showToast('success', '${requestScope.addSuccess}');
                 </script>
             </c:if>
             <c:if test="${requestScope.addFail != null}">
                 <script>
-                showToast('error', '${requestScope.addFail}');
+                    showToast('error', '${requestScope.addFail}');
                 </script>
             </c:if>
             <script>
@@ -522,11 +522,11 @@
                         });
                         this.on("removedfile", function (file) {
                             console.log(file.name);
-    //                                                                jQuery.ajax({
-    //                                                                    type: 'POST',
-    //                                                                    data: 'name=' + file.name,
-    //                                                                    url: 'RemoveFileServlet'
-    //                                                                });
+                            //                                                                jQuery.ajax({
+                            //                                                                    type: 'POST',
+                            //                                                                    data: 'name=' + file.name,
+                            //                                                                    url: 'RemoveFileServlet'
+                            //                                                                });
                         });
                     }
                 };
@@ -700,12 +700,20 @@
                                     maxNumberOfResidents.value = "";
                                     description.value = "";
                                     messageElement.innerHTML = response;
-                                    toggleModal('.addRoomTypemodal2');
-                                    toggleModal('.addRoomTypemodal1');
-                                    listRoomType = document.querySelector('.roomtype-list');
-                                    const newRoomTypeId = document.querySelector("input[name='newRoomTypeId']").value;
-                                    const newRoomTypeName = document.querySelector("input[name='newRoomTypeName']").value;
-                                    listRoomType.innerHTML += "<form action='/sakura/landlord/room-type' method='post' class='inline-block'><button type='submit' name='roomTypeId' value='" + newRoomTypeId + "' class='px-4 py-2 mx-2 rounded border-2 border-gray-300 hover:border-[#288D87] hover:text-[#288D87] duration-150'>" + newRoomTypeName + "</button></form>";
+                                    if (${requestScope.currentRoomType ==null}) {
+                                        toggleModal('.addRoomTypemodal1');
+                                        showToast('success', 'Thêm thành công, đang tải lại trang');
+                                        setTimeout(function () {
+                                            window.location.reload();
+                                        }, 2000);
+                                    } else {
+                                        toggleModal('.addRoomTypemodal2');
+                                        toggleModal('.addRoomTypemodal1');
+                                        listRoomType = document.querySelector('.roomtype-list');
+                                        const newRoomTypeId = document.querySelector("input[name='newRoomTypeId']").value;
+                                        const newRoomTypeName = document.querySelector("input[name='newRoomTypeName']").value;
+                                        listRoomType.innerHTML += "<form action='/sakura/landlord/room-type' method='post' class='inline-block'><button type='submit' name='roomTypeId' value='" + newRoomTypeId + "' class='px-4 py-2 mx-2 rounded border-2 border-gray-300 hover:border-[#288D87] hover:text-[#288D87] duration-150'>" + newRoomTypeName + "</button></form>";
+                                    }
                                 },
                                 error: function () {
                                 },
@@ -1042,10 +1050,17 @@
                                         showToast('success', "Thêm phòng " + addRoomNumber.value + " thành công");
                                         addRoomNumber.value = "";
                                         const noRoomMess = document.querySelector('.no-room-message');
-                                        noRoomMess.style.display = 'none';
+                                        if (noRoomMess)
+                                            noRoomMess.style.display = 'none';
                                         const deleteRoomtypeBtn = document.querySelector("#deleteRoomType-1");
-                                        console.log(deleteRoomtypeBtn);
-                                        deleteRoomtypeBtn.style.display = "none";
+                                        if (deleteRoomtypeBtn)
+                                            deleteRoomtypeBtn.style.display = "none";
+                                        const availableRoomElement = document.querySelector('.available-room');
+                                        const totalRoomElement = document.querySelector('.total-room');
+                                        console.log("available: ", availableRoomElement);
+                                        console.log(totalRoomElement);
+                                        availableRoomElement.innerHTML = Number(availableRoomElement.innerHTML) + 1;
+                                        totalRoomElement.innerHTML = Number(totalRoomElement.innerHTML) + 1;
                                     } else
                                         showToast('error', response);
                                 },
@@ -1069,9 +1084,9 @@
 
                 //            var open_modal_2 = document.querySelector('#addRoomType-2');
                 //            open_modal_2.addEventListener('click', function (event) {
-    //                event.preventDefault();
-    //                toggleModal('.addRoomTypemodal2');
-    //            });
+                //                event.preventDefault();
+                //                toggleModal('.addRoomTypemodal2');
+                //            });
 
                 // Bấm ngoài modal thì đóng modal
                 // const overlay = document.querySelector('.modal .modal-overlay');
@@ -1127,11 +1142,11 @@
                     toggleModal('.updateRoomTypemodal1');
                 });
 
-    //            var open_modal_2 = document.querySelector('#updateRoomType-2');
-    //            open_modal_2.addEventListener('click', function (event) {
-    //                event.preventDefault();
-    //                toggleModal('.updateRoomTypemodal2');
-    //            });
+                //            var open_modal_2 = document.querySelector('#updateRoomType-2');
+                //            open_modal_2.addEventListener('click', function (event) {
+                //                event.preventDefault();
+                //                toggleModal('.updateRoomTypemodal2');
+                //            });
 
                 var close_modal_1 = document.querySelectorAll('.updateRoomTypemodal1 .updateRoomTypemodal1-close');
                 for (let i = 0; i < close_modal_1.length; ++i) {

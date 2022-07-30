@@ -55,6 +55,17 @@
                             </li>
                         </ol>
                     </nav>
+                    <c:if test="${sessionScope.currentHostel != null}">
+                        <div class="flex items-center mr-[20px]">
+                            <div class="flex items-center mr-[20px]">
+                                <h3 class="text-sm font-medium text-gray-400 mr-[10px]">Chọn nhà trọ: </h3>
+                                <button type="button" data-modal-toggle="hostelModal"
+                                        class="rounded w-fit h-[30px] px-[20px] bg-[#288D87] hover:bg-[#248781] flex flex justify-between items-center">
+                                    <p class="font-medium text-[15px] text-[#fff]">${sessionScope.currentHostel.hostelName}</p>
+                                </button>
+                            </div>
+                        </div>
+                    </c:if>
                     <!-- End breadcrumb -->
                 </div>
 

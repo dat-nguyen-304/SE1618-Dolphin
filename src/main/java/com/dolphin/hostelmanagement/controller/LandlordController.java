@@ -453,7 +453,6 @@ public class LandlordController extends HttpServlet {
 
 //                int hostelID = ((Hostel) session.getAttribute("currentHostel")).getHostelID();
 //                request.setAttribute("hostelID", hostelID);
-
                 ArrayList<BookingRequest> bookingList = BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 1);
                 bookingList.addAll(BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 3));
                 bookingList.addAll(BookingRequestDAO.findByLandlordID(landlord.getAccount().getAccountID(), 4));
@@ -478,6 +477,11 @@ public class LandlordController extends HttpServlet {
 //                if (session.getAttribute("currentHostel") != null) {
 //                    currentHostel = (Hostel) session.getAttribute("currentHostel");
 //                }
+                if (request.getParameter("hostelId") != null) {
+                    int hostelId = Integer.parseInt(request.getParameter("hostelId"));
+                    currentHostel = HostelDAO.findById(hostelId);
+                    session.setAttribute("currentHostel", currentHostel);
+                }
                 if (currentHostel != null) {
                     ArrayList<Feedback> feedbackList = (ArrayList<Feedback>) FeedbackDAO.findByHostelId(currentHostel.getHostelID());
                     double avgRating = 0;

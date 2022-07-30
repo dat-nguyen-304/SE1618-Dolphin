@@ -455,12 +455,20 @@
                                 streetAddress.value = "";
                                 description.value = "";
                                 addHostelMessage.innerHTML = response;
-                                toggleModal('.addHostelmodal2');
-                                toggleModal('.addHostelmodal1');
-                                const hostelList = document.querySelector('.hostel-list');
-                                const newHostelId = document.querySelector("input[name='newHostelId']").value;
-                                const newHostelName = document.querySelector("input[name='newHostelName']").value;
-                                hostelList.innerHTML += "<form action='/sakura/landlord/overview' method='post' class='inline-block'><button type='submit' name='hostelId' value='" + newHostelId + "' class='px-4 py-2 mx-2 rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff]'>" + newHostelName + "</button></form>";
+                                if (${sessionScope.currentHostel == null}) {
+                                    toggleModal('.addHostelmodal1');
+                                    showToast('success', 'Thêm thành công, đang tải lại trang');
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    }, 2000);
+                                } else {
+                                    toggleModal('.addHostelmodal2');
+                                    toggleModal('.addHostelmodal1');
+                                    const hostelList = document.querySelector('.hostel-list');
+                                    const newHostelId = document.querySelector("input[name='newHostelId']").value;
+                                    const newHostelName = document.querySelector("input[name='newHostelName']").value;
+                                    hostelList.innerHTML += "<form action='/sakura/landlord/overview' method='post' class='inline-block'><button type='submit' name='hostelId' value='" + newHostelId + "' class='px-4 py-2 mx-2 rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff]'>" + newHostelName + "</button></form>";
+                                }
                             },
                             error: function () {
                             },
@@ -553,8 +561,11 @@
                     },
                     url: '/sakura/hostel/delete-hostel',
                     success: function (response) {
-                        let icon = '<p class="text-[#0e9c72] text-center text-[50px] mb-[10px]"><i class="bi bi-check-circle"></i></p>';
-                        deleteHostelContent.innerHTML = icon + response;
+                        showToast('success', 'Xóa thành công, đang tải lại trang');
+                        toggleModal('.deleteHostelmodal1');
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
                     },
                     error: function () {
                     },
@@ -679,11 +690,6 @@
                 event.preventDefault();
                 toggleModal('.deleteHostelmodal1');
             });
-            var open_modal_2 = document.querySelector('#deleteHostel-2');
-            open_modal_2.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.deleteHostelmodal2');
-            });
             var close_modal_1 = document.querySelectorAll('.deleteHostelmodal1 .deleteHostelmodal1-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
                 close_modal_1[i].addEventListener('click', () => {
@@ -691,32 +697,6 @@
                     console.log('close 1');
                 });
             }
-
-            var close_modal_2 = document.querySelectorAll('.deleteHostelmodal2 .deleteHostelmodal2-close');
-            for (let i = 0; i < close_modal_1.length; ++i) {
-                close_modal_2[i].addEventListener('click', () => {
-                    toggleModal('.deleteHostelmodal2');
-                    console.log('close 2');
-                });
-            }
-
-            document.onkeydown = function (evt) {
-                evt = evt || window.event;
-                var isEscape = false;
-                if ("key" in evt) {
-                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
-                } else {
-                    isEscape = (evt.keyCode === 27);
-                }
-                const modal_1 = document.querySelector('.deleteHostelmodal1');
-                const modal_2 = document.querySelector('.deleteHostelmodal2');
-                if (isEscape && modal_1.classList.contains('active-modal') && !modal_2.classList.contains('active-modal')) {
-                    toggleModal('.deleteHostelmodal1');
-                }
-                if (isEscape && modal_2.classList.contains('active-modal')) {
-                    toggleModal('.deleteHostelmodal2');
-                }
-            };
 
         </script>
     </body>
