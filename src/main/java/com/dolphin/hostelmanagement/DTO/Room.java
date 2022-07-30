@@ -18,6 +18,11 @@ public class Room {
     public Room() {
     }
 
+    public Room(int roomID, String roomNumber) {
+        this.roomID = roomID;
+        this.roomNumber = roomNumber;
+    }
+
     public Room(int roomID, String roomNumber, int currentNumberOfResidents, int status, RoomType roomType) {
         this.roomID = roomID;
         this.roomNumber = roomNumber;

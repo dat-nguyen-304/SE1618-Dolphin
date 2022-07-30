@@ -518,6 +518,41 @@ public class RoomDAO {
         }
         return room;
     }
+    
+    public static List<Room> findByHostelIDInvoiceList(int hostelID) {
+        List<Room> list = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.makeConnection();
+            if (cn != null) {
+                list = new ArrayList();
+                String sql = "SELECT R.* FROM Room R JOIN RoomType RT ON R.roomTypeID = RT.roomTypeID \n"
+                        + "JOIN Hostel H ON H.hostelID = RT.hostelID \n"
+                        + "WHERE H.hostelID = ? AND R.activate = 1";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, hostelID);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int roomID = rs.getInt("roomID");
+                        String roomNumber = rs.getString("roomNumber");
+                        list.add(new Room(roomID, roomNumber));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
 
     public static void main(String args[]) {
         for (Room room : findRoomsNeedInvoice(1)) {

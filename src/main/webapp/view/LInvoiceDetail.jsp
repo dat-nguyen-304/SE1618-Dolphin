@@ -497,7 +497,7 @@
                                                                        let rowSum = $("#rowSum" + serviceID);
                                                                        rowSum.html("");
                                                                        let sum;
-                                                                       if (type !== 0) {
+                                                                       if (type === 1 || type === 2) {
                                                                            if ($(element).val() === "") {
                                                                                $(element).val(0);
                                                                            }
@@ -542,7 +542,7 @@
                                                                    }
 
                                                                    status.change(function () {
-                                                                       if (parseInt(status.val()) === 2) {
+                                                                       if (parseInt(status.val()) === 1) {
                                                                            console.log("Đã thanh toán");
                                                                            $("#toggleButton").click();
                                                                        }
@@ -554,7 +554,7 @@
 
                                                                    $("#saveButton").click(function () {
                                                                        $("#toggleButtonSave").click();
-                                                                   })
+                                                                   });
 
                                                                    $("#confirmSave").click(function () {
                                                                        console.log("SUBMIT");

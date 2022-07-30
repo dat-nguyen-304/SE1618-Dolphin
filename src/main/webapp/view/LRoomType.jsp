@@ -704,7 +704,8 @@
                             complete: function (result) {
                             }
                         });
-                    } else showToast("error", 'Vui lòng kiểm tra lại thông tin!');
+                    } else
+                        showToast("error", 'Vui lòng kiểm tra lại thông tin!');
                 }
             }
 
@@ -804,8 +805,12 @@
                     validAreaMessage.innerHTML = 'Diện tích không được trống';
                     checkArea = false;
                 } else {
-                    validAreaMessage.innerHTML = '';
-                    checkArea = true;
+                    checkArea = isValid(element.value.trim(), 'postiveNumber');
+                    if (checkArea) {
+                        validAreaMessage.innerHTML = '';
+                    } else {
+                        validAreaMessage.innerHTML = 'Diện tích phải là số dương';
+                    }
                 }
             }
 
@@ -816,8 +821,12 @@
                     validMaxResidentMessage.innerHTML = 'Số cư dân tối đa không được trống';
                     checkMaxResident = false;
                 } else {
-                    validMaxResidentMessage.innerHTML = '';
-                    checkMaxResident = true;
+                    checkMaxResident = isValid(element.value.trim(), 'postiveNumber');
+                    if (checkMaxResident) {
+                        validMaxResidentMessage.innerHTML = '';
+                    } else {
+                        validMaxResidentMessage.innerHTML = 'Số cư dân tối đa phải là số dương';
+                    }
                 }
             }
 
@@ -866,8 +875,12 @@
                     validUpdateAreaMessage.innerHTML = 'Diện tích không được trống';
                     checkUpdateArea = false;
                 } else {
-                    validUpdateAreaMessage.innerHTML = '';
-                    checkUpdateArea = true;
+                    checkUpdateArea = isValid(element.value.trim(), 'postiveNumber');
+                    if (checkUpdateArea) {
+                        validUpdateAreaMessage.innerHTML = '';
+                    } else {
+                        validUpdateAreaMessage.innerHTML = 'Diện tích phải là số dương';
+                    }
                 }
             }
 
@@ -877,8 +890,12 @@
                     validUpdateMaxResidentMessage.innerHTML = 'Số cư dân tối đa không được trống';
                     checkUpdateMaxResident = false;
                 } else {
-                    validUpdateMaxResidentMessage.innerHTML = '';
-                    checkUpdateMaxResident = true;
+                    checkUpdateMaxResident = isValid(element.value.trim(), 'postiveNumber');
+                    if (checkUpdateMaxResident) {
+                        validUpdateMaxResidentMessage.innerHTML = '';
+                    } else {
+                        validUpdateMaxResidentMessage.innerHTML = 'Số cư dân tối đa phải là số dương';
+                    }
                 }
             }
 
