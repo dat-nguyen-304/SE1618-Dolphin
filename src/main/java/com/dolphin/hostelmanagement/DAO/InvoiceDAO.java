@@ -174,11 +174,12 @@ public class InvoiceDAO {
                         Date startDate = rs.getDate("startDate");
                         Date endDate = rs.getDate("endDate");
                         Date createdDate = rs.getDate("createdDate");
+                        String month = rs.getString("month");
                         int status = rs.getInt("status");
                         int totalPrice = rs.getInt("totalPrice");
                         int waterPrice = rs.getInt("waterPrice");
                         int electricPrice = rs.getInt("electricPrice");
-                        return new Invoice(invoiceID, c, startDate, endDate, createdDate, status, totalPrice, sql, electricPrice, waterPrice);
+                        return new Invoice(invoiceID, c, startDate, endDate, createdDate, status, totalPrice, month, electricPrice, waterPrice);
                     }
                 }
             }
