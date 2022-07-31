@@ -17,9 +17,17 @@
 
         <%@include file="../view/assets.jsp" %>
 
+<<<<<<< HEAD
         <link rel="stylesheet" href="../assets/css/LInvoiceDetail.css">
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
+=======
+        <link rel="stylesheet" href="../assets/css/LInvoiceDetail.css"> 
+
+
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+>>>>>>> e7b778c94a374ed4a736aa0e36cd0b83d87d3a2b
     </head>
 
     <body>

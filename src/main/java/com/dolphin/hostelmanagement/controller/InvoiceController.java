@@ -314,14 +314,12 @@ public class InvoiceController extends HttpServlet {
                                 firstMonth = firstMonth.substring(0, firstMonth.lastIndexOf('-'));
                                 YearMonth firstMonthYM = YearMonth.parse(firstMonth);
                                 activeServices = ServiceDAO.findServiceByRoom(new Room(chosenRoom.getRoomID(), chosenRoom.getRoomNumber(), chosenRoom.getRoomType(), firstMonthYM));
-                            } else {
-                                activeServices = ServiceDAO.findServiceByRoom(new Room(chosenRoom.getRoomID(), chosenRoom.getRoomNumber(), chosenRoom.getRoomType(), chosenRoom.getLatestInvoiceMonth().plusMonths(1)));
-                            }
-                            if (chosenRoom.getLatestInvoiceMonth() == null) {
                                 String startMonth = contract.getStartDate().toString();
                                 startMonth = startMonth.substring(0, startMonth.lastIndexOf('-'));
-                                request.setAttribute("startMonth", startMonth);
+                                YearMonth startMonthYM = YearMonth.parse(startMonth).minusMonths(1);
+                                request.setAttribute("startMonth", startMonthYM.toString());
                             } else {
+                                activeServices = ServiceDAO.findServiceByRoom(new Room(chosenRoom.getRoomID(), chosenRoom.getRoomNumber(), chosenRoom.getRoomType(), chosenRoom.getLatestInvoiceMonth()));
                                 Invoice lastInvoice = InvoiceDAO.findLatestByContract(contract);
                                 List<ServiceDetail> prevMonthDetails = ServiceDAO.findDetailsByInvoice(lastInvoice);
                                 List<Integer> lastMonthValues = new ArrayList();

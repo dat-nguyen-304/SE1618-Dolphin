@@ -372,16 +372,16 @@
                     validHostelMessage.innerHTML = 'Tên nhà trọ không được trống';
                     checkHostel = false;
                 } else {
-                    let valid = isValid(element.value, 'name');
+                    let valid = isValid(element.value.trim(), 'name');
                     if (!valid) {
                         validUpdateHostelMessage.innerHTML = 'Tên nhà trọ chỉ được chứa chữ cái, chữ số và khoảng trắng';
                         checkHostel = false;
                     } else
                         jQuery.ajax({
                             type: 'POST',
-                            data: {'updateName': element.value,
-                                'landlordId': landlordId.value,
-                                'currentName': currentName.value
+                            data: {'updateName': element.value.trim(),
+                                'landlordId': landlordId.value.trim(),
+                                'currentName': currentName.value.trim()
                             },
                             url: '/sakura/hostel/check-update-hostel-valid',
                             success: function (response) {
@@ -422,7 +422,6 @@
             function checkValidUpdateDesc(element) {
                 const validUpdateDescMessage = document.querySelector(".validUpdateDescMessage");
                 const adddHostelBtn = document.querySelector(".addHostelBtn");
-                console.log("Da vao check desc: ", element.value);
                 if (!element.value.trim()) {
                     validUpdateDescMessage.innerHTML = 'Tên mô tả không được trống';
                     checkDesc = false;
@@ -444,17 +443,17 @@
                 const validUpdateHostelMessage = document.querySelector(".validUpdateHostelMessage");
                 const validUpdateAddressMessage = document.querySelector(".validUpdateAddressMessage");
                 const validUpdateDescMessage = document.querySelector(".validUpdateDescMessage");
-                if (!name.value || !updateStreetAddress.value || !description.value) {
+                if (!name.value.trim() || !updateStreetAddress.value.trim() || !description.value.trim()) {
                     let message = "";
-                    if (!name.value) {
+                    if (!name.value.trim()) {
                         checkHostel = false;
                         validHostelMessage.innerHTML = 'Tên nhà trọ không được trống';
                     }
-                    if (!updateStreetAddress.value) {
+                    if (!updateStreetAddress.value.trim()) {
                         checkAddress = false;
                         validUpdateAddressMessage.innerHTML = 'Tên địa chỉ không được trống';
                     }
-                    if (!description.value) {
+                    if (!description.value.trim()) {
                         checkDesc = false;
                         validUpdateDescMessage.innerHTML = 'Tên mô tả không được trống';
                     }
@@ -465,11 +464,11 @@
                     if (checkHostel && checkAddress && checkDesc) {
                         jQuery.ajax({
                             type: 'POST',
-                            data: {'name': name.value,
-                                'updateDistrictId': updateDistrictId.value,
-                                'updateStreetAddress': updateStreetAddress.value,
-                                'description': description.value,
-                                'hostelId': hostelId.value
+                            data: {'name': name.value.trim(),
+                                'updateDistrictId': updateDistrictId.value.trim(),
+                                'updateStreetAddress': updateStreetAddress.value.trim(),
+                                'description': description.value.trim(),
+                                'hostelId': hostelId.value.trim()
                             },
                             url: '/sakura/hostel/update-hostel',
                             success: function (response) {

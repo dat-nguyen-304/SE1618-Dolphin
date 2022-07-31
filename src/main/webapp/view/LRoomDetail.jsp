@@ -370,7 +370,7 @@
                                                                     checkRoom = false;
                                                                 } else
                                                                 if (roomNumber.value.trim() !== element.value.trim()) {
-                                                                    let valid = isValid(element.value, 'name');
+                                                                    let valid = isValid(element.value.trim(), 'name');
                                                                     if (!valid) {
                                                                         validRoomMessage.innerHTML = 'Tên phòng chỉ được chứa chữ cái, chữ số và khoảng trắng';
                                                                         checkRoom = false;
@@ -378,8 +378,8 @@
                                                                         jQuery.ajax({
                                                                             type: 'POST',
                                                                             data: {
-                                                                                'roomNumber': element.value,
-                                                                                'hostelId': hostelId.value
+                                                                                'roomNumber': element.value.trim(),
+                                                                                'hostelId': hostelId.value.trim()
                                                                             },
                                                                             url: '/sakura/room/check-room-valid',
                                                                             success: function (response) {
@@ -411,15 +411,12 @@
                                                                 const updateRoomNumber = document.querySelector("input[name='updateRoomNumber']");
                                                                 const updateRoomType = document.querySelector("select[name='updateRoomType']");
                                                                 const messageElement = document.querySelector(".updateRoomMessage");
-                                                                console.log("roomId ", roomId.value);
-                                                                console.log("updateRoomNumber ", updateRoomNumber.value);
-                                                                console.log("updateRoomType ", updateRoomType.value);
                                                                 if (checkRoom) {
                                                                     jQuery.ajax({
                                                                         type: 'GET',
-                                                                        data: {'roomId': roomId.value,
-                                                                            'updateRoomNumber': updateRoomNumber.value,
-                                                                            'updateRoomType': updateRoomType.value
+                                                                        data: {'roomId': roomId.value.trim(),
+                                                                            'updateRoomNumber': updateRoomNumber.value.trim(),
+                                                                            'updateRoomType': updateRoomType.value.trim()
                                                                         },
                                                                         url: '/sakura/room/update-room',
                                                                         success: function (response) {
@@ -447,7 +444,8 @@
 
                     jQuery.ajax({
                         type: 'POST',
-                        data: {'deleteRoomId': deleteRoomId.value, 'hostelId': hostelId.value
+                        data: {'deleteRoomId': deleteRoomId.value.trim(), 
+                            'hostelId': hostelId.value.trim()
                         },
                         url: '/sakura/room/delete-room',
                         success: function (response) {
@@ -497,15 +495,15 @@
                         if (checkName && checkPhone) {
                             jQuery.ajax({
                                 type: 'POST',
-                                data: {'residentId': residentId.value,
-                                    'updateFullName': updateFullName.value,
-                                    'updatePhone': updatePhone.value,
-                                    'updateDob': updateDob.value
+                                data: {'residentId': residentId.value.trim(),
+                                    'updateFullName': updateFullName.value.trim(),
+                                    'updatePhone': updatePhone.value.trim(),
+                                    'updateDob': updateDob.value.trim()
                                 },
                                 url: '/sakura/room/update-member',
                                 success: function (response) {
                                     const backup = memberElement.querySelector(".backup");
-                                    const htmlString = "<button onclick=\"resetMember(this, '" + updateFullName.value + "', '" + updatePhone.value + "', '" + updateDob.value + "')\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Hoàn tác</button>";
+                                    const htmlString = "<button onclick=\"resetMember(this, '" + updateFullName.value.trim() + "', '" + updatePhone.value.trim() + "', '" + updateDob.value.trim() + "')\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Hoàn tác</button>";
                                     backup.innerHTML = htmlString;
                                     showToast('info', response.toString());
                                 },
@@ -542,10 +540,9 @@
                     const residentQuantityElement = document.querySelector(".residentQuantity");
                     const residentQuantity = Number(residentQuantityElement.innerHTML);
                     const residentId = element;
-                    console.log("Da vao delete member")
                     jQuery.ajax({
                         type: 'POST',
-                        data: {'residentId': residentId.value
+                        data: {'residentId': residentId.value.trim()
                         },
                         url: '/sakura/room/delete-member',
                         success: function (response) {
@@ -618,7 +615,6 @@
                     const validAddNameMessage = document.querySelector(".validAddNameMessage");
                     const validAddPhoneMessage = document.querySelector(".validAddPhoneMessage");
                     const validAddDobMessage = document.querySelector(".validAddDobMessage");
-                    console.log("DOB: ", memberDob.value.trim());
                     if (!memberName.value.trim() || !memberPhone.value.trim() || !memberDob.value.trim()) {
                         if (!memberName.value.trim()) {
                             validAddNameMessage.innerHTML = "Tên không được trống";
