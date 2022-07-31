@@ -135,7 +135,9 @@
                             </div>
                             <div class="col-span-4 grid grid-rows-2 gap-0 mb-[10px] mb-[10px]">
                                 <p class="text-[#929ca5] font-normal text-[15px]">Ngày tạo</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.createdDate}</p>
+                                <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                    <fmt:formatDate pattern = "dd/MM/yyyy" value="${requestScope.contract.createdDate}" />
+                                </p>
                             </div>
 
                             <div class="col-span-2 grid grid-rows-2 gap-0 mb-[10px]">
@@ -182,6 +184,14 @@
                                     </span>
                                 </p>
                             </div>
+                            <c:if test="${requestScope.contract.status == 0}">
+                                <div class="col-span-4 grid grid-rows-2 gap-0 mb-[10px]">
+                                    <p class="text-[#929ca5] font-normal text-[15px]">Ngày kết thúc hợp đồng: </p>
+                                    <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                        <fmt:formatDate pattern = "dd/MM/yyyy" value="${requestScope.contract.actualEndDate}" />
+                                    </p>
+                                </div>
+                            </c:if>
                         </div>
                         <div class="mt-[10px]">
                             <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Nội dung</p>
@@ -256,7 +266,7 @@
                         </div>
                         <div class="mt-[30px]">
                             <div class="addMemberElement mb-[20px]">
-                                <c:if test="${requestScope.residentList.size() < requestScope.currentRoom.roomType.maxNumberOfResidents && requestScope.contract != null}">
+                                <c:if test="${requestScope.residentList.size() < requestScope.currentRoom.roomType.maxNumberOfResidents && requestScope.contract != null && request.contract.status == 1}">
                                     <!-- Modal toggle -->
                                     <button id="addMember-1" type="submit" name="action" value="Save" class="actBtn mb-[20px] bg-[#17535B] text-[#f6fafc] rounded px-[10px] py-[5px] float-right">
                                         Thêm thành viên
