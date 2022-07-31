@@ -48,9 +48,10 @@
                 </nav>
                 <!-- End breadcrumb -->
 
+
                 <!-- Rental request list -->
                 <div class="statistic w-full mt-[20px]">
-                    <div class="card w-full room-member bg-[#fff] p-5 flex flex-col mt-[20px] h-[calc(100vh-225px)]">
+                    <div class="card w-full room-member bg-[#fff] p-5 flex flex-col mt-[20px] ${(requestScope.bookingList.size() > 7 || requestScope.invitationList.size() > 7) ? '' : 'h-[calc(100vh-225px)]'} h-[calc(100vh-225px)] ">
                         <ul class="nav nav-tabs flex space-x-[20px] list-none border-b-0 pl-0 mb-4" id="tabs-tab"
                             role="tablist">
                             <li class="nav-item" role="presentation">
@@ -66,12 +67,12 @@
                             </li>
                         </ul>
                         <div class="tab-content" id="tabs-tabContent">
-                            <div class="tab-pane fade show active relative" id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
+                            <div class="tab-pane fade show active relative h-[calc(100vh-320px)] overflow-y-auto" id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
                                 <c:if test="${empty requestScope.bookingList}">
                                     Không có
                                 </c:if>
                                 <c:if test="${not empty requestScope.bookingList}">
-                                    <table class="w-full text-[16px] text-left text-gray-500 mb-[20px] relative">
+                                    <table class="w-full text-[16px] text-left text-gray-500 mb-[20px] relative ">
                                         <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                             <tr class="">
                                                 <th scope="col" class="px-6 py-3 text-center">Tên nhà trọ</th>
@@ -129,7 +130,7 @@
                                                                 <input type ="hidden" name ="queryType" value ="reject"/>
                                                                 <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
                                                                 <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
-                                                                <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
+                                                                <button type = "button" id="deny-request" class="w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
                                                                     Từ chối
                                                                 </button>
                                                             </form>    
@@ -140,12 +141,16 @@
                                                         <td class="px-6 py-4 money"></td>
                                                     </c:if>
                                                 </tr>
+                                                <!-- Modal list-->
+                                                <%@include file="../view/modalLandlordBookingRequest.jsp" %>
+                                                <!-- End modal list-->
+
                                             </c:forEach>
                                         </tbody>
                                     </table>
                                 </c:if>
                             </div>
-                            <div class="tab-pane fade relative" id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
+                            <div class="tab-pane fade relative h-[calc(100vh-320px)] overflow-y-auto" id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
                                 <c:if test="${empty requestScope.invitationList}">
                                     Không có
                                 </c:if>
@@ -243,5 +248,42 @@
 
         </div>
         <script src="../assets/tailwind-elements/index.min.js"></script>
+        <script>
+            var open_modal_1 = document.querySelector('#deny-request');
+            open_modal_1.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.confirmDenyRequest');
+            });
+
+            var close_modal_1 = document.querySelectorAll('.confirmDenyRequest .confirmDenyRequest-close');
+            for (let i = 0; i < close_modal_1.length; ++i) {
+                close_modal_1[i].addEventListener('click', () => {
+                    toggleModal('.confirmDenyRequest');
+                    console.log('close 1');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.confirmDenyRequest');
+                if (isEscape && modal_1.classList.contains('active-modal')) {
+                    toggleModal('.confirmDenyRequest');
+                }
+            };
+
+            function toggleModal(modal_item) {
+                const modal = document.querySelector(modal_item);
+                modal.classList.toggle('active-modal');
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+            }
+
+        </script>
     </body>
 </html>

@@ -391,7 +391,7 @@
                 </div>
             </div>
 
-            <%@include file="../view/footerDashboard.jsp.jsp" %>
+            <%@include file="../view/footerDashboard.jsp" %>
 
         </div>
 
