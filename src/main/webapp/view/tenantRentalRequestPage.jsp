@@ -143,7 +143,7 @@
                                             <tr class="bg-white border-b hover:bg-gray-50">
                                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${invitation.roomType.hostel.hostelName}</td>
                                                 <td class="text-center px-6 py-4 ">${invitation.roomType.roomTypeName}</td>
-                                                <td class="text-center px-6 py-4 ">${invitation.createdDate}</td>
+                                                <td class="text-center px-6 py-4 "><span class="date">${invitation.createdDate}</span></td>
                                                 <td class="text-center px-6 py-4 ">
                                                     <c:choose>
                                                         <c:when test="${invitation.status == 2}">
@@ -212,6 +212,15 @@
         </div>
         <script src="../assets/toastr/toastr.min.js"></script>
         <script type="text/javascript">
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+                }
+            });
             function showToast(type, msg) {
                 toastr.options.positionClass = 'toast-bottom-right';
                 // toastr.options.extendedTimeOut = 0; //1000;

@@ -137,7 +137,7 @@
                                                         </td>
                                                     </c:if>
                                                     <c:if test="${booking.status != 1}">
-                                                    <td class="py-4 ">Lý do từ chối: ${(booking.description == null || booking.description.length() == 0) ? "Không có" : booking.description}</td>
+                                                        <td class="py-4 ">Lý do từ chối: ${(booking.description == null || booking.description.length() == 0) ? "Không có" : booking.description}</td>
                                                     </c:if>
                                                 </tr>
                                                 <!-- Modal list-->
@@ -232,8 +232,8 @@
                                                         </c:if>
                                                         <c:if test="${invitation.status != 2}">
 
-                                                          <td class=" py-4 ">Lý do từ chối: ${(invitation.description == null || invitation.description.length() == 0) ? "Không có" : invitation.description}</td>
-                                                        </c:if>
+                                                        <td class=" py-4 ">Lý do từ chối: ${(invitation.description == null || invitation.description.length() == 0) ? "Không có" : invitation.description}</td>
+                                                    </c:if>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -287,6 +287,15 @@
                 modal.classList.toggle('pointer-events-none');
             }
 
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    console.log(isoDate);
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+                }
+            });
         </script> 
     </body>
 </html>
