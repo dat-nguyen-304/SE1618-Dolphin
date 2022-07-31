@@ -157,10 +157,12 @@
                             <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
                                 <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                                     <p>Hoá đơn mới nhất</p>
-                                    <a href="#" class="text-[15px] font-light flex items-baseline ${empty sessionScope.roomResidentList ? 'hidden' : ''}">
-                                        <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
-                                        <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
-                                    </a>
+                                    <form action="/sakura/invoice/detail" method="post">
+                                        <input type="hidden" name="invoiceID" value="${sessionScope.latestInvoice.invoiceID}">
+                                        <button type="submit" class="rounded py-[3px] px-[10px] text-[15px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
+                                            <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết
+                                        </button>
+                                    </form>
                                 </div>
                                 <div class="relative overflow-y-auto h-full">
                                     <c:choose>
@@ -176,7 +178,7 @@
                                                     </tr>
                                                     <tr class="bg-white border-b hover:bg-gray-50">
                                                         <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">Kỳ thanh toán</th>
-                                                        <td class="px-6 py-4">${sessionScope.latestInvoice.startDate.month}/${sessionScope.latestInvoice.startDate.year + 1900}</td>
+                                                        <td class="px-6 py-4">${sessionScope.latestInvoice.month}</td>
                                                     </tr>
                                                     <tr class="bg-white  border-b hover:bg-gray-50">
                                                         <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">Giá tiền</th>
@@ -188,10 +190,10 @@
                                                         <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">Trạng thái</th>
                                                         <td class="px-6 py-4">
                                                             <c:choose>
-                                                                <c:when test = "${sessionScope.latestInvoice.status == 1}">
+                                                                <c:when test = "${sessionScope.latestInvoice.status == 0}">
                                                                     <span class="bg-red-100 text-red-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Chưa thanh toán</span>
                                                                 </c:when>
-                                                                <c:when test = "${sessionScope.latestInvoice.status == 2}">
+                                                                <c:when test = "${sessionScope.latestInvoice.status == 1}">
                                                                     <span class="bg-green-100 text-green-800 text-[14px] font-normal px-2.5 py-0.5 rounded">Đã thanh toán</span>
                                                                 </c:when>
                                                             </c:choose>

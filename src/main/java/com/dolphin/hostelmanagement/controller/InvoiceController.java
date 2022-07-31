@@ -103,7 +103,7 @@ public class InvoiceController extends HttpServlet {
             sortByDate(invoiceList, null, end);
         }
     }
-    
+
     private String NumberToText(long inputNumber, boolean suffix) {
         String[] unitNumbers = new String[]{"không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"};
         String[] placeValues = new String[]{"", "nghìn", "triệu", "tỷ"};
@@ -115,7 +115,7 @@ public class InvoiceController extends HttpServlet {
 
         int positionDigit = sNumber.length();   // last -> first
         System.out.println(positionDigit);
-    
+
         String result = " ";
 
         if (positionDigit == 0) {
@@ -163,14 +163,20 @@ public class InvoiceController extends HttpServlet {
                 if (tens < 0) {
                     break;
                 } else {
-                    if ((tens == 0) && (ones > 0)) result = "lẻ " + result;
-                    if (tens == 1) result = "mười " + result;
-                    if (tens > 1) result = unitNumbers[tens] + " mươi " + result;
+                    if ((tens == 0) && (ones > 0)) {
+                        result = "lẻ " + result;
+                    }
+                    if (tens == 1) {
+                        result = "mười " + result;
+                    }
+                    if (tens > 1) {
+                        result = unitNumbers[tens] + " mươi " + result;
+                    }
                 }
                 if (hundreds < 0) {
                     break;
                 } else if ((hundreds > 0) || (tens > 0) || (ones > 0)) {
-                        result = unitNumbers[hundreds] + " trăm " + result;
+                    result = unitNumbers[hundreds] + " trăm " + result;
                 }
                 result = " " + result;
             }
@@ -185,7 +191,7 @@ public class InvoiceController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             String url = ERROR;
             String path = request.getPathInfo();
             System.out.println("Path: " + path);
@@ -218,18 +224,18 @@ public class InvoiceController extends HttpServlet {
                         Invoice invoice = InvoiceDAO.findByID(invoiceID);
                         request.setAttribute("invoice", invoice);
                         List<ServiceDetail> detailList = ServiceDAO.findDetailsByInvoice(invoice);
-                        
+
                         long totalPrice = (long) invoice.getContract().getRentalFeePerMonth();
-                        
+
                         for (ServiceDetail serviceDetail : detailList) {
                             int st = serviceDetail.getStartValue();
                             int en = serviceDetail.getEndValue();
                             int qt = serviceDetail.getQuantity();
                             int price = serviceDetail.getService().getServiceFee();
-                            totalPrice += (long) price * qt; 
+                            totalPrice += (long) price * qt;
                             System.out.println(st + " " + en + " " + qt + " " + price);
                         }
-                        
+
                         request.setAttribute("detailList", detailList);
                         request.setAttribute("totalPrice", NumberToText(totalPrice, true));
                         url = "/view/tenantPageInvoiceDetail.jsp";
@@ -495,6 +501,16 @@ public class InvoiceController extends HttpServlet {
                         noti.setCreatedDate(new Date());
                         noti.setStatus(0);
                         NotificationDAO.saveNotification(noti);
+
+                        if (status == 1) {
+                            System.out.println("Edit status == 1");
+                            Notification notiLandlord = new Notification();
+                            notiLandlord.setToAccount(l.getAccount());
+                            notiLandlord.setContent("Bạn đã cập nhật hóa đơn phòng " + room.getRoomNumber() + " kỳ " + invoice.getMonth() + " thành \"Đã thanh toán!\"");
+                            notiLandlord.setCreatedDate(new Date());
+                            notiLandlord.setStatus(0);
+                            NotificationDAO.saveNotification(notiLandlord);
+                        }
                     } else {
                         url = "/sakura/view/failure.jsp";
                     }
