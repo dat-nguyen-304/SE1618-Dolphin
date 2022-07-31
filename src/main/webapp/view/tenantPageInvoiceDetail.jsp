@@ -119,7 +119,7 @@
 
                             <!-- Summation -->
                             <div class="summary grid grid-cols-5 grid-rows-2 w-[50%]">
-                                <p class="col-span-1 text-[20px] text-slate-700 ">Thành tiền</p>
+                                <p class="col-span-1 text-[20px] text-slate-700">Thành tiền</p>
                                 <p class="col-span-4 text-[20px] text-slate-600 font-bold"><span id="bottomSum" class="money"></span></p>
                                 <p class="col-span-1 text-[15px] text-slate-600">Bằng chữ</p>
                                 <p class="col-span-4 text-slate-400" id="total-price"><em>${totalPrice}</em></p>
