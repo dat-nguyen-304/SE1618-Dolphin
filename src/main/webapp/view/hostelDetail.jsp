@@ -203,7 +203,7 @@
                                 <ul class="feedback-header-list flex text-[15px]">
                                     <c:if test="${requestScope.filterStar == 0}">
                                         <li class="feedback-header-item active">
-                                            <form action="/sakura/hostel/detail">
+                                            <form action="/sakura/hostel/detail" method="post">
                                                 <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                                                 <button type="submit" name="filterStar" value="0">Tất cả</button>
                                             </form>
@@ -211,7 +211,7 @@
                                     </c:if>
                                     <c:if test="${requestScope.filterStar != 0}">
                                         <li class="feedback-header-item">
-                                            <form action="/sakura/hostel/detail">
+                                            <form action="/sakura/hostel/detail" method="post">
                                                 <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                                                 <button type="submit" name="filterStar" value="0">Tất cả</button>
                                             </form>
@@ -220,7 +220,7 @@
                                     <c:forEach begin="1" end="5" var="i">
                                         <c:if test="${requestScope.filterStar == i}">
                                             <li class="feedback-header-item active">
-                                                <form action="/sakura/hostel/detail">
+                                                <form action="/sakura/hostel/detail" method="post">
                                                     <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                                                     <button type="submit" name="filterStar" value="${i}">${i} sao</button>
                                                 </form>
@@ -228,7 +228,7 @@
                                         </c:if>
                                         <c:if test="${requestScope.filterStar != i}">
                                             <li class="feedback-header-item">
-                                                <form action="/sakura/hostel/detail">
+                                                <form action="/sakura/hostel/detail" method="post">
                                                     <input type="hidden" name="hostelId" value="${requestScope.hostel.hostelID}"/>
                                                     <button type="submit" name="filterStar" value="${i}">${i} sao</button>
                                                 </form>
@@ -266,7 +266,9 @@
                                                         </div>
                                                     </div>
                                                     <p>  
-                                                        <time class="block text-sm text-gray-500">${feedback.date}</time>
+                                                        <time class="block text-sm text-gray-500">
+                                                            <fmt:formatDate pattern = "dd/MM/yyyy" value="${feedback.date}" />
+                                                        </time>
                                                     </p>
                                                 </div>
                                             </div>
@@ -277,7 +279,9 @@
                                     </li>
                                 </c:forEach>
                             </ul>
-
+                        </c:if>
+                        <c:if test="${requestScope.feedbackList.size() == 0}">
+                            <h3>Không có đánh giá</h3>
                         </c:if>
                     </div>
 

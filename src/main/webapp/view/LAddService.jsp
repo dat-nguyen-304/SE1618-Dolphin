@@ -230,12 +230,12 @@
                 const serviceList = document.querySelector(".service-list");
                 const validServiceMessage = document.querySelector(".validServiceMessage");
                 const validFeeMessage = document.querySelector(".validFeeMessage");
-                if (!serviceName.value || !serviceFee.value) {
-                    if (!serviceName.value) {
+                if (!serviceName.value.trim() || !serviceFee.value.trim()) {
+                    if (!serviceName.value.trim()) {
                         validServiceMessage.innerHTML = "Tên dịch vụ không được trống!";
                         checkService = false;
                     }
-                    if (!serviceFee.value) {
+                    if (!serviceFee.value.trim()) {
                         validFeeMessage.innerHTML = "Phí dịch vụ không được trống!";
                         checkFee = false;
                     }
@@ -244,9 +244,9 @@
                     if (checkService && checkFee) {
                         jQuery.ajax({
                             type: 'POST',
-                            data: {'serviceName': serviceName.value,
-                                'serviceFee': serviceFee.value,
-                                'serviceUnit': serviceUnit.value,
+                            data: {'serviceName': serviceName.value.trim(),
+                                'serviceFee': serviceFee.value.trim(),
+                                'serviceUnit': serviceUnit.value.trim(),
                                 'hostelId': ${sessionScope.currentHostel.hostelID}
                             },
                             url: '/sakura/service/add-service',
@@ -310,7 +310,7 @@
                     checkFee = false;
                 } else {
                     while (element.value.trim().charAt(0) === "0" && element.value.trim().length > 1) {
-                        element.value = element.value.slice(1);
+                        element.value = element.value.trim().slice(1);
                     }
                     if (element.value.trim() === "0") {
                         validFeeMessage.innerHTML = '';
@@ -337,7 +337,7 @@
                     validServiceMessage.innerHTML = 'Tên dịch vụ không được trống';
                     checkService = false;
                 } else {
-                    let valid = isValid(element.value, 'name');
+                    let valid = isValid(element.value.trim(), 'name');
                     if (!valid) {
                         validServiceMessage.innerHTML = 'Tên dịch vụ chỉ được chứa chữ cái, chữ số và khoảng trắng';
                         checkService = false;
@@ -357,16 +357,12 @@
                 const serviceUnit = serviceElement.querySelector("input[name='updateUnit']");
                 const serviceType = serviceElement.querySelector("input[name='updateType']");
                 const updateMessage = document.querySelector(".updateMessage");
-                console.log("serviceId: ", serviceId.value);
-                console.log("serviceName: ", serviceName.value);
-                console.log("serviceFee ", serviceFee.value);
-                console.log("serviceUnit ", serviceUnit.value);
-                if (!serviceName.value || !serviceFee.value) {
+                if (!serviceName.value.trim() || !serviceFee.value.trim()) {
                     let message = "";
-                    if (!serviceName.value) {
+                    if (!serviceName.value.trim()) {
                         message += "Tên dịch vụ - ";
                     }
-                    if (!serviceFee.value) {
+                    if (!serviceFee.value.trim()) {
                         message += "Phí dịch vụ - ";
                     }
                     message += "không được trống!";
@@ -376,7 +372,7 @@
                     const checkUpdateService = isValid(serviceName.value.trim(), 'name');
                     let checkUpdateFee = true;
                     while (serviceFee.value.trim().charAt(0) === "0" && serviceFee.value.trim().length > 1) {
-                        serviceFee.value = serviceFee.value.slice(1);
+                        serviceFee.value = serviceFee.value.trim().slice(1);
                     }
                     if (serviceFee.value.trim() === "0") {
                         checkUpdateFee = true;
@@ -385,18 +381,18 @@
                     if (checkUpdateService && checkUpdateFee)
                         jQuery.ajax({
                             type: 'POST',
-                            data: {'serviceName': serviceName.value,
-                                'serviceFee': serviceFee.value,
-                                'serviceUnit': serviceUnit.value,
+                            data: {'serviceName': serviceName.value.trim(),
+                                'serviceFee': serviceFee.value.trim(),
+                                'serviceUnit': serviceUnit.value.trim(),
                                 'hostelId': ${sessionScope.currentHostel.hostelID},
-                                'serviceType': serviceType.value,
-                                'serviceId': serviceId.value
+                                'serviceType': serviceType.value.trim(),
+                                'serviceId': serviceId.value.trim()
                             },
                             url: '/sakura/service/edit-service',
                             success: function (response) {
-                                serviceFee.value = serviceFee.value;
+                                serviceFee.value = serviceFee.value.trim();
                                 const backup = serviceElement.querySelector(".backup");
-                                const htmlString = "<button onclick=\"resetService(this, '" + serviceName.value + "', '" + serviceFee.value + "', '" + serviceUnit.value + "')\" type='submit' value='" + serviceId.value + "' class='font-medium text-[#288D87] hover:underline'>Hoàn tác</button>";
+                                const htmlString = "<button onclick=\"resetService(this, '" + serviceName.value.trim() + "', '" + serviceFee.value.trim() + "', '" + serviceUnit.value.trim() + "')\" type='submit' value='" + serviceId.value + "' class='font-medium text-[#288D87] hover:underline'>Hoàn tác</button>";
                                 backup.innerHTML = htmlString;
                                 showToast("info", response, 1);
                                 //updateMessage.innerHTML = response;
@@ -437,11 +433,11 @@
                 const serviceId = element;
                 jQuery.ajax({
                     type: 'POST',
-                    data: {'serviceId': serviceId.value,
+                    data: {'serviceId': serviceId.value.trim(),
                         'hostelId': ${sessionScope.currentHostel.hostelID},
-                        'serviceName': serviceName.value,
-                        'serviceUnit': serviceUnit.value,
-                        'serviceType': serviceType.value
+                        'serviceName': serviceName.value.trim(),
+                        'serviceUnit': serviceUnit.value.trim(),
+                        'serviceType': serviceType.value.trim()
                     },
                     url: '/sakura/service/delete-service',
                     success: function (response) {

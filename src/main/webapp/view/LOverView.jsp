@@ -382,11 +382,11 @@
                     if (checkHostel && checkAddress && checkDesc) {
                         jQuery.ajax({
                             type: 'POST',
-                            data: {'name': name.value,
-                                'districtId': districtId.value,
-                                'streetAddress': streetAddress.value,
-                                'description': description.value,
-                                'landlordId': landlordId.value
+                            data: {'name': name.value.trim(),
+                                'districtId': districtId.value.trim(),
+                                'streetAddress': streetAddress.value.trim(),
+                                'description': description.value.trim(),
+                                'landlordId': landlordId.value.trim()
                             },
                             url: '/sakura/hostel/add-hostel',
                             success: function (response) {
@@ -479,7 +479,6 @@
 
             function checkValidDesc(element) {
                 const validDescMessage = document.querySelector(".validDescMessage");
-                console.log("Da vao check desc: ", element.value);
                 if (!element.value.trim()) {
                     validDescMessage.innerHTML = 'Tên mô tả không được trống';
                     checkDesc = false;
