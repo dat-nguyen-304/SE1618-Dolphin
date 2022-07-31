@@ -11,24 +11,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Trang chủ nhà - Thêm hợp đồng</title>
-
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <%@include file="../view/assets.jsp" %>
 
         <link rel="stylesheet" href="../assets/css/toastr.css">
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LAddContract.css">
 
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
     </head>
     <body>
@@ -83,7 +71,6 @@
                                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Mô tả / Thông tin bổ sung</label>
                                 <textarea type ="text" id="description" name="description"
                                           rows="4" class="w-full block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-[#17535B] focus:border-[#17535B]" placeholder="">${requestScope.editContract.description}</textarea>
-                                <!--<p>Số kí tự: <span id="count"></span>/500</p>-->
                             </div>
 
                             <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] col-span-6 grid grid-cols-6 gap-[20px]">
@@ -106,68 +93,30 @@
                                 </div>
                             </div>
                             <button type ="button" id="submitButton" class="mt-[40px] w-full h-[50px] rounded bg-[#17535B] hover:bg-[#13484F] text-[#fff] flex items-center justify-center">Thêm hợp đồng</button>
-
-                            <!--                            <input type ="number" name="rentalFeePerMonth" placeholder="Giá thuê theo tháng"/><br>
-                                                        <input type ="number" name="deposit" placeholder="Tiền đặt cọc"/><br>
-                                                        <input type ="text" name="description" height="20" width ="20" placeholder="Miêu tả"/><br>
-                                                        <p>Ngày bắt đầu</p>
-                                                        <input type ="date" name="startDate"/><br>
-                                                        <p>Ngày kết thúc</p>
-                                                        <input type ="date" name="endDate"/><br>
-                                                        <input type="number" name="duration" placeholder="Số tháng ở (dự kiến)"/><br>
-                                                        <input type="hidden" name="queryType" value="add"/>
-                                                        <input type="hidden" name="tenantID" value="${requestScope.bookingRequest.tenant.account.accountID}"/>
-                                                        <input type="hidden" name="bookingRequestID" value="${requestScope.bookingRequest.bookingRequestID}"/>
-                                                        <button type ="submit">Thêm hợp đồng</button>-->
                         </form>
                     </div>
                 </div>
 
             </div>
-
-            <!-- Footer -->
-            <footer class="w-full px-[20px] pb-[20px]">
-                <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
-                    <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
-                                                                                 class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
-                    </span>
-                    <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6 ">Về Sakura</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">Chính sách bảo mật</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-[#17535B]">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-            </footer>
-            <!-- End footer -->
+            <%@include file="../view/footerDashboard.jsp" %>
         </div>
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="../assets/javascript/moment.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="../assets/toastr/toastr.min.js"></script>
         <script>
-            function showToast(type, msg) {
-                toastr.options.positionClass = 'toast-bottom-right';
-                toastr.options.extendedTimeOut = 0; //1000;
-                toastr.options.timeOut = 3000;
-                toastr.options.hideDuration = 250;
-                toastr.options.showDuration = 250;
-                toastr.options.hideMethod = 'slideUp';
-                toastr.options.showMethod = 'slideDown';
-                toastr.options.preventDuplicates = true;
-                toastr.options.closeButton = true;
-                toastr.options.progressBar = true;
-                toastr[type](msg);
-            }
+                                    function showToast(type, msg) {
+                                        toastr.options.positionClass = 'toast-bottom-right';
+                                        toastr.options.extendedTimeOut = 0; //1000;
+                                        toastr.options.timeOut = 3000;
+                                        toastr.options.hideDuration = 250;
+                                        toastr.options.showDuration = 250;
+                                        toastr.options.hideMethod = 'slideUp';
+                                        toastr.options.showMethod = 'slideDown';
+                                        toastr.options.preventDuplicates = true;
+                                        toastr.options.closeButton = true;
+                                        toastr.options.progressBar = true;
+                                        toastr[type](msg);
+                                    }
         </script>
         <script>
             let room = $("#rooms");
@@ -183,9 +132,9 @@
             $(document).ready(function () {
                 count.html("0");
             });
-            
+
             room.change(function () {
-               room.css("border", ""); 
+                room.css("border", "");
             });
 
             rentalFeePerMonth.click(function () {
@@ -250,34 +199,34 @@
                     moneyError.css("color", "red");
                 }
             }
-            
+
             function pendingRoomCheck(element) {
                 const roomID = element.value;
-                
+
                 $("#roomError").html("");
-                
+
                 console.log("RoomID: ", roomID);
-                
+
                 jQuery.ajax({
-                            type: 'POST',
-                            data: {'roomID': roomID,
-                                
-                            },
-                            url: '/sakura/room/pending-room-check',
-                            success: function (response) {
-                                //messageElement.innerHTML = response;
-                                console.log(response);
-                                if(response === "1") {
-                                    //showToast("success", "Phòng này đã có hợp đồng đang chờ!");
-                                        $("#roomError").html("Phòng này có hợp đồng đang chờ!");
-                                        $("#roomError").css("color", "red");
-                                }
-                            },
-                            error: function () {
-                            },
-                            complete: function (result) {
-                            }
-                        });
+                    type: 'POST',
+                    data: {'roomID': roomID,
+
+                    },
+                    url: '/sakura/room/pending-room-check',
+                    success: function (response) {
+                        //messageElement.innerHTML = response;
+                        console.log(response);
+                        if (response === "1") {
+                            //showToast("success", "Phòng này đã có hợp đồng đang chờ!");
+                            $("#roomError").html("Phòng này có hợp đồng đang chờ!");
+                            $("#roomError").css("color", "red");
+                        }
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
             }
 
             function checkDate() {
@@ -311,9 +260,9 @@
                     room.css("border", "1.5px solid red");
                     check = false;
                 }
-                
+
                 console.log(check, room.val());
-                
+
                 if (lengthError.html() !== "" || moneyError.html() !== "" || $("#roomError").html() !== "")
                     check = false;
                 if (!rentalFeePerMonth.val()) {

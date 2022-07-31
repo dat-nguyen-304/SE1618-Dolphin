@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv = "refresh" content = "99999999999999999999; url = http://localhost:8080/sakura/invoice/new" />
+        <meta http-equiv = "refresh" content = "3; url = http://localhost:8080/sakura/invoice/new" />
         <title>Trang chủ nhà - Thêm hoá đơn</title>
         <%@include file="../view/assets.jsp" %>
         <link rel="stylesheet" href="../assets/css/LAddInvoice.css">

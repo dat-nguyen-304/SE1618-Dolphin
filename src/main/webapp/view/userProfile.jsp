@@ -67,7 +67,7 @@
                                 </div>
                                 <ul class="addition w-full h-auto p-2 absolute bottom-0 bg-[#f6fafc] rounded-lg">
                                     <li>
-                                        <span>Trạng thái ${requestScope.message}</span>
+                                        <span>Trạng thái</span>
                                         <span class="label">${sessionScope.currentUser.account.activate == true ? "Active" : "Inactive"}</span>
                                     </li>
 

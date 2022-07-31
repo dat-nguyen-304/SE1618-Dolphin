@@ -18,3 +18,99 @@
 [type=number] {
     border: 1px solid #cbd5e1;
 }
+
+
+[type=search]:focus,
+[type=search]:active,
+[type=text]:focus,
+[type=text]:active,
+.in-edit,
+.in-edit:focus,
+.in-edit:active,
+#start-date:focus,
+#start-date:active,
+#end-date:focus,
+#end-date:active {
+    outline: none;
+    border: none;
+}
+
+#search-invoice-id:focus,
+#search-invoice-id:active,
+#start-date:focus,
+#start-date:active,
+#end-date:focus,
+#end-date:active {
+    outline: none !important;
+    border: 1px solid #17535B !important;
+}
+
+.grid-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+}
+
+.datepicker-picker {
+    background: #fff !important;
+}
+
+.datepicker-controls button {
+    background: #fff !important;
+    color: rgb(107, 114, 128) !important;
+}
+
+.datepicker-cell {
+    background: #fff !important;
+    color: rgb(107, 114, 128) !important;
+}
+
+.datepicker-cell:hover {
+    background: rgb(243, 244, 246) !important;
+}
+
+.datepicker-cell.focused, .datepicker-cell.selected {
+    background: #17535B !important;
+    color: #fff !important;
+}
+
+
+[multiple],
+[type=date],
+[type=datetime-local],
+[type=email],
+[type=month],
+[type=number],
+[type=password],
+[type=search],
+[type=tel],
+[type=text],
+[type=time],
+[type=url],
+[type=week],
+select,
+select:focus,
+select:active,
+textarea {
+    outline: none;
+
+}
+
+[multiple]:focus,
+[type=date]:focus,
+[type=datetime-local]:focus,
+[type=email]:focus,
+[type=month]:focus,
+[type=number]:focus,
+[type=password]:focus,
+[type=search]:focus,
+[type=tel]:focus,
+[type=text]:focus,
+[type=time]:focus,
+[type=url]:focus,
+[type=week]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    --tw-ring-shadow: none;
+    border: none;
+    border: solid 1px #17535B;
+}

@@ -15,7 +15,7 @@
         <%@include file="../view/assets.jsp" %>
 
         <link rel="stylesheet" href="../assets/css/admin-page.css">
-       
+
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
 
@@ -27,9 +27,14 @@
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
+        <link rel="stylesheet" href="../assets/css/datatables.css">
         <link rel="stylesheet" href="../assets/css/admin-tenant-magement.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
-        <link rel="stylesheet" href="../assets/css/datatables.css">
+        <style>
+            .dataTables_wrapper {
+                height: 92% !important;
+            }
+        </style>
     </head>
     <body>
         <%@include file="../view/headerAdminDashboard.jsp" %>
@@ -57,41 +62,69 @@
                     </nav>
                 </div>
                 <div class="card bg-[#fff] p-[20px] mt-[20px]">
-                    <div>
-                        <img src="${not empty requestScope.landlord.account.avatar ? requestScope.landlord.account.avatar : "../assets/images/user-avatars/no_ava.jpg"}">
-                        <p>Tên đầy đủ: ${requestScope.landlord.fullname}</p>
-                        <p>Tên tài khoản: ${requestScope.landlord.account.username}</p>
-                        <p>Ngày tạo: ${requestScope.landlord.account.registrationDate}</p>
-                        <p>Email: ${requestScope.landlord.account.email}</p>
-                        <p>Số điện thoại: ${requestScope.landlord.phone}</p>
+                    <div class="flex space-x-[40px]">
+                        <div class="w-[300px] h-[300px] overflow-hidden bg-slate-50 shadow p-4 rounded">
+                            <img class="w-full h-full object-cover" src="${not empty requestScope.landlord.account.avatar ? requestScope.landlord.account.avatar : "../assets/images/user-avatars/no_ava.jpg"}">
+                        </div>
+                        <div class="grid grid-cols-6 gap-[8px] w-1/3">
+                            <div class="col-span-2 mb-[10px]">
+                                <p class="text-[14px] text-slate-400 font-normal">Tên đầy đủ</p>
+                                <p class="text-[18px] text-slate-700 font-bold">
+                                    ${requestScope.landlord.fullname}
+                                </p>
+                            </div>
+                            <div class="col-span-4 mb-[10px]">
+                                <p class="text-[14px] text-slate-400 font-normal">Tên tài khoản</p>
+                                <p class="text-[18px] text-slate-700 font-bold">${requestScope.landlord.account.username}</p>
+                            </div>
+
+                            <div class="col-span-2 mb-[10px]">
+                                <p class="text-[14px] text-slate-400 font-normal">Ngày tạo</p>
+                                <p class="text-[18px] text-slate-700 font-bold">
+                                    ${requestScope.landlord.account.registrationDate}
+                                </p>
+                            </div>
+                            <div class="col-span-4 mb-[10px]">
+                                <p class="text-[14px] text-slate-400 font-normal">Email</p>
+                                <p class="text-[18px] text-slate-700 font-bold"> ${requestScope.landlord.account.email}</p>
+                            </div>
+
+                            <div class="col-span-2 mb-[10px]">
+                                <p class="text-[14px] text-slate-400 font-normal">Số điện thoại</p>
+                                <p class="text-[18px] text-slate-700 font-bold">
+                                    ${requestScope.landlord.phone}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card bg-[#fff] p-[20px] mt-[20px] ">
-                    <div>
-                        <h2>Danh sách nhà trọ</h2>
-                        <table id = "landlord-detail-hostel-table">
-                            <thead>
-                                <tr>
-                                    <th>ID Nhà trọ</th>
-                                    <th>Tên nhà trọ</th>
-                                    <th></th>
+                <div class="card bg-[#fff] p-[20px] mt-[20px] h-[780px] ">
+                    <div class="text-[20px] font-bold text-[#288D87] pb-[20px]">Danh sách nhà trọ</div>
+                    <table id = "landlord-detail-hostel-table" class="w-full text-[16px] text-left text-gray-600 border-[1px] border-gray-100 relative">
+                        <thead class="text-center text-[15px] text-slate-700 uppercase bg-slate-50">
+                            <tr>
+                                <th scope="col" class="text-center px-6 py-3">ID Nhà trọ</th>
+                                <th scope="col" class="text-center px-6 py-3">Tên nhà trọ</th>
+                                <th scope="col" class="text-center px-6 py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${requestScope.hostelList}" var = "hostel">
+                                <tr class="bg-white border-b hover:bg-gray-50 text-[16px] ">
+                                    <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900">${hostel.hostelID}</th>
+                                    <td class="text-center px-6 py-4">${hostel.hostelName}</td>
+                                    <td class="text-center px-6 py-4">
+                                        <form action = "/sakura/admin/hostel-detail" method = "post">
+                                            <button name = "hostelID" value = "${hostel.hostelID}" type = "submit"
+                                                    class="rounded py-[3px] px-[10px] text-[15px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
+                                                <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${requestScope.hostelList}" var = "hostel">
-                                    <tr>
-                                        <td>${hostel.hostelID}</td>
-                                        <td>${hostel.hostelName}</td>
-                                        <td>
-                                            <form action = "/sakura/admin/hostel-detail" method = "post">
-                                                <button name = "hostelID" value = "${hostel.hostelID}" type = "submit">Xem chi tiết</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach> 
-                            </tbody>
-                        </table>
-                    </div>
+                            </c:forEach> 
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <%@include file="../view/footerDashboard.jsp" %>
@@ -100,9 +133,52 @@
             $(document).ready(function () {
 
                 $('#landlord-detail-hostel-table').DataTable({
-                    "pageLength": 4, //so luong item per page
-                    "info": false, //false thi` khong show so luong entry hien tai
-                    "lengthChange": false // false thi khong cho thay doi so luong entry per page
+                    dom: 'fprtiB',
+
+                    language: {
+                        "emptyTable": "Không có dữ liệu!",
+                        "zeroRecords": "Không có kết quả phù hợp!",
+                        "infoEmpty": "Hiển thị 0 kết quả",
+                        "info": "Hiển thị <b>_START_ - _END_</b> của <b>_TOTAL_</b> kết quả",
+                        "infoFiltered": "",
+                        search: "Tìm kiếm",
+                        paginate: {
+                            previous: '<i class="bi bi-caret-left-fill"></i>',
+                            next: '<i class="bi bi-caret-right-fill"></i>'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: 'Trước',
+                                next: 'Sau'
+                            }
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'Xuất file PDF <i class="bi bi-filetype-pdf text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: 'In <i class="bi bi-printer text-[20px]"></i>',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        }
+                    ],
+
+                    "pageLength": 10, // items per page
+                    info: true
                 });
             });
         </script>

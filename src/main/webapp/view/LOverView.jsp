@@ -274,7 +274,7 @@
         </div>
 
         <!-- chartJS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../webjars/chart.js/3.8.0/dist/chart.js"></script>
         <script>
             var revenueDates = new Array();
             var revenueMValues = new Array();

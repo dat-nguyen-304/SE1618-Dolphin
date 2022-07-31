@@ -72,7 +72,7 @@
                                     Không có
                                 </c:if>
                                 <c:if test="${not empty requestScope.bookingList}">
-                                    <table class="w-full text-[16px] text-left text-gray-500 mb-[20px] relative ">
+                                    <table class="w-full text-[16px] text-left text-gray-800 mb-[20px] relative ">
                                         <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                             <tr class="">
                                                 <th scope="col" class="px-6 py-3 text-center">Tên nhà trọ</th>
@@ -130,14 +130,19 @@
                                                                 <input type ="hidden" name ="queryType" value ="reject"/>
                                                                 <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
                                                                 <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
-                                                                <button type = "button" id="deny-request" class="w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
+                                                                <button type = "button" class="deny-request w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
                                                                     Từ chối
                                                                 </button>
                                                             </form>    
                                                         </td>
                                                     </c:if>
                                                     <c:if test="${booking.status != 1}">
-                                                    <td class="py-4 ">Lý do từ chối: ${(booking.description == null || booking.description.length() == 0) ? "Không có" : booking.description}</td>
+                                                        <td class="py-4">
+                                                            <button type = "button" class="view-desc w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
+                                                                Xem chi tiết
+                                                            </button>
+                                                        </td>
+                                                        <td class="py-4"></td>
                                                     </c:if>
                                                 </tr>
                                                 <!-- Modal list-->
@@ -154,7 +159,7 @@
                                     Không có
                                 </c:if>
                                 <c:if test="${not empty requestScope.invitationList}">
-                                    <table class="w-full text-[16px] text-left text-gray-500 mb-[20px]">
+                                    <table class="w-full text-[16px] text-left text-gray-800 mb-[20px]">
                                         <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3 text-center">Tên nhà trọ</th>
@@ -231,11 +236,15 @@
                                                             </form>
                                                         </c:if>
                                                         <c:if test="${invitation.status != 2}">
-
-                                                          <td class=" py-4 ">Lý do từ chối: ${(invitation.description == null || invitation.description.length() == 0) ? "Không có" : invitation.description}</td>
+                                                            <button type = "button" class="view-invite-desc w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
+                                                                Xem chi tiết
+                                                            </button>
                                                         </c:if>
                                                     </td>
                                                 </tr>
+                                                <!-- Modal list-->
+                                                <%@include file="../view/modalLandlordBookingRequest2.jsp" %>
+                                                <!-- End modal list-->
                                             </c:forEach>
                                         </tbody>
                                     </table>
@@ -248,15 +257,17 @@
             </div>
 
             <%@include file="../view/footerDashboard.jsp" %>
-
         </div>
+
         <script src="../assets/tailwind-elements/index.min.js"></script>
         <script>
-            var open_modal_1 = document.querySelector('#deny-request');
-            open_modal_1.addEventListener('click', function (event) {
-                event.preventDefault();
-                toggleModal('.confirmDenyRequest');
-            });
+            var open_modal_1 = document.querySelectorAll('.deny-request');
+            for (let i = 0; i < open_modal_1.length; ++i) {
+                open_modal_1[i].addEventListener('click', function (event) {
+                    event.preventDefault();
+                    toggleModal('.confirmDenyRequest');
+                });
+            }
 
             var close_modal_1 = document.querySelectorAll('.confirmDenyRequest .confirmDenyRequest-close');
             for (let i = 0; i < close_modal_1.length; ++i) {
@@ -286,6 +297,70 @@
                 modal.classList.toggle('opacity-0');
                 modal.classList.toggle('pointer-events-none');
             }
+
+        </script> 
+        <script>
+            var open_modal_view_desc = document.querySelectorAll('.view-desc');
+            for (let i = 0; i < open_modal_view_desc.length; ++i) {
+                open_modal_view_desc[i].addEventListener('click', function (event) {
+                    event.preventDefault();
+                    toggleModal('.viewDesc');
+                });
+            }
+
+            var close_modal_view_desc = document.querySelectorAll('.viewDesc .viewDesc-close');
+            for (let i = 0; i < close_modal_view_desc.length; ++i) {
+                close_modal_view_desc[i].addEventListener('click', () => {
+                    toggleModal('.viewDesc');
+                    console.log('close 1');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.viewDesc');
+                if (isEscape && modal_1.classList.contains('active-modal')) {
+                    toggleModal('.viewDesc');
+                }
+            };
+
+        </script> 
+        <script>
+            var open_modal_view_inv_desc = document.querySelectorAll('.view-invite-desc');
+            for (let i = 0; i < open_modal_view_inv_desc.length; ++i) {
+                open_modal_view_inv_desc[i].addEventListener('click', function (event) {
+                    event.preventDefault();
+                    toggleModal('.viewInviteDesc');
+                });
+            }
+
+            var close_modal_view_inv_desc = document.querySelectorAll('.viewInviteDesc .viewInviteDesc-close');
+            for (let i = 0; i < close_modal_view_inv_desc.length; ++i) {
+                close_modal_view_inv_desc[i].addEventListener('click', () => {
+                    toggleModal('.viewInviteDesc');
+                    console.log('close 1');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_1 = document.querySelector('.viewInviteDesc');
+                if (isEscape && modal_1.classList.contains('active-modal')) {
+                    toggleModal('.viewInviteDesc');
+                }
+            };
 
         </script> 
     </body>

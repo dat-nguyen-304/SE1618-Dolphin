@@ -121,7 +121,7 @@
                     <!-- Statistics -->
                     <div class="statistic flex justify-between mt-[20px] grid grid-cols-4 grid-rows-2 gap-5">
                         <div class="card chart bg-[#fff] p-5 flex flex-col col-span-3 row-span-2">
-                            <div class="text-[20px] font-bold text-[#2A3C46] self-center pb-[20px]">Thống kê chi phí dịch vụ
+                            <div class="text-[20px] font-bold text-[#2A3C46] self-center pb-[20px]">Thống kê chi phí hoá đơn
                             </div>
                             <div class="w-[90%] h-[90%] mx-auto">
                                 <canvas id="myChart"></canvas>
@@ -146,11 +146,6 @@
                                                 <tr class="bg-white border-b hover:bg-gray-50">
                                                     <th scope="row" class="pr-6 py-4 font-medium text-gray-900 whitespace-nowrap">${roomResident.fullname}</th>
                                                     <td class="px-6 py-4">${roomResident.phone}</td>
-                                                    <td class="px-6 py-4 text-right">
-                                                        <a href="#" class="font-medium text-[#288D87] hover:underline">
-                                                            <i class="bi bi-pencil-fill"></i>
-                                                        </a>
-                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -163,8 +158,9 @@
                                     <p>Hoá đơn mới nhất</p>
                                     <form action="/sakura/invoice/detail" method="post">
                                         <input type="hidden" name="invoiceID" value="${sessionScope.latestInvoice.invoiceID}">
-                                        <button type="submit" class="rounded py-[3px] px-[10px] text-[15px] text-[#fff] flex items-center bg-[#278d87] hover:bg-[#1e7570]">
-                                            <i class="bi bi-box-arrow-up-right mr-[5px]"></i>Xem chi tiết
+                                        <button type="submit" class="text-[15px] font-light flex items-baseline hover:text-[#288D87]">
+                                            <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
+                                            <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
                                         </button>
                                     </form>
                                 </div>
@@ -221,6 +217,62 @@
 
         <!-- chartJS -->
         <script src="../webjars/chart.js/3.8.0/dist/chart.js"></script>
-        <script src="../assets/javascript/chart-tenant-page.js"></script>
+        <script>
+            var invoiceValue = new Array();
+            var invoiceDate = new Array();
+            <c:forEach items="${sessionScope.invoiceList}" var="invoice">
+            invoiceValue.push("${invoice.totalPrice}");
+            invoiceDate.push("${invoice.month}");
+            </c:forEach>
+            console.log("Value ");
+            console.log(invoiceValue);
+            console.log("Date ");
+            console.log(invoiceDate);
+        </script>
+        <script>
+            const data = {
+                labels: invoiceDate,
+                datasets: [{
+                        label: '`Tổng hoá đơn hằng tháng',
+                        data: invoiceValue,
+                        barPercentage: 0.5,
+                        barThickness: 40,
+                        backgroundColor: [
+                            '#288D87'
+                        ]
+                    }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: ''
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#EEF0F1'
+                            },
+                            ticks: {
+                                color: '#40576C'
+                            }
+                        }
+                    }
+                }
+            };
+
+            var ctx = document.getElementById('myChart');
+            const myChart = new Chart(
+                    ctx,
+                    config
+                    );
+
+
+        </script>
     </body>
 </html>

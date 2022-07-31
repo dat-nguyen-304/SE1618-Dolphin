@@ -65,16 +65,16 @@
 
 .datepicker-controls button {
     background: #fff !important;
-    color: rgb(107 114 128) !important;
+    color: rgb(107, 114, 128) !important;
 }
 
 .datepicker-cell {
     background: #fff !important;
-    color: rgb(107 114 128) !important;
+    color: rgb(107, 114, 128) !important;
 }
 
 .datepicker-cell:hover {
-    background: rgb(243 244 246) !important;
+    background: rgb(243, 244, 246) !important;
 }
 
 .datepicker-cell.focused, .datepicker-cell.selected {

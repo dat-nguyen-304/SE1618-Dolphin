@@ -50,9 +50,14 @@
 
                 <div class="content mt-[20px] flex justify-between grid grid-cols-2 gap-[20px]">
                     <!-- Notification list -->
-                    <div class="noti-list flex flex-col justify-between h-[calc(100vh-225px)] overflow-y-auto">
+                    <div class="noti-list flex flex-col space-y-[20px] h-[calc(100vh-225px)] overflow-y-auto">
+                        <c:if test="${empty requestScope.notificationList}">
+                            <div class="w-full h-full flex justify-center items-center">
+                                <p class="text-[35px] font-bold text-slate-300">Không có thông báo</p>
+                            </div>
+                        </c:if>
                         <c:forEach var="notification" items="${requestScope.notificationList}">
-                            <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
+                            <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between">
                                 <h3 class="rating text-[14px] font-bold text-slate-400 mb-[10px]">${notification.createdDate}</h3>
                                 <div class="noti-content text-[17px] font-semibold text-slate-700 text-justify">
                                     <p class="">${notification.content}</p>

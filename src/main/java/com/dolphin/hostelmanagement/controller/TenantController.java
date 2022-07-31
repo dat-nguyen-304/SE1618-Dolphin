@@ -83,15 +83,18 @@ public class TenantController extends HttpServlet {
                 Contract currentContract = ContractDAO.findActiveContractByTenant(t);
                 if (currentContract != null) {
                     ArrayList<RoomResident> roomResidentList = RoomResidentDAO.findByRoom(currentContract.getRoom());
+                    ArrayList<Invoice> invoiceList = (ArrayList<Invoice>) InvoiceDAO.findByContract(currentContract.getContractID());
                     Invoice latestInvoice = InvoiceDAO.findLatestByContract(currentContract);
                     //currentContract
                     session.setAttribute("currentContract", currentContract);
                     session.setAttribute("roomResidentList", roomResidentList);
                     session.setAttribute("latestInvoice", latestInvoice);
+                    session.setAttribute("invoiceList", invoiceList);
                 } else {
                     session.removeAttribute("currentContract");
                     session.removeAttribute("roomResidentList");
                     session.removeAttribute("latestInvoice");
+                    session.removeAttribute("invoiceList");
                 }
                 //currentContract.getHostel().getDistrict()
                 request.getRequestDispatcher("/view/tenantPage.jsp").forward(request, response);
@@ -116,7 +119,7 @@ public class TenantController extends HttpServlet {
                     ArrayList<BookingRequest> bookingList = BookingRequestDAO.getBookingRequestByTenant(t, 1);
                     bookingList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 3));
                     bookingList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 4));
-                    
+
                     ArrayList<BookingRequest> invitationList = BookingRequestDAO.getBookingRequestByTenant(t, 2);
                     invitationList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 5));
                     invitationList.addAll(BookingRequestDAO.getBookingRequestByTenant(t, 6));
@@ -128,22 +131,22 @@ public class TenantController extends HttpServlet {
                     request.getRequestDispatcher("/view/tenantRentalRequestPage.jsp").forward(request, response);
                     return;
                 }
-                if(request.getParameter("queryType").equals("refuse-booking")) {
-                    int bookingRequestID = Integer.parseInt(request.getParameter("bookingID"));
-                    BookingRequestDAO.changeStatus(bookingRequestID, 3);
-                    
-                    
-                    //ly do tu choi
-                    String denyReason = request.getParameter("denyDescMessage").trim();
-                    if (denyReason == null || denyReason.length() == 0) {
-                        denyReason = "Không có";
-                    }
-                    BookingRequestDAO.addDescription(bookingRequestID, denyReason);
-                    //end ly do tu choi
-                    
-                    response.sendRedirect("/sakura/tenant/rental-request");
-                    
-                }
+//                if(request.getParameter("queryType").equals("refuse-booking")) {
+//                    int bookingRequestID = Integer.parseInt(request.getParameter("bookingID"));
+//                    BookingRequestDAO.changeStatus(bookingRequestID, 3);
+//                    
+//                    
+//                    //ly do tu choi
+//                    String denyReason = request.getParameter("denyDescMessage").trim();
+//                    if (denyReason == null || denyReason.length() == 0) {
+//                        denyReason = "Không có";
+//                    }
+//                    BookingRequestDAO.addDescription(bookingRequestID, denyReason);
+//                    //end ly do tu choi
+//                    
+//                    response.sendRedirect("/sakura/tenant/rental-request");
+//                    
+//                }
                 if (request.getParameter("queryType").equals("accept")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
@@ -191,8 +194,7 @@ public class TenantController extends HttpServlet {
 
                     ContractDAO.changeStatus(contractID, 3);
                     BookingRequestDAO.changeStatus(contractID, 5);
-                    
-                    
+
                     //ly do tu choi
                     String denyReason = request.getParameter("denyDescMessage").trim();
                     if (denyReason == null || denyReason.length() == 0) {
@@ -270,14 +272,16 @@ public class TenantController extends HttpServlet {
 
                 request.getRequestDispatcher("/view/TContractList.jsp").forward(request, response);
             }
-            
+
             if (path.equals("/pending-booking-request")) {
                 int tenantID = t.getAccount().getAccountID();
                 int roomTypeID = Integer.parseInt(request.getParameter("roomTypeID"));
-                
-                if(BookingRequestDAO.findPendingBookingRequest(tenantID, roomTypeID)) 
+
+                if (BookingRequestDAO.findPendingBookingRequest(tenantID, roomTypeID)) {
                     out.print(1);
-                else out.print(0);
+                } else {
+                    out.print(0);
+                }
             }
         }
     }

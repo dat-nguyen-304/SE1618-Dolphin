@@ -129,11 +129,11 @@
                                     <p class="text-[#929ca5] font-normal">Trạng thái</p>
                                     <div class="text-[18px] text-[#2A3C46] font-semibold contractStatus flex items-center">
                                         <c:if test="${requestScope.contract.status == 0}">
-                                            Đã kết thúc
+                                            <span class="text-sky-600">Đã kết thúc</span>
                                         </c:if>
                                         <c:if test="${requestScope.contract.status == 1}">
-                                            <p class="text-blue-600"> Còn hiệu lực</p>
-                                            <button class="inline-block ml-[30px] px-[10px] text-gray-400 hover:text-[#17535B] border border-gray-300 hover:border-[#17535B]" id="endContract-1" type="submit" name="action" value="Save" class="">
+                                            <p class="text-emerald-500"> Còn hiệu lực</p>
+                                            <button class="inline-block ml-[30px] px-[10px] text-gray-400 hover:text-[#17535B] border border-gray-300 hover:border-[#17535B] rounded" id="endContract-1" type="submit" name="action" value="Save" class="">
                                                 Kết thúc hợp đồng này
                                             </button>
                                         </c:if>
@@ -141,7 +141,7 @@
                                             <p class="text-gray-700">Chờ xác nhận</p>
                                         </c:if>
                                         <c:if test="${requestScope.contract.status == 3}">
-                                            <p class="text-slate-500">Đã hủy</p>
+                                            <p class="text-rose-600">Đã hủy</p>
                                         </c:if>
                                     </div>
                                 </div>
@@ -156,8 +156,9 @@
                             </div>
                             <c:if test="${requestScope.contract.description != null}">
                                 <div class="mt-[20px]">
-                                    <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Nội dung</p>
-                                    <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.description}</p>
+                                    <button id="view-contract-desc" class="text-slate-600 border border-slate-400 hover:text-[#288D87] hover:border-[#288D87] font-normal px-[20px] py-[5px] rounded">
+                                        <i class="bi bi-arrows-angle-expand mr-[5px]"></i>Xem nội dung hợp đồng
+                                    </button>
                                 </div>
                             </c:if>
 
@@ -392,12 +393,6 @@
                 toggleModal('.endContractmodal1');
             });
 
-//            var open_modal_2 = document.querySelector('#endContract-2');
-//            open_modal_2.addEventListener('click', function (event) {
-//                event.preventDefault();
-//                toggleModal('.endContractmodal2');
-//            });
-
             // Bấm ngoài modal thì đóng modal
             // const overlay = document.querySelector('.modal .modal-overlay');
             // overlay.addEventListener('click', toggleModal('.modal'));
@@ -443,6 +438,35 @@
                 modal.classList.toggle('pointer-events-none');
             }
 
+        </script>
+        <script>
+            var open_modal_view_ct = document.querySelector('#view-contract-desc');
+            open_modal_view_ct.addEventListener('click', function (event) {
+                event.preventDefault();
+                toggleModal('.viewContractDesc');
+            });
+
+            var close_modal_view_ct = document.querySelectorAll('.viewContractDesc .viewContractDesc-close');
+            for (let i = 0; i < close_modal_view_ct.length; ++i) {
+                close_modal_view_ct[i].addEventListener('click', () => {
+                    toggleModal('.viewContractDesc');
+                    console.log('close 1');
+                });
+            }
+
+            document.onkeydown = function (evt) {
+                evt = evt || window.event;
+                var isEscape = false;
+                if ("key" in evt) {
+                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                } else {
+                    isEscape = (evt.keyCode === 27);
+                }
+                const modal_view = document.querySelector('.viewContractDesc');
+                if (isEscape && modal_view.classList.contains('active-modal')) {
+                    toggleModal('.viewContractDesc');
+                }
+            };
         </script>
     </body>
 
