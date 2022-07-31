@@ -84,9 +84,20 @@
             <span class="text-sm"></span>
         </div>
         <div class="modal-content">
+            <!--Title-->
+            <div class="flex justify-between items-center p-[20px] py-[10px] border-b">
+                <p class="text-2xl font-bold">Xác nhận</p>
+                <div
+                    class="addHostelmodal2-close cursor-pointer z-50 rounded-full p-[10px] hover:bg-[#F2F7F9]">
+                    <svg class="fill-current text-black " xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
             <!--Body-->
             <div class="p-[20px]">
-                <p class="addHostelMessage text-[20px] font-normal text-gray-800"></p>
+                <p class="addHostelMessage text-lg"></p>
             </div>
             <!--Footer-->
             <div class="flex justify-end p-[20px]">     
