@@ -58,7 +58,7 @@ public class BookingRequestDAO {
         try {
             cn = DBUtils.makeConnection();
 
-            String sql = "Select * from BookingRequest where tenantID = ? and status = ?";
+            String sql = "Select * from BookingRequest where tenantID = ? and status = ? order by createdDate desc";
 
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setInt(1, t.getAccount().getAccountID());
@@ -95,7 +95,7 @@ public class BookingRequestDAO {
                     + "from BookingRequest \n"
                     + "inner join RoomType on RoomType.roomTypeID = BookingRequest.roomTypeID\n"
                     + "inner join Hostel on Hostel.hostelID = RoomType.hostelID\n"
-                    + "where Hostel.hostelID = ? and BookingRequest.status = ?";
+                    + "where Hostel.hostelID = ? and BookingRequest.status = ? order by createdDate desc";
 
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setInt(1, hostelID);
@@ -241,7 +241,7 @@ public class BookingRequestDAO {
             
             String sql = "Select br.bookingRequestID, br.tenantID, br.createdDate, br.status, br.roomTypeID, br.description from BookingRequest br inner join RoomType rt \n" +
 "	on rt.roomTypeID = br.roomTypeID inner join Hostel h on rt.hostelID = h.hostelID inner join Landlord l on l.landlordID = h.landlordId where L.landlordID = ?\n" +
-"	and status = ?";
+"	and status = ? order by createdDate desc";
             
             PreparedStatement pst = cn.prepareCall(sql);
             

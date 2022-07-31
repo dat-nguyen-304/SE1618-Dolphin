@@ -85,7 +85,7 @@
                                                         </c:when>
                                                         <c:when test="${booking.status == 4}">
                                                             <p class="bg-rose-100 text-rose-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
-                                                                Bị từ chối
+                                                                Chủ nhà hủy
                                                             </p>
                                                         </c:when>
                                                     </c:choose>
@@ -108,7 +108,7 @@
                                                     </td>
                                                 </c:if>
                                                 <c:if test="${booking.status != 1}">
-                                                    <td class=" py-4 "></td>
+                                                    <td class=" py-4 ">Lý do từ chối: ${(booking.description == null || booking.description.length() == 0) ? "Không có" : booking.description}</td>
                                                 </c:if>
                                             </tr>
                                         </c:forEach>
@@ -153,12 +153,12 @@
                                                         </c:when>
                                                         <c:when test="${invitation.status == 5}">
                                                             <p class="bg-rose-100 text-rose-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
-                                                                Đã từ chối
+                                                                Từ chối
                                                             </p>
                                                         </c:when>
                                                         <c:when test="${invitation.status == 6}">
                                                             <p class="bg-slate-100 text-slate-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
-                                                                Bị hủy
+                                                                Chủ nhà hủy
                                                             </p>
                                                         </c:when>
                                                         <c:when test="${invitation.status == 7}">
@@ -168,8 +168,9 @@
                                                         </c:when>
                                                     </c:choose>
                                                 </td>
-                                                <c:if test="${invitation.status == 2}">
-                                                    <td class="px-6 py-4 flex items-center space-x-[20px]">
+
+                                                <td class="px-6 py-4 flex items-center space-x-[20px]">
+                                                    <c:if test="${invitation.status == 2}">
                                                         <form method = "post" action = "/sakura/tenant/rental-request">
                                                             <input type ="hidden" name ="queryType" value ="accept">
                                                             <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
@@ -184,17 +185,17 @@
                                                                 Từ chối
                                                             </button>
                                                         </form>
-                                                        <form method = "post" action = "/sakura/tenant/contract-detail">
-                                                            <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                            <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
-                                                                Xem hợp đồng
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </c:if>
+                                                    </c:if>
+                                                    <form method = "post" action = "/sakura/tenant/contract-detail">
+                                                        <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                        <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
+                                                            Xem hợp đồng
+                                                        </button>
+                                                    </form>
+                                                </td>
+
                                                 <c:if test="${invitation.status != 2}">
-                                                    <td class="px-6 py-4"></td>
-                                                    <td class="px-6 py-4"></td>
+                                                    <td class=" py-4 ">Lý do từ chối: ${(invitation.description == null || invitation.description.length() == 0) == null ? "Không có" : invitation.description}</td>
                                                 </c:if>
                                             </tr>
                                         </c:forEach>

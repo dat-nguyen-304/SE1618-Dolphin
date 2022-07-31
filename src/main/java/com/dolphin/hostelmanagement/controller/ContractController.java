@@ -126,8 +126,16 @@ public class ContractController extends HttpServlet {
             if (path.equals("/deny-contract")) {
                 int contractID = Integer.parseInt(request.getParameter("contractID"));
 
+                
                 ContractDAO.changeStatus(contractID, 3);
                 BookingRequestDAO.changeStatus(contractID, 6);
+                
+                //ly do tu choi
+                String denyReason = request.getParameter("denyDescMessage").trim();
+                if(denyReason == null || denyReason.length() == 0)
+                    denyReason = "Không có";
+                BookingRequestDAO.addDescription(contractID, denyReason);
+                //end ly do tu choi
 //                
 //                Notification noti = new Notification();
 //                noti.setCreatedDate(new Date());
