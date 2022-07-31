@@ -31,26 +31,22 @@
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
                         <li class="inline-flex items-center">
-                            <a href="#"
-                               class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900">
-                                <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                            <p class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900">
+                                <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
                                 </path>
                                 </svg>
                                 Yêu cầu thuê phòng
-                            </a>
+                            </p>
                         </li>
                     </ol>
                 </nav>
                 <!-- End breadcrumb -->
 
-
                 <!-- Rental request list -->
-                <div class="statistic w-full mt-[20px] grid grid-cols-8 gap-[20px]">
-                    <div class="card col-span-3 w-full room-member bg-[#fff] p-5 flex flex-col">
-                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
+                <div class="statistic w-full mt-[20px]">
+                    <div class="card w-[75%] mb-[20px] room-member bg-[#fff] p-5 flex flex-col">
+                        <div class="text-[20px] font-bold text-[#288D87] pb-[20px] flex justify-between items-center">
                             <p>Danh sách yêu cầu thuê phòng</p>
                         </div>
                         <div class="relative overflow-x-auto">
@@ -58,53 +54,60 @@
                                 Không có
                             </c:if>
                             <c:if test="${not empty requestScope.bookingList}">
-                                <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                                <table class="w-full text-[16px] text-left text-gray-500 mb-[20px]">
                                     <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                         <tr>
-                                            <th scope="col" class=" py-3">Nhà trọ</th>
-                                            <th scope="col" class=" py-3">Loại phòng</th>
-                                            <th scope="col" class=" py-3">Thời gian gửi</th>
-                                            <th scope="col" class=" py-3">Trạng thái</th>
-                                            <th scope="col" class=" py-3"></th>
+                                            <th scope="col" class="text-center px-6 py-3">Nhà trọ</th>
+                                            <th scope="col" class="text-center px-6 py-3">Loại phòng</th>
+                                            <th scope="col" class="text-center px-6 py-3">Thời gian gửi</th>
+                                            <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
+                                            <th scope="col" class="text-center px-6 py-3"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items = "${requestScope.bookingList}" var="booking">
                                             <tr class="bg-white border-b hover:bg-gray-50">
-                                                <td scope="row" class=" py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    ${booking.roomType.hostel.hostelName}
-                                                </td>
-                                                <td class=" py-4 date">
-                                                    ${booking.roomType.roomTypeName}
-                                                </td>
-                                                <td class=" py-4 date">
-                                                    ${booking.createdDate}
-                                                </td>
-                                                <td class=" py-4 date">
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${booking.roomType.hostel.hostelName}</td>
+                                                <td class="text-center px-6 py-4 date">${booking.roomType.roomTypeName}</td>
+                                                <td class="text-center px-6 py-4 date">${booking.createdDate}</td>
+                                                <td class="text-center px-6 py-4 date">
                                                     <c:choose>
-                                                        <c:when test="${booking.status == 1}">Đang chờ</c:when>
-                                                        <c:when test="${booking.status == 3}">Đã hủy</c:when>
-                                                        <c:when test="${booking.status == 4}">Bị từ chối</c:when>
+                                                        <c:when test="${booking.status == 1}">
+                                                            <p class="bg-sky-100 text-sky-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                Đang chờ
+                                                            </p>
+                                                        </c:when>
+                                                        <c:when test="${booking.status == 3}">
+                                                            <p class="bg-slate-100 text-slate-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                Đã huỷ
+                                                            </p>
+                                                        </c:when>
+                                                        <c:when test="${booking.status == 4}">
+                                                            <p class="bg-rose-100 text-rose-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                Bị từ chối
+                                                            </p>
+                                                        </c:when>
                                                     </c:choose>
                                                 </td>
                                                 <c:if test="${booking.status == 1}">
-                                                    <td class=" py-4 money">
+                                                    <td class=" py-4 flex items-center space-x-[20px]">
                                                         <form method = "post" action="/sakura/hostel/detail">
                                                             <input type ="hidden" name ="hostelId" value ="${booking.roomType.hostel.hostelID}">
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
                                                                 Xem nhà trọ
                                                             </button>
                                                         </form>    
-                                                    </td>
-                                                    <td class=" py-4 money">
                                                         <form method = "post" action="/sakura/tenant/rental-request">
                                                             <input type ="hidden" name ="bookingID" value ="${booking.bookingRequestID}"/>
                                                             <input type ="hidden" name="queryType" value="refuse-booking"/>
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
                                                                 Hủy yêu cầu
                                                             </button>
                                                         </form>
                                                     </td>
+                                                </c:if>
+                                                <c:if test="${booking.status != 1}">
+                                                    <td class=" py-4 "></td>
                                                 </c:if>
                                             </tr>
                                         </c:forEach>
@@ -113,7 +116,7 @@
                             </c:if>
                         </div>
                     </div>
-                    <div class="card col-span-5 room-member bg-[#fff] p-5 flex flex-col">
+                    <div class="card w-[75%] mt[20px] room-member bg-[#fff] p-5 flex flex-col">
                         <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                             <p>Lời mời thuê nhà</p>
                         </div>
@@ -123,73 +126,74 @@
                             </c:if>
                             <c:if test="${not empty requestScope.invitationList}">
 
-                                <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                                <table class="w-full text-[16px] text-left text-gray-500 mb-[20px]">
                                     <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                Nhà trọ
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Loại phòng
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Thời gian gửi
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Trạng thái
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                            </th>
+                                            <th scope="col" class="text-center px-6 py-3">Nhà trọ</th>
+                                            <th scope="col" class="text-center px-6 py-3">Loại phòng</th>
+                                            <th scope="col" class="text-center px-6 py-3">Thời gian gửi</th>
+                                            <th scope="col" class="text-center px-6 py-3">Trạng thái</th>
+                                            <th scope="col" class="text-center px-6 py-3"></th>
+                                            <th scope="col" class="text-center px-6 py-3"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items = "${requestScope.invitationList}" var="invitation">
                                             <tr class="bg-white border-b hover:bg-gray-50">
-                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    ${invitation.roomType.hostel.hostelName}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    ${invitation.roomType.roomTypeName}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    ${invitation.createdDate}
-                                                </td>
-                                                <td class="px-6 py-4 ">
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${invitation.roomType.hostel.hostelName}</td>
+                                                <td class="text-center px-6 py-4 ">${invitation.roomType.roomTypeName}</td>
+                                                <td class="text-center px-6 py-4 ">${invitation.createdDate}</td>
+                                                <td class="text-center px-6 py-4 ">
                                                     <c:choose>
-                                                        <c:when test="${invitation.status == 2}">Đang chờ</c:when>
-                                                        <c:when test="${invitation.status == 5}">Đã từ chối</c:when>
-                                                        <c:when test="${invitation.status == 6}">Bị hủy</c:when>
-                                                        <c:when test="${invitation.status == 7}">Thành công</c:when>
+                                                        <c:when test="${invitation.status == 2}">
+                                                            <p class="bg-sky-100 text-sky-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                Đang chờ
+                                                            </p>
+                                                        </c:when>
+                                                        <c:when test="${invitation.status == 5}">
+                                                            <p class="bg-rose-100 text-rose-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                Đã từ chối
+                                                            </p>
+                                                        </c:when>
+                                                        <c:when test="${invitation.status == 6}">
+                                                            <p class="bg-slate-100 text-slate-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                Bị hủy
+                                                            </p>
+                                                        </c:when>
+                                                        <c:when test="${invitation.status == 7}">
+                                                            <p class="bg-emerald-100 text-emerald-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                Thuê thành công 
+                                                            </p>
+                                                        </c:when>
                                                     </c:choose>
                                                 </td>
                                                 <c:if test="${invitation.status == 2}">
-                                                    <td class="px-6 py-4">
+                                                    <td class="px-6 py-4 flex items-center space-x-[20px]">
                                                         <form method = "post" action = "/sakura/tenant/rental-request">
                                                             <input type ="hidden" name ="queryType" value ="accept">
                                                             <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
                                                                 Đồng ý
                                                             </button>
                                                         </form>
-                                                    </td>
-                                                    <td class="px-6 py-4">
                                                         <form method = "post" action = "/sakura/tenant/rental-request">
                                                             <input type ="hidden" name ="queryType" value ="refuse">
                                                             <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
                                                                 Từ chối
                                                             </button>
                                                         </form>
-                                                    </td>
-                                                    <td class="px-6 py-4 ">
                                                         <form method = "post" action = "/sakura/tenant/contract-detail">
                                                             <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
+                                                            <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
                                                                 Xem hợp đồng
-                                                            </button></form>
+                                                            </button>
+                                                        </form>
                                                     </td>
+                                                </c:if>
+                                                <c:if test="${invitation.status != 2}">
+                                                    <td class="px-6 py-4"></td>
+                                                    <td class="px-6 py-4"></td>
                                                 </c:if>
                                             </tr>
                                         </c:forEach>

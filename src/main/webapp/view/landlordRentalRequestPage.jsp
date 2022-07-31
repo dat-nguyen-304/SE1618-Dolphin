@@ -14,26 +14,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Yêu cầu thuê phòng</title>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png" type="image/x-icon">
+        <%@include file="../view/assets.jsp" %>
 
-        <!-- <link rel="stylesheet" href="app.css"> -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-              rel="stylesheet">
-
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="../assets/css/LOverView.css">
-
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+        <link rel="stylesheet" href="../assets/css/landlord-rental-request.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
+        <link rel="stylesheet" href="../assets/tailwind-elements/index.min.css" />
     </head>
     <body>
         <%@include file="../view/headerLandlordDashboard.jsp" %>
@@ -49,8 +34,7 @@
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
                         <li class="inline-flex items-center">
-                            <a href="#"
-                               class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900">
+                            <p class="inline-flex items-center text-sm font-medium text-gray-400 hover:text-gray-900">
                                 <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                      xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -58,237 +42,206 @@
                                 </path>
                                 </svg>
                                 Yêu cầu thuê phòng
-                            </a>
+                            </p>
                         </li>
                     </ol>
                 </nav>
                 <!-- End breadcrumb -->
 
-
                 <!-- Rental request list -->
                 <div class="statistic w-full mt-[20px]">
-                    <div class="card w-full room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
-                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
-                            <p>Yêu cầu xem phòng</p>
-                        </div>
-                        <div class="relative overflow-x-auto">
-                            <c:if test="${empty requestScope.bookingList}">
-                                Không có
-                            </c:if>
-                            <c:if test="${not empty requestScope.bookingList}">
-                                <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                                    <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                Tên nhà trọ
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Tên khách thuê
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Số điện thoại
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Email
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Loại phòng
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Thời gian gửi
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Trạng thái
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                            <th scope="col" class="px-6 py-3">
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items = "${requestScope.bookingList}" var="booking">
-                                            <tr class="bg-white border-b hover:bg-gray-50">
-                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    ${booking.roomType.hostel.hostelName}
-                                                </td>
-                                                <td class="px-6 py-4 date">
-                                                    ${booking.tenant.fullname}
-                                                </td>
-                                                <td class="px-6 py-4 date">
-                                                    ${booking.tenant.phone}
-                                                </td>
-                                                <td class="px-6 py-4 date">
-                                                    ${booking.tenant.account.email}
-                                                </td>
-                                                <td class="px-6 py-4 date">
-                                                    ${booking.roomType.roomTypeName}
-                                                </td>
-                                                <td class="px-6 py-4 date">
-                                                    ${booking.createdDate}
-                                                </td>
-                                                <td class="px-6 py-4 date">
-                                                    <c:choose>
-                                                        <c:when test="${booking.status == 1}">Đang chờ</c:when>
-                                                        <c:when test="${booking.status == 4}">Đã hủy</c:when>
-                                                        <c:when test="${booking.status == 3}">Bị từ chối</c:when>
-                                                    </c:choose>
-                                                </td>
-                                                <c:if test="${booking.status == 1}">
-                                                    <td class="px-6 py-4 money">
-                                                        <form method = "post" action="/sakura/landlord/rentalRequestList">
-                                                            <input type ="hidden" name ="queryType" value ="accept"/>
-                                                            <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
-                                                            <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
-                                                                Đồng ý
-                                                            </button>
-                                                        </form>   
-                                                    </td>
-                                                    <td>
-                                                        <form method = "post" action="/sakura/landlord/rentalRequestList">
-                                                            <input type ="hidden" name ="queryType" value ="reject"/>
-                                                            <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
-                                                            <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#F6F8FA] border border-[288D87] hover:border hover:border-[#17535B] text-[#17535B] rounded">
-                                                                Từ chối
-                                                            </button>
-                                                        </form>    
-                                                    </td>
-                                                </c:if>
+                    <div class="card w-full room-member bg-[#fff] p-5 flex flex-col mt-[20px] h-[calc(100vh-225px)]">
+                        <ul class="nav nav-tabs flex space-x-[20px] list-none border-b-0 pl-0 mb-4" id="tabs-tab"
+                            role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tabs-home" class="text-[18px] font-semibold px-[10px] py-[5px] rounded active" id="tabs-home-tab" data-bs-toggle="pill" data-bs-target="#tabs-home" role="tab" aria-controls="tabs-home"
+                                   aria-selected="true">
+                                    Yêu cầu xem phòng
+                                </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tabs-profile" class="text-[18px] font-semibold px-[10px] py-[5px] rounded" id="tabs-profile-tab" data-bs-toggle="pill" data-bs-target="#tabs-profile" role="tab" aria-controls="tabs-profile" aria-selected="false">
+                                    Lời mời thuê nhà đã gửi
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tabs-tabContent">
+                            <div class="tab-pane fade show active relative" id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
+                                <c:if test="${empty requestScope.bookingList}">
+                                    Không có
+                                </c:if>
+                                <c:if test="${not empty requestScope.bookingList}">
+                                    <table class="w-full text-[16px] text-left text-gray-500 mb-[20px] relative">
+                                        <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                            <tr class="">
+                                                <th scope="col" class="px-6 py-3 text-center">Tên nhà trọ</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Tên khách thuê</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Số điện thoại</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Email</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Loại phòng</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Thời gian gửi</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Trạng thái</th>
+                                                <th scope="col" class="px-6 py-3"></th>
+                                                <th scope="col" class="px-6 py-3"></th>
                                             </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </c:if>
-                        </div>
-                    </div>
-                    <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
-                        <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
-                            <p>Lời mời thuê nhà đã gửi</p>
-                        </div>
-                        <div class="relative overflow-x-auto">
-                            <c:if test="${empty requestScope.invitationList}">
-                                Không có
-                            </c:if>
-                            <c:if test="${not empty requestScope.invitationList}">
-                                <table class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
-                                    <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                Tên nhà trọ
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Tên người nhận
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Số điện thoại
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Email
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Thời gian gửi
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Trạng thái
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items = "${requestScope.invitationList}" var="invitation">
-                                            <tr class="bg-white border-b hover:bg-gray-50">
-                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    ${invitation.roomType.hostel.hostelName}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    ${invitation.tenant.fullname}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    ${invitation.tenant.phone}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    ${invitation.tenant.account.email}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    ${invitation.createdDate}
-                                                </td>
-                                                <td class="px-6 py-4 ">
-                                                    <c:choose>
-                                                        <c:when test="${invitation.status == 2}">Đang chờ</c:when>
-                                                        <c:when test="${invitation.status == 5}">Bị từ chối</c:when>
-                                                        <c:when test="${invitation.status == 6}">Đã hủy</c:when>
-                                                        <c:when test="${invitation.status == 7}">Thành công</c:when>
-                                                    </c:choose>
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <form method = "post" action="/sakura/landlord/contract-detail">
-                                                        <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                        <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
-                                                            Xem hợp đồng
-                                                        </button>
-                                                    </form>
-                                                </td>
-
-                                                <c:if test="${invitation.status == 2}">
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items = "${requestScope.bookingList}" var="booking">
+                                                <tr class="bg-white border-b hover:bg-gray-50">
+                                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${booking.roomType.hostel.hostelName}</td>
+                                                    <td class="px-6 py-4">${booking.tenant.fullname}</td>
+                                                    <td class="px-6 py-4">${booking.tenant.phone}</td>
+                                                    <td class="px-6 py-4">${booking.tenant.account.email}</td>
+                                                    <td class="px-6 py-4">${booking.roomType.roomTypeName}</td>
+                                                    <td class="px-6 py-4 text-center date">${booking.createdDate}</td>
                                                     <td class="px-6 py-4">
-                                                        <form method = "post" action="/sakura/contract/add-contract">
+                                                        <c:choose>
+                                                            <c:when test="${booking.status == 1}">
+                                                                <p class="bg-sky-100 text-sky-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                    Đang chờ
+                                                                </p>
+                                                            </c:when>
+                                                            <c:when test="${booking.status == 4}">
+                                                                <p class="bg-rose-100 text-rose-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                    Từ chối
+                                                                </p>
+                                                            </c:when>
+                                                            <c:when test="${booking.status == 3}">
+                                                                <p class="bg-slate-100 text-slate-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                    Khách huỷ
+                                                                </p>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </td>
+                                                    <c:if test="${booking.status == 1}">
+                                                        <td class="px-6 py-4 money">
+                                                            <form method = "post" action="/sakura/landlord/rentalRequestList">
+                                                                <input type ="hidden" name ="queryType" value ="accept"/>
+                                                                <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
+                                                                <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
+                                                                <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fafafa] rounded">
+                                                                    Đồng ý
+                                                                </button>
+                                                            </form>   
+                                                        </td>
+                                                        <td>
+                                                            <form method = "post" action="/sakura/landlord/rentalRequestList">
+                                                                <input type ="hidden" name ="queryType" value ="reject"/>
+                                                                <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
+                                                                <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
+                                                                <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
+                                                                    Từ chối
+                                                                </button>
+                                                            </form>    
+                                                        </td>
+                                                    </c:if>
+                                                    <c:if test="${booking.status != 1}">
+                                                        <td class="px-6 py-4 money"></td>
+                                                        <td class="px-6 py-4 money"></td>
+                                                    </c:if>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </c:if>
+                            </div>
+                            <div class="tab-pane fade relative" id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
+                                <c:if test="${empty requestScope.invitationList}">
+                                    Không có
+                                </c:if>
+                                <c:if test="${not empty requestScope.invitationList}">
+                                    <table class="w-full text-[16px] text-left text-gray-500 mb-[20px]">
+                                        <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-center">Tên nhà trọ</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Tên người nhận</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Số điện thoại</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Email</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Thời gian gửi</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Trạng thái</th>
+                                                <th scope="col" class="px-6 py-3 text-center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items = "${requestScope.invitationList}" var="invitation">
+                                                <tr class="bg-white border-b hover:bg-gray-50">
+                                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                        ${invitation.roomType.hostel.hostelName}
+                                                    </td>
+                                                    <td class="px-6 py-4 ">
+                                                        ${invitation.tenant.fullname}
+                                                    </td>
+                                                    <td class="px-6 py-4 ">
+                                                        ${invitation.tenant.phone}
+                                                    </td>
+                                                    <td class="px-6 py-4 ">
+                                                        ${invitation.tenant.account.email}
+                                                    </td>
+                                                    <td class="px-6 py-4 text-center">
+                                                        ${invitation.createdDate}
+                                                    </td>
+                                                    <td class="px-6 py-4 ">
+                                                        <c:choose>
+                                                            <c:when test="${invitation.status == 2}">
+                                                                <p class="bg-sky-100 text-sky-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                    Đang chờ
+                                                                </p>
+                                                            </c:when>
+                                                            <c:when test="${invitation.status == 5}">
+                                                                <p class="bg-rose-100 text-rose-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                    Bị từ chối
+                                                                </p>
+                                                            </c:when>
+                                                            <c:when test="${invitation.status == 6}">
+                                                                <p class="bg-slate-100 text-slate-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                    Đã hủy
+                                                                </p>
+                                                            </c:when>
+                                                            <c:when test="${invitation.status == 7}">
+                                                                <p class="bg-emerald-100 text-emerald-800 font-semibold w-[120px] mx-auto py-[3px] rounded text-center">
+                                                                    Thành công
+                                                                </p>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </td>
+                                                    <td class="px-6 py-4 flex items-center space-x-[20px]">
+                                                        <form method = "post" action="/sakura/landlord/contract-detail">
                                                             <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                            <input type ="hidden" name ="queryType" value ="edit"/>
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
-                                                                Sửa hợp đồng
+                                                            <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
+                                                                Xem hợp đồng
                                                             </button>
                                                         </form>
+                                                        <c:if test="${invitation.status == 2}">
+                                                            <form method = "post" action="/sakura/contract/add-contract">
+                                                                <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                                <input type ="hidden" name ="queryType" value ="edit"/>
+                                                                <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
+                                                                    Sửa hợp đồng
+                                                                </button>
+                                                            </form>
+                                                            <form method = "post" action="/sakura/contract/deny-contract">
+                                                                <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
+                                                                <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
+                                                                    Hủy hợp đồng
+                                                                </button>
+                                                            </form>
+                                                        </c:if>
                                                     </td>
-                                                    <td class="px-6 py-4">
-                                                        <form method = "post" action="/sakura/contract/deny-contract">
-                                                            <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                            <button type = "submit" class="w-fit px-[10px] py-[5px] bg-[#17535B] hover:bg-[#13484F] text-[#fafafa] rounded">
-                                                                Hủy hợp đồng
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </c:if>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </c:if>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </c:if>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- End rental request list -->
             </div>
 
-            <!-- Footer -->
-            <footer class="w-full px-[20px] pb-[20px]">
-                <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
-                    <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
-                                                                                 class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
-                    </span>
-                    <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6 ">Về Sakura</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">Chính sách bảo mật</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-[#17535B]">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-            </footer>
-            <!-- End footer -->
-
+            <%@include file="../view/footerDashboard.jsp" %>
 
         </div>
-
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+        <script src="../assets/tailwind-elements/index.min.js"></script>
     </body>
 </html>
