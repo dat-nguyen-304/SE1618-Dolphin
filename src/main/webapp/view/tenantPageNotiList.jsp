@@ -57,8 +57,8 @@
                             </div>
                         </c:if>
                         <c:forEach var="notification" items="${requestScope.notificationList}">
-                            <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between">
-                                <h3 class="rating text-[14px] font-bold text-slate-400 mb-[10px]">${notification.createdDate}</h3>
+                            <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
+                                <h3 class="rating text-[14px] font-bold text-slate-400 mb-[10px]"><span class="date">${notification.createdDate}</span></h3>
                                 <div class="noti-content text-[17px] font-semibold text-slate-700 text-justify">
                                     <p class="">${notification.content}</p>
                                 </div>
@@ -121,6 +121,15 @@
             $("form#send-req").submit(function () {
                 sessionStorage.setItem("message", "Gửi yêu cầu thành công!");
                 sessionStorage.setItem("msg-type", "success");
+            });
+
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+                }
             });
         </script>
     </body>

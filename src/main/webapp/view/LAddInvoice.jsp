@@ -449,7 +449,7 @@
                     let startInput = $("#startInput" + serviceID);
                     let endInput = $("#endInput" + serviceID);
 
-                    if (latestInvoiceMonth.html() === "Hợp đồng này chưa có hóa đơn") {
+                    if (latestInvoiceMonth.html().trim() === "Hợp đồng này chưa có hóa đơn") {
                         if ($(element).attr('id').indexOf('startInput') >= 0) {
                             if (parseInt(startInput.val()) > parseInt(endInput.val())) {
                                 endInput.val(startInput.val());

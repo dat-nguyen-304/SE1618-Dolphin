@@ -68,7 +68,7 @@
                                 <tr class="bg-white border-b hover:bg-gray-50">
                                     <th scope="row" class="text-center px-6 py-[5px] font-medium text-gray-900">${revDate}</th>
                                     <td class="text-center px-6 py-[5px]">
-                                        ${requestScope.revenueValue[ptr.index]}
+                                        <span class="money">${requestScope.revenueValue[ptr.index]}</span>
                                     </td>
                                     <td class="text-center px-6 py-[5px]">
                                         <form action = "/sakura/landlord/revenue-detail" method = "post">
@@ -89,9 +89,17 @@
         </div>
         <script>
             $(document).ready(function () {
+                let allMoneyCells = $(".money");
+
+                for (let i = 0; i < allMoneyCells.length; i++) {
+                    let node = allMoneyCells[i];
+                    let money = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
                 $('#revenue-list-table').DataTable({
                     dom: 'fprtiB',
-
+                    order: [[0, 'desc']],
                     language: {
                         "emptyTable": "Không có dữ liệu!",
                         "zeroRecords": "Không có kết quả phù hợp!",

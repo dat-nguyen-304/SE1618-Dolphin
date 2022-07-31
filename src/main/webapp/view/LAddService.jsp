@@ -123,7 +123,7 @@
                                         <td class="py-4 w-[150px]">
                                             m<sup>3</sup>
                                         </td>
-                                        <td class="py-4 w-[150px]">
+                                        <td class="py-4 w-[150px] date">
                                             ${requestScope.waterService.monthApplied}
                                         </td>
                                         <td class="py-4 text-center">
@@ -150,7 +150,7 @@
                                             <td class="py-4 w-[150px]">
                                                 <input name="updateUnit" type="text" class="text-[15px] w-[90%] px-[3px]" value="${service.unit}"/>
                                             </td>
-                                            <td class="py-4 w-[150px]">
+                                            <td class="py-4 w-[150px] date">
                                                 ${service.monthApplied}
                                             </td>
                                             <td class="py-4 text-center">
@@ -453,6 +453,16 @@
 
 
             }
+
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    console.log(isoDate);
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+                }
+            });
         </script>
     </body>
 </html>

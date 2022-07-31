@@ -236,10 +236,16 @@
                                                             </form>
                                                         </c:if>
                                                         <c:if test="${invitation.status != 2}">
+<<<<<<< HEAD
                                                             <button type = "button" class="view-invite-desc w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
                                                                 Xem chi tiết
                                                             </button>
                                                         </c:if>
+=======
+
+                                                        <td class=" py-4 ">Lý do từ chối: ${(invitation.description == null || invitation.description.length() == 0) ? "Không có" : invitation.description}</td>
+                                                    </c:if>
+>>>>>>> ce24371e94c57af1a7e8dee64bbaf123e3c40156
                                                     </td>
                                                 </tr>
                                                 <!-- Modal list-->
@@ -298,6 +304,15 @@
                 modal.classList.toggle('pointer-events-none');
             }
 
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    console.log(isoDate);
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+                }
+            });
         </script> 
         <script>
             var open_modal_view_desc = document.querySelectorAll('.view-desc');

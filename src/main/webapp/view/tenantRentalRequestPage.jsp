@@ -210,7 +210,6 @@
                                                             </button>
                                                         </form>
                                                     </td>
-
                                                     <c:if test="${invitation.status != 2}">
                                                         <td class=" py-4 ">
                                                             <button type = "button" class="view-deny-msg w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
@@ -235,6 +234,15 @@
         </div>
         <script src="../assets/toastr/toastr.min.js"></script>
         <script type="text/javascript">
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+                }
+            });
             function showToast(type, msg) {
                 toastr.options.positionClass = 'toast-bottom-right';
                 // toastr.options.extendedTimeOut = 0; //1000;

@@ -82,10 +82,10 @@
                                 <c:if test = "${invoice.month eq requestScope.revenueDate}">
                                     <tr class="bg-white border-b hover:bg-gray-50">
                                         <th scope="row" class="text-center px-6 py-[5px] font-medium text-gray-900">${invoice.contract.room.roomNumber}</th>
-                                        <td class="text-center px-6 py-[5px]">${invoice.waterPrice}</td>
-                                        <td class="text-center px-6 py-[5px]">${invoice.electricPrice}</td>
-                                        <td class="text-center px-6 py-[5px]">${invoice.totalPrice - waterPrice - electricPrice}</td>
-                                        <td class="text-center px-6 py-[5px]">${invoice.totalPrice}</td>
+                                        <td class="text-center px-6 py-[5px]"><span class="money">${invoice.waterPrice}</span></td>
+                                        <td class="text-center px-6 py-[5px]"><span class="money">${invoice.electricPrice}</span></td>
+                                        <td class="text-center px-6 py-[5px]"><span class="money">${invoice.totalPrice - waterPrice - electricPrice}</span></td>
+                                        <td class="text-center px-6 py-[5px]"><span class="money">${invoice.totalPrice}</span></td>
                                     </tr>
                                 </c:if>
                             </c:forEach>
@@ -98,6 +98,14 @@
     </body>
     <script>
         $(document).ready(function () {
+            let allMoneyCells = $(".money");
+            
+            for (let i = 0; i < allMoneyCells.length; i++) {
+                let node = allMoneyCells[i];
+                let money = node.childNodes[0].nodeValue;
+                node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
             $('#revenue-list-table').DataTable({
                 dom: 'fprtiB',
                 language: {

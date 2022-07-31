@@ -48,7 +48,7 @@
                     <div class="noti-list flex flex-col justify-between space-y-[20px] h-[740px] overflow-y-auto">
                         <c:forEach items="${requestScope.notificationList}" var="notification">
                             <div class="card noti-item w-[60%] mx-auto h-fit bg-[#fff] p-5 flex flex-col justify-between">
-                                <h3 class="rating text-[14px] font-bold text-slate-400 mb-[10px]">${notification.createdDate}</h3>
+                                <h3 class="rating text-[14px] font-bold text-slate-400 mb-[10px]"><span class="date">${notification.createdDate}</span></h3>
                                 <div class="noti-content text-[17px] font-semibold text-slate-700 text-justify">
                                     <p class="">${notification.content}</p>
                                 </div>
@@ -60,4 +60,14 @@
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
     </body>
+    <script>
+        $(document).ready(function () {
+            let allDateCells = $(".date");
+            for (let i = 0; i < allDateCells.length; i++) {
+                let node = allDateCells[i];
+                let isoDate = node.childNodes[0].nodeValue;
+                node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+            }
+        });
+    </script>
 </html>

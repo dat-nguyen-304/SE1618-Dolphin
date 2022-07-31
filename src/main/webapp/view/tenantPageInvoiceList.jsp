@@ -186,6 +186,7 @@
         <script>
             $(document).ready(function () {
                 $('#invoice-table').DataTable({
+                    order: [[0, 'desc']],
                     dom: 'fprtiB',
                     language: {
                         "emptyTable": "Không có dữ liệu!",

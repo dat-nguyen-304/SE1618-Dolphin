@@ -90,8 +90,8 @@
                                         </th>
                                         <td class="text-left px-6 py-[5px]">${contract.tenant.fullname}</td>
                                         <td class="text-center px-6 py-[5px]">${contract.room.roomNumber}</td>
-                                        <td class="text-center px-6 py-[5px]">${contract.startDate}</td>
-                                        <td class="text-center px-6 py-[5px]">${contract.endDate}</td>
+                                        <td class="text-center px-6 py-[5px]"><span class="date">${contract.startDate}</span></td>
+                                        <td class="text-center px-6 py-[5px]"><span class="date">${contract.endDate}</span></td>
                                         <td class="text-center px-6 py-[5px]">
                                             <c:if test="${contract.status == 0}">
                                                 <p class="bg-slate-100 text-slate-800 font-semibold w-[120px] mx-auto py-[3px] rounded">
@@ -134,7 +134,14 @@
 
         <script>
             $(document).ready(function () {
+                let allDateCells = $(".date");
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+                }
                 $('#contract-table').DataTable({
+                    order: [[0, 'desc']],
                     dom: 'fprtiB',
                     language: {
                         "emptyTable": "Không có dữ liệu!",
