@@ -140,12 +140,12 @@
                                     <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] grid grid-cols-6">
                                         <div class="start-date flex items-center col-span-2 grid grid-cols-6">
                                             <label for="invoice-start-date" class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày đầu:</label>
-                                            <input type="text" id="invoice-start-date" name="startDate" placeholder="Chọn ngày..."
+                                            <input type="text" id="invoice-start-date" name="startDate" placeholder="Chọn ngày..." autocomplete="off"
                                                    class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]">
                                         </div>
                                         <div class="end-date flex items-center col-span-2 grid grid-cols-6">
                                             <label for="invoice-end-date" class="col-span-2 text-[15px] text-gray-900 font-normal flex items-center">Ngày cuối: </label>
-                                            <input type="text" id="invoice-end-date" name="endDate" placeholder="Chọn ngày..."
+                                            <input type="text" id="invoice-end-date" name="endDate" placeholder="Chọn ngày..." autocomplete="off"
                                                    class="col-span-3 bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]">
                                         </div>
                                         <div>

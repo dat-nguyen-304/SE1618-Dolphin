@@ -104,16 +104,19 @@ textarea:hover, textarea:focus, textarea:active {
     border: 1px solid #94a3b8;
     color: #94a3b8;
 }
+
 [role="tab"]:hover {
     border: 1px solid #288D87;
     color: #288D87;
 }
 
 [role="tab"].active {
+    border: none !important;
     background-color: #288D87 !important;
     color: #fff !important;
 }
 
 [role="tab"].active:hover {
+    border: none !important;
     background-color: #1D837D !important;
 }
