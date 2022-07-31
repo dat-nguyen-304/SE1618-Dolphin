@@ -23,6 +23,8 @@
         <c:if test="${sessionScope.currentUser == null}">
             <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
         </c:if>
+        <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
+        <link href="../assets/toastr/toastr-custom.css" rel="stylesheet" />
     </head>
     <body>
         <header id="header-section" class="stick z-[10]">
@@ -183,48 +185,68 @@
         <script src="../assets/javascript/keep-district.js"></script>
         <script src="../assets/javascript/custom-select.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
-        
+        <script src="../assets/toastr/toastr.min.js"></script>
+        <script type="text/javascript">
+                                                function showToast(type, msg) {
+                                                    toastr.options.positionClass = 'toast-bottom-right';
+                                                    // toastr.options.extendedTimeOut = 0; //1000;
+                                                    toastr.options.timeOut = 7000;
+                                                    toastr.options.hideDuration = 250;
+                                                    toastr.options.showDuration = 150;
+                                                    toastr.options.hideMethod = 'slideUp';
+                                                    toastr.options.showMethod = 'slideDown';
+                                                    toastr.options.preventDuplicates = true;
+                                                    toastr.options.closeButton = true;
+                                                    toastr.options.progressBar = true;
+                                                    toastr[type](msg);
+                                                }
+                                                if (sessionStorage.getItem("message") && sessionStorage.getItem("msg-type")) {
+                                                    showToast(sessionStorage.getItem("msg-type"), sessionStorage.getItem("message"));
+                                                    sessionStorage.removeItem("message");
+                                                    sessionStorage.removeItem("msg-type");
+                                                }
+        </script>
         <script>
             let renting = $("#rentingError");
             function pendingRentingCheck() {
                 const roomTypeID = document.getElementById('roomTypeID').value;
-                
-                
                 console.log("RoomTypeID: ", roomTypeID);
-                
                 jQuery.ajax({
-                            type: 'POST',
-                            async: false,
-                            data: {'roomTypeID': roomTypeID,
-                                
-                            },
-                            url: '/sakura/tenant/pending-booking-request',
-                            success: function (response) {
-                                //messageElement.innerHTML = response;
-                                if(response === "1") {
-                                    //showToast("success", "Phòng này đã có hợp đồng đang chờ!");
-                                        $("#rentingError").html("Bạn đã gửi yêu cầu xem phòng này rồi!");
-                                        $("#rentingError").css("color", "red");
-                                }
-                            },
-                            error: function () {
-                            },
-                            complete: function (result) {
-                            }
-                        });
+                    type: 'POST',
+                    async: false,
+                    data: {'roomTypeID': roomTypeID,
+
+                    },
+                    url: '/sakura/tenant/pending-booking-request',
+                    success: function (response) {
+                        //messageElement.innerHTML = response;
+                        if (response === "1") {
+                            showToast("error", "Bạn đã gửi yêu cầu xem phòng này rồi!");
+                            $("#rentingError").html("Bạn đã gửi yêu cầu xem phòng này rồi!");
+                            $("#rentingError").css("display", "none");
+                        }
+                    },
+                    error: function () {
+                    },
+                    complete: function (result) {
+                    }
+                });
             }
-            
+
             $("#renting-submit-button").click(function () {
                 let check = true;
                 if (renting.html() !== "")
                     check = false;
-                
+
                 console.log("Check: " + check);
                 console.log("Check: " + $("#rentingError").html());
                 if (!check)
                     console.log("LOI");
-                else
+                else {
                     $("#rental-request-form").submit();
+                    sessionStorage.setItem("message", "Gửi yêu cầu thuê phòng thành công!");
+                    sessionStorage.setItem("msg-type", "success");
+                }
             });
         </script>
     </body>

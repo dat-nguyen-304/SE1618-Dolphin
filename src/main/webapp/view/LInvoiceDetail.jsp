@@ -14,24 +14,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Chi tiết hoá đơn</title>
+        
+        <%@include file="../view/assets.jsp" %>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png">
-
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"/>
-        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="../assets/css/LInvoiceDetail.css">
 
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
@@ -404,162 +391,128 @@
                 </div>
             </div>
 
-            <!-- Footer -->
-
-            <footer class="w-full px-[20px] pb-[20px]">
-                <div class="card w-full h-fit bg-[#fff] rounded flex items-center justify-between p-[20px]">
-                    <span class="text-sm text-gray-500 sm:text-center">© 2022 <a href="https://flowbite.com"
-                                                                                 class="hover:text-[#17535B]">Sakura™</a>. All Rights Reserved.
-                    </span>
-                    <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6 ">Về Sakura</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">Chính sách bảo mật</a>
-                        </li>
-                        <li>
-                            <a href="#" class="mr-4 hover:text-[#17535B] md:mr-6">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-[#17535B]">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </footer>
-
-            <!-- End footer -->
-
+            <%@include file="../view/footerDashboard.jsp.jsp" %>
 
         </div>
 
-        <!-- flowbite -->
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
-        <script src="js/monthpicker.js"></script>
 
-        <!-- chartJS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="js/chart.js"></script>
-
-        <!-- Breadcrumb -->
-        <script src="js/breadcrumb.js"></script>
+        <script>x = 1</script>
         <script>
-                                                                   let status = $("#status");
-                                                                   const invoiceStatus = status.val();
+            let status = $("#status");
+            const invoiceStatus = status.val();
 
-                                                                   $(document).ready(function () {
-                                                                       let allDateCells = $(".date");
-                                                                       let allMoneyCells = $(".money");
-                                                                       let allRowSum = $(".rowSum");
-                                                                       let start = $("#start");
-                                                                       let end = $("#end");
-                                                                       if ($("#status").prop("tagName") === "SELECT") {
-                                                                           start.val(start.val().split('-').reverse().join('/'));
-                                                                           end.val(end.val().split('-').reverse().join('/'));
-                                                                       }
-                                                                       let sum = 0;
+            $(document).ready(function () {
+                let allDateCells = $(".date");
+                let allMoneyCells = $(".money");
+                let allRowSum = $(".rowSum");
+                let start = $("#start");
+                let end = $("#end");
+                if ($("#status").prop("tagName") === "SELECT") {
+                    start.val(start.val().split('-').reverse().join('/'));
+                    end.val(end.val().split('-').reverse().join('/'));
+                }
+                let sum = 0;
 
-                                                                       for (let i = 0; i < allRowSum.length; i++) {
-                                                                           let node = allRowSum[i];
-                                                                           sum += parseInt(node.childNodes[0].nodeValue);
-                                                                       }
-                                                                       $("#invoiceSumHidden").val(sum);
-                                                                       $("#invoiceSum").html(sum);
-                                                                       $("#bottomSum").html(sum + " đồng");
+                for (let i = 0; i < allRowSum.length; i++) {
+                    let node = allRowSum[i];
+                    sum += parseInt(node.childNodes[0].nodeValue);
+                }
+                $("#invoiceSumHidden").val(sum);
+                $("#invoiceSum").html(sum);
+                $("#bottomSum").html(sum + " đồng");
 
-                                                                       for (let i = 0; i < allDateCells.length; i++) {
-                                                                           let node = allDateCells[i];
-                                                                           let isoDate = node.childNodes[0].nodeValue;
-                                                                           node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
-                                                                       }
+                for (let i = 0; i < allDateCells.length; i++) {
+                    let node = allDateCells[i];
+                    let isoDate = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = isoDate.split('-').reverse().join('/');
+                }
 
-                                                                       for (let i = 0; i < allMoneyCells.length; i++) {
-                                                                           let node = allMoneyCells[i];
-                                                                           let money = node.childNodes[0].nodeValue;
-                                                                           node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                                       }
-                                                                   });
+                for (let i = 0; i < allMoneyCells.length; i++) {
+                    let node = allMoneyCells[i];
+                    let money = node.childNodes[0].nodeValue;
+                    node.childNodes[0].nodeValue = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+            });
 
-                                                                   function toggleRental() {
-                                                                       console.log($("#rentalFee").html());
-                                                                       if ($("#checkRental").is(":checked")) {
-                                                                           $("#rentalFee").html($("#rentalRate").html());
-                                                                           updateSum(0, 0, null);
-                                                                       } else {
-                                                                           $("#rentalFee").html("0");
-                                                                           updateSum(0, 0, null);
-                                                                       }
-                                                                   }
+            function toggleRental() {
+                console.log($("#rentalFee").html());
+                if ($("#checkRental").is(":checked")) {
+                    $("#rentalFee").html($("#rentalRate").html());
+                    updateSum(0, 0, null);
+                } else {
+                    $("#rentalFee").html("0");
+                    updateSum(0, 0, null);
+                }
+            }
 
-                                                                   function updateSum(serviceID, type, element) {
-                                                                       let rowSum = $("#rowSum" + serviceID);
-                                                                       rowSum.html("");
-                                                                       let sum;
-                                                                       if (type === 1 || type === 2) {
-                                                                           if ($(element).val() === "") {
-                                                                               $(element).val(0);
-                                                                           }
+            function updateSum(serviceID, type, element) {
+                let rowSum = $("#rowSum" + serviceID);
+                rowSum.html("");
+                let sum;
+                if (type === 1 || type === 2) {
+                    if ($(element).val() === "") {
+                        $(element).val(0);
+                    }
 
-                                                                           let startInput = $("#startInput" + serviceID);
-                                                                           let endInput = $("#endInput" + serviceID);
-                                                                           if ($(element).attr('id').indexOf('startInput') >= 0) {
-                                                                               if (parseInt(startInput.val()) > parseInt(endInput.val())) {
-                                                                                   endInput.val(startInput.val());
-                                                                               }
-                                                                           }
-                                                                           if ($(element).attr('id').indexOf('endInput') >= 0) {
-                                                                               if (parseInt(startInput.val()) > parseInt(endInput.val())) {
-                                                                                   startInput.val(endInput.val());
-                                                                               }
-                                                                           }
-                                                                           sum = parseInt(endInput.val()) - parseInt(startInput.val());
-                                                                           $("#quantity" + serviceID).html(sum);
-                                                                       } else {
-                                                                           if ($(element).val() === "") {
-                                                                               $(element).val(0);
-                                                                               sum = 0;
-                                                                           } else
-                                                                               sum = $("#quantity" + serviceID).val()
-                                                                       }
-                                                                       if (serviceID !== 0) {
-                                                                           sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
-                                                                           rowSum.html(parseInt(sum).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                                                                       }
+                    let startInput = $("#startInput" + serviceID);
+                    let endInput = $("#endInput" + serviceID);
+                    if ($(element).attr('id').indexOf('startInput') >= 0) {
+                        if (parseInt(startInput.val()) > parseInt(endInput.val())) {
+                            endInput.val(startInput.val());
+                        }
+                    }
+                    if ($(element).attr('id').indexOf('endInput') >= 0) {
+                        if (parseInt(startInput.val()) > parseInt(endInput.val())) {
+                            startInput.val(endInput.val());
+                        }
+                    }
+                    sum = parseInt(endInput.val()) - parseInt(startInput.val());
+                    $("#quantity" + serviceID).html(sum);
+                } else {
+                    if ($(element).val() === "") {
+                        $(element).val(0);
+                        sum = 0;
+                    } else
+                        sum = $("#quantity" + serviceID).val()
+                }
+                if (serviceID !== 0) {
+                    sum = parseInt($("#serviceFee" + serviceID).html().replace(/,/g, '')) * parseInt(sum);
+                    rowSum.html(parseInt(sum).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                }
 
-                                                                       let allRowSum = $(".rowSum");
-                                                                       let sumService = 0;
-                                                                       for (let i = 0; i < allRowSum.length; i++) {
-                                                                           let node = allRowSum[i];
-                                                                           sumService += parseInt($(node).html().replace(/,/g, ''));
-                                                                       }
+                let allRowSum = $(".rowSum");
+                let sumService = 0;
+                for (let i = 0; i < allRowSum.length; i++) {
+                    let node = allRowSum[i];
+                    sumService += parseInt($(node).html().replace(/,/g, ''));
+                }
 
-                                                                       $("#invoiceSum").html(sumService.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                                                                       $("#invoiceSumHidden").val(sumService);
+                $("#invoiceSum").html(sumService.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                $("#invoiceSumHidden").val(sumService);
 
-                                                                       $("#bottomSum").html(sumService.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                                                                   }
+                $("#bottomSum").html(sumService.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            }
 
-                                                                   status.change(function () {
-                                                                       if (parseInt(status.val()) === 1) {
-                                                                           console.log("Đã thanh toán");
-                                                                           $("#toggleButton").click();
-                                                                       }
-                                                                   });
+            status.change(function () {
+                if (parseInt(status.val()) === 1) {
+                    console.log("Đã thanh toán");
+                    $("#toggleButton").click();
+                }
+            });
 
-                                                                   $("#cancelStatus").click(function () {
-                                                                       status.val(invoiceStatus);
-                                                                   });
+            $("#cancelStatus").click(function () {
+                status.val(invoiceStatus);
+            });
 
-                                                                   $("#saveButton").click(function () {
-                                                                       $("#toggleButtonSave").click();
-                                                                   });
+            $("#saveButton").click(function () {
+                $("#toggleButtonSave").click();
+            });
 
-                                                                   $("#confirmSave").click(function () {
-                                                                       console.log("SUBMIT");
-                                                                       $("#invoice-form").submit();
-                                                                   });
+            $("#confirmSave").click(function () {
+                console.log("SUBMIT");
+                $("#invoice-form").submit();
+            });
         </script>
 
         <script>

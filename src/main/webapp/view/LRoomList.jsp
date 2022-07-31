@@ -91,7 +91,7 @@
                             <tbody>
                                 <c:forEach items="${requestScope.roomList}" var="room">
                                     <tr class="bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900">${room.roomID}</th>
+                                        <th scope="row" class="text-center px-6 py-[5px] font-medium text-gray-900">${room.roomID}</th>
                                         <td class="text-center px-6 py-[5px]">${room.roomNumber}</td>
                                         <td class="text-center px-6 py-[5px]">${room.roomType.roomTypeName}</td>
                                         <td class="text-center px-6 py-[5px]">

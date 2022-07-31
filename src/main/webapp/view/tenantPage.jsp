@@ -91,7 +91,7 @@
                                     <p class="col-span-2 font-medium">${currentContract.room.roomType.area}m<sup>2</sup></p>
                                 </div>
                                 <div class="grid grid-cols-3 w-[65%]">
-                                    <p class="">Giá phòng</p>
+                                    <p class="">Giá thuê</p>
                                     <p class="col-span-2 font-medium">
                                         <fmt:setLocale value = "vi_VN"/>
                                         <fmt:formatNumber type = "number" pattern = "###,###,###VNĐ" value = "${currentContract.rentalFeePerMonth}"/> / tháng
@@ -133,7 +133,11 @@
                                 <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px]">Thành viên khác</div>
                                 <div class="relative overflow-y-auto h-[250px]">
                                     <c:if test="${empty sessionScope.roomResidentList}">
-                                        <p class="text-gray-200 font-bold text-[22px] w-fit absolute left-1/2 top-1/2 translate-y-[-70%] translate-x-[-50%]">Chưa có thêm thành viên</p>
+                                        <p class="text-gray-200 font-bold text-[22px] w-fit absolute left-1/2 top-1/3 translate-y-[-50%] translate-x-[-50%]">Chưa có thêm thành viên</p>
+                                        <p class="text-gray-500 font-normal text-[15px] text-center w-[250px] absolute left-1/2 top-2/3 translate-y-[20%] translate-x-[-50%]">
+                                            Có thể thêm thành viên khác bằng cách gửi yêu cầu 
+                                            <a href="/sakura/tenant/notifications" class="text-emerald-500 font-medium hover:underline hover:text-emerald-600">ở đây</a>
+                                        </p>
                                     </c:if>                               
 
                                     <table class="w-full text-sm text-left text-gray-500">

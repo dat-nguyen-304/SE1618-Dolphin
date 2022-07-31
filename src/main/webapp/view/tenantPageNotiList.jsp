@@ -16,7 +16,8 @@
 
         <link rel="stylesheet" href="../assets/css/tenant-page.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
-
+        <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
+        <link href="../assets/toastr/toastr-custom.css" rel="stylesheet" />
     </head>
     <body>
         <%@include file="../view/headerTenantDashboard.jsp" %>
@@ -52,12 +53,8 @@
                     <div class="noti-list flex flex-col justify-between h-[calc(100vh-225px)] overflow-y-auto">
                         <c:forEach var="notification" items="${requestScope.notificationList}">
                             <div class="card noti-item w-full h-fit bg-[#fff] p-5 flex flex-col justify-between mb-[20px]">
-                                <div class="noti-item-header flex justify-between items-center mb-[20px]">
-                                    <div class="text-[18px] font-bold text-[#2A3C46]">
-                                        <h3>${notification.createdDate}</h3>
-                                    </div>
-                                </div>
-                                <div class="noti-content text-[14px] font-normal text-[#597187] text-justify">
+                                <h3 class="rating text-[14px] font-bold text-slate-400 mb-[10px]">${notification.createdDate}</h3>
+                                <div class="noti-content text-[17px] font-semibold text-slate-700 text-justify">
                                     <p class="">${notification.content}</p>
                                 </div>
                             </div>
@@ -66,16 +63,27 @@
                     </div>
                     <!-- End Notification list -->
                     <c:if test = "${requestScope.contract ne null}">
-                        <form method = "post" action="/sakura/tenant/notifications" class="card send-request h-[400px] bg-[#fff] p-5 overflow-hidden">
-                            <input type="hidden" name="query" value="sendRequest"/>
-                            <label for="message" class="block mb-[20px] text-[17px] font-medium text-gray-900">Gửi yêu cầu đến chủ nhà</label>
-                            <textarea id="message" rows="4"
-                                      class="block mb-[20px] p-3 w-full h-[250px] text-[15px] text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-0 focus:border focus:border-[#17535B]"
-                                      placeholder="Nhập nội dung của bạn..." name = "description"></textarea>
+                        <div>
+                            <form method = "post" id="send-req" action="/sakura/tenant/notifications" class="card send-request h-[400px] bg-[#fff] p-5 overflow-hidden">
+                                <input type="hidden" name="query" value="sendRequest"/>
+                                <label for="message" class="block mb-[20px] text-[17px] font-medium text-gray-900">Gửi yêu cầu đến chủ nhà</label>
+                                <textarea id="message" rows="4"
+                                          class="block mb-[20px] p-3 w-full h-[250px] text-[15px] text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-0 focus:border focus:border-[#17535B]"
+                                          placeholder="Nhập nội dung của bạn..." name = "description"></textarea>
 
-                            <button type="submit"
-                                    class="float-right px-8 py-2 bg-[#17535B] rounded flex justify-center items-center text-[#fff] font-medium text-[15px] hover:bg-[#13484F]">Gửi <i class="bi bi-send-fill ml-[5px]"></i></button>
-                        </form>
+                                <button type="submit"
+                                        class="float-right px-8 py-2 bg-[#17535B] rounded flex justify-center items-center text-[#fff] font-medium text-[15px] hover:bg-[#13484F]">Gửi <i class="bi bi-send-fill ml-[5px]"></i></button>
+
+                            </form>
+                            <div class="mt-[20px] text-[16px] text-slate-600 font-medium">
+                                <p>Bạn có thể gửi yêu cầu để cho chủ nhà để có thể xử lý những vấn đề hay sự cố xảy ra trong quá trình sinh sống:</p>
+                                <ul>
+                                    <li>- Yêu cầu thêm thành viên</li>
+                                    <li>- Yêu cầu sửa chữa</li>
+                                    <li>- Yêu cầu khác ...</li>
+                                </ul>
+                            </div>
+                        </div>
                     </c:if>
                 </div>
 
@@ -83,5 +91,32 @@
 
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
+        <script src="../assets/toastr/toastr.min.js"></script>
+        <script type="text/javascript">
+            function showToast(type, msg) {
+                toastr.options.positionClass = 'toast-bottom-right';
+                // toastr.options.extendedTimeOut = 0; //1000;
+                toastr.options.timeOut = 7000;
+                toastr.options.hideDuration = 250;
+                toastr.options.showDuration = 250;
+                toastr.options.hideMethod = 'slideUp';
+                toastr.options.showMethod = 'slideDown';
+                toastr.options.preventDuplicates = true;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                toastr[type](msg);
+            }
+            if (sessionStorage.getItem("message") && sessionStorage.getItem("msg-type")) {
+                showToast(sessionStorage.getItem("msg-type"), sessionStorage.getItem("message"));
+                sessionStorage.removeItem("message");
+                sessionStorage.removeItem("msg-type");
+            }
+        </script>
+        <script type="text/javascript">
+            $("form#send-req").submit(function () {
+                sessionStorage.setItem("message", "Gửi yêu cầu thành công!");
+                sessionStorage.setItem("msg-type", "success");
+            });
+        </script>
     </body>
 </html>

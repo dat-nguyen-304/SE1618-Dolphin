@@ -15,7 +15,8 @@
         <%@include file="../view/assets.jsp" %>
         <link rel="stylesheet" href="../assets/css/tenant-page.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
-
+        <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
+        <link href="../assets/toastr/toastr-custom.css" rel="stylesheet" />
     </head>
     <body>
         <%@include file="../view/headerTenantDashboard.jsp" %>
@@ -25,7 +26,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)] ${requestScope.invitationList.size() < 10 ? 'h-[calc(100vh-80px)]' : ''}">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -44,7 +45,7 @@
                 <!-- End breadcrumb -->
 
                 <!-- Rental request list -->
-                <div class="statistic w-full mt-[20px]">
+                <div class="statistic w-full mt-[20px] h-[calc(100vh-225px)] overflow-y-auto">
                     <div class="card w-[75%] mb-[20px] room-member bg-[#fff] p-5 flex flex-col">
                         <div class="text-[20px] font-bold text-[#288D87] pb-[20px] flex justify-between items-center">
                             <p>Danh sách yêu cầu thuê phòng</p>
@@ -208,5 +209,26 @@
 
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
+        <script src="../assets/toastr/toastr.min.js"></script>
+        <script type="text/javascript">
+            function showToast(type, msg) {
+                toastr.options.positionClass = 'toast-bottom-right';
+                // toastr.options.extendedTimeOut = 0; //1000;
+                toastr.options.timeOut = 7000;
+                toastr.options.hideDuration = 250;
+                toastr.options.showDuration = 250;
+                toastr.options.hideMethod = 'slideUp';
+                toastr.options.showMethod = 'slideDown';
+                toastr.options.preventDuplicates = true;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                toastr[type](msg);
+            }
+            if (sessionStorage.getItem("message") && sessionStorage.getItem("msg-type")) {
+                showToast(sessionStorage.getItem("msg-type"), sessionStorage.getItem("message"));
+                sessionStorage.removeItem("message");
+                sessionStorage.removeItem("msg-type");
+            }
+        </script>
     </body>
 </html>

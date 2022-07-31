@@ -27,7 +27,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] ${requestScope.detailList.size() lt 8 ? 'h-[calc(100vh-80px)]' : ''} ">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -79,27 +79,13 @@
                             <tbody>
                                 <c:forEach var="detail" items="${requestScope.detailList}">
                                     <tr class="bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            ${detail.service.serviceName}
-                                        </th>
-                                        <td class="px-6 py-4 text-center">
-                                            ${detail.service.unit}
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            ${(detail.service.type != 0) ? detail.startValue : ""}
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            ${(detail.service.type != 0) ? detail.endValue : ""}
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            ${detail.quantity}
-                                        </td>
-                                        <td class="px-6 py-4 money text-right">
-                                            ${detail.service.serviceFee}
-                                        </td>
-                                        <td class="px-6 py-4 money rowSum text-right">
-                                            ${(detail.quantity) * detail.service.serviceFee}
-                                        </td>
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${detail.service.serviceName}</th>
+                                        <td class="px-6 py-4 text-center">${detail.service.unit}</td>
+                                        <td class="px-6 py-4 text-right">${(detail.service.type != 0) ? detail.startValue : ""}</td>
+                                        <td class="px-6 py-4 text-right">${(detail.service.type != 0) ? detail.endValue : ""}</td>
+                                        <td class="px-6 py-4 text-right">${detail.quantity}</td>
+                                        <td class="px-6 py-4 money text-right">${detail.service.serviceFee}</td>
+                                        <td class="px-6 py-4 money rowSum text-right">${(detail.quantity) * detail.service.serviceFee}</td>
                                     </tr>
                                 </c:forEach>
                                 <tr class="border-b hover:bg-gray-50">
@@ -108,12 +94,8 @@
                                     <td class="px-6 py-4"></td>
                                     <td class="px-6 py-4"></td>
                                     <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4 money text-right">
-                                        ${invoice.contract.rentalFeePerMonth}
-                                    </td>
-                                    <td class="px-6 py-4 money rowSum text-right">
-                                        ${invoice.contract.rentalFeePerMonth}
-                                    </td>
+                                    <td class="px-6 py-4 money text-right">${invoice.contract.rentalFeePerMonth}</td>
+                                    <td class="px-6 py-4 money rowSum text-right">${invoice.contract.rentalFeePerMonth}</td>
                                 </tr>
                                 <tr class="bg-white border-b">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"></th>

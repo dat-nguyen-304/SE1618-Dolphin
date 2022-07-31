@@ -288,7 +288,7 @@
                                 <input type="hidden" name="filterStar" value="${requestScope.filterStar}"/>
                                 <c:if test="${requestScope.feedback == null}">
                                     <div class="send-feedback">
-                                        <input type="hidden" name="rating" value="0" />
+                                        <input type="hidden" name="rating" value="5" />
                                         <div class="send-feedback-star-list flex space-x-[3px] mb-[10px]">
                                             <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
                                             <div class="send-feedback-star cursor-pointer"><i class="bi bi-star-fill" style="color: #ccc;"></i></div>
@@ -315,7 +315,7 @@
                                         </div>
                                         <textarea id="editor" class="text-area w-full " disabled placeholder="Viết đánh giá ở đây..." name="updateContent" rows="4" cols="100">${requestScope.feedback.content}</textarea>
                                         <div class="my-[20px]">
-                                            <button type="submit" class="send-feedback-btn hidden bg-[#288D87] hover:bg-[#1D837D] px-[10px] py-[5px] text-[#fff] rounded">Gửi đánh giá</button>
+                                            <button type="submit" class="send-upd-feedback-btn hidden bg-[#288D87] hover:bg-[#1D837D] px-[10px] py-[5px] text-[#fff] rounded">Gửi đánh giá</button>
                                             <button class="update-feedback-btn bg-[#288D87] hover:bg-[#1D837D] px-[10px] py-[5px] text-[#fff] rounded">Chỉnh sửa đánh giá</button>
                                         </div>
                                     </div>
@@ -508,7 +508,18 @@
                                         toastr.options.progressBar = true;
                                         toastr[type](msg);
                                     }
+                                    if (sessionStorage.getItem("message") && sessionStorage.getItem("msg-type")) {
+                                        showToast(sessionStorage.getItem("msg-type"), sessionStorage.getItem("message"));
+                                        sessionStorage.removeItem("message");
+                                        sessionStorage.removeItem("msg-type");
+                                    }
         </script>
+        <c:if test="${not empty requestScope.message}">
+            <script>
+//                showToast("success", "${requestScope.message}");
+
+            </script>
+        </c:if>
         <script>
             window.lightGallery(
                     document.getElementById("animated-thumbnails-gallery"),
@@ -704,6 +715,7 @@
                 const starList = document.querySelectorAll('.send-feedback-star');
                 const starListBtn = document.querySelector('#update-star');
                 const sendFeedbackBtn = document.querySelector('.send-feedback-btn');
+                const sendUpdatedFeedbackBtn = document.querySelector('.send-upd-feedback-btn');
                 const updateFeedbackBtn = document.querySelector('.update-feedback-btn');
                 const textarea = document.querySelector('.text-area');
 
@@ -718,13 +730,25 @@
 
                 getColorForStar(inputRating.value - 1);
 
-                sendFeedbackBtn.onclick = (e) => {
-                    if (inputRating.value === "0") {
-                        sendFeedbackMess.style.display = 'inline-block';
-                        e.preventDefault();
-                    }
-                };
+                if (sendFeedbackBtn) {
+                    sendFeedbackBtn.onclick = (e) => {
+                        if (inputRating.value === "0") {
+                            e.preventDefault();
+                        }
+                        sessionStorage.setItem("message", "Thêm bình luận thành công!");
+                        sessionStorage.setItem("msg-type", "success");
+                    };
+                }
 
+                if (sendUpdatedFeedbackBtn) {
+                    sendUpdatedFeedbackBtn.onclick = (e) => {
+                        if (inputRating.value === "0") {
+                            e.preventDefault();
+                        }
+                        sessionStorage.setItem("message", "Cập nhật bình luận thành công!");
+                        sessionStorage.setItem("msg-type", "success");
+                    };
+                }
 
                 if (updateFeedbackBtn) {
                     updateFeedbackBtn.onclick = (e) => {
@@ -732,7 +756,7 @@
                         textarea.disabled = false;
                         tinymce.activeEditor.mode.set("design");
                         e.target.style.display = 'none';
-                        sendFeedbackBtn.style.display = 'block';
+                        sendUpdatedFeedbackBtn.style.display = 'block';
                         console.log(starListBtn);
                         starListBtn.classList.toggle("pointer-events-none");
                     };
