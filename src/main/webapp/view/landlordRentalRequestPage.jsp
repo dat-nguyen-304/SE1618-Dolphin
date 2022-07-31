@@ -137,8 +137,7 @@
                                                         </td>
                                                     </c:if>
                                                     <c:if test="${booking.status != 1}">
-                                                        <td class="px-6 py-4 money"></td>
-                                                        <td class="px-6 py-4 money"></td>
+                                                    <td class="py-4 ">Lý do từ chối: ${(booking.description == null || booking.description.length() == 0) ? "Không có" : booking.description}</td>
                                                     </c:if>
                                                 </tr>
                                                 <!-- Modal list-->
@@ -226,10 +225,14 @@
                                                             </form>
                                                             <form method = "post" action="/sakura/contract/deny-contract">
                                                                 <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                                <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
+                                                                <button type = "button" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
                                                                     Hủy hợp đồng
                                                                 </button>
                                                             </form>
+                                                        </c:if>
+                                                        <c:if test="${invitation.status != 2}">
+
+                                                          <td class=" py-4 ">Lý do từ chối: ${(invitation.description == null || invitation.description.length() == 0) ? "Không có" : invitation.description}</td>
                                                         </c:if>
                                                     </td>
                                                 </tr>
@@ -284,6 +287,6 @@
                 modal.classList.toggle('pointer-events-none');
             }
 
-        </script>
+        </script> 
     </body>
 </html>

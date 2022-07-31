@@ -434,7 +434,15 @@ public class LandlordController extends HttpServlet {
 
                     BookingRequestDAO.changeStatus(bookingRequestID, 4);
                     //ContractDAO.changeStatus(bookingRequestID, 3);
-                    int hostelID = currentBr.getRoomType().getHostel().getHostelID();
+                    //int hostelID = currentBr.getRoomType().getHostel().getHostelID();
+
+                    //ly do tu choi
+                    String denyReason = request.getParameter("denyDescMessage").trim();
+                    if (denyReason == null || denyReason.length() == 0) {
+                        denyReason = "Không có";
+                    }
+                    BookingRequestDAO.addDescription(bookingRequestID, denyReason);
+                    //end ly do tu choi
 
                     //end change
                     //send notification to tenant about rejecting 
