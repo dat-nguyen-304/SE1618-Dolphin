@@ -14,23 +14,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Chi tiết hoá đơn</title>
-        
+
         <%@include file="../view/assets.jsp" %>
 
         <link rel="stylesheet" href="../assets/css/LInvoiceDetail.css">
-
-
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
-
-        <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
-
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
     </head>
 
     <body>
@@ -41,7 +30,7 @@
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
 
             <!-- CONTENT -->
-            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+            <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] ${requestScope.detailList.size() < 6 ? 'h-[calc(100vh-80px)]' : ''}">
 
                 <!-- Breadcrumb -->
                 <nav class="flex" aria-label="Breadcrumb">
@@ -71,25 +60,23 @@
                     <div id="pdfPrint">
                         <div class="card bg-[#fff] p-5 mt-[20px]">
                             <div class="grid grid-cols-5 grid-rows-2 ">
-                                <div>
-                                    Mã hoá đơn: ${invoice.invoiceID}
-                                </div>
-                                <div>
-                                    Người thuê: ${invoice.contract.tenant.fullname}
-                                </div>
+                                <div>Mã hoá đơn: ${invoice.invoiceID}</div>
+                                <div>Người thuê: ${invoice.contract.tenant.fullname}</div>
                                 <div>Mã hợp đồng: ${invoice.contract.contractID}</div>
                                 <div>Kỳ thanh toán: ${invoice.month}</div>
-
                                 <div>Ngày xuất hoá đơn: <span class="date">${invoice.createdDate}</span></div>
+
                                 <div>Trạng thái:
                                     <c:choose>
                                         <c:when test="${invoice.status == 0}">
-                                            <select name="newStatus" id="status">
-                                                <option value="0" <c:if test="${invoice.status == 0}">selected</c:if>>Chưa thanh toán
-                                                    </option>
-                                                    <option value="1" id="paid" <c:if test="${invoice.status == 1}">selected</c:if>>Đã thanh toán
-                                                    </option>
-                                                </select>
+                                            <select name="newStatus" id="status" class="w-[50%]">
+                                                <option value="0" ${invoice.status == 0 ? 'selected' : ''}>
+                                                    Chưa thanh toán
+                                                </option>
+                                                <option value="1" id="paid" ${invoice.status == 1 ? 'selected' : ''}>
+                                                    Đã thanh toán
+                                                </option>
+                                            </select>
                                         </c:when>
                                         <c:otherwise>
                                             <span id="status">${(invoice.status == 1) ? "Đã thanh toán" : "Quá hạn"}</span>
@@ -129,46 +116,34 @@
                         </div>
                         <div class="statistic flex justify-between mt-[20px] w-full">
                             <div class="card relative overflow-x-auto bg-[#fff] p-5 w-full">
-                                <table id = "invoice-detail-table" class="w-full text-[14px] text-left text-gray-500 mb-[20px]">
+                                <table id = "invoice-detail-table" class="w-full text-[16px] text-left text-gray-500 mb-[20px]">
                                     <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                Mô tả
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Đơn vị tính
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Giá trị đầu
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Giá trị cuối
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Số lượng
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Đơn giá (VNĐ)
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Thành tiền (VNĐ)
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
+                                            <th scope="col" class="text-center px-6 py-3">Mô tả</th>
+                                            <th scope="col" class="text-center px-6 py-3">Đơn vị tính</th>
+                                            <th scope="col" class="text-center px-6 py-3">Giá trị đầu</th>
+                                            <th scope="col" class="text-center px-6 py-3">Giá trị cuối</th>
+                                            <th scope="col" class="text-center px-6 py-3">Số lượng</th>
+                                            <th scope="col" class="text-center px-6 py-3">Đơn giá (VNĐ)</th>
+                                            <th scope="col" class="text-center px-6 py-3">Thành tiền (VNĐ)</th>
+                                            <th scope="col" class="text-center px-6 py-3">
                                                 <span class="sr-only">Edit</span>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items="${requestScope.detailList}" var="detail">
-                                            <tr>
-                                                <td scope="col" class="px-6 py-3">${detail.service.serviceName}</td>
-                                                <td scope="col" class="px-6 py-3">${detail.service.unit}</td>
-                                                <td scope="col" class="px-6 py-3">
+                                            <tr class="bg-white border-b hover:bg-gray-50">
+                                                <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap">${detail.service.serviceName}</th>
+                                                <td class="px-6 py-3 text-center">${detail.service.unit}</td>
+
+                                                <!--start value-->
+                                                <td class="px-6 py-3 text-right">
                                                     <c:if test="${detail.service.type == 1 || detail.service.type == 2}">
                                                         <c:choose>
                                                             <c:when test="${invoice.status == 0}">
                                                                 <input type="number" name="startInput${detail.service.serviceID}"
-                                                                       oninput="validity.valid||(value='');" min="0"
+                                                                       oninput="validity.valid||(value='');" min="0" class="text-right"
                                                                        placeholder="${detail.startValue}" value="${detail.startValue}"
                                                                        id="startInput${detail.service.serviceID}"
                                                                        onchange="updateSum(${detail.service.serviceID}, ${detail.service.type}, this)">
@@ -179,12 +154,14 @@
                                                         </c:choose>
                                                     </c:if>
                                                 </td>
-                                                <td scope="col" class="px-6 py-3">
+
+                                                <!--end value-->
+                                                <td scope="col" class="px-6 py-3 text-right">
                                                     <c:if test="${detail.service.type == 1 || detail.service.type == 2}">
                                                         <c:choose>
                                                             <c:when test="${invoice.status == 0}">
                                                                 <input type="number" name="endInput${detail.service.serviceID}"
-                                                                       oninput="validity.valid||(value='');" min="0"
+                                                                       oninput="validity.valid||(value='');" min="0" class="text-right"
                                                                        placeholder="${detail.endValue}"
                                                                        value="${detail.endValue}" id="endInput${detail.service.serviceID}"
                                                                        onchange="updateSum(${detail.service.serviceID}, ${detail.service.type}, this)">
@@ -193,120 +170,95 @@
                                                                 <span>${detail.endValue}</span>
                                                             </c:otherwise>
                                                         </c:choose>
-                                                    </td>
-                                                </c:if>
-                                                <td scope="col" class="px-6 py-3">
+                                                    </c:if>
+                                                </td>
+
+                                                <!--quantity-->
+                                                <td scope="col" class="px-6 py-3 text-right">
                                                     <c:choose>
                                                         <c:when test="${detail.service.type == 1 || detail.service.type == 2}">
-                                                            <span id="quantity${detail.service.serviceID}">${detail.quantity}</span></td>
+                                                            <span id="quantity${detail.service.serviceID}">${detail.quantity}</span>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <c:choose>
                                                                 <c:when test="${invoice.status == 0}">
-                                                        <input type="number" name="quantity${detail.service.serviceID}"
-                                                               oninput="validity.valid||(value='');" min="0"
-                                                               id="quantity${detail.service.serviceID}" placeholder="${detail.quantity}"
-                                                               value="${detail.quantity}"
-                                                               onchange="updateSum(${detail.service.serviceID}, ${detail.service.type}, this)">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <span>${detail.endValue}</span>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                                    <input type="number" name="quantity${detail.service.serviceID}"
+                                                                           oninput="validity.valid||(value='');" min="0" class="text-right"
+                                                                           id="quantity${detail.service.serviceID}" placeholder="${detail.quantity}"
+                                                                           value="${detail.quantity}"
+                                                                           onchange="updateSum(${detail.service.serviceID}, ${detail.service.type}, this)">
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <span>${detail.endValue}</span>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
 
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <td scope="col" class="px-6 py-3"><span id="serviceFee${detail.service.serviceID}"
-                                                                                class="money">${detail.service.serviceFee}</span>
-                                        </td>
-                                        <td scope="col" class="px-6 py-3"><span class="rowSum money" id="rowSum${detail.service.serviceID}">${detail.quantity * detail.service.serviceFee}</span>
-                                        </td>
+                                                <td scope="col" class="px-6 py-3 text-right">
+                                                    <span id="serviceFee${detail.service.serviceID}" class="money">${detail.service.serviceFee}</span>
+                                                </td>
+                                                <td scope="col" class="px-6 py-3 text-right">
+                                                    <span class="rowSum money" id="rowSum${detail.service.serviceID}">${detail.quantity * detail.service.serviceFee}</span>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+
+                                        <tr class="bg-white border-b hover:bg-gray-50">
+                                            <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap">
+                                                <span>Tiền phòng</span>
+                                            </th>
+                                            <td class="px-6 py-3"></td>
+                                            <td class="px-6 py-3"></td>
+                                            <td class="px-6 py-3"></td>
+                                            <td class="px-6 py-3"></td>
+                                            <td class="px-6 py-3 text-right money" id="rentalRate">
+                                                ${invoice.contract.rentalFeePerMonth}
+                                            </td>
+                                            <td class="px-6 py-3 text-right">
+                                                <span id="rentalFee" class="money rowSum">${invoice.contract.rentalFeePerMonth}</span>
+                                            </td>
                                         </tr>
-                                    </c:forEach>
-
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            <span>Phí thuê phòng</span>
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            phòng
-                                        </td>
-                                        <td class="px-6 py-4">
-
-                                        </td>
-                                        <td class="px-6 py-4">
-
-                                        </td>
-                                        <td class="px-6 py-4">
-    <!--                                        <input type="checkbox" id="checkRental" checked="" onclick="toggleRental(${service.serviceID})">
-                                            <label for="checkRental"><span>Có dùng </span></label>-->
-                                        </td>
-                                        <td class="px-6 py-4 money" id="rentalRate">
-                                            ${invoice.contract.rentalFeePerMonth}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <span id="rentalFee" class="money rowSum">${invoice.contract.rentalFeePerMonth}</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            <a href="#" class="hover:text-[#288D87] hover:underline"></a>
-                                        </th>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4">
-                                        </td>
-                                        <td class="px-6 py-4 text-[17px] text-[#17535B] font-medium">
-                                            Tổng tiền
-                                        </td>
-                                        <td class="px-6 py-4 text-[17px] text-[#17535B] font-bold">
-                                            <span id="invoiceSum" class="money"></span>
-                                            <input id="invoiceSumHidden" type="hidden" name="invoiceSum">
-                                        </td>
-                                    </tr>
-
+                                        <tr class="bg-white border-b hover:bg-gray-50">
+                                            <th scope="row" class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap"></th>
+                                            <td class="px-6 py-3"></td>
+                                            <td class="px-6 py-3"></td>
+                                            <td class="px-6 py-3"></td>
+                                            <td class="px-6 py-3"></td>
+                                            <td class="px-6 py-3 text-right text-[18px] text-[#17535B] font-medium">
+                                                Tổng tiền
+                                            </td>
+                                            <td class="px-6 py-3 text-right text-[18px] text-[#17535B] font-bold">
+                                                <span id="invoiceSum" class="money"></span>
+                                                <input id="invoiceSumHidden" type="hidden" name="invoiceSum">
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
 
-                                <!-- Pagination + Export excel -->
-                                <div class="table-extend flex justify-between">
-
-                                    <!-- Summation -->
-                                    <div class="summary grid grid-cols-5 grid-rows-2 w-[50%]">
-                                        <div class="col-span-1 text-[20px] text-[#17535B] font-bold">Thành tiền</div>
-                                        <div class="col-span-4 text-[20px] text-[#17535B] ">
+                                <div class="table-extend w-full flex justify-between items-center">
+                                    <div class="summary grid grid-cols-5 w-[50%]">
+                                        <div class="col-span-1 text-[20px] text-slate-700">Thành tiền</div>
+                                        <div class="col-span-4 text-[20px] text-slate-600 font-bold">
                                             <span id="bottomSum" class="money"></span>
                                         </div>
-                                        <!-- End Summation -->
-
+                                    </div>
+                                    <div class="flex items-center ">
                                         <c:if test="${invoice.status == 0}">
-                                            <button type="button" id="saveButton" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-[#fff] flex items-center justify-center focus:outline-none bg-[#17535B] rounded hover:bg-[#13484F]">
+                                            <button type="button" id="saveButton" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-[#fff] flex items-center justify-center focus:outline-none bg-[#288D87] rounded hover:bg-[#1D837D]">
                                                 Lưu thay đổi
                                             </button>
                                         </c:if>
-
+                                        <button id="pdf-btn" type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">
+                                            Xuất file pdf
+                                        </button>
                                     </div>
-                                    <!-- End Summation -->
-
-                                    <!-- Export excel button -->
-                                    <button id="pdf-btn" type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">
-                                        Xuất file pdf
-                                    </button>
                                 </div>
-
-
-                                <!-- End Pagination + Export excel -->
-
                             </div>
 
                         </div>
                     </div>
-
-                    <!-- table invoice list -->
 
                     <!-- End table invoice list -->
                 </form>
@@ -315,33 +267,26 @@
 
             <div>
                 <div id="changeStatus" tabindex="-1"
-                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
+                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center z-[1000]">
                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                         <div class="relative bg-white rounded shadow">
-                            <button type="button"
-                                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
-                                    data-modal-toggle="changeStatus" id="toggleButton">
-                                <svg class="w-5 3h-5" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"></path>
+                            <button type="button" data-modal-toggle="changeStatus" id="toggleButton"
+                                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center">
+                                <svg class="w-5 3h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                 </svg>
                             </button>
                             <div class="p-6 text-center">
-                                <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none"
-                                     stroke="currentColor"
-                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <h3 class="mb-5 text-lg font-normal text-gray-500">
-                                    <p>Bạn đã thay đổi trạng thái hóa đơn thành "ĐÃ THANH TOÁN".<br>
+                                    <p>Bạn đang thay đổi trạng thái hóa đơn thành "ĐÃ THANH TOÁN".<br><br>
                                         Nếu lưu trạng thái này bạn sẽ không thể thay đổi hóa đơn nữa.<br>
                                         Bạn có chắc chắn về thay đổi này?</p>
                                 </h3>
                                 <button id="confirmStatus" data-modal-toggle="changeStatus" type="button"
-                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                        class="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                     Tôi chắc chắn
                                 </button>
                                 <button id="cancelStatus" data-modal-toggle="changeStatus" type="button"
@@ -354,31 +299,24 @@
                 </div>
 
                 <div id="saveInvoice" tabindex="-1"
-                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full">
+                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center z-[1000]">
                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                         <div class="relative bg-white rounded shadow">
-                            <button type="button"
-                                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center"
-                                    data-modal-toggle="saveInvoice" id="toggleButtonSave">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"></path>
+                            <button type="button" data-modal-toggle="saveInvoice" id="toggleButtonSave"
+                                    class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded text-sm p-1.5 ml-auto inline-flex items-center">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                 </svg>
                             </button>
                             <div class="p-6 text-center">
-                                <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none"
-                                     stroke="currentColor"
-                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                <svg class="mx-auto mb-4 w-14 h-14 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <h3 class="mb-5 text-lg font-normal text-gray-500">
                                     <p>Bạn có chắc chắn lưu lại hóa đơn?</p>
                                 </h3>
                                 <button id="confirmSave" data-modal-toggle="saveInvoice" type="button"
-                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                                        class="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                     Tôi chắc chắn
                                 </button>
                                 <button data-modal-toggle="saveInvoice" type="button"
@@ -397,7 +335,7 @@
 
         <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
 
-        <script>x = 1</script>
+        <script>x = 1;</script>
         <script>
             let status = $("#status");
             const invoiceStatus = status.val();
@@ -516,46 +454,6 @@
         </script>
 
         <script>
-//            $(document).ready(function () {
-//                $('#invoice-list-table').DataTable({
-//                    dom: 'Bfrtip',
-//                    "fnDrawCallback": function (oSettings) {
-//                        if ($('#invoice-list-table tr').length < 10) {
-//                            $('.dataTables_paginate').hide();
-//                        }
-//                    },
-//                    language: {
-//                        "emptyTable": "Không có dữ liệu!",
-//                        "zeroRecords": "Không có kết quả phù hợp!",
-//                        "infoEmpty": "Hiển thị 0 kết quả",
-//                        "info": "Hiển thị _START_ - _END_ của _TOTAL_ kết quả",
-//                        "infoFiltered": "",
-//                        search: "Tìm kiếm",
-//                        paginate: {
-//                            previous: '<i class="bi bi-caret-left-fill"></i>',
-//                            next: '<i class="bi bi-caret-right-fill"></i>'
-//                        },
-//                        aria: {
-//                            paginate: {
-//                                previous: 'Trước',
-//                                next: 'Sau'
-//                            }
-//                        }
-//                    },
-//                    buttons: [
-//                        {
-//                            extend: 'excelHtml5',
-//                            text: 'Xuất file excel <i class="bi bi-filetype-xlsx text-[20px]"></i>',
-//                            exportOptions: {
-//                                columns: [0, 1, 2, 3, 4, 5, 6]
-//                            }
-//                        }
-//                    ],
-//
-//                    "pageLength": 10, // items per page
-//                    info: true
-//                });
-//            });
             $("#pdf-btn").on("click", function () {
 //                console.log("Hellos");
                 var divContents = $("#pdfPrint").html();

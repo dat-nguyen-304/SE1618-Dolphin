@@ -166,7 +166,7 @@
                                 <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                                     <p>Doanh thu</p>
                                     <!-- Hiển thị doanh thu 5 tháng gần đây nhất -->
-                                    <a href="/sakura/landlord/revenue-list" class="text-[15px] font-light flex items-baseline">
+                                    <a href="/sakura/landlord/revenue-list" class="text-[15px] font-light flex items-baseline hover:text-[#288D87]">
                                         <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
                                         <p class="translate-y-[3px] ml-[5px]">Xem tất cả</p>
                                     </a>
@@ -200,10 +200,13 @@
                             <div class="card room-member bg-[#fff] p-5 flex flex-col mt-[20px]">
                                 <div class="text-[20px] font-bold text-[#2A3C46] pb-[20px] flex justify-between items-center">
                                     <p>Tháng ${requestScope.revenueDate[0]}</p>
-                                    <a href="#" class="text-[15px] font-light flex items-baseline">
-                                        <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
-                                        <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
-                                    </a>
+                                    <form action = "/sakura/landlord/revenue-detail" method = "post">
+                                        <button type = "submit" name = "revenueDate" value = "${requestScope.revenueDate[0]}" 
+                                                class="text-[15px] font-light flex items-baseline hover:text-[#288D87]">
+                                            <p><i class="bi bi-box-arrow-up-right text-[12px]"></i> </p>
+                                            <p class="translate-y-[3px] ml-[5px]">Xem chi tiết</p>
+                                        </button>
+                                    </form>
                                 </div>
                                 <div class="relative overflow-x-auto">
                                     <table class="w-full text-sm text-left text-gray-500">
