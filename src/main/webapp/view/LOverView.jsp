@@ -502,9 +502,12 @@
                     success: function (response) {
                         showToast('success', 'Xóa thành công, đang tải lại trang');
                         toggleModal('.deleteHostelmodal1');
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 2000);
+                        function Redirect() {
+                            let urll = "/sakura/landlord/overview";
+                            window.location = urll;
+                        }
+                        setTimeout(Redirect(), 2000);
+
                     },
                     error: function () {
                     },
