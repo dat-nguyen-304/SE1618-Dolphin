@@ -44,7 +44,7 @@
             <!--HEADING-->
             <div class="hostel-header mb-[20px]">
                 <div class="flex items-center mb-[20px]">
-                    <a class="font-bold text-[23px] duration-150 hover:text-[#FF6532] cursor-pointer" onclick="history.back()"><i class="bi bi-arrow-left"></i></a>
+                    <a class="font-bold text-[23px] duration-150 hover:text-[#FF6532] cursor-pointer" href="/sakura/hostel/list"><i class="bi bi-arrow-left"></i></a>
                     <h3 class="hostel-name ml-[20px] text-[23px] font-extrabold text-slate-600">Nhà trọ ${requestScope.hostel.hostelName}</h3>
                 </div>
                 <div class="flex items-center justify-between">
@@ -168,7 +168,11 @@
                                     <div class="ml-[10px]">
                                         <h4 class="text-[#17535B] font-bold text-[18px]">${service.serviceName}</h4>
                                         <p class="text-gray-500 font-semibold text-[15px]">
-                                            <fmt:formatNumber value = "${service.serviceFee}" type = "number" pattern="###,###,###VNĐ"/> / ${service.unit}
+                                            <fmt:formatNumber value = "${service.serviceFee}" type = "number" pattern="###,###,###VNĐ"/> 
+                                            <c:if test="${service.unit != ''}">
+                                                <span>/ ${service.unit}</span>
+                                            </c:if>
+
                                         </p>
                                     </div>
                                 </div>

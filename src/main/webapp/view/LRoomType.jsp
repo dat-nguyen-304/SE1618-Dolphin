@@ -786,13 +786,21 @@
                     validPriceMessage.innerHTML = 'Giá không được trống';
                     checkPrice = false;
                 } else {
-                    let valid = isValid(element.value.trim(), 'money');
-                    if (valid) {
-                        validPriceMessage.innerHTML = '';
-                        checkPrice = true;
-                    } else {
-                        validPriceMessage.innerHTML = 'Giá tiền phải là số dương chia hết cho 1000';
+                    while (element.value.trim().charAt(0) === "0" && element.value.trim().length > 1) {
+                        element.value = element.value.slice(1);
+                    }
+                    if (element.value.trim() === "0") {
+                        validPriceMessage.innerHTML = 'Giá tiền phải là số dương chia hết cho 1000 và nhỏ hơn 1 tỷ';
                         checkPrice = false;
+                    } else {
+                        let valid = isValid(element.value.trim(), 'money');
+                        if (valid) {
+                            validPriceMessage.innerHTML = '';
+                            checkPrice = true;
+                        } else {
+                            validPriceMessage.innerHTML = 'Giá tiền phải là số dương chia hết cho 1000 và nhỏ hơn 1 tỷ';
+                            checkPrice = false;
+                        }
                     }
                 }
             }
@@ -804,11 +812,19 @@
                     validAreaMessage.innerHTML = 'Diện tích không được trống';
                     checkArea = false;
                 } else {
-                    checkArea = isValid(element.value.trim(), 'postiveNumber');
-                    if (checkArea) {
-                        validAreaMessage.innerHTML = '';
+                    while (element.value.trim().charAt(0) === "0" && element.value.trim().length > 1) {
+                        element.value = element.value.slice(1);
+                    }
+                    if (element.value.trim() === "0") {
+                        validAreaMessage.innerHTML = 'Diện tích phải là số dương và nhỏ hơn 1000';
+                        checkArea = false;
                     } else {
-                        validAreaMessage.innerHTML = 'Diện tích phải là số dương';
+                        checkArea = isValid(element.value.trim(), 'positiveNumber');
+                        if (checkArea) {
+                            validAreaMessage.innerHTML = '';
+                        } else {
+                            validAreaMessage.innerHTML = 'Diện tích phải là số dương và nhỏ hơn 1000';
+                        }
                     }
                 }
             }
@@ -820,11 +836,19 @@
                     validMaxResidentMessage.innerHTML = 'Số cư dân tối đa không được trống';
                     checkMaxResident = false;
                 } else {
-                    checkMaxResident = isValid(element.value.trim(), 'postiveNumber');
-                    if (checkMaxResident) {
-                        validMaxResidentMessage.innerHTML = '';
+                    while (element.value.trim().charAt(0) === "0" && element.value.trim().length > 1) {
+                        element.value = element.value.slice(1);
+                    }
+                    if (element.value.trim() === "0") {
+                        validMaxResidentMessage.innerHTML = 'Số cư dân tối đa phải là số dương và nhỏ hơn 1000';
+                        checkMaxResident = false;
                     } else {
-                        validMaxResidentMessage.innerHTML = 'Số cư dân tối đa phải là số dương';
+                        checkMaxResident = isValid(element.value.trim(), 'positiveNumber');
+                        if (checkMaxResident) {
+                            validMaxResidentMessage.innerHTML = '';
+                        } else {
+                            validMaxResidentMessage.innerHTML = 'Số cư dân tối đa phải là số dương và nhỏ hơn 1000';
+                        }
                     }
                 }
             }
@@ -857,13 +881,21 @@
                     validUpdatePriceMessage.innerHTML = 'Giá không được trống';
                     checkUpdatePrice = false;
                 } else {
-                    let valid = isValid(element.value.trim(), 'money');
-                    if (valid) {
-                        validUpdatePriceMessage.innerHTML = '';
-                        checkUpdatePrice = true;
-                    } else {
-                        validUpdatePriceMessage.innerHTML = 'Giá tiền phải là số dương chia hết cho 1000';
+                    while (element.value.trim().charAt(0) === "0" && element.value.trim().length > 1) {
+                        element.value = element.value.slice(1);
+                    }
+                    if (element.value.trim() === "0") {
+                        validUpdatePriceMessage.innerHTML = 'Giá tiền phải là số dương chia hết cho 1000 và nhỏ hơn 1 tỷ';
                         checkUpdatePrice = false;
+                    } else {
+                        let valid = isValid(element.value.trim(), 'money');
+                        if (valid) {
+                            validUpdatePriceMessage.innerHTML = '';
+                            checkUpdatePrice = true;
+                        } else {
+                            validUpdatePriceMessage.innerHTML = 'Giá tiền phải là số dương chia hết cho 1000 và nhỏ hơn 1 tỷ';
+                            checkUpdatePrice = false;
+                        }
                     }
                 }
             }
@@ -871,14 +903,22 @@
             function checkUpdateValidArea(element) {
                 const validUpdateAreaMessage = document.querySelector(".validUpdateAreaMessage");
                 if (!element.value.trim()) {
-                    validUpdateAreaMessage.innerHTML = 'Diện tích không được trống';
+                    validUpdateAreaMessage.innerHTML = 'Diện tích không được trống và nhỏ hơn 1000';
                     checkUpdateArea = false;
                 } else {
-                    checkUpdateArea = isValid(element.value.trim(), 'postiveNumber');
-                    if (checkUpdateArea) {
-                        validUpdateAreaMessage.innerHTML = '';
+                    while (element.value.trim().charAt(0) === "0" && element.value.trim().length > 1) {
+                        element.value = element.value.slice(1);
+                    }
+                    if (element.value.trim() === "0") {
+                        validUpdateAreaMessage.innerHTML = 'Diện tích phải là số dương và nhỏ hơn 1000';
+                        checkUpdateArea = false;
                     } else {
-                        validUpdateAreaMessage.innerHTML = 'Diện tích phải là số dương';
+                        checkUpdateArea = isValid(element.value.trim(), 'positiveNumber');
+                        if (checkUpdateArea) {
+                            validUpdateAreaMessage.innerHTML = '';
+                        } else {
+                            validUpdateAreaMessage.innerHTML = 'Diện tích phải là số dương và nhỏ hơn 1000';
+                        }
                     }
                 }
             }
@@ -889,11 +929,19 @@
                     validUpdateMaxResidentMessage.innerHTML = 'Số cư dân tối đa không được trống';
                     checkUpdateMaxResident = false;
                 } else {
-                    checkUpdateMaxResident = isValid(element.value.trim(), 'postiveNumber');
-                    if (checkUpdateMaxResident) {
-                        validUpdateMaxResidentMessage.innerHTML = '';
+                    while (element.value.trim().charAt(0) === "0" && element.value.trim().length > 1) {
+                        element.value = element.value.slice(1);
+                    }
+                    if (element.value.trim() === "0") {
+                        validUpdateMaxResidentMessage.innerHTML = 'Số cư dân tối đa phải là số dương và nhỏ hơn 1000';
+                        checkUpdateMaxResident = false;
                     } else {
-                        validUpdateMaxResidentMessage.innerHTML = 'Số cư dân tối đa phải là số dương';
+                        checkUpdateMaxResident = isValid(element.value.trim(), 'positiveNumber');
+                        if (checkUpdateMaxResident) {
+                            validUpdateMaxResidentMessage.innerHTML = '';
+                        } else {
+                            validUpdateMaxResidentMessage.innerHTML = 'Số cư dân tối đa phải là số dương và nhỏ hơn 1000';
+                        }
                     }
                 }
             }

@@ -128,19 +128,19 @@
                 <p class="text-xs text-[red] validUpdatePriceMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Giá</label>
-                    <input type="number" name="updatePrice" value="${requestScope.currentRoomType.advertisedPrice}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidPrice(this)"/> 
+                    <input type="text" name="updatePrice" value="${requestScope.currentRoomType.advertisedPrice}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidPrice(this)"/> 
                     <span class="ml-2 text-[15px]">VD: 3000000, 5000000 ...</span>
                 </div>
                 <p class="text-xs text-[red] validUpdateAreaMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Diện tích (m<sup>2</sup>)</label>
-                    <input type="number" name="updateArea" value="${requestScope.currentRoomType.area}" placeholer="m<sup>2</sup>" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidArea(this)"/>
+                    <input type="text" name="updateArea" value="${requestScope.currentRoomType.area}" placeholer="m<sup>2</sup>" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidArea(this)"/>
                     <span class="ml-2 text-[15px]">VD: 24, 30, ...</span>
                 </div>
                 <p class="text-xs text-[red] validUpdateMaxResidentMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block text-[18px]" for="">Số người tối đa</label>
-                    <input type="number" name="updateMaxNumberOfResidents" value="${requestScope.currentRoomType.maxNumberOfResidents}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidMaxResident(this)"/>
+                    <input type="text" name="updateMaxNumberOfResidents" value="${requestScope.currentRoomType.maxNumberOfResidents}" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkUpdateValidMaxResident(this)"/>
                     <span class="ml-2 text-[15px]">VD: 4, 5, 6, ...</span>
                 </div>
                 <p class="text-xs text-[red] validUpdateDescMessage"></p>
@@ -231,19 +231,19 @@
                 <p class="text-xs text-[red] validPriceMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Giá</label>
-                    <input type="number" name="price" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidPrice(this)"/>
+                    <input type="text" name="price" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidPrice(this)"/>
                     <span class="ml-2 text-[16px]">VD: 3000000, 5000000 ...</span>
                 </div>
                 <p class="text-xs text-[red] validAreaMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Diện tích</label>
-                    <input type="number" name="area" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidArea(this)" />
+                    <input type="text" name="area" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidArea(this)" />
                     <span class="ml-2 text-[16px]">VD: 24, 30, ...</span>
                 </div>
                 <p class="text-xs text-[red] validMaxResidentMessage"></p>
                 <div class="mb-[20px]">
                     <label class="w-[160px] inline-block" for="">Số người tối đa</label>
-                    <input type="number" name="maxNumberOfResidents" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidMaxResident(this)"/>
+                    <input type="text" name="maxNumberOfResidents" required class="w-[250px] text-[18px] p-[10px]" onkeyup="checkValidMaxResident(this)"/>
                     <span class="ml-2 text-[16px]">VD: 4, 5, 6, ...</span>
                 </div>
                 <p class="text-xs text-[red] validDescMessage"></p>

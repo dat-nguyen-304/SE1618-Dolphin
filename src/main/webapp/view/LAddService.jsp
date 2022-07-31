@@ -182,7 +182,7 @@
                             <p class="text-xs text-[red] validFeeMessage"></p>
                             <div class="flex items-center mb-[20px]">
                                 <label class="w-[120px] inline-block" for="service-fee">Đơn giá (VNĐ)</label>
-                                <input type="number" required name="addServiceFee" id="service-fee" class="w-[200px] text-[15px] p-[5px]" onkeyup="checkValidFee(this)"/>
+                                <input type="text" required name="addServiceFee" id="service-fee" class="w-[200px] text-[15px] p-[5px]" onkeyup="checkValidFee(this)"/>
                                 <p class="ml-[10px] font-light text-[13px]">VD: 3000,4000 ...</p>
                             </div>
                             <div class="flex items-center mb-[20px]">
@@ -309,13 +309,16 @@
                     validFeeMessage.innerHTML = 'Phí dịch vụ không được trống';
                     checkFee = false;
                 } else {
-                    if (element.value.trim() === "0" || element.value.trim() === "00" || element.value.trim() === "000") {
+                    while (element.value.trim().charAt(0) === "0" && element.value.trim().length > 1) {
+                        element.value = element.value.slice(1);
+                    }
+                    if (element.value.trim() === "0") {
                         validFeeMessage.innerHTML = '';
                         checkFee = true;
                     } else {
                         let valid = isValid(element.value.trim(), 'money');
                         if (!valid) {
-                            validFeeMessage.innerHTML = 'Số tiền không được âm và chia hết cho 1000';
+                            validFeeMessage.innerHTML = 'Số tiền không được âm, chia hết cho 1000, nhỏ hơn 1 tỷ';
                             checkFee = false;
                         } else {
                             validFeeMessage.innerHTML = '';
