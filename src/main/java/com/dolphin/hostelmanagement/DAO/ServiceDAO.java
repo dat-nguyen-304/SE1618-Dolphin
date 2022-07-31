@@ -180,7 +180,7 @@ public class ServiceDAO {
             cn = DBUtils.makeConnection();
             if (cn != null) {
                 YearMonth ym = room.getLatestInvoiceMonth();
-                YearMonth ym2 = ym.plusMonths(1);
+                YearMonth ym2 = ym.plusMonths(2);
                 LocalDate startNextMonth = ym2.atDay(1);
 
                 list = new ArrayList();

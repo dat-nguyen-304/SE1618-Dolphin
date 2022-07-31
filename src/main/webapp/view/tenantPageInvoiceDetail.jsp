@@ -182,7 +182,7 @@
                             <div class="col-span-4 mb-[10px]">
                                 <p class="text-[14px] text-slate-400 font-normal">Ngày xuất hoá đơn</p>
                                 <p class="text-[18px] text-slate-700 font-bold">
-                                    ${invoice.createdDate}
+                                    <span class="date">${invoice.createdDate}</span>
                                 </p>
                             </div>
 
