@@ -29,9 +29,14 @@
         </c:if>
         <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
         <link href="../assets/toastr/toastr-custom.css" rel="stylesheet" />
+        
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
+        <div class="cover w-screen h-screen fixed top-0 left-0 bg-white opacity-60 z-[1000]"></div>
         <header id="header-section" class="stick z-[10]">
             <c:if test="${sessionScope.currentUser != null}">
                 <%@include file="../view/headerUserSearchAddress.jsp" %>
@@ -506,24 +511,29 @@
         <script src="../webjars/lightgallery/2.2.1/plugins/thumbnail/lg-thumbnail.umd.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript">
-                                    function showToast(type, msg) {
-                                        toastr.options.positionClass = 'toast-bottom-right';
-                                        // toastr.options.extendedTimeOut = 0; //1000;
-                                        toastr.options.timeOut = 3000;
-                                        toastr.options.hideDuration = 250;
-                                        toastr.options.showDuration = 250;
-                                        toastr.options.hideMethod = 'slideUp';
-                                        toastr.options.showMethod = 'slideDown';
-                                        toastr.options.preventDuplicates = true;
-                                        toastr.options.closeButton = true;
-                                        toastr.options.progressBar = true;
-                                        toastr[type](msg);
-                                    }
-                                    if (sessionStorage.getItem("message") && sessionStorage.getItem("msg-type")) {
-                                        showToast(sessionStorage.getItem("msg-type"), sessionStorage.getItem("message"));
-                                        sessionStorage.removeItem("message");
-                                        sessionStorage.removeItem("msg-type");
-                                    }
+                                    window.onload = function () {
+                                        $(".cover").fadeOut(1000);
+                                    };
+        </script>
+        <script type="text/javascript">
+            function showToast(type, msg) {
+                toastr.options.positionClass = 'toast-bottom-right';
+                // toastr.options.extendedTimeOut = 0; //1000;
+                toastr.options.timeOut = 3000;
+                toastr.options.hideDuration = 250;
+                toastr.options.showDuration = 250;
+                toastr.options.hideMethod = 'slideUp';
+                toastr.options.showMethod = 'slideDown';
+                toastr.options.preventDuplicates = true;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                toastr[type](msg);
+            }
+            if (sessionStorage.getItem("message") && sessionStorage.getItem("msg-type")) {
+                showToast(sessionStorage.getItem("msg-type"), sessionStorage.getItem("message"));
+                sessionStorage.removeItem("message");
+                sessionStorage.removeItem("msg-type");
+            }
         </script>
         <c:if test="${not empty requestScope.message}">
             <script>

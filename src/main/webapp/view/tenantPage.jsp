@@ -20,8 +20,12 @@
         <link rel="stylesheet" href="../assets/css/tenant-page.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <div class="cover w-screen h-screen fixed top-0 left-0 bg-white opacity-60 z-[1000]"></div>
         <%@include file="../view/headerTenantDashboard.jsp" %>
         <%@include file="../view/navbarTenantDashboard.jsp" %>
 
@@ -123,9 +127,16 @@
                         <div class="card chart bg-[#fff] p-5 flex flex-col col-span-3 row-span-2">
                             <div class="text-[20px] font-bold text-[#2A3C46] self-center pb-[20px]">Thống kê chi phí hoá đơn
                             </div>
-                            <div class="w-[90%] h-[90%] mx-auto">
-                                <canvas id="myChart"></canvas>
-                            </div>
+                            <c:if test="${empty sessionScope.invoiceList}">
+                                <div class="w-full h-full flex justify-center items-center">
+                                    <p class="text-[#45px] text-slate-200 font-bold">Không có dữ liệu</p>
+                                </div>
+                            </c:if>
+                            <c:if test="${not empty sessionScope.invoiceList}">
+                                <div class="w-[90%] h-[90%] mx-auto">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+                            </c:if>
                         </div>
 
                         <div class="grid grid-rows-2 row-span-2">
@@ -214,7 +225,11 @@
 
             <%@include file="../view/footerDashboard.jsp" %>
         </div>
-
+        <script type="text/javascript">
+            window.onload = function () {
+                $(".cover").fadeOut(1500);
+            };
+        </script>
         <!-- chartJS -->
         <script src="../webjars/chart.js/3.8.0/dist/chart.js"></script>
         <script>

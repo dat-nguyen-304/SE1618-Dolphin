@@ -33,7 +33,9 @@
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
         <link rel="stylesheet" href="../assets/css/datatables.css">
-
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>

@@ -38,7 +38,9 @@
         <link rel="stylesheet" href="../assets/css/toastr.css"/>
         <link rel="stylesheet" href="../assets/css/datatables.css"/>
         <link rel="stylesheet" href="../assets/css/LContractDetail.css">
-
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>

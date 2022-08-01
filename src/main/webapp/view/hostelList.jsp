@@ -30,9 +30,12 @@
         <c:if test="${sessionScope.currentUser == null}">
             <link rel="stylesheet" href="../assets/css/header-guest-search-address.css">
         </c:if>
-
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <div class="cover w-screen h-screen fixed top-0 left-0 bg-white opacity-60 z-[1000]"></div>
         <header id="header-section" class="stick z-[100]">
             <c:if test="${sessionScope.currentUser != null}">
                 <%@include file="headerUserSearchAddress.jsp" %>
@@ -352,87 +355,92 @@
         <script src="../assets/javascript/keep-district.js"></script>
         <script src="../assets/javascript/custom-select.js"></script>
         <script src="../assets/javascript//bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript">
+                                                                            window.onload = function () {
+                                                                                $(".cover").fadeOut(1500);
+                                                                            };
+        </script>
         <script>
-                                                                            //Pagination JS
-                                                                            var show_per_page = 8;
-                                                                            var number_of_items = jQuery('#paging_box').children().length; //getting the amount of elements inside pagingBox div
-                                                                            var number_of_pages = Math.ceil(number_of_items / show_per_page); //calculate the number of pages we are going to have
+            //Pagination JS
+            var show_per_page = 8;
+            var number_of_items = jQuery('#paging_box').children().length; //getting the amount of elements inside pagingBox div
+            var number_of_pages = Math.ceil(number_of_items / show_per_page); //calculate the number of pages we are going to have
 
-                                                                            if (number_of_items > show_per_page) {
-                                                                                jQuery(document).ready(function () {
+            if (number_of_items > show_per_page) {
+                jQuery(document).ready(function () {
 
-                                                                                    jQuery('#current_page').val(0);
-                                                                                    jQuery('#show_per_page').val(show_per_page);
+                    jQuery('#current_page').val(0);
+                    jQuery('#show_per_page').val(show_per_page);
 
-                                                                                    var navigation_html = '<a class="previous_link " href="javascript:previous();"><i class="bi bi-chevron-left"></i></a>';
-                                                                                    var current_link = 0;
-                                                                                    while (number_of_pages > current_link) {
-                                                                                        navigation_html += '<a class="page_link" href="javascript:go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a>';
-                                                                                        current_link++;
-                                                                                    }
-                                                                                    navigation_html += '<a class="next_link" href="javascript:next();"><i class="bi bi-chevron-right"></i></a>';
-
-
-                                                                                    jQuery('#page_navigation').html(navigation_html);
+                    var navigation_html = '<a class="previous_link " href="javascript:previous();"><i class="bi bi-chevron-left"></i></a>';
+                    var current_link = 0;
+                    while (number_of_pages > current_link) {
+                        navigation_html += '<a class="page_link" href="javascript:go_to_page(' + current_link + ')" longdesc="' + current_link + '">' + (current_link + 1) + '</a>';
+                        current_link++;
+                    }
+                    navigation_html += '<a class="next_link" href="javascript:next();"><i class="bi bi-chevron-right"></i></a>';
 
 
-                                                                                    //add active_page class to the first page link
-                                                                                    jQuery('#page_navigation .page_link:first').addClass('active_page');
-                                                                                    var navigation_html_id = '<p class="next_link">Trang ' + 1 + ' / ' + number_of_pages + '</p>';
-                                                                                    jQuery('#page_navigation_id').html(navigation_html_id);
-
-                                                                                    //hide all the elements inside pagingBox div
-                                                                                    jQuery('#paging_box').children().css('display', 'none');
-
-                                                                                    //and show the first n (show_per_page) elements
-                                                                                    jQuery('#paging_box').children().slice(0, show_per_page).css('display', 'block');
+                    jQuery('#page_navigation').html(navigation_html);
 
 
+                    //add active_page class to the first page link
+                    jQuery('#page_navigation .page_link:first').addClass('active_page');
+                    var navigation_html_id = '<p class="next_link">Trang ' + 1 + ' / ' + number_of_pages + '</p>';
+                    jQuery('#page_navigation_id').html(navigation_html_id);
+
+                    //hide all the elements inside pagingBox div
+                    jQuery('#paging_box').children().css('display', 'none');
+
+                    //and show the first n (show_per_page) elements
+                    jQuery('#paging_box').children().slice(0, show_per_page).css('display', 'block');
 
 
-                                                                                });
 
-                                                                                //Pagination JS
-                                                                                function previous() {
-                                                                                    new_page = parseInt(jQuery('#current_page').val()) - 1;
-                                                                                    //if there is an item before the current active link run the function
-                                                                                    if (jQuery('.active_page').prev('.page_link').length == true) {
-                                                                                        go_to_page(new_page);
-                                                                                    }
-                                                                                }
 
-                                                                                function next() {
-                                                                                    new_page = parseInt(jQuery('#current_page').val()) + 1;
-                                                                                    //if there is an item after the current active link run the function
-                                                                                    if (jQuery('.active_page').next('.page_link').length == true) {
-                                                                                        go_to_page(new_page);
-                                                                                    }
-                                                                                }
+                });
 
-                                                                                function go_to_page(page_num) {
-                                                                                    var navigation_html_id = '<p class="next_link">Trang ' + (page_num + 1) + ' / ' + number_of_pages + '</p>';
-                                                                                    jQuery('#page_navigation_id').html(navigation_html_id);
+                //Pagination JS
+                function previous() {
+                    new_page = parseInt(jQuery('#current_page').val()) - 1;
+                    //if there is an item before the current active link run the function
+                    if (jQuery('.active_page').prev('.page_link').length == true) {
+                        go_to_page(new_page);
+                    }
+                }
 
-                                                                                    //get the number of items shown per page
-                                                                                    var show_per_page = parseInt(jQuery('#show_per_page').val());
+                function next() {
+                    new_page = parseInt(jQuery('#current_page').val()) + 1;
+                    //if there is an item after the current active link run the function
+                    if (jQuery('.active_page').next('.page_link').length == true) {
+                        go_to_page(new_page);
+                    }
+                }
 
-                                                                                    //get the element number where to start the slice from
-                                                                                    start_from = page_num * show_per_page;
+                function go_to_page(page_num) {
+                    var navigation_html_id = '<p class="next_link">Trang ' + (page_num + 1) + ' / ' + number_of_pages + '</p>';
+                    jQuery('#page_navigation_id').html(navigation_html_id);
 
-                                                                                    //get the element number where to end the slice
-                                                                                    end_on = start_from + show_per_page;
+                    //get the number of items shown per page
+                    var show_per_page = parseInt(jQuery('#show_per_page').val());
 
-                                                                                    //hide all children elements of pagingBox div, get specific items and show them
-                                                                                    jQuery('#paging_box').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');
+                    //get the element number where to start the slice from
+                    start_from = page_num * show_per_page;
 
-                                                                                    /*get the page link that has longdesc attribute of the current page and add active_page class to it
-                                                                                     and remove that class from previously active page link*/
-                                                                                    jQuery('.page_link[longdesc=' + page_num + ']').addClass('active_page').siblings('.active_page').removeClass('active_page');
+                    //get the element number where to end the slice
+                    end_on = start_from + show_per_page;
 
-                                                                                    //update the current page input field
-                                                                                    jQuery('#current_page').val(page_num);
-                                                                                }
-                                                                            }
+                    //hide all children elements of pagingBox div, get specific items and show them
+                    jQuery('#paging_box').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');
+
+                    /*get the page link that has longdesc attribute of the current page and add active_page class to it
+                     and remove that class from previously active page link*/
+                    jQuery('.page_link[longdesc=' + page_num + ']').addClass('active_page').siblings('.active_page').removeClass('active_page');
+
+                    //update the current page input field
+                    jQuery('#current_page').val(page_num);
+                }
+            }
         </script>
     </body>
 </html>

@@ -21,6 +21,9 @@
         <link rel="stylesheet" href="../assets/css/tenant-page.css">
         <link rel="stylesheet" href="../assets/css/navbar-dashboard.css">
 
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <%@include file="../view/headerTenantDashboard.jsp" %>
@@ -132,8 +135,10 @@
 
                             </div>
                             <div class="mt-[20px]">
-                                <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Nội dung</p>
-                                <p class="text-[18px] text-[#2A3C46] font-semibold">${not empty requestScope.contract.description ? requestScope.contract.description : 'Không có'}</p>
+                                <button id="view-contract-desc" class="text-slate-600 border border-slate-400 hover:text-[#288D87] hover:border-[#288D87] font-normal px-[20px] py-[5px] rounded">
+                                    <i class="bi bi-arrows-angle-expand mr-[5px]"></i>Xem nội dung hợp đồng
+                                </button>
+                                <%@include file="../view/modalTenantContractDetail.jsp" %>
                             </div>
 
                         </div>
@@ -142,5 +147,40 @@
             </div>
 
             <%@include file="../view/footerDashboard.jsp" %>
+            <script>
+                var open_modal_view_ct = document.querySelector('#view-contract-desc');
+                open_modal_view_ct.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    toggleModal('.viewContractDesc');
+                });
+
+                var close_modal_view_ct = document.querySelectorAll('.viewContractDesc .viewContractDesc-close');
+                for (let i = 0; i < close_modal_view_ct.length; ++i) {
+                    close_modal_view_ct[i].addEventListener('click', () => {
+                        toggleModal('.viewContractDesc');
+                        console.log('close 1');
+                    });
+                }
+
+                document.onkeydown = function (evt) {
+                    evt = evt || window.event;
+                    var isEscape = false;
+                    if ("key" in evt) {
+                        isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                    } else {
+                        isEscape = (evt.keyCode === 27);
+                    }
+                    const modal_view = document.querySelector('.viewContractDesc');
+                    if (isEscape && modal_view.classList.contains('active-modal')) {
+                        toggleModal('.viewContractDesc');
+                    }
+                };
+                function toggleModal(modal_item) {
+                    const modal = document.querySelector(modal_item);
+                    modal.classList.toggle('active-modal');
+                    modal.classList.toggle('opacity-0');
+                    modal.classList.toggle('pointer-events-none');
+                }
+            </script>
     </body>
 </html>

@@ -16,26 +16,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trang chủ nhà - Chi tiết phòng trọ </title>
+        <%@include file="../view/assets.jsp" %>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../assets/icons/logo.png">
-
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-        <script src="https://unpkg.com/flowbite@1.4.7/dist/datepicker.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/css/LRoomDetail.css">
-        <link rel="stylesheet" href="../assets/css/toastr.css">
+        <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
+        <link href="../assets/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/toastr/toastr-custom.css" rel="stylesheet" type="text/css"/>
 
-        <!-- icon -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
@@ -194,8 +184,10 @@
                             </c:if>
                         </div>
                         <div class="mt-[10px]">
-                            <p class="text-[#929ca5] font-normal"><i class="bi bi-info-circle mr-[5px]"></i>Nội dung</p>
-                            <p class="text-[18px] text-[#2A3C46] font-semibold">${requestScope.contract.description}</p>
+                            <button id="view-contract-desc" class="text-slate-600 border border-slate-400 hover:text-[#288D87] hover:border-[#288D87] font-normal px-[20px] py-[5px] rounded">
+                                <i class="bi bi-arrows-angle-expand mr-[5px]"></i>Xem nội dung hợp đồng
+                            </button>
+                            <%@include file="../view/modalLandlordRoomDetail.jsp" %>
                         </div>
                         <c:if test="${requestScope.contract != null}" >
                             <div class="col-span-6 relative">
@@ -271,10 +263,10 @@
                                     <button id="addMember-1" type="submit" name="action" value="Save" class="actBtn mb-[20px] bg-[#17535B] text-[#f6fafc] rounded px-[10px] py-[5px] float-right">
                                         Thêm thành viên
                                     </button>
-                                    <span class="disBtn hidden text-xs h-[45px] leading-[45px]">Số người của phòng này đã đạt tối đa</span>
+                                    <span class="disBtn hidden text-[17px] text-emerald-500 h-[30px] leading-[45px]">Số người của phòng này đã đạt tối đa</span>
                                 </c:if>
                                 <c:if test="${requestScope.residentList.size() >= requestScope.currentRoom.roomType.maxNumberOfResidents}">
-                                    <span class="disBtn text-xs h-[45px] leading-[45px]">Số người của phòng này đã đạt tối đa</span>
+                                    <span class="disBtn text-[17px] text-emerald-500 h-[30px] leading-[45px]">Số người của phòng này đã đạt tối đa</span>
                                     <button id="addMember-1" type="submit" name="action" value="Save" class="actBtn hidden mb-[20px] bg-[#17535B] text-[#f6fafc] rounded px-[10px] py-[5px] float-right">
                                         Thêm thành viên
                                     </button>
@@ -338,13 +330,8 @@
 
             </div>
 
-            <!-- flowbite -->
-            <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-
-            <!-- chartJS -->
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="../assets/javascript/checkvalid.js"></script>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+            <script src="../assets/toastr/toastr.min.js" type="text/javascript"></script>
             <script>
                                                             function showToast(type, msg) {
                                                                 toastr.options.positionClass = 'toast-bottom-right';
@@ -444,7 +431,7 @@
 
                     jQuery.ajax({
                         type: 'POST',
-                        data: {'deleteRoomId': deleteRoomId.value.trim(), 
+                        data: {'deleteRoomId': deleteRoomId.value.trim(),
                             'hostelId': hostelId.value.trim()
                         },
                         url: '/sakura/room/delete-room',
@@ -742,7 +729,7 @@
                 };
                 function toggleModal(modal_item) {
                     const modal = document.querySelector(modal_item);
-                    modal.classList.toggle('active-modal')
+                    modal.classList.toggle('active-modal');
                     modal.classList.toggle('opacity-0');
                     modal.classList.toggle('pointer-events-none');
                 }
@@ -819,7 +806,35 @@
                 };
 
             </script>
+            <script>
+                var open_modal_view_ct = document.querySelector('#view-contract-desc');
+                open_modal_view_ct.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    toggleModal('.viewContractDesc');
+                });
 
+                var close_modal_view_ct = document.querySelectorAll('.viewContractDesc .viewContractDesc-close');
+                for (let i = 0; i < close_modal_view_ct.length; ++i) {
+                    close_modal_view_ct[i].addEventListener('click', () => {
+                        toggleModal('.viewContractDesc');
+                        console.log('close 1');
+                    });
+                }
+
+                document.onkeydown = function (evt) {
+                    evt = evt || window.event;
+                    var isEscape = false;
+                    if ("key" in evt) {
+                        isEscape = (evt.key === "Escape" || evt.key === "Esc");
+                    } else {
+                        isEscape = (evt.keyCode === 27);
+                    }
+                    const modal_view = document.querySelector('.viewContractDesc');
+                    if (isEscape && modal_view.classList.contains('active-modal')) {
+                        toggleModal('.viewContractDesc');
+                    }
+                };
+            </script>
 
     </body>
 

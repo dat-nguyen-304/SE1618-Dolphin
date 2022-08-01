@@ -100,7 +100,7 @@
             <!--Body-->
             <div class="p-[20px]">
                 <p class="text-[18px] text-[#2A3C46] font-semibold">
-                    ${requestScope.contract.description}
+                    ${empty requestScope.contract.description ? 'Không có' : requestScope.contract.description}
                 </p>
             </div>
             <!--Footer-->

@@ -18,6 +18,10 @@
         <link href="../assets/toastr/toastr.min.css" rel="stylesheet" />
         <link href="../assets/toastr/toastr-custom.css" rel="stylesheet" />
         <link rel="stylesheet" href="../assets/tailwind-elements/index.min.css" />
+
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <%@include file="../view/headerTenantDashboard.jsp" %>

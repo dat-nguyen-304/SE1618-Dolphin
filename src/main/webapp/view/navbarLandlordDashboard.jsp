@@ -27,7 +27,7 @@
             </li>
             <li class="menu-item">
                 <button type="button"
-                        class="${(pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' || pageContext.request.requestURI == '/sakura/view/LRoomList.jsp') ? 'parent-active' : ''} flex items-center p-2 w-full text-base font-normal text-slate-300 rounded transition duration-75 group hover:bg-[#17535B] hover:text-slate-100"
+                        class="${(pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' || pageContext.request.requestURI == '/sakura/view/LRoomList.jsp' || requestPath == '/sakura/landlord/room-detail' ) ? 'parent-active' : ''} flex items-center p-2 w-full text-base font-normal text-slate-300 rounded transition duration-75 group hover:bg-[#17535B] hover:text-slate-100"
                         aria-controls="dropdown-room-list" data-collapse-toggle="dropdown-room-list">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          class="w-6 h-5 text-slate-300 transition duration-75 group-hover:text-slate-100"
@@ -45,14 +45,14 @@
                               clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <ul id="dropdown-room-list" class="${(pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' || pageContext.request.requestURI == '/sakura/view/LRoomList.jsp') ? '' : 'hidden'} py-2 space-y-2">
+                <ul id="dropdown-room-list" class="${(pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' || pageContext.request.requestURI == '/sakura/view/LRoomList.jsp' || requestPath == '/sakura/landlord/room-detail' ) ? '' : 'hidden'} py-2 space-y-2">
                     <li>
                         <a href="/sakura/landlord/room-type"
-                           class="menu-item ${pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' ? 'active' : ''} flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Loại phòng</a>
+                           class="menu-item ${(pageContext.request.requestURI == '/sakura/view/LRoomType.jsp' ) ? 'active' : ''} flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Loại phòng</a>
                     </li>
-                    <li>
-                        <a href="/sakura/landlord/room-list"
-                           class="menu-item ${pageContext.request.requestURI == '/sakura/view/LRoomList.jsp' ? 'active' : ''} flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Danh sách phòng</a>
+                    <li> 
+                       <a href="/sakura/landlord/room-list"
+                           class="menu-item ${(pageContext.request.requestURI == '/sakura/view/LRoomList.jsp' || requestPath == '/sakura/landlord/room-detail' ) ? 'active' : ''} flex items-center p-2 pl-11 w-full text-base font-normal text-slate-300 rounded transition duration-75 hover:bg-[#17535B] hover:text-slate-100">Danh sách phòng</a>
                     </li>
                 </ul>
             </li>

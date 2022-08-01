@@ -43,21 +43,20 @@
             <link rel="stylesheet" href="/sakura/assets/css/header-guest.css">
         </c:if>
 
-
         <!-- script -->
         <script src="/sakura/assets/javascript/jquery/jquery.min.js"></script>
 
         <!-- favicons -->
         <link rel="shortcut icon" href="/sakura/assets/icons/logo.png" type="image/x-icon">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-              rel="stylesheet">
+
+        <script src="/sakura/assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="/sakura/assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/sakura/assets/pacejs/center-simple.css" rel="stylesheet" type="text/css"/>
 
     </head>
 
     <body id="top" onbeforeunload='return reloadPage()'>
-
+        <div class="cover w-screen h-screen fixed top-0 left-0 bg-white opacity-60 z-[1000]"></div>
         <!-- HOME -->
         <section id="home" class="parallax w-full h-full bg-transparent relative">
             <header id="header-section"class="z-[5] ">
@@ -322,7 +321,11 @@
         <!--<script src="assets/javascript/homepage-plugins.js"></script>-->
         <!--<script src="assets/javascript/homepage-main.js"></script>-->
 
-
+        <script type="text/javascript">
+            window.onload = function () {
+                $(".cover").fadeOut(1500);
+            };
+        </script>
         <script type="text/javascript">
             window.addEventListener("scroll", function () {
                 var header = document.querySelector("#header-section");
@@ -367,7 +370,7 @@
             $(document).ready(function () {
                 $('#province').append('<option value="0">Chọn thành phố</option>');
                 $('#district').append('<option value="0">Chọn quận/huyện</option>');
-//                $('#district').append('<option value="0">Tất cả quận/huyện</option>');
+                //                $('#district').append('<option value="0">Tất cả quận/huyện</option>');
 
                 jQuery.ajax({
                     url: '/sakura/hostel/findDistrictProvince',
@@ -397,7 +400,7 @@
 
             $('#province').change(function () {
                 $('#district').find('option').remove();
-//                $('#district').append('<option value="0">Chọn quận/huyện</option>');
+                //                $('#district').append('<option value="0">Chọn quận/huyện</option>');
                 $('#district').append('<option value="0">Tất cả quận/huyện</option>');
 
                 let provinceID = $('#province').val();

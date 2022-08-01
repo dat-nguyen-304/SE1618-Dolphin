@@ -24,10 +24,16 @@
         <link rel="stylesheet" href="../assets/css/toastr.css">
         <link href="../assets/css/navbar-dashboard.css" rel="stylesheet" />
 
-        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+        <link href="../assets/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/toastr/toastr-custom.css" rel="stylesheet" type="text/css"/>
+
+        <script src="../assets/pacejs/pace.min.js" type="text/javascript"></script>
+        <link href="../assets/pacejs/pace-theme-default.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../assets/pacejs/flash.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
+        <div class="cover w-screen h-screen fixed top-0 left-0 bg-white opacity-60 z-[1000]"></div>
         <%@include file="../view/headerLandlordDashboard.jsp" %>
         <%@include file="../view/navbarLandlordDashboard.jsp" %>
 
@@ -273,6 +279,11 @@
 
         </div>
 
+        <script type="text/javascript">
+            window.onload = function () {
+                $(".cover").fadeOut(1500);
+            };
+        </script>
         <!-- chartJS -->
         <script src="../webjars/chart.js/3.8.0/dist/chart.js"></script>
         <script>
@@ -336,7 +347,7 @@
         <script src = "../assets/javascript/jquery/jquery.min.js" ></script>
         <script src="../assets/javascript/render-district.js"></script>
         <script src="../assets/javascript/checkvalid.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="../assets/toastr/toastr.min.js" type="text/javascript"></script>
         <script>
             function showToast(type, msg) {
                 toastr.options.positionClass = 'toast-bottom-right';
