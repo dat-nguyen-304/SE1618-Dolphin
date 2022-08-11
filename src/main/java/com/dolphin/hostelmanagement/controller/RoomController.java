@@ -89,7 +89,9 @@ public class RoomController extends HttpServlet {
                             + "                                                </td>\n"
                             + "                                                <td class=\"col-span-4 flex justify-around items-center\">\n"
                             + "                                                    <button onclick=\"updateMember(this)\" type=\"submit\" value=\"" + roomResident.getRoomResidentID() + "\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Lưu thay đổi</button>\n"
-                            + "                                                    <button onclick=\"resetMember(this, '" + roomResident.getFullname() + "', '" + roomResident.getPhone() + "', '" + roomResident.getDob() + "')\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Hoàn tác</button>\n"
+                            + "                                                    <div class=\"backup\">\n"
+                            + "                                                        <button onclick=\"resetMember(this, '" + roomResident.getFullname() + "', '" + roomResident.getPhone() + "', '" + roomResident.getDob() + "')\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Hoàn tác</button>\n"
+                            + "                                                    </div>\n"
                             + "                                                    <button onclick=\"deleteMember(this)\" type=\"submit\" value=\"" + roomResident.getRoomResidentID() + "\" class=\"mx-auto font-[15px] text-[#288D87] hover:underline\">Xóa</button>\n"
                             + "                                                </td>\n"
                             + "                                            </tr>");
@@ -173,7 +175,7 @@ public class RoomController extends HttpServlet {
                         HostelDAO.updateMinPrice(hostelId, price);
                         HostelDAO.updateMaxPrice(hostelId, price);
                     } else {
-                        if (hostel.getMaxArea() < price) {
+                        if (hostel.getMaxPrice() < price) {
                             HostelDAO.updateMaxPrice(hostelId, price);
                         } else if (hostel.getMinPrice() > price) {
                             HostelDAO.updateMinPrice(hostelId, price);
@@ -184,7 +186,7 @@ public class RoomController extends HttpServlet {
                     out.println("<form class=\"inline-block w-[1px] text-left\" action=\"/sakura/landlord/room-type\" method='post'>");
                     out.println("<input type='hidden' name=\"roomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
                     out.println("<input type='hidden' name=\"newRoomTypeId\" value='" + newRoomType.getRoomTypeID() + "'>");
-                    out.println("<input type='hidden' name=\"newRoomTypeName\" value='" + newRoomType.getRoomTypeName()+ "'>");
+                    out.println("<input type='hidden' name=\"newRoomTypeName\" value='" + newRoomType.getRoomTypeName() + "'>");
                     out.println("<input class='hover:underline text-green-800 cursor-pointer font-bold' type=\"submit\" value=\"tại đây\">");
                     out.println("</form></span>");
                 } else {

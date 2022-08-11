@@ -362,7 +362,7 @@
         </script>
         <script>
             //Pagination JS
-            var show_per_page = 8;
+            var show_per_page = 12;
             var number_of_items = jQuery('#paging_box').children().length; //getting the amount of elements inside pagingBox div
             var number_of_pages = Math.ceil(number_of_items / show_per_page); //calculate the number of pages we are going to have
 

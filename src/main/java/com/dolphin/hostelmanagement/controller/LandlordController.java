@@ -437,7 +437,7 @@ public class LandlordController extends HttpServlet {
                     //int hostelID = currentBr.getRoomType().getHostel().getHostelID();
 
                     //ly do tu choi
-                    String denyReason = request.getParameter("denyDescMessage").trim();
+                    String denyReason = request.getParameter("denyDescMessage") == null ? "Không có" : request.getParameter("denyDescMessage");
                     if (denyReason == null || denyReason.length() == 0) {
                         denyReason = "Không có";
                     }

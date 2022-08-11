@@ -111,24 +111,24 @@
                                     <p class="text-[#929ca5] font-normal">Trạng thái</p>
                                     <c:choose>
                                         <c:when test = "${requestScope.contract.status == 0}">
-                                            <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                            <p class="text-[18px] text-slate-500 font-semibold">
                                                 Hết hiệu lực
                                             </p>
                                         </c:when>
                                         <c:when test = "${requestScope.contract.status == 1}">
-                                            <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                            <p class="text-[18px] text-emerald-500 font-semibold">
                                                 Còn hiệu lực
                                             </p>
                                         </c:when>
                                         <c:when test = "${requestScope.contract.status == 2}">
-                                            <p class="text-[18px] text-[#2A3C46] font-semibold">
+                                            <p class="text-[18px] text-sky-500 font-semibold">
                                                 Chờ xác nhận
                                             </p>
                                         </c:when>
                                         <c:when test="${contract.status == 3}">
-                                            <span class="bg-green-100 text-green-900 text-[14px] font-medium px-2.5 py-0.5 rounded">
+                                            <p class="text-[18px] text-rose-500 font-semibold">
                                                 Đã hủy
-                                            </span>
+                                            </p>
                                         </c:when>
                                     </c:choose>
                                 </div>

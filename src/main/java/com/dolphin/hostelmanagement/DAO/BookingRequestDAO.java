@@ -36,11 +36,12 @@ public class BookingRequestDAO {
             pst.setNString(5, description);
 
             pst.executeUpdate();
-            
+
             ResultSet rs = pst.getGeneratedKeys();
-            
-            if(rs.next())
+
+            if (rs.next()) {
                 return rs.getInt(1);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,7 +110,7 @@ public class BookingRequestDAO {
                 Date createdDate = rs.getDate("createdDate");
                 Tenant t = TenantDAO.findById(rs.getInt("tenantID"));
                 String description = rs.getNString("description");
-                
+
                 arr.add(new BookingRequest(bookingRequestID, t, roomType, createdDate, status, description));
             }
 
@@ -119,29 +120,28 @@ public class BookingRequestDAO {
 
         return arr;
     }
-    
+
     public static boolean changeStatus(int bookingRequestID, int status) {
         Connection cn = null;
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
+
             String sql = "Update BookingRequest set status = ? where bookingRequestID = ?";
-            
+
             PreparedStatement pst = cn.prepareCall(sql);
-            
+
             pst.setInt(1, status);
             pst.setInt(2, bookingRequestID);
-            
+
             pst.executeUpdate();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return false;
     }
-    
+
     public static BookingRequest getBookingRequestByID(int bookingRequestID) {
         Connection cn = null;
 
@@ -163,7 +163,7 @@ public class BookingRequestDAO {
                 Tenant t = TenantDAO.findById(rs.getInt("tenantID"));
                 int status = rs.getInt("status");
                 String description = rs.getNString("description");
-                
+
                 br = (new BookingRequest(bookingRequestID, t, roomType, createdDate, status, description));
             }
 
@@ -173,7 +173,7 @@ public class BookingRequestDAO {
 
         return br;
     }
-    
+
     /*public static boolean disableByRoomID(int roomID) {
         Connection cn = null;
         
@@ -194,120 +194,124 @@ public class BookingRequestDAO {
         
         return false;
     }*/
-    
     public static void removeAllByTenantID(int tenantID, int status) {
         Connection cn = null;
-        
+
         try {
             cn = DBUtils.makeConnection();
-            String sql = "Update BookingRequest set status = ? where tenantID = ?";
-            
+            String sql = "Update BookingRequest set status = ? where tenantID = ? and status = ?";
+
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setInt(2, tenantID);
-            if(status == 1) pst.setInt(1, 3);
-            if(status == 2) pst.setInt(1, 5);
-            
+            pst.setInt(3, status);
+            if (status == 1) {
+                pst.setInt(1, 3);
+            }
+            if (status == 2) {
+                pst.setInt(1, 5);
+            }
             pst.executeUpdate();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public static void changeCreatedDate(int bookingRequestID, Date date) {
         Connection cn = null;
-        
+
         try {
             cn = DBUtils.makeConnection();
             String sql = "Update BookingRequest set createdDate = ? where bookingRequestID = ?";
-            
+
             java.sql.Date sqlRegDate = new java.sql.Date(date.getTime());
             PreparedStatement pst = cn.prepareCall(sql);
             pst.setDate(1, sqlRegDate);
             pst.setInt(2, bookingRequestID);
-            
+
             pst.executeUpdate();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public static ArrayList<BookingRequest> findByLandlordID(int landlordID, int status) {
         Connection cn = null;
-        
+
         ArrayList<BookingRequest> brList = new ArrayList<>();
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
-            String sql = "Select br.bookingRequestID, br.tenantID, br.createdDate, br.status, br.roomTypeID, br.description from BookingRequest br inner join RoomType rt \n" +
-"	on rt.roomTypeID = br.roomTypeID inner join Hostel h on rt.hostelID = h.hostelID inner join Landlord l on l.landlordID = h.landlordId where L.landlordID = ?\n" +
-"	and status = ? order by createdDate desc";
-            
+
+            String sql = "Select br.bookingRequestID, br.tenantID, br.createdDate, br.status, br.roomTypeID, br.description from BookingRequest br inner join RoomType rt \n"
+                    + "	on rt.roomTypeID = br.roomTypeID inner join Hostel h on rt.hostelID = h.hostelID inner join Landlord l on l.landlordID = h.landlordId where L.landlordID = ?\n"
+                    + "	and status = ? order by createdDate desc";
+
             PreparedStatement pst = cn.prepareCall(sql);
-            
+
             pst.setInt(1, landlordID);
             pst.setInt(2, status);
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            while(rs != null && rs.next()) {
+
+            while (rs != null && rs.next()) {
                 int bookingRequestID = rs.getInt("bookingRequestID");
                 Tenant t = TenantDAO.findById(rs.getInt("tenantID"));
                 Date createdDate = rs.getDate("createdDate");
                 RoomType rt = RoomTypeDAO.findByID(rs.getInt("roomTypeID"));
                 String description = rs.getNString("description");
-                
+
                 brList.add(new BookingRequest(bookingRequestID, t, rt, createdDate, status, description));
             }
-            
-        } catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return brList;
     }
-    
+
     public static boolean findPendingBookingRequest(int tenantID, int roomTypeID) {
         Connection cn = null;
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
+
             String sql = "Select * from BookingRequest where tenantID = ? and roomTypeID = ? and (status = 1 or status = 2)";
-            
+
             PreparedStatement pst = cn.prepareCall(sql);
-        
+
             pst.setInt(1, tenantID);
             pst.setInt(2, roomTypeID);
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            if(rs != null && rs.next()) return true;
-            else return false;
-        }
-        catch(Exception e) {
+
+            if (rs != null && rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return false;
     }
-    
+
     public static void addDescription(int bookingRequestID, String description) {
         Connection cn = null;
-        
+
         try {
             cn = DBUtils.makeConnection();
-            
+
             String sql = "Update BookingRequest set description = ? where bookingRequestID = ?";
-            
+
             PreparedStatement pst = cn.prepareCall(sql);
-            
+
             pst.setNString(1, description);
             pst.setInt(2, bookingRequestID);
-            
+
             pst.executeUpdate();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -325,5 +329,4 @@ public class BookingRequestDAO {
         addDescription(1, "gâu gâu");
     }
 
-    
 }

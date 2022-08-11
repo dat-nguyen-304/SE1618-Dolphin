@@ -83,7 +83,6 @@
                                                 <th scope="col" class="px-6 py-3 text-center">Thời gian gửi</th>
                                                 <th scope="col" class="px-6 py-3 text-center">Trạng thái</th>
                                                 <th scope="col" class="px-6 py-3"></th>
-                                                <th scope="col" class="px-6 py-3"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -115,7 +114,7 @@
                                                         </c:choose>
                                                     </td>
                                                     <c:if test="${booking.status == 1}">
-                                                        <td class="px-6 py-4 money">
+                                                        <td class="px-6 py-4 flex space-x-[20px]">
                                                             <form method = "post" action="/sakura/landlord/rentalRequestList">
                                                                 <input type ="hidden" name ="queryType" value ="accept"/>
                                                                 <input type ="hidden" name ="bookingRequestID" value="${booking.bookingRequestID}"/>
@@ -124,8 +123,6 @@
                                                                     Đồng ý
                                                                 </button>
                                                             </form>   
-                                                        </td>
-                                                        <td>
                                                             <form method = "post" action="/sakura/landlord/rentalRequestList">
                                                                 <input type ="hidden" name ="queryType" value ="reject"/>
                                                                 <input type ="hidden" name ="hostelID" value="${requestScope.hostelID}">
@@ -133,21 +130,17 @@
                                                                 <button type = "button" class="deny-request w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
                                                                     Từ chối
                                                                 </button>
+                                                                <%@include file="../view/modalLandlordBookingRequest.jsp" %>
                                                             </form>    
                                                         </td>
                                                     </c:if>
-                                                    <c:if test="${booking.status != 1}">
+                                                    <c:if test="${booking.status == 4}">
                                                         <td class="py-4">
-                                                            <button type = "button" class="view-desc w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
-                                                                Xem chi tiết
-                                                            </button>
+                                                            ${(booking.description == null || booking.description.length() == 0) ? "Không có" : booking.description}
                                                         </td>
-                                                        <td class="py-4"></td>
                                                     </c:if>
                                                 </tr>
-                                                <!-- Modal list-->
-                                                <%@include file="../view/modalLandlordBookingRequest.jsp" %>
-                                                <!-- End modal list-->
+
 
                                             </c:forEach>
                                         </tbody>
@@ -159,7 +152,7 @@
                                     Không có
                                 </c:if>
                                 <c:if test="${not empty requestScope.invitationList}">
-                                    <table class="w-full text-[16px] text-left text-gray-800 mb-[20px]">
+                                    <table class="w-full text-[16px] text-left text-gray-800 mb-[20px] overflow-x-auto">
                                         <thead class="text-[15px] text-gray-700 uppercase bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3 text-center">Tên nhà trọ</th>
@@ -168,6 +161,7 @@
                                                 <th scope="col" class="px-6 py-3 text-center">Email</th>
                                                 <th scope="col" class="px-6 py-3 text-center">Thời gian gửi</th>
                                                 <th scope="col" class="px-6 py-3 text-center">Trạng thái</th>
+                                                <th scope="col" class="px-6 py-3 text-center">Hợp đồng</th>
                                                 <th scope="col" class="px-6 py-3 text-center"></th>
                                             </tr>
                                         </thead>
@@ -213,11 +207,12 @@
                                                             </c:when>
                                                         </c:choose>
                                                     </td>
+
                                                     <td class="px-6 py-4 flex items-center space-x-[20px]">
                                                         <form method = "post" action="/sakura/landlord/contract-detail">
                                                             <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
                                                             <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
-                                                                Xem hợp đồng
+                                                                Xem
                                                             </button>
                                                         </form>
                                                         <c:if test="${invitation.status == 2}">
@@ -225,31 +220,24 @@
                                                                 <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
                                                                 <input type ="hidden" name ="queryType" value ="edit"/>
                                                                 <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
-                                                                    Sửa hợp đồng
+                                                                    Sửa
                                                                 </button>
                                                             </form>
                                                             <form method = "post" action="/sakura/contract/deny-contract">
                                                                 <input type ="hidden" name ="contractID" value ="${invitation.bookingRequestID}">
-                                                                <button type = "button" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
-                                                                    Hủy hợp đồng
+                                                                <button type = "submit" class="w-fit px-[10px] py-[3px] bg-[#288D87] hover:bg-[#1D837D] text-[#fff] rounded">
+                                                                    Hủy
                                                                 </button>
                                                             </form>
                                                         </c:if>
-                                                        <c:if test="${invitation.status != 2}">
-<<<<<<< HEAD
-                                                            <button type = "button" class="view-invite-desc w-fit px-[10px] py-[3px] bg-[#fff] border border-slate-300 hover:border-[#17535B] text-slate-400 hover:text-[#17535B] rounded">
-                                                                Xem chi tiết
-                                                            </button>
+                                                    </td>
+                                                    <td class="text-left px-6 py-4 overflow-x-auto">
+                                                        <c:if test="${invitation.status == 5}">
+                                                            ${(invitation.description == null || invitation.description.length() == 0) ? "Không có" : invitation.description}
                                                         </c:if>
-=======
-
-                                                        <td class=" py-4 ">Lý do từ chối: ${(invitation.description == null || invitation.description.length() == 0) ? "Không có" : invitation.description}</td>
-                                                    </c:if>
->>>>>>> ce24371e94c57af1a7e8dee64bbaf123e3c40156
                                                     </td>
                                                 </tr>
                                                 <!-- Modal list-->
-                                                <%@include file="../view/modalLandlordBookingRequest2.jsp" %>
                                                 <!-- End modal list-->
                                             </c:forEach>
                                         </tbody>

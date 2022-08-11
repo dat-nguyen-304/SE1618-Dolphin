@@ -148,19 +148,13 @@
                         </div>
                         <li class="mt-1">
                             <p class="text-center text-sm font-light">hoặc bắt đầu với</p>
-                            <div class="social flex justify-between my-5">
+                            <div class="social flex justify-center my-5">
                                 <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-transform" href="https://accounts.google.com/o/oauth2/auth?scope=email+profile&redirect_uri=http://localhost:8080/sakura/access/googleAccess&response_type=code&client_id=730896390786-dleufk3i61p0pk8f6lavcrubmbucp5jq.apps.googleusercontent.com&approval_prompt=force">
                                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
                                         <object class="inline" data="../assets/icons/google.svg" width="20" height="20"></object>
                                         <span class="text-xl font-light">Google</span>
                                     </div>
                                 </a>  
-                                <a class="social-el inline-block relative cursor-pointer h-[50px] rounded border-[1px] border-[#d6dcdf] transition-transform" href="#">
-                                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
-                                        <object class="inline" data="../assets/icons/facebook.svg" width="20" height="20"></object>
-                                        <span class="text-xl font-light">Facebook</span>
-                                    </div>
-                                </a> 
 
                             </div>
                         </li>

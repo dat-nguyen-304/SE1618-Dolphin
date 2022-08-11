@@ -31,24 +31,26 @@
             <div class="room-list px-8 py-3 h-[calc(100%-60px)] overflow-y-auto">
                 <div class="mx-auto grid grid-cols-5 gap-[40px] pt-6 pb-8 mb-8">
                     <c:forEach items="${requestScope.roomTypeList}" var = "roomType">
-                        <form action="/sakura/hostel/roomTypeDetail" method="post">
-                            <input type="hidden" name="roomTypeID" value="${roomType.roomTypeID}">
-                                <button type="submit"
-                                        class="block m-0 room-item w-[220px] h-[250px] rounded bg-white shadow-md cursor-pointer outline-orange-500 outline-0 hover:outline hover:outline-1 hover:outline-orange-500">
-                                    <div class="h-[35%] bg-[#FFF6F1] flex justify-center items-center">
-                                        <h2 class="text-orange-500 text-[25px] font-bold">${roomType.roomTypeName}</h2>
-                                    </div>
-                                    <div class="h-[65%] p-[20px] relative">
-                                        <p class="text-left text-slate-500 text-[16px] font-bold mb-2">${roomType.area}m<sup>2</sup></p>
-                                        <p class="text-left text-slate-500 text-[16px] font-bold mb-2">
-                                            <fmt:setLocale value = "vi_VN"/>
-                                            <fmt:formatNumber value = "${roomType.advertisedPrice}" type = "number" pattern="###,###,###"/>
-                                            / tháng
-                                        </p>
-                                        <p class="absolute right-[20px] bottom-[20px] text-orange-600 bg-[#FFF6F1] px-[10px] rounded font-medium text-[15px]">${roomType.availableRoom} phòng trống</p>
-                                    </div>
-                                </button>
-                        </form>
+                        <c:if test="${roomType.availableRoom > 0}">
+                            <form action="/sakura/hostel/roomTypeDetail" method="post">
+                                <input type="hidden" name="roomTypeID" value="${roomType.roomTypeID}">
+                                    <button type="submit"
+                                            class="block m-0 room-item w-[220px] h-[250px] rounded bg-white shadow-md cursor-pointer outline-orange-500 outline-0 hover:outline hover:outline-1 hover:outline-orange-500">
+                                        <div class="h-[35%] bg-[#FFF6F1] flex justify-center items-center">
+                                            <h2 class="text-orange-500 text-[25px] font-bold">${roomType.roomTypeName}</h2>
+                                        </div>
+                                        <div class="h-[65%] p-[20px] relative">
+                                            <p class="text-left text-slate-500 text-[16px] font-bold mb-2">${roomType.area}m<sup>2</sup></p>
+                                            <p class="text-left text-slate-500 text-[16px] font-bold mb-2">
+                                                <fmt:setLocale value = "vi_VN"/>
+                                                <fmt:formatNumber value = "${roomType.advertisedPrice}" type = "number" pattern="###,###,###"/>
+                                                / tháng
+                                            </p>
+                                            <p class="absolute right-[20px] bottom-[20px] text-orange-600 bg-[#FFF6F1] px-[10px] rounded font-medium text-[15px]">${roomType.availableRoom} phòng trống</p>
+                                        </div>
+                                    </button>
+                            </form>
+                        </c:if>
                     </c:forEach>
                 </div>
             </div>

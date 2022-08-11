@@ -29,7 +29,7 @@
         <!-- MAIN CONTENT CONTAINER-->
         <div class="ml-[256px] my-0 h-fit overflow-hidden bg-[#f9fafb]">
             <!-- CONTENT -->
-            <div class="h-[calc(100vh-80px)] px-[20px] pt-[calc(60px+20px)] pb-[20px]">
+            <div class=" px-[20px] pt-[calc(60px+20px)] pb-[20px]">
                 <div class="general-info flex justify-between mt-[20px]">
                     <div class="card mx-auto w-[45%] h-fit bg-[#fff] p-[30px] flex flex-col justify-between">
                         <h2 class="text-[20px] font-medium text-[#17535B]">Thêm hợp đồng thuê nhà với người thuê là <span class="font-bold">${requestScope.bookingRequest.tenant.fullname}</span>, <br/>loại phòng
@@ -74,21 +74,21 @@
                             <div class="mt-[20px] w-full">
                                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Mô tả / Thông tin bổ sung</label>
                                 <textarea type ="text" id="description" name="description"
-                                          rows="4" class="w-full block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-[#17535B] focus:border-[#17535B]" placeholder="">${requestScope.editContract.description}</textarea>
+                                          class="w-full h-[300px] block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300 focus:ring-[#17535B] focus:border-[#17535B]" placeholder="">${requestScope.editContract.description}</textarea>
                             </div>
 
                             <div date-rangepicker datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom" class="invoice-time-range mt-[30px] col-span-6 grid grid-cols-6 gap-[20px]">
                                 <div class="start-date flex items-center col-span-3 flex items-center">
                                     <label for="start"
                                            class="mr-[20px] text-[15px] text-gray-900 font-normal flex items-center">Ngày bắt đầu:</label>
-                                    <input type="text" id="start" name="startDate" value = "${requestScope.startDate}"
+                                    <input type="text" id="start" name="startDate" value = "${requestScope.startDate}" autocomplete="off"
                                            class="bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn ngày...">
                                 </div>
                                 <div class="end-date flex items-center col-span-3 flex items-center">
                                     <label for="end"
                                            class="mr-[20px] text-[15px] text-gray-900 font-normal flex items-center">Ngày kết thúc</label>
-                                    <input type="text" id="end" name="endDate" value = "${requestScope.endDate}"
+                                    <input type="text" id="end" name="endDate" value = "${requestScope.endDate}" autocomplete="off"
                                            class="bg-[#fff] border border-gray-300 text-gray-900 rounded p-[5px] text-[15px]"
                                            placeholder="Chọn ngày...">
                                 </div>
@@ -242,16 +242,30 @@
 //                         $(lengthError).html("Ngày bắt đầu phải trước ngày kết thúc!");
 //                         $(lengthError).css("color", "red");
 //                     }
-                    if (moment($(end).val(), "DD/MM/YYYY") < soonest) {
-                        console.log("Too short");
-                        $(start).css("border", "1.5px solid red");
+
+                    console.log(moment($(end).val(), "DD/MM/YYYY"));
+                    console.log(new Date(), "DD/MM/YYYY");
+
+                    if (moment($(end).val(), "DD/MM/YYYY") <= moment(new Date(), "DD/MM/YYYY")) {
+                        $(lengthError).html("Ngày kết thúc phải sau hôm nay!");
                         $(end).css("border", "1.5px solid red");
-                        $(lengthError).html("Thời gian thuê ngắn nhất là 30 ngày!");
                         $(lengthError).css("color", "red");
+                        console.log("after today!");
                     } else {
                         $(start).css("border", "");
                         $(end).css("border", "");
                         $(lengthError).html("");
+                        if (moment($(end).val(), "DD/MM/YYYY") < soonest) {
+                            console.log("Too short");
+                            $(start).css("border", "1.5px solid red");
+                            $(end).css("border", "1.5px solid red");
+                            $(lengthError).html("Thời gian thuê ngắn nhất là 30 ngày!");
+                            $(lengthError).css("color", "red");
+                        } else {
+                            $(start).css("border", "");
+                            $(end).css("border", "");
+                            $(lengthError).html("");
+                        }
                     }
                 }
             }

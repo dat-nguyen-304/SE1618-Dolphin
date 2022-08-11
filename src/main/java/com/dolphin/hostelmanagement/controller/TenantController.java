@@ -131,22 +131,12 @@ public class TenantController extends HttpServlet {
                     request.getRequestDispatcher("/view/tenantRentalRequestPage.jsp").forward(request, response);
                     return;
                 }
-//                if(request.getParameter("queryType").equals("refuse-booking")) {
-//                    int bookingRequestID = Integer.parseInt(request.getParameter("bookingID"));
-//                    BookingRequestDAO.changeStatus(bookingRequestID, 3);
-//                    
-//                    
-//                    //ly do tu choi
-//                    String denyReason = request.getParameter("denyDescMessage").trim();
-//                    if (denyReason == null || denyReason.length() == 0) {
-//                        denyReason = "Không có";
-//                    }
-//                    BookingRequestDAO.addDescription(bookingRequestID, denyReason);
-//                    //end ly do tu choi
-//                    
-//                    response.sendRedirect("/sakura/tenant/rental-request");
-//                    
-//                }
+                if(request.getParameter("queryType").equals("refuse-booking")) {
+                    int bookingRequestID = Integer.parseInt(request.getParameter("bookingID"));
+                    BookingRequestDAO.changeStatus(bookingRequestID, 3);
+                    
+                    response.sendRedirect("/sakura/tenant/rental-request");
+                }
                 if (request.getParameter("queryType").equals("accept")) {
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
                     Contract contract = ContractDAO.findByID(contractID);
@@ -195,13 +185,11 @@ public class TenantController extends HttpServlet {
                     ContractDAO.changeStatus(contractID, 3);
                     BookingRequestDAO.changeStatus(contractID, 5);
 
-                    //ly do tu choi
-                    String denyReason = request.getParameter("denyDescMessage").trim();
+                    String denyReason = request.getParameter("denyDescMessage") == null ? "Không có" : request.getParameter("denyDescMessage");
                     if (denyReason == null || denyReason.length() == 0) {
                         denyReason = "Không có";
                     }
                     BookingRequestDAO.addDescription(contractID, denyReason);
-                    //end ly do tu choi
 
                     response.sendRedirect("/sakura/tenant/rental-request");
                 }

@@ -258,7 +258,7 @@
                         </div>
                         <div class="mt-[30px]">
                             <div class="addMemberElement mb-[20px]">
-                                <c:if test="${requestScope.residentList.size() < requestScope.currentRoom.roomType.maxNumberOfResidents && requestScope.contract != null && request.contract.status == 1}">
+                                <c:if test="${requestScope.residentList.size() < requestScope.currentRoom.roomType.maxNumberOfResidents && requestScope.contract != null && requestScope.contract.status == 1}">
                                     <!-- Modal toggle -->
                                     <button id="addMember-1" type="submit" name="action" value="Save" class="actBtn mb-[20px] bg-[#17535B] text-[#f6fafc] rounded px-[10px] py-[5px] float-right">
                                         Thêm thành viên

@@ -48,6 +48,8 @@ public class ServiceController extends HttpServlet {
                 List<Service> list = ServiceDAO.findAddedActiveServices(HostelDAO.findById(hostelId));
                 if (addSuccess) {
                     for (Service ser : list) {
+                        String formattedMonth = ser.getMonthApplied().toString().split("-")[1];
+                        String formattedYear = ser.getMonthApplied().toString().split("-")[0];
                         out.print("<tr class=\"bg-white hover:bg-gray-50 border-b text-[15px] text-gray-800\">\n"
                                 + "                                        <input name=\"updateType\" type=\"hidden\" class=\"text-[15px] w-[90%] px-[3px]\" value=\"" + ser.getType() +"\"/>\n"
                                 + "                                        <td class=\"py-4 w-[200px]\">\n"
@@ -60,7 +62,7 @@ public class ServiceController extends HttpServlet {
                                 + "                                            <input name=\"updateUnit\" type=\"text\" class=\"text-[15px] w-[90%] px-[3px]\" value=\"" + ser.getUnit() + "\"/>\n"
                                 + "                                        </td>\n"
                                 + "                                        <td class=\"py-4 w-[150px]\">\n"
-                                + "                                            " + ser.getMonthApplied() + "\n"
+                                + "                                            " + formattedMonth + " / " + formattedYear + "\n"
                                 + "                                        </td>\n"
                                 + "                                        <td class=\"py-4 text-center\">\n"
                                 + "                                            <button onclick=\"updateService(this)\" type=\"submit\" value=\"" + service.getServiceID() + "\" class=\"font-medium text-[#288D87] hover:underline\">Lưu thay đổi</button>\n"

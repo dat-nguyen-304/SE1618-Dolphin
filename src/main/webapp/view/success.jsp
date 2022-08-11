@@ -29,7 +29,7 @@
             <!-- CONTENT -->
             <div class="h-full px-[20px] pt-[calc(60px+20px)] pb-[20px] h-[calc(100vh-80px)]">
                 <div class="w-full h-full flex flex-col justify-center items-center">
-                    <h1 class="text-[35px] font-bold text-emerald-400 mb-[50px]">Lưu hóa đơn thành công!${requestScope['javax.servlet.forward.request_uri']}</h1>
+                    <h1 class="text-[35px] font-bold text-emerald-400 mb-[50px]">Lưu hóa đơn thành công! </h1>
                     <h2 class="text-[25px] font-semibold text-slate-400 ">Bạn sẽ được chuyển đến trang thêm hóa đơn sau 3 giây.</h2>
                     <h2 class="text-[18px] font-medium text-slate-500 mt-[20px] mb-[40px]">Nếu trang không tự động chuyển, có thể nhấn vào nút dưới</h2>
                     <a href="/sakura/invoice/new" class="bg-[#288D87] hover:bg-[#1D837D] text-[#fff] px-[20px] py-[10px] rounded">Quay lại trang thêm hóa đơn</a>

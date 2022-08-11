@@ -128,10 +128,10 @@
                             </div>
                             <!-- End Summation -->
 
-                            <!-- Export excel button -->
+<!--                             Export excel button 
                             <a class="cursor-pointer text-[16px] py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 flex items-center justify-center focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-[#288D87] focus:z-10 group">
                                 Xuất file pdf <i class="bi bi-filetype-pdf ml-[5px]"></i>
-                            </a>
+                            </a>-->
                         </div>
                         <!-- End Pagination + Export excel -->
 
